@@ -29,10 +29,13 @@ Run:
 
 ## <a name="contributing"></a>Contributing
 
-TODO: Add Contributing section
+ 1. **Fork** the repo on GitHub
+ 2. **Clone** the project to your own machine
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work back up to your fork
+ 5. Submit a **Pull request**
 
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/CodeForPortland/recordexpungPDX.
+NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 ## License
 
