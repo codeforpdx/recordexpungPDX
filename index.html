@@ -1,0 +1,44 @@
+<html>
+    <head>
+            <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <main id="main">
+            <form id="new_user_form" action="/submit-info-here">
+                <section id="personal_information">
+                    <p id="personal_information_label">New User Login</p>
+                    <section id="first_name_section">    
+                        <label id="first-name-label" class="labels">First Name</label>
+                        <input id="first-name" type="text" placeholder="First Name" required>
+                    </section>
+                    <section id="last_name_section">                    
+                        <label id="last-name-label" class="labels">Last Name</label>
+                        <input id="last-name" type="text" placeholder="Last Name" required>
+                    </section>
+                    <section id="email_section">
+                        <label id="email-label" class="labels">Email</label>
+                        <input id="email" type="email" placeholder="Email" required>
+                    </section>
+                    <section id="admin_permissions_section">            
+                        <label id="dropdown-label">Admin permissions</label>
+                        <select id="dropdown" name="admin_permissions" class="dropdown">
+                            <option disabled value>Please select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                            <option value="Default to no">Default to no</option>
+                        </select>
+                    </section>
+                    <section id="username_section">
+                        <label id="username-label" class="labels">Username</label>
+                        <input id="username" type="text" placeholder="Username" required>
+                    </section>
+                    <section id="password_section">
+                        <label id="password-label" class="labels">Password</label>
+                        <input id="password" type="text" placeholder="Password" required>
+                    </section>
+                    <button id="add_button" type="submit">Add</button>
+                </section>
+            </form>
+        </main>
+    </body>
+</html>
