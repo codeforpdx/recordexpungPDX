@@ -1,0 +1,61 @@
+#personal_information {
+    display: grid;
+    font-family: lato;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    grid-gap: 1em;
+    grid-template-areas:
+        "a"
+        "b"
+        "c"
+        "d"
+        "e"
+        "f"
+        "g"
+        "h";
+}
+
+#personal_information_label {
+    grid-area: a;
+}
+
+#first_name_section {
+    grid-area: b;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#last_name_section {
+    grid-area: c;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#email_section {
+    grid-area: d;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#admin_permissions_section {
+    grid-area: e;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#username_section {
+    grid-area: f;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#password_section {
+    grid-area: g;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+#submit_button {
+    grid-area: h;
+}

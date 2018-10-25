@@ -1,0 +1,28 @@
+#sign_in_form_section {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    grid-gap: 1em;
+    grid-template-areas:
+        "a"
+        "b"
+        "c"
+        "d";
+}
+
+#title {
+    grid-area: a;
+}
+
+#user_name_section {
+    grid-area: b;
+}
+
+#password_section {
+    grid-area: c;
+}
+
+#add_button {
+    grid-area: d;
+}
+
