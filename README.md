@@ -47,12 +47,19 @@ will remove build artifacts.
 ## Project Layout
 
 `.flaskenv`: Environment variables read by `flask` command-line interface via [python-dotenv](https://github.com/theskumar/python-dotenv)
+
 `Makefile`: GNU Makefile controlling installing dependencies and running the application
+
 `Pipfile`: `Pipenv` file listing project dependencies
+
 `config`: Project configuration files
+
 `doc`: Developer-generated documentation
+
 `settings.py`: `python-dotenv` configuration file
+
 `src`: Source dir
+
 `src/backend/expungeservice/app.py`: Flask application
 `
 
