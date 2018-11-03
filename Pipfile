@@ -5,13 +5,13 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-sqlalchemy = "*"
 "psycopg2" = "*"
-flask-migrate = "*"
 flask-script = "*"
-marshmallow = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
+python-dotenv = "*"
+recordexpunge = {editable = true, path = "."}
+expungeservice = {editable = true, path = "."}
 
 [dev-packages]
 
