@@ -11,3 +11,5 @@ clean:
 	find . -type f -name \*pyc | xargs rm
 	rm -rf src/backend/*.egg-info
 
+test:
+	pipenv run pytest
