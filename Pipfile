@@ -12,6 +12,7 @@ pyjwt = "*"
 python-dotenv = "*"
 recordexpunge = {editable = true, path = "."}
 expungeservice = {editable = true, path = "."}
+pytest = "*"
 
 [dev-packages]
 

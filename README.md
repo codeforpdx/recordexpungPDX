@@ -44,6 +44,15 @@ $ make clean
 
 will remove build artifacts.
 
+### Testing
+
+Currently using [pytest](https://docs.pytest.org) for testing.   
+Run all tests with the following command:
+
+```bash
+$ make test
+```
+
 
 ## Project Layout
 
