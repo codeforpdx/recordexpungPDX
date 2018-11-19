@@ -1,0 +1,25 @@
+// lighter and more blue than stock
+.bg-gray-blue {
+  background-color: #FAFAFE;
+}
+// stock is too dark
+.bg-washed-green {
+  background-color: #EFF9F6;
+}
+
+.logo {
+  width: 31px;
+  position: relative;
+  top: 6px;
+}
+
+.btn--search {
+  height: 54px;
+}
+
+// stock shadow too dark
+.shadow {
+  box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
+}
+
+// Change the breakpoint "ns" variable to be wider?
