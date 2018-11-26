@@ -28,8 +28,14 @@ def test_expunger_classes():
     statute = Statute(113, 45, 5, 'd')
     level = Level('Felony', 'A')
     charges = [
-        Charge('Charge Name', statute, level,
+        Charge('Charge1', statute, level,
+               datetime.date(1995, 1, 1), disp),
+        Charge('Charge2', statute, level,
                datetime.date(1995, 1, 1), disp)
     ]
-    cases = [Case(charges, CaseState.OPEN), 100.50]
+    cases = [
+        Case(charges, CaseState.OPEN, 100.50),
+        Case(charges, CaseState.CLOSED, 100.50),
+    ]
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
+    assert(client.num_charges() == 4)

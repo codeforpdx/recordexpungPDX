@@ -106,6 +106,9 @@ class Case(object):
         self.state = state
         self.balance_due = balance_due
 
+    def num_charges(self):
+        return len(self.charges)
+
 class Client(object):
     """ Client - An individual who wants to expunge charges from their record.
 
@@ -118,3 +121,9 @@ class Client(object):
         self.name = name
         self.dob = dob
         self.cases = cases
+
+    def num_charges(self):
+        num = 0
+        for case in self.cases:
+            num += case.num_charges()
+        return num
