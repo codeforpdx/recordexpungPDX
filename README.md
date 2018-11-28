@@ -3,6 +3,7 @@ A project to automate expunging qualifying criminal records.  This project is do
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/CodeForPortland/recordexpungPDX.svg?columns=all)](https://waffle.io/CodeForPortland/recordexpungPDX)
 
+[![Build Status](https://travis-ci.com/CodeForPortland/recordexpungPDX.svg?branch=master)](https://travis-ci.com/CodeForPortland/recordexpungPDX)
 ## Installation
 
 Fork, and clone the repo.
