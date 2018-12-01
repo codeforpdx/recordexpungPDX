@@ -1,0 +1,25 @@
+.footer-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.view-port {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  grid-template-areas: "content" "footer";
+  grid-template-rows: 500px 196px;
+  grid-template-columns: 100%;
+}
+
+.landing-container {
+  grid-area: content;
+}
+
+.footer-wrapper {
+  grid-area: footer;
+}
+

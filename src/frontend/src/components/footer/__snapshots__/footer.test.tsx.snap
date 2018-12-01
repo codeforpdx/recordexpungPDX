@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`has a Footer child 1`] = `
+<div
+  className="footer"
+>
+  Footer
+  <a
+    href="#"
+  >
+    Copyright
+  </a>
+  <a
+    href="#"
+  >
+    Terms
+  </a>
+</div>
+`;
+
+exports[`renders without crashing 1`] = `
+<div
+  className="footer"
+>
+  Footer
+  <a
+    href="#"
+  >
+    Copyright
+  </a>
+  <a
+    href="#"
+  >
+    Terms
+  </a>
+</div>
+`;
