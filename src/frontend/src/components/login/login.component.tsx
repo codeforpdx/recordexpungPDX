@@ -8,31 +8,31 @@ export class LoginComponent extends React.Component {
                 className="login-form bg-washed-green"
                 id="LoginForm"
                 aria-label="Record Expunge Login Form">
-                <div className="title h2">
+                <label className="title h2">
                     Record Expunge
-                </div>
+                </label>
                 <div className="form-group">
                     <label
-                        htmlFor="exampleInputEmail1">
+                        htmlFor="LoginInputEmail">
                         Email
                     </label>
                     <input
                         type="email"
                         className="form-control"
-                        id="exampleInputEmail1"
+                        id="LoginInputEmail"
                         aria-describedby="emailHelp"
-                        placeholder="Enter email" />
+                        />
                 </div>
                 <div className="form-group">
                     <label
-                        htmlFor="exampleInputPassword1">
+                        htmlFor="LoginInputPassword1">
                         Password
                     </label>
                     <input
                         type="password"
                         className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Password"/>
+                        id="LoginInputPassword1"
+                        />
                 </div>
                 <div className="form-group buttons">
                     <button
