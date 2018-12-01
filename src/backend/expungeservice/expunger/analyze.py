@@ -3,7 +3,8 @@
 import collections
 import enum
 
-class Level(object):
+# TODO we may need to change this to Enum since only a few valid values are allowed.
+class CrimeLevel(object):
     """ Crime Level.
 
     Describes crime level. e.g. Felony Class A.
@@ -12,17 +13,20 @@ class Level(object):
         type_: A string describing the type of crime.
         class_: A string of length 1 specifying the class.
     """
-    def __init__(self, type_, class_):
+    def __init__(self, type_, class_=None):
         self.type_ = type_
         self.class_ = class_
 
     def __str__(self):
-        return '{} Class {}'.format(self.type_, self.class_)
+        if class_:
+            return '{} Class {}'.format(self.type_, self.class_)
+        else:
+            return self.type_
 
-DispositionType = enum.Enum('Disposition',
+DispositionType = enum.Enum('DispositionType',
                             ' '.join([
-                                'CONVICTION',
-                                'NO_CONVICTION',
+                                'CONVICTED',
+                                'PROBATION_REVOKED',
                                 'DISMISSED',
                                 'ACQUITTED',
                                 'NO_COMPLAINT'
@@ -57,6 +61,7 @@ class Statute(object):
         self.subchapter = subchapter
         self.section = section
         self.subsection = subsection
+        # TODO we may need to add components beyond subsection
 
     def __str__(self):
         # TODO do these need to have leading zeros?
@@ -64,7 +69,7 @@ class Statute(object):
         if self.subchapter:
             statute = '{}.{:03d}'.format(statute, self.subchapter)
         if self.section:
-            statute = '{} {}'.format(statute, self.section)
+            statute = '{}({})'.format(statute, self.section)
         if self.subsection:
             statute = '{}({})'.format(statute, self.subsection)
         return statute

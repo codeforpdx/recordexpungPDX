@@ -5,8 +5,8 @@ from expungeservice.expunger import *
 def test_statute():
     tests = [
         [[113, 45], '113.045'],
-        [[113, 45, 5], '113.045 5'],
-        [[113, 45, 5, 'd'], '113.045 5(d)'],
+        [[113, 45, 5], '113.045(5)'],
+        [[113, 45, 5, 'd'], '113.045(5)(d)'],
     ]
     for t in tests:
         if len(t[0]) == 4:
@@ -20,13 +20,13 @@ def test_statute():
 
 def get_disp():
     date = datetime.date(1996, 1, 1)
-    disp_type = DispositionType.NO_CONVICTION
+    disp_type = DispositionType.CONVICTED
     return Disposition(disp_type, date)
 
 def test_expunger_classes():
     disp = get_disp()
     statute = Statute(113, 45, 5, 'd')
-    level = Level('Felony', 'A')
+    level = CrimeLevel('Felony', 'A')
     charges = [
         Charge('Charge1', statute, level,
                datetime.date(1995, 1, 1), disp),
