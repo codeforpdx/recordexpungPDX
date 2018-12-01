@@ -4,6 +4,9 @@ import { FooterComponent } from "./footer.component";
 
 export interface IJestTree {
     children: any[];
+    props: {
+        [key: string]: any
+    }
 }
 
 it('renders without crashing', () => {
@@ -13,22 +16,6 @@ it('renders without crashing', () => {
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-});
-
-it('has a Footer child', () => {
-    const component = renderer.create(
-        <FooterComponent/>
-    );
-    const tree = component.toJSON() as IJestTree;
-    expect(tree).toMatchSnapshot();
-    let response = false;
-    for (const item of tree.children) {
-        // @ts-ignore
-        if (item === 'Footer') {
-            response = true;
-        }
-    }
-    expect(response).toBe(true);
 });
 
 it('has two anchors', () => {

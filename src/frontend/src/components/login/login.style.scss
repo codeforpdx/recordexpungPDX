@@ -1,46 +1,30 @@
-.landing-container {
-
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
 form#LoginForm {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50vw;
-  min-width: 320px;
-  padding: 8px 32px 8px 32px;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: rgba(0,0,0,0.5) 1px solid;
-  border-radius: 0.5em;
+  width: 100%;
 
   .form-group{
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 24px;
-
-    input {
-      min-height: 48px;
-    }
 
     &.buttons {
       button {
-        margin-bottom: 16px;
+        margin-bottom: 1.4rem;
         min-height: 52px;
+        width: 100%;
+        text-align: center;
+        font-family: $font-family-text;
+        font-weight: 600;
       }
       align-items: center;
     }
   }
 
   .title {
-    padding: 26px 0;
+    padding: 1rem 0 3rem 0;
   }
 }

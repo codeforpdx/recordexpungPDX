@@ -1,6 +1,5 @@
 /** Third Party Dependencies **/
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600|Roboto:400,600');
-@import "../node_modules/bootstrap/scss/bootstrap";
 @import 'styles/reset.style';
 
 /** Global Vars **/
@@ -11,17 +10,6 @@ $font-family-header: 'Roboto', sans-serif;
 $font-family-text: 'Montserrat', sans-serif;
 
 /** Base Configs **/
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  min-height: 100vh;
-  max-height: 100vh;
-  min-width: 100vw;
-  max-width: 100vw;
-  overflow: hidden;
-}
 
 .h1, .h2, .h3 {
   font-family: $font-family-header;
@@ -40,6 +28,14 @@ body {
   font-size: 1.3em;
 }
 
+/** Custom classes **/
+
+.single-input {
+  border-radius: 0.5em;
+  min-height: 3em;
+}
+
 /** Custom Style Sheets **/
 
+@import 'components/login/login.style';
 @import 'components/footer/footer.style';

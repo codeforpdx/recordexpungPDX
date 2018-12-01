@@ -1,46 +1,42 @@
 import * as React from 'react'
-import './login.style.scss'
 
 export class LoginComponent extends React.Component {
     public render() {
         return(
             <form
-                className="login-form bg-washed-green"
+                className="login-form"
                 id="LoginForm"
                 aria-label="Record Expunge Login Form">
                 <label className="title h2">
                     Record Expunge
                 </label>
                 <div className="form-group">
-                    <label
-                        htmlFor="LoginInputEmail">
+                    <label htmlFor="name"
+                           className="f6 b db mb2">
                         Email
                     </label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id="LoginInputEmail"
-                        aria-describedby="emailHelp"
-                        />
+                    <input id="name"
+                           className="w-100 mb4 pa3 br2 b--black-10"
+                           type="text"
+                           aria-describedby="name-desc"/>
                 </div>
                 <div className="form-group">
-                    <label
-                        htmlFor="LoginInputPassword1">
+                    <label htmlFor="password"
+                           className="f6 b db mb2">
                         Password
                     </label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="LoginInputPassword1"
-                        />
+                    <input className="w-100 mb4 pa3 br2 b--black-10"
+                           type="password"
+                           id="password"
+                           aria-describedby="password-desc"/>
                 </div>
                 <div className="form-group buttons">
                     <button
                         type="submit"
-                        className="btn btn-primary btn-block">
+                        className="f4 link dim br2 ph3 pv2 mb2 dib white bg-dark-blue">
                         Log In
                     </button>
-                    <a href="#">
+                    <a className="f4 fw6 db black link hover-hot-pink" href="#">
                         Forgot Password?
                     </a>
                 </div>

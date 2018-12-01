@@ -1,13 +1,13 @@
 .view-port {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
+  position: absolute;
+  min-height: 100vh;
+  max-height: 100vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
-.landing-container {
-}
-
-.footer-wrapper {
+.footer--wrapper {
   position: absolute;
   bottom: 0;
   left: 0;

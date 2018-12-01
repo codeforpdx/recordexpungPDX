@@ -1,34 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`has a Footer child 1`] = `
-<div
-  className="footer"
->
-  Footer
-  <a
-    href="#"
-  >
-    Copyright
-  </a>
-  <a
-    href="#"
-  >
-    Terms
-  </a>
-</div>
-`;
-
 exports[`renders without crashing 1`] = `
 <div
-  className="footer"
+  className="footer bg-white shadow black-50"
 >
-  Footer
   <a
+    className="link underline hover-blue"
     href="#"
   >
     Copyright
   </a>
   <a
+    className="link underline hover-blue"
     href="#"
   >
     Terms
