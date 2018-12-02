@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {IconComponent} from "../common/icon.component";
 
 export class LoginComponent extends React.Component {
     public render() {
@@ -7,9 +8,13 @@ export class LoginComponent extends React.Component {
                 className="login-form"
                 id="LoginForm"
                 aria-label="Record Expunge Login Form">
-                <label className="title h2">
-                    Record Expunge
-                </label>
+                <label aria-hidden="true">Record Expunge</label>
+                <div className="title">
+                    <IconComponent iconName="logo"/>
+                    <div className="h2">
+                        Record Expunge
+                    </div>
+                </div>
                 <div className="form-group">
                     <label htmlFor="name"
                            className="f6 b db mb2">
