@@ -1,7 +1,10 @@
 {
-  "name": "frontend",
+  "name": "record-expunge-pdx",
   "version": "0.1.0",
   "private": true,
+  "authors": [
+    "rex@codeforpdx.org"
+  ],
   "dependencies": {
     "@reactivex/rxjs": "^6.3.3",
     "react": "^16.6.3",
