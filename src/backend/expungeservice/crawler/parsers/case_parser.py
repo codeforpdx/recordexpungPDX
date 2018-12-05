@@ -11,6 +11,8 @@ class CaseParser(HTMLParser):
         self.current_table_number = 0
         self.entering_table = False
         self.within_table_header = False
+        self.collect_charge_info = False
+        self.charge_table_data = []
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
@@ -19,10 +21,22 @@ class CaseParser(HTMLParser):
             self.within_table_header = True
 
     def handle_endtag(self, tag):
-        pass
+        charge_table = 2
+
+        if self.__exiting_table_header(tag):
+            self.within_table_header = False
+            if charge_table == self.current_table_number:
+                self.collect_charge_info = True
+
+        if tag == 'table':
+            self.collect_charge_info = False
 
     def handle_data(self, data):
-        pass
+        if self.entering_table:
+            self.entering_table = False
+
+        elif self.collect_charge_info:
+            self.charge_table_data.append(data)
 
     # TODO: Add error handling.
     def error(self, message):
@@ -33,3 +47,6 @@ class CaseParser(HTMLParser):
     @staticmethod
     def __at_table_title(tag, attrs):
         return tag == 'div' and dict(attrs).get('class') == 'ssCaseDetailSectionTitle'
+
+    def __exiting_table_header(self, end_tag):
+        return self.within_table_header and end_tag == 'tr'
