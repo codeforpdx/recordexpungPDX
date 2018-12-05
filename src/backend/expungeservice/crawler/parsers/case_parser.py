@@ -11,22 +11,29 @@ class CaseParser(HTMLParser):
         self.current_table_number = 0
         self.entering_table = False
         self.within_table_header = False
+
         self.collect_charge_info = False
         self.charge_table_data = []
+
+        self.collect_disposition_table = False
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
             self.current_table_number += 1
             self.within_table_header = True
+            self.collect_disposition_table = False
 
     def handle_endtag(self, tag):
         charge_table = 2
+        disposition_table = 3
 
         if self.__exiting_table_header(tag):
             self.within_table_header = False
             if charge_table == self.current_table_number:
                 self.collect_charge_info = True
+            elif disposition_table == self.current_table_number:
+                self.collect_disposition_table = True
 
         if tag == 'table':
             self.collect_charge_info = False
