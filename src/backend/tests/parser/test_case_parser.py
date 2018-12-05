@@ -46,3 +46,10 @@ class TestChargeTableIsParsed(TestCaseWithDisposition):
         assert self.parser.charge_table_data[4] == '03/12/2017'
         assert self.parser.charge_table_data[9] == '04/01/2016'
         assert self.parser.charge_table_data[14] == '05/22/2015'
+
+
+class TestEventTableIsParsed(TestCaseWithDisposition):
+    """ Tests disposition data is collected from the events table"""
+
+    def test_it_parses_every_row_of_the_events_table(self):
+        assert len(self.parser.disposition_table_data) == 14
