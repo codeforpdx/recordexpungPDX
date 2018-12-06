@@ -14,11 +14,8 @@ class TestCaseWithDisposition(unittest.TestCase):
     def test_it_finds_the_start_of_each_table(self):
         assert self.parser.current_table_number == 4
 
-
-class TestChargeTableIsParsed(TestCaseWithDisposition):
-    """ Tests charge data is collected for each row and column in the charge table
-        and appended to the charge_table_data list grouped by rows."""
-
+    # Tests charge data is collected for each row and column in the charge table
+    # and is appended to the charge_table_data list grouped by rows.
     def test_it_parses_all_charge_rows(self):
         assert len(self.parser.charge_table_data) == 15
 
@@ -47,10 +44,7 @@ class TestChargeTableIsParsed(TestCaseWithDisposition):
         assert self.parser.charge_table_data[9] == '04/01/2016'
         assert self.parser.charge_table_data[14] == '05/22/2015'
 
-
-class TestEventTableIsParsed(TestCaseWithDisposition):
-    """ Tests disposition data is collected from the events table"""
-
+    # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
         assert len(self.parser.event_table_data) == 14
 
