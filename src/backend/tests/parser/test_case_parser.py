@@ -63,3 +63,49 @@ class TestCaseWithDisposition(unittest.TestCase):
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '1,516.80'
+
+
+class TestCaseWithoutFinancialTable(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = CaseParser()
+        self.parser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
+
+    def test_it_finds_the_start_of_each_table(self):
+        assert self.parser.current_table_number == 3
+
+    # Tests charge data is collected for each row and column in the charge table
+    # and is appended to the charge_table_data list grouped by rows.
+    def test_it_parses_all_charge_rows(self):
+        assert len(self.parser.charge_table_data) == 5
+
+    def test_ids_are_collected(self):
+        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
+
+    def test_charge_names_are_collected(self):
+        assert self.parser.charge_table_data[1] == 'Poss Controlled Sub 2'
+
+    def test_statutes_are_collected(self):
+        assert self.parser.charge_table_data[2] == '4759924B'
+
+    def test_charge_levels_are_collected(self):
+        assert self.parser.charge_table_data[3] == 'Felony Class C'
+
+    def test_charge_dates_are_collected(self):
+        assert self.parser.charge_table_data[4] == '04/12/1992'
+
+    # Tests disposition data is collected from the events table
+    def test_it_parses_every_row_of_the_events_table(self):
+        assert len(self.parser.event_table_data) == 14
+
+    def test_it_collects_the_disposition_row(self):
+        assert self.parser.event_table_data[0][0] == '04/30/1992'
+        assert self.parser.event_table_data[0][3] == 'Disposition'
+        assert self.parser.event_table_data[0][4] == ' (Judicial Officer: Unassigned, Judge)'
+        assert self.parser.event_table_data[0][5] == '1. Poss Controlled Sub 2'
+        assert self.parser.event_table_data[0][6] == 'Dismissed'
+        assert self.parser.event_table_data[0][7] == '\n        Created: 05/01/1992 12:00 AM'
+
+    # Test relevant financial data is collected
+    def test_financial_data_is_parsed(self):
+        assert self.parser.balance_due == '0'
