@@ -59,3 +59,7 @@ class TestCaseWithDisposition(unittest.TestCase):
         assert self.parser.event_table_data[1][9] == '3. Failure to Obey Traffic Control Device'
         assert self.parser.event_table_data[1][10] == 'Hmmmm'
         assert self.parser.event_table_data[1][11] == '\n        Created: 06/12/2017 2:57 PM'
+
+    # Test relevant financial data is collected
+    def test_financial_data_is_parsed(self):
+        assert self.parser.balance_due == '1,516.80'
