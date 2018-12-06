@@ -52,4 +52,16 @@ class TestEventTableIsParsed(TestCaseWithDisposition):
     """ Tests disposition data is collected from the events table"""
 
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.disposition_table_data) == 14
+        assert len(self.parser.event_table_data) == 14
+
+    def test_it_collects_the_disposition_row(self):
+        assert self.parser.event_table_data[1][0] == '06/12/2017'
+        assert self.parser.event_table_data[1][3] == 'Disposition'
+        assert self.parser.event_table_data[1][4] == ' (Judicial Officer: Office, Judicial M)'
+        assert self.parser.event_table_data[1][5] == '1.\xa0Driving Uninsured'
+        assert self.parser.event_table_data[1][6] == 'Convicted - Failure to Appear'
+        assert self.parser.event_table_data[1][7] == '2. Violation Driving While Suspended or Revoked'
+        assert self.parser.event_table_data[1][8] == 'Dismissed'
+        assert self.parser.event_table_data[1][9] == '3. Failure to Obey Traffic Control Device'
+        assert self.parser.event_table_data[1][10] == 'Hmmmm'
+        assert self.parser.event_table_data[1][11] == '\n        Created: 06/12/2017 2:57 PM'
