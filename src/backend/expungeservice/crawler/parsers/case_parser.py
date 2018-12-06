@@ -15,32 +15,32 @@ class CaseParser(HTMLParser):
         self.collect_charge_info = False
         self.charge_table_data = []
 
-        self.collect_disposition_table = False
+        self.collect_event_table = False
         self.collect_dispo_header_date = False
-        self.disposition_row = -1
-        self.disposition_table_data = []
+        self.event_row = -1
+        self.event_table_data = []
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
             self.current_table_number += 1
             self.within_table_header = True
-            self.collect_disposition_table = False
+            self.collect_event_table = False
 
-        if self.collect_disposition_table:
+        if self.collect_event_table:
             if tag == 'th':
                 self.collect_dispo_header_date = True
 
     def handle_endtag(self, tag):
         charge_table = 2
-        disposition_table = 3
+        event_table = 3
 
         if self.__exiting_table_header(tag):
             self.within_table_header = False
             if charge_table == self.current_table_number:
                 self.collect_charge_info = True
-            elif disposition_table == self.current_table_number:
-                self.collect_disposition_table = True
+            elif event_table == self.current_table_number:
+                self.collect_event_table = True
 
         if tag == 'table':
             self.collect_charge_info = False
@@ -52,15 +52,15 @@ class CaseParser(HTMLParser):
         elif self.collect_charge_info:
             self.charge_table_data.append(data)
 
-        elif self.collect_disposition_table:
+        elif self.collect_event_table:
             if self.collect_dispo_header_date:
-                self.disposition_row += 1
-                self.disposition_table_data.append([])
-                self.disposition_table_data[self.disposition_row].append(data)
+                self.event_row += 1
+                self.event_table_data.append([])
+                self.event_table_data[self.event_row].append(data)
                 self.collect_dispo_header_date = False
 
             else:
-                self.disposition_table_data[self.disposition_row].append(data)
+                self.event_table_data[self.event_row].append(data)
 
     # TODO: Add error handling.
     def error(self, message):
