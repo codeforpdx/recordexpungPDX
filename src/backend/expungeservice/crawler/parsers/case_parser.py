@@ -59,6 +59,9 @@ class CaseParser(HTMLParser):
                 self.disposition_table_data[self.disposition_row].append(data)
                 self.collect_dispo_header_date = False
 
+            else:
+                self.disposition_table_data[self.disposition_row].append(data)
+
     # TODO: Add error handling.
     def error(self, message):
         pass
