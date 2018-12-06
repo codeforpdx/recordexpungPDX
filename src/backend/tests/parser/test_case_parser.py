@@ -169,3 +169,58 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
+
+
+class TestCaseWithoutDisposition(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = CaseParser()
+        self.parser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
+
+    def test_it_finds_the_start_of_each_table(self):
+        assert self.parser.current_table_number == 3
+
+    # Tests charge data is collected for each row and column in the charge table
+    # and is appended to the charge_table_data list grouped by rows.
+    def test_it_parses_all_charge_rows(self):
+        assert len(self.parser.charge_table_data) == 15
+
+    def test_ids_are_collected(self):
+        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
+        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
+        assert self.parser.charge_table_data[10] == '3.\n            \xa0'
+
+    def test_charge_names_are_collected(self):
+        assert self.parser.charge_table_data[1] == 'Reckless Driving'
+        assert self.parser.charge_table_data[6] == 'Resisting Arrest'
+        assert self.parser.charge_table_data[11] == 'Interfering w/ Peace/Parole and Probation Officer'
+
+    def test_statutes_are_collected(self):
+        assert self.parser.charge_table_data[2] == '811.140'
+        assert self.parser.charge_table_data[7] == '162.315'
+        assert self.parser.charge_table_data[12] == '162.247'
+
+    def test_charge_levels_are_collected(self):
+        assert self.parser.charge_table_data[3] == 'Misdemeanor Class A'
+        assert self.parser.charge_table_data[8] == 'Misdemeanor Class A'
+        assert self.parser.charge_table_data[13] == 'Misdemeanor Class A'
+
+    def test_charge_dates_are_collected(self):
+        assert self.parser.charge_table_data[4] == '03/06/2018'
+        assert self.parser.charge_table_data[9] == '03/06/2018'
+        assert self.parser.charge_table_data[14] == '03/06/2018'
+
+    # Tests disposition data is collected from the events table
+    def test_it_parses_every_row_of_the_events_table(self):
+        assert len(self.parser.event_table_data) == 19
+
+    def test_it_collects_the_disposition_row(self):
+        dispo_count = 0
+        for data in self.parser.event_table_data:
+            if len(data) > 3 and data[3] == 'Disposition':
+                dispo_count += 1
+        assert dispo_count == 0
+
+    # Test relevant financial data is collected
+    def test_financial_data_is_parsed(self):
+        assert self.parser.balance_due == '0'
