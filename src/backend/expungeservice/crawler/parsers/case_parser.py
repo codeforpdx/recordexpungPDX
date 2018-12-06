@@ -22,6 +22,7 @@ class CaseParser(HTMLParser):
 
         self.balance_due = '0'
         self.collect_financial_info = False
+        self.get_balance_due = False
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
@@ -33,6 +34,9 @@ class CaseParser(HTMLParser):
         if self.collect_event_table:
             if tag == 'th':
                 self.collect_dispo_header_date = True
+
+        if self.collect_financial_info and tag == 'b':
+            self.get_balance_due = True
 
     def handle_endtag(self, tag):
         charge_table = 2
@@ -67,6 +71,11 @@ class CaseParser(HTMLParser):
 
             else:
                 self.event_table_data[self.event_row].append(data)
+
+        elif self.get_balance_due:
+            self.balance_due = data
+            self.get_balance_due = False
+            self.collect_financial_info = False
 
     # TODO: Add error handling.
     def error(self, message):
