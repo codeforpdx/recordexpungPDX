@@ -20,6 +20,8 @@ class CaseParser(HTMLParser):
         self.event_row = -1
         self.event_table_data = []
 
+        self.balance_due = '0'
+
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
