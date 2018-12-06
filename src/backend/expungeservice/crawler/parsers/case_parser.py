@@ -21,6 +21,7 @@ class CaseParser(HTMLParser):
         self.event_table_data = []
 
         self.balance_due = '0'
+        self.collect_financial_info = False
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
@@ -36,6 +37,7 @@ class CaseParser(HTMLParser):
     def handle_endtag(self, tag):
         charge_table = 2
         event_table = 3
+        financial_table = 4
 
         if self.__exiting_table_header(tag):
             self.within_table_header = False
@@ -43,6 +45,8 @@ class CaseParser(HTMLParser):
                 self.collect_charge_info = True
             elif event_table == self.current_table_number:
                 self.collect_event_table = True
+            elif financial_table == self.current_table_number:
+                self.collect_financial_info = True
 
         if tag == 'table':
             self.collect_charge_info = False
