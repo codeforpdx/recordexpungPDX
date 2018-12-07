@@ -26,7 +26,7 @@ class CaseParser(HTMLParser):
         self.collect_financial_info = False
         self.get_balance_due = False
 
-        self.formatted_dispo_data = {}
+        self.hashed_dispo_data = {}
         self.hashed_charge_data = {}
 
     def handle_starttag(self, tag, attrs):
@@ -107,10 +107,10 @@ class CaseParser(HTMLParser):
             while start_index < len(dispo_row) - 1:
                 charge_id, charge = dispo_row[start_index].split('.\xa0')
                 charge_id = int(charge_id)
-                self.formatted_dispo_data[charge_id] = {}
-                self.formatted_dispo_data[charge_id]['date'] = dispo_row[0]
-                self.formatted_dispo_data[charge_id]['charge'] = charge
-                self.formatted_dispo_data[charge_id]['ruling'] = dispo_row[start_index + 1]
+                self.hashed_dispo_data[charge_id] = {}
+                self.hashed_dispo_data[charge_id]['date'] = dispo_row[0]
+                self.hashed_dispo_data[charge_id]['charge'] = charge
+                self.hashed_dispo_data[charge_id]['ruling'] = dispo_row[start_index + 1]
                 start_index += 2
 
     def __filter_dispo_events(self):

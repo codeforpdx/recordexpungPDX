@@ -66,18 +66,18 @@ class TestCaseWithDisposition(unittest.TestCase):
 
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
-        assert len(self.parser.formatted_dispo_data) == 3
-        assert self.parser.formatted_dispo_data[1]['date'] == '06/12/2017'
-        assert self.parser.formatted_dispo_data[1]['charge'] == 'Driving Uninsured'
-        assert self.parser.formatted_dispo_data[1]['ruling'] == 'Convicted - Failure to Appear'
+        assert len(self.parser.hashed_dispo_data) == 3
+        assert self.parser.hashed_dispo_data[1]['date'] == '06/12/2017'
+        assert self.parser.hashed_dispo_data[1]['charge'] == 'Driving Uninsured'
+        assert self.parser.hashed_dispo_data[1]['ruling'] == 'Convicted - Failure to Appear'
 
-        assert self.parser.formatted_dispo_data[2]['date'] == '06/12/2017'
-        assert self.parser.formatted_dispo_data[2]['charge'] == 'Violation Driving While Suspended or Revoked'
-        assert self.parser.formatted_dispo_data[2]['ruling'] == 'Dismissed'
+        assert self.parser.hashed_dispo_data[2]['date'] == '06/12/2017'
+        assert self.parser.hashed_dispo_data[2]['charge'] == 'Violation Driving While Suspended or Revoked'
+        assert self.parser.hashed_dispo_data[2]['ruling'] == 'Dismissed'
 
-        assert self.parser.formatted_dispo_data[3]['date'] == '06/12/2017'
-        assert self.parser.formatted_dispo_data[3]['charge'] == 'Failure to Obey Traffic Control Device'
-        assert self.parser.formatted_dispo_data[3]['ruling'] == 'Hmmmm'
+        assert self.parser.hashed_dispo_data[3]['date'] == '06/12/2017'
+        assert self.parser.hashed_dispo_data[3]['charge'] == 'Failure to Obey Traffic Control Device'
+        assert self.parser.hashed_dispo_data[3]['ruling'] == 'Hmmmm'
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 3
@@ -146,10 +146,10 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
 
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
-        assert len(self.parser.formatted_dispo_data) == 1
-        assert self.parser.formatted_dispo_data[1]['date'] == '04/30/1992'
-        assert self.parser.formatted_dispo_data[1]['charge'] == 'Poss Controlled Sub 2'
-        assert self.parser.formatted_dispo_data[1]['ruling'] == 'Dismissed'
+        assert len(self.parser.hashed_dispo_data) == 1
+        assert self.parser.hashed_dispo_data[1]['date'] == '04/30/1992'
+        assert self.parser.hashed_dispo_data[1]['charge'] == 'Poss Controlled Sub 2'
+        assert self.parser.hashed_dispo_data[1]['ruling'] == 'Dismissed'
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 1
@@ -221,10 +221,10 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
 
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
-        assert len(self.parser.formatted_dispo_data) == 1
-        assert self.parser.formatted_dispo_data[999]['date'] == '03/06/2018'
-        assert self.parser.formatted_dispo_data[999]['charge'] == 'Driving Under the Influence of Intoxicants'
-        assert self.parser.formatted_dispo_data[999]['ruling'] == 'No Complaint'
+        assert len(self.parser.hashed_dispo_data) == 1
+        assert self.parser.hashed_dispo_data[999]['date'] == '03/06/2018'
+        assert self.parser.hashed_dispo_data[999]['charge'] == 'Driving Under the Influence of Intoxicants'
+        assert self.parser.hashed_dispo_data[999]['ruling'] == 'No Complaint'
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 4
@@ -306,7 +306,7 @@ class TestCaseWithoutDisposition(unittest.TestCase):
 
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
-        assert len(self.parser.formatted_dispo_data) == 0
+        assert len(self.parser.hashed_dispo_data) == 0
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 3
@@ -374,7 +374,7 @@ class TestParkingViolationCase(unittest.TestCase):
 
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
-        assert len(self.parser.formatted_dispo_data) == 0
+        assert len(self.parser.hashed_dispo_data) == 0
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 1
