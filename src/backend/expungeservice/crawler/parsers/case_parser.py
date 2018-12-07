@@ -24,6 +24,8 @@ class CaseParser(HTMLParser):
         self.collect_financial_info = False
         self.get_balance_due = False
 
+        self.formatted_dispo_data = {}
+
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
@@ -53,6 +55,9 @@ class CaseParser(HTMLParser):
                 self.collect_event_table = True
             elif financial_table == self.current_table_number:
                 self.collect_financial_info = True
+
+        if tag == 'body':
+            self.__format_dispo_data()
 
     def handle_data(self, data):
         if self.entering_table:
@@ -87,3 +92,36 @@ class CaseParser(HTMLParser):
 
     def __exiting_table_header(self, end_tag):
         return self.within_table_header and end_tag == 'tr'
+
+    def __format_dispo_data(self):
+        dispo_data = self.__filter_dispo_events()
+        for dispo_row in dispo_data:
+            start_index = 2
+            if len(dispo_row[3].split('.\xa0')) == 2:
+                start_index = 3
+
+            while start_index < len(dispo_row) - 1:
+                charge_id, charge = dispo_row[start_index].split('.\xa0')
+                charge_id = int(charge_id)
+                self.formatted_dispo_data[charge_id] = {}
+                self.formatted_dispo_data[charge_id]['date'] = dispo_row[0]
+                self.formatted_dispo_data[charge_id]['charge'] = charge
+                self.formatted_dispo_data[charge_id]['ruling'] = dispo_row[start_index + 1]
+                start_index += 2
+
+    def __filter_dispo_events(self):
+        dispo_list = []
+        for event_row in self.event_table_data:
+            if len(event_row) > 3 and event_row[3] == 'Disposition':
+                dispo_list.append(event_row)
+
+        result = []
+        index = 0
+        for dispo_row in dispo_list:
+            result.append([])
+            for data in dispo_row:
+                if data != '\xa0':
+                    result[index].append(data)
+            index += 1
+
+        return result
