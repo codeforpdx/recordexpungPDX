@@ -64,6 +64,21 @@ class TestCaseWithDisposition(unittest.TestCase):
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '1,516.80'
 
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.formatted_dispo_data) == 3
+        assert self.parser.formatted_dispo_data[1]['date'] == '06/12/2017'
+        assert self.parser.formatted_dispo_data[1]['charge'] == 'Driving Uninsured'
+        assert self.parser.formatted_dispo_data[1]['ruling'] == 'Convicted - Failure to Appear'
+
+        assert self.parser.formatted_dispo_data[2]['date'] == '06/12/2017'
+        assert self.parser.formatted_dispo_data[2]['charge'] == 'Violation Driving While Suspended or Revoked'
+        assert self.parser.formatted_dispo_data[2]['ruling'] == 'Dismissed'
+
+        assert self.parser.formatted_dispo_data[3]['date'] == '06/12/2017'
+        assert self.parser.formatted_dispo_data[3]['charge'] == 'Failure to Obey Traffic Control Device'
+        assert self.parser.formatted_dispo_data[3]['ruling'] == 'Hmmmm'
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
 
@@ -109,6 +124,13 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
+
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.formatted_dispo_data) == 1
+        assert self.parser.formatted_dispo_data[1]['date'] == '04/30/1992'
+        assert self.parser.formatted_dispo_data[1]['charge'] == 'Poss Controlled Sub 2'
+        assert self.parser.formatted_dispo_data[1]['ruling'] == 'Dismissed'
 
 
 class TestCaseWithPartialDisposition(unittest.TestCase):
@@ -170,6 +192,13 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
 
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.formatted_dispo_data) == 1
+        assert self.parser.formatted_dispo_data[999]['date'] == '03/06/2018'
+        assert self.parser.formatted_dispo_data[999]['charge'] == 'Driving Under the Influence of Intoxicants'
+        assert self.parser.formatted_dispo_data[999]['ruling'] == 'No Complaint'
+
 
 class TestCaseWithoutDisposition(unittest.TestCase):
 
@@ -225,6 +254,10 @@ class TestCaseWithoutDisposition(unittest.TestCase):
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
 
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.formatted_dispo_data) == 0
+
 
 class TestParkingViolationCase(unittest.TestCase):
 
@@ -269,3 +302,7 @@ class TestParkingViolationCase(unittest.TestCase):
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '65.00'
+
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.formatted_dispo_data) == 0
