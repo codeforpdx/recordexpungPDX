@@ -9,7 +9,6 @@ class CaseParser(HTMLParser):
 
     def __init__(self):
         HTMLParser.__init__(self)
-        self.charges = []
         self.current_table_number = 0
         self.entering_table = False
         self.within_table_header = False
