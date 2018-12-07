@@ -79,6 +79,25 @@ class TestCaseWithDisposition(unittest.TestCase):
         assert self.parser.formatted_dispo_data[3]['charge'] == 'Failure to Obey Traffic Control Device'
         assert self.parser.formatted_dispo_data[3]['ruling'] == 'Hmmmm'
 
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 3
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Driving Uninsured'
+        assert self.parser.hashed_charge_data[2]['name'] == 'Violation Driving While Suspended or Revoked'
+        assert self.parser.hashed_charge_data[3]['name'] == 'Failure to Obey Traffic Control Device'
+
+        assert self.parser.hashed_charge_data[1]['statute'] == '806.010'
+        assert self.parser.hashed_charge_data[2]['statute'] == '811.175'
+        assert self.parser.hashed_charge_data[3]['statute'] == '811.265'
+
+        assert self.parser.hashed_charge_data[1]['level'] == 'Violation Class B'
+        assert self.parser.hashed_charge_data[2]['level'] == 'Violation Class A'
+        assert self.parser.hashed_charge_data[3]['level'] == 'Violation Class C'
+
+        assert self.parser.hashed_charge_data[1]['date'] == '03/12/2017'
+        assert self.parser.hashed_charge_data[2]['date'] == '04/01/2016'
+        assert self.parser.hashed_charge_data[3]['date'] == '05/22/2015'
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
 
@@ -131,6 +150,14 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
         assert self.parser.formatted_dispo_data[1]['date'] == '04/30/1992'
         assert self.parser.formatted_dispo_data[1]['charge'] == 'Poss Controlled Sub 2'
         assert self.parser.formatted_dispo_data[1]['ruling'] == 'Dismissed'
+
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 1
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Poss Controlled Sub 2'
+        assert self.parser.hashed_charge_data[1]['statute'] == '4759924B'
+        assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[1]['date'] == '04/12/1992'
 
 
 class TestCaseWithPartialDisposition(unittest.TestCase):
@@ -199,6 +226,29 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
         assert self.parser.formatted_dispo_data[999]['charge'] == 'Driving Under the Influence of Intoxicants'
         assert self.parser.formatted_dispo_data[999]['ruling'] == 'No Complaint'
 
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 4
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Reckless Driving'
+        assert self.parser.hashed_charge_data[2]['name'] == 'Resisting Arrest'
+        assert self.parser.hashed_charge_data[3]['name'] == 'Interfering w/ Peace/Parole and Probation Officer'
+        assert self.parser.hashed_charge_data[999]['name'] == 'Driving Under the Influence of Intoxicants'
+
+        assert self.parser.hashed_charge_data[1]['statute'] == '811.140'
+        assert self.parser.hashed_charge_data[2]['statute'] == '162.315'
+        assert self.parser.hashed_charge_data[3]['statute'] == '162.247'
+        assert self.parser.hashed_charge_data[999]['statute'] == '813.010(4)'
+
+        assert self.parser.hashed_charge_data[1]['level'] == 'Misdemeanor Class A'
+        assert self.parser.hashed_charge_data[2]['level'] == 'Misdemeanor Class A'
+        assert self.parser.hashed_charge_data[3]['level'] == 'Misdemeanor Class A'
+        assert self.parser.hashed_charge_data[999]['level'] == 'Misdemeanor Class A'
+
+        assert self.parser.hashed_charge_data[1]['date'] == '03/06/2018'
+        assert self.parser.hashed_charge_data[2]['date'] == '03/06/2018'
+        assert self.parser.hashed_charge_data[3]['date'] == '03/06/2018'
+        assert self.parser.hashed_charge_data[999]['date'] == '03/06/2018'
+
 
 class TestCaseWithoutDisposition(unittest.TestCase):
 
@@ -258,6 +308,25 @@ class TestCaseWithoutDisposition(unittest.TestCase):
     def test_dispo_data_gets_formatted(self):
         assert len(self.parser.formatted_dispo_data) == 0
 
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 3
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Reckless Driving'
+        assert self.parser.hashed_charge_data[2]['name'] == 'Resisting Arrest'
+        assert self.parser.hashed_charge_data[3]['name'] == 'Interfering w/ Peace/Parole and Probation Officer'
+
+        assert self.parser.hashed_charge_data[1]['statute'] == '811.140'
+        assert self.parser.hashed_charge_data[2]['statute'] == '162.315'
+        assert self.parser.hashed_charge_data[3]['statute'] == '162.247'
+
+        assert self.parser.hashed_charge_data[1]['level'] == 'Misdemeanor Class A'
+        assert self.parser.hashed_charge_data[2]['level'] == 'Misdemeanor Class A'
+        assert self.parser.hashed_charge_data[3]['level'] == 'Misdemeanor Class A'
+
+        assert self.parser.hashed_charge_data[1]['date'] == '03/06/2018'
+        assert self.parser.hashed_charge_data[2]['date'] == '03/06/2018'
+        assert self.parser.hashed_charge_data[3]['date'] == '03/06/2018'
+
 
 class TestParkingViolationCase(unittest.TestCase):
 
@@ -306,3 +375,11 @@ class TestParkingViolationCase(unittest.TestCase):
     # Test data is formatted
     def test_dispo_data_gets_formatted(self):
         assert len(self.parser.formatted_dispo_data) == 0
+
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 1
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'No Meter Receipt'
+        assert self.parser.hashed_charge_data[1]['statute'] == '16.20.430-A'
+        assert self.parser.hashed_charge_data[1]['level'] == 'Violation Unclassified'
+        assert self.parser.hashed_charge_data[1]['date'] == '12/01/2018'
