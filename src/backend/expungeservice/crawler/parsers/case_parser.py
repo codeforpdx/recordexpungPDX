@@ -1,3 +1,5 @@
+import re
+
 from html.parser import HTMLParser
 
 from expungeservice.crawler.models.charge import Charge
@@ -25,6 +27,7 @@ class CaseParser(HTMLParser):
         self.get_balance_due = False
 
         self.formatted_dispo_data = {}
+        self.hashed_charge_data = {}
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
@@ -58,6 +61,7 @@ class CaseParser(HTMLParser):
 
         if tag == 'body':
             self.__format_dispo_data()
+            self.__create_charge_hash()
 
     def handle_data(self, data):
         if self.entering_table:
@@ -125,3 +129,14 @@ class CaseParser(HTMLParser):
             index += 1
 
         return result
+
+    def __create_charge_hash(self):
+        index = 0
+        while index < len(self.charge_table_data):
+            charge_id = int(re.compile('\d*').match(self.charge_table_data[index]).group())
+            self.hashed_charge_data[charge_id] = {}
+            self.hashed_charge_data[charge_id]['name'] = self.charge_table_data[index + 1]
+            self.hashed_charge_data[charge_id]['statute'] = self.charge_table_data[index + 2]
+            self.hashed_charge_data[charge_id]['level'] = self.charge_table_data[index + 3]
+            self.hashed_charge_data[charge_id]['date'] = self.charge_table_data[index + 4]
+            index += 5
