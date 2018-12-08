@@ -1,0 +1,275 @@
+<main class="mw8 ph2 center">
+
+  <section class="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
+    <h1 class="mb4 f4 fw6">Record Search</h1>
+    <form>
+      <div class="flex flex-wrap items-end">
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input1" class="db mb1 fw6">
+          First Name
+        </label>
+        <input id="input1" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input2" class="db mb1 fw6">
+          Last Name
+        </label>
+        <input id="input2" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input3" class="db mb1 fw6">
+          Date of Birth <span class="fw2 f6">MM/DD/YYYY</span>
+        </label>
+        <input id="input3" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-10-ns mb3">
+        <button class="br2 bg-blue white db w-100 tc pv3 btn--search" aria-label="Search" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="mv4">
+    <!-- Show if missing a field on submit -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</div>
+    <!-- Show if the date format is incorrect. We should also allow for "-" along with "/" and not worry about leading zeros. -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</div>
+    <!-- Show if any of the services are down. If there's no internet connection we would ideally have a different message, but that's a nice-to-have. -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">Technical error, please try again in a few minutes.</div>
+    <!-- Show this loading indicator while generating results. -->
+    <div class="bg-white mv4 pa4 br3 fw6"><span class="spinner mr2"></span>Loading your search results...</div>
+    <!-- Show if we can't find results. -->
+    <div class="bg-light-gray mv4 pa4 br3 fw6">No search results found :(</div>
+  </section>
+
+  <section class="cf pt2 bg-white shadow br3 br--top">
+    <div class="overflow-auto">
+      <div class="flex-ns justify-between pt2 pb3 ph3">
+        <h1 class="gray dib pv2">3 results for John Doe</h1>
+        <button class="db br2 bg-near-white black-60 pa2 f6">Export Excel</button>
+      </div>
+      <table class="collapse w-100 mw8 center bg-white" cellspacing="0">
+        <thead>
+          <tr class="bt b--black-10 dn dt-row-l">
+            <th class="w-20 fw6 tl pa3">Result</th>
+            <th class="w-5 fw6 tl pa3">Case</th>
+            <th class="w-10 fw6 tl pa3">Date</th>
+            <th class="w-25 fw6 tl pa3">Charge</th>
+            <th class="w-25 fw6 tl pa3">Disposition</th>
+            <th class="w-10 fw6 tl pa3">Balance</th>
+            <th class="w-5 fw6 tl pa3">Details</th>
+          </tr>
+        </thead>
+        <tbody class="lh-copy v-top">
+          <!-- Exungeable case - "Details" are not expanded by default -->
+          <tr class="bt b--black-10 db dt-row-l td-result--expungeable">
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <div class="fw8">Expungeable</div>
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Case:</span> 16CR00042
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Date:</span> 01-03-02
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Charge:</span> Offense Misdemeanor
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Disposition:</span> Diversion/Deferred Prosecution
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Balance:</span> –
+            </td>
+            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
+              <button class="pv1 ph3 br3 bg-near-white black-60">
+                <span class="fw6 dn-l">Details</span>
+                <i class="fas fa-angle-down"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="dn td-result--expungeable-light">
+            <td colspan="6" class="pr3 pb3 pl3">
+              <div class="pb2 fw7">Expungement rule details</div>
+              <ul>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Rule name:</span> Rule result passed
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Rule name:</span> Rule result passed
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <!-- Exungeable case with "Details" expanded -->
+          <tr class="bt b--black-10 db dt-row-l td-result--expungeable">
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <div class="fw8">Expungeable</div>
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Case:</span> 16CR00048
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Date:</span> 12-03-04
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Charge:</span> Offense Felony
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Disposition:</span> Dismissed
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Balance:</span> –
+            </td>
+            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
+              <button class="pv1 ph3 br3 bg-near-white black-60">
+                <span class="fw6 dn-l">Details</span>
+                <i class="fas fa-angle-down"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="td-result--expungeable-light">
+            <td colspan="6" class="pr3 pb3 pl3">
+              <div class="pb2 fw7">Expungement rule details</div>
+              <ul>
+                <li class="pb2">
+                  <i class="fas fa-check-circle green"></i>
+                  <span class="fw6">Ten year rule:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle green"></i>
+                  <span class="fw6">MRD from last 3 years:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle green"></i>
+                  <span class="fw6">A Felony:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Sex crime or crime listed in List A:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Traffic crime (800 level):</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">List B:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-arrow-circle-down pr1"></i>
+                  <span class="fw6">PCS in Schedule I:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Non-trafic violation:</span> Yes
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <!-- Needs review case with "Details" expanded-->
+          <tr class="bt b--black-10 db dt-row-l td-result--needs-review">
+            <td class="pv1 ph3 db pa3-l dtc-l">
+              <div class="fw8">Needs Review</div>
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Case:</span> 16CR00059
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Date:</span> 01-03-05
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Charge:</span> Reckless Driving
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Disposition:</span> Pending
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Balance:</span> –
+            </td>
+            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
+              <button class="pv1 ph3 br3 bg-near-white black-60">
+                <span class="fw6 dn-l">Details</span>
+                <i class="fas fa-angle-down"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="td-result--needs-review-light">
+            <td colspan="6" class="pr3 pb3 pl3">
+              <div class="pb2 fw7">Expungement rule details</div>
+              <ul>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Ten year rule:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">MRD from last 3 years:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">A Felony:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Sex crime or crime listed in List A:</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-check-circle pr1 green"></i>
+                  <span class="fw6">Traffic crime (800 level):</span> No
+                </li>
+                <li class="pb2">
+                  <i class="fas fa-question-circle pr1 yellow"></i>
+                  <span class="fw6">List B:</span> Yes
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <!-- Not exungeable case with "Details" expanded -->
+          <tr class="bt b--black-10 db dt-row-l td-result--not-expungeable">
+            <td class="pv1 ph3 db pa3-l dtc-l">
+              <div class="fw8">Not Expungeable</div>
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Case:</span> 26CR00061
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Date:</span> 01-03-14
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Charge:</span> Reckless Driving
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l">
+              <span class="fw6 dn-l">Disposition:</span> Pending
+            </td>
+            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
+              <span class="fw6 dn-l">Balance:</span> $2,000.00
+            </td>
+            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
+              <button class="pv1 ph3 br3 bg-near-white black-60">
+                <span class="fw6 dn-l">Details</span>
+                <i class="fas fa-angle-down"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="td-result--not-expungeable-light">
+            <td colspan="6" class="pr3 pb3 pl3">
+              <div class="pb2 fw7">Expungement rule details</div>
+              <ul>
+                <li class="pb2">
+                  <i class="fas fa-times-circle pr1 red"></i>
+                  <span class="fw6">Ten year rule:</span> Yes
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
