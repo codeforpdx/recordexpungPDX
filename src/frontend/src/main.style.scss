@@ -1,0 +1,41 @@
+/** Third Party Dependencies **/
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600|Roboto:400,600');
+@import 'styles/reset.style';
+
+/** Global Vars **/
+
+@import 'styles/globals.style';
+
+$font-family-header: 'Roboto', sans-serif;
+$font-family-text: 'Montserrat', sans-serif;
+
+/** Base Configs **/
+
+.h1, .h2, .h3 {
+  font-family: $font-family-header;
+  font-weight: 600;
+}
+
+.h1 {
+  font-size: 1.6em;
+}
+
+.h2 {
+  font-size: 1.4em;
+}
+
+.h3 {
+  font-size: 1.3em;
+}
+
+/** Custom classes **/
+
+.single-input {
+  border-radius: 0.5em;
+  min-height: 3em;
+}
+
+/** Custom Style Sheets **/
+
+@import 'components/login/login.style';
+@import 'components/footer/footer.style';
