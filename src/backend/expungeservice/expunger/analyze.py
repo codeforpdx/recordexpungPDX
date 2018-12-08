@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+
+
+
 import collections
 import enum
 
@@ -91,6 +94,12 @@ class Charge(object):
         self.date = date
         self.disposition = disposition
 
+
+
+        #todo: add 'expungeable' property
+
+        #todo: add expungable now t/f
+
 CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
 
 class Case(object):
@@ -118,3 +127,5 @@ class Client(object):
         self.name = name
         self.dob = dob
         self.cases = cases
+
+

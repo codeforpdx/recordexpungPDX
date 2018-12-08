@@ -15,6 +15,9 @@ class TestRecordParser(unittest.TestCase):
         self.case3_date = datetime.date(2012, 4, 1)
         self.base_uri = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID="
 
+#asdasdasdasd
+
+
     def test_non_empty_record(self):
         """Tests it can parse a record."""
         assert len(self.parser.cases) == 3

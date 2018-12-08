@@ -2,6 +2,7 @@ import datetime
 
 from expungeservice.expunger import *
 
+
 def test_statute():
     tests = [
         [[113, 45], '113.045'],
@@ -18,11 +19,14 @@ def test_statute():
         else:
             assert(0)
 
+# get disposition helper function
 def get_disp():
     date = datetime.date(1996, 1, 1)
     disp_type = DispositionType.NO_CONVICTION
     return Disposition(disp_type, date)
 
+
+#todo: add assertions to this
 def test_expunger_classes():
     disp = get_disp()
     statute = Statute(113, 45, 5, 'd')
