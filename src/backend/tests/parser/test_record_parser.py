@@ -2,7 +2,7 @@ import unittest
 import datetime
 
 from ..fixtures.john_doe import JohnDoe
-from expungeservice.parsers.record_parser import RecordParser
+from expungeservice.crawler.parsers.record_parser import RecordParser
 
 
 class TestRecordParser(unittest.TestCase):
