@@ -1,6 +1,6 @@
 import unittest
 from ..fixtures.search_page_response import SearchPageResponse
-from expungeservice.parsers.param_parser import ParamParser
+from expungeservice.crawler.parsers.param_parser import ParamParser
 
 
 class TestParamParser(unittest.TestCase):
