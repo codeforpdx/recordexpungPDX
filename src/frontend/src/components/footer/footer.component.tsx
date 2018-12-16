@@ -4,10 +4,10 @@ export class FooterComponent extends React.Component {
 
     public render() {
         return(
-            <div className="footer bg-white shadow black-50">
-                <a className="link underline hover-blue" href="#">Copyright</a>
-                <a className="link underline hover-blue" href="#">Terms</a>
-            </div>
+            <footer className="mw8 ph3 center pv6 black-50">
+              <a className="pr3 link underline hover-blue" href="#">Copyright</a>
+              <a className="pr3 link underline hover-blue" href="#">Terms</a>
+            </footer>
         );
     }
 }
