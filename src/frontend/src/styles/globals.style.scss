@@ -25,13 +25,11 @@ $washed-red: #F0E0E8;
 .washed-red { color:$washed-red }
 .bg-washed-red { background-color:$washed-red }
 
+.bg-gray-blue { background-color: $gray-blue; }
+
 // stock shadow too dark
 .shadow {
   box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
-}
-
-.bg-gray-blue {
-  background-color: $gray-blue;
 }
 
 .btn--search {
