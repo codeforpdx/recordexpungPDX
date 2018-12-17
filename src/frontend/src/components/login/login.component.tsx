@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {IconComponent} from "../common/icon.component";
 
 export class LoginComponent extends React.Component {
     public render() {

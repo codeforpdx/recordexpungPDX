@@ -1,0 +1,100 @@
+$gray-blue: #FAFAFE; // lighter and more blue than stock
+$green: #19A974; // stock
+$light-green: #97d6bf; // desaturate
+$washed-green: #EFF9F6; // stock is too dark
+$yellow: #FFC141; // stock is too light
+$light-yellow: #ffe4ab; // match yellow
+$red: #A0004B; // stock is too light & saturated
+$light-red: #c5759b; // match red
+$washed-red: #FFDFDF; // stock
+
+// Won't need these if Tachyons variables are overwriten in colors config
+.bg-washed-green {
+  background-color: $washed-green;
+}
+.yellow {
+  color: $yellow;
+}
+.red {
+  color: $red;
+}
+
+// stock shadow too dark
+.shadow {
+  box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
+}
+
+.bg-gray-blue {
+  background-color: $gray-blue;
+}
+
+.logo {
+  width: 31px;
+  position: relative;
+  top: 6px;
+}
+
+.btn--search {
+  height: 54px;
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 3px solid rgba(53, 126, 221, 0.2);
+}
+.spinner--light {
+  border: 3px solid rgba(186, 216, 255, 0.2);
+}
+.spinner:after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(53, 126, 221, 1);
+  -webkit-animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
+}
+.spinner--light:after {
+  border-top-color: rgba(186, 216, 255, 1);
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    tranform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    tranform: rotate(360deg);
+  }
+}
+
+.td-result--expungeable {
+  box-shadow: inset 6px 0 0 $green;
+}
+.td-result--expungeable-light {
+  box-shadow: inset 6px 0 0 $light-green;
+}
+.td-result--needs-review {
+  box-shadow: inset 6px 0 0 $yellow;
+}
+.td-result--needs-review-light {
+  box-shadow: inset 6px 0 0 $light-yellow;
+}
+.td-result--not-expungeable {
+  box-shadow: inset 6px 0 0 $red;
+}
+.td-result--not-expungeable-light {
+  box-shadow: inset 6px 0 0 $light-red;
+}
+
+// Change the breakpoint "ns" variable to be wider?
