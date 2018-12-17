@@ -129,3 +129,6 @@ venv.bak/
 # Emacs autosave files
 *~
 \#*\#
+
+# PyCharm editors
+.idea/

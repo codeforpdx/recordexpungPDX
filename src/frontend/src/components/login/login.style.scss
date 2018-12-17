@@ -1,0 +1,30 @@
+form#LoginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .form-group{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &.buttons {
+      button {
+        margin-bottom: 1.4rem;
+        min-height: 52px;
+        width: 100%;
+        text-align: center;
+        font-family: $font-family-text;
+        font-weight: 600;
+      }
+      align-items: center;
+    }
+  }
+
+  .title {
+    padding: 1rem 0 3rem 0;
+  }
+}
