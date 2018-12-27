@@ -70,6 +70,7 @@ class RecordParser(HTMLParser):
         self.type_status.append(data)
 
     def _set_charges(self, data):
+        #todo: maybe this is where we need to fetch the detail page and parse out info such as statute numbers
         self.charges.append(data)
 
     def __record_case(self):

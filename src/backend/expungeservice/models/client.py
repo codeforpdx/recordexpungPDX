@@ -10,3 +10,6 @@ class Client(object):
         self.name = name
         self.dob = dob
         self.cases = cases
+
+    def setCases(self,cases):
+        self.cases = cases

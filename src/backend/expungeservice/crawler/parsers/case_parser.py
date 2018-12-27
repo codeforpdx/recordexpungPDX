@@ -137,3 +137,4 @@ class CaseParser(HTMLParser):
             self.hashed_charge_data[charge_id]['level'] = self.charge_table_data[index + 3]
             self.hashed_charge_data[charge_id]['date'] = self.charge_table_data[index + 4]
             index += 5
+

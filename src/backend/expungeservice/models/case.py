@@ -5,7 +5,7 @@ class Case:
 
     def __init__(self, info, case_number, citation_number, date_location, type_status, charges, case_detail_link):
         self.name, birth_year = info
-        self.birth_year = int(birth_year) #todo: this does not return birth_year but rather DOB
+        self.birth_year = int(birth_year)
         self.case_number = case_number
         self.citation_number = citation_number[0] if citation_number else ""
         date, self.location = date_location
@@ -16,6 +16,9 @@ class Case:
 
         self.charges = charges
         self.case_detail_link = case_detail_link
+
+    def setCharges(self, charges): #this function exists to update the charges with more details
+        self.charges = charges
 
 
 # CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
