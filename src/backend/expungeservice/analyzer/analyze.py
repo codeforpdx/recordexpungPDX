@@ -6,7 +6,7 @@
 import collections
 import enum
 
-from expungeservice.RapSheetAnalyzer.ineligible_crimes_list import IneligibleCrimesList
+from expungeservice.analyzer.ineligible_crimes_list import IneligibleCrimesList
 
 
 # todo: write unit tests for this

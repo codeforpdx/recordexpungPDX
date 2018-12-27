@@ -4,8 +4,8 @@ import logging as log #this is used to print info to console for debugging purpo
 
 log.basicConfig(level=log.DEBUG)
 
-from expungeservice.RapSheetAnalyzer.analyze import *
-from expungeservice.RapSheetAnalyzer.ineligible_crimes_list import *
+from expungeservice.analyzer.analyze import *
+from expungeservice.analyzer.ineligible_crimes_list import *
 
 from tests.fixtures.john_doe import JohnDoe # this is the pre downloaded john doe record in HTML format
 from expungeservice.crawler.parsers.record_parser import RecordParser
