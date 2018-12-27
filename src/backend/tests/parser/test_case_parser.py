@@ -1,5 +1,6 @@
 import datetime
 import unittest
+from objbrowser import browse
 
 from expungeservice.crawler.parsers.case_parser import CaseParser
 from tests.fixtures.case_details import CaseDetails
