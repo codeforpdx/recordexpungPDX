@@ -18,6 +18,7 @@ pytest = "*"
 six = "*"
 PyQt5 = "*"
 objbrowser = "*"
+logging = "*"
 
 [dev-packages]
 

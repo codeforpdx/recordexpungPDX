@@ -39,7 +39,10 @@ MarijuanaIneligible = ['475B.349(3)(C)', '475B.359', '475B.367', '475B.371', '41
 #Combine all the lists #todo: someone probably knows a better way to do this
 IneligibleCrimesList = CrimesListA + CrimesListB + DrivingCrimes + MarijuanaIneligible
 
-print(IneligibleCrimesList)
+
+
+if __name__ == '__main__':
+    print(IneligibleCrimesList)
 
 
 

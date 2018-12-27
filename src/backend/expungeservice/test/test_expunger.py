@@ -37,3 +37,6 @@ def test_expunger_classes():
     ]
     cases = [Case(charges, CaseState.OPEN), 100.50]
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
+
+
+test_statute()
