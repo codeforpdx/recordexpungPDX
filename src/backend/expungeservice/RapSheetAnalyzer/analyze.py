@@ -1,10 +1,45 @@
 #!/usr/bin/env python3
 
-
+#note:  Sex crimes are defined as https://www.oregon.gov/osp/sor/pages/or_reg_sex_crimes.aspx
 
 
 import collections
 import enum
+from expungeservice.RapSheetAnalyzer.ineligible_crimes_list import IneligibleCrimesList
+
+from expungeservice.RapSheetAnalyzer.ineligible_crimes_list import IneligibleCrimesList
+
+
+# todo: write unit tests for this
+
+def is_crime_on_ineligible_list(statute):
+    """
+    Searches through list of discreet values and ranges
+    to determine if a given statute is on the list of ineligible crimes
+
+    Args:
+        statute  <---- a given statute number code
+
+    Returns:
+        True Or False
+
+    """
+
+    statute = float(statute)
+
+    for item in IneligibleCrimesList:
+        if type(item) == list:
+            if statute >= float(item[0]) and statute <= float(item[1]):
+                return True
+        else:
+            if item == statute:
+                return True
+
+    return False
+
+
+
+
 
 class Level(object):
     """ Crime Level.
@@ -84,10 +119,11 @@ class Charge(object):
     def __init__(
             self,
             name,
-            statute,
-            level,
-            date,
-            disposition):
+            statute = None, #this comes from the detail page
+            level = None,
+            date = None, # #todo: is this redundant ?
+            disposition = None):
+
         self.name = name
         self.statute = statute
         self.level = level
@@ -96,9 +132,15 @@ class Charge(object):
 
 
 
-        #todo: add 'expungeable' property
+        self.type_eligible = False # this is going to be a bool that represents if this is expungable
+        self.time_eligible = False
 
+        #todo: add a method which checks this charge's statute against list A and List B
         #todo: add expungable now t/f
+
+    # def type_eligible(self):
+    #     if self.statute
+
 
 CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
 
@@ -106,12 +148,24 @@ class Case(object):
     """ Case associated with a Client.
 
     Attributes:
+
+        #todo: update this list
+
         charges: A list of Charge(s).
         state: A CaseState enum.
         balance_due: A float that tells how much money is owed to the court.
     """
-    def __init__(self, charges, state, balance_due=0.0):
+    def __init__(self, case_number, citation_number, date, location, violation_type, current_status, charges, case_detail_link, state, balance_due):
+        self.case_number = case_number
+        self.citation_number = citation_number[0] if citation_number else ""
+        self.date = date
+        self.location = location
+
+        self.violation_type = violation_type
+        self.current_status = current_status
+
         self.charges = charges
+        self.case_detail_link = case_detail_link
         self.state = state
         self.balance_due = balance_due
 

@@ -1,6 +1,6 @@
 import datetime
 
-from expungeservice.expunger import *
+from expungeservice.RapSheetAnalyzer import *
 
 
 def test_statute():
