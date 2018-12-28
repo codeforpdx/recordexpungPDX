@@ -3,7 +3,7 @@
 
 # I am fairly certain that section and subsection are irrelevant to the analyzers logic
 #todo: find out if section and subsection are relevant
-
+from expungeservice.analyzer.ineligible_crimes_list import IneligibleCrimesList
 
 class Statute(object):
     """ Statute corresponding to a law
@@ -26,7 +26,7 @@ class Statute(object):
         self.section = section
         self.subsection = subsection
 
-        if len(statute_string)>=6:
+        if len(statute_string)>=6: #todo: this is wrong but will kinda work for everything on our list except marijuana crimes.
 
             statute_string = statute_string.lower() #convert to lowercase
 
@@ -40,10 +40,40 @@ class Statute(object):
 
             self.statute_string = self.chapter + '.' + self.subchapter
 
-
-
     def __str__(self):
         return str(self.statute_string)
+
+
+
+    def type_elegible_for_expungement(self): #this method iterates through the ineligeble list and searches for the statute specified #todo: this probably needs to be done in the charge class
+
+        #todo: add check for felony A or B
+
+        print("analyzing: " + self.statute_string)
+
+        for item in IneligibleCrimesList:
+
+            if len(item) == 2: # if this is a range of values
+
+                lower_chapter = item[0][0:3]
+                lower_subchapter = item[0][4:7]
+
+                upper_chapter = item[1][0:3]
+                upper_subchapter = item[1][4:7]
+
+                if self.chapter <= upper_chapter and self.chapter >= lower_chapter:
+                    if self.subchapter <= upper_subchapter and self.subchapter >= lower_subchapter:
+
+                        print("FALSE" + str(item))
+                        return [False, item] #return false and the reason why its false
+
+            else: # this is a discrete value
+                if item == self.statute_string:
+                    print('FALSE ' + item)
+                    return [False, item]
+
+        print(self.statute_string + " TRUE !!!!")
+        return True
 
 
     # Commented this out until we comlplete the parser logic for these
@@ -61,6 +91,9 @@ class Statute(object):
 
 
 if __name__ == '__main__':
+
+    #some testing stuff
+
     list = ['803455',
             '483050',
             '163.175',
@@ -106,6 +139,7 @@ if __name__ == '__main__':
 
     for item in list:
         newStatute = Statute(item)
+        newStatute.type_elegible_for_expungement()
 
 
     exit()

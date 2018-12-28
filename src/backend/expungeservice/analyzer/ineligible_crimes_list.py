@@ -34,7 +34,7 @@ CrimesListB = ['163.200',  # Criminal Mistreatment in the Second Degree: '163.20
 DrivingCrimes = ['801.000', '825.999']
 
 #some marijuana crimes are ineligible for expungment, note: these are NOT a range but rather they are discreet values
-MarijuanaIneligible = ['475B.349(3)(C)', '475B.359', '475B.367', '475B.371', '419A.265', '167.262']
+MarijuanaIneligible = ['475B.349(3)(C)', '475B.359', '475B.367', '475B.371', '419A.265', '167.262'] #475B.349(3)(C) unlawful manufacture of cannabinoid extract
 
 #Combine all the lists #todo: someone probably knows a better way to do this
 IneligibleCrimesList = CrimesListA + CrimesListB + DrivingCrimes + MarijuanaIneligible
