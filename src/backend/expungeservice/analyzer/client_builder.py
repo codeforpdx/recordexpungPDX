@@ -92,8 +92,6 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 if __name__ == '__main__':
     print("analyzer prototype")
 
-
-
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'
     client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)
     browse(client)

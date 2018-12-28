@@ -2,7 +2,7 @@ from html.parser import HTMLParser
 
 from expungeservice.models.case import Case
 
-UsingLocallyStoredCaseData=True
+UsingLocallyStoredCaseData=True #todo: fix this
 
 class RecordParser(HTMLParser):
     BASE_URI = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
