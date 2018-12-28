@@ -11,6 +11,7 @@ from expungeservice.analyzer.ineligible_crimes_list import IneligibleCrimesList
 
 # todo: write unit tests for this
 
+
 def is_crime_on_ineligible_list(statute):
     """
     Searches through list of discreet values and ranges

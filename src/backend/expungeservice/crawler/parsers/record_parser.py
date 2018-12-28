@@ -2,6 +2,8 @@ from html.parser import HTMLParser
 
 from expungeservice.models.case import Case
 
+UsingLocallyStoredCaseData = True
+
 
 class RecordParser(HTMLParser):
     BASE_URI = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
@@ -70,7 +72,6 @@ class RecordParser(HTMLParser):
         self.type_status.append(data)
 
     def _set_charges(self, data):
-        #todo: maybe this is where we need to fetch the detail page and parse out info such as statute numbers
         self.charges.append(data)
 
     def __record_case(self):
@@ -103,7 +104,10 @@ class RecordParser(HTMLParser):
 
     def __assign_case_link(self, tag, attrs):
         if tag == 'a' and self.collect_data:
-            self.case_detail_link = self.BASE_URI + dict(attrs)['href']
+            if not UsingLocallyStoredCaseData:
+                self.case_detail_link = self.BASE_URI + dict(attrs)['href']
+            else:
+                self.case_detail_link = dict(attrs)['href']
 
     def __set_flags(self, tag):
         if self.__nested_table_row(tag):

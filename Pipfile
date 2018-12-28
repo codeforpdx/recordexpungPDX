@@ -20,6 +20,10 @@ PyQt5 = "*"
 objbrowser = "*"
 logging = "*"
 
+#for the website crawler
+requests = "*"
+lxml = "*"
+
 [dev-packages]
 
 [requires]
