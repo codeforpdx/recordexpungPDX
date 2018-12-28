@@ -38,7 +38,7 @@ class Statute(object):
             self.chapter = statute_string[0:3]
             self.subchapter = statute_string[3:7]
 
-            print(self.chapter + '.' + self.subchapter + ' ass')
+            self.statute_string = self.chapter + '.' + self.subchapter
 
 
 

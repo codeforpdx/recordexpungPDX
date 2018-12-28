@@ -1,4 +1,4 @@
-import datetime
+"""import datetime
 
 from expungeservice.analyzer import *
 
@@ -40,3 +40,4 @@ def test_expunger_classes():
 
 
 test_statute()
+"""

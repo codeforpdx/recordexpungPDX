@@ -2,8 +2,7 @@ from html.parser import HTMLParser
 
 from expungeservice.models.case import Case
 
-UsingLocallyStoredCaseData = True
-
+UsingLocallyStoredCaseData=True
 
 class RecordParser(HTMLParser):
     BASE_URI = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
@@ -15,12 +14,12 @@ class RecordParser(HTMLParser):
         self.within_tr_tag = False
         self.within_nested_tr = False
         self.collect_data = False
-        self.case_number = ''      # column 1
+        self.case_number = ''  # column 1
         self.citation_number = []  # column 2
-        self.info = []             # column 3
-        self.date_location = []    # column 4
-        self.type_status = []      # column 5
-        self.charges = []          # column 6+
+        self.info = []  # column 3
+        self.date_location = []  # column 4
+        self.type_status = []  # column 5
+        self.charges = []  # column 6+
         self.case_detail_link = ''
 
     def handle_starttag(self, tag, attrs):
@@ -76,15 +75,15 @@ class RecordParser(HTMLParser):
 
     def __record_case(self):
         self.cases.append(Case(self.info, self.case_number, self.citation_number, self.date_location,
-                                    self.type_status, self.charges, self.case_detail_link))
+                               self.type_status, self.charges, self.case_detail_link))
 
     def __reset_case(self):
-        self.case_number = ''      # column 1
+        self.case_number = ''  # column 1
         self.citation_number = []  # column 2
-        self.info = []             # column 3
-        self.date_location = []    # column 4
-        self.type_status = []      # column 5
-        self.charges = []          # column 6+
+        self.info = []  # column 3
+        self.date_location = []  # column 4
+        self.type_status = []  # column 5
+        self.charges = []  # column 6+
         self.case_detail_link = ''
 
     def __valid_row(self):

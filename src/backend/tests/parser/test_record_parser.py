@@ -22,7 +22,7 @@ class TestRecordParser(unittest.TestCase):
     def test_it_assigns_case_info(self):
         for case in self.parser.cases:
             assert case.name == "Doe, John D"
-            assert case.birth_year == 1943
+            assert case.birth_year == "1943"
 
     def test_it_assigns_case_number(self):
         assert self.parser.cases[0].case_number == "X0001"
@@ -30,6 +30,8 @@ class TestRecordParser(unittest.TestCase):
         assert self.parser.cases[2].case_number == "X0003"
 
     def test_it_assigns_link_to_case(self):
+        print(self.parser.cases[0].case_detail_link)
+        print(self.base_uri + "X0001")
         assert self.parser.cases[0].case_detail_link == self.base_uri + "X0001"
         assert self.parser.cases[1].case_detail_link == self.base_uri + "X0002"
         assert self.parser.cases[2].case_detail_link == self.base_uri + "X0003"
