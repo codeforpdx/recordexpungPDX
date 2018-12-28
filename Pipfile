@@ -18,7 +18,6 @@ pytest = "*"
 six = "*"
 PyQt5 = "*"
 objbrowser = "*"
-logging = "*"
 
 #for the website crawler
 requests = "*"
