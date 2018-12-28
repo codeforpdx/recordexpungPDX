@@ -5,9 +5,12 @@ from objbrowser import browse #import the object browser ui
 
 from expungeservice.models.client import Client
 from expungeservice.models.charge import Charge
+from expungeservice.models.statute import Statute
 
 from tests.fixtures.ward_weaver import WardWeaver
 from tests.fixtures.bill_sizemore import BillSizemore
+
+import os
 
 
 """this is only used when loading locally stored html files"""
@@ -55,7 +58,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
     for case in ClientCases:
 
-        print("Downloading case: " + case.case_number + " " + PathToExampleHTMLFiles + case.case_detail_link)
+        #print("Downloading case: " + case.case_number + " " + PathToExampleHTMLFiles + case.case_detail_link)
 
         # set up case parser
         caseparser = CaseParser()
@@ -72,7 +75,10 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
             else:
                 ruling = ''
 
-            newCharge = Charge(contents['name'], contents['statute'], contents['level'], contents['date'], ruling)  #create charge object with the full details
+
+            newStatute = Statute(contents['statute'])
+
+            newCharge = Charge(contents['name'], newStatute, contents['level'], contents['date'], ruling)  #create charge object with the full details
 
             ChargeList.append(newCharge)
 
@@ -85,6 +91,8 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
 if __name__ == '__main__':
     print("analyzer prototype")
+
+
 
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'
     client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)
