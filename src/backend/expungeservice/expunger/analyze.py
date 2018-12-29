@@ -63,6 +63,14 @@ class Statute(object):
         self.subsection = subsection
         # TODO we may need to add components beyond subsection
 
+    def __eq__(self, other):
+        return (self.chapter == other.chapter and
+                self.subchapter == other.subchapter and
+                ((not self.section and not other.section) or
+                 self.section == other.section) and
+                ((not self.subsection and not other.subsection) or
+                 self.subsection == other.subsection))
+
     def __str__(self):
         # TODO do these need to have leading zeros?
         statute = '{}'.format(self.chapter)

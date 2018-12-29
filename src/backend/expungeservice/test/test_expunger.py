@@ -1,4 +1,5 @@
 import datetime
+import copy
 
 from expungeservice.expunger import *
 
@@ -10,13 +11,23 @@ def test_statute():
     ]
     for t in tests:
         if len(t[0]) == 4:
-            assert(str(Statute(t[0][0], t[0][1], t[0][2], t[0][3])) == t[1])
+            s1 = Statute(t[0][0], t[0][1], t[0][2], t[0][3])
+            s2 = copy.deepcopy(s1)
+            assert(s1 == s2)
+            assert(str(s1) == t[1])
         elif len(t[0]) == 3:
-            assert(str(Statute(t[0][0], t[0][1], t[0][2])) == t[1])
+            s1 = Statute(t[0][0], t[0][1], t[0][2]) 
+            s2 = copy.deepcopy(s1)
+            assert(s1 == s2)
+            assert(str(s1) == t[1])
         elif len(t[0]) == 2:
-            assert(str(Statute(t[0][0], t[0][1])) == t[1])
+            s1 = Statute(t[0][0], t[0][1]) 
+            s2 = copy.deepcopy(s1)
+            assert(s1 == s2)
+            assert(str(s1) == t[1])
         else:
             assert(0)
+
 
 def get_disp():
     date = datetime.date(1996, 1, 1)
