@@ -34,6 +34,7 @@ def get_disp():
     date = datetime.date(1996, 1, 1)
     disp_type = DispositionType.NO_CONVICTION
     return Disposition(disp_type, date)
+
 def get_convicted_disp():
     return Disposition(DispositionType.CONVICTED, datetime.date(1996, 1, 1))
 
@@ -47,7 +48,9 @@ def get_charge_crime_level(type_, class_):
     statute = get_dummy_statute()
     level = CrimeLevel(type_, class_)
     return Charge('%s %s charge' % (type_, class_), statute, level,
-                  datetime.date(1995, 1, 1), disp)
+                  datetime.date(1995, 1, 1), disp
+
+
 
 """
 This mainly tests if we're able to construct the objects.
@@ -90,4 +93,3 @@ class TestExpunger(unittest.TestCase):
 
 
 test_statute()
-"""
