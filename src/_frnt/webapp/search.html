@@ -44,232 +44,187 @@
     <div class="bg-light-gray mv4 pa4 br3 fw6">No search results found :(</div>
   </section>
 
-  <section class="cf pt2 bg-white shadow br3 br--top">
-    <div class="overflow-auto">
-      <div class="flex-ns justify-between pt2 pb3 ph3">
-        <h1 class="gray dib pv2">3 results for John Doe</h1>
-        <button class="db br2 bg-near-white black-60 pa2 f6">Export Excel</button>
-      </div>
-      <table class="collapse w-100 mw8 center bg-white" cellspacing="0">
-        <thead>
-          <tr class="bt b--black-10 dn dt-row-l">
-            <th class="w-20 fw6 tl pa3">Result</th>
-            <th class="w-5 fw6 tl pa3">Case</th>
-            <th class="w-10 fw6 tl pa3">Date</th>
-            <th class="w-25 fw6 tl pa3">Charge</th>
-            <th class="w-25 fw6 tl pa3">Disposition</th>
-            <th class="w-10 fw6 tl pa3">Balance</th>
-            <th class="w-5 fw6 tl pa3">Details</th>
-          </tr>
-        </thead>
-        <tbody class="lh-copy v-top">
-          <!-- Exungeable case - "Details" are not expanded by default -->
-          <tr class="bt b--black-10 db dt-row-l td-result--expungeable">
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <div class="fw8">Expungeable</div>
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Case:</span> 16CR00042
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Date:</span> 01-03-02
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Charge:</span> Offense Misdemeanor
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Disposition:</span> Diversion/Deferred Prosecution
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Balance:</span> –
-            </td>
-            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
-              <button class="pv1 ph3 br3 bg-near-white black-60">
-                <span class="fw6 dn-l">Details</span>
-                <i class="fas fa-angle-down"></i>
-              </button>
-            </td>
-          </tr>
-          <tr class="dn td-result--expungeable-light">
-            <td colspan="6" class="pr3 pb3 pl3">
-              <div class="pb2 fw7">Expungement rule details</div>
-              <ul>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Rule name:</span> Rule result passed
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Rule name:</span> Rule result passed
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <!-- Exungeable case with "Details" expanded -->
-          <tr class="bt b--black-10 db dt-row-l td-result--expungeable">
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <div class="fw8">Expungeable</div>
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Case:</span> 16CR00048
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Date:</span> 12-03-04
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Charge:</span> Offense Felony
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Disposition:</span> Dismissed
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Balance:</span> –
-            </td>
-            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
-              <button class="pv1 ph3 br3 bg-near-white black-60">
-                <span class="fw6 dn-l">Details</span>
-                <i class="fas fa-angle-down"></i>
-              </button>
-            </td>
-          </tr>
-          <tr class="td-result--expungeable-light">
-            <td colspan="6" class="pr3 pb3 pl3">
-              <div class="pb2 fw7">Expungement rule details</div>
-              <ul>
-                <li class="pb2">
-                  <i class="fas fa-check-circle green"></i>
-                  <span class="fw6">Ten year rule:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle green"></i>
-                  <span class="fw6">MRD from last 3 years:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle green"></i>
-                  <span class="fw6">A Felony:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Sex crime or crime listed in List A:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Traffic crime (800 level):</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">List B:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-arrow-circle-down pr1"></i>
-                  <span class="fw6">PCS in Schedule I:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Non-trafic violation:</span> Yes
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <!-- Needs review case with "Details" expanded-->
-          <tr class="bt b--black-10 db dt-row-l td-result--needs-review">
-            <td class="pv1 ph3 db pa3-l dtc-l">
-              <div class="fw8">Needs Review</div>
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Case:</span> 16CR00059
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Date:</span> 01-03-05
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Charge:</span> Reckless Driving
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Disposition:</span> Pending
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Balance:</span> –
-            </td>
-            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
-              <button class="pv1 ph3 br3 bg-near-white black-60">
-                <span class="fw6 dn-l">Details</span>
-                <i class="fas fa-angle-down"></i>
-              </button>
-            </td>
-          </tr>
-          <tr class="td-result--needs-review-light">
-            <td colspan="6" class="pr3 pb3 pl3">
-              <div class="pb2 fw7">Expungement rule details</div>
-              <ul>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Ten year rule:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">MRD from last 3 years:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">A Felony:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Sex crime or crime listed in List A:</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-check-circle pr1 green"></i>
-                  <span class="fw6">Traffic crime (800 level):</span> No
-                </li>
-                <li class="pb2">
-                  <i class="fas fa-question-circle pr1 yellow"></i>
-                  <span class="fw6">List B:</span> Yes
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <!-- Not exungeable case with "Details" expanded -->
-          <tr class="bt b--black-10 db dt-row-l td-result--not-expungeable">
-            <td class="pv1 ph3 db pa3-l dtc-l">
-              <div class="fw8">Not Expungeable</div>
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Case:</span> 26CR00061
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Date:</span> 01-03-14
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Charge:</span> Reckless Driving
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l">
-              <span class="fw6 dn-l">Disposition:</span> Pending
-            </td>
-            <td class="pa1 ph3 db pa3-l dtc-l nowrap">
-              <span class="fw6 dn-l">Balance:</span> $2,000.00
-            </td>
-            <td class="pa1 ph3 pb3 db pa3-l dtc-l">
-              <button class="pv1 ph3 br3 bg-near-white black-60">
-                <span class="fw6 dn-l">Details</span>
-                <i class="fas fa-angle-down"></i>
-              </button>
-            </td>
-          </tr>
-          <tr class="td-result--not-expungeable-light">
-            <td colspan="6" class="pr3 pb3 pl3">
-              <div class="pb2 fw7">Expungement rule details</div>
-              <ul>
-                <li class="pb2">
-                  <i class="fas fa-times-circle pr1 red"></i>
-                  <span class="fw6">Ten year rule:</span> Yes
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <section class="bg-white shadow br3 br--top">
+    <div class="pa3">
+      <h1 class="gray pv2">Results for {firstname lastname}</h1>
     </div>
+
+    <div class="flex-l bt b--light-gray record--eligible">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible now -->
+          <span class="fw6 green bg-washed-green br-pill pv2 ph3">Eligible now</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> Eligible now</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> Eligible {section}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <!-- IF not convicted -->
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex-l bt b--light-gray record--future">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible in future -->
+          <span class="fw6 blue bg-washed-blue br-pill pv2 ph3">Eligible {mm/dd/yyyy}</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> 10 years from most recent conviction</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> Eligible {section}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex-l bt b--light-gray record--review">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible in future, but needs review -->
+          <span class="fw6 purple bg-washed-purple br-pill pv2 ph3 nowrap">Eligible {mm/dd/yyyy} (review)</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> {time rule}</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-question-circle purple"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> {review reason}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- IF ineligible -->
+    <div class="flex-l bt b--light-gray record--ineligible">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF ineligible -->
+          <span class="fw6 red bg-washed-red br-pill pv2 ph3">Ineligible</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> {time rule}</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type ineligible -->
+          <i class="absolute fas fa-times-circle red"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> {review reason}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>2359924B - Ineligible type
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt5 mb5 mw6 lh-copy">
+    <h1 class="fw6 mb3">Other requirements:</h1>
+    <ul>
+      <li class="mb3">For convictions, you must have completed all of the requirements imposed upon you by the court and completed your term of probation.</li>
+      <li class="mb3">Outstanding balances will be manually reviewed.</li>
+    </ul>
   </section>
 
 </main>
