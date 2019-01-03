@@ -1,37 +1,35 @@
-$gray-blue: #FAFAFE; // lighter and more blue than stock
-$green: #19A974; // stock
-$light-green: #97d6bf; // desaturate
-$washed-green: #EFF9F6; // stock is too dark
-$yellow: #FFC141; // stock is too light
-$light-yellow: #ffe4ab; // match yellow
-$red: #A0004B; // stock is too light & saturated
-$light-red: #c5759b; // match red
-$washed-red: #FFDFDF; // stock
+$gray-blue: #FAFAFE;
+$green: #007B4B;
+$washed-green: #E5F1ED;
+$blue: #00449E;
+$washed-blue: #E0E7F0;
+$purple: #9619FF;
+$washed-purple: #EFE3FA;
+$red: #A0004B;
+$washed-red: #F0E0E8;
 
 // Won't need these if Tachyons variables are overwriten in colors config
-.bg-washed-green {
-  background-color: $washed-green;
-}
-.yellow {
-  color: $yellow;
-}
-.red {
-  color: $red;
-}
+.green { color:$green }
+.washed-green { color:$washed-green }
+.bg-washed-green { background-color:$washed-green }
+
+.blue { color:$blue }
+.washed-blue { color:$washed-blue }
+.bg-washed-blue { background-color:$washed-blue }
+
+.purple { color:$purple }
+.washed-purple { color:$washed-purple }
+.bg-washed-purple { background-color:$washed-purple }
+
+.red { color:$red }
+.washed-red { color:$washed-red }
+.bg-washed-red { background-color:$washed-red }
+
+.bg-gray-blue { background-color: $gray-blue; }
 
 // stock shadow too dark
 .shadow {
   box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
-}
-
-.bg-gray-blue {
-  background-color: $gray-blue;
-}
-
-.logo {
-  width: 31px;
-  position: relative;
-  top: 6px;
 }
 
 .btn--search {
@@ -78,127 +76,17 @@ $washed-red: #FFDFDF; // stock
   }
 }
 
-.td-result--expungeable {
-  box-shadow: inset 6px 0 0 $green;
-}
-.td-result--expungeable-light {
-  box-shadow: inset 6px 0 0 $light-green;
-}
-.td-result--needs-review {
-  box-shadow: inset 6px 0 0 $yellow;
-}
-.td-result--needs-review-light {
-  box-shadow: inset 6px 0 0 $light-yellow;
-}
-.td-result--not-expungeable {
-  box-shadow: inset 6px 0 0 $red;
-}
-.td-result--not-expungeable-light {
-  box-shadow: inset 6px 0 0 $light-red;
-}
+// Search results
 
-// Change the breakpoint "ns" variable to be wider?
-
-/*
- * Fix
- * Version 0.1.1
- * https://github.com/jaydenseric/Fix
-*/
-
-*, *:before, *:after {
-  box-sizing: border-box;
+.record--eligible {
+  box-shadow: inset 10px 0 0 $washed-green;
 }
-
-html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent;
+.record--future {
+  box-shadow: inset 10px 0 0 $washed-blue;
 }
-body {
-  margin: 0;
-  line-height: 1;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+.record--review {
+  box-shadow: inset 10px 0 0 $washed-purple;
 }
-iframe {
-  border: 0;
-}
-main {
-  display: block;
-}
-ul,
-ol {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-left: 0;
-}
-li {
-  display: block;
-}
-dl {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-dd {
-  margin-left: 0;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: inherit;
-  font-weight: inherit; /* added */
-}
-blockquote {
-  margin: 0;
-  padding: 0;
-}
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-sup {
-  position: relative;
-  top: -.5em;
-  vertical-align: baseline;
-  font-size: 75%;
-  line-height: 0;
-}
-strong {
-  font-weight: bold;
-}
-figure {
-  margin: 0;
-}
-img {
-  border: 0;
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
-button {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  text-align: inherit;
-  text-transform: inherit;
-  font: inherit;
-  -webkit-font-smoothing: inherit;
-  letter-spacing: inherit;
-  background: none;
-  cursor: pointer;
-  overflow: visible;
-}
-::-moz-focus-inner {
-  border: 0;
-  padding: 0;
+.record--ineligible {
+  box-shadow: inset 10px 0 0 $washed-red;
 }
