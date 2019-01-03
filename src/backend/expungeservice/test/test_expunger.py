@@ -2,7 +2,16 @@ import datetime
 import copy
 import unittest
 
-from expungeservice.expunger import *
+
+from expungeservice.models.client import *
+from expungeservice.models.statute import *
+from expungeservice.models.disposition import *
+from expungeservice.models.case import *
+from expungeservice.models.charge import *
+from expungeservice.models.crime_level import *
+
+from expungeservice.expunger.analyze import *
+
 
 def test_statute():
     tests = [
@@ -42,14 +51,12 @@ def get_dummy_statute():
     return Statute(113, 45, 5, 'd')
 
 
-#todo: add assertions to this
 def get_charge_crime_level(type_, class_):
     disp = get_convicted_disp()
     statute = get_dummy_statute()
     level = CrimeLevel(type_, class_)
     return Charge('%s %s charge' % (type_, class_), statute, level,
-                  datetime.date(1995, 1, 1), disp
-
+                  datetime.date(1995, 1, 1), disp)
 
 
 """
@@ -92,4 +99,7 @@ class TestExpunger(unittest.TestCase):
         assert(result.code == ResultCode.OPEN_CASE)
 
 
-test_statute()
+#test_statute()
+
+test_expunger_classes()
+

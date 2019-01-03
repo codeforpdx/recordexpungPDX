@@ -1,9 +1,11 @@
 from datetime import datetime
 import enum
 
+CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
+
 class Case:
 
-    def __init__(self, info, case_number, citation_number, date_location, type_status, charges, case_detail_link):
+    def __init__(self, info, case_number, citation_number, date_location, type_status, charges, case_detail_link, state=None, balance_due=0.0):
         self.name, birth_year = info
         self.birth_year = birth_year
         self.case_number = case_number
@@ -14,12 +16,21 @@ class Case:
         self.violation_type, self.current_status = type_status
         self.charges = charges
         self.case_detail_link = case_detail_link
+        self.state = state
+
+        self.balance_due = balance_due
 
     def setCharges(self, charges): #this function exists to update the charges with more details
         self.charges = charges
 
+    def num_charges(self):
+         return len(self.charges)
 
-# CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
+    def set_state(self, state): #todo: less ambiguous name
+        self.state = state
+
+
+
 #
 # class Case(object):
 #     """ Case associated with a Client.
@@ -45,3 +56,22 @@ class Case:
 #         self.case_detail_link = case_detail_link
 #         self.state = state
 #         self.balance_due = balance_due
+
+
+# CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
+#
+# class Case(object):
+#     """ Case associated with a Client.
+#
+#     Attributes:
+#         charges: A list of Charge(s).
+#         state: A CaseState enum.
+#         balance_due: A float that tells how much money is owed to the court.
+#     """
+#     def __init__(self, charges, state, balance_due=0.0):
+#         self.charges = charges
+#         self.state = state
+#         self.balance_due = balance_due
+#
+#     def num_charges(self):
+#         return len(self.charges)

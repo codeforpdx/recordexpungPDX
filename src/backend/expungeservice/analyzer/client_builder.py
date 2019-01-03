@@ -75,12 +75,14 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
             else:
                 ruling = ''
 
-
             newStatute = Statute(contents['statute'])
+            newLevel = CrimeLevel(contents['level']) #todo: level sometimes returns NONE
 
-            newCharge = Charge(contents['name'], newStatute, contents['level'], contents['date'], ruling)  #create charge object with the full details
+            newCharge = Charge(contents['name'], newStatute, newLevel, contents['date'], ruling)  #create charge object with the full details
 
             ChargeList.append(newCharge)
+
+        case.set_state(case.current_status.upper()) #todo: move this into the parser
 
         case.setCharges(ChargeList) #update charge object with completed list of charges from detail parser
         updatedCaseList.append(case)
@@ -90,14 +92,31 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
 
 if __name__ == '__main__':
+
+
+
     print("analyzer prototype")
 
-    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'
-    client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)
-    browse(client)
 
-    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
-    client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
-    browse(client)
+    from expungeservice.expunger.analyze import *
+
+
+    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'  #load ward weaver record
+    client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object
+
+
+    browse(client)                                                                                                         # use object browser to visually inspect completeness of object
+
+    analyzer = RecordAnalyzer(client)                                                                                       # create an analyzer object with our client object
+
+    print(analyzer.analyze())
+
+
+
+
+
+    # PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
+    # client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
+    # browse(client)
 
 
