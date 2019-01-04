@@ -94,48 +94,21 @@ class RecordAnalyzer(object):
     def __init__(self, client):
         self.client = client
 
-    def _is_charge_level(charge, type_, class_):
-        check = 'Is the charge a {}'.format(type_)
-        if class_:
-            check += ' class {}'.format(class_)
-
-        result = (charge.level.type_ ==  type_ and
-                  (not class_ or charge.level.class_ == class_))
-
-        return CheckResult(check=check, result=result)
-
-    def _is_charge_statute(charge, statute):
-        check = 'Does the charge fall under statute: ' + str(statute)
-        return CheckResult(check=check, result=charge.statute == statute)
-
-    # def _is_charge_in_statute_list(charge, statutes, desc):
-    #     check = ('Does the charge fall under any of these statutes: ' +
-    #              ','.join(str(statute) for statute in statutes))
-    #     # TODO implement this
-    #     return CheckResult(check=check, result=False, check_desc=desc)
-
-    # def _is_charge_sex_crime(charge):
-    #     _statutes_sex_crimes = []
-    #     return
+    # def _is_charge_level(charge, type_, class_):
+    #     check = 'Is the charge a {}'.format(type_)
+    #     if class_:
+    #         check += ' class {}'.format(class_)
     #
-    # def _is_charge_traffic_crime(charge):
-    #     # TODO update
-    #     _statutes_traffic_crimes = []
-    #     return RecordAnalyzer._is_charge_in_statute_list(
-    #         charge, _statutes_traffic_crimes, 'Is the charge a traffic crime')
+    #     result = (charge.level.type_ ==  type_ and
+    #               (not class_ or charge.level.class_ == class_))
+    #
+    #     return CheckResult(check=check, result=result)
 
-    # def is_crime_on_list_B(charge):
-    #
-    #     logging.info("analyzing: " + charge.statute)
-    #
-    #     for item in CrimesListB:
-    #
-    #         if item == charge.statute:
-    #             return [True, item]
-    #
-    #     return False
+    # def _is_charge_statute(charge, statute):
+    #     check = 'Does the charge fall under statute: ' + str(statute)
+    #     return CheckResult(check=check, result=charge.statute == statute)
 
-    #todo: there is much duplication between the next three functions and everywhere cameron has been coding
+    #todo: there is LOTS of duplication between the next three functions and everywhere cameron has been coding
     #todo: maybe instead of searching for equivalent charge objects we should just refer to the original charge object's memory address or whatever that thing is like <expungeservice.models.charge.Charge object at 0x7f1c637d9b38>
 
 
@@ -328,24 +301,27 @@ class RecordAnalyzer(object):
         return False
 
     def is_crime_list_A(charge):
+        try:
+            for item in CrimesListA:
 
-        for item in CrimesListA:
+                if len(item) == 2 and isinstance(item, list):  # if this is a range of values
 
-            if len(item) == 2 and isinstance(item, list):  # if this is a range of values
+                    lower_chapter = int(item[0][0:3])
+                    lower_subchapter = int(item[0][4:7])
 
-                lower_chapter = int(item[0][0:3])
-                lower_subchapter = int(item[0][4:7])
+                    upper_chapter = int(item[1][0:3])
+                    upper_subchapter = int(item[1][4:7])
 
-                upper_chapter = int(item[1][0:3])
-                upper_subchapter = int(item[1][4:7])
+                    if charge.statute.chapter <= upper_chapter and charge.statute.chapter >= lower_chapter:
+                        if charge.statute.subchapter <= upper_subchapter and charge.statute.subchapter >= lower_subchapter:
 
-                if charge.statute.chapter <= upper_chapter and charge.statute.chapter >= lower_chapter:
-                    if charge.statute.subchapter <= upper_subchapter and charge.statute.subchapter >= lower_subchapter:
+                            logging.info(charge.statute.__str__() + " is on list A")
+                            return True  # return false and the reason why its false
+            return False
 
-                        logging.info(charge.statute.__str__() + " is on list A")
-                        return True  # return false and the reason why its false
+        except:
+            logging.warning("Error searching list A for statute: " + str(charge.statute.chapter) + "." + str(charge.statute.subchapter))
 
-        return False
 
     def is_crime_driving_crime(charge):
 
