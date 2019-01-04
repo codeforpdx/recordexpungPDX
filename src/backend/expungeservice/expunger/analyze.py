@@ -2,8 +2,6 @@
 
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
-
 from expungeservice.models.statute import Statute
 from expungeservice.models.case import *
 from expungeservice.models.charge import *
@@ -280,11 +278,12 @@ class RecordAnalyzer(object):
 
                 if charge.type_eligible == True and charge.time_eligible == True:
                     charge.eligible_now = True
+                    logging.info("eligible now <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
                 else:
                     charge.eligible_now = False
 
     """
-    these are helper functions for analyze
+    these are helper functions for type eligiblilty
     """
     def is_crime_list_B(charge):
 
