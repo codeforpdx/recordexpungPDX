@@ -96,17 +96,13 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
 if __name__ == '__main__':
 
-
-
     print("analyzer prototype")
-
 
     from expungeservice.expunger.analyze import *
 
     print("analyzing ward weaver")
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'  #load ward weaver record
     client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object
-
 
     #browse(client)                                                                                                         # use object browser to visually inspect completeness of object
 

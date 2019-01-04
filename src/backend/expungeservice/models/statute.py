@@ -7,9 +7,6 @@
 # the way i currently have this configured completely discards section and subsection
 #todo: find out if section and subsection are relevant
 
-from expungeservice.analyzer.ineligible_crimes_list import IneligibleCrimesList
-
-
 class Statute(object):
     """ Statute corresponding to a law
 
@@ -41,10 +38,10 @@ class Statute(object):
 
             statute_string = statute_string[0:6] #trim to only first 6
 
-            self.chapter = statute_string[0:3]
-            self.subchapter = statute_string[3:7]
+            self.chapter = int(statute_string[0:3])
+            self.subchapter = int(statute_string[3:7])
 
-            self.statute_string = self.chapter + '.' + self.subchapter
+            self.statute_string = str(self.chapter) + '.' +str(self.subchapter)
 
     # def __eq__(self, other):
     #     return (self.chapter == other.chapter and
@@ -84,7 +81,7 @@ class Statute(object):
     #     return statute
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': #todo: delete this
 
     #some testing stuff
 
