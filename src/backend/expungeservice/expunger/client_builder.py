@@ -1,6 +1,8 @@
 from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
 
+from expungeservice.expunger.client_builder import *
+
 from objbrowser import browse #import the object browser ui
 
 from expungeservice.models.client import Client
@@ -12,21 +14,10 @@ from expungeservice.models.crime_level import *
 from tests.fixtures.ward_weaver import WardWeaver
 from tests.fixtures.bill_sizemore import BillSizemore
 
-import datetime
+from expungeservice.expunger.helper_functions import file2string
 
-import os
 
 #todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
-
-
-"""this is only used when loading locally stored html files"""
-
-def file2string(location):
-    with open(location, 'r') as myfile:
-        filedata = myfile.read()
-
-    myfile.close()
-    return filedata
 
 
 
@@ -80,7 +71,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
             if len(caseparser.hashed_dispo_data) > 0: #aparently sometimes there is no dispo data
                 ruling = caseparser.hashed_dispo_data[charge]['ruling'] # pull the ruling from the dispo data                   warning: this assumes that the charges and their corresponding dispo data are always indexed in the same order
                 dispo_date = caseparser.hashed_dispo_data[charge]['date']
-                print(dispo_date)
+
                 newDisposition = Disposition(ruling.upper(), dispo_date)
             else:
                 newDisposition = Disposition(None)
@@ -109,9 +100,7 @@ if __name__ == '__main__':
 
     print("analyzing ward weaver")
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'  #load ward weaver record
-    client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object
-
-    #browse(client)                                                                                                         # use object browser to visually inspect completeness of object
+    client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object                                                                                                      # use object browser to visually inspect completeness of object
 
     analyzer = RecordAnalyzer(client)                                                                                       # create an analyzer object with our client object
 

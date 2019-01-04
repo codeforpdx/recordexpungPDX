@@ -3,6 +3,8 @@ import datetime
 def date2obj(input_date):
 
     """
+        Converts a date string into a date object
+
     Args:
         string: a string in date format mm/dd/yyyy
     Returns:
@@ -18,3 +20,14 @@ def date2obj(input_date):
         date_obj = datetime.date(year, month, day)
 
         return date_obj
+
+
+
+"""this is only used when loading locally stored html files"""
+
+def file2string(location):
+    with open(location, 'r') as myfile:
+        filedata = myfile.read()
+
+    myfile.close()
+    return filedata
