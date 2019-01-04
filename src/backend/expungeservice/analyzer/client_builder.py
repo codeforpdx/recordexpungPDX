@@ -6,6 +6,7 @@ from objbrowser import browse #import the object browser ui
 from expungeservice.models.client import Client
 from expungeservice.models.charge import Charge
 from expungeservice.models.statute import Statute
+from expungeservice.models.disposition import Disposition
 
 from tests.fixtures.ward_weaver import WardWeaver
 from tests.fixtures.bill_sizemore import BillSizemore
@@ -48,6 +49,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     # lookup clients record and parse it. (record parser)
     recordparser.feed(clientsRecordPageHTML)  # Feed our example rap sheet into the parser (client name john doe)
 
+    #browse(recordparser)
 
     ClientName = recordparser.cases[0].name
     ClientDOB = recordparser.cases[0].birth_year #todo: this is not correct, DOB must come from the front end?
@@ -72,13 +74,14 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
             if len(caseparser.hashed_dispo_data) > 0: #aparently sometimes there is no dispo data
                 ruling = caseparser.hashed_dispo_data[charge]['ruling'] # pull the ruling from the dispo data                   warning: this assumes that the charges and their corresponding dispo data are always indexed in the same order
+                newDisposition = Disposition(ruling.upper())
             else:
-                ruling = ''
+                newDisposition = Disposition(None)
 
             newStatute = Statute(contents['statute'])
             newLevel = CrimeLevel(contents['level']) #todo: level sometimes returns NONE
 
-            newCharge = Charge(contents['name'], newStatute, newLevel, contents['date'], ruling)  #create charge object with the full details
+            newCharge = Charge(contents['name'], newStatute, newLevel, contents['date'], newDisposition)  #create charge object with the full details
 
             ChargeList.append(newCharge)
 
@@ -100,23 +103,25 @@ if __name__ == '__main__':
 
     from expungeservice.expunger.analyze import *
 
-
+    print("analyzing ward weaver")
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'  #load ward weaver record
     client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object
 
 
-    browse(client)                                                                                                         # use object browser to visually inspect completeness of object
+    #browse(client)                                                                                                         # use object browser to visually inspect completeness of object
 
     analyzer = RecordAnalyzer(client)                                                                                       # create an analyzer object with our client object
 
     print(analyzer.analyze())
 
+    print("analyzing bill sizemore")
 
+    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
+    client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
 
+    analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
 
-
-    # PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
-    # client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
-    # browse(client)
+    print(analyzer.analyze())
+    browse(client)
 
 

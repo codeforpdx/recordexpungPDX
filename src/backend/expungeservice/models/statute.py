@@ -2,11 +2,12 @@
 
 
 # I am fairly certain that section and subsection are irrelevant to the analyzers logic
+
+# cameron - jan 3 2019
+# the way i currently have this configured completely discards section and subsection
 #todo: find out if section and subsection are relevant
+
 from expungeservice.analyzer.ineligible_crimes_list import IneligibleCrimesList
-
-
-
 
 
 class Statute(object):
@@ -31,7 +32,7 @@ class Statute(object):
         self.subsection = subsection
         # TODO we may need to add components beyond subsection
 
-        if len(statute_string)>=6: #todo: this is wrong but will kinda work for everything on our list except marijuana crimes.
+        if len(str(statute_string))>=6: #todo: this is wrong but will kinda work for everything on our list except marijuana crimes.
 
             statute_string = statute_string.lower() #convert to lowercase
 
@@ -45,16 +46,16 @@ class Statute(object):
 
             self.statute_string = self.chapter + '.' + self.subchapter
 
-    def __eq__(self, other):
-        return (self.chapter == other.chapter and
-                self.subchapter == other.subchapter and
-                ((not self.section and not other.section) or
-                 self.section == other.section) and
-                ((not self.subsection and not other.subsection) or
-                 self.subsection == other.subsection))
+    # def __eq__(self, other):
+    #     return (self.chapter == other.chapter and
+    #             self.subchapter == other.subchapter and
+    #             ((not self.section and not other.section) or
+    #              self.section == other.section) and
+    #             ((not self.subsection and not other.subsection) or
+    #              self.subsection == other.subsection))
 
     def __str__(self):
-        return str(self.statute_string)
+         return str(self.statute_string)
 
     # def __str__(self):
     #     # TODO do these need to have leading zeros?
@@ -67,37 +68,6 @@ class Statute(object):
     #         statute = '{}({})'.format(statute, self.subsection)
     #     return statute
 
-
-
-    def type_elegible_for_expungement(self): #this method iterates through the ineligeble list and searches for the statute specified #todo: this probably needs to be done in the charge class
-
-        #todo: add check for felony A or B
-
-        print("analyzing: " + self.statute_string)
-
-        for item in IneligibleCrimesList:
-
-            if len(item) == 2: # if this is a range of values
-
-                lower_chapter = item[0][0:3]
-                lower_subchapter = item[0][4:7]
-
-                upper_chapter = item[1][0:3]
-                upper_subchapter = item[1][4:7]
-
-                if self.chapter <= upper_chapter and self.chapter >= lower_chapter:
-                    if self.subchapter <= upper_subchapter and self.subchapter >= lower_subchapter:
-
-                        print("FALSE" + str(item))
-                        return [False, item] #return false and the reason why its false
-
-            else: # this is a discrete value
-                if item == self.statute_string:
-                    print('FALSE ' + item)
-                    return [False, item]
-
-        print(self.statute_string + " TRUE !!!!")
-        return True
 
 
     # Commented this out until we comlplete the parser logic for these
