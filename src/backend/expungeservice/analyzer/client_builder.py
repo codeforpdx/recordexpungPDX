@@ -13,6 +13,8 @@ from tests.fixtures.bill_sizemore import BillSizemore
 
 import os
 
+#todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
+
 
 """this is only used when loading locally stored html files"""
 

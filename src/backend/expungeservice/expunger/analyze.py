@@ -12,12 +12,20 @@ from expungeservice.models.charge import *
 from expungeservice.models.crime_level import *
 from expungeservice.analyzer.ineligible_crimes_list import *
 
+from objbrowser import browse #import the object browser ui
+
+from operator import attrgetter
+
 from datetime import datetime
 from datetime import timedelta
 
 
 import collections
 import enum
+
+
+
+#todo: i am not sure if im supposed to be using getters and setters for objects python lets me just set object values however i want but i should probably do that
 
 
 class ResultCode(enum.Enum):
@@ -127,6 +135,75 @@ class RecordAnalyzer(object):
     #
     #     return False
 
+    #todo: there is much duplication between the next three functions and everywhere cameron has been coding
+    #todo: maybe instead of searching for equivalent charge objects we should just refer to the original charge object's memory address or whatever that thing is like <expungeservice.models.charge.Charge object at 0x7f1c637d9b38>
+
+    #find most recent conviction
+
+    def get_all_charges_sorted_by_date(self):
+        chargelist = []
+
+        for case in self.client.cases:
+            for charge in case.charges:
+                if charge.disposition.type_ == "CONVICTED":
+                    chargelist.append(charge)
+
+        sorted_list = sorted(chargelist, key=attrgetter('charge_date')) # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
+        return sorted_list
+
+    def get_mrc(self):
+        """
+        Returns: Most Recently Convicted Charge Object #todo: get_mrc should eventually return case info too. which probably means the charge object needs to know its parent case object
+        """
+
+        return RecordAnalyzer.get_all_charges_sorted_by_date(self)[-1:][0]
+
+    def get_last_ten_years_of_convictions(self):
+        RecordAnalyzer.get_all_charges_sorted_by_date(self)
+
+    def is_mrc_time_eligible(self, mrc):
+
+
+
+
+    def is_charge_time_eligible(self, charge, mrc):
+
+        # calculate ten years from MRC
+        ten_years_from_mrc = mrc.charge_date + timedelta(days=(365 * 10))  # calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
+
+        if datetime.today() > ten_years_from_mrc:
+            logging.info(charge.name + " is time eligible since " + ten_years_from_mrc )
+            charge.time_eligible = True
+            charge.time_eligible_analysis = "Time eligible since " + str(ten_years_from_mrc)
+
+        if datetime.today() < ten_years_from_mrc:
+            logging.info(charge.name + " is not time eligible unitl " + ten_years_from_mrc)
+            charge.time_eligible = True
+            charge.time_eligible_analysis = "Ineligible under 137.225(7)(b). Time Eligiblity begins " + str(
+                ten_years_from_mrc)
+
+    def set_all_other_charges_to_ineligible_until(self, mrc):
+
+        #todo: maybe rewrite this to say more intelligent things like, time eligible since....
+
+        for case in self.client.cases:
+            for charge in case.charges:
+                if charge != mrc:
+                    RecordAnalyzer.is_charge_time_eligible(charge, mrc) #this function sets the appropriate properties automatically
+
+    def does_record_contain_conviction_from_last_ten_years(self):
+
+        for case in self.client.cases:
+            for charge in case.charges:
+                if charge.disposition.type_ == "CONVICTED":
+
+                    ten_years_ago = datetime.today() - timedelta(days=(365*10)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
+
+                    if ten_years_ago.date() < charge.charge_date:
+                        return True
+
+        return False
+
     def _have_open_case(self):
         check = 'Is there a open case for the client'
         result = any([case.state == CaseState.OPEN for case in self.client.cases])
@@ -144,11 +221,26 @@ class RecordAnalyzer(object):
     def time_eligibility(self):
         analysis = []
 
+
+        #check for any Open Cases
         analysis.append(self._have_open_case())
         if analysis[-1].result:
             return Result(ResultCode.OPEN_CASE, analysis)
 
-        # TODO implement the rest
+        #check for any charges in last ten years
+        if RecordAnalyzer.does_record_contain_conviction_from_last_ten_years(self):
+            return False
+
+        ass = RecordAnalyzer.get_mrc(self)
+
+        self.set_all_other_charges_to_ineligible_until(ass)
+
+        browse(self.client)
+
+
+
+
+
 
         return Result(ResultCode.NO_ACTION)
 
@@ -165,6 +257,11 @@ class RecordAnalyzer(object):
 
     def analyze(self): #todo: implement time eligibility and conform to the comment above
 
+        self.time_eligibility()
+
+        return None
+
+        #iterate through all cases and charges to check type eligibility
         for case in self.client.cases:
             for charge in case.charges:
 
@@ -172,17 +269,15 @@ class RecordAnalyzer(object):
                 logging.info("analyzing: " + charge.name + " " + charge.statute.__str__())
 
                 if charge.statute.chapter == None: #todo: throw errror
-                    logging.warn(charge.name)
-                    logging.warn("error")
+                    logging.warning(charge.name)
+                    logging.warning("error")
 
-                #check type eligibility
                 result = self.type_eligibility(charge)
 
                 if result[0] == True:
                     logging.info("Passed Type Eligibility tree: " + charge.name + " " + result[1])
                 else:
                     logging.info("failed Type Eligibility tree: " + charge.name + " " + result[1])
-
 
     """
     these are helper functions for analyze
