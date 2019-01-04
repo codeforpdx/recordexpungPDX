@@ -168,7 +168,12 @@ class RecordAnalyzer(object):
         for case in self.client.cases:
             for charge in case.charges:
 
-                logging.info("analyzing: " + charge.name + " " )
+                logging.info("***************************************************************")
+                logging.info("analyzing: " + charge.name + " " + charge.statute.__str__())
+
+                if charge.statute.chapter == None: #todo: throw errror
+                    print(charge.name)
+                    print("error")
 
                 #check type eligibility
                 result = self.type_eligibility(charge)
@@ -340,8 +345,6 @@ class RecordAnalyzer(object):
         # todo: convert the code i wrote below to return the kind of result shown above
 
         #type eligibility tree
-
-        logging.info('********************************************************************')
 
         if RecordAnalyzer.is_charge_felony_class_A(charge):
 
