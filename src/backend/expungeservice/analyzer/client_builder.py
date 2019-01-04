@@ -54,7 +54,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     #browse(recordparser)
 
     ClientName = recordparser.cases[0].name
-    ClientDOB = recordparser.cases[0].birth_year #todo: this is not correct, DOB must come from the front end?
+    ClientDOB = recordparser.cases[0].birth_year #todo: this is not correct, DOB must come from the front end? also DOB should be a datetime object
     ClientCases = recordparser.cases
 
     #fill in the missing details in the charge and statute objects with data from case detail page (case parser)
@@ -68,7 +68,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
         caseparser = CaseParser()
 
         caseRawData = file2string(PathToExampleHTMLFiles + case.case_detail_link)
-        caseparser.feed(caseRawData) #todo: iterator goes here
+        caseparser.feed(caseRawData)
 
         ChargeList = [] #initialize empty list of charges
 
@@ -112,6 +112,8 @@ if __name__ == '__main__':
 
     print(analyzer.analyze())
 
+    browse(client)
+
     print("analyzing bill sizemore")
 
     PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
@@ -120,6 +122,6 @@ if __name__ == '__main__':
     analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
 
     print(analyzer.analyze())
-    #browse(client)
+    browse(client)
 
 

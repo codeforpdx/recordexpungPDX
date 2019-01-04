@@ -32,6 +32,9 @@ class Charge(object):
         self.time_eligible = False
         self.time_eligible_analysis = ''
 
+        self.eligible_now = ''
+        self.eligible_when = ''
+
         self.analysis = analysis
 
         #parse date into proper datetime object

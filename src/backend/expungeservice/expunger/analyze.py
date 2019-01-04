@@ -138,7 +138,6 @@ class RecordAnalyzer(object):
     #todo: there is much duplication between the next three functions and everywhere cameron has been coding
     #todo: maybe instead of searching for equivalent charge objects we should just refer to the original charge object's memory address or whatever that thing is like <expungeservice.models.charge.Charge object at 0x7f1c637d9b38>
 
-    #find most recent conviction
 
     def get_all_charges_sorted_by_date(self):
         chargelist = []
@@ -152,18 +151,50 @@ class RecordAnalyzer(object):
         return sorted_list
 
     def get_mrc(self):
-        """
-        Returns: Most Recently Convicted Charge Object #todo: get_mrc should eventually return case info too. which probably means the charge object needs to know its parent case object
-        """
-
         return RecordAnalyzer.get_all_charges_sorted_by_date(self)[-1:][0]
 
-    def get_last_ten_years_of_convictions(self):
-        RecordAnalyzer.get_all_charges_sorted_by_date(self)
+    def is_charge_from_last_3_years(self, charge):
+        three_years_ago_from_today = datetime.today() - timedelta(days=(365 * 3))  # calculate time delta for twenty years ago
+
+        if charge.charge_date > three_years_ago_from_today:
+            return True
+
+    def get_last_ten_years_of_convictions(self, mrc):
+
+        ten_years_ago_from_today = datetime.today() - timedelta(days=(365 * 10))  # calculate time delta for ten years ago #todo: calculate if this is accurate to within +-1 day
+        sorted_list = RecordAnalyzer.get_all_charges_sorted_by_date(self)
+
+        last_ten_years_of_convictions_minus_mrc = []
+
+        for charge in sorted_list:
+            if charge != mrc:
+                if charge.charge_date > ten_years_ago_from_today: #todo: is this right?
+                    last_ten_years_of_convictions_minus_mrc.append(charge)
+
+        return last_ten_years_of_convictions_minus_mrc
+
 
     def is_mrc_time_eligible(self, mrc):
 
+        any_other_convictions_from_last_ten_years = RecordAnalyzer.get_last_ten_years_of_convictions(self, mrc)
 
+        if len(any_other_convictions_from_last_ten_years) > 0:
+            ten_years_from_disposition = mrc.charge_date + timedelta(days=(365 * 10))
+            mrc.time_eligible = False
+            mrc.time_eligible_analysis = "This is MRC. it is Time Eligible beginning at " + str(ten_years_from_disposition)
+            mrc.eligible_when = ten_years_from_disposition
+            return False
+        else:
+            if RecordAnalyzer.is_charge_from_last_3_years(self, mrc):
+                mrc.time_eligible = True
+                mrc.time_eligible_analysis = "This is MRC. it is Time Eligible"
+                return True
+            else:
+                three_years_from_disposition = mrc.charge_date + timedelta(days=(365 * 3))
+                mrc.time_eligible = False
+                mrc.time_eligible_analysis = "This is MRC. it is Time Eligible beginning at " + str(three_years_from_disposition)
+                mrc.eligible_when = three_years_from_disposition
+                return True
 
 
     def is_charge_time_eligible(self, charge, mrc):
@@ -171,16 +202,17 @@ class RecordAnalyzer(object):
         # calculate ten years from MRC
         ten_years_from_mrc = mrc.charge_date + timedelta(days=(365 * 10))  # calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
 
-        if datetime.today() > ten_years_from_mrc:
-            logging.info(charge.name + " is time eligible since " + ten_years_from_mrc )
+        if datetime.today().date() > ten_years_from_mrc:
+            logging.info(charge.name + " is time eligible since " + str(ten_years_from_mrc) )
             charge.time_eligible = True
+            charge.eligible_when = ten_years_from_mrc
             charge.time_eligible_analysis = "Time eligible since " + str(ten_years_from_mrc)
 
-        if datetime.today() < ten_years_from_mrc:
-            logging.info(charge.name + " is not time eligible unitl " + ten_years_from_mrc)
+        if datetime.today().date() < ten_years_from_mrc:
+            logging.info(charge.name + " is not time eligible unitl " + str(ten_years_from_mrc))
             charge.time_eligible = True
-            charge.time_eligible_analysis = "Ineligible under 137.225(7)(b). Time Eligiblity begins " + str(
-                ten_years_from_mrc)
+            charge.eligible_when = ten_years_from_mrc
+            charge.time_eligible_analysis = "Ineligible under 137.225(7)(b). Time Eligiblity begins " + str(ten_years_from_mrc)
 
     def set_all_other_charges_to_ineligible_until(self, mrc):
 
@@ -189,7 +221,7 @@ class RecordAnalyzer(object):
         for case in self.client.cases:
             for charge in case.charges:
                 if charge != mrc:
-                    RecordAnalyzer.is_charge_time_eligible(charge, mrc) #this function sets the appropriate properties automatically
+                    RecordAnalyzer.is_charge_time_eligible(self, charge, mrc) #this function sets the appropriate properties automatically
 
     def does_record_contain_conviction_from_last_ten_years(self):
 
@@ -231,16 +263,9 @@ class RecordAnalyzer(object):
         if RecordAnalyzer.does_record_contain_conviction_from_last_ten_years(self):
             return False
 
-        ass = RecordAnalyzer.get_mrc(self)
+        mrc = RecordAnalyzer.get_mrc(self)
 
-        self.set_all_other_charges_to_ineligible_until(ass)
-
-        browse(self.client)
-
-
-
-
-
+        self.set_all_other_charges_to_ineligible_until(mrc)
 
         return Result(ResultCode.NO_ACTION)
 
@@ -257,11 +282,12 @@ class RecordAnalyzer(object):
 
     def analyze(self): #todo: implement time eligibility and conform to the comment above
 
+        #this checks time eligibility for all charges on all cases
         self.time_eligibility()
 
-        return None
+        #this checks TYPE eligibility for all charges
 
-        #iterate through all cases and charges to check type eligibility
+        #iterate through all cases and charges to check type eligibility #todo: move this to its own function?
         for case in self.client.cases:
             for charge in case.charges:
 
@@ -276,8 +302,18 @@ class RecordAnalyzer(object):
 
                 if result[0] == True:
                     logging.info("Passed Type Eligibility tree: " + charge.name + " " + result[1])
+                    charge.type_eligible = True
+                    charge.type_eligible_analysis = result[1]
                 else:
                     logging.info("failed Type Eligibility tree: " + charge.name + " " + result[1])
+                    charge.type_eligible = False
+                    charge.type_eligible_analysis = result[1]
+                    charge.eligible_when = "Never" #todo: find out the proper thing to write here if anything at all
+
+                if charge.type_eligible == True and charge.time_eligible == True:
+                    charge.eligible_now = True
+                else:
+                    charge.eligible_now = False
 
     """
     these are helper functions for analyze
@@ -295,18 +331,18 @@ class RecordAnalyzer(object):
 
         for item in CrimesListA:
 
-            if len(item) == 2 and isinstance(object, (list,)):  # if this is a range of values
+            if len(item) == 2 and isinstance(item, list):  # if this is a range of values
 
-                lower_chapter = item[0][0:3]
-                lower_subchapter = item[0][4:7]
+                lower_chapter = int(item[0][0:3])
+                lower_subchapter = int(item[0][4:7])
 
-                upper_chapter = item[1][0:3]
-                upper_subchapter = item[1][4:7]
+                upper_chapter = int(item[1][0:3])
+                upper_subchapter = int(item[1][4:7])
 
                 if charge.statute.chapter <= upper_chapter and charge.statute.chapter >= lower_chapter:
                     if charge.statute.subchapter <= upper_subchapter and charge.statute.subchapter >= lower_subchapter:
 
-                        #print(charge.statute.__str__() + " is NOT on list A")
+                        logging.info(charge.statute.__str__() + " is on list A")
                         return True  # return false and the reason why its false
 
         return False
@@ -328,7 +364,6 @@ class RecordAnalyzer(object):
 
                         #print(charge.statute.__str__() + " is NOT on list A")
                         return True  # return false and the reason why its false
-
         return False
 
     def is_crime_marijuana_list(charge):
