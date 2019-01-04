@@ -7,9 +7,12 @@ from expungeservice.models.client import Client
 from expungeservice.models.charge import Charge
 from expungeservice.models.statute import Statute
 from expungeservice.models.disposition import Disposition
+from expungeservice.models.crime_level import *
 
 from tests.fixtures.ward_weaver import WardWeaver
 from tests.fixtures.bill_sizemore import BillSizemore
+
+import datetime
 
 import os
 
@@ -76,7 +79,9 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
             if len(caseparser.hashed_dispo_data) > 0: #aparently sometimes there is no dispo data
                 ruling = caseparser.hashed_dispo_data[charge]['ruling'] # pull the ruling from the dispo data                   warning: this assumes that the charges and their corresponding dispo data are always indexed in the same order
-                newDisposition = Disposition(ruling.upper())
+                dispo_date = caseparser.hashed_dispo_data[charge]['date']
+                print(dispo_date)
+                newDisposition = Disposition(ruling.upper(), dispo_date)
             else:
                 newDisposition = Disposition(None)
 

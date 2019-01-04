@@ -1,3 +1,5 @@
+from expungeservice.expunger.helper_functions import *
+
 class Client(object):
     """ Client - An individual who wants to expunge charges from their record.
 
@@ -8,7 +10,7 @@ class Client(object):
     """
     def __init__(self, name, dob, cases):
         self.name = name
-        self.dob = dob
+        self.dob = date2obj(dob)
         self.cases = cases
 
     def setCases(self,cases):

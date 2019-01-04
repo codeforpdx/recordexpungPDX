@@ -1,6 +1,6 @@
-from expungeservice.analyzer.ineligible_crimes_list import *
-
 import datetime
+from expungeservice.expunger.helper_functions import *
+
 
 class Charge(object):
     """ Charge filed on a Client.
@@ -37,9 +37,9 @@ class Charge(object):
 
         self.analysis = analysis
 
-        #parse date into proper datetime object
-        month, day, year = map(int, self.charge_date.split("/"))
-        self.charge_date = datetime.date(year, month, day)
+        # parse date into proper datetime object, if it is a string #todo: remove this
+        if type(self.charge_date) == type(""):
+            self.charge_date = date2obj(self.charge_date)
 
 
 
