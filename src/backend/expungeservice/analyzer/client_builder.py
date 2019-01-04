@@ -118,6 +118,6 @@ if __name__ == '__main__':
     analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
 
     print(analyzer.analyze())
-    browse(client)
+    #browse(client)
 
 

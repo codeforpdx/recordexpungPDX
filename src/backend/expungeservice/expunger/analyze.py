@@ -172,8 +172,8 @@ class RecordAnalyzer(object):
                 logging.info("analyzing: " + charge.name + " " + charge.statute.__str__())
 
                 if charge.statute.chapter == None: #todo: throw errror
-                    print(charge.name)
-                    print("error")
+                    logging.warn(charge.name)
+                    logging.warn("error")
 
                 #check type eligibility
                 result = self.type_eligibility(charge)
@@ -252,6 +252,10 @@ class RecordAnalyzer(object):
             return True
 
     def is_charge_traffic_violation(charge):
+
+        if charge.statute.chapter == None: #todo: throw error
+            return False
+
         if int(charge.statute.chapter) <= 900 and int(charge.statute.chapter) >= 800:
             return True
         return False
@@ -368,6 +372,11 @@ class RecordAnalyzer(object):
             charge.analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough
             return charge.analysis
 
+        if RecordAnalyzer.is_crime_marijuana_list(charge) == True:  #todo: 'this  one is broken and will never be true
+            logging.info('crime list marijuana')
+            charge.analysis = True, "marijuana inelgibible"
+            return charge.analysis
+
         #positive eligibilty tree
 
         if RecordAnalyzer.is_charge_PCS_schedule_1(charge) == True:
@@ -381,11 +390,6 @@ class RecordAnalyzer(object):
             return charge.analysis
 
         if RecordAnalyzer.is_charge_level_violation(charge) == True:
-
-            if RecordAnalyzer.is_charge_traffic_violation(charge) == False: #todo: is this check redundant?
-                logging.info('traffic violation')
-                charge.analysis = False, "Ineligible under 137.225(5)"
-                return charge.analysis
 
             logging.info('non traffic violation')
             charge.analysis = True, "Eligible under 137.225(5)(d)"
