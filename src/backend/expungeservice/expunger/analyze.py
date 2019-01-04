@@ -150,9 +150,6 @@ class RecordAnalyzer(object):
 
         return Result(ResultCode.NO_ACTION)
 
-
-
-
     """
     Analyze which records are expungeable
 
@@ -165,8 +162,6 @@ class RecordAnalyzer(object):
     """
 
     def analyze(self): #todo: implement time eligibility and conform to the comment above
-
-        self.does_record_contain_arrest_or_conviction_in_last_20_years(self.client)
 
         for case in self.client.cases:
             for charge in case.charges:
@@ -183,7 +178,7 @@ class RecordAnalyzer(object):
     """
     these are helper functions for analyze
     """
-    def is_crime_list_B(self, charge):
+    def is_crime_list_B(charge):
 
         #print("analyzing: " + charge.statute.__str__())
 
@@ -195,7 +190,7 @@ class RecordAnalyzer(object):
         #print(charge.statute.__str__() + " item is NOT list B")
         return False
 
-    def is_crime_list_A(self, charge):
+    def is_crime_list_A(charge):
         print("analyzing: " + charge.statute.__str__())
 
         for item in CrimesListA:
@@ -215,35 +210,35 @@ class RecordAnalyzer(object):
 
         return True
 
-    def is_charge_PCS_schedule_1(self, charge):
+    def is_charge_PCS_schedule_1(charge):
         if charge.name == "PCS": #todo: this is broken, find how to identify  this charge
             return True
 
-    def is_charge_traffic_violation(self, charge):
+    def is_charge_traffic_violation(charge):
         if charge.statute.chapter == "800":
             return True
 
-    def is_charge_level_violation(self, charge):
+    def is_charge_level_violation( charge):
         if charge.level.type_ == "VIOLATION":
             return True
 
-    def is_charge_misdemeanor(self, charge):
+    def is_charge_misdemeanor( charge):
         if charge.level.type_ == "MISDEMEANOR":
             return True
 
-    def is_charge_felony_class_C(self, charge):
+    def is_charge_felony_class_C( charge):
         if charge.level.type_ == "FELONY" and charge.level.class_ == "C":
             return True
 
-    def is_charge_felony_class_B(self, charge):
+    def is_charge_felony_class_B(charge):
         if charge.level.type_ == "FELONY" and charge.level.class_ == "B":
             return True
 
-    def is_charge_felony_class_A(self, charge):
+    def is_charge_felony_class_A( charge):
         if charge.level.type_ == "FELONY" and charge.level.class_ == "A":
             return True
 
-    def does_record_contain_arrest_or_conviction_in_last_20_years(self, client):
+    def does_record_contain_arrest_or_conviction_in_last_20_years(client):
         for case in client.cases:
             for charge in case.charges:
 
@@ -306,59 +301,59 @@ class RecordAnalyzer(object):
 
         #type eligibility tree
 
-        if self.is_charge_felony_class_A(charge):
+        if RecordAnalyzer.is_charge_felony_class_A(charge):
             charge.analysis = False, "Ineligible under 137.225(5)"
             return charge.analysis
 
-        if self.is_crime_list_A(charge):
+        if RecordAnalyzer.is_crime_list_A(charge):
             charge.analysis = False, "Ineligible under 137.225(5)"
             return charge.analysis
 
-        if self.is_crime_list_B(charge):
+        if RecordAnalyzer.is_crime_list_B(charge):
             charge.analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough
             return charge.analysis
 
         #positive eligibilty tree
 
-        if self.is_charge_PCS_schedule_1(charge):
+        if RecordAnalyzer.is_charge_PCS_schedule_1(charge):
             charge.analysis = True, "Eligible under 137.225(5)"
             return charge.analysis
 
-        if self.is_charge_level_violation(charge):
+        if RecordAnalyzer.is_charge_level_violation(charge):
 
-            if self.is_charge_traffic_violation(charge):
+            if RecordAnalyzer.is_charge_traffic_violation(charge):
                 charge.analysis = False, "Ineligible under 137.225(5)"
                 return charge.analysis
 
             charge.analysis = True, "Eligible under 137.225(5)(d)"
             return charge.analysis
 
-        elif self.is_charge_misdemeanor(charge):
+        elif RecordAnalyzer.is_charge_misdemeanor(charge):
             charge.analysis = True, "Eligible under 137.225(5)(b)"
             return charge.analysis
 
-        elif self.is_charge_felony_class_C(charge):
+        elif RecordAnalyzer.is_charge_felony_class_C(charge):
             charge.analysis = True, "Eligible under 137.225(5)(b)"
             return charge.analysis
 
-        elif self.is_charge_felony_class_B(charge):
-            if self.does_record_contain_arrest_or_conviction_in_last_20_years(self.client):
+        elif RecordAnalyzer.is_charge_felony_class_B(charge):
+            if RecordAnalyzer.does_record_contain_arrest_or_conviction_in_last_20_years(self.client): #todo: this operation could maybe be pre computed and stored somewhere since this is kinda expensive, but maybe ill leave it since it rarely gets called.
                 charge.analysis = False, "Ineligible under 137.225(5)(a)(A)(i)"
                 return charge.analysis
             else:
                 charge.analysis = True, "Further Analysis" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
                 return charge.analysis
 
-        elif self.is_charge_dismissal_or_aquittal(charge):
+        elif RecordAnalyzer.is_charge_dismissal_or_aquittal(charge):
             charge.analysis = True, "Eligible under 137.225(5)(b)"
             return charge.analysis
 
-        elif self.is_charge_no_complaint(charge):
-            if self.is_charge_more_than_1_year_old(charge):
+        elif RecordAnalyzer.is_charge_no_complaint(charge):
+            if RecordAnalyzer.is_charge_more_than_1_year_old(charge):
                 charge.analysis = True, "Eligible under 137.225(5)(b)"
                 return charge.analysis
 
-        elif self.is_charge_no_complaint(charge) == False:
+        elif RecordAnalyzer.is_charge_no_complaint(charge) == False:
             charge.analysis = True, "Examine" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
             return charge.analysis
 
