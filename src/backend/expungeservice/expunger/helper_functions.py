@@ -21,8 +21,6 @@ def date2obj(input_date):
 
         return date_obj
 
-
-
 """this is only used when loading locally stored html files"""
 
 def file2string(location):
@@ -31,3 +29,5 @@ def file2string(location):
 
     myfile.close()
     return filedata
+
+

@@ -35,13 +35,30 @@ class Charge(object):
         self.eligible_now = ''
         self.eligible_when = ''
 
-        self.analysis = analysis
-
         # parse date into proper datetime object, if it is a string #todo: remove this
         if type(self.charge_date) == type(""):
             self.charge_date = date2obj(self.charge_date)
 
+    def __dict__(self):
+        return {'name': self.name,
+                'statute': self.statute.__dict__(),
+                'level': self.level.__dict__(),
+                'charge_date': str(self.charge_date),
+                'disposition': self.disposition.__dict__(),
+                'type_eligible': self.type_eligible,
+                'type_eligible_analysis': self.type_eligible_analysis,
+                'time_eligible': self.time_eligible,
+                'time_eligible_analysis': self.time_eligible_analysis,
+                'eligible_now': self.eligible_now,
+                'eligible_when': str(self.eligible_when),
+                }
 
+    def __eq__(self, other):
+        return (self.name == other.name and
+                self.statute == other.statute and
+                self.level == other.level and
+                self.charge_date == other.charge_date and
+                self.disposition == other.disposition)
 
     @property
     def time_elig_result(self):
@@ -59,12 +76,7 @@ class Charge(object):
     def type_elig_result(self, result):
         self._result = result
 
-    def __eq__(self, other):
-        return (self.name == other.name and
-                self.statute == other.statute and
-                self.level == other.level and
-                self.charge_date == other.charge_date and
-                self.disposition == other.disposition)
+
 
 
 

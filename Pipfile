@@ -18,6 +18,7 @@ pytest = "*"
 six = "*"
 PyQt5 = "*"
 objbrowser = "*"
+jsonpickle = "*"
 
 #for the website crawler
 requests = "*"

@@ -27,6 +27,12 @@ class CrimeLevel(object):
         else:
             return self.type_
 
+    def __dict__(self):
+        return {'type': self.type_,
+                'class': self.class_,
+                'level_string':self.level_string #todo: find if this is necessary
+                }
+
     def parse_string_from_crawler(self, level_string): #todo: move this to the parser
 
         level_string = level_string.upper().split()

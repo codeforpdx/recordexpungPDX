@@ -274,7 +274,7 @@ class RecordAnalyzer(object):
                     logging.info("failed Type Eligibility tree: " + charge.name + " " + result[1])
                     charge.type_eligible = False
                     charge.type_eligible_analysis = result[1]
-                    charge.eligible_when = "Never" #todo: find out the proper thing to write here if anything at all
+                    charge.eligible_when = "never" #todo: find out the proper thing to write here if anything at all
 
                 if charge.type_eligible == True and charge.time_eligible == True:
                     charge.eligible_now = True
@@ -430,7 +430,7 @@ class RecordAnalyzer(object):
         """
 
     def type_eligibility(self, charge):
-        # analysis = []
+        analysis = ""
         #
         # analysis.append(RecordAnalyzer.is_charge_felony_class_A(charge, 'FELONY', 'A'))
         # if analysis[-1].result:
@@ -454,83 +454,83 @@ class RecordAnalyzer(object):
 
             logging.info('felony class A')
 
-            charge.analysis = False, "Ineligible under 137.225(5)"
-            return charge.analysis
+            analysis = False, "Ineligible under 137.225(5)"
+            return analysis
 
         if RecordAnalyzer.is_crime_list_A(charge) == True:
             logging.info('crime list A')
-            charge.analysis = False, "Ineligible under 137.225(5)"
-            return charge.analysis
+            analysis = False, "Ineligible under 137.225(5)"
+            return analysis
 
         if RecordAnalyzer.is_crime_driving_crime(charge) == True:
             logging.info('crime list Driving')
-            charge.analysis = False, "Ineligible under 137.225(5)"
-            return charge.analysis
+            analysis = False, "Ineligible under 137.225(5)"
+            return analysis
 
         if RecordAnalyzer.is_crime_list_B(charge) == True:
             logging.info('crime list b')
-            charge.analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough
-            return charge.analysis
+            analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough
+            return analysis
 
         if RecordAnalyzer.is_crime_marijuana_list(charge) == True:  #todo: 'this  one is broken and will never be true
             logging.info('crime list marijuana')
-            charge.analysis = True, "marijuana inelgibible"
-            return charge.analysis
+            analysis = True, "marijuana inelgibible"
+            return analysis
 
         #positive eligibilty tree
 
         if RecordAnalyzer.is_charge_PCS_schedule_1(charge) == True:
             logging.info('pcs 1')
-            charge.analysis = True, "Eligible under 137.225(5)"
-            return charge.analysis
+            analysis = True, "Eligible under 137.225(5)"
+            return analysis
 
         if RecordAnalyzer.is_charge_traffic_violation(charge) == True:
             logging.info('traffic violation')
-            charge.analysis = False, "Ineligible under 137.225(5)"
-            return charge.analysis
+            analysis = False, "Ineligible under 137.225(5)"
+            return analysis
 
         if RecordAnalyzer.is_charge_level_violation(charge) == True:
 
             logging.info('non traffic violation')
-            charge.analysis = True, "Eligible under 137.225(5)(d)"
-            return charge.analysis
+            analysis = True, "Eligible under 137.225(5)(d)"
+            return analysis
 
         elif RecordAnalyzer.is_charge_misdemeanor(charge) == True:
             logging.info('misdemeanor')
-            charge.analysis = True, "Eligible under 137.225(5)(b)"
-            return charge.analysis
+            analysis = True, "Eligible under 137.225(5)(b)"
+            return analysis
 
         elif RecordAnalyzer.is_charge_felony_class_C(charge) == True:
             logging.info('felony class c')
-            charge.analysis = True, "Eligible under 137.225(5)(b)"
-            return charge.analysis
+            analysis = True, "Eligible under 137.225(5)(b)"
+            return analysis
 
         elif RecordAnalyzer.is_charge_felony_class_B(charge) == True:
             if RecordAnalyzer.does_record_contain_arrest_or_conviction_in_last_20_years(self.client): #todo: this operation could maybe be pre computed and stored somewhere since this is kinda expensive, but maybe ill leave it since it rarely gets called.
                 logging.info('felony class B + conviction within 20 yrs')
-                charge.analysis = False, "Ineligible under 137.225(5)(a)(A)(i)"
-                return charge.analysis
+                analysis = False, "Ineligible under 137.225(5)(a)(A)(i)"
+                return analysis
             else:
 
                 logging.info('felony class B + NO conviction within 20 yrs')
-                charge.analysis = True, "Further Analysis" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
-                return charge.analysis
+                analysis = True, "Further Analysis" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
+                return analysis
 
         elif RecordAnalyzer.is_charge_dismissal_or_aquittal(charge) == True:
             logging.info('aquitted or dismissed')
-            charge.analysis = True, "Eligible under 137.225(5)(b)"
-            return charge.analysis
+            analysis = True, "Eligible under 137.225(5)(b)"
+            return analysis
 
         elif RecordAnalyzer.is_charge_no_complaint(charge) == True: #todo: no complaint is not behaving properly
             if RecordAnalyzer.is_charge_more_than_1_year_old(charge) == True:
                 logging.info('charge is no_complaint + older than 1 year')
-                charge.analysis = True, "Eligible under 137.225(5)(b)"
-                return charge.analysis
+                analysis = True, "Eligible under 137.225(5)(b)"
+                return analysis
 
         elif RecordAnalyzer.is_charge_no_complaint(charge) == False:
             logging.info('no complaint')
-            charge.analysis = True, "Examine" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
-            return charge.analysis
+            analysis = True, "Examine" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
+            return analysis
         else:
             logging.info("it is nothing") #todo this should throw error
 

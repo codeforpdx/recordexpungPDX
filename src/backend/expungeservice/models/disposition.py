@@ -17,6 +17,11 @@ class Disposition(object):
             month, day, year = map(int, self.dispo_date.split("/"))
             self.dispo_date = datetime.date(year, month, day)
 
+    def __dict__(self):
+        return {'type': self.type_,
+                'dispo_date': str(self.dispo_date)
+                }
+
 
 DispositionType = enum.Enum('Disposition',
                             ' '.join([

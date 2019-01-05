@@ -16,6 +16,7 @@ from tests.fixtures.bill_sizemore import BillSizemore
 
 from expungeservice.expunger.helper_functions import file2string
 
+import pprint
 
 #todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
 
@@ -106,7 +107,9 @@ if __name__ == '__main__':
 
     print(analyzer.analyze())
 
-    browse(client)
+    #browse(client)
+
+    print(client.toJSON())
 
     print("analyzing bill sizemore")
 
@@ -116,6 +119,8 @@ if __name__ == '__main__':
     analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
 
     print(analyzer.analyze())
-    browse(client)
+    #browse(client)
+
+
 
 
