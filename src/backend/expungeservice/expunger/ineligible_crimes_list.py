@@ -2,8 +2,10 @@
 ####################################################
 
 this is the list of crime statute numbers which are INELIGIBLE for expungement
+#todo: maybe put this list in the database and have some interface for the public defenders office to view/ modify it.
 
-#todo: put this list in the database and have some interface for the public defenders office to view/ modify it.
+####################################################
+
 
 """
 

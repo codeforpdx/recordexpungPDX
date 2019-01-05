@@ -12,6 +12,7 @@ import tests.fixtures.bill_sizemore as bill
 import os
 
 import logging
+
 logging.basicConfig(level=logging.CRITICAL)
 
 
@@ -31,6 +32,10 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
 
         #browse(self.client)
 
+        # #was using object browser for object inspection but now
+        # using json output since this program is going into a docker container
+        # but the object browser is pretty cool
+
     def test_name(self):
         assert self.client.name == "SIZEMORE, WILLIAM"
 
@@ -42,7 +47,8 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
 
     def test_first_case(self):
 
-        print(OBJtoJSON(self.client.cases[0].charges[0]))
+        print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
+
         assert self.client.cases[0].charges[0].eligible_when == "never"
 
     def test_second_case(self):

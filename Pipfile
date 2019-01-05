@@ -14,17 +14,9 @@ recordexpunge = {editable = true,path = "."}
 expungeservice = {editable = true,path = "."}
 pytest = "*"
 
-# needed for python object browser tool
-six = "*"
-PyQt5 = "*"
-objbrowser = "*"
 jsonpickle = "*"
 
-#for the website crawler
-requests = "*"
-lxml = "*"
-
-[dev-packages]
+[dev-packages] 
 
 [requires]
 python_version = "3.7"

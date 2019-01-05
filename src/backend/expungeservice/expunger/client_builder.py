@@ -24,8 +24,12 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     in theory this should work as such:
 
         0. something calls this function with a link to a case page.
+
         1. We parse the clients's record page with the RECORD PARSER
-        2. then we lookup the detail page for each case  mentioned in the clients record, and then parse each one with the CASE PARSER
+
+        2. then we lookup the detail page for each case  mentioned in the clients record,
+        and then parse each one with the CASE PARSER
+
         3 ???
 
     """

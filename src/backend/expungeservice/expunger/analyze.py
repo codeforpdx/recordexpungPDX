@@ -103,7 +103,7 @@ class RecordAnalyzer(object):
 
     #todo: there is LOTS of duplication between the next three functions and everywhere cameron has been coding
     #todo: maybe instead of searching for equivalent charge objects we should just refer to the original charge object's memory address or whatever that thing is like <expungeservice.models.charge.Charge object at 0x7f1c637d9b38>
-
+    #todo: incorporate the result object from above
 
     def get_all_charges_sorted_by_date(self):
         chargelist = []
@@ -246,14 +246,14 @@ class RecordAnalyzer(object):
             - A Result instance that describes the Time Eligibility analysis.
     """
 
-    def analyze(self): #todo: implement time eligibility and conform to the comment above
+    def analyze(self): #todo: conform to the comment above
 
         #this checks time eligibility for all charges on all cases
         self.time_eligibility()
 
         #this checks TYPE eligibility for all charges
 
-        #iterate through all cases and charges to check type eligibility #todo: move this to its own function?
+        #iterate through all cases and charges to check type eligibility #todo: move this to its own function since it is basically the type eligibilty function and time eligibility has its own function
         for case in self.client.cases:
             for charge in case.charges:
 
@@ -340,7 +340,7 @@ class RecordAnalyzer(object):
                         return True  # return false and the reason why its false
         return False
 
-    def is_crime_marijuana_list(charge):         #todo: this wont work at all
+    def is_crime_marijuana_list(charge):    #todo: this function needs repair
         for item in MarijuanaIneligible:
 
             if item == charge.statute:
@@ -349,12 +349,12 @@ class RecordAnalyzer(object):
         return False
 
     def is_charge_PCS_schedule_1(charge):
-        if charge.name == "PCS":            #todo: this is broken, find how to identify  this charge
+        if charge.name == "PCS":            #todo: this is broken, find how to identify this charge
             return True
 
     def is_charge_traffic_violation(charge):
 
-        if charge.statute.chapter == None: #todo: throw error
+        if charge.statute.chapter == None:   #todo: throw error
             return False
 
         if int(charge.statute.chapter) <= 900 and int(charge.statute.chapter) >= 800:
@@ -390,13 +390,8 @@ class RecordAnalyzer(object):
     def does_record_contain_arrest_or_conviction_in_last_20_years(client):
         for case in client.cases:
             for charge in case.charges:
-
-                #todo: check for arrests within this time period
-
                 if charge.disposition.type_ == "CONVICTED":
-
-                    twenty_years_ago_date = datetime.today() - timedelta(days=(365*20)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1
-
+                    twenty_years_ago_date = datetime.today() - timedelta(days=(365*20)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 days
                     if twenty_years_ago_date.date() < charge.disposition.dispo_date:
                         return True
 
@@ -404,7 +399,7 @@ class RecordAnalyzer(object):
 
     def is_charge_more_than_1_year_old(self, charge):
 
-        one_year_ago_date = datetime.today() - timedelta(days=(365)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1
+        one_year_ago_date = datetime.today() - timedelta(days=(365)) #calculate time delta for one year ago #todo: calculate if this is accurate to within +-1 days
 
         if one_year_ago_date.date() < charge.disposition.dispo_date:
             return True
@@ -416,7 +411,7 @@ class RecordAnalyzer(object):
         return False
 
     def is_charge_no_complaint(charge):
-        if charge.disposition.type_== "NO COMPLAINT": #todo: i dont know if "NO COMPLAINT" is a valid type or if its even in this object
+        if charge.disposition.type_== "NO COMPLAINT": #todo: not sure if "NO COMPLAINT" is a valid type or if its even in this object
             return True
         return False
 
@@ -468,10 +463,10 @@ class RecordAnalyzer(object):
 
         if RecordAnalyzer.is_crime_list_B(charge) == True:
             logging.info('crime list b')
-            analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough
+            analysis = True, "Further Analysis Needed" #todo: 'true' doesnt seem accurate enough, maybe change this to None
             return analysis
 
-        if RecordAnalyzer.is_crime_marijuana_list(charge) == True:  #todo: 'this  one is broken and will never be true
+        if RecordAnalyzer.is_crime_marijuana_list(charge) == True:  #todo: this  one is broken and will never be true
             logging.info('crime list marijuana')
             analysis = True, "marijuana inelgibible"
             return analysis
@@ -505,7 +500,7 @@ class RecordAnalyzer(object):
             return analysis
 
         elif RecordAnalyzer.is_charge_felony_class_B(charge) == True:
-            if RecordAnalyzer.does_record_contain_arrest_or_conviction_in_last_20_years(self.client): #todo: this operation could maybe be pre computed and stored somewhere since this is kinda expensive, but maybe ill leave it since it rarely gets called.
+            if RecordAnalyzer.does_record_contain_arrest_or_conviction_in_last_20_years(self.client): #todo: this operation's results could maybe be pre computed and stored somewhere since this is kinda expensive, but maybe ill leave it since it rarely gets called.
                 logging.info('felony class B + conviction within 20 yrs')
                 analysis = False, "Ineligible under 137.225(5)(a)(A)(i)"
                 return analysis
@@ -528,10 +523,10 @@ class RecordAnalyzer(object):
 
         elif RecordAnalyzer.is_charge_no_complaint(charge) == False:
             logging.info('no complaint')
-            analysis = True, "Examine" #todo: i left this terse as to follow flow chart. should it be "Further Analysis Needed"?
+            analysis = True, "Examine" #todo: i left this terse as in the flow chart. should it be "Further Analysis Needed"?
             return analysis
         else:
-            logging.info("it is nothing") #todo this should throw error
+            logging.info("this has somehow escaped the flow chart") #todo should this should throw an error?
 
 
 
