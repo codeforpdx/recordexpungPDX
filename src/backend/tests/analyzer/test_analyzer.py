@@ -1,7 +1,11 @@
 import unittest
+from expungeservice.expunger.helper_functions import *
 
 from expungeservice.expunger.analyze import *
 from expungeservice.expunger.client_builder import *
+
+from tests.fixtures.bill_sizemore import BillSizemore
+from tests.fixtures.ward_weaver import WardWeaver
 
 import tests.fixtures.bill_sizemore as bill
 
@@ -20,8 +24,10 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
 
         self.client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
 
-        analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
-        analyzer.analyze()
+        #print(self.client.toJSON())
+
+        self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
+        self.analyzer.analyze()
 
         #browse(self.client)
 
@@ -35,13 +41,12 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
         assert self.client.dob.__str__() == "1951-06-02"
 
     def test_first_case(self):
-        assert self.client.cases[0].charges[0].eligible_when == "Never"
+
+        print(OBJtoJSON(self.client.cases[0].charges[0]))
+        assert self.client.cases[0].charges[0].eligible_when == "never"
 
     def test_second_case(self):
-        assert self.client.cases[1].charges[0].eligible_when == "Never"
-
-
-
+        assert self.client.cases[1].charges[0].eligible_when == "never"
 
 class TestAnalyzerWithWardWeaverCase(unittest.TestCase):
 
@@ -50,14 +55,14 @@ class TestAnalyzerWithWardWeaverCase(unittest.TestCase):
         path = path.replace(os.path.relpath(path, "../../"), "")
         PathToExampleHTMLFiles = os.path.join(path, 'tests/fixtures/html/ward-weaver') + "/"
 
-        client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)  # use parser to build complete client object                                                                                                      # use object browser to visually inspect completeness of object
+        self.client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)  # use parser to build complete client object                                                                                                      # use object browser to visually inspect completeness of object
 
-        analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
-        analyzer.analyze()
+        self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
+        self.analyzer.analyze()
 
-        def test_name(self):
-            assert self.client.name == "WEAVER, WARD FRANCIS, III"
+    def test_name(self):
+        assert self.client.name == "WEAVER, WARD FRANCIS, III"
 
-        def test_DOB_is_datetime_obj(self):
-            assert type(self.client.dob) == type(datetime.today().date())
+    def test_DOB_is_datetime_obj(self):
+        assert type(self.client.dob) == type(datetime.today().date())
 

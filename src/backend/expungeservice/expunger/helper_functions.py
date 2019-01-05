@@ -1,4 +1,5 @@
 import datetime
+import json, jsonpickle
 
 def date2obj(input_date):
 
@@ -29,5 +30,11 @@ def file2string(location):
 
     myfile.close()
     return filedata
+
+def OBJtoJSON(self):
+    serialized = jsonpickle.encode(self.__dict__())
+    serialized = json.dumps(json.loads(serialized), indent=2)
+    return serialized
+    # print(yaml.dump(yaml.load(serialized), indent=2))
 
 

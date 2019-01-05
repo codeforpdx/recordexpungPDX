@@ -3,8 +3,9 @@
 
 # I am fairly certain that section and subsection are irrelevant to the analyzers logic
 
-# cameron - jan 3 2019
-# the way i currently have this configured completely discards section and subsection
+
+# the way i currently have this configured completely discards section and subsection,  cameron - jan 3 2019
+
 #todo: find out if section and subsection are relevant
 
 class Statute(object):

@@ -3,23 +3,15 @@ from expungeservice.crawler.parsers.case_parser import CaseParser
 
 from expungeservice.expunger.client_builder import *
 
-from objbrowser import browse #import the object browser ui
-
 from expungeservice.models.client import Client
 from expungeservice.models.charge import Charge
 from expungeservice.models.statute import Statute
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.crime_level import *
 
-from tests.fixtures.ward_weaver import WardWeaver
-from tests.fixtures.bill_sizemore import BillSizemore
-
 from expungeservice.expunger.helper_functions import file2string
 
-import pprint
-
 #todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
-
 
 
 def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
@@ -92,34 +84,6 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
 
     return Client(ClientName, ClientDOB, updatedCaseList)
 
-
-if __name__ == '__main__':
-
-    print("analyzer prototype")
-
-    from expungeservice.expunger.analyze import *
-
-    print("analyzing ward weaver")
-    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/ward-weaver/'  #load ward weaver record
-    client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)                                                  # use parser to build complete client object                                                                                                      # use object browser to visually inspect completeness of object
-
-    analyzer = RecordAnalyzer(client)                                                                                       # create an analyzer object with our client object
-
-    print(analyzer.analyze())
-
-    #browse(client)
-
-    print(client.toJSON())
-
-    print("analyzing bill sizemore")
-
-    PathToExampleHTMLFiles = '/home/cameron/PycharmProjects/recordexpungPDX/src/backend/tests/fixtures/html/bill-sizemore/'
-    client = BuildClientObject(PathToExampleHTMLFiles, BillSizemore.RECORD)
-
-    analyzer = RecordAnalyzer(client)  # create an analyzer object with our client object
-
-    print(analyzer.analyze())
-    #browse(client)
 
 
 
