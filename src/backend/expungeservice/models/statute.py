@@ -27,8 +27,13 @@ class Statute(object):
         self.subchapter = subchapter
         self.section = section
         self.subsection = subsection
+
+        self.parse_string()
+
         # TODO we may need to add components beyond subsection
 
+    def parse_string(self):
+        statute_string = self.statute_string
         if len(str(statute_string))>=6: #todo: this is wrong but will kinda work for everything on our list except marijuana crimes.
 
             statute_string = statute_string.lower() #convert to lowercase
@@ -36,8 +41,8 @@ class Statute(object):
             statute_string = ''.join(statute_string)
             statute_string = statute_string[0:6] #trim to only first 6
 
-            self.chapter = int(statute_string[0:3])
-            self.subchapter = int(statute_string[3:7])
+            self.chapter = statute_string[0:3]
+            self.subchapter = statute_string[3:7]
             self.statute_string = str(self.chapter) + '.' +str(self.subchapter)
 
     # todo: commented because im not sure if it still works

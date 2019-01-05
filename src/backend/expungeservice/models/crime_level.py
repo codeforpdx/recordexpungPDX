@@ -33,6 +33,8 @@ class CrimeLevel(object):
                 'level_string':self.level_string #todo: find if this is necessary
                 }
 
+    #todo: on the ward weaver case detailpage8.html the crime level is "death", this is probably a non issue but we should devise a better way to handle that
+
     def parse_string_from_crawler(self, level_string): #todo: move this to the parser
 
         level_string = level_string.upper().split()

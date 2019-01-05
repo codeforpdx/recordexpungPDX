@@ -34,6 +34,7 @@ class Charge(object):
 
         self.eligible_now = ''
         self.eligible_when = ''
+        self.analysis = ''
 
         # parse date into proper datetime object, if it is a string #todo: remove this
         if type(self.charge_date) == type(""):
@@ -51,6 +52,7 @@ class Charge(object):
                 'time_eligible_analysis': self.time_eligible_analysis,
                 'eligible_now': self.eligible_now,
                 'eligible_when': str(self.eligible_when),
+                'analysis': self.analysis
                 }
 
     def __eq__(self, other):

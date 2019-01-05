@@ -270,17 +270,21 @@ class RecordAnalyzer(object):
                     logging.info("Passed Type Eligibility tree: " + charge.name + " " + result[1])
                     charge.type_eligible = True
                     charge.type_eligible_analysis = result[1]
+                    charge.analysis = result[1]
                 else:
                     logging.info("failed Type Eligibility tree: " + charge.name + " " + result[1])
                     charge.type_eligible = False
                     charge.type_eligible_analysis = result[1]
                     charge.eligible_when = "never" #todo: find out the proper thing to write here if anything at all
+                    charge.analysis = result[1]
 
                 if charge.type_eligible == True and charge.time_eligible == True:
                     charge.eligible_now = True
                     logging.info("eligible now <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                    charge.analysis = result[1]
                 else:
                     charge.eligible_now = False
+                    charge.analysis = result[1]
 
     """
     these are helper functions for type eligiblilty
@@ -306,8 +310,8 @@ class RecordAnalyzer(object):
                     upper_chapter = int(item[1][0:3])
                     upper_subchapter = int(item[1][4:7])
 
-                    if charge.statute.chapter <= upper_chapter and charge.statute.chapter >= lower_chapter:
-                        if charge.statute.subchapter <= upper_subchapter and charge.statute.subchapter >= lower_subchapter:
+                    if int(charge.statute.chapter) <= upper_chapter and int(charge.statute.chapter) >= lower_chapter:
+                        if int(charge.statute.subchapter) <= upper_subchapter and int(charge.statute.subchapter) >= lower_subchapter:
 
                             logging.info(charge.statute.__str__() + " is on list A")
                             return True  # return false and the reason why its false
