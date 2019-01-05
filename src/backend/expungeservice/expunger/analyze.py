@@ -340,10 +340,7 @@ class RecordAnalyzer(object):
                         return True  # return false and the reason why its false
         return False
 
-    def is_crime_marijuana_list(charge):
-
-        #todo: this wont work at all
-
+    def is_crime_marijuana_list(charge):         #todo: this wont work at all
         for item in MarijuanaIneligible:
 
             if item == charge.statute:
@@ -352,7 +349,7 @@ class RecordAnalyzer(object):
         return False
 
     def is_charge_PCS_schedule_1(charge):
-        if charge.name == "PCS": #todo: this is broken, find how to identify  this charge
+        if charge.name == "PCS":            #todo: this is broken, find how to identify  this charge
             return True
 
     def is_charge_traffic_violation(charge):
@@ -455,9 +452,7 @@ class RecordAnalyzer(object):
         #type eligibility tree
 
         if RecordAnalyzer.is_charge_felony_class_A(charge):
-
             logging.info('felony class A')
-
             analysis = False, "Ineligible under 137.225(5)"
             return analysis
 
