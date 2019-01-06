@@ -219,7 +219,6 @@ class RecordAnalyzer(object):
     def time_eligibility(self):
         analysis = []
 
-
         #check for any Open Cases
         analysis.append(self._have_open_case())
         if analysis[-1].result:
@@ -324,7 +323,6 @@ class RecordAnalyzer(object):
     def is_crime_driving_crime(charge):
 
         for item in DrivingCrimes:
-
             if len(item) == 2 and isinstance(object, (list,)):  # if this is a range of values
 
                 lower_chapter = item[0][0:3]
@@ -342,10 +340,8 @@ class RecordAnalyzer(object):
 
     def is_crime_marijuana_list(charge):    #todo: this function needs repair
         for item in MarijuanaIneligible:
-
             if item == charge.statute:
                 return True
-
         return False
 
     def is_charge_PCS_schedule_1(charge):
@@ -385,7 +381,6 @@ class RecordAnalyzer(object):
         if charge.level.type_ == "FELONY" and charge.level.class_ == "A":
             return True
         return False
-
 
     def does_record_contain_arrest_or_conviction_in_last_20_years(client):
         for case in client.cases:

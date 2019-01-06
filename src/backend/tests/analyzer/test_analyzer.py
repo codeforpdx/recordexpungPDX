@@ -8,13 +8,12 @@ from tests.fixtures.bill_sizemore import BillSizemore
 from tests.fixtures.ward_weaver import WardWeaver
 
 import tests.fixtures.bill_sizemore as bill
-
 import os
-
 import logging
 
 logging.basicConfig(level=logging.CRITICAL)
 
+#todo: freeze the client objects so these tests dont depend on the parser
 
 class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
 
@@ -47,7 +46,8 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
 
     def test_first_case(self):
 
-        print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
+        #print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
+        print(OBJtoJSON(self.client))
 
         assert self.client.cases[0].charges[0].eligible_when == "never"
 
