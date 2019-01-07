@@ -1,17 +1,17 @@
-import datetime
+
 import copy
 import unittest
 
 
-from expungeservice.models.client import *
-from expungeservice.models.statute import *
-from expungeservice.models.disposition import *
-from expungeservice.models.case import *
-from expungeservice.models.charge import *
-from expungeservice.models.crime_level import *
+from expungeservice.models.client import Client
+from expungeservice.models.disposition import Disposition, DispositionType
+from expungeservice.models.crime_level import CrimeLevel
+from expungeservice.expunger.analyze import RecordAnalyzer
+from expungeservice.models.statute import Statute
+from expungeservice.models.charge import Charge
+from expungeservice.models.case import Case, CaseState
 
-from expungeservice.expunger.analyze import *
-
+import datetime
 
 def test_statute():
     tests = [
@@ -45,11 +45,11 @@ def get_disp():
     return Disposition(disp_type, date)
 
 def get_convicted_disp():
+    print(datetime.date(1996, 1, 1))
     return Disposition(DispositionType.CONVICTED, datetime.date(1996, 1, 1))
 
 def get_dummy_statute():
     return Statute(113, 45, 5, 'd')
-
 
 def get_charge_crime_level(type_, class_):
     disp = get_convicted_disp()
@@ -69,8 +69,9 @@ def test_expunger_classes():
         get_charge_crime_level('Felony', 'A'),
         get_charge_crime_level('Felony', 'A'),
     ]
-    cases = [
-        Case(charges, CaseState.OPEN, 100.50),
+    cases = [ #info, case_number, citation_number, date_location, type_status, charges, case_detail_link, state=None, balance_due=0.0):
+        self.name, birth_year = info
+        Case("", "case#1", "citation#2", "date location", "type_status", charges, CaseState.OPEN, 100.50),
         Case(charges, CaseState.CLOSED, 0),
     ]
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
@@ -97,6 +98,7 @@ class TestExpunger(unittest.TestCase):
         record_analyzer = RecordAnalyzer(self.client)
         result = record_analyzer.time_eligibility()
         assert(result.code == ResultCode.OPEN_CASE)
+
 
 
 #test_statute()

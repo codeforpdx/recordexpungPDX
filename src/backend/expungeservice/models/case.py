@@ -1,5 +1,5 @@
-from datetime import datetime
 from expungeservice.expunger.helper_functions import *
+import datetime
 import enum
 
 CaseState = enum.Enum('CaseState', 'OPEN CLOSED')

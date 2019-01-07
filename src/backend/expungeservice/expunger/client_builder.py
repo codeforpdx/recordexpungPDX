@@ -42,8 +42,6 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     # lookup clients record and parse it. (record parser)
     recordparser.feed(clientsRecordPageHTML)  # Feed our example rap sheet into the parser (client name john doe)
 
-    #browse(recordparser)
-
     ClientName = recordparser.cases[0].name
     ClientDOB = recordparser.cases[0].birth_year #todo: this is not correct, DOB must come from the front end? also DOB should be a datetime object
     ClientCases = recordparser.cases
@@ -52,8 +50,6 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     updatedCaseList = [] #initialize list of cases, this will be filled with the properly filled case info
 
     for case in ClientCases:
-
-        #print("Downloading case: " + case.case_number + " " + PathToExampleHTMLFiles + case.case_detail_link)
 
         # set up case parser
         caseparser = CaseParser()
