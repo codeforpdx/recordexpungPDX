@@ -113,7 +113,7 @@ class RecordAnalyzer(object):
                 if charge.disposition.type_ == "CONVICTED":
                     chargelist.append(charge)
 
-        sorted_list = sorted(chargelist, key=attrgetter('disposition.dispo_date')) # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
+        sorted_list = sorted(chargelist, key=attrgetter('disposition.date')) # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
         return sorted_list
 
     def get_mrc(self):
@@ -122,7 +122,7 @@ class RecordAnalyzer(object):
     def is_charge_from_last_3_years(self, charge):
         three_years_ago_from_today = datetime.today() - timedelta(days=(365 * 3))  # calculate time delta for twenty years ago
 
-        if charge.disposition.dispo_date > three_years_ago_from_today:
+        if charge.disposition.date > three_years_ago_from_today:
             return True
 
     def get_last_ten_years_of_convictions(self, mrc):
@@ -134,7 +134,7 @@ class RecordAnalyzer(object):
 
         for charge in sorted_list:
             if charge != mrc:
-                if charge.disposition.dispo_date > ten_years_ago_from_today: #todo: is this right?
+                if charge.disposition.date > ten_years_ago_from_today: #todo: is this right?
                     last_ten_years_of_convictions_minus_mrc.append(charge)
 
         return last_ten_years_of_convictions_minus_mrc
@@ -145,7 +145,7 @@ class RecordAnalyzer(object):
         any_other_convictions_from_last_ten_years = RecordAnalyzer.get_last_ten_years_of_convictions(self, mrc)
 
         if len(any_other_convictions_from_last_ten_years) > 0:
-            ten_years_from_disposition = mrc.disposition.dispo_date + timedelta(days=(365 * 10))
+            ten_years_from_disposition = mrc.disposition.date + timedelta(days=(365 * 10))
             mrc.time_eligible = False
             mrc.time_eligible_analysis = "This is MRC. it is Time Eligible beginning at " + str(ten_years_from_disposition)
             mrc.eligible_when = ten_years_from_disposition
@@ -156,7 +156,7 @@ class RecordAnalyzer(object):
                 mrc.time_eligible_analysis = "This is MRC. it is Time Eligible"
                 return True
             else:
-                three_years_from_disposition = mrc.disposition.dispo_date + timedelta(days=(365 * 3))
+                three_years_from_disposition = mrc.disposition.date + timedelta(days=(365 * 3))
                 mrc.time_eligible = False
                 mrc.time_eligible_analysis = "This is MRC. it is Time Eligible beginning at " + str(three_years_from_disposition)
                 mrc.eligible_when = three_years_from_disposition
@@ -166,7 +166,7 @@ class RecordAnalyzer(object):
     def is_charge_time_eligible(self, charge, mrc):
 
         # calculate ten years from MRC
-        ten_years_from_mrc = mrc.disposition.dispo_date + timedelta(days=(365 * 10))  # calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
+        ten_years_from_mrc = mrc.disposition.date + timedelta(days=(365 * 10))  # calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
 
         if datetime.today().date() > ten_years_from_mrc:
             logging.info(charge.name + " is time eligible since " + str(ten_years_from_mrc) )
@@ -197,7 +197,7 @@ class RecordAnalyzer(object):
 
                     ten_years_ago = datetime.today() - timedelta(days=(365*10)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 day
 
-                    if ten_years_ago.date() < charge.disposition.dispo_date:
+                    if ten_years_ago.date() < charge.disposition.date:
                         return True
 
         return False
@@ -387,7 +387,7 @@ class RecordAnalyzer(object):
             for charge in case.charges:
                 if charge.disposition.type_ == "CONVICTED":
                     twenty_years_ago_date = datetime.today() - timedelta(days=(365*20)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 days
-                    if twenty_years_ago_date.date() < charge.disposition.dispo_date:
+                    if twenty_years_ago_date.date() < charge.disposition.date:
                         return True
 
         return False
@@ -396,7 +396,7 @@ class RecordAnalyzer(object):
 
         one_year_ago_date = datetime.today() - timedelta(days=(365)) #calculate time delta for one year ago #todo: calculate if this is accurate to within +-1 days
 
-        if one_year_ago_date.date() < charge.disposition.dispo_date:
+        if one_year_ago_date.date() < charge.disposition.date:
             return True
         return False
 

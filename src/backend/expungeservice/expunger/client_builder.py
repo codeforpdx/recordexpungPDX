@@ -43,7 +43,7 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
     recordparser.feed(clientsRecordPageHTML)  # Feed our example rap sheet into the parser (client name john doe)
 
     ClientName = recordparser.cases[0].name
-    ClientDOB = recordparser.cases[0].birth_year #todo: this is not correct, DOB must come from the front end? also DOB should be a datetime object
+    ClientDOB = recordparser.cases[0].dob #todo: this is not correct, DOB must come from the front end? also DOB should be a datetime object
     ClientCases = recordparser.cases
 
     #fill in the missing details in the charge and statute objects with data from case detail page (case parser)

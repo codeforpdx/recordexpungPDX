@@ -25,7 +25,7 @@ class Client(object):
 
     def __dict__(self): #converts lists of objects to lists of dicts
 
-        case_list =[]
+        case_list = []
 
         for case in self.cases:
             case_list.append(case.__dict__())

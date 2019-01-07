@@ -18,7 +18,7 @@ class Disposition(object):
         type_: An enum of type DispositionType.
         date: A datetime.date specifying the date of the disposition.
     """
-    def __init__(self, type_, date_string, date=None):
+    def __init__(self, type_, date_string=None, date=None):
         self.type_ = type_
         self.date = date
         self.date_string = date_string

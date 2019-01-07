@@ -67,14 +67,18 @@ def test_expunger_classes():
     statute = get_dummy_statute()
     charges = [
         get_charge_crime_level('Felony', 'A'),
-        get_charge_crime_level('Felony', 'A'),
+        get_charge_crime_level('Felony', 'B'),
     ]
-    cases = [ #info, case_number, citation_number, date_location, type_status, charges, case_detail_link, state=None, balance_due=0.0):
-        self.name, birth_year = info
-        Case("", "case#1", "citation#2", "date location", "type_status", charges, CaseState.OPEN, 100.50),
-        Case(charges, CaseState.CLOSED, 0),
+    cases = [
+        Case('doe, john', '01/01/1970', "case#1", "citation#1", "1/1/1111", "clack county", "felony open", charges, "casedetail1.html", CaseState.OPEN, 100.50),
+        Case('doe, john', '01/01/1970', "case#2", "citation#2", "2/2/2222",  "mult county", "felony closed", charges, "casedetail2.html", CaseState.CLOSED, 100.50)
     ]
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
+
+    print(charges)
+
+    print(client.toJSON())
+
     assert(client.num_charges() == 4)
 
 class TestExpunger(unittest.TestCase):
