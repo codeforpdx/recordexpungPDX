@@ -17,7 +17,7 @@ class Case:
         self.case_number = case_number
         self.citation_number = citation_number[0] if citation_number else ""
         self.date = date2obj(date)
-        self.location = location #todo: clean this up  and put stuff in the parser
+        self.location = location
         self.violation_type = violation_type
         self.current_status = status
         self.charges = charges
@@ -36,7 +36,7 @@ class Case:
 
     def __dict__(self):
 
-        charge_list =[]
+        charge_list = []
 
         for charge in self.charges:
             charge_list.append(charge.__dict__())
@@ -47,9 +47,10 @@ class Case:
                 'citation_number': self.citation_number,
                 'date': str(self.date),
                 'location': str(self.location),
-                'violation_type': self.violation_type,
+                'violation_type': str(self.violation_type),
                 'current_status': self.current_status,
                 'charges': charge_list,
-                'case_detail_link': self.case_detail_link,
+                'case_detail_link': str(self.case_detail_link),
                 'state': self.state,
-                'balance_due': self.balance_due}
+                'balance_due': str(self.balance_due)
+                }

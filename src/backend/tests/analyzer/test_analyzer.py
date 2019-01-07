@@ -44,12 +44,12 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
     def test_DOB(self):
         assert self.client.dob.__str__() == "1951-06-02"
 
-    # def test_first_case(self):
-    #
-    #     #print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
-    #     print(OBJtoJSON(self.client))
-    #
-    #     assert self.client.cases[0].charges[0].eligible_when == "never"
+    def test_first_case(self):
+
+        #print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
+        print(OBJtoJSON(self.client))
+
+        assert self.client.cases[0].charges[0].eligible_when == "never"
 
     def test_second_case(self):
         assert self.client.cases[1].charges[0].eligible_when == "never"

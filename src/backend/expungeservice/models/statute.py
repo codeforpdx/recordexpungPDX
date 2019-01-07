@@ -63,7 +63,7 @@ class Statute(object):
                 'chapter': self.chapter,
                 'subchapter': self.subchapter,
                 'section': self.section,
-                'subsection': self.subsection,
+                'subsection': self.subsection
                 }
 
     # def __str__(self):

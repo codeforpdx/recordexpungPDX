@@ -11,6 +11,11 @@ from expungeservice.models.statute import Statute
 from expungeservice.models.charge import Charge
 from expungeservice.models.case import Case, CaseState
 
+from expungeservice.models.disposition import DispositionType
+
+
+import objbrowser
+
 import datetime
 
 def test_statute():
@@ -45,16 +50,19 @@ def get_disp():
     return Disposition(disp_type, date)
 
 def get_convicted_disp():
-    print(datetime.date(1996, 1, 1))
+    #print(datetime.date(1996, 1, 1))
     return Disposition(DispositionType.CONVICTED, datetime.date(1996, 1, 1))
 
 def get_dummy_statute():
     return Statute(113, 45, 5, 'd')
 
 def get_charge_crime_level(type_, class_):
+
     disp = get_convicted_disp()
     statute = get_dummy_statute()
     level = CrimeLevel(type_, class_)
+
+
     return Charge('%s %s charge' % (type_, class_), statute, level,
                   datetime.date(1995, 1, 1), disp)
 
@@ -63,26 +71,35 @@ def get_charge_crime_level(type_, class_):
 This mainly tests if we're able to construct the objects.
 """
 def test_expunger_classes():
-    disp = get_convicted_disp()
-    statute = get_dummy_statute()
+
     charges = [
         get_charge_crime_level('Felony', 'A'),
-        get_charge_crime_level('Felony', 'B'),
+        get_charge_crime_level('Felony', 'B')
     ]
+
     cases = [
-        Case('doe, john', '01/01/1970', "case#1", "citation#1", "1/1/1111", "clack county", "felony open", charges, "casedetail1.html", CaseState.OPEN, 100.50),
-        Case('doe, john', '01/01/1970', "case#2", "citation#2", "2/2/2222",  "mult county", "felony closed", charges, "casedetail2.html", CaseState.CLOSED, 100.50)
+        Case('doe, john', '01/01/1970', "case#1", "citation#1", "1/1/1111", "clack county", "felony open", charges,
+             "casedetail1.html", "OPEN", 100.50),
+        Case('doe, john', '01/01/1970', "case#2", "citation#2", "2/2/2222",  "mult county", "felony closed", charges,
+             "casedetail2.html", "CLOSED", 100.50)
     ]
+
+    #objbrowser.browse(charges)
+
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
-
-    print(charges)
-
-    print(client.toJSON())
 
     assert(client.num_charges() == 4)
 
+
+test_expunger_classes()
+
+exit()
+
+
+
 class TestExpunger(unittest.TestCase):
     def setUp(self):
+        test_expunger_classes()
         # add charge(s) when using this in a test
         self.open_case = Case(None, CaseState.OPEN, 0)
         self.closed_case = Case(None, CaseState.CLOSED, 0)
@@ -107,5 +124,5 @@ class TestExpunger(unittest.TestCase):
 
 #test_statute()
 
-test_expunger_classes()
+
 

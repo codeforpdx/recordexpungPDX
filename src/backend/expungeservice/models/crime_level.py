@@ -47,6 +47,8 @@ class CrimeLevel(object):
                 self.type_ = 'MISDEMEANOR'
             elif 'FELONY' in level_string[0]:
                 self.type_ = 'FELONY'
+            elif 'DEATH' in level_string[0]: #this is a wild guess but im pretty sure any crime recieveing the death penelty would be a felony
+                self.type_ = 'FELONY'
 
             self.class_ = level_string[2].upper() #set crime class (a, b, c, d)
 
