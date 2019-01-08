@@ -4,9 +4,9 @@ import enum
 
 CaseState = enum.Enum('CaseState', 'OPEN CLOSED')
 
-class Case:
+class Case(object):
 
-    def __init__(self, name, dob, case_number, citation_number, date, location, violation_type, status, charges, case_detail_link, state=None, balance_due=0.0):
+    def __init__(self, name, dob, case_number, citation_number, date, location, violation_type, status, charges, case_detail_link, state, balance_due=0.0):
 
         #todo: the type_status and date_location should be parsed elsewhere.
 

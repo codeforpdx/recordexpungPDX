@@ -27,9 +27,7 @@ class Charge(object):
         self._result = None
 
         self.type_eligible = False  # this is going to be a bool that represents if this is expungable
-        self.type_eligible_analysis = ''
         self.time_eligible = False
-        self.time_eligible_analysis = ''
 
         self.eligible_now = ''
         self.eligible_when = ''
@@ -46,9 +44,7 @@ class Charge(object):
                 'charge_date': str(self.charge_date),
                 'disposition': self.disposition.__dict__(),
                 'type_eligible': self.type_eligible,
-                'type_eligible_analysis': self.type_eligible_analysis,
                 'time_eligible': self.time_eligible,
-                'time_eligible_analysis': self.time_eligible_analysis,
                 'eligible_now': self.eligible_now,
                 'eligible_when': str(self.eligible_when),
                 'analysis': self.analysis

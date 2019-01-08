@@ -32,7 +32,8 @@ class Client(object):
 
         return {'name': self.name,
                 'dob': str(self.dob),
-                'cases': case_list
+                'cases': case_list,
+                'num_charges': self.num_charges()
                 }
 
     def toJSON(self):
