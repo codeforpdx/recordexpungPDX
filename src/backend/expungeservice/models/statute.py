@@ -58,13 +58,13 @@ class Statute(object):
     def __str__(self):
         return str(self.statute_string)
 
-    def __dict__(self):
-        return {'statute_string': self.statute_string,
-                'chapter': self.chapter,
-                'subchapter': self.subchapter,
-                'section': self.section,
-                'subsection': self.subsection
-                }
+    # def __dict__(self):
+    #     return {'statute_string': self.statute_string,
+    #             'chapter': self.chapter,
+    #             'subchapter': self.subchapter,
+    #             'section': self.section,
+    #             'subsection': self.subsection
+    #             }
 
     # def __str__(self):
     #     # TODO do these need to have leading zeros?

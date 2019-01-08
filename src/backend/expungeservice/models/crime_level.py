@@ -4,6 +4,8 @@
 import collections
 import enum
 
+import logging
+
 class CrimeLevel(object):
     """ Crime Level.
 
@@ -18,8 +20,8 @@ class CrimeLevel(object):
         self.class_ = class_
         self.level_string = level_string
 
-        if level_string:
-            self.parse_string_from_crawler(level_string)
+
+        self.parse_string_from_crawler(level_string)
 
     def __str__(self):
         if self.class_:
@@ -27,30 +29,35 @@ class CrimeLevel(object):
         else:
             return self.type_
 
-    def __dict__(self):
-        return {'type': self.type_,
-                'class': self.class_,
-                'level_string':self.level_string #todo: find if this is necessary
-                }
+    # def __dict__(self):
+    #     return {'type': self.type_,
+    #             'class': self.class_,
+    #             'level_string':self.level_string #todo: find if this is necessary
+    #             }
 
     #todo: on the ward weaver case detailpage8.html the crime level is "death", this is probably a non issue but we should devise a better way to handle that
 
     def parse_string_from_crawler(self, level_string): #todo: move this to the parser
 
-        level_string = level_string.upper().split()
+        try:
 
-        if len(level_string) == 3:
+            level_string = level_string.upper().split()
 
-            if 'INFRACTION' in level_string[0]:
-                self.type_ = 'INFRACTION'
-            elif 'MISDEMEANOR' in level_string[0]:
-                self.type_ = 'MISDEMEANOR'
-            elif 'FELONY' in level_string[0]:
-                self.type_ = 'FELONY'
-            elif 'DEATH' in level_string[0]: #this is a wild guess but im pretty sure any crime recieveing the death penelty would be a felony
-                self.type_ = 'FELONY'
+            if len(level_string) == 3:
 
-            self.class_ = level_string[2].upper() #set crime class (a, b, c, d)
+                if 'VIOLATION' in level_string[0]:
+                    self.type_ = 'VIOLATION'
+                if 'INFRACTION' in level_string[0]:
+                    self.type_ = 'INFRACTION'
+                elif 'MISDEMEANOR' in level_string[0]:
+                    self.type_ = 'MISDEMEANOR'
+                elif 'FELONY' in level_string[0]:
+                    self.type_ = 'FELONY'
+                elif 'DEATH' in level_string[0]: #this is a wild guess but im pretty sure any crime recieveing the death penelty would be a felony
+                    self.type_ = 'FELONY'
 
+                self.class_ = level_string[2].upper() #set crime class (a, b, c, d)
+        except:
+            logging.info('parse_string_from_crawler got a None string ')
 
 

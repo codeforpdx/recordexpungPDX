@@ -9,6 +9,9 @@ from expungeservice.models.crime_level import *
 
 from expungeservice.expunger.helper_functions import file2string
 
+
+from objbrowser import browse
+
 #todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
 
 
@@ -53,7 +56,10 @@ def BuildClientObject(PathToExampleHTMLFiles, clientsRecordPageHTML):
         caseparser = CaseParser()
 
         caseRawData = file2string(PathToExampleHTMLFiles + case.case_detail_link)
+
         caseparser.feed(caseRawData)
+
+        #browse(caseparser)
 
         ChargeList = [] #initialize empty list of charges
 

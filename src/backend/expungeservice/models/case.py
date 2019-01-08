@@ -33,27 +33,27 @@ class Case(object):
 
     def set_state(self, state): #todo: less ambiguous name
         self.state = state
-
-    def __dict__(self):
-
-        charge_list = []
-
-        for charge in self.charges:
-            charge_list.append(charge.__dict__())
-
-        return {'name': self.name,
-                'dob': str(self.dob),
-                'case_number': self.case_number,
-                'citation_number': self.citation_number,
-                'date': str(self.date),
-                'location': str(self.location),
-                'violation_type': str(self.violation_type),
-                'current_status': self.current_status,
-                'charges': charge_list,
-                'case_detail_link': str(self.case_detail_link),
-                'state': str(self.state),
-                'balance_due': str(self.balance_due)
-                }
+    #
+    # def __dict__(self):
+    #
+    #     charge_list = []
+    #
+    #     for charge in self.charges:
+    #         charge_list.append(charge.__dict__())
+    #
+    #     return {'name': self.name,
+    #             'dob': str(self.dob),
+    #             'case_number': self.case_number,
+    #             'citation_number': self.citation_number,
+    #             'date': str(self.date),
+    #             'location': str(self.location),
+    #             'violation_type': str(self.violation_type),
+    #             'current_status': self.current_status,
+    #             'charges': charge_list,
+    #             'case_detail_link': str(self.case_detail_link),
+    #             'state': str(self.state),
+    #             'balance_due': str(self.balance_due)
+    #             }
 
     # @property
     # def dob(self):

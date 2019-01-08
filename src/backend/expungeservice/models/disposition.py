@@ -43,9 +43,9 @@ class Disposition(object):
             month, day, year = map(int, self.date_string.split("/"))
             self.date = datetime.date(year, month, day)
 
-    def __dict__(self):
-        return {'type': str(self.type_),
-                'date_string': str(self.date_string)
-                }
+    # def __dict__(self):
+    #     return {'type': str(self.type_),
+    #             'date_string': str(self.date_string)
+    #             }
 
 

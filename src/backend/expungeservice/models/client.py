@@ -22,22 +22,22 @@ class Client(object):
         for case in self.cases:
             num += case.num_charges()
         return num
-
-    def __dict__(self): #converts lists of objects to lists of dicts
-
-        case_list = []
-
-        for case in self.cases:
-            case_list.append(case.__dict__())
-
-        return {'name': self.name,
-                'dob': str(self.dob),
-                'cases': case_list,
-                'num_charges': self.num_charges()
-                }
-
-    def toJSON(self):
-        serialized = jsonpickle.encode(self.__dict__())
-        serialized = json.dumps(json.loads(serialized), indent=2)
-        return serialized
-        # print(yaml.dump(yaml.load(serialized), indent=2))
+    #
+    # def __dict__(self): #converts lists of objects to lists of dicts
+    #
+    #     case_list = []
+    #
+    #     for case in self.cases:
+    #         case_list.append(case.__dict__())
+    #
+    #     return {'name': self.name,
+    #             'dob': str(self.dob),
+    #             'cases': case_list,
+    #             'num_charges': self.num_charges()
+    #             }
+    #
+    # def toJSON(self):
+    #     serialized = jsonpickle.encode(self.__dict__())
+    #     serialized = json.dumps(json.loads(serialized), indent=2)
+    #     return serialized
+    #     # print(yaml.dump(yaml.load(serialized), indent=2))

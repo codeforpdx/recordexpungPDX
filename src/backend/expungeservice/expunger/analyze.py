@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
+logging.basicConfig(level=logging.INFO)
 
 from expungeservice.models.statute import Statute
 from expungeservice.models.case import *
@@ -20,11 +21,6 @@ from objbrowser import browse
 
 import collections
 import enum
-
-
-
-#todo: i am not sure if im supposed to be using getters and setters for objects python lets me just set object values however i want but i should probably do that
-
 
 class ResultCode(enum.Enum):
     INELIGIBLE = 'Ineligible'
@@ -65,12 +61,12 @@ class Result(object):
     def __str__(self):
         return ' '.join([str(self.code), str(self.analysis), str(self.statute), str(self.date)])
 
-    def __dict__(self):
-        return {'code': str(self.code) ,
-                'analysis': self.analysis,
-                'statute': str(self.statute),
-                'date': str(self.date)
-                }
+    # def __dict__(self):
+    #     return {'code': str(self.code) ,
+    #             'analysis': self.analysis,
+    #             'statute': str(self.statute),
+    #             'date': str(self.date)
+    #             }
 
 # class ResultInElig_137_225_5(Result):
 #
@@ -116,37 +112,22 @@ class RecordAnalyzer(object):
 
     #todo: there is LOTS of duplication between the next three functions and everywhere cameron has been coding
     #todo: maybe instead of searching for equivalent charge objects we should just refer to the original charge object's memory address or whatever that thing is like <expungeservice.models.charge.Charge object at 0x7f1c637d9b38>
-    #todo: incorporate the result object from above
 
-    def get_all_convicted_charges_sorted_by_date(self):
+    def get_all_charges_sorted_by_date(self, what_type):
         chargelist = []
 
         for case in self.client.cases:
             for charge in case.charges:
 
-                if charge.disposition.type_ == DispositionType.CONVICTED:
+                if charge.disposition.type_ == what_type:
                     chargelist.append(charge)
 
-        sorted_list = sorted(chargelist, key=attrgetter('disposition.date')) # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
+        sorted_list = sorted(chargelist, key=attrgetter(
+            'disposition.date'))  # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
         return sorted_list
-
-
-    #todo: combine this one and the one above somehow because of duplication
-    def get_all_dismissed_charges_sorted_by_date(self):
-        chargelist = []
-
-        for case in self.client.cases:
-            for charge in case.charges:
-
-                if charge.disposition.type_ == DispositionType.DISMISSED:
-                    chargelist.append(charge)
-
-        sorted_list = sorted(chargelist, key=attrgetter('disposition.date')) # sort list of convictions by date, note: the list is mostly sorted by the parser but not completely sorted so this is in fact necessary
-        return sorted_list
-
 
     def get_mrc(self):
-        return RecordAnalyzer.get_all_convicted_charges_sorted_by_date(self)[-1:][0]
+        return RecordAnalyzer.get_all_charges_sorted_by_date(self, DispositionType.CONVICTED)[-1:][0]
 
     def is_charge_from_last_3_years(self, charge): #todo: leap year bug
         three_years_ago_from_today = datetime.today().date() - timedelta(days=(365 * 3))  # calculate time delta for twenty years ago
@@ -157,7 +138,7 @@ class RecordAnalyzer(object):
     def get_last_ten_years_of_convictions_minus_mrc(self, mrc):
 
         ten_years_ago_from_today = datetime.today() - timedelta(days=(365 * 10))  #todo: leap year bug
-        sorted_list = RecordAnalyzer.get_all_convicted_charges_sorted_by_date(self)
+        sorted_list = RecordAnalyzer.get_all_charges_sorted_by_date(self, DispositionType.CONVICTED)
 
         last_ten_years_of_convictions_minus_mrc = []
 
@@ -167,7 +148,6 @@ class RecordAnalyzer(object):
                     last_ten_years_of_convictions_minus_mrc.append(charge)
 
         return last_ten_years_of_convictions_minus_mrc
-
 
     def is_mrc_time_eligible(self, mrc):
 
@@ -184,7 +164,6 @@ class RecordAnalyzer(object):
                 three_years_from_disposition = mrc.disposition.date + timedelta(days=(365 * 3))
                 mrc.eligible_when = three_years_from_disposition #todo: leap year bug
                 return True, Result(ResultCode.INELIGIBLE, "This is MRC. it is Time Eligible beginning at " + str(three_years_from_disposition), None)
-
 
     def is_charge_time_eligible(self, charge, mrc):
 
@@ -264,7 +243,12 @@ class RecordAnalyzer(object):
 
             #time dismissal tree
 
-            dismissed_charges_sorted = self.get_all_dismissed_charges_sorted_by_date()
+            dismissed_charges_sorted = self.get_all_charges_sorted_by_date(DispositionType.DISMISSED)
+
+            if len(dismissed_charges_sorted) == 0:
+                logging.info('client has no dismissed charges')
+                return Result(ResultCode.NO_ACTION)
+
             mrd = dismissed_charges_sorted[-1:][0]
 
 
@@ -291,9 +275,6 @@ class RecordAnalyzer(object):
         #this checks time eligibility for all charges on all cases
 
         time_result = self.time_eligibility()
-
-
-
 
         #this checks TYPE eligibility for all charges
         for case in self.client.cases: #iterate through all cases and charges to check type eligibility
@@ -325,9 +306,7 @@ class RecordAnalyzer(object):
                         charge.eligible_now = False
                 except:
 
-                    print(case.__dict__())
-
-
+                    logging.info(charge) #todo: error
 
     """
     these are helper functions for type eligiblilty
@@ -388,7 +367,7 @@ class RecordAnalyzer(object):
         return False
 
     def is_charge_PCS_schedule_1(charge):
-        if charge.name == "PCS":            #todo: this is broken, find how to identify this charge
+        if charge.name.upper() == "PCS":            #todo: this is broken, find how to identify this charge
             return True
 
     def is_charge_traffic_violation(charge):
@@ -401,37 +380,55 @@ class RecordAnalyzer(object):
         return False
 
     def is_charge_level_violation( charge):
-        if charge.level.type_ == "VIOLATION":
-            return True
-        return False
+        try:
+            if charge.level.type_.upper() == "VIOLATION": #todo: if this is a violation wtf is infraction
+                return True
+            return False
+        except:
+            print(charge.level.__dict__)
 
     def is_charge_misdemeanor( charge):
-        if charge.level.type_ == "MISDEMEANOR":
-            return True
-        return False
+        try:
+            if charge.level.type_.upper() == "MISDEMEANOR":
+                return True
+            return False
+        except:
+            print(charge.level.__dict__)
 
     def is_charge_felony_class_C( charge):
-        if charge.level.type_ == "FELONY" and charge.level.class_ == "C":
-            return True
-        return False
+        try:
+            if charge.level.type_.upper() == "FELONY" and charge.level.class_.upper() == "C":
+                return True
+            return False
+        except:
+            print(charge.level.__dict__)
 
     def is_charge_felony_class_B(charge):
-        if charge.level.type_ == "FELONY" and charge.level.class_ == "B":
-            return True
-        return False
+        try:
+            if charge.level.type_.upper() == "FELONY" and charge.level.class_.upper() == "B":
+                return True
+            return False
+        except:
+            print(charge.level.__dict__)
 
     def is_charge_felony_class_A(charge):
-        if charge.level.type_ == "FELONY" and charge.level.class_ == "A":
-            return True
-        return False
+        try:
+            if charge.level.type_.upper() == "FELONY" and charge.level.class_.upper() == "A":
+                return True
+            return False
+        except:
+            print(charge.level.__dict__)
 
     def does_record_contain_arrest_or_conviction_in_last_20_years(client):
         for case in client.cases:
             for charge in case.charges:
                 if charge.disposition.type_ == DispositionType.CONVICTED:
                     twenty_years_ago_date = datetime.today() - timedelta(days=(365*20)) #calculate time delta for twenty years ago #todo: calculate if this is accurate to within +-1 days
-                    if twenty_years_ago_date.date() < charge.disposition.date:
-                        return True
+                    try:
+                        if twenty_years_ago_date.date() < charge.disposition.date:
+                            return True
+                    except:
+                        logging.info('does_record_contain_arrest_or_conviction_in_last_20_years got a blank charge.disposition.type_from ' + str(charge.name))
 
         return False
 

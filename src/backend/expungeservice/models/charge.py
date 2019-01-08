@@ -37,32 +37,32 @@ class Charge(object):
         if type(self.charge_date) == type(""):
             self.charge_date = date2obj(self.charge_date)
 
-    def __dict__(self):
-
-        if self.type_eligible == None or self.time_eligible == None:
-            return {'name': self.name,
-                    'statute': self.statute.__dict__(),
-                    'level': self.level.__dict__(),
-                    'charge_date': str(self.charge_date),
-                    'disposition': self.disposition.__dict__(),
-                    'type_eligible': self.type_eligible,
-                    'time_eligible': self.time_eligible,
-                    'eligible_now': self.eligible_now,
-                    'eligible_when': str(self.eligible_when),
-                    'analysis': self.analysis
-                    }
-
-        return {'name': self.name,
-                'statute': self.statute.__dict__(),
-                'level': self.level.__dict__(),
-                'charge_date': str(self.charge_date),
-                'disposition': self.disposition.__dict__(),
-                'type_eligible': self.type_eligible.__dict__(),
-                'time_eligible': self.time_eligible.__dict__(),
-                'eligible_now': self.eligible_now,
-                'eligible_when': str(self.eligible_when),
-                'analysis': self.analysis
-                }
+    # def __dict__(self):
+    #
+    #     if self.type_eligible == None or self.time_eligible == None:
+    #         return {'name': self.name,
+    #                 'statute': self.statute.__dict__(),
+    #                 'level': self.level.__dict__(),
+    #                 'charge_date': str(self.charge_date),
+    #                 'disposition': self.disposition.__dict__(),
+    #                 'type_eligible': self.type_eligible,
+    #                 'time_eligible': self.time_eligible,
+    #                 'eligible_now': self.eligible_now,
+    #                 'eligible_when': str(self.eligible_when),
+    #                 'analysis': self.analysis
+    #                 }
+    #
+    #     return {'name': self.name,
+    #             'statute': self.statute.__dict__(),
+    #             'level': self.level.__dict__(),
+    #             'charge_date': str(self.charge_date),
+    #             'disposition': self.disposition.__dict__(),
+    #             'type_eligible': self.type_eligible.__dict__(),
+    #             'time_eligible': self.time_eligible.__dict__(),
+    #             'eligible_now': self.eligible_now,
+    #             'eligible_when': str(self.eligible_when),
+    #             'analysis': self.analysis
+    #             }
 
     def __eq__(self, other):
         return (self.name == other.name and
