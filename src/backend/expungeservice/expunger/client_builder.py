@@ -1,8 +1,6 @@
 from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
 
-from expungeservice.expunger.client_builder import *
-
 from expungeservice.models.client import Client
 from expungeservice.models.charge import Charge
 from expungeservice.models.statute import Statute

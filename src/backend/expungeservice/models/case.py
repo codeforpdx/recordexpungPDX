@@ -54,3 +54,12 @@ class Case:
                 'state': self.state,
                 'balance_due': str(self.balance_due)
                 }
+
+    # @property
+    # def dob(self):
+    #     return self.dob
+    #
+    # @dob.setter
+    # def dob(self, dob):
+    #     self.dob = date2obj(dob)
+    #     self.dob = date2obj(dob)

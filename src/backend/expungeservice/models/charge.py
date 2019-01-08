@@ -61,21 +61,21 @@ class Charge(object):
                 self.charge_date == other.charge_date and
                 self.disposition == other.disposition)
 
-    @property
-    def time_elig_result(self):
-        return self.time_eligible
-
-    @time_elig_result.setter
-    def time_elig_result(self, result):
-        self.time_eligible = result
-
-    @property
-    def type_elig_result(self):
-        return self._result
-
-    @type_elig_result.setter
-    def type_elig_result(self, result):
-        self._result = result
+    # @property
+    # def time_elig_result(self):
+    #     return self.time_eligible
+    #
+    # @time_elig_result.setter
+    # def time_elig_result(self, result):
+    #     self.time_eligible = result
+    #
+    # @property
+    # def type_elig_result(self):
+    #     return self._result
+    #
+    # @type_elig_result.setter
+    # def type_elig_result(self, result):
+    #     self._result = result
 
 
 
