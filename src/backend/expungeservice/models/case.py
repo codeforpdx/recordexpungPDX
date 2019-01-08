@@ -51,7 +51,7 @@ class Case(object):
                 'current_status': self.current_status,
                 'charges': charge_list,
                 'case_detail_link': str(self.case_detail_link),
-                'state': self.state,
+                'state': str(self.state),
                 'balance_due': str(self.balance_due)
                 }
 

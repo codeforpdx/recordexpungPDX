@@ -27,13 +27,7 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
         #print(self.client.toJSON())
 
         self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
-        self.analyzer.analyze()
 
-        #browse(self.client)
-
-        # #was using object browser for object inspection but now
-        # using json output since this program is going into a docker container
-        # but the object browser is pretty cool
 
     def test_name(self):
         assert self.client.name == "SIZEMORE, WILLIAM"
@@ -47,7 +41,7 @@ class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
     def test_first_case(self):
 
         #print(OBJtoJSON(self.client.cases[0].charges[0])) #prints this charge object to terminal for manual inspection
-        print(OBJtoJSON(self.client))
+        #print(OBJtoJSON(self.client))
 
         assert self.client.cases[0].charges[0].eligible_when == "never"
 
@@ -64,7 +58,6 @@ class TestAnalyzerWithWardWeaverCase(unittest.TestCase):
         self.client = BuildClientObject(PathToExampleHTMLFiles, WardWeaver.RECORD)  # use parser to build complete client object                                                                                                      # use object browser to visually inspect completeness of object
 
         self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
-        self.analyzer.analyze()
 
     def test_name(self):
         assert self.client.name == "WEAVER, WARD FRANCIS, III"

@@ -24,6 +24,18 @@ class Disposition(object):
         self.date_string = date_string
 
         self.parse_date_string()
+        self.parse_type()
+
+    def parse_type(self):
+        if self.type_ == "CONVICTED":
+            self.type_ = DispositionType.CONVICTED
+        elif self.type_ == "DISMISSED":
+            self.type_ = DispositionType.DISMISSED #todo: this function isnt parsing correctly
+        elif self.type_ == "ACQUITTED":
+            self.type_ = DispositionType.ACQUITTED
+        elif self.type_ == "NO COMPLAINT":
+            self.type_ = DispositionType.NO_COMPLAINT
+            #todo: throw error
 
     def parse_date_string(self):
         # parse date into proper datetime object, if it is a string
@@ -32,7 +44,7 @@ class Disposition(object):
             self.date = datetime.date(year, month, day)
 
     def __dict__(self):
-        return {'type': self.type_,
+        return {'type': str(self.type_),
                 'date_string': str(self.date_string)
                 }
 
