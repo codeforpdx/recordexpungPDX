@@ -217,11 +217,16 @@ Database Schema
 
 Tables:
 
-    users (uuid, username, email, password, password_salt, admin), uuid primary key
+    users (uuid, username, email, hashed_password, password_salt, admin, date_created, date_modified), uuid primary key
 
-    expunged_records (uuid, first_name, last_name, dob), uuid primary key
+    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
 
-Other tables TBD
+    result_codes (uuid, code) uuid primary key
+
+    rules (uuid, text)
+
+    analysis (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged) 
+
 
 Notes:
 

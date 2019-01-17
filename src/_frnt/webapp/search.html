@@ -1,0 +1,230 @@
+<main class="mw8 ph2 center">
+
+  <section class="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
+    <h1 class="mb4 f4 fw6">Record Search</h1>
+    <form>
+      <div class="flex flex-wrap items-end">
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input1" class="db mb1 fw6">
+          First Name
+        </label>
+        <input id="input1" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input2" class="db mb1 fw6">
+          Last Name
+        </label>
+        <input id="input2" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-30-ns mb3 pr1-ns">
+        <label for="input3" class="db mb1 fw6">
+          Date of Birth <span class="fw2 f6">MM/DD/YYYY</span>
+        </label>
+        <input id="input3" type="text" class="w-100 pa3 br2 b--black-10">
+      </div>
+      <div class="w-100 w-10-ns mb3">
+        <button class="br2 bg-blue white db w-100 tc pv3 btn--search" aria-label="Search" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="mv4">
+    <!-- Show if missing a field on submit -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</div>
+    <!-- Show if the date format is incorrect. We should also allow for "-" along with "/" and not worry about leading zeros. -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</div>
+    <!-- Show if any of the services are down. If there's no internet connection we would ideally have a different message, but that's a nice-to-have. -->
+    <div class="bg-washed-red mv4 pa3 br3 fw6">Technical error, please try again in a few minutes.</div>
+    <!-- Show this loading indicator while generating results. -->
+    <div class="bg-white mv4 pa4 br3 fw6"><span class="spinner mr2"></span>Loading your search results...</div>
+    <!-- Show if we can't find results. -->
+    <div class="bg-light-gray mv4 pa4 br3 fw6">No search results found :(</div>
+  </section>
+
+  <section class="bg-white shadow br3 br--top">
+    <div class="pa3">
+      <h1 class="gray pv2">Results for {firstname lastname}</h1>
+    </div>
+
+    <div class="flex-l bt b--light-gray record--eligible">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible now -->
+          <span class="fw6 green bg-washed-green br-pill pv2 ph3">Eligible now</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> Eligible now</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> Eligible {section}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <!-- IF not convicted -->
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex-l bt b--light-gray record--future">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible in future -->
+          <span class="fw6 blue bg-washed-blue br-pill pv2 ph3">Eligible {mm/dd/yyyy}</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> 10 years from most recent conviction</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-check-circle green"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> Eligible {section}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex-l bt b--light-gray record--review">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF eligible in future, but needs review -->
+          <span class="fw6 purple bg-washed-purple br-pill pv2 ph3 nowrap">Eligible {mm/dd/yyyy} (review)</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> {time rule}</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type eligible -->
+          <i class="absolute fas fa-question-circle purple"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> {review reason}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>4759924B - Poss Controlled Sub 2
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- IF ineligible -->
+    <div class="flex-l bt b--light-gray record--ineligible">
+      <div class="w-100 w-30-l pt4 pr3 pl4">
+        <div class="mb4">
+          <!-- IF ineligible -->
+          <span class="fw6 red bg-washed-red br-pill pv2 ph3">Ineligible</span>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF time eligible in future -->
+          <i class="absolute fas fa-minus-circle blue"></i>
+          <div class="ml3 pl1"><span class="fw7">Time:</span> {time rule}</div>
+        </div>
+        <div class="relative mb3 ml3">
+          <!-- IF type ineligible -->
+          <i class="absolute fas fa-times-circle red"></i>
+          <div class="ml3 pl1"><span class="fw7">Type:</span> {review reason}</div>
+        </div>
+      </div>
+      <div class="w-100 w-70-l pv4 pr3 pl4">
+        <ul>
+          <li class="mb3">
+            <span class="fw7">Charge: </span>2359924B - Ineligible type
+          </li>
+          <li class="mb3">
+            <span class="fw7">Disposition: </span>Dismissed
+          </li>
+          <li class="mb3">
+            <span class="fw7">Arrested: </span>2/12/2007
+          </li>
+          <li class="mb3">
+            <span class="fw7">Balance: </span>–
+          </li>
+          <li class="mb3">
+            <span class="fw7">Case: </span>
+            <a class="underline" href="#">
+              ZA0061902
+              <i class="pl1 silver fas fa-external-link-square-alt"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt5 mb5 mw6 lh-copy">
+    <h1 class="fw6 mb3">Other requirements:</h1>
+    <ul>
+      <li class="mb3">For convictions, you must have completed all of the requirements imposed upon you by the court and completed your term of probation.</li>
+      <li class="mb3">Outstanding balances will be manually reviewed.</li>
+    </ul>
+  </section>
+
+</main>
