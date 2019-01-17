@@ -1,0 +1,92 @@
+$gray-blue: #FAFAFE;
+$green: #007B4B;
+$washed-green: #E5F1ED;
+$blue: #00449E;
+$washed-blue: #E0E7F0;
+$purple: #9619FF;
+$washed-purple: #EFE3FA;
+$red: #A0004B;
+$washed-red: #F0E0E8;
+
+// Won't need these if Tachyons variables are overwriten in colors config
+.green { color:$green }
+.washed-green { color:$washed-green }
+.bg-washed-green { background-color:$washed-green }
+
+.blue { color:$blue }
+.washed-blue { color:$washed-blue }
+.bg-washed-blue { background-color:$washed-blue }
+
+.purple { color:$purple }
+.washed-purple { color:$washed-purple }
+.bg-washed-purple { background-color:$washed-purple }
+
+.red { color:$red }
+.washed-red { color:$washed-red }
+.bg-washed-red { background-color:$washed-red }
+
+.bg-gray-blue { background-color: $gray-blue; }
+
+// stock shadow too dark
+.shadow {
+  box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
+}
+
+.btn--search {
+  height: 54px;
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 3px solid rgba(53, 126, 221, 0.2);
+}
+.spinner--light {
+  border: 3px solid rgba(186, 216, 255, 0.2);
+}
+.spinner:after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(53, 126, 221, 1);
+  -webkit-animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
+}
+.spinner--light:after {
+  border-top-color: rgba(186, 216, 255, 1);
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    tranform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    tranform: rotate(360deg);
+  }
+}
+
+// Search results
+
+.record--eligible {
+  box-shadow: inset 10px 0 0 $washed-green;
+}
+.record--future {
+  box-shadow: inset 10px 0 0 $washed-blue;
+}
+.record--review {
+  box-shadow: inset 10px 0 0 $washed-purple;
+}
+.record--ineligible {
+  box-shadow: inset 10px 0 0 $washed-red;
+}
