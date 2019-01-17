@@ -7,13 +7,19 @@ CREATE TABLE users (
     user_id         UUID NOT NULL,
     username        CITEXT UNIQUE NOT NULL,
     email           CITEXT UNIQUE NOT NULL,
-    hashed_password TEXT NOT NULL,
-    password_salt   TEXT NOT NULL,
     admin           BOOLEAN NOT NULL DEFAULT FALSE,
     date_created    TIMESTAMP WITH TIME ZONE DEFAULT now(),
     date_modified   TIMESTAMP WITH TIME ZONE DEFAULT now(),
     PRIMARY KEY (user_id)
 );
+
+CREATE TABLE auth (
+    auth_id         UUID NOT NULL,
+    hashed_password TEXT NOT NULL,
+    password_salt   TEXT NOT NULL,
+    PRIMARY KEY (auth_id),
+    user_id        UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+)
 
 
 CREATE TABLE clients (
