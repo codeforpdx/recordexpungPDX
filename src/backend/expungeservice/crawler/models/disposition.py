@@ -1,5 +1,5 @@
 class Disposition:
 
-    def __init__(self):
-        self.date = None
-        self.ruling = None
+    def __init__(self, date=None, ruling=None):
+        self.date = date
+        self.ruling = ruling
