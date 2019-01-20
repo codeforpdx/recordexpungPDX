@@ -18,11 +18,7 @@ logging.basicConfig(level=logging.INFO)
 from objbrowser import browse
 
 
-
-
 #todo: freeze the client objects so these tests dont depend on the parser
-
-
 
 class TestAnalyzerWithJdLitter(unittest.TestCase):
 
@@ -35,7 +31,7 @@ class TestAnalyzerWithJdLitter(unittest.TestCase):
 
         self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
 
-        #self.client.
+        browse(self.client)
 
 
     def test_name(self):
