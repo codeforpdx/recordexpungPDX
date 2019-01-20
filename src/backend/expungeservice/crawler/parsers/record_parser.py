@@ -74,7 +74,7 @@ class RecordParser(HTMLParser):
 
     def __record_case(self):
         self.cases.append(Case(self.info, self.case_number, self.citation_number, self.date_location,
-                                    self.type_status, self.charges, self.case_detail_link))
+                                    self.type_status, [], self.case_detail_link))
 
     def __reset_case(self):
         self.case_number = ''      # column 1
