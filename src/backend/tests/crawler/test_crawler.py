@@ -61,3 +61,23 @@ class TestCrawler(unittest.TestCase):
             self.crawler.search('John', 'Doe')
 
         assert len(self.crawler.result.cases) == 0
+
+    def test_single_charge_conviction(self):
+        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
+        with requests_mock.Mocker() as m:
+            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
+                                                     {'text': JohnDoe.SINGLE_CASE_RECORD}])
+            base_url += 'CaseDetail.aspx'
+            m.get(base_url + '?CaseID=CASEJD1', text=CaseDetails.CASEJD1)
+
+            self.crawler.search('John', 'Doe')
+
+        assert len(self.crawler.result.cases) == 1
+        assert len(self.crawler.result.cases[0].charges) == 1
+
+        assert self.crawler.result.cases[0].charges[0].name == 'Loading Zone'
+        assert self.crawler.result.cases[0].charges[0].statute == '29'
+        assert self.crawler.result.cases[0].charges[0].level == 'Violation Unclassified'
+        assert self.crawler.result.cases[0].charges[0].date == '09/04/2008'
+        assert self.crawler.result.cases[0].charges[0].disposition.ruling == 'Convicted'
+        assert self.crawler.result.cases[0].charges[0].disposition.date == '11/18/2008'
