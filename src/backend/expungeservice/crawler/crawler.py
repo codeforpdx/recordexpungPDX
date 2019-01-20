@@ -38,6 +38,8 @@ class Crawler:
                 new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
                 case.charges.append(new_charge)
 
+        self.session.close()
+
     def __parse_nodes(self, url):
         node_parser = NodeParser()
         node_parser.feed(self.response.text)
