@@ -53,4 +53,11 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[2].charges[2].disposition.ruling is None
         assert self.crawler.result.cases[2].charges[2].disposition.date is None
 
+    def test_a_blank_search_response(self):
+        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
+        with requests_mock.Mocker() as m:
+            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
+                                                     {'text': JohnDoe.BLANK_RECORD}])
+            self.crawler.search('John', 'Doe')
 
+        assert len(self.crawler.result.cases) == 0
