@@ -27,6 +27,7 @@ class Crawler:
 
         # perform search
         response = self.session.post(url, data=payload)
+        self.result.feed(response.text)
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
