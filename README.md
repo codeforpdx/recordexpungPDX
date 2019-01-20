@@ -10,7 +10,7 @@ Fork, and clone the repo.
 
 to install python3.7 on ubuntu 18.04 just run the command:
 ```
-sudo apt-get install python3.7 -y
+sudo apt-get install python3.7 -y 
 ```
 
 
