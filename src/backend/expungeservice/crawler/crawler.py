@@ -25,6 +25,9 @@ class Crawler:
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
 
+        # perform search
+        response = self.session.post(url, data=payload)
+
     def __parse_nodes(self, url):
         node_parser = NodeParser()
         node_parser.feed(self.response.text)
