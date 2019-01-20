@@ -73,14 +73,8 @@ class RecordParser(HTMLParser):
     def _set_charges(self, data):
         self.charges.append(data)
 
-<<<<<<< HEAD
     def __record_case(self): #todo: unpacking these variables like this feels wrong
         self.cases.append(Case(self.info[0], self.info[1], self.case_number, self.citation_number, self.date_location[0], self.date_location[1], self.type_status[0], self.type_status[1], self.charges, self.case_detail_link, None, None))
-=======
-    def __record_case(self):
-        self.cases.append(Case(self.info, self.case_number, self.citation_number, self.date_location,
-                                    self.type_status, [], self.case_detail_link))
->>>>>>> pr/1
 
     def __reset_case(self):
         self.case_number = ''  # column 1
