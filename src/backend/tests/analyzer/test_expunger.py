@@ -2,7 +2,6 @@
 import copy
 import unittest
 
-from objbrowser import browse
 
 from expungeservice.expunger.analyze import *
 from expungeservice.expunger.client_builder import *

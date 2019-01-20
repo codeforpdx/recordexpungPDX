@@ -10,8 +10,6 @@ from expungeservice.models.crime_level import *
 from expungeservice.expunger.helper_functions import file2string
 
 
-from objbrowser import browse
-
 #todo: merge this entire file into the parser. make the parser be the client builder since it kinda already does most of that.
 
 

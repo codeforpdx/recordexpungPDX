@@ -16,7 +16,6 @@ from operator import attrgetter
 from datetime import datetime
 from datetime import timedelta
 
-from objbrowser import browse
 
 
 import collections

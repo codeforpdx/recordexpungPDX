@@ -10,31 +10,33 @@ from tests.fixtures.jd_litters import Litter
 from tests.fixtures.jd_taxes import Taxes
 from tests.fixtures.jd_murders import Murder
 
-import tests.fixtures.jd_litters as ass
+import tests.fixtures.jd_litters as jd_litters
 import os
 import logging
 logging.basicConfig(level=logging.INFO)
-import objbrowser
+
+from objbrowser import browse
+
 
 
 
 #todo: freeze the client objects so these tests dont depend on the parser
 
 
-class TestAnalyzerWitCameronLitter(unittest.TestCase):
+
+class TestAnalyzerWithJdLitter(unittest.TestCase):
 
     def setUp(self):
-        path = os.path.abspath(ass.__file__)
+        path = os.path.abspath(jd_litters.__file__)
         path = path.replace(os.path.relpath(path, "../../"), "")
         PathToExampleHTMLFiles = os.path.join(path, 'tests/fixtures/html/jd-litter') + "/"
 
         self.client = BuildClientObject(PathToExampleHTMLFiles, Litter.RECORD)
 
-        #browse(self.client)
-
         self.analyzer = RecordAnalyzer(self.client)  # create an analyzer object with our client object
 
-        browse(self.client)
+        #self.client.
+
 
     def test_name(self):
         assert self.client.name == "litter, john doe"
@@ -53,7 +55,7 @@ class TestAnalyzerWitCameronLitter(unittest.TestCase):
     #     assert self.client.cases[1].charges[0].eligible_when == "never"
 
 #
-# class TestAnalyzerWithBillSizemorerCase(unittest.TestCase):
+# class TestAnalyzerWithjJD-Taxes(unittest.TestCase):
 #
 #     def setUp(self):
 #         path = os.path.abspath(bill.__file__)
@@ -82,7 +84,7 @@ class TestAnalyzerWitCameronLitter(unittest.TestCase):
 #     def test_second_case(self):
 #         assert self.client.cases[1].charges[0].eligible_when == "never"
 #
-# class TestAnalyzerWithWardWeaverCase(unittest.TestCase):
+# class TestAnalyzerWithJDMurdersCase(unittest.TestCase):
 #
 #     def setUp(self):
 #         path = os.path.abspath(ass.__file__)
