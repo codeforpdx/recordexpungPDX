@@ -3,6 +3,7 @@ import requests
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
+from expungeservice.crawler.parsers.case_parser import CaseParser
 from expungeservice.crawler.request import *
 
 
@@ -29,11 +30,21 @@ class Crawler:
         response = self.session.post(url, data=payload)
         self.result.feed(response.text)
 
+        # Parse search results (case detail pages)
+        for case in self.result.cases:
+            case_parser = self.__parse_case(case)
+
     def __parse_nodes(self, url):
         node_parser = NodeParser()
         node_parser.feed(self.response.text)
         payload = {'NodeID': node_parser.node_id, 'NodeDesc': 'All+Locations'}
         return self.session.post(url, data=payload)
+
+    def __parse_case(self, case):
+        case_parser = CaseParser()
+        response = self.session.get(case.case_detail_link)
+        case_parser.feed(response.text)
+        return case_parser
 
     @staticmethod
     def __extract_payload(node_response, last_name, first_name, middle_name, birth_date):
