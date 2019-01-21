@@ -13,6 +13,8 @@ python-dotenv = "*"
 recordexpunge = {editable = true,path = "."}
 expungeservice = {editable = true,path = "."}
 pytest = "*"
+requests-mock = "*"
+requests = "*"
 
 [dev-packages]
 
