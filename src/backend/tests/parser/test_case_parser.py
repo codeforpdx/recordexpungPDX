@@ -383,3 +383,55 @@ class TestParkingViolationCase(unittest.TestCase):
         assert self.parser.hashed_charge_data[1]['statute'] == '16.20.430-A'
         assert self.parser.hashed_charge_data[1]['level'] == 'Violation Unclassified'
         assert self.parser.hashed_charge_data[1]['date'] == '12/01/2018'
+
+
+class TestCaseWithRelatedCases(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = CaseParser()
+        self.parser.feed(CaseDetails.CASEJD74)
+
+    def test_ids_are_collected(self):
+        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
+
+    def test_charge_names_are_collected(self):
+        assert self.parser.charge_table_data[1] == 'Poss Controlled Sub 2'
+
+    def test_statutes_are_collected(self):
+        assert self.parser.charge_table_data[2] == '4759924B'
+
+    def test_charge_levels_are_collected(self):
+        assert self.parser.charge_table_data[3] == 'Felony Class C'
+
+    def test_charge_dates_are_collected(self):
+        assert self.parser.charge_table_data[4] == '03/19/2000'
+
+    # Tests disposition data is collected from the events table
+    def test_it_parses_every_row_of_the_events_table(self):
+        assert len(self.parser.event_table_data) == 14
+
+    def test_it_collects_the_disposition_row(self):
+        dispo_count = 0
+        for data in self.parser.event_table_data:
+            if len(data) > 3 and data[3] == 'Disposition':
+                dispo_count += 1
+        assert dispo_count == 1
+
+    # Test relevant financial data is collected
+    def test_financial_data_is_parsed(self):
+        assert self.parser.balance_due == '535.70'
+
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.hashed_dispo_data) == 1
+
+        assert self.parser.hashed_dispo_data[1]['ruling'] == 'Convicted'
+        assert self.parser.hashed_dispo_data[1]['date'] == '05/10/2000'
+
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 1
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Poss Controlled Sub 2'
+        assert self.parser.hashed_charge_data[1]['statute'] == '4759924B'
+        assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[1]['date'] == '03/19/2000'
