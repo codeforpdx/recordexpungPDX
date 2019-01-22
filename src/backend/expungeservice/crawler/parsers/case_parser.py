@@ -9,7 +9,8 @@ class CaseParser(HTMLParser):
 
     def __init__(self):
         HTMLParser.__init__(self)
-        self.current_table_number = 0
+        self.read_table_title = False
+        self.table_title = ''
         self.entering_table = False
         self.within_table_header = False
 
@@ -31,7 +32,7 @@ class CaseParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
-            self.current_table_number += 1
+            self.read_table_title = True
             self.within_table_header = True
             self.collect_charge_info = False
             self.collect_event_table = False
@@ -45,17 +46,17 @@ class CaseParser(HTMLParser):
             self.get_balance_due = True
 
     def handle_endtag(self, tag):
-        charge_table = 2
-        event_table = 3
-        financial_table = 4
+        charge_table = 'Charge Information'
+        event_table = 'Events & Orders of the Court'
+        financial_table = 'Financial Information'
 
         if self.__exiting_table_header(tag):
             self.within_table_header = False
-            if charge_table == self.current_table_number:
+            if charge_table == self.table_title:
                 self.collect_charge_info = True
-            elif event_table == self.current_table_number:
+            elif event_table == self.table_title:
                 self.collect_event_table = True
-            elif financial_table == self.current_table_number:
+            elif financial_table == self.table_title:
                 self.collect_financial_info = True
 
         if tag == 'body':
@@ -63,6 +64,10 @@ class CaseParser(HTMLParser):
             self.__create_charge_hash()
 
     def handle_data(self, data):
+        if self.read_table_title:
+            self.table_title = data
+            self.read_table_title = False
+
         if self.entering_table:
             self.entering_table = False
 
