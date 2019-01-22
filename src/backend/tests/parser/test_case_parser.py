@@ -11,9 +11,6 @@ class TestCaseWithDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_X1)
 
-    def test_it_finds_the_start_of_each_table(self):
-        assert self.parser.current_table_number == 4
-
     # Tests charge data is collected for each row and column in the charge table
     # and is appended to the charge_table_data list grouped by rows.
     def test_it_parses_all_charge_rows(self):
@@ -105,9 +102,6 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
 
-    def test_it_finds_the_start_of_each_table(self):
-        assert self.parser.current_table_number == 3
-
     # Tests charge data is collected for each row and column in the charge table
     # and is appended to the charge_table_data list grouped by rows.
     def test_it_parses_all_charge_rows(self):
@@ -165,9 +159,6 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITH_PARTIAL_DISPOS)
-
-    def test_it_finds_the_start_of_each_table(self):
-        assert self.parser.current_table_number == 3
 
     # Tests charge data is collected for each row and column in the charge table
     # and is appended to the charge_table_data list grouped by rows.
@@ -256,9 +247,6 @@ class TestCaseWithoutDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
 
-    def test_it_finds_the_start_of_each_table(self):
-        assert self.parser.current_table_number == 3
-
     # Tests charge data is collected for each row and column in the charge table
     # and is appended to the charge_table_data list grouped by rows.
     def test_it_parses_all_charge_rows(self):
@@ -333,9 +321,6 @@ class TestParkingViolationCase(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_PARKING_VIOLATION)
-
-    def test_it_finds_the_start_of_each_table(self):
-        assert self.parser.current_table_number == 4
 
     # Tests charge data is collected for each row and column in the charge table
     # and is appended to the charge_table_data list grouped by rows.
