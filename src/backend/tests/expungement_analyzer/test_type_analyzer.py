@@ -33,6 +33,89 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert felony_class_a_convicted.expungement_result.type_eligibility is False
         assert felony_class_a_convicted.expungement_result.reason == 'Ineligible under 137.225(5)'
 
+    def test_misdemeanor_sex_crime(self):
+        self.single_charge['name'] = 'Sexual Abuse in the Third Degree'
+        self.single_charge['statute'] = '163.415'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        misdemeanor_class_a_convicted = self.create_recent_charge()
+        self.charges.append(misdemeanor_class_a_convicted)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert misdemeanor_class_a_convicted.expungement_result.type_eligibility is False
+        assert misdemeanor_class_a_convicted.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_min_statute_range_for_crimes_against_persons(self):
+        self.single_charge['statute'] = '163.305'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_max_statute_range_for_crimes_against_persons(self):
+        self.single_charge['statute'] = '163.479'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_min_statute_range_for_other_crimes_against_persons(self):
+        self.single_charge['statute'] = '163.670'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_max_statute_range_for_other_crimes_against_persons(self):
+        self.single_charge['statute'] = '163.693'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_min_statute_range_for_promoting_prostitution(self):
+        self.single_charge['statute'] = '167.008'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_max_statute_range_for_promoting_prostitution(self):
+        self.single_charge['statute'] = '167.107'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_min_statute_range_for_obscenity_and_minors(self):
+        self.single_charge['statute'] = '167.057'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_max_statute_range_for_obscenity_and_minors(self):
+        self.single_charge['statute'] = '167.080'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
 
 class TestSingleChargeDismissals(unittest.TestCase):
 
@@ -88,3 +171,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         assert felony_class_a_acquitted.expungement_result.type_eligibility is True
         assert felony_class_a_acquitted.expungement_result.reason == 'Eligible under 137.225(1)(b)'
+
+
+class TestSingleChargeNoComplaint(unittest.TestCase):
+    pass
