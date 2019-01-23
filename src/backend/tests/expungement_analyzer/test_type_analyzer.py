@@ -26,12 +26,12 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.single_charge['name'] = 'Assault in the first degree'
         self.single_charge['statute'] = '163.185'
         self.single_charge['level'] = 'Felony Class A'
-        felony_class_a = self.create_recent_charge()
-        self.charges.append(felony_class_a)
+        felony_class_a_convicted = self.create_recent_charge()
+        self.charges.append(felony_class_a_convicted)
         self.type_analyzer.evaluate(self.charges)
 
-        assert felony_class_a.expungement_result.type_eligibility is False
-        assert felony_class_a.expungement_result.reason == 'Ineligible under 137.225(5)'
+        assert felony_class_a_convicted.expungement_result.type_eligibility is False
+        assert felony_class_a_convicted.expungement_result.reason == 'Ineligible under 137.225(5)'
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
@@ -54,12 +54,12 @@ class TestSingleChargeDismissals(unittest.TestCase):
         self.single_charge['name'] = 'Assault in the first degree'
         self.single_charge['statute'] = '163.185'
         self.single_charge['level'] = 'Felony Class A'
-        felony_class_a = self.create_recent_charge()
-        self.charges.append(felony_class_a)
+        felony_class_a_dismissed = self.create_recent_charge()
+        self.charges.append(felony_class_a_dismissed)
         self.type_analyzer.evaluate(self.charges)
 
-        assert felony_class_a.expungement_result.type_eligibility is True
-        assert felony_class_a.expungement_result.reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_dismissed.expungement_result.type_eligibility is True
+        assert felony_class_a_dismissed.expungement_result.reason == 'Eligible under 137.225(1)(b)'
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):
