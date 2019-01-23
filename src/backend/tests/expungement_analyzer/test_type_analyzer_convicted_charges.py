@@ -133,3 +133,14 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert convicted_charge.expungement_result.type_eligibility is False
         assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_poss_of_cocaine(self):
+        self.single_charge['name'] = 'Possession of Cocaine'
+        self.single_charge['statute'] = '475.884'
+        self.single_charge['level'] = 'Felony Class C'
+        convicted_cocaine_charge = self.create_recent_charge()
+        self.charges.append(convicted_cocaine_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_cocaine_charge.expungement_result.type_eligibility is True
+        assert convicted_cocaine_charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
