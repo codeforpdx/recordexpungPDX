@@ -17,7 +17,7 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.convicted_disposition = Disposition(**disposition)
         self.charges = []
 
-    def create_charge(self):
+    def create_recent_charge(self):
         charge = Charge(**self.single_charge)
         charge.disposition = self.convicted_disposition
         return charge
@@ -26,9 +26,37 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.single_charge['name'] = 'Assault in the first degree'
         self.single_charge['statute'] = '163.185'
         self.single_charge['level'] = 'Felony Class A'
-        felony_class_a = self.create_charge()
+        felony_class_a = self.create_recent_charge()
         self.charges.append(felony_class_a)
         self.type_analyzer.evaluate(self.charges)
 
         assert felony_class_a.expungement_result.type_eligibility is False
         assert felony_class_a.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+
+class TestSingleChargeDismissals(unittest.TestCase):
+
+    def setUp(self):
+        self.type_analyzer = TypeAnalyzer()
+        one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
+        last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
+        self.single_charge = {'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
+        disposition = {'ruling': 'Dismissed', 'date': last_week}
+        self.dismissed_disposition = Disposition(**disposition)
+        self.charges = []
+
+    def create_recent_charge(self):
+        charge = Charge(**self.single_charge)
+        charge.disposition = self.dismissed_disposition
+        return charge
+
+    def test_felony_class_a_charge(self):
+        self.single_charge['name'] = 'Assault in the first degree'
+        self.single_charge['statute'] = '163.185'
+        self.single_charge['level'] = 'Felony Class A'
+        felony_class_a = self.create_recent_charge()
+        self.charges.append(felony_class_a)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert felony_class_a.expungement_result.type_eligibility is True
+        assert felony_class_a.expungement_result.reason == 'Eligible under 137.225(1)(b)'
