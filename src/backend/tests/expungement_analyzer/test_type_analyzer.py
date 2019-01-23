@@ -30,5 +30,5 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.charges.append(felony_class_a)
         self.type_analyzer.evaluate(self.charges)
 
-        assert felony_class_a.type_analysis.eligibility is False
-        assert felony_class_a.type_analysis.reason == 'Ineligible under 137.225(5)'
+        assert felony_class_a.expungement_result.type_eligibility is False
+        assert felony_class_a.expungement_result.reason == 'Ineligible under 137.225(5)'
