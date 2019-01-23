@@ -115,3 +115,21 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert convicted_charge.expungement_result.type_eligibility is False
         assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_traffic_crime_801_000(self):
+        self.single_charge['statute'] = '801.000'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_traffic_crime_825_999(self):
+        self.single_charge['statute'] = '825.999'
+        convicted_charge = self.create_recent_charge()
+        self.charges.append(convicted_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert convicted_charge.expungement_result.type_eligibility is False
+        assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
