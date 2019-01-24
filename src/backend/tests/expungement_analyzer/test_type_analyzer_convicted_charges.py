@@ -144,3 +144,14 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert convicted_cocaine_charge.expungement_result.type_eligibility is True
         assert convicted_cocaine_charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
+
+    def test_misdemeanor(self):
+        self.single_charge['name'] = 'Criminal Trespass in the Second Degree'
+        self.single_charge['statute'] = '164.245'
+        self.single_charge['level'] = 'Misdemeanor Class C'
+        misdemeanor_charge = self.create_recent_charge()
+        self.charges.append(misdemeanor_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert misdemeanor_charge.expungement_result.type_eligibility is True
+        assert misdemeanor_charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
