@@ -1,34 +1,39 @@
 class TypeAnalyzer:
 
     def evaluate(self, charges):
-        if charges[0].disposition.ruling == 'Dismissed' or charges[0].disposition.ruling == 'Acquitted' or charges[0].disposition.ruling == 'No Complaint':
-            charges[0].expungement_result.set_type_eligibility(True)
-            charges[0].expungement_result.set_reason('Eligible under 137.225(1)(b)')
+        for charge in charges:
+            TypeAnalyzer.__evaluate(charge)
 
-        elif TypeAnalyzer.__marijuana_ineligible(charges):
-            charges[0].expungement_result.set_type_eligibility(False)
-            charges[0].expungement_result.set_reason('Ineligible under 137.226')
+    @staticmethod
+    def __evaluate(charge):
+        if charge.disposition.ruling == 'Dismissed' or charge.disposition.ruling == 'Acquitted' or charge.disposition.ruling == 'No Complaint':
+            charge.expungement_result.set_type_eligibility(True)
+            charge.expungement_result.set_reason('Eligible under 137.225(1)(b)')
 
-        elif TypeAnalyzer.__list_b_charge(charges[0]):
-            charges[0].expungement_result.set_reason('Further Analysis Needed')
+        elif TypeAnalyzer.__marijuana_ineligible(charge):
+            charge.expungement_result.set_type_eligibility(False)
+            charge.expungement_result.set_reason('Ineligible under 137.226')
 
-        elif TypeAnalyzer.__ineligible_under_137_225_5(charges[0]):
-            charges[0].expungement_result.set_type_eligibility(False)
-            charges[0].expungement_result.set_reason('Ineligible under 137.225(5)')
+        elif TypeAnalyzer.__list_b_charge(charge):
+            charge.expungement_result.set_reason('Further Analysis Needed')
 
-        elif TypeAnalyzer.__possession_sched_1(charges[0]):
-            charges[0].expungement_result.set_type_eligibility(True)
-            charges[0].expungement_result.set_reason('Eligible under 137.225(5)(C)')
+        elif TypeAnalyzer.__ineligible_under_137_225_5(charge):
+            charge.expungement_result.set_type_eligibility(False)
+            charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-        elif charges[0].level == 'Felony Class C' or 'Misdemeanor' in charges[0].level:
-            charges[0].expungement_result.set_type_eligibility(True)
-            charges[0].expungement_result.set_reason('Eligible under 137.225(5)(b)')
+        elif TypeAnalyzer.__possession_sched_1(charge):
+            charge.expungement_result.set_type_eligibility(True)
+            charge.expungement_result.set_reason('Eligible under 137.225(5)(C)')
 
-        elif charges[0].level == 'Felony Class B':
-            charges[0].expungement_result.set_reason('Further Analysis Needed')
+        elif charge.level == 'Felony Class C' or 'Misdemeanor' in charge.level:
+            charge.expungement_result.set_type_eligibility(True)
+            charge.expungement_result.set_reason('Eligible under 137.225(5)(b)')
+
+        elif charge.level == 'Felony Class B':
+            charge.expungement_result.set_reason('Further Analysis Needed')
 
         else:
-            charges[0].expungement_result.set_reason('Examine')
+            charge.expungement_result.set_reason('Examine')
 
     @staticmethod
     def __ineligible_under_137_225_5(charge):
@@ -51,12 +56,12 @@ class TypeAnalyzer:
         return charge.level == 'Felony Class A'
 
     @staticmethod
-    def __marijuana_ineligible(charges):
-        if charges[0].statute == '475B3493C':
+    def __marijuana_ineligible(charge):
+        if charge.statute == '475B3493C':
             return True
         else:
             ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
-            return charges[0].statute[0:7] in ineligible_statutes
+            return charge.statute[0:7] in ineligible_statutes
 
     @staticmethod
     def __list_b_charge(charge):

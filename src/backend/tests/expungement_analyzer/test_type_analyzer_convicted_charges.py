@@ -530,3 +530,44 @@ class TestSingleChargeConvictions(unittest.TestCase):
     #
     #     assert pcs_charge.expungement_result.type_eligibility is True
     #     assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(d)'
+
+
+class TestMultipleCharges(unittest.TestCase):
+
+    def setUp(self):
+        self.type_analyzer = TypeAnalyzer()
+        one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
+        last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
+        self.charge = {'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
+        disposition = {'ruling': 'Convicted', 'date': last_week}
+        self.convicted_disposition = Disposition(**disposition)
+        self.charges = []
+
+    def create_charge(self):
+        charge = Charge(**self.charge)
+        charge.disposition = self.convicted_disposition
+        return charge
+
+    def test_two_charges(self):
+        # first charge
+        self.charge['name'] = 'Theft of services'
+        self.charge['statute'] = '164.125'
+        self.charge['level'] = 'Misdemeanor Class A'
+        charge = self.create_charge()
+        self.charges.append(charge)
+
+        # second charge
+        self.charge['name'] = 'Traffic Violation'
+        self.charge['statute'] = '801.000'
+        self.charge['level'] = 'Class C Traffic Violation'
+        charge = self.create_charge()
+        self.charges.append(charge)
+
+        # run analysis
+        self.type_analyzer.evaluate(self.charges)
+
+        assert self.charges[0].expungement_result.type_eligibility is True
+        assert self.charges[0].expungement_result.reason == 'Eligible under 137.225(5)(b)'
+
+        assert self.charges[1].expungement_result.type_eligibility is False
+        assert self.charges[1].expungement_result.reason == 'Ineligible under 137.225(5)'
