@@ -494,6 +494,16 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert charge.expungement_result.type_eligibility is True
         assert charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
 
+    def test_class_b_felony_164057(self):
+        self.single_charge['name'] = 'Aggravated theft in the first degree'
+        self.single_charge['statute'] = '164.057'
+        self.single_charge['level'] = 'Felony Class B'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.type_eligibility is None
+        assert charge.expungement_result.reason == 'Further Analysis Needed'
 
     # Test non-traffic violation
 
