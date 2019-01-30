@@ -458,3 +458,38 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert pcs_charge.expungement_result.type_eligibility is True
         assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
+
+    # Add eligible misdemeanor and class C felony tests
+
+    def test_misdemeanor_164043(self):
+        self.single_charge['name'] = 'Theft in the third degree'
+        self.single_charge['statute'] = '164.043'
+        self.single_charge['level'] = 'Misdemeanor Class C'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
+
+    def test_misdemeanor_164055(self):
+        self.single_charge['name'] = 'Theft in the first degree'
+        self.single_charge['statute'] = '164.055'
+        self.single_charge['level'] = 'Felony Class C'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
+
+    def test_misdemeanor_164125(self):
+        self.single_charge['name'] = 'Theft of services'
+        self.single_charge['statute'] = '164.125'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
