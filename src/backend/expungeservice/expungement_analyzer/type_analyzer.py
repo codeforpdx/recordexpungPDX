@@ -9,6 +9,9 @@ class TypeAnalyzer:
             charges[0].expungement_result.set_type_eligibility(False)
             charges[0].expungement_result.set_reason('Ineligible under 137.226')
 
+        elif TypeAnalyzer.__list_b_charge(charges[0]):
+            charges[0].expungement_result.set_reason('Further Analysis Needed')
+
         elif TypeAnalyzer.__ineligible_under_137_225_5(charges[0]):
             charges[0].expungement_result.set_type_eligibility(False)
             charges[0].expungement_result.set_reason('Ineligible under 137.225(5)')
@@ -41,3 +44,8 @@ class TypeAnalyzer:
     def __marijuana_ineligible(charges):
         ineligible_statutes = ['475B3493C', '475B359', '475B367', '475B371', '167262']
         return charges[0].statute in ineligible_statutes
+
+    @staticmethod
+    def __list_b_charge(charge):
+        ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405', '164395', '162185', '166220', '163225', '163165']
+        return charge.statute in ineligible_statutes
