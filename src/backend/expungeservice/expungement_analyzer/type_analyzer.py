@@ -42,10 +42,13 @@ class TypeAnalyzer:
 
     @staticmethod
     def __marijuana_ineligible(charges):
-        ineligible_statutes = ['475B3493C', '475B359', '475B367', '475B371', '167262']
-        return charges[0].statute in ineligible_statutes
+        if charges[0].statute == '475B3493C':
+            return True
+        else:
+            ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
+            return charges[0].statute[0:7] in ineligible_statutes
 
     @staticmethod
     def __list_b_charge(charge):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405', '164395', '162185', '166220', '163225', '163165']
-        return charge.statute in ineligible_statutes
+        return charge.statute[0:6] in ineligible_statutes
