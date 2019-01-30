@@ -16,6 +16,10 @@ class TypeAnalyzer:
             charges[0].expungement_result.set_type_eligibility(False)
             charges[0].expungement_result.set_reason('Ineligible under 137.225(5)')
 
+        elif TypeAnalyzer.__possession_sched_1(charges[0]):
+            charges[0].expungement_result.set_type_eligibility(True)
+            charges[0].expungement_result.set_reason('Eligible under 137.225(5)(C)')
+
         elif charges[0].level == 'Felony Class C' or charges[0].level == 'Misdemeanor Class C':
             charges[0].expungement_result.set_type_eligibility(True)
             charges[0].expungement_result.set_reason('Eligible under 137.225(5)(b)')
@@ -52,3 +56,7 @@ class TypeAnalyzer:
     def __list_b_charge(charge):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405', '164395', '162185', '166220', '163225', '163165']
         return charge.statute[0:6] in ineligible_statutes
+
+    @staticmethod
+    def __possession_sched_1(charge):
+        return charge.statute[0:6] in ['475854', '475874', '475884', '475894']
