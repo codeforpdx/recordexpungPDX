@@ -14,4 +14,4 @@ class Charge:
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
-        return re.sub(r'[^a-zA-Z0-9*]', '', statute)
+        return re.sub(r'[^a-zA-Z0-9*]', '', statute).upper()
