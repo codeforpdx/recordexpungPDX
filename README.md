@@ -9,6 +9,23 @@ A project to automate expunging qualifying criminal records.  This project is do
 Fork, and clone the repo.
 
 
+to install the latest version of python on mac run:
+```
+brew install python3
+```
+note: this will pull the latest version of python, so when python 3.8 or greater is released it will install that version,
+
+
+
+to install python3.7 on ubuntu 18.04 just run the command:
+```
+sudo apt-get install python3.7 -y 
+```
+
+to install python3.7 on ubuntu 16.04 follow the instructions [here](https://github.com/CodeForPortland/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04)
+
+
+
 ### Install Pipenv
 
 - Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install) package manager which also automatically creates and manages virtual environments.

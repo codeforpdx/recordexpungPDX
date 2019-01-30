@@ -60,24 +60,9 @@ class TestRecordParser(unittest.TestCase):
         assert self.parser.cases[2].current_status == "Open"
 
     def test_it_assigns_charges(self):
-        # first case
-        assert len(self.parser.cases[0].charges) == 3
-
-        assert self.parser.cases[0].charges[0] == 'Attempt to Commit a Class C/Unclassified Felony'
-        assert self.parser.cases[0].charges[1] == 'Drug Free Zone Variance'
-        assert self.parser.cases[0].charges[2] == 'Criminal Trespass in the Second Degree'
-
-        # second case
-        assert len(self.parser.cases[1].charges) == 2
-
-        assert self.parser.cases[1].charges[0] == 'Poss Controlled Sub 2 (Reduced - to A Misdemeanor)'
-        assert self.parser.cases[1].charges[1] == 'Drug Free Zone Variance'
-
-        # third case
-        assert len(self.parser.cases[2].charges) == 1
-
-        assert self.parser.cases[1].charges[0] == 'Poss Controlled Sub 2 (Reduced - to A Misdemeanor)'
-
+        assert len(self.parser.cases[0].charges) == 0
+        assert len(self.parser.cases[1].charges) == 0
+        assert len(self.parser.cases[2].charges) == 0
 
 
 class TestEmptyRecord(unittest.TestCase):
