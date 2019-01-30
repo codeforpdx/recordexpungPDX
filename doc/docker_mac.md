@@ -75,6 +75,17 @@ To stop the containers:
     make dev_stop
 
 
+To explore the database:
+
+    make dev_psql
+
+
+To drop the database by removing the database volume:
+
+    make dev_stop
+    make dev_drop_database
+
+
 Reading
 -------
 

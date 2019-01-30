@@ -36,5 +36,9 @@ database_image:
 
 dblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))
+
 test:
 	pipenv run pytest
+
+dev_drop_database:
+	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
