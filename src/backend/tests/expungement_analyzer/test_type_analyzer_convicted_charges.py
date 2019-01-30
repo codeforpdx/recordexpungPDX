@@ -399,3 +399,27 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert list_b_charge.expungement_result.type_eligibility is None
         assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    # Test sub-chapters are not compared when not necessary.
+
+    def test_list_b_charge_that_includes_sub_chapter(self):
+        self.single_charge['name'] = 'Unlawful use of weapon'
+        self.single_charge['statute'] = '166.220(1)(b)'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_marijuana_ineligible_statute_475b3592a(self):
+        self.single_charge['name'] = 'Arson incident to manufacture of cannabinoid extract in first degree'
+        self.single_charge['statute'] = '475b.359(2)(a)'
+        self.single_charge['level'] = 'Felony Class A'
+        marijuana_felony_class_a = self.create_recent_charge()
+        self.charges.append(marijuana_felony_class_a)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert marijuana_felony_class_a.expungement_result.type_eligibility is False
+        assert marijuana_felony_class_a.expungement_result.reason == 'Ineligible under 137.226'
