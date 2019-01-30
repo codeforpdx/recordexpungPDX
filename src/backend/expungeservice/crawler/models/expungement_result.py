@@ -1,8 +1,8 @@
 class ExpungementResult:
 
     def __init__(self):
-        self.type_eligibility = False
-        self.reason = 'Ineligible under 137.225(5)'
+        self.type_eligibility = None
+        self.reason = ''
 
     def set_type_eligibility(self, type_eligibility):
         self.type_eligibility = type_eligibility
