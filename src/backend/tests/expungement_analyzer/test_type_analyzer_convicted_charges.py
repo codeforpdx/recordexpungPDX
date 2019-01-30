@@ -134,17 +134,6 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert convicted_charge.expungement_result.type_eligibility is False
         assert convicted_charge.expungement_result.reason == 'Ineligible under 137.225(5)'
 
-    def test_poss_of_cocaine(self):
-        self.single_charge['name'] = 'Possession of Cocaine'
-        self.single_charge['statute'] = '475.884'
-        self.single_charge['level'] = 'Felony Class C'
-        convicted_cocaine_charge = self.create_recent_charge()
-        self.charges.append(convicted_cocaine_charge)
-        self.type_analyzer.evaluate(self.charges)
-
-        assert convicted_cocaine_charge.expungement_result.type_eligibility is True
-        assert convicted_cocaine_charge.expungement_result.reason == 'Eligible under 137.225(5)(b)'
-
     def test_misdemeanor(self):
         self.single_charge['name'] = 'Criminal Trespass in the Second Degree'
         self.single_charge['statute'] = '164.245'
@@ -423,3 +412,49 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert marijuana_felony_class_a.expungement_result.type_eligibility is False
         assert marijuana_felony_class_a.expungement_result.reason == 'Ineligible under 137.226'
+
+    # Possession of controlled substance tests
+
+    def test_pcs_475854(self):
+        self.single_charge['name'] = 'Unlawful possession of heroin'
+        self.single_charge['statute'] = '475.854'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        pcs_charge = self.create_recent_charge()
+        self.charges.append(pcs_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert pcs_charge.expungement_result.type_eligibility is True
+        assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
+
+    def test_pcs_475874(self):
+        self.single_charge['name'] = 'Unlawful possession of 3,4-methylenedioxymethamphetamine'
+        self.single_charge['statute'] = '475.874'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        pcs_charge = self.create_recent_charge()
+        self.charges.append(pcs_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert pcs_charge.expungement_result.type_eligibility is True
+        assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
+
+    def test_pcs_475884(self):
+        self.single_charge['name'] = 'Unlawful possession of cocaine'
+        self.single_charge['statute'] = '475.884'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        pcs_charge = self.create_recent_charge()
+        self.charges.append(pcs_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert pcs_charge.expungement_result.type_eligibility is True
+        assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
+
+    def test_pcs_475894(self):
+        self.single_charge['name'] = 'Unlawful possession of methamphetamine'
+        self.single_charge['statute'] = '475.894'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        pcs_charge = self.create_recent_charge()
+        self.charges.append(pcs_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert pcs_charge.expungement_result.type_eligibility is True
+        assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
