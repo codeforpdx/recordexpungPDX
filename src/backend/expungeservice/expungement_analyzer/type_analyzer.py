@@ -27,6 +27,9 @@ class TypeAnalyzer:
         elif charges[0].level == 'Felony Class B':
             charges[0].expungement_result.set_reason('Further Analysis Needed')
 
+        else:
+            charges[0].expungement_result.set_reason('Examine')
+
     @staticmethod
     def __ineligible_under_137_225_5(charge):
         return TypeAnalyzer.__crime_against_person(charge) or TypeAnalyzer.__traffic_crime(charge) or TypeAnalyzer.__felony_class_a(charge)
