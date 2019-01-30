@@ -221,3 +221,181 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility is False
         assert marijuana_misdemeanor_class_a.expungement_result.reason == 'Ineligible under 137.226'
+
+    def test_traffic_violation_min_statute(self):
+        self.single_charge['name'] = 'Traffic Violation'
+        self.single_charge['statute'] = '801.000'
+        self.single_charge['level'] = 'Class C Traffic Violation'
+        traffic_violation_min = self.create_recent_charge()
+        self.charges.append(traffic_violation_min)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert traffic_violation_min.expungement_result.type_eligibility is False
+        assert traffic_violation_min.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    def test_traffic_violation_max_statute(self):
+        self.single_charge['name'] = 'Traffic Violation'
+        self.single_charge['statute'] = '825.999'
+        self.single_charge['level'] = 'Class C Traffic Violation'
+        traffic_violation_max = self.create_recent_charge()
+        self.charges.append(traffic_violation_max)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert traffic_violation_max.expungement_result.type_eligibility is False
+        assert traffic_violation_max.expungement_result.reason == 'Ineligible under 137.225(5)'
+
+    # List B Tests - Currently being marked as "Further Analysis Needed"
+
+    def test_list_b_163200(self):
+        self.single_charge['name'] = 'Criminal mistreatment in the second degree'
+        self.single_charge['statute'] = '163.200'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163205(self):
+        self.single_charge['name'] = 'Criminal mistreatment in the first degree'
+        self.single_charge['statute'] = '163.205'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163575(self):
+        self.single_charge['name'] = 'Endangering the welfare of a minor'
+        self.single_charge['statute'] = '163.575'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163535(self):
+        self.single_charge['name'] = 'Abandonment of a child'
+        self.single_charge['statute'] = '163.535'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163175(self):
+        self.single_charge['name'] = 'Assault in the second degree'
+        self.single_charge['statute'] = '163.175'
+        self.single_charge['level'] = 'Felony Class B'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163275(self):
+        self.single_charge['name'] = 'Coercion'
+        self.single_charge['statute'] = '163.275'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_162165(self):
+        self.single_charge['name'] = 'Escape in the first degree'
+        self.single_charge['statute'] = '162.165'
+        self.single_charge['level'] = 'Felony Class B'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163525(self):
+        self.single_charge['name'] = 'Incest'
+        self.single_charge['statute'] = '163.525'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_164405(self):
+        self.single_charge['name'] = 'Robbery in the second degree'
+        self.single_charge['statute'] = '164.405'
+        self.single_charge['level'] = 'Felony Class B'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_164395(self):
+        self.single_charge['name'] = 'Robbery in the third degree'
+        self.single_charge['statute'] = '164.395'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_162185(self):
+        self.single_charge['name'] = 'Supplying contraband'
+        self.single_charge['statute'] = '162.185'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163225(self):
+        self.single_charge['name'] = 'Kidnapping in the second degree'
+        self.single_charge['statute'] = '163.225'
+        self.single_charge['level'] = 'Felony Class B'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_163165(self):
+        self.single_charge['name'] = 'Assault in the third degree'
+        self.single_charge['statute'] = '163.165'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
+
+    def test_list_b_166220(self):
+        self.single_charge['name'] = 'Unlawful use of weapon'
+        self.single_charge['statute'] = '166.220'
+        self.single_charge['level'] = 'Felony Class C'
+        list_b_charge = self.create_recent_charge()
+        self.charges.append(list_b_charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert list_b_charge.expungement_result.type_eligibility is None
+        assert list_b_charge.expungement_result.reason == 'Further Analysis Needed'
