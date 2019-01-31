@@ -18,8 +18,8 @@ CREATE TABLE auth (
     hashed_password TEXT NOT NULL,
     password_salt   TEXT NOT NULL,
     PRIMARY KEY (auth_id),
-    user_id        UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-)
+    user_id        UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
+);
 
 
 CREATE TABLE clients (
