@@ -6,7 +6,7 @@ from flask import Flask
 from .config import app_config
 
 # Add new endpoint imports here:
-from .endpoints import hello
+from .endpoints import hello, auth
 
 def create_app(env_name):
     """
@@ -19,5 +19,6 @@ def create_app(env_name):
 
     # Register endpoint routes here:
     hello.register(app)
+    auth.register(app)
 
     return app
