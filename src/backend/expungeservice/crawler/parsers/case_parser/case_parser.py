@@ -3,6 +3,9 @@ import re
 from html.parser import HTMLParser
 
 from expungeservice.crawler.models.charge import Charge
+from expungeservice.crawler.parsers.case_parser.charge_table_data import ChargeTableData
+from expungeservice.crawler.parsers.case_parser.event_table_data import EventTableData
+from expungeservice.crawler.parsers.case_parser.financial_table_data import FinancialTableData
 
 
 class CaseParser(HTMLParser):
@@ -29,6 +32,8 @@ class CaseParser(HTMLParser):
         self.hashed_dispo_data = {}
         self.hashed_charge_data = {}
 
+        self.current_parser_state = None
+
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
@@ -54,10 +59,13 @@ class CaseParser(HTMLParser):
             self.within_table_header = False
             if charge_table == self.table_title:
                 self.collect_charge_info = True
+                self.current_parser_state = ChargeTableData()
             elif event_table == self.table_title:
                 self.collect_event_table = True
+                self.current_parser_state = EventTableData()
             elif financial_table == self.table_title:
                 self.collect_financial_info = True
+                self.current_parser_state = FinancialTableData()
 
         if tag == 'body':
             self.__format_dispo_data()
@@ -72,21 +80,13 @@ class CaseParser(HTMLParser):
             self.entering_table = False
 
         elif self.collect_charge_info:
-            self.charge_table_data.append(data)
+            self.current_parser_state.store_data(self, data)
 
         elif self.collect_event_table:
-            if self.collect_dispo_header_date:
-                self.event_row += 1
-                self.event_table_data.append([])
-                self.event_table_data[self.event_row].append(data)
-                self.collect_dispo_header_date = False
-
-            else:
-                self.event_table_data[self.event_row].append(data)
+            self.current_parser_state.store_data(self, data)
 
         elif self.get_balance_due:
-            self.balance_due = data
-            self.get_balance_due = False
+            self.current_parser_state.store_data(self, data)
 
     # TODO: Add error handling.
     def error(self, message):
