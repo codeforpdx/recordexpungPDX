@@ -10,8 +10,8 @@ flask-script = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
 python-dotenv = "*"
-recordexpunge = {path = ".",editable = true}
-expungeservice = {path = ".",editable = true}
+recordexpunge = {editable = true,path = "."}
+expungeservice = {editable = true, path = "."}
 pytest = "*"
 requests-mock = "*"
 requests = "*"
