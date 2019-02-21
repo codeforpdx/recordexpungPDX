@@ -2,10 +2,10 @@ import re
 
 from html.parser import HTMLParser
 
-from expungeservice.crawler.models.charge import Charge
 from expungeservice.crawler.parsers.case_parser.charge_table_data import ChargeTableData
 from expungeservice.crawler.parsers.case_parser.event_table_data import EventTableData
 from expungeservice.crawler.parsers.case_parser.financial_table_data import FinancialTableData
+from expungeservice.crawler.parsers.case_parser.default_state import DefaultState
 
 
 class CaseParser(HTMLParser):
@@ -17,7 +17,6 @@ class CaseParser(HTMLParser):
         self.entering_table = False
         self.within_table_header = False
 
-        self.collect_charge_info = False
         self.charge_table_data = []
 
         self.collect_event_table = False
@@ -32,23 +31,23 @@ class CaseParser(HTMLParser):
         self.hashed_dispo_data = {}
         self.hashed_charge_data = {}
 
-        self.current_parser_state = None
+        self.current_parser_state = DefaultState()
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
             self.entering_table = True
             self.read_table_title = True
             self.within_table_header = True
-            self.collect_charge_info = False
             self.collect_event_table = False
             self.collect_financial_info = False
+            self.current_parser_state = DefaultState()
 
         if self.collect_event_table:
             if tag == 'th':
                 self.collect_dispo_header_date = True
 
         if self.collect_financial_info and tag == 'b':
-            self.get_balance_due = True
+            self.current_parser_state = FinancialTableData()
 
     def handle_endtag(self, tag):
         charge_table = 'Charge Information'
@@ -58,14 +57,12 @@ class CaseParser(HTMLParser):
         if self.__exiting_table_header(tag):
             self.within_table_header = False
             if charge_table == self.table_title:
-                self.collect_charge_info = True
                 self.current_parser_state = ChargeTableData()
             elif event_table == self.table_title:
                 self.collect_event_table = True
                 self.current_parser_state = EventTableData()
             elif financial_table == self.table_title:
                 self.collect_financial_info = True
-                self.current_parser_state = FinancialTableData()
 
         if tag == 'body':
             self.__format_dispo_data()
@@ -79,14 +76,7 @@ class CaseParser(HTMLParser):
         if self.entering_table:
             self.entering_table = False
 
-        elif self.collect_charge_info:
-            self.current_parser_state.store_data(self, data)
-
-        elif self.collect_event_table:
-            self.current_parser_state.store_data(self, data)
-
-        elif self.get_balance_due:
-            self.current_parser_state.store_data(self, data)
+        self.current_parser_state.store_data(self, data)
 
     # TODO: Add error handling.
     def error(self, message):
