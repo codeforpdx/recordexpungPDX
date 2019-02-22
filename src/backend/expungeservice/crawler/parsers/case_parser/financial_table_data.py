@@ -1,8 +1,14 @@
-from expungeservice.crawler.parsers.case_parser.default_state import DefaultState
-
-
 class FinancialTableData:
 
+    def __init__(self):
+        self._balance_due_tag = 'b'
+        self._parse_balance = False
+
     def store_data(self, case_parser, data):
-        case_parser.balance_due = data
-        case_parser.current_parser_state = DefaultState()
+        if self._parse_balance:
+            case_parser.balance_due = data
+            self._parse_balance = False
+
+    def check_tag(self,tag):
+        if tag == self._balance_due_tag:
+            self._parse_balance = True
