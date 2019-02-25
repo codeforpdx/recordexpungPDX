@@ -1,5 +1,5 @@
 # recordexpungPDX
-A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office.
+A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/CodeForPortland/recordexpungPDX/wiki).
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/CodeForPortland/recordexpungPDX.svg?columns=all)](https://waffle.io/CodeForPortland/recordexpungPDX)
 
