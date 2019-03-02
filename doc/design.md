@@ -119,9 +119,10 @@ Global headers:
 - `Accept: application/json`
 
 
-**`POST`** `/api/login`
+**`POST`** `/api/<version>/auth_token`
 
-Logs user into system
+Post username, password to create an auth token (JWT) that can be used when
+accessing protected APIs
 
 `POST` body:
 
@@ -130,14 +131,20 @@ Logs user into system
     * `username`
     * `password`
 
-Status codes:
+Returns: auth token
 
-- `201 CREATED`: log in was successful
-- `401 UNAUTHORIZED`: log in was not succesful: user not found
+- format: `JSON`
+- fields:
+    * auth_token
+
+ Status codes:
+
+- `201 CREATED`: auth token creation successful
+- `401 UNAUTHORIZED`: unable to create auth token: invalid username / password
 - `400 BAD FORMAT`: missing username or password
 
 
-**`POST`** `/api/users/`
+**`POST`** `/api/<version>/users/`
 
 Creates a user
 
@@ -166,7 +173,7 @@ Status codes:
 - `400 BAD FORMAT`: missing one or more fields
 
 
-**`GET`** `/api/users/USERNAME`
+**`GET`** `/api/<version>/users/USERNAME`
 
 Returns: Requested user
 
@@ -182,7 +189,7 @@ Status codes:
 - `200 OK`
 
 
-**`POST`** `/api/search`
+**`POST`** `/api/<version>/search`
 
 Performs search of remote system
 
@@ -201,7 +208,7 @@ Returns: Search results
     * tbd
 
 
-**`GET`** `/stats`
+**`GET`** `/api/<version>/stats`
 
 Reports on statistics run on data
 
