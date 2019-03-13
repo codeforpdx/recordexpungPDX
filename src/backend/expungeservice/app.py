@@ -7,8 +7,8 @@ from .config import app_config
 
 # Add new endpoint imports here:
 from .endpoints import hello
-
 from src.frontend.blueprints.page import page
+from src.backend.expungeservice.extensions import debug_toolbar 
 
 def create_app(env_name):
     """
@@ -22,5 +22,14 @@ def create_app(env_name):
 
     # Register endpoint routes here:
     hello.register(app)
+    extensions(app)
 
     return app
+
+def extensions(app):
+    # :param app: Flask Application instance
+    # register extensions 
+    # return: none 
+
+    debug_toolbar.init_app(app)
+    return None

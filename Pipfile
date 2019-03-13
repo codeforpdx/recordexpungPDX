@@ -15,8 +15,14 @@ expungeservice = {path = ".",editable = true}
 pytest = "*"
 requests-mock = "*"
 requests = "*"
+flask-debugtoolbar = "*"
+pytest-cov = "*"
+flake8 = "*"
 
 [dev-packages]
+flask-debugtoolbar = "*"
+pytest-cov = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.7"

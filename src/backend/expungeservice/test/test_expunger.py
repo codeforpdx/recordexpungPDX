@@ -59,6 +59,7 @@ def test_expunger_classes():
     client = Client('John Doe', datetime.date(1970, 1, 1), cases)
     assert(client.num_charges() == 4)
 
+
 class TestExpunger(unittest.TestCase):
     def setUp(self):
         # add charge(s) when using this in a test
