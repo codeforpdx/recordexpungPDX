@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html' %}
+
+{% block header %}
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+                data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="{{ url_for('page.home') }}">
+          <img src="{{ url_for('static', filename='images/snake-eyes.jpg') }}"
+               class="img-responsive"
+               width="229" height="50" title="Snake Eyes" alt="Snake Eyes"/>
+        </a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          {% if current_user.role == 'admin' %}
+            <li>
+              {% include 'admin/_menu.html' %}
+            </li>
+          {% endif %}
+          {% if current_user.is_authenticated %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button" aria-haspopup="true"
+                 aria-expanded="false">Account
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('user.settings') }}">Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Session</li>
+                <li><a href="{{ url_for('user.logout') }}">Log out</a></li>
+              </ul>
+            </li>
+          {% else %}
+            <li><a href="{{ url_for('user.login') }}">Log in</a></li>
+            <li><a href="{{ url_for('user.signup') }}">Sign up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block footer %}
+  <li><a href="{{ url_for('contact.index') }}">Contact</a></li>
+  <li><a href="{{ url_for('page.privacy') }}">Privacy Policy</a></li>
+  <li><a href="{{ url_for('page.terms') }}">Terms of Service</a></li>
+{% endblock %}

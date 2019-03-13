@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/main.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/vendor/font-awesome.min.css') }}">
+
+       <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+
+
+    <script src="https://code.jquery.com/jquery-1.12.2.min.js"
+            integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
+            crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed"
+                  data-toggle="collapse" data-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="{{ url_for('page.home') }}">
+            <img src="{{ url_for('static', filename='images/snake-eyes.jpg') }}"
+                 class="img-responsive"
+                 width="229" height="50" title="Snake Eyes" alt="Snake Eyes"/>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="bg-gray-blue black-60">{% block heading %}{% endblock %}</div>
+      {% block body %}{% endblock %}
+    </main>
+
+    <footer class="footer text-center">
+      <div class="container">
+        <ul class="list-inline">
+          <li class="text-muted">Code for PDX &copy; 2016</li>
+          <li><a href="{{ url_for('page.privacy') }}">Privacy Policy</a></li>
+          <li><a href="{{ url_for('page.terms') }}">Terms of Service</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script
+      src="{{ url_for('static', filename='scripts/vendor/bootstrap.min.js') }}">
+    </script>
+  </body>
+</html>
