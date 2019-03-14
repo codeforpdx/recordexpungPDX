@@ -18,10 +18,12 @@ requests = "*"
 flask-debugtoolbar = "*"
 pytest-cov = "*"
 flake8 = "*"
+Flask-SQLAlchemy = "*"
 celery = "*"
 redis = "*"
 Flask-WTF = "*"
 WTForms-Components = "*"
+Flask-Login = "*"
 
 [dev-packages]
 flask-debugtoolbar = "*"

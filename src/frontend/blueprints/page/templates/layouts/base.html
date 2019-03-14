@@ -18,9 +18,7 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles/vendor/font-awesome.min.css') }}">
-    <script src="https://code.jquery.com/jquery-1.12.2.min.js"
-            integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
-            crossorigin="anonymous"></script>
+
   </head>
   <body>
     <nav class="center pt4 ph2 bg-white shadow">
@@ -52,12 +50,12 @@
           <li class="text-muted">Code for PDX &copy; 2016</li>
           <li><a href="{{ url_for('page.privacy') }}">Privacy Policy</a></li>
           <li><a href="{{ url_for('page.terms') }}">Terms of Service</a></li>
+             <li><a href="{{ url_for('page.faq') }}">FAQ</a></li>
         </ul>
       </div>
     </footer>
 
-    <script
-      src="{{ url_for('static', filename='scripts/vendor/bootstrap.min.js') }}">
+    <script>
     </script>
   </body>
 </html>
