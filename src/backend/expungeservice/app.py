@@ -6,9 +6,10 @@ from celery import Celery
 from .config import app_config
 
 # Add new endpoint imports here:
-from .endpoints import hello
+from .endpoints import hello, auth
 from src.frontend.blueprints.page import page
 from src.backend.expungeservice.extensions import debug_toolbar, csrf 
+
 
 def create_app(env_name):
     """
@@ -23,6 +24,7 @@ def create_app(env_name):
     # Register endpoint routes here:
     hello.register(app)
     extensions(app)
+    auth.register(app)
 
     return app
 
