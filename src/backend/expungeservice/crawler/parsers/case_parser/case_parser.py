@@ -2,48 +2,33 @@ import re
 
 from html.parser import HTMLParser
 
-from expungeservice.crawler.models.charge import Charge
+from expungeservice.crawler.parsers.case_parser.charge_table_data import ChargeTableData
+from expungeservice.crawler.parsers.case_parser.event_table_data import EventTableData
+from expungeservice.crawler.parsers.case_parser.financial_table_data import FinancialTableData
+from expungeservice.crawler.parsers.case_parser.default_state import DefaultState
 
 
 class CaseParser(HTMLParser):
 
     def __init__(self):
         HTMLParser.__init__(self)
-        self.read_table_title = False
         self.table_title = ''
-        self.entering_table = False
         self.within_table_header = False
-
-        self.collect_charge_info = False
         self.charge_table_data = []
-
-        self.collect_event_table = False
-        self.collect_dispo_header_date = False
-        self.event_row = -1
         self.event_table_data = []
 
         self.balance_due = '0'
-        self.collect_financial_info = False
-        self.get_balance_due = False
-
         self.hashed_dispo_data = {}
         self.hashed_charge_data = {}
 
+        self.current_parser_state = DefaultState()
+
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
-            self.entering_table = True
-            self.read_table_title = True
             self.within_table_header = True
-            self.collect_charge_info = False
-            self.collect_event_table = False
-            self.collect_financial_info = False
+            self.current_parser_state = DefaultState()
 
-        if self.collect_event_table:
-            if tag == 'th':
-                self.collect_dispo_header_date = True
-
-        if self.collect_financial_info and tag == 'b':
-            self.get_balance_due = True
+        self.current_parser_state.check_tag(tag)
 
     def handle_endtag(self, tag):
         charge_table = 'Charge Information'
@@ -53,40 +38,18 @@ class CaseParser(HTMLParser):
         if self.__exiting_table_header(tag):
             self.within_table_header = False
             if charge_table == self.table_title:
-                self.collect_charge_info = True
+                self.current_parser_state = ChargeTableData()
             elif event_table == self.table_title:
-                self.collect_event_table = True
+                self.current_parser_state = EventTableData()
             elif financial_table == self.table_title:
-                self.collect_financial_info = True
+                self.current_parser_state = FinancialTableData()
 
-        if tag == 'body':
+        if CaseParser.__end_of_file(tag):
             self.__format_dispo_data()
             self.__create_charge_hash()
 
     def handle_data(self, data):
-        if self.read_table_title:
-            self.table_title = data
-            self.read_table_title = False
-
-        if self.entering_table:
-            self.entering_table = False
-
-        elif self.collect_charge_info:
-            self.charge_table_data.append(data)
-
-        elif self.collect_event_table:
-            if self.collect_dispo_header_date:
-                self.event_row += 1
-                self.event_table_data.append([])
-                self.event_table_data[self.event_row].append(data)
-                self.collect_dispo_header_date = False
-
-            else:
-                self.event_table_data[self.event_row].append(data)
-
-        elif self.get_balance_due:
-            self.balance_due = data
-            self.get_balance_due = False
+        self.current_parser_state.store_data(self, data)
 
     # TODO: Add error handling.
     def error(self, message):
@@ -97,6 +60,10 @@ class CaseParser(HTMLParser):
     @staticmethod
     def __at_table_title(tag, attrs):
         return tag == 'div' and dict(attrs).get('class') == 'ssCaseDetailSectionTitle'
+
+    @staticmethod
+    def __end_of_file(tag):
+        return tag == 'body'
 
     def __exiting_table_header(self, end_tag):
         return self.within_table_header and end_tag == 'tr'
