@@ -4,65 +4,131 @@ A project to automate expunging qualifying criminal records.  This project is do
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/CodeForPortland/recordexpungPDX.svg?columns=all)](https://waffle.io/CodeForPortland/recordexpungPDX)
 
 [![Build Status](https://travis-ci.com/CodeForPortland/recordexpungPDX.svg?branch=master)](https://travis-ci.com/CodeForPortland/recordexpungPDX)
+
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Running Components](#running-components)
+- [Testing](#testing)
+- [Project Layout](#project-layout)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Installation
 
-Fork, and clone the repo.
+1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**, 
+	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
+2. Install Python:
 
-to install the latest version of python on mac run:
-```
-brew install python3
-```
-note: this will pull the latest version of python, so when python 3.8 or greater is released it will install that version,
+    * **Mac** 
+    
+      To install the latest version of Python on Mac run:
+		
+          $ brew install python3
 
+      <!-- -->
+		note: This will pull the latest version of Python, so when Python 3.8 or 
+		greater is released it will install that version.
 
+    * **Linux**
 
-to install python3.7 on ubuntu 18.04 just run the command:
-```
-sudo apt-get install python3.7 -y 
-```
+        - Ubuntu 18.04
 
-to install python3.7 on ubuntu 16.04 follow the instructions [here](https://github.com/CodeForPortland/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04)
+			To install Python 3.7 on Ubuntu 18.04 run the command:
+			```
+			$ sudo apt-get install python3.7 -y 
+			```
 
+        - Ubuntu 16.04
+	
+			To install Python 3.7 on Ubuntu 16.04 follow the instructions 
+			[here](https://github.com/CodeForPortland/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
+    * **Windows**
 
-### Install Pipenv
+      To install Python 3.7 on Windows, follow the instructions [in this guide.](https://wiki.python.org/moin/BeginnersGuide/Download).
 
-- Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install) package manager which also automatically creates and manages virtual environments.
+3. Install Pipenv
 
-A [Makefile](https://www.gnu.org/software/make/) controls installing dependencies, running the Flask app, and removing build artifacts:
+	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install) 
+	package manager which also automatically creates and manages virtual 
+	environments.
 
-- Install dependencies:
+5. Install NPM if you don't already have it installed. [This link provides 
+	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-Running:
+4. Install backend dependencies:
 
-```
-$ make install
-```
+	A [Makefile](https://www.gnu.org/software/make/) controls installing 
+  dependencies, running the Flask app, and removing build artifacts.
+	While in the directory of your local `recordexpungePDX` repo, install the 
+  backend dependencies by running:
+	
+	```
+	$ make install
+	```
+	
+	Make will read `Pipfile` and install listed Python packages into a `Pipenv` 
+  virtualenv.
 
-will read `Pipfile` and install listed Python packages into a `Pipenv` virtualenv.
+3. Install frontend dependencies
 
-- Run Flask app (also installs dependencies):
+	While in the directory of your local `recordexpungePDX` repo, enter into your
+  command line and run:
 
-Running:
+  ```
+	$ cd src/frontend
 
+	$ npm install
+  ```
+
+## Running Components
+
+### Backend
+
+#### Running Backend Development Server
+
+While in the directory of your local repo, run:
+	
 ```
 $ make run
 ```
+	
+Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will 
+also install dependencies as part of this process). On success, a
+development server for the backend should be started on `http://localhost:5000`.
+To check this, navigate to `http://localhost:5000/hello`. If everything worked
+correctly, your browser should display the text `Hello, world!`.
 
-will run the `Flask` app inside a `Pipenv` virtualenv.
+##### Cleaning
 
-- Clean:
-
-Running:
-
+While in the directory of your local repo, run:
+	
 ```
 $ make clean
 ```
+in order to remove build artifacts.
 
-will remove build artifacts.
+### Frontend
 
-### Testing
+#### Running Frontend Development Server
+
+
+While in your `recordexpungePDX`, directory, enter into your command line and
+run:
+
+  ```
+	$ cd /src/frontend
+
+	$ npm start
+  ```
+
+If successful, the above should start a development server that can be viewed at
+`http://localhost:3000/`.
+
+## Testing
 
 Currently using [pytest](https://docs.pytest.org) for testing.   
 Run all tests with the following command:
