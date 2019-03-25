@@ -1,0 +1,3 @@
+flask
+ipython
+psycopg2-binary
