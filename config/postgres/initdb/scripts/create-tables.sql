@@ -48,7 +48,7 @@ CREATE TABLE rules (
 );
 
 
-CREATE TABLE analysis (
+CREATE TABLE analyses (
     client_id UUID NOT NULL REFERENCES clients(client_id) ON DELETE CASCADE,
     case_id   TEXT NOT NULL,
     result_code_id UUID NOT NULL REFERENCES result_codes(result_code_id) ON DELETE CASCADE,

@@ -4,7 +4,7 @@ from expungeservice.crawler.models.charge import Charge
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
-from expungeservice.crawler.parsers.case_parser import CaseParser
+from expungeservice.crawler.parsers.case_parser.case_parser import CaseParser
 from expungeservice.crawler.request import *
 
 
