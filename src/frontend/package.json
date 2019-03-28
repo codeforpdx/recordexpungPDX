@@ -7,26 +7,26 @@
     "rex@codeforpdx.org"
   ],
   "dependencies": {
-    "@reactivex/rxjs": "^6.3.3",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-scripts-ts": "^4.0.8"
+    "@reactivex/rxjs": "^6.4.0",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-scripts": "^2.1.8"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
-    "@types/node": "^10.12.11",
-    "@types/react": "^16.7.11",
-    "@types/react-dom": "^16.0.11",
-    "@types/react-test-renderer": "^16.0.3",
-    "node-sass": "^4.10.0",
+    "@types/jest": "^23.3.14",
+    "@types/node": "^10.14.4",
+    "@types/react": "^16.8.10",
+    "@types/react-dom": "^16.8.3",
+    "@types/react-test-renderer": "^16.8.1",
+    "node-sass": "^4.11.0",
     "react-test-renderer": "latest",
-    "typescript": "^3.2.1"
+    "typescript": "^3.3.4000"
   },
   "browserslist": [
     ">0.2%",
