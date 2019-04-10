@@ -16,7 +16,9 @@ IMAGES := database_image expungeservice_image
 STACK_NAME := recordexpungpdx
 DB_NAME := record_expunge
 DB_CONTAINER_NAME := db
-dev: dev_deploy
+REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
+
+dev: $(REQUIREMENTS_TXT) dev_deploy
 	echo $@
 
 dev_deploy: $(IMAGES)
@@ -47,3 +49,7 @@ test:
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
+
+.PHONY: $(REQUIREMENTS_TXT)
+$(REQUIREMENTS_TXT):
+	pipenv lock -r > $@
