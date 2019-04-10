@@ -1,4 +1,0 @@
-flask
-ipython
-jwt
-psycopg2-binary

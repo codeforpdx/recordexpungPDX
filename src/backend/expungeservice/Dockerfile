@@ -4,17 +4,11 @@ RUN apt-get update &&\
     python3.7 -m pip install pip --upgrade &&\
     python3.7 -m pip install wheel
 
- #&&\
- #curl https://raw.githubusercontent.com/kennethreitz/pipenv/master/get-pipenv.py | python3.7
-
-ADD requirements.txt /tmp
-WORKDIR /tmp
-RUN python3.7 -m pip install -r requirements.txt && rm requirements.txt
-
 RUN mkdir -p /var/www/expungeservice
 COPY . /var/www/expungeservice
 WORKDIR /var/www/expungeservice
-RUN python3.7 -m setup install 
+RUN python3.7 -m pip install -r requirements.txt && rm requirements.txt &&\
+    python3.7 -m setup install 
 
 # This exposes a port; docker-compose file sets mapping.
 EXPOSE 5000
