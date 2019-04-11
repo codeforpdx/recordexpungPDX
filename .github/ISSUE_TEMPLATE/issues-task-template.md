@@ -1,16 +1,29 @@
 ---
-name: Issues task Template
-about: Task Template
+name: Issue Template
+about: Issue Template
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-Describe the task here, including any supplemental information.
+<!---
+Add a description above "This task is done when". Consider these questions:
+- Why is this task important?
+- Is anything else needed before this task is ready to work?
+- If someone writes code to address this issue, who should then send it to for review?
+--->
 
-### This task is done when...
- - [ ] criteria 1
- - [ ] criteria 2
+### This task is done when:
+ -
+ -
  
- ** Don't forget to fill out the LABEL and MILESTONE before submitting. If the issue is for the CURRENT SPRINT, add it to the PROJECT. If the issue is a BUG, FUTURE ENHANCEMENT, or OUTSIDE OF THE CURRENT SPRINT, do not add it to the PROJECT (then delete this line) **
+<!---
+Before submitting this issue:
+
+- If someone is currently working on this issue, assign it to them
+- Add labels as appropriate 
+- Add this issue to our Record Expunge PDX Project
+
+After the issue is created, visit https://github.com/CodeForPortland/recordexpungPDX/projects/2 and add the issue to the appropriate column depending on its status. The issue should be moved across from left to right as it progresses.
+--->
