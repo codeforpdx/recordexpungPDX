@@ -6,7 +6,6 @@ import datetime
 from flask import jsonify, current_app
 
 import expungeservice
-from expungeservice.endpoints import auth
 
 @pytest.fixture(scope='module')
 def app():
