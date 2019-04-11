@@ -7,12 +7,7 @@ assignees: ''
 
 ---
 
-<!---
-Add a description above "This task is done when". Consider these questions:
-- Why is this task important?
-- Is anything else needed before this task is ready to work?
-- If someone writes code to address this issue, who should then send it to for review?
---->
+<!--- For your description, consider: Why is this task important? Is anything else needed before this task is "ready to work"? If someone writes code for this issue, who should they send it to for review? --->
 
 ### This task is done when:
  -
