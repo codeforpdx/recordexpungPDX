@@ -1,0 +1,6 @@
+version: '3.1'
+
+services:
+    expungeservice:
+        ports: 
+            - "5000:5000"
