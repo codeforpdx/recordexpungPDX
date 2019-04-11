@@ -11,17 +11,19 @@ clean:
 	find . -type f -name \*pyc | xargs rm
 	rm -rf src/backend/*.egg-info
 
-IMAGES := database_image
+IMAGES := database_image expungeservice_image
 
 STACK_NAME := recordexpungpdx
 DB_NAME := record_expunge
 DB_CONTAINER_NAME := db
-dev: dev_deploy
+REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
+
+dev: $(REQUIREMENTS_TXT) dev_deploy
 	echo $@
 
 dev_deploy: $(IMAGES)
 	echo $@
-	docker stack deploy -c docker-compose.yml $(STACK_NAME)
+	docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml $(STACK_NAME)
 
 dev_stop:
 	echo $@
@@ -31,14 +33,23 @@ dev_psql:
 	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(DB_NAME)
 
 database_image:
-	echo $@
 	docker build --no-cache -t $(STACK_NAME):database config/postgres
+
+expungeservice_image:
+	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice
 
 dblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))
+
+applogs:
+	docker logs --details -ft $$(docker ps -qf name=expungeservice)
 
 test:
 	pipenv run pytest
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
+
+.PHONY: $(REQUIREMENTS_TXT)
+$(REQUIREMENTS_TXT):
+	pipenv lock -r > $@
