@@ -4,3 +4,7 @@ services:
     expungeservice:
         ports: 
             - "5000:5000"
+
+    webserver:
+        ports: 
+            - "3000:3000"
