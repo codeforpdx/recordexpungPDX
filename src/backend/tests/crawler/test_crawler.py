@@ -1,21 +1,14 @@
 import unittest
-import requests_mock
 
-from expungeservice.crawler.crawler import Crawler
 from tests.factories.crawler import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
-from tests.fixtures.post_login_page import PostLoginPage
-from expungeservice.crawler.request import URL
 
 
 class TestCrawler(unittest.TestCase):
 
     def setUp(self):
-        self.crawler = Crawler()
-        with requests_mock.Mocker() as m:
-            m.post(URL.login_url(), text=PostLoginPage.POST_LOGIN_PAGE)
-            self.crawler.login('username', 'password')
+        self.crawler = CrawlerFactory.setup()
 
     def test_search_function(self):
         CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
