@@ -1,10 +1,8 @@
 import unittest
 import requests_mock
+from tests.factories.crawler import CrawlerFactory
 
 from tests.fixtures.post_login_page import PostLoginPage
-from tests.fixtures.search_page_response import SearchPageResponse
-from tests.fixtures.john_doe import JohnDoe
-from tests.fixtures.case_details import CaseDetails
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.crawler.request import URL
@@ -19,16 +17,7 @@ class TestCrawler(unittest.TestCase):
             self.crawler.login('username', 'password')
 
     def test_search_function(self):
-        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
-        with requests_mock.Mocker() as m:
-            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE}, {'text': JohnDoe.RECORD}])
-
-            base_url += 'CaseDetail.aspx'
-            m.get(base_url + '?CaseID=X0001', text=CaseDetails.CASE_X1)
-            m.get(base_url + '?CaseID=X0002', text=CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
-            m.get(base_url + '?CaseID=X0003', text=CaseDetails.CASE_WITHOUT_DISPOS)
-
-            self.crawler.search('John', 'Doe')
+        CrawlerFactory.create_john_doe_default_record(self.crawler)
 
         assert len(self.crawler.result.cases) == 3
 
@@ -54,23 +43,12 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[2].charges[2].disposition.date is None
 
     def test_a_blank_search_response(self):
-        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
-        with requests_mock.Mocker() as m:
-            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
-                                                     {'text': JohnDoe.BLANK_RECORD}])
-            self.crawler.search('John', 'Doe')
+        CrawlerFactory.create_blank_record(self.crawler)
 
         assert len(self.crawler.result.cases) == 0
 
     def test_single_charge_conviction(self):
-        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
-        with requests_mock.Mocker() as m:
-            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
-                                                     {'text': JohnDoe.SINGLE_CASE_RECORD}])
-            base_url += 'CaseDetail.aspx'
-            m.get(base_url + '?CaseID=CASEJD1', text=CaseDetails.CASEJD1)
-
-            self.crawler.search('John', 'Doe')
+        CrawlerFactory.create_john_doe_single_record(self.crawler)
 
         assert len(self.crawler.result.cases) == 1
         assert len(self.crawler.result.cases[0].charges) == 1
