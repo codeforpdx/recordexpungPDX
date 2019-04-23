@@ -1,10 +1,11 @@
 import unittest
 import requests_mock
-from tests.factories.crawler import CrawlerFactory
-
-from tests.fixtures.post_login_page import PostLoginPage
 
 from expungeservice.crawler.crawler import Crawler
+from tests.factories.crawler import CrawlerFactory
+from tests.fixtures.case_details import CaseDetails
+from tests.fixtures.john_doe import JohnDoe
+from tests.fixtures.post_login_page import PostLoginPage
 from expungeservice.crawler.request import URL
 
 
@@ -17,7 +18,9 @@ class TestCrawler(unittest.TestCase):
             self.crawler.login('username', 'password')
 
     def test_search_function(self):
-        CrawlerFactory.create_john_doe_default_record(self.crawler)
+        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+                                                             'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
+                                                             'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
 
         assert len(self.crawler.result.cases) == 3
 
@@ -43,12 +46,12 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[2].charges[2].disposition.date is None
 
     def test_a_blank_search_response(self):
-        CrawlerFactory.create_blank_record(self.crawler)
+        CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
 
         assert len(self.crawler.result.cases) == 0
 
     def test_single_charge_conviction(self):
-        CrawlerFactory.create_john_doe_single_record(self.crawler)
+        CrawlerFactory.create(self.crawler, JohnDoe.SINGLE_CASE_RECORD, {'CASEJD1': CaseDetails.CASEJD1})
 
         assert len(self.crawler.result.cases) == 1
         assert len(self.crawler.result.cases[0].charges) == 1
