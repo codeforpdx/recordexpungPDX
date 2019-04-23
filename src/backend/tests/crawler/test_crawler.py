@@ -29,7 +29,7 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[0].charges[0].disposition.date == '06/12/2017'
         assert self.crawler.result.cases[0].charges[1].disposition.ruling == 'Dismissed'
         assert self.crawler.result.cases[0].charges[1].disposition.date == '06/12/2017'
-        assert self.crawler.result.cases[0].charges[2].disposition.ruling == 'Hmmmm'
+        assert self.crawler.result.cases[0].charges[2].disposition.ruling == 'Dismissed'
         assert self.crawler.result.cases[0].charges[2].disposition.date == '06/12/2017'
 
         assert self.crawler.result.cases[1].charges[0].disposition.ruling == 'Dismissed'
