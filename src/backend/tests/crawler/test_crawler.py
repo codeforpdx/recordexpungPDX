@@ -1,5 +1,6 @@
 import unittest
 
+from datetime import datetime
 from tests.factories.crawler import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -52,7 +53,7 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[0].charges[0].name == 'Loading Zone'
         assert self.crawler.result.cases[0].charges[0].statute == '29'
         assert self.crawler.result.cases[0].charges[0].level == 'Violation Unclassified'
-        assert self.crawler.result.cases[0].charges[0].date == '09/04/2008'
+        assert self.crawler.result.cases[0].charges[0].date == datetime.date(datetime.strptime('09/04/2008', '%m/%d/%Y'))
         assert self.crawler.result.cases[0].charges[0].disposition.ruling == 'Convicted'
         assert self.crawler.result.cases[0].charges[0].disposition.date == '11/18/2008'
 
