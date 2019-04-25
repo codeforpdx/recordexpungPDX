@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from expungeservice.crawler.models.disposition import Disposition
 from expungeservice.crawler.models.expungement_result import ExpungementResult
@@ -10,7 +11,7 @@ class Charge:
         self.name = name
         self.statute = Charge.__strip_non_alphanumeric_chars(statute)
         self.level = level
-        self.date = date
+        self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = Disposition()
         self.expungement_result = ExpungementResult()
 
