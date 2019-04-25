@@ -1,12 +1,13 @@
 class TypeAnalyzer:
 
-    def evaluate(self, charges):
+    @staticmethod
+    def evaluate(charges):
         for charge in charges:
             TypeAnalyzer.__evaluate(charge)
 
     @staticmethod
     def __evaluate(charge):
-        if charge.disposition.ruling == 'Dismissed' or charge.disposition.ruling == 'Acquitted' or charge.disposition.ruling == 'No Complaint':
+        if charge.disposition.ruling != 'Convicted':
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(1)(b)')
 
