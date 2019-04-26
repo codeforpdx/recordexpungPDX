@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FooterComponent } from "../footer/footer.component";
 import { LoginComponent } from "../login/login.component";
 
