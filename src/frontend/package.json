@@ -10,7 +10,8 @@
     "@reactivex/rxjs": "^6.4.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^3.0.0",
+    "redux-starter-kit": "^0.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
