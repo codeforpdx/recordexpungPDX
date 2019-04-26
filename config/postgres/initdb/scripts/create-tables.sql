@@ -5,7 +5,6 @@ CREATE EXTENSION citext;
 
 CREATE TABLE users (
     user_id         UUID NOT NULL,
-    username        CITEXT UNIQUE NOT NULL,
     email           CITEXT UNIQUE NOT NULL,
     admin           BOOLEAN NOT NULL DEFAULT FALSE,
     date_created    TIMESTAMP WITH TIME ZONE DEFAULT now(),
