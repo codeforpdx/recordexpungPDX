@@ -19,7 +19,7 @@ User Flow
 
 User visits login page in browser
 
-User types username and password to log in
+User types email and password to log in
 
 User is directed to main page
 
@@ -70,7 +70,7 @@ These routes are set up in the front-end application for navigating between the 
 
 Login page
 
-- Form for entering `username` and `password`
+- Form for entering `email` and `password`
 - Application sends credentials to server
 - Server validates credentials
 - If credentials are good server returns session cookie (contents tbd)
@@ -101,7 +101,6 @@ Page for viewing statistics
 
 Admin page for creating users
 
-- username
 - email
 - password
 - admin permissions (T/F)
@@ -121,14 +120,14 @@ Global headers:
 
 **`POST`** `/api/<version>/auth_token`
 
-Post username, password to create an auth token (JWT) that can be used when
+Post email, password to create an auth token (JWT) that can be used when
 accessing protected APIs
 
 `POST` body:
 
 - format: `JSON`
 - fields:
-    * `username`
+    * `email`
     * `password`
 
 Returns: auth token
@@ -140,8 +139,8 @@ Returns: auth token
  Status codes:
 
 - `201 CREATED`: auth token creation successful
-- `401 UNAUTHORIZED`: unable to create auth token: invalid username / password
-- `400 BAD FORMAT`: missing username or password
+- `401 UNAUTHORIZED`: unable to create auth token: invalid email / password
+- `400 BAD FORMAT`: missing email or password
 
 
 **`POST`** `/api/<version>/users/`
@@ -152,19 +151,17 @@ Creates a user
 
 - format: `JSON`
 - fields:
-    * username
-	* encrypted password
-	* email address
+    * email
+    * encrypted password
     * admin permissions
 
 Returns: New user
 
 - format: `JSON`
 - fields:
-    * username
-    * email address
+    * email
     * admin permissions
-	* timestamp
+    * timestamp
 
 Status codes:
 
@@ -173,16 +170,15 @@ Status codes:
 - `400 BAD FORMAT`: missing one or more fields
 
 
-**`GET`** `/api/<version>/users/USERNAME`
+**`GET`** `/api/<version>/users/EMAIL`
 
 Returns: Requested user
 
 - format: `JSON`
 - fields:
-    * username
-    * email address
+    * email
     * admin permissions
-	* timestamp
+    * timestamp
 
 Status codes:
 
@@ -199,7 +195,7 @@ Performs search of remote system
 - fields:
     * first name
     * last name
-	* dob
+    * dob
 
 Returns: Search results
 
@@ -224,7 +220,7 @@ Database Schema
 
 Tables:
 
-    users (uuid, username, email, hashed_password, password_salt, admin, date_created, date_modified), uuid primary key
+    users (uuid, email, hashed_password, password_salt, admin, date_created, date_modified), uuid primary key
 
     clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
 

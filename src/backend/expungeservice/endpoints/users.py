@@ -13,14 +13,13 @@ class Users(MethodView):
             abort(400)
 
         # TODO temp hack - replace with table from DB
-        if data['username'] in users:
+        if data['email'] in users:
             return 'User already exists! Please login', 202
 
-        users[data['username']] = generate_password_hash(data['password'])
+        users[data['email']] = generate_password_hash(data['password'])
 
         response_data = {
-            'username': data['username'],
-            'email address': data['email address']
+            'email': data['email']
         }
 
         return jsonify(response_data), 201
