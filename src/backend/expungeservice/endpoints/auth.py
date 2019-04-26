@@ -9,13 +9,13 @@ from werkzeug.security import check_password_hash
 
 from expungeservice.endpoints.users import users
 
-def get_auth_token(app, username):
+def get_auth_token(app, email):
     dt = datetime.datetime.utcnow()
     payload = {
         'iss': 'expungeservice',
         'iat': dt,
         'exp': dt + app.config.get('JWT_EXPIRY_TIMER'),
-        'sub': username,
+        'sub': email,
     }
     return jwt.encode(
         payload,
@@ -62,12 +62,12 @@ class AuthToken(MethodView):
         if data == None:
             abort(400)
 
-        if (data['username'] not in users or
-                not check_password_hash(users[data['username']], data['password'])):
+        if (data['email'] not in users or
+                not check_password_hash(users[data['email']], data['password'])):
             return 'Unauthorized', 401
 
         response_data = {
-            'auth_token': get_auth_token(current_app, data['username'])
+            'auth_token': get_auth_token(current_app, data['email'])
         }
         return jsonify(response_data)
 
