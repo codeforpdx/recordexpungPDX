@@ -4,6 +4,12 @@ from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
 
 
 class Expunger:
+    """
+    This is a wrapper for the time_analyzer and type_analyzer.
+    After running this method the results can be extracted from the
+    cases attribute. The errors attribute will list the reason why
+    the method returns false.
+    """
 
     def __init__(self, cases):
         self.cases = cases
@@ -13,6 +19,11 @@ class Expunger:
         self._most_recent_conviction = None
 
     def run(self):
+        """
+        Evaluates the expungement eligibility.
+
+        :return: True if there are no open cases; otherwise False
+        """
         if self._open_cases():
             self.errors.append('Open cases exist')
             return False
