@@ -1,6 +1,7 @@
 import React from 'react';
-import { FooterComponent } from "../footer/footer.component";
-import { LoginComponent } from "../login/login.component";
+import './styles.scss';
+import { FooterComponent } from '../footer/component';
+import { LoginComponent } from '../login/component';
 
 class App extends React.Component {
 

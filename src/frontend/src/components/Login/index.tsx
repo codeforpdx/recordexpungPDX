@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { IconComponent } from '../common/icon.component';
+import React from 'react';
+import './styles.scss';
+import { IconComponent } from '../icon/component';
 
 export class LoginComponent extends React.Component {
     public render() {
