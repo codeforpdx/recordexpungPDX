@@ -459,7 +459,7 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert pcs_charge.expungement_result.type_eligibility is True
         assert pcs_charge.expungement_result.reason == 'Eligible under 137.225(5)(C)'
 
-    # Add eligible misdemeanor and class C felony tests
+    # Eligible misdemeanor and class C felony tests
 
     def test_misdemeanor_164043(self):
         self.single_charge['name'] = 'Theft in the third degree'
