@@ -21,7 +21,7 @@ class TimeAnalyzer:
 
     def _most_recent_conviction_is_greater_than_three_years_old(self):
         three_years_ago = date.today() + relativedelta(years=-3)
-        return self._most_recent_conviction.disposition.date < three_years_ago
+        return self._most_recent_conviction.disposition.date <= three_years_ago
 
     @staticmethod
     def _three_years_from_disposition(charge):
