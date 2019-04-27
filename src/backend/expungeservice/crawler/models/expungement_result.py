@@ -2,7 +2,7 @@ class ExpungementResult:
 
     def __init__(self):
         self.type_eligibility = None
-        self.reason = ''
+        self.type_eligibility_reason = ''
         self.time_eligibility = None
         self.time_eligibility_reason = ''
         self.date_of_eligibility = None
@@ -11,4 +11,4 @@ class ExpungementResult:
         self.type_eligibility = type_eligibility
 
     def set_reason(self, reason):
-        self.reason = reason
+        self.type_eligibility_reason = reason

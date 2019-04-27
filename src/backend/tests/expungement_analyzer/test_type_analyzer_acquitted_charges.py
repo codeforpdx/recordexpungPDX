@@ -31,4 +31,4 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.type_analyzer.evaluate(self.charges)
 
         assert felony_class_a_acquitted.expungement_result.type_eligibility is True
-        assert felony_class_a_acquitted.expungement_result.reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_acquitted.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
