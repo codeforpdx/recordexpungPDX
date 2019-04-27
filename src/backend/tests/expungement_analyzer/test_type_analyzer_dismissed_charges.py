@@ -31,4 +31,4 @@ class TestSingleChargeDismissals(unittest.TestCase):
         self.type_analyzer.evaluate(self.charges)
 
         assert felony_class_a_dismissed.expungement_result.type_eligibility is True
-        assert felony_class_a_dismissed.expungement_result.reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_dismissed.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
