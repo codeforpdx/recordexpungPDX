@@ -1,9 +1,14 @@
-// See https://redux-starter-kit.js.org/usage/usage-guide
+// See the following guides for an explanation:
+// https://redux-starter-kit.js.org/usage/usage-guide
+// https://redux.js.org/recipes/usage-with-typescript
 import { configureStore } from 'redux-starter-kit'
-import rootReducer from './reducers/index';
+import { combineReducers } from "redux";
+
+// Reducers:
+import { recordsReducer } from './records/reducers';
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: combineReducers({ records: recordsReducer }),
 })
 
 export default store;

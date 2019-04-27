@@ -1,8 +1,8 @@
 // These imports are all defaults from create-react-app.
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './main.style.scss';
+import App from './components/app/App';
 import * as serviceWorker from './serviceWorker';
 
 // The following is based on the example code at
