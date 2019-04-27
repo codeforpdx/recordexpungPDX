@@ -12,7 +12,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.charges = []
 
     def test_more_than_ten_year_old_conviction(self):
-        ten_years_ago = (date.today() + relativedelta(years=-10, days=-1))
+        ten_years_ago = (date.today() + relativedelta(years=-10))
         charge = ChargeFactory.create(disposition=['Convicted', ten_years_ago])
 
         time_analyzer = TimeAnalyzer(most_recent_conviction=charge)
@@ -24,7 +24,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert charge.expungement_result.date_of_eligibility is None
 
     def test_more_than_three_year_rule_conviction(self):
-        more_than_three_year_old_conviction = (date.today() + relativedelta(years=-3, days=-1))
+        more_than_three_year_old_conviction = (date.today() + relativedelta(years=-3))
         charge = ChargeFactory.create(disposition=['Convicted', more_than_three_year_old_conviction])
 
         time_analyzer = TimeAnalyzer(most_recent_conviction=charge)
