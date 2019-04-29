@@ -9,6 +9,7 @@
     "@types/react": "16.8.14",
     "@types/react-dom": "16.8.4",
     "@types/react-test-renderer": "^16.8.1",
+    "@types/react-redux": "^7.0.8",
     "node-sass": "^4.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -40,8 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-redux": "^7.0.8"
   }
 }
