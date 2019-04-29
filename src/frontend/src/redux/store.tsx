@@ -5,10 +5,16 @@ import { configureStore } from 'redux-starter-kit'
 import { combineReducers } from "redux";
 
 // Reducers:
-import { recordsReducer } from './records/reducers';
+import { recordsReducer } from './records/reducer';
+import { systemReducer } from './system/reducer';
 
-const store = configureStore({
-  reducer: combineReducers({ records: recordsReducer }),
-})
+const rootReducer = combineReducers({
+  system: systemReducer,
+  records: recordsReducer,
+});
+
+const store = configureStore({ reducer: rootReducer });
+
+export type AppState = ReturnType<typeof rootReducer>;
 
 export default store;
