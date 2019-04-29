@@ -6,7 +6,7 @@ import { IconComponent } from '../Icon';
 import { get } from 'lodash';
 import { logIn } from "../../redux/system/actions";
 
-class Login extends React.Component {
+class LogIn extends React.Component {
 
   constructor() {
     super(arguments[0]);
@@ -14,9 +14,8 @@ class Login extends React.Component {
   }
 
   public logInNow() {
-    get(this, 'props.logIn')();
-
     // TODO: clean this up. Not sure how to appease Typescript here.
+    get(this, 'props.logIn')();
     arguments[0].preventDefault();
     arguments[0].stopPropagation();
   }
@@ -73,4 +72,4 @@ const mapStateToProps = (state: AppState) => ({
 export default connect(
   mapStateToProps,
   { logIn }
-)(Login);
+)(LogIn);

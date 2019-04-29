@@ -12,9 +12,8 @@ class LogOut extends React.Component {
   }
 
   public logOutNow() {
-    get(this, 'props.logOut')();
-
     // TODO: clean this up. Not yet sure how to appease Typescript here.
+    get(this, 'props.logOut')();
     arguments[0].preventDefault();
     arguments[0].stopPropagation();
   }

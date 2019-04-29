@@ -5,7 +5,7 @@ import './styles.scss';
 import { AppState } from "../../redux/store";
 
 import Footer from '../Footer';
-import Login from '../Login';
+import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
 
@@ -18,7 +18,7 @@ class App extends React.Component {
         </LoggedIn>
         :
         <main className="mw6 ph2 center">
-          <Login/>
+          <LogIn/>
           <Footer/>
         </main>
     );
