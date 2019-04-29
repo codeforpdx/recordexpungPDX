@@ -1,8 +1,9 @@
 // These imports are all defaults from create-react-app.
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app/component';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import './index.scss'
 
 // The following is based on the example code at
 // https://react-redux.js.org/introduction/quick-start

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { FooterComponent } from "./footer.component";
+import { FooterComponent } from "../Footer";
 
 export interface IJestTree {
     children: any[];

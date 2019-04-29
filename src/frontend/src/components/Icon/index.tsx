@@ -1,6 +1,5 @@
 import React from 'react';
-import './styles.scss';
-import {ReactElement} from "react";
+import { ReactElement } from "react";
 
 export interface IIcons {
     [name: string] : ReactElement<SVGElement>
