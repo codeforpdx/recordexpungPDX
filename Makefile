@@ -39,9 +39,9 @@ expungeservice_image:
 	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice
 
 webserver_image:
-	cp -r src/frontend/build config/nginx/static
+	cp -r src/frontend/ config/nginx/frontend
 	docker build --no-cache -t $(STACK_NAME):webserver config/nginx
-	rm -r config/nginx/static
+	rm -rf config/nginx/frontend
 
 dblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))

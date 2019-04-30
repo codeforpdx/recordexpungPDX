@@ -16,12 +16,8 @@ services:
 
     webserver:
         image: recordexpungpdx:webserver
-        volumes:
-            - web_static:/usr/share/nginx/html
-
+        
 volumes:
 
     database_storage:
-
-    web_static:
 
