@@ -20,7 +20,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_more_than_ten_year_old_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', self.TEN_YEARS_AGO])
 
-        time_analyzer = TimeAnalyzer(most_recent_conviction=charge)
+        time_analyzer = TimeAnalyzer()
         self.charges.append(charge)
         time_analyzer.evaluate(self.charges)
 
