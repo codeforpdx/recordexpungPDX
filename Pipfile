@@ -15,6 +15,7 @@ expungeservice = {editable = true, path = "."}
 pytest = "*"
 requests-mock = "*"
 requests = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
