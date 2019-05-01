@@ -12,6 +12,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3))
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2))
 
+    ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
     TEN_YEARS = relativedelta(years=10)
 
     def setUp(self):
@@ -98,3 +99,30 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert two_years_ago_charge.expungement_result.time_eligibility is False
         assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
         assert two_years_ago_charge.expungement_result.date_of_eligibility == three_years_ago_charge.disposition.date + self.TEN_YEARS
+
+    def test_less_than_3yr_old_acquittal(self):
+        less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
+
+        time_analyzer = TimeAnalyzer(most_recent_dismissal=less_than_3yr_acquittal)
+        self.charges.append(less_than_3yr_acquittal)
+        time_analyzer.evaluate(self.charges)
+
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility is True
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == ''
+        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility is None
+
+    def test_multiple_acquittals_with_2yr_old_acquittal(self):
+        two_year_acquittal = ChargeFactory.create(date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'), disposition=['Dismissed', self.TWO_YEARS_AGO])
+        less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
+
+        time_analyzer = TimeAnalyzer(most_recent_dismissal=two_year_acquittal, num_acquittals=2)
+        self.charges.extend([two_year_acquittal, less_than_3yr_acquittal])
+        time_analyzer.evaluate(self.charges)
+
+        assert two_year_acquittal.expungement_result.time_eligibility is True
+        assert two_year_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
+        assert two_year_acquittal.expungement_result.date_of_eligibility is None
+
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility is False
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
+        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == self.ONE_YEARS_FROM_NOW
