@@ -3,7 +3,7 @@ import unittest
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expungement_analyzer.time_analyzer import TimeAnalyzer
-from tests.factories.charge import ChargeFactory
+from tests.factories.charge_factory import ChargeFactory
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):

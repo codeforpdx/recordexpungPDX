@@ -1,7 +1,7 @@
 import unittest
 
 from datetime import datetime
-from tests.factories.crawler import CrawlerFactory
+from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 
