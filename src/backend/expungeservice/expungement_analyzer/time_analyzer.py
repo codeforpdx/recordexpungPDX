@@ -7,28 +7,34 @@ class TimeAnalyzer:
     THREE_YEARS = 3
     TEN_YEARS = 10
 
-    def __init__(self, most_recent_conviction=None, second_most_recent_conviction=None, most_recent_dismissal=None):
+    def __init__(self, most_recent_conviction=None, second_most_recent_conviction=None, most_recent_dismissal=None, num_acquittals=0):
         """
 
         :param most_recent_conviction: Most recent conviction if one exists from within the last ten years
         :param second_most_recent_conviction: Second most recent conviction if one exists from within the last ten years
         :param most_recent_dismissal: Most recent dismissal if one exists from within the last three years
+        :param num_acquittals: Number of acquittals within the last three years
         """
         self._most_recent_conviction = most_recent_conviction
         self._second_most_recent_conviction = second_most_recent_conviction
         self._most_recent_dismissal = most_recent_dismissal
+        self._num_acquittals = num_acquittals
 
     def evaluate(self, charges):
         if self._most_recent_conviction:
-            self._mark_all_charges_ineligible(charges)
+            self._mark_all_charges_ineligible_using_mrc_date(charges, 'Time-ineligible under 137.225(7)(b)', self.TEN_YEARS)
             if self._most_recent_conviction_is_greater_than_three_years_old():
                 self._mark_most_recent_conviction_eligible()
             elif self._second_most_recent_conviction:
                 self._mark_mrc_ineligible('Multiple convictions within last ten years', self.TEN_YEARS)
             else:
                 self._mark_mrc_ineligible('Most recent conviction is less than three years old', self.THREE_YEARS)
-        elif self._most_recent_dismissal:
-            pass
+        elif self._most_recent_dismissal and self._num_acquittals > 1:
+            self._mark_all_charges_ineligible_using_mrd_date(charges, 'Recommend sequential expungement of arrests')
+
+            TimeAnalyzer._mark_eligibleness(self._most_recent_dismissal, True)
+            TimeAnalyzer._add_reason(self._most_recent_dismissal, 'Recommend sequential expungement of arrests')
+            self._most_recent_dismissal.expungement_result.date_of_eligibility = None
         else:
             TimeAnalyzer._mark_all_eligible(charges)
 
@@ -36,14 +42,23 @@ class TimeAnalyzer:
         three_years_ago = date.today() + relativedelta(years=-3)
         return self._most_recent_conviction.disposition.date <= three_years_ago
 
-    def _mark_all_charges_ineligible(self, charges):
+    def _mark_all_charges_ineligible_using_mrc_date(self, charges, reason, date):
         for charge in charges:
-            self._mark_ineligible(charge, 'Time-ineligible under 137.225(7)(b)', self.TEN_YEARS)
+            self._mark_ineligible_by_mrc_disposition_date(charge, reason, date)
 
-    def _mark_ineligible(self, charge, reason, years):
+    def _mark_all_charges_ineligible_using_mrd_date(self, charges, reason):
+        for charge in charges:
+            self._mark_ineligible_by_mrd_arrest_date(charge, reason)
+
+    def _mark_ineligible_by_mrc_disposition_date(self, charge, reason, years):
         TimeAnalyzer._mark_eligibleness(charge, False)
-        TimeAnalyzer._ineligible_reason(charge, reason)
+        TimeAnalyzer._add_reason(charge, reason)
         TimeAnalyzer._date_of_eligibility(charge, self._most_recent_conviction, years)
+
+    def _mark_ineligible_by_mrd_arrest_date(self, charge, reason):
+        TimeAnalyzer._mark_eligibleness(charge, False)
+        TimeAnalyzer._add_reason(charge, reason)
+        charge.expungement_result.date_of_eligibility = self._most_recent_dismissal.date + relativedelta(years=+3)
 
     def _mark_most_recent_conviction_eligible(self):
         self._most_recent_conviction.expungement_result.time_eligibility = True
@@ -52,7 +67,7 @@ class TimeAnalyzer:
 
     def _mark_mrc_ineligible(self, reason, years):
         TimeAnalyzer._mark_eligibleness(self._most_recent_conviction, False)
-        TimeAnalyzer._ineligible_reason(self._most_recent_conviction, reason)
+        TimeAnalyzer._add_reason(self._most_recent_conviction, reason)
         if self._second_most_recent_conviction:
             TimeAnalyzer._date_of_eligibility(self._most_recent_conviction, self._second_most_recent_conviction, years)
         else:
@@ -67,7 +82,7 @@ class TimeAnalyzer:
         charge.expungement_result.time_eligibility = eligibility
 
     @staticmethod
-    def _ineligible_reason(charge, reason):
+    def _add_reason(charge, reason):
         charge.expungement_result.time_eligibility_reason = reason
 
     @staticmethod
