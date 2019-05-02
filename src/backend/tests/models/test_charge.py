@@ -7,7 +7,7 @@ from tests.factories.case_factory import CaseFactory
 class TestCaseWithDisposition(unittest.TestCase):
 
     def setUp(self):
-        self.charge = {'name': 'PCS', 'level': 'Misdemeanor', 'date': '12/12/1999'}
+        self.charge = {'case': CaseFactory.create(), 'name': 'PCS', 'level': 'Misdemeanor', 'date': '12/12/1999'}
 
     def test_it_initializes_simple_statute(self):
         self.charge['statute'] = '1231235B'

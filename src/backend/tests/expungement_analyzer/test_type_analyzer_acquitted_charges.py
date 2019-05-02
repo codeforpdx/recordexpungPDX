@@ -2,6 +2,7 @@ import unittest
 
 from datetime import datetime, timedelta
 from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
+from tests.factories.case_factory import CaseFactory
 from expungeservice.crawler.models.charge import Charge
 from expungeservice.crawler.models.charge import Disposition
 
@@ -12,7 +13,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
+        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
         disposition = {'ruling': 'Acquitted', 'date': last_week}
         self.acquitted_disposition = Disposition(**disposition)
         self.charges = []
@@ -39,7 +40,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
+        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
         disposition = {'ruling': 'Dismissed', 'date': last_week}
         self.dismissed_disposition = Disposition(**disposition)
         self.charges = []
@@ -66,7 +67,7 @@ class TestSingleChargeNoComplaint(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
+        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
         disposition = {'ruling': 'No Complaint', 'date': last_week}
         self.acquitted_disposition = Disposition(**disposition)
         self.charges = []
