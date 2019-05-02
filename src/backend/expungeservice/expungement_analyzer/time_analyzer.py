@@ -24,7 +24,7 @@ class TimeAnalyzer:
         if self._most_recent_conviction:
             self._mark_all_charges_ineligible_using_mrc_date(charges, 'Time-ineligible under 137.225(7)(b)', self.TEN_YEARS)
             self._check_mrc_time_eligibility()
-        elif self._most_recent_dismissal and self._num_acquittals > 1:
+        elif self._most_recent_dismissal and self._more_than_one_recent_non_case_related_acquittal():
             self._mark_all_charges_ineligible_using_mrd_date(charges, 'Recommend sequential expungement of arrests')
             self._mark_eligible(self._most_recent_dismissal, 'Recommend sequential expungement of arrests')
         else:
@@ -72,6 +72,9 @@ class TimeAnalyzer:
             TimeAnalyzer._date_of_eligibility(self._most_recent_conviction, self._second_most_recent_conviction, years)
         else:
             TimeAnalyzer._date_of_eligibility(self._most_recent_conviction, self._most_recent_conviction, years)
+
+    def _more_than_one_recent_non_case_related_acquittal(self):
+        return self._num_acquittals - len(self._most_recent_dismissal.case()().charges) > 1
 
     @staticmethod
     def _three_years_from_disposition(charge):
