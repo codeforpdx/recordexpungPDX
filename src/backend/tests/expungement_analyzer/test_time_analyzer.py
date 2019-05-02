@@ -113,7 +113,10 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert less_than_3yr_acquittal.expungement_result.date_of_eligibility is None
 
     def test_multiple_acquittals_with_2yr_old_acquittal(self):
-        two_year_acquittal = ChargeFactory.create(date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'), disposition=['Dismissed', self.TWO_YEARS_AGO])
+        case = CaseFactory.create()
+        two_year_acquittal = ChargeFactory.create(case=case, date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'), disposition=['Dismissed', self.TWO_YEARS_AGO])
+        case.charges = [two_year_acquittal]
+
         less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
 
         time_analyzer = TimeAnalyzer(most_recent_dismissal=two_year_acquittal, num_acquittals=2)
