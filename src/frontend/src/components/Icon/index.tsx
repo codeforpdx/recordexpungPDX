@@ -1,5 +1,5 @@
-import * as React from 'react'
-import {ReactElement} from "react";
+import React from 'react';
+import { ReactElement } from "react";
 
 export interface IIcons {
     [name: string] : ReactElement<SVGElement>
