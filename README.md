@@ -16,7 +16,7 @@ A project to automate expunging qualifying criminal records.  This project is do
 - [License](#license)
 
 ## Installation
-
+ 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**, 
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
@@ -56,10 +56,30 @@ A project to automate expunging qualifying criminal records.  This project is do
 	package manager which also automatically creates and manages virtual 
 	environments.
 
+4. Install additional libraries needed for running the backend natively or with pipenv:
+
+    * **Mac**
+
+      ```
+      brew install postgresql
+      ```
+      It may be necessary to then run
+      ```
+      export LDFLAGS="-L/usr/local/opt/openssl/lib”
+      ```
+      More information on a Mac isntallation here: https://wiki.postgresql.org/wiki/Homebrew
+    * **Linux**
+      ```
+      sudo apt-get install libpq-dev -y
+      ```
+    * **Windows**
+
+      TBD
+
 5. Install NPM if you don't already have it installed. [This link provides 
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-4. Install backend dependencies:
+6. Install backend dependencies:
 
 	A [Makefile](https://www.gnu.org/software/make/) controls installing 
   dependencies, running the Flask app, and removing build artifacts.
@@ -73,7 +93,7 @@ A project to automate expunging qualifying criminal records.  This project is do
 	Make will read `Pipfile` and install listed Python packages into a `Pipenv` 
   virtualenv.
 
-3. Install frontend dependencies
+7. Install frontend dependencies
 
 	While in the directory of your local `recordexpungePDX` repo, enter into your
   command line and run:
