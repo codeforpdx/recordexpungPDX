@@ -60,8 +60,13 @@ A project to automate expunging qualifying criminal records.  This project is do
 
     * **Mac**
 
-      TBD
-
+      ```
+      brew install postgres
+      ```
+      It may be necessary to then run
+      ```
+      export LDFLAGS="-L/usr/local/opt/openssl/lib”
+      ```
     * **Linux**
       ```
       sudo apt-get install libpq-dev -y
