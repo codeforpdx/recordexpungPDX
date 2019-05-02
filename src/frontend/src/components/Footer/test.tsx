@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { FooterComponent } from "./footer.component";
+import Footer from "../Footer";
 
 export interface IJestTree {
     children: any[];
@@ -10,9 +10,9 @@ export interface IJestTree {
 }
 
 it('renders without crashing', () => {
-    jest.mock('./footer.component', () => 'FooterComponent');
+    jest.mock('./footer.component', () => 'Footer');
     const component = renderer.create(
-        <FooterComponent/>
+        <Footer/>
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -20,7 +20,7 @@ it('renders without crashing', () => {
 
 it('has two anchors', () => {
    const component = renderer.create(
-       <FooterComponent/>
+       <Footer/>
    );
    const tree = component.toJSON() as IJestTree;
    let count = 0;
@@ -34,7 +34,7 @@ it('has two anchors', () => {
 
 it('has a Terms anchor', done => {
     const component = renderer.create(
-        <FooterComponent/>
+        <Footer/>
     );
     const tree = component.toJSON() as IJestTree;
 
@@ -53,7 +53,7 @@ it('has a Terms anchor', done => {
 
 it('has a Copyright anchor', done => {
     const component = renderer.create(
-        <FooterComponent/>
+        <Footer/>
     );
     const tree = component.toJSON() as IJestTree;
     function test() {

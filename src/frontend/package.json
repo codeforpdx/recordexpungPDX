@@ -3,15 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
-  "authors": [
-    "rex@codeforpdx.org"
-  ],
   "dependencies": {
-    "@reactivex/rxjs": "^6.4.0",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5",
-    "react-scripts": "^3.0.0",
-    "redux-starter-kit": "^0.4.3"
+    "@types/jest": "24.0.11",
+    "@types/lodash": "^4.14.123",
+    "@types/node": "11.13.8",
+    "@types/react": "16.8.14",
+    "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.0.8",
+    "@types/react-test-renderer": "^16.8.1",
+    "lodash": "^4.17.11",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.2",
+    "react-scripts": "3.0.0",
+    "react-test-renderer": "^16.8.6",
+    "redux": "^4.0.1",
+    "redux-starter-kit": "^0.4.3",
+    "tachyons": "^4.11.1",
+    "typescript": "3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,20 +29,19 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "@types/jest": "^23.3.14",
-    "@types/node": "^10.14.4",
-    "@types/react": "^16.8.10",
-    "@types/react-dom": "^16.8.3",
-    "@types/react-test-renderer": "^16.8.1",
-    "node-sass": "^4.11.0",
-    "react-test-renderer": "latest",
-    "typescript": "^3.3.4000"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
