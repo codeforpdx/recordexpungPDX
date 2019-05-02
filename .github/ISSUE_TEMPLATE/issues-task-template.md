@@ -20,5 +20,5 @@ Before submitting this issue:
 - Add labels as appropriate 
 - Add this issue to our Record Expunge PDX Project
 
-After the issue is created, visit https://github.com/CodeForPortland/recordexpungPDX/projects/2 and add the issue to the appropriate column depending on its status. The issue should be moved across from left to right as it progresses.
+After the issue is created, visit https://github.com/codeforpdx/recordexpungPDX/projects/2 and add the issue to the appropriate column depending on its status. The issue should be moved across from left to right as it progresses.
 --->

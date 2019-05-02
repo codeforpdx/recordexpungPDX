@@ -1,9 +1,9 @@
 # recordexpungPDX
-A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/CodeForPortland/recordexpungPDX/wiki).
+A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/CodeForPortland/recordexpungPDX.svg?columns=all)](https://waffle.io/CodeForPortland/recordexpungPDX)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/codeforpdx/recordexpungPDX.svg?columns=all)](https://waffle.io/codeforpdx/recordexpungPDX)
 
-[![Build Status](https://travis-ci.com/CodeForPortland/recordexpungPDX.svg?branch=master)](https://travis-ci.com/CodeForPortland/recordexpungPDX)
+[![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 
 ## Table of Contents
@@ -44,7 +44,7 @@ A project to automate expunging qualifying criminal records.  This project is do
         - Ubuntu 16.04
 	
 			To install Python 3.7 on Ubuntu 16.04 follow the instructions 
-			[here](https://github.com/CodeForPortland/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
+			[here](https://github.com/codeforpdx/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
     * **Windows**
 
@@ -170,7 +170,7 @@ $ make test
    ```
  4. Configure upstream to sync with your fork
    ```bash
-    $ git remote add upstream https://github.com/CodeForPortland/recordexpungPDX.git
+    $ git remote add upstream https://github.com/codeforpdx/recordexpungPDX.git
    ```
  5. Create a branch to work on. Replacing BRANCH_NAME with a descriptive name of the work planned such as `update_contributing_doc`
    ```bash
