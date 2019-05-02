@@ -2,8 +2,8 @@ import unittest
 
 from datetime import datetime, timedelta
 from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
+from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
-from expungeservice.crawler.models.charge import Charge
 from expungeservice.crawler.models.charge import Disposition
 
 
@@ -11,16 +11,14 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
     def setUp(self):
         self.type_analyzer = TypeAnalyzer()
-        one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
-        disposition = {'ruling': 'Acquitted', 'date': last_week}
-        self.acquitted_disposition = Disposition(**disposition)
+        self.single_charge = ChargeFactory.build()
+        self.acquitted_disposition = {'ruling': 'Acquitted', 'date': last_week}
         self.charges = []
 
     def create_recent_charge(self):
-        charge = Charge(**self.single_charge)
-        charge.disposition = self.acquitted_disposition
+        charge = ChargeFactory.save(self.single_charge)
+        charge.disposition = Disposition(**self.acquitted_disposition)
         return charge
 
     def test_felony_class_a_charge(self):
@@ -38,16 +36,14 @@ class TestSingleChargeDismissals(unittest.TestCase):
 
     def setUp(self):
         self.type_analyzer = TypeAnalyzer()
-        one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
-        disposition = {'ruling': 'Dismissed', 'date': last_week}
-        self.dismissed_disposition = Disposition(**disposition)
+        self.single_charge = ChargeFactory.build()
+        self.dismissed_disposition = {'ruling': 'Dismissed', 'date': last_week}
         self.charges = []
 
     def create_recent_charge(self):
-        charge = Charge(**self.single_charge)
-        charge.disposition = self.dismissed_disposition
+        charge = ChargeFactory.save(self.single_charge)
+        charge.disposition = Disposition(**self.dismissed_disposition)
         return charge
 
     def test_felony_class_a_charge(self):
@@ -65,16 +61,14 @@ class TestSingleChargeNoComplaint(unittest.TestCase):
 
     def setUp(self):
         self.type_analyzer = TypeAnalyzer()
-        one_month_ago = (datetime.today() - timedelta(days=30)).strftime('%m/%d/%Y')
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = {'case': CaseFactory.create(), 'name': '', 'statute': '', 'level': '', 'date': one_month_ago}
-        disposition = {'ruling': 'No Complaint', 'date': last_week}
-        self.acquitted_disposition = Disposition(**disposition)
+        self.single_charge = ChargeFactory.build()
+        self.acquitted_disposition = {'ruling': 'No Complaint', 'date': last_week}
         self.charges = []
 
     def create_recent_charge(self):
-        charge = Charge(**self.single_charge)
-        charge.disposition = self.acquitted_disposition
+        charge = ChargeFactory.save(self.single_charge)
+        charge.disposition = Disposition(**self.acquitted_disposition)
         return charge
 
     def test_felony_class_a_charge(self):
