@@ -16,7 +16,7 @@ A project to automate expunging qualifying criminal records.  This project is do
 - [License](#license)
 
 ## Installation
-
+ 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**, 
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
@@ -61,12 +61,13 @@ A project to automate expunging qualifying criminal records.  This project is do
     * **Mac**
 
       ```
-      brew install postgres
+      brew install postgresql
       ```
       It may be necessary to then run
       ```
       export LDFLAGS="-L/usr/local/opt/openssl/lib”
       ```
+      More information on a Mac isntallation here: https://wiki.postgresql.org/wiki/Homebrew
     * **Linux**
       ```
       sudo apt-get install libpq-dev -y
