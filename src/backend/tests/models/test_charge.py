@@ -26,3 +26,9 @@ class TestCaseWithDisposition(unittest.TestCase):
         charge = ChargeFactory.create(**self.charge)
 
         assert charge.statute == '1231235B'
+
+    def test_it_retrieves_its_parent_instance(self):
+        case = CaseFactory.create()
+        charge = ChargeFactory.create(case=case)
+
+        assert charge.case()() is case
