@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Install instructions are in the [root README](https://github.com/codeforpdx/recordexpungPDX/blob/master/README.md).
+
+Please see and use the [Wiki](https://github.com/codeforpdx/recordexpungPDX/wiki/Frontend) for all other topics.
+
+The rest of this README is the text that [Create React App](https://github.com/facebook/create-react-app) (which we used to bootstrap the app) generates by default.
 
 ## Available Scripts
 
