@@ -3,6 +3,7 @@ import unittest
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expungement_analyzer.time_analyzer import TimeAnalyzer
+from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 
 
@@ -126,3 +127,23 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert less_than_3yr_acquittal.expungement_result.time_eligibility is False
         assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
         assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == self.ONE_YEARS_FROM_NOW
+
+    def test_multiple_acquittals_belonging_to_same_case(self):
+        case = CaseFactory.create()
+        two_year_acquittal = ChargeFactory.create(case=case,
+                                                  date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                  disposition=['Dismissed', self.TWO_YEARS_AGO])
+        less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
+        case.charges=[two_year_acquittal, less_than_3yr_acquittal]
+
+        time_analyzer = TimeAnalyzer(most_recent_dismissal=two_year_acquittal, num_acquittals=2)
+        self.charges.extend([two_year_acquittal, less_than_3yr_acquittal])
+        time_analyzer.evaluate(self.charges)
+
+        assert two_year_acquittal.expungement_result.time_eligibility is True
+        assert two_year_acquittal.expungement_result.time_eligibility_reason == ''
+        assert two_year_acquittal.expungement_result.date_of_eligibility is None
+
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility is True
+        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == ''
+        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == None
