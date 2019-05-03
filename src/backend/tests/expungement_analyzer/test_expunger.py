@@ -29,16 +29,16 @@ class TestExpungementAnalyzer(unittest.TestCase):
         assert expunger._most_recent_conviction is None
 
     def test_expunger_categorizes_charges(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.RECORD_WITH_CLOSED_CASES,
-                              {'X0001': CaseDetails.case_x(dispo_ruling_1='Convicted - Failure to show',
-                                                           dispo_ruling_2='Dismissed',
-                                                           dispo_ruling_3='Acquitted'),
-                               'X0002': CaseDetails.case_x(dispo_ruling_1='Dismissed',
-                                                           dispo_ruling_2='Convicted',
-                                                           dispo_ruling_3='Convicted'),
-                               'X0003': CaseDetails.case_x(dispo_ruling_1='No Complaint',
-                                                           dispo_ruling_2='Dismissed',
-                                                           dispo_ruling_3='Convicted')})
+        CrawlerFactory.create(self.crawler,
+                              cases={'X0001': CaseDetails.case_x(dispo_ruling_1='Convicted - Failure to show',
+                                                                 dispo_ruling_2='Dismissed',
+                                                                 dispo_ruling_3='Acquitted'),
+                                     'X0002': CaseDetails.case_x(dispo_ruling_1='Dismissed',
+                                                                 dispo_ruling_2='Convicted',
+                                                                 dispo_ruling_3='Convicted'),
+                                     'X0003': CaseDetails.case_x(dispo_ruling_1='No Complaint',
+                                                                 dispo_ruling_2='Dismissed',
+                                                                 dispo_ruling_3='Convicted')})
         expunger = Expunger(self.crawler.result.cases)
 
         assert expunger.run() is True
