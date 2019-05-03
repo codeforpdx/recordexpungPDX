@@ -4,6 +4,8 @@ from expungeservice.crawler.crawler import Crawler
 from expungeservice.crawler.request import URL
 from tests.fixtures.post_login_page import PostLoginPage
 from tests.fixtures.search_page_response import SearchPageResponse
+from tests.fixtures.case_details import CaseDetails
+from tests.fixtures.john_doe import JohnDoe
 
 
 class CrawlerFactory:
@@ -18,7 +20,12 @@ class CrawlerFactory:
         return crawler
 
     @staticmethod
-    def create(crawler, record, cases):
+    def create(crawler,
+               record=JohnDoe.RECORD_WITH_CLOSED_CASES,
+               cases={'X0001': CaseDetails.case_x(),
+                      'X0002': CaseDetails.case_x(),
+                      'X0003': CaseDetails.case_x()}
+               ):
         base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
 
         with requests_mock.Mocker() as m:
