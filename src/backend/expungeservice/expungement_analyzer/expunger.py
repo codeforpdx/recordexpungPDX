@@ -8,7 +8,10 @@ class Expunger:
     This is a wrapper for the time_analyzer and type_analyzer.
     After running this method the results can be extracted from the
     cases attribute. The errors attribute will list the reason why
-    the method returns false.
+    the method returns false (currently there is only one reason).
+
+    Most of the algorithms in this class can be replaced with database
+    query's if/when we start persisting the model objects to the db.
     """
 
     def __init__(self, cases):
@@ -17,10 +20,12 @@ class Expunger:
         self._charges = []
         self._most_recent_acquittal = None
         self._most_recent_conviction = None
+        self._acquittals = []
+        self._convictions = []
 
     def run(self):
         """
-        Evaluates the expungement eligibility.
+        Evaluates the expungement eligibility of a record.
 
         :return: True if there are no open cases; otherwise False
         """
@@ -29,7 +34,7 @@ class Expunger:
             return False
 
         self._create_charge_list()
-        self._set_most_recent_acquittal()
+        self._categorize_charges()
         TypeAnalyzer.evaluate(self._charges)
         return True
 
@@ -43,9 +48,9 @@ class Expunger:
         for case in self.cases:
             self._charges.extend(case.charges)
 
-    def _set_most_recent_acquittal(self):
-        most_recent_acquittal_date = datetime.date(datetime.strptime('01/1/0001', '%m/%d/%Y'))
+    def _categorize_charges(self):
         for charge in self._charges:
-            if charge.disposition.ruling != 'Convicted' and charge.date > most_recent_acquittal_date:
-                most_recent_acquittal_date = charge.date
-                self._most_recent_acquittal = charge
+            if TypeAnalyzer.acquitted(charge):
+                self._acquittals.append(charge)
+            else:
+                self._convictions.append(charge)
