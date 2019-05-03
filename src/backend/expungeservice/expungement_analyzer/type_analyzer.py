@@ -7,7 +7,7 @@ class TypeAnalyzer:
 
     @staticmethod
     def __evaluate(charge):
-        if charge.disposition.ruling != 'Convicted':
+        if TypeAnalyzer.acquitted(charge):
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(1)(b)')
 
@@ -35,6 +35,10 @@ class TypeAnalyzer:
 
         else:
             charge.expungement_result.set_reason('Examine')
+
+    @staticmethod
+    def acquitted(charge):
+        return charge.disposition.ruling[0:9] != 'Convicted'
 
     @staticmethod
     def __ineligible_under_137_225_5(charge):
