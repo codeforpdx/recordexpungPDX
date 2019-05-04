@@ -2,7 +2,7 @@ import unittest
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from expungeservice.expungement_analyzer.time_analyzer import TimeAnalyzer
+from expungeservice.expungement_analyzer.analyzers.time_analyzer import TimeAnalyzer
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 

@@ -1,20 +1,26 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
+from expungeservice.expungement_analyzer.analyzers.type_analyzer import TypeAnalyzer
 
 
 class Expunger:
     """
-    This is a wrapper for the time_analyzer and type_analyzer.
-    After running this method the results can be extracted from the
-    cases attribute. The errors attribute will list the reason why
-    the method returns false (currently there is only one reason).
+    This is more or less a wrapper for the time_analyzer and type_analyzer.
+    After running this method the results can be extracted from the cases
+    attribute. The errors attribute will list the reasons why the run
+    method failed to evaluate in which case the run method will return
+    False; otherwise there were no errors and it returns True.
 
     Most of the algorithms in this class can be replaced with database
     query's if/when we start persisting the model objects to the db.
     """
 
     def __init__(self, cases):
+        '''
+        Constructor
+
+        :param cases: A list of cases
+        '''
         self.cases = cases
         self.errors = []
         self._charges = []
