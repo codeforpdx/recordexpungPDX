@@ -8,7 +8,7 @@ class CaseFactory:
                case_number='C0000',
                citation_number=None,
                date_location=['1/1/1995', 'Multnomah'],
-               type_status=['Misdemeanor', 'Offense Misdemeanor'],
+               type_status=['Offense Misdemeanor', 'Closed'],
                charges=[],
                case_detail_link='?404'):
 
