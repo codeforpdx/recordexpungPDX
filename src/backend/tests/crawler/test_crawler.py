@@ -95,7 +95,7 @@ class TestCrawler(unittest.TestCase):
 
             self.crawler.search('John', 'Doe')
 
-        assert self.crawler.result.cases[0].balance_due == 1516.80
+        assert self.crawler.result.cases[0].get_balance_due_dollar_amount() == 1516.80
 
     def test_zero_balance_due_on_case(self):
         base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
@@ -107,4 +107,4 @@ class TestCrawler(unittest.TestCase):
 
             self.crawler.search('John', 'Doe')
 
-        assert self.crawler.result.cases[0].balance_due == 0
+        assert self.crawler.result.cases[0].get_balance_due_dollar_amount() == 0
