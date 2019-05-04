@@ -15,7 +15,14 @@ Follow installation instructions in:
 Installing on Linux
 -------------------
 
-TBD
+[Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+Links to install instructions for other linux distros listed in the sidebar.
+
+
+Documentation
+-------------
+
+[Docker Tutorial](https://docs.docker.com/get-started/)
 
 
 Containers
@@ -51,18 +58,28 @@ This container will run our Flask service.
 Running the containers
 ----------------------
 
+Development of component source code should often be possible without touching Dockerfiles, so here are a few useful commands that might be sufficient for running and updating docker images in the dev environment.
+
 Do this once:
 
     docker swarm init
+
 
 To start the containers, do:
 
     make dev
 
 
+This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file. 
+
 To see which containers are running:
 
     docker ps
+
+
+Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by rebuilding the image with:
+
+    make <image_name>
 
 
 To restart a single container:
@@ -70,9 +87,12 @@ To restart a single container:
     docker service update --force $(docker stack services ls -f name=CONTAINER_NAME)
 
 
-To stop the containers:
+While the docker stack is running, it will restart any stopped containers automatically using the most recently built image. To stop and restart the entire stack, use the commands
 
     make dev_stop
+    make dev_deploy
+
+Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service.
 
 
 To explore the database:
