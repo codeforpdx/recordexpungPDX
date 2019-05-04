@@ -1,7 +1,7 @@
 import unittest
 
 from datetime import datetime, timedelta
-from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
+from expungeservice.expungement_analyzer.analyzers.type_analyzer import TypeAnalyzer
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
 from expungeservice.crawler.models.charge import Disposition
