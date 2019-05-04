@@ -1,3 +1,4 @@
+from datetime import date as date_class
 from expungeservice.crawler.models.charge import Charge
 from tests.factories.case_factory import CaseFactory
 
@@ -28,5 +29,16 @@ class ChargeFactory:
         charge = Charge(case, name, statute, level, date)
         if disposition:
             charge.disposition.ruling, charge.disposition.date = disposition
+
+        return charge
+
+    @staticmethod
+    def create_dismissed_charge(case=CaseFactory.create(),
+                                name='Theft of services',
+                                statute='164.125',
+                                level='Misdemeanor Class A',
+                                date='1/1/0001'):
+        charge = Charge(case, name, statute, level, date)
+        charge.disposition.ruling, charge.disposition.date = ['Dismissed', date_class.today()]
 
         return charge
