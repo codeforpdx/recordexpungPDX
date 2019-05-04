@@ -1,5 +1,5 @@
-from datetime import datetime
-
+from datetime import date
+from dateutil.relativedelta import relativedelta
 from expungeservice.expungement_analyzer.type_analyzer import TypeAnalyzer
 
 
@@ -18,7 +18,7 @@ class Expunger:
         self.cases = cases
         self.errors = []
         self._charges = []
-        self._most_recent_acquittal = None
+        self._most_recent_dismissal = None
         self._most_recent_conviction = None
         self._acquittals = []
         self._convictions = []
@@ -35,6 +35,7 @@ class Expunger:
 
         self._create_charge_list()
         self._categorize_charges()
+        self._set_most_recent_dismissal()
         TypeAnalyzer.evaluate(self._charges)
         return True
 
@@ -54,3 +55,20 @@ class Expunger:
                 self._acquittals.append(charge)
             else:
                 self._convictions.append(charge)
+
+    def _set_most_recent_dismissal(self):
+        if self._acquittals:
+            self._assign_most_recent_dismissed_charge()
+
+        if self._mrd_charge_is_greater_than_3yrs_old():
+            self._most_recent_dismissal = None
+
+    def _assign_most_recent_dismissed_charge(self):
+        self._most_recent_dismissal = self._acquittals[-1]
+        for charge in self._acquittals:
+            if charge.date > self._most_recent_dismissal.date:
+                self._most_recent_dismissal = charge
+
+    def _mrd_charge_is_greater_than_3yrs_old(self):
+        three_years_ago = date.today() + relativedelta(years=-3)
+        return self._most_recent_dismissal and self._most_recent_dismissal.date <= three_years_ago
