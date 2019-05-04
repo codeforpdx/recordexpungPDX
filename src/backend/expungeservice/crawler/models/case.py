@@ -12,4 +12,5 @@ class Case:
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.violation_type, self.current_status = type_status
         self.charges = charges
+        self.balance_due = 0.00
         self.case_detail_link = case_detail_link
