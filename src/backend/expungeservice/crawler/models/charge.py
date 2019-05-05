@@ -20,6 +20,9 @@ class Charge:
     def case(self):
         return self._case
 
+    def acquitted(self):
+        return self.disposition.ruling[0:9] != 'Convicted'
+
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
         return re.sub(r'[^a-zA-Z0-9*]', '', statute).upper()

@@ -58,7 +58,7 @@ class Expunger:
 
     def _categorize_charges(self):
         for charge in self._charges:
-            if TypeAnalyzer.acquitted(charge):
+            if charge.acquitted():
                 self._acquittals.append(charge)
             else:
                 self._convictions.append(charge)
