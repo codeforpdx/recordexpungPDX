@@ -23,14 +23,14 @@ class TestCrawler(unittest.TestCase):
         assert len(self.crawler.result.cases[2].charges) == 3
 
         assert self.crawler.result.cases[0].charges[0].disposition.ruling == 'Convicted - Failure to Appear'
-        assert self.crawler.result.cases[0].charges[0].disposition.date == '06/12/2017'
+        assert self.crawler.result.cases[0].charges[0].disposition.date == datetime.date(datetime.strptime('06/12/2017', '%m/%d/%Y'))
         assert self.crawler.result.cases[0].charges[1].disposition.ruling == 'Dismissed'
-        assert self.crawler.result.cases[0].charges[1].disposition.date == '06/12/2017'
+        assert self.crawler.result.cases[0].charges[1].disposition.date == datetime.date(datetime.strptime('06/12/2017', '%m/%d/%Y'))
         assert self.crawler.result.cases[0].charges[2].disposition.ruling == 'Dismissed'
-        assert self.crawler.result.cases[0].charges[2].disposition.date == '06/12/2017'
+        assert self.crawler.result.cases[0].charges[2].disposition.date == datetime.date(datetime.strptime('06/12/2017', '%m/%d/%Y'))
 
         assert self.crawler.result.cases[1].charges[0].disposition.ruling == 'Dismissed'
-        assert self.crawler.result.cases[1].charges[0].disposition.date == '04/30/1992'
+        assert self.crawler.result.cases[1].charges[0].disposition.date == datetime.date(datetime.strptime('04/30/1992', '%m/%d/%Y'))
 
         assert self.crawler.result.cases[2].charges[0].disposition.ruling is None
         assert self.crawler.result.cases[2].charges[0].disposition.date is None
@@ -55,8 +55,7 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[0].charges[0].level == 'Violation Unclassified'
         assert self.crawler.result.cases[0].charges[0].date == datetime.date(datetime.strptime('09/04/2008', '%m/%d/%Y'))
         assert self.crawler.result.cases[0].charges[0].disposition.ruling == 'Convicted'
-        assert self.crawler.result.cases[0].charges[0].disposition.date == '11/18/2008'
-
+        assert self.crawler.result.cases[0].charges[0].disposition.date == datetime.date(datetime.strptime('11/18/2008', '%m/%d/%Y'))
 
     def test_nonzero_balance_due_on_case(self):
         base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
