@@ -15,10 +15,10 @@ class Case:
         self.balance_due_in_cents = 0
         self.case_detail_link = case_detail_link
 
-    def set_balance_due_dollar_amount(self, balance_due_dollar_amount):
+    def set_balance_due(self, balance_due_dollar_amount):
         if type(balance_due_dollar_amount) == str:
             balance_due_dollar_amount = float(balance_due_dollar_amount.replace(',',''))
         self.balance_due_in_cents = int(balance_due_dollar_amount * 100)
 
-    def get_balance_due_dollar_amount(self):
+    def get_balance_due(self):
         return self.balance_due_in_cents / 100
