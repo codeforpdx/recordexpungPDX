@@ -1,6 +1,5 @@
-from datetime import date
-from dateutil.relativedelta import relativedelta
 from expungeservice.expungement_analyzer.analyzers.type_analyzer import TypeAnalyzer
+from expungeservice.expungement_analyzer.analyzers.time_analyzer import TimeAnalyzer
 
 
 class Expunger:
@@ -29,6 +28,7 @@ class Expunger:
         self._second_most_recent_conviction = None
         self._acquittals = []
         self._convictions = []
+        self._time_analyzer = None
 
     def run(self):
         """
@@ -45,6 +45,11 @@ class Expunger:
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
         TypeAnalyzer.evaluate(self._charges)
+        self._time_analyzer = TimeAnalyzer(most_recent_conviction=self._most_recent_conviction,
+                                           second_most_recent_conviction=self._second_most_recent_conviction,
+                                           most_recent_dismissal=self._most_recent_dismissal,
+                                           num_acquittals=len(self._acquittals))
+        self._time_analyzer.evaluate(self._charges)
         return True
 
     def _open_cases(self):
