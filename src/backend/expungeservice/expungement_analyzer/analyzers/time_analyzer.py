@@ -36,11 +36,11 @@ class TimeAnalyzer:
             charge.set_time_ineligible(reason, eligibility_date)
 
     def _check_mrc_time_eligibility(self):
-        if self._most_recent_conviction_is_greater_than_three_years_old():
-            self._most_recent_conviction.set_time_eligible()
-        elif self._second_most_recent_conviction:
+        if self._second_most_recent_conviction:
             eligibility_date = self._second_most_recent_conviction.disposition.date + relativedelta(years=self.TEN_YEARS)
             self._most_recent_conviction.set_time_ineligible('Multiple convictions within last ten years', eligibility_date)
+        elif self._most_recent_conviction_is_greater_than_three_years_old():
+            self._most_recent_conviction.set_time_eligible()
         else:
             eligibility_date = self._most_recent_conviction.disposition.date + relativedelta(years=self.THREE_YEARS)
             self._most_recent_conviction.set_time_ineligible('Most recent conviction is less than three years old', eligibility_date)
