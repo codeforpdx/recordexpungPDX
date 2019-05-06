@@ -1,13 +1,18 @@
 import unittest
 
-from datetime import datetime
+from datetime import date as date_class
+from dateutil.relativedelta import relativedelta
 from expungeservice.expungement_analyzer.expunger import Expunger
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 
 
-class TestExpungementAnalyzer(unittest.TestCase):
+class TestCrawlerAndExpunger(unittest.TestCase):
+
+    ONE_YEAR_AGO = (date_class.today() + relativedelta(years=-1))
+    TWO_YEARS_AGO = (date_class.today() + relativedelta(years=-2))
+    FIFTEEN_YEARS_AGO = (date_class.today() + relativedelta(years=-15))
 
     def setUp(self):
         self.crawler = CrawlerFactory.setup()
@@ -25,7 +30,7 @@ class TestExpungementAnalyzer(unittest.TestCase):
         expunger = Expunger(self.crawler.result.cases)
 
         assert expunger.run() is True
-        assert expunger._most_recent_acquittal is None
+        assert expunger._most_recent_dismissal is None
         assert expunger._most_recent_conviction is None
 
     def test_expunger_categorizes_charges(self):
@@ -45,27 +50,70 @@ class TestExpungementAnalyzer(unittest.TestCase):
         assert len(expunger._acquittals) == 5
         assert len(expunger._convictions) == 4
 
-    def test_expunger(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.RECORD_WITH_CLOSED_CASES,
-                              {'X0001': CaseDetails.CASE_X1,
-                               'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
-                               'X0003': CaseDetails.CASE_X3})
+    def test_expunger_calls_time_analyzer(self):
+        CrawlerFactory.create(self.crawler,
+                              cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='Dismissed',
+                                                                 dispo_ruling_2='Dismissed',
+                                                                 dispo_ruling_3='Acquitted'),
+                                     'X0002': CaseDetails.case_x(arrest_date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='Dismissed',
+                                                                 dispo_ruling_2='Convicted',
+                                                                 dispo_ruling_3='Dismissed'),
+                                     'X0003': CaseDetails.case_x(arrest_date=self.ONE_YEAR_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='No Complaint',
+                                                                 dispo_ruling_2='Convicted',
+                                                                 dispo_ruling_3='No Complaint')})
         expunger = Expunger(self.crawler.result.cases)
 
-        charge1, charge2, charge3 = self.crawler.result.cases[0].charges
-        charge4 = self.crawler.result.cases[1].charges[0]
-        charge5, charge6, charge7 = self.crawler.result.cases[2].charges
+        assert expunger.run() is True
+
+        assert expunger._time_analyzer._most_recent_conviction.date == self.ONE_YEAR_AGO
+        assert expunger._time_analyzer._second_most_recent_conviction.date == self.TWO_YEARS_AGO
+        assert expunger._time_analyzer._most_recent_dismissal.date == self.ONE_YEAR_AGO
+        assert expunger._time_analyzer._num_acquittals == 7
+
+    def test_expunger_expunges(self):
+        CrawlerFactory.create(self.crawler,
+                              cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='Dismissed',
+                                                                 dispo_ruling_2='Convicted',
+                                                                 dispo_ruling_3='Acquitted'),
+                                     'X0002': CaseDetails.case_x(arrest_date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='Dismissed',
+                                                                 dispo_ruling_2='Dismissed',
+                                                                 dispo_ruling_3='Dismissed'),
+                                     'X0003': CaseDetails.case_x(arrest_date=self.ONE_YEAR_AGO.strftime('%m/%d/%Y'),
+                                                                 dispo_ruling_1='No Complaint',
+                                                                 dispo_ruling_2='No Complaint',
+                                                                 dispo_ruling_3='No Complaint')})
+        expunger = Expunger(self.crawler.result.cases)
 
         assert expunger.run() is True
-        assert expunger._most_recent_acquittal.date == datetime.date(datetime.strptime('03/12/2017', '%m/%d/%Y'))
+
         assert expunger._most_recent_conviction is None
+        assert expunger._second_most_recent_conviction is None
+        assert expunger._most_recent_dismissal.disposition.ruling == 'No Complaint'
+        assert len(expunger._acquittals) == 8
 
-        assert charge1.expungement_result.type_eligibility is True
-        assert charge2.expungement_result.type_eligibility is True
-        assert charge3.expungement_result.type_eligibility is True
+        assert expunger.cases[0].charges[0].expungement_result.type_eligibility is True
+        assert expunger.cases[0].charges[0].expungement_result.time_eligibility is False
+        assert expunger.cases[0].charges[1].expungement_result.type_eligibility is False
+        assert expunger.cases[0].charges[1].expungement_result.time_eligibility is False
+        assert expunger.cases[0].charges[2].expungement_result.type_eligibility is True
+        assert expunger.cases[0].charges[2].expungement_result.time_eligibility is False
 
-        assert charge4.expungement_result.type_eligibility is True
+        assert expunger.cases[1].charges[0].expungement_result.type_eligibility is True
+        assert expunger.cases[1].charges[0].expungement_result.time_eligibility is False
+        assert expunger.cases[1].charges[1].expungement_result.type_eligibility is True
+        assert expunger.cases[1].charges[1].expungement_result.time_eligibility is False
+        assert expunger.cases[1].charges[2].expungement_result.type_eligibility is True
+        assert expunger.cases[1].charges[2].expungement_result.time_eligibility is False
 
-        assert charge5.expungement_result.type_eligibility is True
-        assert charge6.expungement_result.type_eligibility is True
-        assert charge7.expungement_result.type_eligibility is True
+        assert expunger.cases[2].charges[0].expungement_result.type_eligibility is True
+        assert expunger.cases[2].charges[0].expungement_result.time_eligibility is True
+        assert expunger.cases[2].charges[1].expungement_result.type_eligibility is True
+        assert expunger.cases[2].charges[1].expungement_result.time_eligibility is True
+        assert expunger.cases[2].charges[2].expungement_result.type_eligibility is True
+        assert expunger.cases[2].charges[2].expungement_result.time_eligibility is True
