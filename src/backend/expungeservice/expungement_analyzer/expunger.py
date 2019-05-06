@@ -26,6 +26,7 @@ class Expunger:
         self._charges = []
         self._most_recent_dismissal = None
         self._most_recent_conviction = None
+        self._second_most_recent_conviction = None
         self._acquittals = []
         self._convictions = []
 
@@ -42,7 +43,7 @@ class Expunger:
         self._create_charge_list()
         self._categorize_charges()
         self._set_most_recent_dismissal()
-        self._set_most_recent_conviction()
+        self._set_most_recent_convictions()
         TypeAnalyzer.evaluate(self._charges)
         return True
 
@@ -80,19 +81,9 @@ class Expunger:
         three_years_ago = date.today() + relativedelta(years=-3)
         return self._most_recent_dismissal and self._most_recent_dismissal.date <= three_years_ago
 
-    def _set_most_recent_conviction(self):
-        if self._convictions:
-            self._assign_most_recent_convicted_charge()
-
-        if self._mrc_charge_is_greater_than_10yrs_old():
-            self._most_recent_dismissal = None
-
-    def _assign_most_recent_convicted_charge(self):
-        self._most_recent_conviction = self._convictions[-1]
-        for charge in self._convictions:
-            if charge.disposition.date > self._most_recent_conviction.disposition.date:
-                self._most_recent_conviction = charge
-
-    def _mrc_charge_is_greater_than_10yrs_old(self):
-        ten_years_ago = date.today() + relativedelta(years=-10)
-        return self._most_recent_conviction and self._most_recent_conviction.disposition.date <= ten_years_ago
+    def _set_most_recent_convictions(self):
+        self._convictions.sort(key=lambda charge: charge.disposition.date)
+        if len(self._convictions) > 0 and self._convictions[-1].recent_conviction():
+            self._most_recent_conviction = self._convictions[-1]
+        if len(self._convictions) > 1 and self._convictions[-2].recent_conviction():
+            self._second_most_recent_conviction = self._convictions[-2]
