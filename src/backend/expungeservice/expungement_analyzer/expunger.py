@@ -65,21 +65,9 @@ class Expunger:
                 self._convictions.append(charge)
 
     def _set_most_recent_dismissal(self):
-        if self._acquittals:
-            self._assign_most_recent_dismissed_charge()
-
-        if self._mrd_charge_is_greater_than_3yrs_old():
-            self._most_recent_dismissal = None
-
-    def _assign_most_recent_dismissed_charge(self):
-        self._most_recent_dismissal = self._acquittals[-1]
-        for charge in self._acquittals:
-            if charge.date > self._most_recent_dismissal.date:
-                self._most_recent_dismissal = charge
-
-    def _mrd_charge_is_greater_than_3yrs_old(self):
-        three_years_ago = date.today() + relativedelta(years=-3)
-        return self._most_recent_dismissal and self._most_recent_dismissal.date <= three_years_ago
+        self._acquittals.sort(key=lambda charge: charge.date)
+        if self._acquittals and self._acquittals[-1].recent_acquittal():
+            self._most_recent_dismissal = self._acquittals[-1]
 
     def _set_most_recent_convictions(self):
         self._convictions.sort(key=lambda charge: charge.disposition.date)

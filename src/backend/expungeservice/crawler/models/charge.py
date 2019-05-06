@@ -29,6 +29,10 @@ class Charge:
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
         return not self.acquitted() and self.disposition.date > ten_years_ago
 
+    def recent_acquittal(self):
+        three_years_ago = (date_class.today() + relativedelta(years=-3))
+        return self.acquitted() and self.date > three_years_ago
+
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
         return re.sub(r'[^a-zA-Z0-9*]', '', statute).upper()
