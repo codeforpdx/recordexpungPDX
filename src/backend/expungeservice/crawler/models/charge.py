@@ -33,6 +33,16 @@ class Charge:
         three_years_ago = (date_class.today() + relativedelta(years=-3))
         return self.acquitted() and self.date > three_years_ago
 
+    def set_time_ineligible(self, reason, date_of_eligibility):
+        self.expungement_result.time_eligibility = False
+        self.expungement_result.time_eligibility_reason = reason
+        self.expungement_result.date_of_eligibility = date_of_eligibility
+
+    def set_time_eligible(self, reason=''):
+        self.expungement_result.time_eligibility = True
+        self.expungement_result.time_eligibility_reason = reason
+        self.expungement_result.date_of_eligibility = None
+
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
         return re.sub(r'[^a-zA-Z0-9*]', '', statute).upper()
