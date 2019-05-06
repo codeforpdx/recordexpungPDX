@@ -71,7 +71,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger._time_analyzer._most_recent_conviction.date == self.ONE_YEAR_AGO
         assert expunger._time_analyzer._second_most_recent_conviction.date == self.TWO_YEARS_AGO
         assert expunger._time_analyzer._most_recent_dismissal.date == self.ONE_YEAR_AGO
-        assert expunger._time_analyzer._num_acquittals == 7
+        assert expunger._time_analyzer._num_acquittals == 4
 
     def test_expunger_expunges(self):
         CrawlerFactory.create(self.crawler,
