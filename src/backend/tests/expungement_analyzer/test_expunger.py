@@ -15,6 +15,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
     LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
+    ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
 
     def test_expunger_sets_most_recent_dismissal_when_charge_is_less_than_3yrs(self):
         case = CaseFactory.create()
@@ -123,3 +124,28 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
 
         assert expunger._most_recent_conviction is mrc_charge
         assert expunger._second_most_recent_conviction is second_mrc_charge
+
+    def test_num_acquittals(self):
+        case = CaseFactory.create()
+        one_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.ONE_YEAR_AGO)
+        two_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.TWO_YEARS_AGO)
+        less_than_3_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
+        three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
+
+        case.charges = [one_year_ago_dismissal, two_year_ago_dismissal, three_year_ago_dismissal, less_than_3_year_ago_dismissal]
+
+        expunger = Expunger([case])
+        expunger.run()
+
+        assert expunger._num_acquittals == 3
+
+    def test_num_acquittals(self):
+        case = CaseFactory.create()
+        three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
+
+        case.charges = [three_year_ago_dismissal]
+
+        expunger = Expunger([case])
+        expunger.run()
+
+        assert expunger._num_acquittals == 0
