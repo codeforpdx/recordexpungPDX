@@ -9,6 +9,8 @@ from tests.factories.charge_factory import ChargeFactory
 
 class TestSingleChargeAcquittals(unittest.TestCase):
     TEN_YEARS_AGO = (date.today() + relativedelta(years=-10))
+    SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7))
+    FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5))
     LESS_THAN_THREE_YEARS_AGO = date.today() + relativedelta(years=-3, days=+1)
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3))
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2))
@@ -100,6 +102,23 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert two_years_ago_charge.expungement_result.time_eligibility is False
         assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
         assert two_years_ago_charge.expungement_result.date_of_eligibility == three_years_ago_charge.disposition.date + self.TEN_YEARS
+
+    def test_7_yr_old_conviction_5_yr_old_mrc(self):
+        seven_year_ago_charge = ChargeFactory.create(disposition=['Convicted', self.SEVEN_YEARS_AGO])
+        five_year_ago_charge = ChargeFactory.create(disposition=['Convicted', self.FIVE_YEARS_AGO])
+
+        time_analyzer = TimeAnalyzer(most_recent_conviction=five_year_ago_charge,
+                                     second_most_recent_conviction=seven_year_ago_charge)
+        self.charges.extend([five_year_ago_charge, seven_year_ago_charge])
+        time_analyzer.evaluate(self.charges)
+
+        assert seven_year_ago_charge.expungement_result.time_eligibility is False
+        assert seven_year_ago_charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(7)(b)'
+        assert seven_year_ago_charge.expungement_result.date_of_eligibility == five_year_ago_charge.disposition.date + self.TEN_YEARS
+
+        assert five_year_ago_charge.expungement_result.time_eligibility is False
+        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
+        assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + self.TEN_YEARS
 
     def test_less_than_3yr_old_acquittal(self):
         less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
