@@ -157,47 +157,6 @@ Run all tests with the following command:
 $ make test
 ```
 
-## Using Docker
-
-The above instructions are for running components locally, but the app will be deployed as a docker stack in production. Documentation links and basic docker operations for development are provided here:
-
-### Docs
-[Installation](https://docs.docker.com/install/)
-
-[Docker Tutorial](https://docs.docker.com/get-started/)
-
-### Running and developing components
-
-Development of component source code should often be possible without touching Dockerfiles, so here are a few useful commands that might be sufficient for running and updating docker images in the dev environment.
-
-In the `recordexpungePDX` directory, enter into your command line and run:
-```
-$ make dev
-```
-This builds the docker images that contain the different app components (web server, backend, and database), then launches the docker stack by instantiating a docker service (which wraps one or more containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file. 
-
-View the list of running services with
-```
-docker service ls
-```
-Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by rebuilding the image with:
-```
-make <image_name>
-```
-And then updating the service to use the new image with
-```
-docker update <service_name>
-```
-While the docker stack is running, it will restart any stopped containers automatically using the most recently built image. To stop and restart the entire stack, use the commands
-```
-make dev_stop
-```
-and
-```
-make dev_deploy
-```
-Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service.
-
 ## Project Layout
 
 `.flaskenv`: Environment variables read by `flask` command-line interface via [python-dotenv](https://github.com/theskumar/python-dotenv)
