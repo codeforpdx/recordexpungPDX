@@ -58,27 +58,13 @@ class TestCrawler(unittest.TestCase):
         assert self.crawler.result.cases[0].charges[0].disposition.date == datetime.date(datetime.strptime('11/18/2008', '%m/%d/%Y'))
 
     def test_nonzero_balance_due_on_case(self):
-        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
-        with requests_mock.Mocker() as m:
-            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
-                                                     {'text': JohnDoe.RECORD}])
-            base_url += 'CaseDetail.aspx'
-            m.get(base_url + '?CaseID=X0001', text=CaseDetails.CASE_X1)
-            m.get(base_url + '?CaseID=X0002', text=CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
-            m.get(base_url + '?CaseID=X0003', text=CaseDetails.CASE_WITHOUT_DISPOS)
-
-            self.crawler.search('John', 'Doe')
+        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+                                                             'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
+                                                             'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
 
         assert self.crawler.result.cases[0].get_balance_due() == 1516.80
 
     def test_zero_balance_due_on_case(self):
-        base_url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
-        with requests_mock.Mocker() as m:
-            m.post(base_url + 'Search.aspx?ID=100', [{'text': SearchPageResponse.RESPONSE},
-                                                     {'text': JohnDoe.SINGLE_CASE_RECORD}])
-            base_url += 'CaseDetail.aspx'
-            m.get(base_url + '?CaseID=CASEJD1', text=CaseDetails.CASEJD1)
-
-            self.crawler.search('John', 'Doe')
+        CrawlerFactory.create(self.crawler, JohnDoe.SINGLE_CASE_RECORD, {'CASEJD1': CaseDetails.CASEJD1})
 
         assert self.crawler.result.cases[0].get_balance_due() == 0
