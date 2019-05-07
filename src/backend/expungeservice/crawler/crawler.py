@@ -34,6 +34,7 @@ class Crawler:
         # Parse search results (case detail pages)
         for case in self.result.cases:
             case_parser = self.__parse_case(case)
+            case.set_balance_due(case_parser.balance_due)
             for charge_id, charge in case_parser.hashed_charge_data.items():
                 new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
                 case.charges.append(new_charge)
