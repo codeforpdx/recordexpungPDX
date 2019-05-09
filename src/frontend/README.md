@@ -8,7 +8,26 @@ Please see and use the [Wiki](https://github.com/codeforpdx/recordexpungPDX/wiki
 
 3. Run `npm install` to install project dependencies.
 
-4. Run `npm start`. This should start a development server and open http://localhost:3000/ in your browser, which should show the login page for our app.
+4. Run `npm start`. This should start a development server and open http://localhost:3000/ in your browser, which should show the login page for our app, and you should see something like this in your terminal:
+
+```
+Compiled successfully!
+
+You can now view record-expunge-pdx in the browser.
+
+  Local:            http://localhost:3000/
+  On Your Network:  http://192.168.14.37:3000/
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+Proxy error: Could not proxy request /sockjs-node/488/jgepgxci/websocket from localhost:3000 to http://localhost:5000.
+See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (ECONNREFUSED).
+
+```
+
+The proxy error is expected pending updates to the backend.
+
 
 If you run into any issues with the above steps, please ask someone for help.
 
