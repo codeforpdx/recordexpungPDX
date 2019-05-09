@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
 import './styles.scss';
-import { IconComponent } from '../Icon';
 import { get } from 'lodash';
 import { logIn } from "../../redux/system/actions";
+import Logo from '../Logo';
 
 class LogIn extends React.Component {
 
@@ -27,7 +27,7 @@ class LogIn extends React.Component {
           className="login-form"
           id="LoginForm"
           aria-label="Record Expunge Login Form">
-          <IconComponent iconName="logo"/>
+          <Logo/>
           <div className="form-group mt4">
             <label htmlFor="name"
                    className="db mb1 fw6">
