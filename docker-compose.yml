@@ -11,6 +11,8 @@ services:
 
     expungeservice:
         image: recordexpungpdx:expungeservice
+        env_file:
+            - config/postgres/postgres.env
         depends_on:
             - db
 
