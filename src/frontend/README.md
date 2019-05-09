@@ -1,5 +1,7 @@
 Please see and use the [Wiki](https://github.com/codeforpdx/recordexpungPDX/wiki/Frontend) for all topics not related to setup and installation.
 
+In particular, see the [Resources](https://github.com/codeforpdx/recordexpungPDX/wiki#resources) section at the bottom of the main page, which contains links to the click-through prototype and design system.
+
 ## Getting started:
 
 1. Install Node JS, which includes `npm`. You are welcome to add more detailed platform-specific install instructions here.
