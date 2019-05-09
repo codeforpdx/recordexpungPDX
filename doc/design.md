@@ -215,6 +215,45 @@ Returns:
     * tbd
 
 
+Data Model
+----------
+
+#### Record:
+ - cases :: type list[Case]
+
+#### Case:
+ - name
+ - birth_year
+ - case_number
+ - citation_number
+ - date
+ - location
+ - violation_type
+ - current_status
+ - balance_due_in_cents
+ - case_detail_link
+ - charges # type list[Charge]
+
+#### Charge:
+ - name
+ - statute
+ - level
+ - date
+ - disposition :: type list[Disposition]
+ - expungement_result :: type ExpungementResult
+
+#### Disposition:
+ - date
+ - ruling
+
+#### ExpungementResult:
+ - type_eligibility
+ - type_eligibility_reason
+ - time_eligibility
+ - time_eligibility_reason
+ - date_of_eligibility
+
+
 Database Schema
 ---------------
 
