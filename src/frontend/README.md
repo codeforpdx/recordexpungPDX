@@ -1,6 +1,17 @@
-Install instructions are in the [root README](https://github.com/codeforpdx/recordexpungPDX/blob/master/README.md).
+Please see and use the [Wiki](https://github.com/codeforpdx/recordexpungPDX/wiki/Frontend) for all topics not related to setup and installation.
 
-Please see and use the [Wiki](https://github.com/codeforpdx/recordexpungPDX/wiki/Frontend) for all other topics.
+Getting started:
+
+1. Install Node JS, which includes `npm`. You are welcome to add more detailed platform-specific install instructions here.
+
+2. Ensure you are in the /src/frontend/ directory relative to the root recordexpungPDX directory.
+
+3. Run `npm install` to install project dependencies.
+
+4. Run `npm start`. This should start a development server and open http://localhost:3000/ in your browser, which should show the login page for our app.
+
+If you run into any issues with the above steps, please ask someone for help.
+
 
 The rest of this README is the text that [Create React App](https://github.com/facebook/create-react-app) (which we used to bootstrap the app) generates by default.
 
