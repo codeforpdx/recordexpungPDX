@@ -1,10 +1,11 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
+This README is primarily for the backend. For info on the frontend see [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/codeforpdx/recordexpungPDX.svg?columns=all)](https://waffle.io/codeforpdx/recordexpungPDX)
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
-
 
 ## Table of Contents
 
@@ -130,23 +131,6 @@ While in the directory of your local repo, run:
 $ make clean
 ```
 in order to remove build artifacts.
-
-### Frontend
-
-#### Running Frontend Development Server
-
-
-While in your `recordexpungePDX`, directory, enter into your command line and
-run:
-
-  ```
-	$ cd /src/frontend
-
-	$ npm start
-  ```
-
-If successful, the above should start a development server that can be viewed at
-`http://localhost:3000/`.
 
 ## Testing
 
