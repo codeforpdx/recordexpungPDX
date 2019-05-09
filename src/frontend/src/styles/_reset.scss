@@ -15,36 +15,29 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
 }
-
 body {
   margin: 0;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
 }
-
 iframe {
   border: 0;
 }
-
 main {
   display: block;
 }
-
 ul,
 ol {
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 0;
 }
-
-li {
+/*li {
   display: block;
-}
-
+}*/
 dl {
   margin-top: 0;
   margin-bottom: 0;
 }
-
 dd {
   margin-left: 0;
 }
@@ -59,17 +52,14 @@ h6 {
   font-size: inherit;
   font-weight: inherit; /* added */
 }
-
 blockquote {
   margin: 0;
   padding: 0;
 }
-
 p {
   margin-top: 0;
   margin-bottom: 0;
 }
-
 sup {
   position: relative;
   top: -.5em;
@@ -77,27 +67,22 @@ sup {
   font-size: 75%;
   line-height: 0;
 }
-
 strong {
   font-weight: bold;
 }
-
 figure {
   margin: 0;
 }
-
 img {
   border: 0;
   max-width: 100%;
   height: auto;
   vertical-align: middle;
 }
-
 a {
   text-decoration: none;
   color: inherit;
 }
-
 button {
   border: 0;
   margin: 0;
@@ -111,8 +96,27 @@ button {
   cursor: pointer;
   overflow: visible;
 }
-
 ::-moz-focus-inner {
   border: 0;
   padding: 0;
+}
+pre {
+  margin: 0;
+  overflow: auto;
+}
+
+/* https://thatemil.com/blog/2015/01/03/reset-your-fieldset */
+
+legend {
+  padding: 0;
+  display: table;
+}
+fieldset {
+  border: 0;
+  padding: 0.01em 0 0 0;
+  margin: 0;
+  min-width: 0;
+}
+body:not(:-moz-handler-blocked) fieldset {
+  display: table-cell;
 }

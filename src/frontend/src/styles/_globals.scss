@@ -1,35 +1,69 @@
-$gray-blue: #FAFAFE;
-$green: #007B4B;
-$washed-green: #E5F1ED;
-$blue: #00449E;
-$washed-blue: #E0E7F0;
-$purple: #9619FF;
-$washed-purple: #EFE3FA;
-$red: #A0004B;
-$washed-red: #F0E0E8;
+$gray-blue: #fafafe;
+$green: #007b4b;
+$washed-green: #e5f1ed;
+$blue: #2b74d2;
+$washed-blue: #e0e7f0;
+$purple: #9619ff;
+$washed-purple: #efe3fa;
+$red: #a0004b;
+$washed-red: #f0e0e8;
 
 // Won't need these if Tachyons variables are overwriten in colors config
-.green { color:$green }
-.washed-green { color:$washed-green }
-.bg-washed-green { background-color:$washed-green }
+.green {
+  color: $green;
+}
+.washed-green {
+  color: $washed-green;
+}
+.bg-washed-green {
+  background-color: $washed-green;
+}
 
-.blue { color:$blue }
-.washed-blue { color:$washed-blue }
-.bg-washed-blue { background-color:$washed-blue }
+.blue {
+  color: $blue;
+}
+.bg-blue {
+  background-color: $blue;
+}
+.hover-bg-blue:focus,
+.hover-bg-blue:hover {
+  background-color: $blue;
+}
+.washed-blue {
+  color: $washed-blue;
+}
+.bg-washed-blue {
+  background-color: $washed-blue;
+}
 
-.purple { color:$purple }
-.washed-purple { color:$washed-purple }
-.bg-washed-purple { background-color:$washed-purple }
+.purple {
+  color: $purple;
+}
+.washed-purple {
+  color: $washed-purple;
+}
+.bg-washed-purple {
+  background-color: $washed-purple;
+}
 
-.red { color:$red }
-.washed-red { color:$washed-red }
-.bg-washed-red { background-color:$washed-red }
+.red {
+  color: $red;
+}
+.washed-red {
+  color: $washed-red;
+}
+.bg-washed-red {
+  background-color: $washed-red;
+}
 
-.bg-gray-blue { background-color: $gray-blue; }
+.bg-gray-blue {
+  background-color: $gray-blue;
+}
 
 // stock shadow too dark
 .shadow {
-  box-shadow: 0 0 2px 0 rgba(59,86,73,.2), 1px 1px 2px 0 rgba(59,86,73,.1);
+  box-shadow: 0 0 2px 0 rgba(59, 86, 73, 0.2),
+    1px 1px 2px 0 rgba(59, 86, 73, 0.1);
 }
 
 .btn--search {
@@ -89,4 +123,161 @@ $washed-red: #F0E0E8;
 }
 .record--ineligible {
   box-shadow: inset 10px 0 0 $washed-red;
+}
+
+// Below is not in github yet
+.loading-btn {
+  position: relative;
+}
+.loading-btn:before {
+  content: "";
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  left: 50%;
+  margin-left: -30px;
+  top: 50%;
+  margin-top: -30px;
+  background-color: lightblue;
+  border-radius: 100%;
+  animation: sk-scaleout 0.9s infinite ease-in-out;
+}
+
+@keyframes sk-scaleout {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+footer {
+  box-shadow: 0 50vh 0 50vh #ffffff;
+}
+
+// Radio buttons and checkbox from https://a11y-style-guide.com
+// Checkbox
+
+.checkbox input[type='checkbox'] {
+  opacity: 0;
+}
+
+.checkbox label {
+  position: relative;
+  display: block;
+  padding: 0.3rem 3rem 0 2.2rem;
+}
+
+.checkbox label::before,
+.checkbox label::after {
+  position: absolute;
+  content: '';
+  display: inline-block;
+}
+
+.checkbox label::before {
+  height: 26px;
+  width: 26px;
+  left: 0;
+  top: 1px;
+  background: white;
+  border: 2px solid rgba(0,0,0,.2);
+  border-radius: 4px;
+}
+
+.checkbox label::after {
+  left: 9px;
+  top: 5px;
+  width: 8px;
+  height: 14px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.checkbox input[type='checkbox'] + label::after {
+  content: none;
+}
+
+.checkbox input[type='checkbox']:checked + label::after {
+  content: '';
+}
+
+.checkbox input[type='checkbox']:checked + label::before {
+  background: $blue;
+}
+
+.checkbox input[type='checkbox']:focus + label::before {
+  outline: auto 2px Highlight;
+  outline: auto 5px -webkit-focus-ring-color;
+}
+
+// Radio
+
+.radio input[type='radio'] {
+  opacity: 0;
+}
+.radio label {
+  position: relative;
+  display: block;
+  padding: 0.4rem 3rem 0 2.2rem;
+}
+.radio label::before,
+.radio label::after {
+  position: absolute;
+  content: '';
+  display: inline-block;
+}
+.radio label::before {
+  height: 28px;
+  width: 28px;
+  left: 0;
+  top: 1px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.2);
+}
+.radio label::after {
+  left: 5px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  background: $blue;
+  border-radius: 50%;
+}
+.radio input[type='radio'] + label::after {
+  content: none;
+}
+.radio input[type='radio']:checked + label::after {
+  content: '';
+}
+.radio input[type='radio']:focus + label::before {
+  outline: auto 2px Highlight;
+  outline: auto 5px -webkit-focus-ring-color;
+}
+
+// Change the breakpoint "ns" variable to be wider?
+
+// Custom utility classes
+.pointer-events-none {
+  pointer-events: none;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+.nowrap {
+  white-space: nowrap;
 }
