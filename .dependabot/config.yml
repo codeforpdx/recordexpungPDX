@@ -14,3 +14,9 @@ update_configs:
     default_labels:
     - "frontend"
     - "dependencies"
+
+  - package_manager: "docker"
+    directory: "/src/backend/expungeservice"
+    update_schedule: "daily"
+    default_labels:
+    - "dependencies"
