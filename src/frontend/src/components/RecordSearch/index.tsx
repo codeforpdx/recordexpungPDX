@@ -37,7 +37,7 @@ class RecordSearch extends React.Component {
   validateForm = () => {
     if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth) {
       this.setState({error: <p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p>})
-    } else if (moment(this.state.dateOfBirth,'M/D/YYYY',true).isValid()===false && moment(this.state.dateOfBirth,'M-D-YYYY',true).isValid()===false){
+    } else if (moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false) {
       this.setState({error: <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p>})
     } else {
       this.setState({error: null, validForm: true})
