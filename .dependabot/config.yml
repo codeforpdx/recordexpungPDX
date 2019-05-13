@@ -1,0 +1,22 @@
+version: 1
+
+update_configs:
+  - package_manager: "python"
+    directory: "/"
+    update_schedule: "live"
+    default_labels:
+    - "backend"
+    - "dependencies"
+
+  - package_manager: "javascript"
+    directory: "/src/frontend"
+    update_schedule: "live"
+    default_labels:
+    - "frontend"
+    - "dependencies"
+
+  - package_manager: "docker"
+    directory: "/src/backend/expungeservice"
+    update_schedule: "daily"
+    default_labels:
+    - "dependencies"
