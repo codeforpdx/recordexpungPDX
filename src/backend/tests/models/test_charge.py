@@ -2,7 +2,7 @@ import unittest
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from expungeservice.crawler.models.disposition import Disposition
+from expungeservice.models.disposition import Disposition
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
 

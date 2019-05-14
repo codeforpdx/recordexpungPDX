@@ -1,5 +1,5 @@
 from datetime import date as date_class
-from expungeservice.crawler.models.charge import Charge
+from expungeservice.models.charge import Charge
 from tests.factories.case_factory import CaseFactory
 
 

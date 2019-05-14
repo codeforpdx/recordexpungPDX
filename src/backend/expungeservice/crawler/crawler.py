@@ -1,7 +1,7 @@
 import requests
 
-from expungeservice.crawler.models.charge import Charge
-from expungeservice.crawler.models.disposition import Disposition
+from expungeservice.models.charge import Charge
+from expungeservice.models.disposition import Disposition
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
