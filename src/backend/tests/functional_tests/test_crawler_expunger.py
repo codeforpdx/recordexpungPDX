@@ -25,6 +25,15 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger.run() is False
         assert expunger.errors == ['Open cases exist']
 
+    def test_type_analyzer_runs_when_open_cases_exit(self):
+        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+                                                             'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
+                                                             'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
+        expunger = Expunger(self.crawler.result.cases)
+        expunger.run()
+
+        assert expunger.cases[0].charges[1].expungement_result.type_eligibility is True
+
     def test_expunger_with_an_empty_record(self):
         CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
         expunger = Expunger(self.crawler.result.cases)
