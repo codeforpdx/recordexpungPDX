@@ -38,6 +38,8 @@ class Expunger:
         :return: True if there are no open cases; otherwise False
         """
         if self._open_cases():
+            self._create_charge_list_from_closed_cases()
+            TypeAnalyzer.evaluate(self._charges)
             self.errors.append('Open cases exist')
             return False
 
@@ -63,6 +65,11 @@ class Expunger:
     def _create_charge_list(self):
         for case in self.cases:
             self._charges.extend(case.charges)
+
+    def _create_charge_list_from_closed_cases(self):
+        for case in self.cases:
+            if case.current_status == 'Closed':
+                self._charges.extend(case.charges)
 
     def _categorize_charges(self):
         for charge in self._charges:
