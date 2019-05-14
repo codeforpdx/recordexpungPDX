@@ -4,8 +4,8 @@ import weakref
 from datetime import datetime
 from datetime import date as date_class
 from dateutil.relativedelta import relativedelta
-from expungeservice.crawler.models.disposition import Disposition
-from expungeservice.crawler.models.expungement_result import ExpungementResult
+from expungeservice.models.disposition import Disposition
+from expungeservice.models.expungement_result import ExpungementResult
 
 
 class Charge:

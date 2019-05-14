@@ -1,6 +1,6 @@
 import unittest
 
-from expungeservice.crawler.models.case import Case
+from expungeservice.models.case import Case
 
 
 class TestCaseBalanceDue(unittest.TestCase):
