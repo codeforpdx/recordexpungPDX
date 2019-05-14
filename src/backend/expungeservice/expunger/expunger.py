@@ -1,5 +1,5 @@
-from expungeservice.expungement_analyzer.analyzers.type_analyzer import TypeAnalyzer
-from expungeservice.expungement_analyzer.analyzers.time_analyzer import TimeAnalyzer
+from expungeservice.expunger.analyzers.type_analyzer import TypeAnalyzer
+from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 
 
 class Expunger:

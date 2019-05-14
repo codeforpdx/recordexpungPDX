@@ -2,7 +2,7 @@ import unittest
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from expungeservice.expungement_analyzer.expunger import Expunger
+from expungeservice.expunger.expunger import Expunger
 from expungeservice.crawler.models.disposition import Disposition
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
