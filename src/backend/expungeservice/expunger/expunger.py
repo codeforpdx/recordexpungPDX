@@ -63,7 +63,7 @@ class Expunger:
 
     def _open_cases(self):
         for case in self.cases:
-            if case.current_status != 'Closed':
+            if not case.closed():
                 return True
         return False
 
@@ -73,7 +73,7 @@ class Expunger:
 
     def _create_charge_list_from_closed_cases(self):
         for case in self.cases:
-            if case.current_status == 'Closed':
+            if case.closed():
                 self._charges.extend(case.charges)
 
     def _categorize_charges(self):
