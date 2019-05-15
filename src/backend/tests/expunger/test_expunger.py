@@ -17,6 +17,11 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
 
+    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2))
+    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1))
+    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3))
+    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4))
+
     def test_expunger_sets_most_recent_dismissal_when_charge_is_less_than_3yrs(self):
         case = CaseFactory.create()
         mrd_charge = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
@@ -149,3 +154,37 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger.run()
 
         assert expunger._num_acquittals == 0
+
+    def test_most_recent_charge(self):
+        case = CaseFactory.create()
+        one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
+                                                       statute='825.999',
+                                                       level='Class C traffic violation',
+                                                       disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
+
+        case.charges = [one_year_traffic_charge]
+
+        expunger = Expunger([case])
+        expunger.run()
+
+        assert expunger._most_recent_charge is None
+
+    def test_most_recent_charge_with_non_traffic_violations(self):
+        case = CaseFactory.create()
+        one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
+                                                       statute='825.999',
+                                                       level='Class C traffic violation',
+                                                       disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
+        two_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.TWO_YEAR_AGO_DATE])
+        three_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.THREE_YEAR_AGO_DATE])
+        four_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
+                                                        statute='825.999',
+                                                        level='Class C traffic violation',
+                                                        disposition=['Convicted', self.FOUR_YEAR_AGO_DATE])
+
+        case.charges = [one_year_traffic_charge, two_year_ago_dismissal, three_year_ago_dismissal, four_year_traffic_charge]
+
+        expunger = Expunger([case])
+        expunger.run()
+
+        assert expunger._most_recent_charge == two_year_ago_dismissal
