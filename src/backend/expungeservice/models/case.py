@@ -24,4 +24,4 @@ class Case:
         return self.balance_due_in_cents / 100
 
     def closed(self):
-        return self.current_status == 'Closed'
+        return self.current_status == 'Closed' or self.current_status == 'Inactive'
