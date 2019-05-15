@@ -537,18 +537,16 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
     # Test non-traffic violation
 
-    # TODO: Implement this test
+    def test_non_traffic_violation(self):
+        self.single_charge['name'] = 'Viol Treatment'
+        self.single_charge['statute'] = '1615652'
+        self.single_charge['level'] = 'Violation Unclassified'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
 
-    # def test_non_traffic_violation(self):
-    #     self.single_charge['name'] = 'Need real test case here'
-    #     self.single_charge['statute'] = ''
-    #     self.single_charge['level'] = 'Violation'
-    #     pcs_charge = self.create_recent_charge()
-    #     self.charges.append(pcs_charge)
-    #     self.type_analyzer.evaluate(self.charges)
-    #
-    #     assert pcs_charge.expungement_result.type_eligibility is True
-    #     assert pcs_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(d)'
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(d)'
 
 
 class TestMultipleCharges(unittest.TestCase):
