@@ -8,12 +8,15 @@ from tests.factories.charge_factory import ChargeFactory
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):
+    TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20))
+    LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1))
     TEN_YEARS_AGO = (date.today() + relativedelta(years=-10))
     SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7))
     FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5))
     LESS_THAN_THREE_YEARS_AGO = date.today() + relativedelta(years=-3, days=+1)
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3))
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2))
+    TOMORROW = date.today() + relativedelta(days=+1)
 
     ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
     TEN_YEARS = relativedelta(years=10)
@@ -156,7 +159,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
                                                   date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
                                                   disposition=['Dismissed', self.TWO_YEARS_AGO])
         less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-        case.charges=[two_year_acquittal, less_than_3yr_acquittal]
+        case.charges = [two_year_acquittal, less_than_3yr_acquittal]
 
         time_analyzer = TimeAnalyzer(most_recent_dismissal=two_year_acquittal, num_acquittals=2)
         self.charges.extend([two_year_acquittal, less_than_3yr_acquittal])
@@ -180,7 +183,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         case_2 = CaseFactory.create()
         less_than_3yr_acquittal_2 = ChargeFactory.create(case=case_2, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-        case_2.charges=[less_than_3yr_acquittal_2]
+        case_2.charges = [less_than_3yr_acquittal_2]
 
         time_analyzer = TimeAnalyzer(most_recent_dismissal=two_year_acquittal, num_acquittals=3)
         self.charges.extend([two_year_acquittal, less_than_3yr_acquittal, less_than_3yr_acquittal_2])
@@ -197,3 +200,33 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert less_than_3yr_acquittal_2.expungement_result.time_eligibility is False
         assert less_than_3yr_acquittal_2.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
         assert less_than_3yr_acquittal_2.expungement_result.date_of_eligibility == self.ONE_YEARS_FROM_NOW
+
+    def test_felony_class_b_greater_than_20yrs(self):
+        charge = ChargeFactory.create(name='Aggravated theft in the first degree',
+                                      statute='164.057',
+                                      level='Felony Class B',
+                                      date=self.TWENTY_YEARS_AGO.strftime('%m/%d/%Y'),
+                                      disposition=['Convicted', self.TWENTY_YEARS_AGO])
+
+        self.charges.extend([charge])
+        time_analyzer = TimeAnalyzer(class_b_felonies=[charge], most_recent_charge=charge)
+        time_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.time_eligibility is True
+        assert charge.expungement_result.time_eligibility_reason == ''
+        assert charge.expungement_result.date_of_eligibility is None
+
+    def test_felony_class_b_less_than_20yrs(self):
+        charge = ChargeFactory.create(name='Aggravated theft in the first degree',
+                                      statute='164.057',
+                                      level='Felony Class B',
+                                      date=self.LESS_THAN_TWENTY_YEARS_AGO.strftime('%m/%d/%Y'),
+                                      disposition=['Convicted', self.LESS_THAN_TWENTY_YEARS_AGO])
+
+        self.charges.extend([charge])
+        time_analyzer = TimeAnalyzer(class_b_felonies=[charge], most_recent_charge=charge)
+        time_analyzer.evaluate(self.charges)
+
+        assert charge.expungement_result.time_eligibility is False
+        assert charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(5)(a)(A)(i)'
+        assert charge.expungement_result.date_of_eligibility == self.TOMORROW

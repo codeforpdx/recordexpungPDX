@@ -503,6 +503,16 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert charge.expungement_result.type_eligibility is None
         assert charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
 
+    def test_class_felony_is_added_to_b_felony_attribute(self):
+        self.single_charge['name'] = 'Aggravated theft in the first degree'
+        self.single_charge['statute'] = '164.057'
+        self.single_charge['level'] = 'Felony Class B'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+        self.type_analyzer.evaluate(self.charges)
+
+        assert self.type_analyzer.class_b_felonies == [charge]
+
     def test_charge_that_falls_through(self):
         self.single_charge['name'] = 'Aggravated theft in the first degree'
         self.single_charge['statute'] = '164.057'
@@ -567,3 +577,29 @@ class TestMultipleCharges(unittest.TestCase):
 
         assert self.charges[1].expungement_result.type_eligibility is False
         assert self.charges[1].expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+
+    def test_multiple_class_b_felonies_are_added_to_b_felony_list(self):
+        # first charge
+        self.charge['name'] = 'Theft of services'
+        self.charge['statute'] = '164.125'
+        self.charge['level'] = 'Misdemeanor Class A'
+        charge = self.create_charge()
+        self.charges.append(charge)
+
+        # B felony
+        self.charge['name'] = 'Aggravated theft in the first degree'
+        self.charge['statute'] = '164.057'
+        self.charge['level'] = 'Felony Class B'
+        charge_1 = self.create_charge()
+        self.charges.append(charge_1)
+
+        # Second B felony
+        self.charge['name'] = 'Aggravated theft in the first degree'
+        self.charge['statute'] = '164.057'
+        self.charge['level'] = 'Felony Class B'
+        charge_2 = self.create_charge()
+        self.charges.append(charge_2)
+
+        self.type_analyzer.evaluate(self.charges)
+
+        assert self.type_analyzer.class_b_felonies == [charge_1, charge_2]

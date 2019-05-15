@@ -82,6 +82,25 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger._time_analyzer._most_recent_dismissal.date == self.ONE_YEAR_AGO
         assert expunger._time_analyzer._num_acquittals == 4
 
+    def test_expunger_invokes_time_analyzer_with_most_recent_charge(self):
+        CrawlerFactory.create(self.crawler,
+                              cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                                 charge1_name='Aggravated theft in the first degree',
+                                                                 charge1_statute='164.057',
+                                                                 charge1_level='Felony Class B',
+                                                                 dispo_ruling_1='Convicted',
+                                                                 dispo_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y')),
+                                     'X0002': CaseDetails.case_x(),
+                                     'X0003': CaseDetails.case_x()})
+
+        expunger = Expunger(self.crawler.result.cases)
+        expunger.run()
+
+        assert len(expunger._type_analyzer.class_b_felonies) == 1
+        assert expunger._type_analyzer.class_b_felonies[0].name == 'Aggravated theft in the first degree'
+        assert expunger._time_analyzer._class_b_felonies[0].name == 'Aggravated theft in the first degree'
+        assert expunger._time_analyzer._most_recent_charge.name == 'Aggravated theft in the first degree'
+
     def test_expunger_expunges(self):
         CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
