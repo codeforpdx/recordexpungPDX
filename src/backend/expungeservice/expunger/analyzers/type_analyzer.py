@@ -44,9 +44,12 @@ class TypeAnalyzer:
 
     @staticmethod
     def __crime_against_person(charge):
-        statute = int(charge.statute[0:6])
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
-        return any(statute in statute_range for statute_range in statute_ranges)
+
+        if charge.statute[0:6].isdigit():
+            return any(int(charge.statute[0:6]) in statute_range for statute_range in statute_ranges)
+        else:
+            return False
 
     @staticmethod
     def __felony_class_a(charge):

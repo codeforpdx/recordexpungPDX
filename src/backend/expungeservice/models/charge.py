@@ -34,9 +34,12 @@ class Charge:
         return self.acquitted() and self.date > three_years_ago
 
     def traffic_crime(self):
-        statute = int(self.statute[0:3])
         statute_range = range(801, 826)
-        return statute in statute_range
+
+        if self.statute[0:3].isdigit():
+            return int(self.statute[0:3]) in statute_range
+        else:
+            return False
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         self.expungement_result.time_eligibility = False
