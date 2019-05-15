@@ -38,19 +38,13 @@ class TypeAnalyzer:
 
     @staticmethod
     def __ineligible_under_137_225_5(charge):
-        return TypeAnalyzer.__crime_against_person(charge) or TypeAnalyzer.__traffic_crime(charge) or TypeAnalyzer.__felony_class_a(charge)
+        return TypeAnalyzer.__crime_against_person(charge) or charge.traffic_crime() or TypeAnalyzer.__felony_class_a(charge)
 
     @staticmethod
     def __crime_against_person(charge):
         statute = int(charge.statute[0:6])
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
         return any(statute in statute_range for statute_range in statute_ranges)
-
-    @staticmethod
-    def __traffic_crime(charge):
-        statute = int(charge.statute[0:3])
-        statute_range = range(801, 826)
-        return statute in statute_range
 
     @staticmethod
     def __felony_class_a(charge):
