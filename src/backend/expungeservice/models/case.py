@@ -22,3 +22,6 @@ class Case:
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
+
+    def closed(self):
+        return self.current_status == 'Closed'
