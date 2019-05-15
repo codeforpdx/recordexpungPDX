@@ -26,10 +26,12 @@ class Expunger:
         self._most_recent_dismissal = None
         self._most_recent_conviction = None
         self._second_most_recent_conviction = None
+        self._most_recent_charge = None
         self._num_acquittals = 0
         self._acquittals = []
         self._convictions = []
         self._time_analyzer = None
+        self._type_analyzer = TypeAnalyzer()
 
     def run(self):
         """
@@ -39,7 +41,7 @@ class Expunger:
         """
         if self._open_cases():
             self._create_charge_list_from_closed_cases()
-            TypeAnalyzer.evaluate(self._charges)
+            self._type_analyzer.evaluate(self._charges)
             self.errors.append('Open cases exist')
             return False
 
@@ -48,11 +50,14 @@ class Expunger:
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
         self._set_num_acquittals()
-        TypeAnalyzer.evaluate(self._charges)
+        self._assign_most_recent_charge()
+        self._type_analyzer.evaluate(self._charges)
         self._time_analyzer = TimeAnalyzer(most_recent_conviction=self._most_recent_conviction,
                                            second_most_recent_conviction=self._second_most_recent_conviction,
                                            most_recent_dismissal=self._most_recent_dismissal,
-                                           num_acquittals=self._num_acquittals)
+                                           num_acquittals=self._num_acquittals,
+                                           class_b_felonies=self._type_analyzer.class_b_felonies,
+                                           most_recent_charge=self._most_recent_charge)
         self._time_analyzer.evaluate(self._charges)
         return True
 
@@ -94,3 +99,14 @@ class Expunger:
         for charge in self._acquittals:
             if charge.recent_acquittal():
                 self._num_acquittals += 1
+
+    def _assign_most_recent_charge(self):
+        self._charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
+
+        if self._charges:
+            self._most_recent_charge = self._most_recent_non_traffic_violation()
+
+    def _most_recent_non_traffic_violation(self):
+        for charge in self._charges:
+            if not charge.traffic_crime():
+                return charge

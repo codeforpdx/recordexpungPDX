@@ -4,21 +4,28 @@ from dateutil.relativedelta import relativedelta
 
 class TimeAnalyzer:
 
-    THREE_YEARS = 3
+    TWENTY_YEARS_AGO = date.today() + relativedelta(years=-20)
+    TWENTY_YEARS = 20
     TEN_YEARS = 10
+    THREE_YEARS = 3
 
-    def __init__(self, most_recent_conviction=None, second_most_recent_conviction=None, most_recent_dismissal=None, num_acquittals=0):
+    def __init__(self, most_recent_conviction=None, second_most_recent_conviction=None, most_recent_dismissal=None,
+                 num_acquittals=0, class_b_felonies=[], most_recent_charge=None):
         """
 
         :param most_recent_conviction: Most recent conviction if one exists from within the last ten years
         :param second_most_recent_conviction: Second most recent conviction if one exists from within the last ten years
         :param most_recent_dismissal: Most recent dismissal if one exists from within the last three years
         :param num_acquittals: Number of acquittals within the last three years
+        :param class_b_felonies: A list of class B felonies; excluding person crimes or firearm crimes
+        :param most_recent_charge: The most recent charge within the last 20yrs; excluding traffic violations
         """
         self._most_recent_conviction = most_recent_conviction
         self._second_most_recent_conviction = second_most_recent_conviction
         self._most_recent_dismissal = most_recent_dismissal
         self._num_acquittals = num_acquittals
+        self._class_b_felonies = class_b_felonies
+        self._most_recent_charge = most_recent_charge
 
     def evaluate(self, charges):
         if self._most_recent_conviction:
@@ -29,6 +36,8 @@ class TimeAnalyzer:
             self._mark_all_mrd_case_related_charges_eligible()
         else:
             TimeAnalyzer._mark_all_charges_eligible(charges)
+
+        self._evaluate_class_b_felonies()
 
     def _mark_all_charges_ineligible_using_mrc_date(self, charges, reason, years):
         eligibility_date = self._most_recent_conviction.disposition.date + relativedelta(years=years)
@@ -60,6 +69,13 @@ class TimeAnalyzer:
     def _mark_all_mrd_case_related_charges_eligible(self):
         for charge in self._most_recent_dismissal.case()().charges:
             charge.set_time_eligible('Recommend sequential expungement of arrests')
+
+    def _evaluate_class_b_felonies(self):
+        if self._most_recent_charge and self._most_recent_charge.disposition.date > self.TWENTY_YEARS_AGO:
+            for charge in self._class_b_felonies:
+                charge.set_time_ineligible('Time-ineligible under 137.225(5)(a)(A)(i)',
+                                           self._most_recent_charge.disposition.date + relativedelta(
+                                               years=self.TWENTY_YEARS))
 
     @staticmethod
     def _mark_all_charges_eligible(charges):
