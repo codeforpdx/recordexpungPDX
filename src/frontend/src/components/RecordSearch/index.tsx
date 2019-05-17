@@ -9,8 +9,10 @@ class RecordSearch extends React.Component {
     firstName: null,
     lastName: null,
     dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
-    missingInput: null,
-    invalidDate: null
+    missingFirstName: undefined, // Undefined is used here to prevent aria-invalid from rendering until form submission.
+    missingLastName: undefined,
+    missingInputs: null,
+    invalidDate: undefined
   }
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -22,16 +24,19 @@ class RecordSearch extends React.Component {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
-    if (this.state.missingInput === false && this.state.invalidDate === false) {
+    if (this.state.missingInputs === false && this.state.invalidDate === false) {
       // Dispatch an action.
     };
   }
 
   validateForm = () => {
-    !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
-    this.setState({missingInput: true}) : this.setState({missingInput: false});
+    !this.state.firstName ? this.setState({missingFirstName: true}) : this.setState({missingFirstName: false});
+    !this.state.lastName ? this.setState({missingLastName: true}) : this.setState({missingLastName: false});
 
-    moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false ?
+    !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
+    this.setState({missingInputs: true}) : this.setState({missingInputs: false});
+
+    moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid() === false ?
     this.setState({invalidDate: true}) : this.setState({invalidDate: false});
   }
 
@@ -51,7 +56,7 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
-                  aria-invalid="false"
+                  aria-invalid={this.state.missingFirstName}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
@@ -63,7 +68,7 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
-                  aria-invalid="false"
+                  aria-invalid={this.state.missingLastName}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
@@ -76,7 +81,7 @@ class RecordSearch extends React.Component {
                   className="w-100 pa3 br2 b--black-20"
                   required
                   aria-describedby="dob_msg"
-                  aria-invalid="false"
+                  aria-invalid={this.state.invalidDate}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-10-ns mb3">
@@ -86,8 +91,8 @@ class RecordSearch extends React.Component {
                 </button>
               </div>
               <div role="alert" className="w-100">
-                {this.state.missingInput === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</p> : null}
-                {this.state.invalidDate === true ? <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</p> : null}
+                {this.state.missingInputs === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</p> : null}
+                {this.state.invalidDate === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</p> : null}
               </div>
             </div>
           </form>
