@@ -4,58 +4,35 @@ import { AppState } from "../../redux/store";
 import { loadRecords } from "../../redux/records/actions";
 import moment from 'moment';
 
-
-// This is a placeholder component. I created it to prototype
-// out the general structure we'll need when working with
-// Records using Redux.
-
 class RecordSearch extends React.Component {
   state = {
     firstName: null,
     lastName: null,
-    dateOfBirth: '',
+    dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
     missingInput: null,
     invalidDate: null
   }
 
-  handleChange = (e: React.BaseSyntheticEvent ) => {
-    console.log(e)
-      this.setState({
-        [e.target.id]:e.target.value
-      })
+  handleChange = (e: React.BaseSyntheticEvent) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
   }
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
-    // if (this.state.validForm === true) {
-    //   //dispatch an action with local state data
-    // }
   }
 
-    //still need a case to handle downed services
-  // validateForm = () => {
-  //   if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth) {
-  //     this.setState({error: <p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p>})
-  //   } else if (moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false) {
-  //     this.setState({error: <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p>})
-  //   } else if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth && moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false){
-  //     this.setState({error: <div><p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p><p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p></div> })
-  //   } else {
-  //     this.setState({error: null, validForm: true})
-  //   }
-  // }
-
   validateForm = () => {
-     !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
-     this.setState({missingInput: true}) : this.setState({missingInput: false})
+    !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
+    this.setState({missingInput: true}) : this.setState({missingInput: false});
 
-     moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false ?
-     this.setState({invalidDate: true}) : this.setState({invalidDate: false})
+    moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false ?
+    this.setState({invalidDate: true}) : this.setState({invalidDate: false});
   }
 
   public render() {
-    console.log(this.state)
     return (
       <main className='mw8 center ph2'>
         <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
@@ -88,7 +65,7 @@ class RecordSearch extends React.Component {
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
                 <label htmlFor="dateOfBirth" className="db mb1 fw6">
-                  Date of Birth <span className="fw2 f6">MM/DD/YYYY</span>
+                  Date of Birth <span id="dob_msg"className="fw2 f6">MM/DD/YYYY</span>
                 </label>
                 <input
                   id="dateOfBirth"
