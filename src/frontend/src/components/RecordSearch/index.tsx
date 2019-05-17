@@ -14,8 +14,8 @@ class RecordSearch extends React.Component {
     firstName: null,
     lastName: null,
     dateOfBirth: '',
-    error: null,
-    validForm: false
+    missingInput: null,
+    invalidDate: null
   }
 
   handleChange = (e: React.BaseSyntheticEvent ) => {
@@ -28,23 +28,34 @@ class RecordSearch extends React.Component {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
-    if (this.state.validForm === true) {
-      //dispatch an action with local state data
-    }
+    // if (this.state.validForm === true) {
+    //   //dispatch an action with local state data
+    // }
   }
 
     //still need a case to handle downed services
+  // validateForm = () => {
+  //   if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth) {
+  //     this.setState({error: <p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p>})
+  //   } else if (moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false) {
+  //     this.setState({error: <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p>})
+  //   } else if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth && moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false){
+  //     this.setState({error: <div><p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p><p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p></div> })
+  //   } else {
+  //     this.setState({error: null, validForm: true})
+  //   }
+  // }
+
   validateForm = () => {
-    if (!this.state.firstName || !this.state.lastName || !this.state.dateOfBirth) {
-      this.setState({error: <p className="bg-washed-red mv4 pa3 br3 fw6 w-100">All search fields are required.</p>})
-    } else if (moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false) {
-      this.setState({error: <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6 w-100">The date format must be MM/DD/YYYY.</p>})
-    } else {
-      this.setState({error: null, validForm: true})
-    }
+     !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
+     this.setState({missingInput: true}) : this.setState({missingInput: false})
+
+     moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid()===false ?
+     this.setState({invalidDate: true}) : this.setState({invalidDate: false})
   }
 
   public render() {
+    console.log(this.state)
     return (
       <main className='mw8 center ph2'>
         <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
@@ -94,7 +105,7 @@ class RecordSearch extends React.Component {
                   <i aria-hidden="true" className="fas fa-search"></i>
                 </button>
               </div>
-              {this.state.error}
+
             </div>
           </form>
         </section>
