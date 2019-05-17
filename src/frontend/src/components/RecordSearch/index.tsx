@@ -105,7 +105,10 @@ class RecordSearch extends React.Component {
                   <i aria-hidden="true" className="fas fa-search"></i>
                 </button>
               </div>
-
+              <div role="alert" className="w-100">
+                {this.state.missingInput === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</p> : null}
+                {this.state.invalidDate === true ? <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</p> : null}
+              </div>
             </div>
           </form>
         </section>
