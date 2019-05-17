@@ -22,6 +22,9 @@ class RecordSearch extends React.Component {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
+    if (this.state.missingInput === false && this.state.invalidDate === false) {
+      // Dispatch an action.
+    };
   }
 
   validateForm = () => {
