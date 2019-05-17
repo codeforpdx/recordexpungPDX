@@ -7,12 +7,12 @@ import moment from 'moment';
 class RecordSearch extends React.Component {
   state = {
     firstName: null,
-    lastName: null,
+    lastName: null, // Null value ensures alerts are not present until form is submitted.
     dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
-    missingFirstName: undefined, // Undefined is used here to prevent aria-invalid from rendering until form submission.
-    missingLastName: undefined,
+    firstNameHasInput: false, // Initially set to false to ensure aria-invalid attribute is rendered.
+    lastNameHasInput: false,
     missingInputs: null,
-    invalidDate: undefined
+    invalidDate: false
   }
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -30,14 +30,10 @@ class RecordSearch extends React.Component {
   }
 
   validateForm = () => {
-    !this.state.firstName ? this.setState({missingFirstName: true}) : this.setState({missingFirstName: false});
-    !this.state.lastName ? this.setState({missingLastName: true}) : this.setState({missingLastName: false});
-
-    !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth ?
-    this.setState({missingInputs: true}) : this.setState({missingInputs: false});
-
-    moment(this.state.dateOfBirth,'MM/DD/YYYY',true).isValid() === false ?
-    this.setState({invalidDate: true}) : this.setState({invalidDate: false});
+    this.setState({firstNameHasInput: !this.state.firstName});
+    this.setState({lastNameHasInput: !this.state.lastName});
+    this.setState({missingInputs: !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth});
+    this.setState({invalidDate: moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() === false});
   }
 
   public render() {
@@ -56,7 +52,7 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
-                  aria-invalid={this.state.missingFirstName}
+                  aria-invalid={this.state.firstNameHasInput}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
@@ -68,7 +64,7 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
-                  aria-invalid={this.state.missingLastName}
+                  aria-invalid={this.state.lastNameHasInput}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
