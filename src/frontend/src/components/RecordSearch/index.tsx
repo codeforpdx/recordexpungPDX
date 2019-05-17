@@ -52,6 +52,7 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
+                  aria-describedby={this.state.firstNameHasInput ? "name_msg" : undefined}
                   aria-invalid={this.state.firstNameHasInput}
                   onChange={this.handleChange}/>
               </div>
@@ -64,19 +65,20 @@ class RecordSearch extends React.Component {
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
+                  aria-describedby={this.state.lastNameHasInput ? "name_msg" : undefined}
                   aria-invalid={this.state.lastNameHasInput}
                   onChange={this.handleChange}/>
               </div>
               <div className="w-100 w-30-ns mb3 pr2-ns">
                 <label htmlFor="dateOfBirth" className="db mb1 fw6">
-                  Date of Birth <span id="dob_msg"className="fw2 f6">MM/DD/YYYY</span>
+                  Date of Birth <span className="fw2 f6">MM/DD/YYYY</span>
                 </label>
                 <input
                   id="dateOfBirth"
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
                   required
-                  aria-describedby="dob_msg"
+                  aria-describedby={this.state.invalidDate ? "dob_msg" : undefined}
                   aria-invalid={this.state.invalidDate}
                   onChange={this.handleChange}/>
               </div>
@@ -87,8 +89,8 @@ class RecordSearch extends React.Component {
                 </button>
               </div>
               <div role="alert" className="w-100">
-                {this.state.missingInputs === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</p> : null}
-                {this.state.invalidDate === true ? <p className="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</p> : null}
+                {this.state.missingInputs === true ? <p id="name_msg" className="bg-washed-red mv4 pa3 br3 fw6">All search fields are required.</p> : null}
+                {this.state.invalidDate === true ? <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6">The date format must be MM/DD/YYYY.</p> : null}
               </div>
             </div>
           </form>
