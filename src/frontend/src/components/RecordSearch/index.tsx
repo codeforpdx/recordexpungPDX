@@ -7,7 +7,7 @@ import moment from 'moment';
 class RecordSearch extends React.Component {
   state = {
     firstName: '',
-    lastName: '', // Null value ensures alerts are not present until form is submitted.
+    lastName: '', // Validation check relies on string length.
     dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
     firstNameHasInput: false, // Initially set to false to ensure aria-invalid attribute is rendered.
     lastNameHasInput: false,
