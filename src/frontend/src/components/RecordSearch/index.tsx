@@ -6,8 +6,8 @@ import moment from 'moment';
 
 class RecordSearch extends React.Component {
   state = {
-    firstName: null,
-    lastName: null, // Null value ensures alerts are not present until form is submitted.
+    firstName: '',
+    lastName: '', // Null value ensures alerts are not present until form is submitted.
     dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
     firstNameHasInput: false, // Initially set to false to ensure aria-invalid attribute is rendered.
     lastNameHasInput: false,
@@ -30,9 +30,9 @@ class RecordSearch extends React.Component {
   }
 
   validateForm = () => {
-    this.setState({firstNameHasInput: !this.state.firstName});
-    this.setState({lastNameHasInput: !this.state.lastName});
-    this.setState({missingInputs: !this.state.firstName || !this.state.lastName || !this.state.dateOfBirth});
+    this.setState({firstNameHasInput: this.state.firstName.trim().length === 0});
+    this.setState({lastNameHasInput: this.state.lastName.trim().length === 0});
+    this.setState({missingInputs: this.state.firstName.trim().length === 0 || this.state.lastName.trim().length === 0 || this.state.dateOfBirth.trim().length === 0});
     this.setState({invalidDate: moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() === false});
   }
 
