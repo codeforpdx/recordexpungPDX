@@ -47,18 +47,18 @@ class Charge:
             return True
         else:
             ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
-            return self.statute[0:7] in ineligible_statutes
+            return self._section in ineligible_statutes
 
     def list_b(self):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
                                '164395', '162185', '166220', '163225', '163165']
-        return self.statute[0:6] in ineligible_statutes
+        return self._section in ineligible_statutes
 
     def ineligible_under_137_225_5(self):
         return self._crime_against_person() or self.traffic_crime() or self._felony_class_a()
 
     def possession_sched_1(self):
-        return self.statute[0:6] in ['475854', '475874', '475884', '475894']
+        return self._section in ['475854', '475874', '475884', '475894']
 
     def non_traffic_violation(self):
         return 'Violation' in self.level
@@ -76,8 +76,8 @@ class Charge:
     def _crime_against_person(self):
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
 
-        if self.statute[0:6].isdigit():
-            return any(int(self.statute[0:6]) in statute_range for statute_range in statute_ranges)
+        if self._section.isdigit():
+            return any(int(self._section) in statute_range for statute_range in statute_ranges)
         else:
             return False
 
