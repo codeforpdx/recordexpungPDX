@@ -76,3 +76,26 @@ class TestChargeClass(unittest.TestCase):
         charge.disposition = Disposition(ruling='Convicted')
 
         assert charge.recent_acquittal() is False
+
+
+class TestChargeStatuteSectionAssignment(unittest.TestCase):
+
+    def test_it_sets_section_to_the_first_6_digits_of_statute(self):
+        charge = ChargeFactory.create(statute='1231235B')
+
+        assert charge._section == '123123'
+
+    def test_it_sets_section_to_the_first_7_digits_when_4th_char_in_statute_is_a_letter(self):
+        charge = ChargeFactory.create(statute='475B3493C')
+
+        assert charge._section == '475B349'
+
+    def test_it_sets_section_to_none_if_statute_is_does_not_contain_a_section(self):
+        charge = ChargeFactory.create(statute='29')
+
+        assert charge._section is None
+
+    def test_it_normalizes_section(self):
+        charge = ChargeFactory.create(statute='475B.349(3)(C)')
+
+        assert charge._section == '475B349'
