@@ -54,7 +54,7 @@ class TestCaseWithDisposition(unittest.TestCase):
         assert self.parser.event_table_data[1][7] == '2. Violation Driving While Suspended or Revoked'
         assert self.parser.event_table_data[1][8] == 'Dismissed'
         assert self.parser.event_table_data[1][9] == '3. Failure to Obey Traffic Control Device'
-        assert self.parser.event_table_data[1][10] == 'Hmmmm'
+        assert self.parser.event_table_data[1][10] == 'Dismissed'
         assert self.parser.event_table_data[1][11] == '\n        Created: 06/12/2017 2:57 PM'
 
     # Test relevant financial data is collected
@@ -74,7 +74,7 @@ class TestCaseWithDisposition(unittest.TestCase):
 
         assert self.parser.hashed_dispo_data[3]['date'] == '06/12/2017'
         assert self.parser.hashed_dispo_data[3]['charge'] == 'Failure to Obey Traffic Control Device'
-        assert self.parser.hashed_dispo_data[3]['ruling'] == 'Hmmmm'
+        assert self.parser.hashed_dispo_data[3]['ruling'] == 'Dismissed'
 
     def test_charge_data_is_formatted(self):
         assert len(self.parser.hashed_charge_data) == 3
