@@ -135,7 +135,7 @@ Judge: John D Doe;
         <form id="Form1" action="" method="post"></form>
 
   </body>
-</html>    
+</html>
     """
 
     CASE_WITH_PARTIAL_DISPOS = """
@@ -357,22 +357,22 @@ BP55555555</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
               Date
             </th></tr><tr><td valign="top">1.
             &nbsp;</td><td valign="top">Loading Zone</td><td valign="top"></td><td valign="top">29</td><td valign="top" nowrap="true">Violation Unclassified</td><td valign="top" nowrap="true">09/04/2008</td></tr><tr><td /><td></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0" style="table-layout:fixed;"><col width="54px" /><col width="3px" /><col width="3px" /><col width="700px" /><col width="100%" /><caption><div class="ssCaseDetailSectionTitle">Events &amp; Orders of the Court</div></caption><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="CDisp" class="ssEventsAndOrdersSubTitle">DISPOSITIONS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD1">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD1"><div style="padding-bottom: 10px"><b>Disposition</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">1.&nbsp;Loading Zone<div style="padding-left: 40px">Convicted</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
-        Created: 11/18/2008 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD2">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD2"><div style="padding-bottom: 10px"><b>Judgment Default</b> (Judicial Officer: Administrative, Parking)<br /><div><div style="padding-left: 10px">1.&nbsp;Loading Zone<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Fine $120.00       
+        Created: 11/18/2008 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD2">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD2"><div style="padding-bottom: 10px"><b>Judgment Default</b> (Judicial Officer: Administrative, Parking)<br /><div><div style="padding-left: 10px">1.&nbsp;Loading Zone<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Fine $120.00
 </div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
-        Created: 11/18/2008 12:00 AM</div></div></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="COtherEventsAndHearings" class="ssEventsAndOrdersSubTitle">OTHER EVENTS AND HEARINGS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER1">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER1"><b>Citation</b><div style="padding-left: 10px"><i>Comment: See MISC Event; 
+        Created: 11/18/2008 12:00 AM</div></div></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="COtherEventsAndHearings" class="ssEventsAndOrdersSubTitle">OTHER EVENTS AND HEARINGS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER1">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER1"><b>Citation</b><div style="padding-left: 10px"><i>Comment: See MISC Event;
 </i></div><div style="padding-left: 10px;font-size:8pt;">
-            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER2">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER2"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Location: SW ALDER ST Between BROADWAY And 6TH AVE On the N Side of the street; 
+            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER2">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER2"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Location: SW ALDER ST Between BROADWAY And 6TH AVE On the N Side of the street;
 </i></div><div style="padding-left: 10px;font-size:8pt;">
-            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER3">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER3"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Comment: PICKUP - NO SIGNS, PE RMIT, OR ACTIVITY 2 TLZ SIGNS; 
+            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER3">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER3"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Comment: PICKUP - NO SIGNS, PE RMIT, OR ACTIVITY 2 TLZ SIGNS;
 </i></div><div style="padding-left: 10px;font-size:8pt;">
-            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER4">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER4"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Posted: TLZ 8 PM-6 AM ALL DAYS; 
+            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER4">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER4"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Posted: TLZ 8 PM-6 AM ALL DAYS;
 </i></div><div style="padding-left: 10px;font-size:8pt;">
-            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER5">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER5"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Plate Expiration Date = 07/10; 
+            Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER5">09/05/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER5"><b>Miscellaneous</b><div style="padding-left: 10px"><i>Comment: Plate Expiration Date = 07/10;
 </i></div><div style="padding-left: 10px;font-size:8pt;">
             Created: 09/05/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER6">09/16/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER6"><b>Notice - Delinquent</b><div style="padding-left: 10px;font-size:8pt;">
             Created: 09/16/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER7">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER7"><b>Convicted</b><div style="padding-left: 10px;font-size:8pt;">
             Created: 11/18/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER8">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER8"><b>Notice - Default Judgment Traffic Failure to Appear</b><div style="padding-left: 10px"><i>
-Defendant: JOHN DOE 
+Defendant: JOHN DOE
 </i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
             Created: 11/18/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER9">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER9"><b>Closed</b><div style="padding-left: 10px;font-size:8pt;">
             Created: 11/18/2008 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER10">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER10"><b>Judgment - Default</b>
@@ -384,7 +384,7 @@ Defendant: JOHN DOE
             Created: 11/19/2008 12:00 AM</div></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0"><col width="1" /><col width="0" /><col width="3" /><col width="20%" /><col width="40%" /><col width="40%" /><col width="1" /><caption><div class="ssCaseDetailSectionTitle">Financial Information</div></caption><tr><td colspan="7"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td valign="top">&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="4" style="padding-left:3px" id="CDFRB1"><span style="font-weight: bold;">Defendant</span>&nbsp;DOE, JOHN</th></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRBFA1">Total Financial Assessment</th><td align="right" headers="CDFRB1 RCDFRBFA1">&nbsp;120.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRPC1">Total Payments and Credits</th><td align="right" headers="CDFRB1 RCDFRPC1">&nbsp;120.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeader" colspan="3" style="padding-left:3px" id="RCDFRBD1">
           Balance Due as of 01/20/2019</th><td align="right" headers="CDFRB1 RCDFRBD1">&nbsp;<b>0.00</b></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD1">11/18/2008</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE1">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;120.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         <form id="Form1" action="" method="post"></form>
-   
+
   </body>
 </html>
     '''
@@ -395,7 +395,7 @@ Defendant: JOHN DOE
   </head>
 
   <body>
-  
+
         <?xml version="1.0" encoding="utf-8"?><table cellspacing="0" cellpadding="0" width="100%" border="0" style="table-layout: fixed; margin:0px; padding:0px;"></table><table cellspacing="0" cellpadding="0" width="100%" border="0" style="table-layout: fixed; margin:0px; padding:0px;"><tr><td bgcolor="#000000" height="20px"><table cellspacing="0" cellpadding="0" width="100%" border="0"><tr><td align="left" style="padding-left: 5px"><font size="1"><a class="ssBlackNavBarHyperlink" href="#MainContent">Skip to Main Content</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="logout.aspx">Logout</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="MyAccount.aspx?ReturnURL=default.aspx">My Account</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="default.aspx">Search Menu</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="Search.aspx?ID=100">Search Criminal, Traffic and Parking Case Records</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="Search.aspx?ID=100&amp;RefineSearch=1">Refine Search</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="&#xD;&#xA;                          javascript:if((new String(window.location)).indexOf(&quot;#MainContent&quot;) &gt; 0)&#xD;&#xA;                          {&#xD;&#xA;                          history.back();&#xD;&#xA;                          history.back();&#xD;&#xA;                          }&#xD;&#xA;                          else history.back();&#xD;&#xA;                        ">
                         Back</a>&nbsp;</font></td><td align="center" class="ssBlackNavBarLocation"></td><td align="right" style="padding-right: 10px"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="ssBlackNavBarLocation">
                           Location : All Locations</td><td><font size="1"><a class="ssBlackNavBarHyperlink" target="_blank" href="http://www.courts.oregon.gov/services/online/Documents/OJCIN/OECI/PA_QRefG_OJIN.pdf">Help</a></font></td></tr></table></td></tr></table></td></tr></table><a id="MainContent" name="MainContent" tabindex="-1"></a><div class="ssCaseDetailROA" nowrap="true">Register of Actions</div><div class="ssCaseDetailCaseNbr" nowrap="true">
@@ -417,38 +417,38 @@ Defendant: JOHN DOE
         Created: 05/11/2000 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD2">05/10/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD2"><div style="padding-bottom: 10px"><b>Plea</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">1.&nbsp;Poss Controlled Sub 2<div style="padding-left: 40px">Guilty</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
         Created: 05/11/2000 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD3">05/10/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD3"><div style="padding-bottom: 10px"><b>Judgment Presumptive</b> (Judicial Officer: Ro)<br /><div><div style="padding-left: 10px">1.&nbsp;Poss Controlled Sub 2<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Feb 21 2001 12:00AM
 GRID 1E;PROB SUPV FEE $25/MO;90/30 CU IMPOSED;DP PER PO;</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Feb 21 2001 12:00AM
-Unitary Assessment $105.00       
-Attorney Fees $300.00       
+Unitary Assessment $105.00
+Attorney Fees $300.00
 </div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Feb 21 2001 12:00AM
-&amp;#x0A;Probation - Month(s): 18.00      
-General Conditions of Probation - : 
-Drug Package - : 
-No trespass - drug free zone - Year(s): 1.00       
-Drivers License Suspension - : Waived                                            
-State true name in all future police contacts - : 
-Remain Custody Units Available - : Reserved                                          
-Jail - Custody Units: 20.00      Credit Time Served                                
-Alternative terms may be considered (SB936) - : 
+&amp;#x0A;Probation - Month(s): 18.00
+General Conditions of Probation - :
+Drug Package - :
+No trespass - drug free zone - Year(s): 1.00
+Drivers License Suspension - : Waived
+State true name in all future police contacts - :
+Remain Custody Units Available - : Reserved
+Jail - Custody Units: 20.00      Credit Time Served
+Alternative terms may be considered (SB936) - :
 </div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
-        Created: 05/17/2000 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD4">02/13/2001</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD4"><div style="padding-bottom: 10px"><b>Amended Judgment on Probation</b> (Judicial Officer:) Reason: Supersedes Previous Judgment<br /><div><div style="padding-left: 10px">1.&nbsp;Poss Controlled Sub 2<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">GRID 1E;PROB SUPV FEE $25/MO;90/30 CU IMPOSED;DP PER PO; ** Prob Cont d. No sanction **</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Unitary Assessment $105.00       
-Attorney Fees $300.00       
-</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Probation - Month(s): 18.00      
-General Conditions of Probation - : 
-Drug Package - : 
-No trespass - drug free zone - Year(s): 1.00       
-Drivers License Suspension - : Waived                                            
-State true name in all future police contacts - : 
-Remain Custody Units Available - : Reserved                                          
-Jail - Custody Units: 20.00      Credit Time Served                                
-Alternative terms may be considered (SB936) - : 
-Probation Continued - : 
-Original Conditions - : 
+        Created: 05/17/2000 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD4">02/13/2001</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD4"><div style="padding-bottom: 10px"><b>Amended Judgment on Probation</b> (Judicial Officer:) Reason: Supersedes Previous Judgment<br /><div><div style="padding-left: 10px">1.&nbsp;Poss Controlled Sub 2<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">GRID 1E;PROB SUPV FEE $25/MO;90/30 CU IMPOSED;DP PER PO; ** Prob Cont d. No sanction **</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Unitary Assessment $105.00
+Attorney Fees $300.00
+</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Probation - Month(s): 18.00
+General Conditions of Probation - :
+Drug Package - :
+No trespass - drug free zone - Year(s): 1.00
+Drivers License Suspension - : Waived
+State true name in all future police contacts - :
+Remain Custody Units Available - : Reserved
+Jail - Custody Units: 20.00      Credit Time Served
+Alternative terms may be considered (SB936) - :
+Probation Continued - :
+Original Conditions - :
 </div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
         Created: 02/13/2001 12:00 AM</div></div></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="COtherEventsAndHearings" class="ssEventsAndOrdersSubTitle">OTHER EVENTS AND HEARINGS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER1">03/20/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER1"><b>Arraignment</b><div style="padding-left: 10px;font-size:8pt;">
             Created: 03/21/2000 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER2">03/20/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER2"><b>Remove - Inactive Status</b><div style="padding-left: 10px;font-size:8pt;">
             Created: 03/21/2000 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR3">03/20/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR3"><b>Arraignment</b>&nbsp;
             (2:30 PM)
-          
+
     ()
   <table></table><div style="padding-left: 10px;font-size:8pt;">
               Created: 03/19/2000 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER4">03/21/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER4"><b>Information</b><div style="padding-left: 10px;font-size:8pt;">
@@ -456,29 +456,29 @@ Original Conditions - :
             (Judicial Officer:
             judicial officer
             )
-          <div style="padding-left: 10px"><i>Comment: stamped on Information; 
-Court Action: Signed; Court Action Date: 03/20/2000; 
+          <div style="padding-left: 10px"><i>Comment: stamped on Information;
+Court Action: Signed; Court Action Date: 03/20/2000;
 Judge: Judge
 </i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>03/20/2000</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
             Created: 03/21/2000 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER6">03/22/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER6"><b>Order - Appointing Counsel</b>
             (Judicial Officer:
             judicial officer
             )
-          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 03/20/2000; 
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 03/20/2000;
 Judge: Judge
 </i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>03/20/2000</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
             Created: 03/22/2000 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER7">03/22/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER7"><b>Order - Appear</b>
             (Judicial Officer:
             judicial officer
             )
-          <div style="padding-left: 10px"><i>Comment: PRSP IF ACCT W/PO APP; 
-Court Action: Signed; Court Action Date: 03/20/2000; 
+          <div style="padding-left: 10px"><i>Comment: PRSP IF ACCT W/PO APP;
+Court Action: Signed; Court Action Date: 03/20/2000;
 Judge: Judge
 </i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="
             Created: 09/16/2008 12:00 AM</div></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0"><col width="1" /><col width="0" /><col width="3" /><col width="20%" /><col width="40%" /><col width="40%" /><col width="1" /><caption><div class="ssCaseDetailSectionTitle">Financial Information</div></caption><tr><td colspan="7"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td valign="top">&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="4" style="padding-left:3px" id="CDFRB1"><span style="font-weight: bold;">Defendant</span>&nbsp;DOE, JOHN</th></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRBFA1">Total Financial Assessment</th><td align="right" headers="CDFRB1 RCDFRBFA1">&nbsp;535.70</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRPC1">Total Payments and Credits</th><td align="right" headers="CDFRB1 RCDFRPC1">&nbsp;0.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeader" colspan="3" style="padding-left:3px" id="RCDFRBD1">
           Balance Due as of 01/21/2019</th><td align="right" headers="CDFRB1 RCDFRBD1">&nbsp;<b>535.70</b></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD1">05/17/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE1">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;105.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD2">05/17/2000</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE2">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;</td><td headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;300.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD3">07/24/2005</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE3">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;</td><td headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;61.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD4">04/14/2011</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE4">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;</td><td headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;69.70</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         <form id="Form1" action="" method="post"></form>
-   
+
   </body>
 </html>
     '''
@@ -635,3 +635,405 @@ John D Doe</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
   </body>
 </html>
         '''
+
+    CASE_WITH_REVOKED_PROBATION = '''
+<html>
+  <head>
+  </head>
+
+  <body>
+
+        <?xml version="1.0" encoding="utf-8"?><table cellspacing="0" cellpadding="0" width="100%" border="0" style="table-layout: fixed; margin:0px; padding:0px;"></table><table cellspacing="0" cellpadding="0" width="100%" border="0" style="table-layout: fixed; margin:0px; padding:0px;"><tr><td bgcolor="#000000" height="20px"><table cellspacing="0" cellpadding="0" width="100%" border="0"><tr><td align="left" style="padding-left: 5px"><font size="1"><a class="ssBlackNavBarHyperlink" href="#MainContent">Skip to Main Content</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="logout.aspx">Logout</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="MyAccount.aspx?ReturnURL=default.aspx">My Account</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="default.aspx">Search Menu</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="Search.aspx?ID=100">Search Criminal, Traffic and Parking Case Records</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="Search.aspx?ID=100&amp;RefineSearch=1">Refine Search</a>&nbsp;<a class="ssBlackNavBarHyperlink" href="&#xD;&#xA;                          javascript:if((new String(window.location)).indexOf(&quot;#MainContent&quot;) &gt; 0)&#xD;&#xA;                          {&#xD;&#xA;                          history.back();&#xD;&#xA;                          history.back();&#xD;&#xA;                          }&#xD;&#xA;                          else history.back();&#xD;&#xA;                        ">
+                        Back</a>&nbsp;</font></td><td align="center" class="ssBlackNavBarLocation"></td><td align="right" style="padding-right: 10px"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="ssBlackNavBarLocation">
+                          Location : All Locations</td><td size="1"><a class="ssBlackNavBarHyperlink" href="CPR.aspx?CaseID=8220468&amp;CaseCategoryKeys=CR&amp;NodeID=nodes">Images</a>&nbsp;</td><td><font size="1"><a class="ssBlackNavBarHyperlink" target="_blank" href="#">Help</a></font></td></tr></table></td></tr></table></td></tr></table><a id="MainContent" name="MainContent" tabindex="-1"></a><div class="ssCase...ailROA" nowrap="true">Register of Actions</div><a href="CPR.aspx?CaseID=8220468&amp;CaseCategoryKeys=CR&amp;NodeID=nodes"><div class="ssCase...ailCaseNbr" nowrap="true" style="cursor: hand" title="Click to view images on the case">
+            Case No. <span style="font-variant: normal">555555555</span></div></a><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td width="50%" valign="top"><b>State of Oregon VS. JOHN DOE</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br /></td><td width="50%" valign="top" align="center"><table cellpadding="0" cellspacing="0" width="90%" border="0"><tr><td width="70%"><table cellpadding="0" cellspacing="0" width="100%" border="0"><cols><col width="50%" /><col width="50%" /></cols><tr><th class="ssTableHeaderLabel">Case Type:</th><td style="padding-left:10px"><b>Offense Felony</b></td></tr><tr><th class="ssTableHeaderLabel">Date Filed:</th><td style="padding-left:10px"><b>06/15/2009</b></td></tr><tr><th class="ssTableHeaderLabel">Location:</th><td style="padding-left:10px"><b>Multnomah</b></td></tr><tr><th class="ssTableHeaderLabel" valign="top">Booking Number:</th><td style="padding-left:10px" valign="top"><b>5555555</b></td></tr><tr><th class="ssTableHeaderLabel" valign="top">Collection Agency Identification Number:</th><td style="padding-left:10px" valign="top"><b>C555555555</b></td></tr><tr><th class="ssTableHeaderLabel" valign="top">District Attorney Number:</th><td style="padding-left:10px" valign="top"><b>55555555</b></td></tr></table></td></tr></table></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0" style="table-layout: fixed"><col width="10%" /><col width="30%" /><col width="10%" /><col width="30%" /><col width="20%" /><caption><div class="ssCase...ailSectionTitle">Party Information</div></caption><tr><td colspan="4"></td><th class="ssTableHeader" id="PIc5">Attorneys</th></tr><tr><th class="ssTableHeader" valign="top" rowspan="2" id="PIr01">Defendant</th><th class="ssTableHeader" valign="top" id="PIr11">DOE, JOHN&nbsp;&nbsp;<i>Also Known As</i>&nbsp;&nbsp;999</th><td rowspan="2"></td><td rowspan="2" valign="top" headers="&#xD;&#xA;              PIr01 &#xD;&#xA;              PIr11">Male<br />
+                      DOB: 1969<br />5' 8", 180 lbs</td><td rowspan="2" valign="top" headers="&#xD;&#xA;              PIr01 &#xD;&#xA;              PIr11 &#xD;&#xA;              PIc5&#xD;&#xA;            "><b>Attorney</b><br />  <I>Court Appointed</I><br />555-555-5555(W)<table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br />  <I><s>Court Appointed</s></I><br /><s>555-555-5555(W)</s><table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br />  <I><s>Court Appointed</s></I><br /><s>555-555-5555(W)</s></td></tr><tr><td valign="top" headers="&#xD;&#xA;              PIr01 &#xD;&#xA;              PIr11">&nbsp;&nbsp;address<br />&nbsp;&nbsp;PORTLAND        , OR 97233     <br /><nobr>&nbsp;&nbsp;SID:
+                  </nobr>OR5555555<br /><nobr>&nbsp;&nbsp;Other Agency Numbers
+                </nobr><div style="padding-left: 15px;">99719 Multnomah County Sheriff</div></td></tr><tr height="25"><td colspan="5">&nbsp;</td></tr><tr><th class="ssTableHeader" valign="top" rowspan="2" id="PIr02">Plaintiff</th><th class="ssTableHeader" valign="top" id="PIr12">State of Oregon</th><td rowspan="2"></td><td rowspan="2" valign="top" headers="&#xD;&#xA;              PIr02 &#xD;&#xA;              PIr12"> </td><td rowspan="2" valign="top" headers="&#xD;&#xA;              PIr02 &#xD;&#xA;              PIr12 &#xD;&#xA;              PIc5&#xD;&#xA;            "><b>Attorney</b><br />555-555-5555(W)<table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br /><s>555-555-5555(W)</s><table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br /><s>555-555-5555(W)</s><table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br /><s>555-555-5555(W)</s><table><tr height="25"><td>&nbsp;</td></tr></table><s>Attorney</s><br /><s>555-555-5555(W)</s></td></tr><tr><td valign="top" headers="&#xD;&#xA;              PIr02 &#xD;&#xA;              PIr12"></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0"><col width="2%" /><col width="40%" /><col width="15%" /><col width="15%" /><col width="15%" /><col width="10%" /><caption><div class="ssCase...ailSectionTitle">Charge Information</div></caption><tr><th class="ssTableHeader" nowrap="true" colspan="2">
+              Charges: DOE, JOHN</th><th class="ssTableHeader"></th><th class="ssTableHeader">
+              Statute
+            </th><th class="ssTableHeader">
+              Level
+            </th><th class="ssTableHeader">
+              Date
+            </th></tr><tr><td valign="top">1.
+            &nbsp;</td><td valign="top">Possession of Cocaine</td><td valign="top"></td><td valign="top">475.884</td><td valign="top" nowrap="true">Felony Class C</td><td valign="top" nowrap="true">06/13/2009</td></tr><tr><td /><td></td></tr><tr><td valign="top">2.
+            &nbsp;</td><td valign="top">Possession of Cocaine</td><td valign="top"></td><td valign="top">475.884</td><td valign="top" nowrap="true">Felony Class C</td><td valign="top" nowrap="true">02/17/2009</td></tr><tr><td /><td></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0" style="table-layout:fixed;"><col width="54px" /><col width="3px" /><col width="3px" /><col width="700px" /><col width="100%" /><caption><div class="ssCase...ailSectionTitle">Events &amp; Orders of the Court</div></caption><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="CDisp" class="ssEventsAndOrdersSubTitle">DISPOSITIONS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD1">06/22/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD1"><div style="padding-bottom: 10px"><b>Disposition</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">2.&nbsp;Possession of Cocaine<div style="padding-left: 40px">Removed From Charging Instrument</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 06/22/2009 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD2">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD2"><div style="padding-bottom: 10px"><b>Plea</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px">Not Guilty</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 06/23/2009 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD3">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD3"><div style="padding-bottom: 10px"><b>Disposition</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px">Convicted</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 07/06/2009 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD4">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD4"><div style="padding-bottom: 10px"><b>Amended Plea</b> (Judicial Officer: Unassigned, Judge) Reason: Conversion - Amendment Reason<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px">Guilty</div><div style="padding-left: 40px"></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 07/06/2009 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD5">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD5"><div style="padding-bottom: 10px"><b>Sentence</b> (Judicial Officer: Unassigned, Judge)<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Apr  6 2010 12:00AM
+Unitary Assessment $107.00
+Attorney Fees $200.00
+</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Apr  6 2010 12:00AM
+Probation Cond..... All General Conditions Apply
+Sentence Status:Superseded Sentence Date:04/06/2010
+Guidelines:  Severity 1  History E
+
+Special Condition:
+   DNA Blood Draw
+
+Probation to Community Corrections - Month(s): 18.00
+Drivers License Suspension - Month(s): 6.00
+Special Factor: 137.010 Presumptive Sntc
+29 Drug Eval &amp; Treatment
+31 No Contact Users C/S
+32 No Intoxicants
+02 Judicial Supervision
+</div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 07/10/2009 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD6">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD6"><div style="padding-bottom: 10px"><b>Amended Sentence</b> (Judicial Officer: Unassigned, Judge) Reason: Supersedes Previous Judgment<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Nov 18 2010 12:00AM
+Unitary Assessment $107.00
+Attorney Fees $200.00
+Probation Violation Assessment $25.00
+</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Status: Superseded on: Nov 18 2010 12:00AM
+Probation Cond..... All General Conditions Apply
+Sentence Status:Superseded Sentence Date:11/18/2010
+Guidelines:  Severity 1  History E
+
+Special Condition:
+   DNA Blood Draw
+
+Probation to Community Corrections - Month(s): 18.00
+Drivers License Suspension - Month(s): 6.00
+Special Factor: 137.010 Presumptive Sntc
+PV Probation Continued
+29 Drug Eval &amp; Treatment
+31 No Contact Users C/S
+32 No Intoxicants
+02 Judicial Supervision
+PV Probation Extended
+</div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 04/06/2010 12:00 AM</div></div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDCD7">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td valign="top" headers="CDisp RCDCD7"><div style="padding-bottom: 10px"><b>Amended Sentence</b> (Judicial Officer: Unassigned, Judge) Reason: Supersedes Previous Judgment<br /><div><div style="padding-left: 10px">1.&nbsp;Possession of Cocaine<div style="padding-left: 40px"><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Unitary Assessment $107.00
+Attorney Fees $200.00
+Probation Violation Assessment $25.00
+Probation Violation Assessment $25.00
+</div></td></tr></table></nobr></td></tr></table><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="100%"><tr><td class="ssMenuText ssSmallText"><nobr><table cellspacing="0px" cellpadding="0px" style="table-layout:fixed" width="90%"><colgroup><col width="20px" /><col width="*" /></colgroup><tr><td class="ssMenuText ssSmallText" colspan="2">Converted Disposition:</td></tr><tr><td /><td class="ssMenuText ssSmallText"><div class="ssPreFormatted ssMenuText ssSmallText" style="display:list-item;">Probation Cond.....  All General Conditions Apply
+Guidelines:  Severity 1  History E
+
+Special Condition:
+   DNA Blood Draw
+
+Probation to Community Corrections - Month(s): 18.00
+Drivers License Suspension - Month(s): 6.00
+Special Factor: 137.010 Presumptive Sntc
+PV Jail w/Credit Time Srv   60      Day(s)
+PV Post Prison Spvsn    1       Year(s)
+PV Probation Revoked
+</div></td></tr></table></nobr></td></tr></table></div></div></div><div style="padding-left: 10px;font-size:8pt;">
+        Created: 11/18/2010 12:00 AM</div></div></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th id="COtherEventsAndHearings" class="ssEventsAndOrdersSubTitle">OTHER EVENTS AND HEARINGS</th></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER1">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER1"><b>Arraignment</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: JC3Y;</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER2">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER2"><b>Information</b><div style="padding-left: 10px"><i>Event Status: DSDI; Event Status Date: 06/22/2009;
+</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER3">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER3"><b>Affidavit - Probable Cause</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER4">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER4"><b>Order - Probable Cause</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: STAMPED ON info;
+Court Action: Signed; Court Action Date: 06/13/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>06/13/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER5">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER5"><b>Order - Appear</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 06/13/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>06/13/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER6">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER6"><b>Motion - Recognizance Release</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER7">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER7"><b>Order - Appointing Counsel</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 06/15/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>06/15/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER8">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER8"><b>Arraignment - Count</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER9">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER9"><b>Remove - Inactive Status</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR10">06/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR10"><b>Arraignment</b>&nbsp;
+            (2:30 PM)
+
+    ()
+  <table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/14/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER11">06/16/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER11"><b>Hearing - Plea</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: atty:atty,LOFGJ;
+Room: JC2Y; Judge: Judge;
+
+District Attorney: Attorney
+Reporter: FTR
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/16/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR12">06/16/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR12"><b>Hearing - Plea</b>&nbsp;
+            (9:45 AM)
+
+    ()
+  <table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER13">06/17/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER13"><b>Notice - Representation</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/18/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER14">06/22/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER14"><b>Indictment</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/22/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER15">06/22/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER15"><b>Count - Removed</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/22/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER16">06/22/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER16"><b>Warrant - Arrest</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: STATEWIDE ONLY;
+Court Action: Signed; Court Action Date: 06/22/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>06/22/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/22/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER17">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER17"><b>Arraignment</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: COA;
+Room: JC3Y;</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER18">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER18"><b>Return - Service Arrest Warrant</b><div style="padding-left: 10px"><i>Court Action: Served; Court Action Date: 06/22/2009;
+</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER19">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER19"><b>Arraignment - Count</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER20">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER20"><b>Remove - Inactive Status</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER21">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER21"><b>Order - Appear</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 06/23/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>06/23/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER22">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER22"><b>Hearing - Case Management</b><div style="padding-left: 10px"><i>Room: DRUG;</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER23">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER23"><b>Plea - Not Guilty</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR24">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR24"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Arraignment</b>&nbsp;
+            (9:30 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Set-Over Court</i></div><div style="padding-left: 10px"><i>Comment: ***AT CHJ THIS AM FOR COURT***;
+Event Status: Set-Over Court; Event Status Date: 06/23/2009;</i></div><table></table> Result: Set-Over<div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/22/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR25">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR25"><b>Arraignment</b>&nbsp;
+            (2:30 PM)
+
+    ()
+  <table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR26">06/23/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR26"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Hearing - Preliminary</b>&nbsp;
+            (9:30 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Indicted</i></div><div style="padding-left: 10px"><i>Event Status: Cancelled: Indicted; Event Status Date: 06/22/2009;</i></div><table></table> Result: Cancelled<div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER27">07/01/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER27"><b>Hearing - Custody Issue</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: JC3Y; Judge: Judge;
+
+Court Appointed: Attorney
+Defendant: JOHN DOE
+Reporter: FTR
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/01/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER28">07/01/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER28"><b>Order - Referral</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: Release PRS if accepted.;
+Court Action: Signed; Court Action Date: 07/01/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>07/01/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/01/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR29">07/01/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR29"><b>Hearing - Custody Issue</b>&nbsp;
+            (3:15 PM)
+
+    ()
+  <div style="padding-left: 10px"><i>Comment: SET BY ATTY;
+</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/30/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER30">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER30"><b>Finding - Guilty</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/06/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER31">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER31"><b>Convicted</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/06/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER32">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER32"><b>Hearing - Plea/Sentence</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: TKMD; Est Length of Time: 20 Minute(s);
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/06/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER33">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER33"><b>Plea - Guilty</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/06/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR34">07/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR34"><b>Hearing - Plea</b>&nbsp;
+            (1:30 PM)
+
+    ()
+  <div style="padding-left: 10px"><i>Comment: W/090343201 TRANSPORT RESERVED;
+</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 07/02/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER35">07/07/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER35"><b>Petition - Guilty Plea</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/08/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER36">07/07/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER36"><b>Notice - Advise Appeal Rights</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/08/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER37">07/07/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER37"><b>Disposition - Interim</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: CT#1:GRID 1E;PROB 18M FP,DRPG, BLBC,SBHI,DLSP:6M;UNAS:$107; ATFE:$200;
+Court Action: Signed; Court Action Date: 07/06/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>07/06/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/08/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER38">07/07/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER38"><b>Notice - License Sanction</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 07/06/2009;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>07/06/2009</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/09/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER39">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER39"><b>Sentence</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/10/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER40">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER40"><b>Uniform Criminal Judgment</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: PROBATION SUPERVISION ASSIGNED TO JUDGE Judge;
+</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/10/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER41">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER41"><b>Closed</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/10/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER42">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER42"><b>Creates Judgment Lien</b><div style="padding-left: 10px"><i>;</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/10/2009 2:28 PM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER43">07/15/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER43"><b>Notice - Judgment Entry</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 07/15/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR44">08/04/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR44"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Call</b>&nbsp;
+            (1:30 PM)
+
+    ()
+  <div style="padding-left: 10px"><i>Guilty Plea</i></div><div style="padding-left: 10px"><i>Event Status: Cancelled: Guilty Plea; Event Status Date: 07/06/2009;</i></div><table></table> Result: Cancelled<div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR45">08/05/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR45"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Trial</b>&nbsp;
+            (8:55 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Guilty Plea</i></div><div style="padding-left: 10px"><i>Event Status: Cancelled: Guilty Plea; Event Status Date: 07/06/2009;</i></div><table></table> Result: Cancelled<div style="padding-left: 10px;font-size:8pt;">
+              Created: 06/23/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER46">08/11/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER46"><b>Disposition - Printed</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 08/11/2009 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER47">08/19/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER47"><b>Judgment - Payment Schedule Assessment</b><div style="padding-left: 10px"><i>;</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 08/19/2009 11:36 PM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER48">10/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER48"><b>Recordation - Collection Referral Judgment</b><div style="padding-left: 10px"><i>;</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 10/06/2009 11:49 PM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER49">03/30/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER49"><b>Filing - Probation Violation</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 03/30/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER50">03/30/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER50"><b>Order - Appointing Counsel</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 03/30/2010;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>03/30/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 03/30/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER51">03/30/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER51"><b>Arraignment - Probation Violation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: JC2Y; Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 03/30/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR52">03/30/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR52"><b>Arraignment - Probation Violation</b>&nbsp;
+            (9:15 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Comment: .../... DEF BOOKED: 3/26/10;
+</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 03/30/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER53">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER53"><b>Hearing - Probation Violation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: TKMD; Est Length of Time: 20 Minute(s);
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/05/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER54">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER54"><b>Sentence</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/06/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER55">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER55"><b>Notice - Advise Appeal Rights</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/06/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER56">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER56"><b>Judgment - Probation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: PROB CONT D: EXT 1Y TO 12-5-11;
+Court Action: Signed; Court Action Date: 04/05/2010;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>04/05/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/06/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR57">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR57"><b>Hearing - Probation Violation</b>&nbsp;
+            (8:45 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Est length of time: 15 Minute(s)</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 04/02/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER58">04/05/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER58"><b>Creates Judgment Lien</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/06/2010 7:41 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER59">04/06/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER59"><b>Probation - Violation Status Removed</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 04/06/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR60">04/06/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR60"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Hearing - Probation Violation</b>&nbsp;
+            (8:45 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Set-Over Court</i></div><div style="padding-left: 10px"><i>Comment: .../...;
+Event Status: Set-Over Court; Event Status Date: 04/02/2010;</i></div><table></table> Result: Set-Over<div style="padding-left: 10px;font-size:8pt;">
+              Created: 03/30/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER61">09/03/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER61"><b>Filing - Probation Violation</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 09/07/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER62">09/03/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER62"><b>Affidavit</b><div style="padding-left: 10px"><i>Comment: In support of warrant for probation violation;
+</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 09/07/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER63">09/03/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER63"><b>Order - Probation Violation Warrant</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: motion; security denied;
+Court Action: Signed; Court Action Date: 09/02/2010;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>09/02/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 09/07/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER64">09/07/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER64"><b>Warrant - Probation Violation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 09/07/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER65">11/04/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER65"><b>Return - Service Bench Warrant</b><div style="padding-left: 10px"><i>Court Action: Served; Court Action Date: 11/03/2010;
+</i></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/04/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER66">11/04/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER66"><b>Order - Appointing Counsel</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Court Action: Signed; Court Action Date: 11/04/2010;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>11/04/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/04/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER67">11/04/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER67"><b>Arraignment - Probation Violation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Room: JC2Y; Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/04/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR68">11/04/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR68"><b>Arraignment - Probation Violation</b>&nbsp;
+            (9:15 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Comment: ...;
+</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 11/03/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER69">11/08/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER69"><b>Hearing - Probation Violation</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: probation revoked;
+Room: TKMD; Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/08/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR70">11/08/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR70"><b>Hearing - Probation Violation</b>&nbsp;
+            (8:45 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Comment: Transport Requested;
+Est length of time: 15 Minute(s)</i></div><table></table><div style="padding-left: 10px;font-size:8pt;">
+              Created: 11/04/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER71">11/09/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER71"><b>Order</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: SB 936;
+Court Action: Signed; Court Action Date: 11/08/2010;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>11/08/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/09/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER72">11/09/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER72"><b>Notice - Advise Appeal Rights</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/09/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER73">11/09/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER73"><b>Sentence</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/18/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER74">11/09/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER74"><b>Judgment - Sentence</b>
+            (Judicial Officer:
+            Judicial Officer
+            )
+          <div style="padding-left: 10px"><i>Comment: PROB REVOKED;
+Court Action: Signed; Court Action Date: 11/08/2010;
+Judge: Judge;
+</i></div><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"><tr><th class="ssTableHeaderLabelLeft">Signed:&nbsp;&nbsp;</th><td>11/08/2010</td></tr></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/18/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER75">11/09/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER75"><b>Creates Judgment Lien</b><div style="padding-left: 10px"><table cellpadding="0" cellspacing="0" border="0"></table></div><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/18/2010 1:06 PM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" ID="RCDHR76">11/10/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDHR76"><i>CANCELED</i>&nbsp;&nbsp;
+          <b>Hearing - Probation Violation</b>&nbsp;
+            (8:45 AM)
+
+    ()
+  <div style="padding-left: 10px"><i>Set-Over Court</i></div><div style="padding-left: 10px"><i>Comment: ...;
+Event Status: Set-Over Court; Event Status Date: 11/04/2010;</i></div><table></table> Result: Set-Over<div style="padding-left: 10px;font-size:8pt;">
+              Created: 11/04/2010 12:00 AM</div></td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDER77">11/18/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td headers="COtherEventsAndHearings RCDER77"><b>Probation - Violation Status Removed</b><div style="padding-left: 10px;font-size:8pt;">
+            Created: 11/18/2010 12:00 AM</div></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" border="0"><col width="1" /><col width="0" /><col width="3" /><col width="20%" /><col width="40%" /><col width="40%" /><col width="1" /><caption><div class="ssCase...ailSectionTitle">Financial Information</div></caption><tr><td colspan="7"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td valign="top">&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="4" style="padding-left:3px" id="CDFRB1"><span style="font-weight: bold;">Defendant</span>&nbsp;DOE, JOHN</th></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRBFA1">Total Financial Assessment</th><td align="right" headers="CDFRB1 RCDFRBFA1">&nbsp;529.08</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" colspan="3" style="padding-left:3px" id="RCDFRPC1">Total Payments and Credits</th><td align="right" headers="CDFRB1 RCDFRPC1">&nbsp;0.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeader" colspan="3" style="padding-left:3px" id="RCDFRBD1">
+          Balance Due as of 03/19/2019</th><td align="right" headers="CDFRB1 RCDFRBD1">&nbsp;<b>529.08</b></td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD1">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE1">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD1 RCDFTRDE1">&nbsp;107.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD2">07/10/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE2">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;</td><td headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD2 RCDFTRDE2">&nbsp;200.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD3">08/19/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE3">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;</td><td headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD3 RCDFTRDE3">&nbsp;50.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD4">10/06/2009</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE4">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;</td><td headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD4 RCDFTRDE4">&nbsp;54.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD5">04/06/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE5">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD5 RCDFTRDE5">&nbsp;</td><td headers="CDFRB1 RCDFTRD5 RCDFTRDE5">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD5 RCDFTRDE5">&nbsp;25.00</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD6">10/03/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE6">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD6 RCDFTRDE6">&nbsp;</td><td headers="CDFRB1 RCDFTRD6 RCDFTRDE6">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD6 RCDFTRDE6">&nbsp;68.08</td></tr><tr><th class="ssTableHeaderLabel" valign="top" id="RCDFTRD7">11/18/2010</th><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><th class="ssTableHeaderLabelLeft" style="padding-left:3px" id="RCDFTRDE7">Transaction Assessment</th><td headers="CDFRB1 RCDFTRD7 RCDFTRDE7">&nbsp;</td><td headers="CDFRB1 RCDFTRD7 RCDFTRDE7">&nbsp;</td><td align="right" headers="CDFRB1 RCDFTRD7 RCDFTRDE7">&nbsp;25.00</td></tr><tr><td>&nbsp;</td><td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        <form id="Form1" action="" method="post"></form>
+
+  </body>
+</html>
+    '''
