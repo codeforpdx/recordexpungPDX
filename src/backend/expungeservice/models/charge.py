@@ -17,7 +17,7 @@ class Charge:
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = Disposition()
         self.expungement_result = ExpungementResult()
-        self._section = Charge.__set_section(Charge.__strip_non_alphanumeric_chars(statute))
+        self._section = Charge.__set_section(statute)
         self._case = weakref.ref(case)
 
     def case(self):
@@ -90,6 +90,7 @@ class Charge:
 
     @staticmethod
     def __set_section(statute):
+        statute = Charge.__strip_non_alphanumeric_chars(statute)
         if len(statute) < 6:
             return None
         elif statute[3].isalpha():
