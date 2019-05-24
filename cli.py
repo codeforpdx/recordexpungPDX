@@ -20,93 +20,103 @@ while not logged_in:
 
 print()
 print("Successfully logged in.")
-print("Please enter search parameters")
-print()
 
-first_name = input("Enter first name: ")
-last_name = input("Enter last name: ")
+while True:
+    print("Please enter search parameters")
+    print()
 
-print()
-print("The next two parameters are optional. Hit enter if you wish to skip them")
-print()
-middle_name = input("Enter middle name: ")
-birth_date = input("Enter birth date: ")
+    first_name = input("Enter first name: ")
+    last_name = input("Enter last name: ")
 
-print()
-print("Searching... and parsing results...")
-crawler.search(first_name, last_name, middle_name, birth_date)
-print("Search complete. Performing expungement")
-print()
+    print()
+    print("The next two parameters are optional. Hit enter if you wish to skip them")
+    print()
+    middle_name = input("Enter middle name: ")
+    birth_date = input("Enter birth date: ")
 
-expunger = Expunger(crawler.result.cases)
-expunged = expunger.run()
+    print()
+    print("Searching... and parsing results...")
+    crawler.search(first_name, last_name, middle_name, birth_date)
+    print("Search complete. Performing expungement")
+    print()
 
-print()
-if not expunged:
-    print("Could not expunge cases. Errors:", expunger.errors, "However type eligibility was done.")
-print()
+    expunger = Expunger(crawler.result.cases)
+    expunged = expunger.run()
 
-timestamp = datetime.today().strftime("%Y%m%d%H%M%S")
+    print()
+    if not expunged:
+        print("Could not expunge cases. Errors:", expunger.errors, "However type eligibility was done.")
+    print()
 
-filename = last_name + '_' + first_name
-if middle_name:
-    filename += '_' + middle_name
-if birth_date:
-    filename += '_' + birth_date
-filename += '_' + timestamp + '.txt'
+    timestamp = datetime.today().strftime("%Y%m%d%H%M%S")
 
-os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
+    filename = last_name + '_' + first_name
+    if middle_name:
+        filename += '_' + middle_name
+    if birth_date:
+        filename += '_' + birth_date
+    filename += '_' + timestamp + '.txt'
 
-print("Creating file:", filename)
+    os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
 
-dirfilename = 'Documents/RecordExpungeCLI/results/' + filename
+    print("Creating file:", filename)
 
-file = open(dirfilename, mode='x')
+    dirfilename = 'Documents/RecordExpungeCLI/results/' + filename
 
-print("Writing results to file...")
+    file = open(dirfilename, mode='x')
 
-total_balance_due = 0
-for case in expunger.cases:
-    total_balance_due += case.balance_due_in_cents
+    print("Writing results to file...")
 
-file.write("-----------------------------------------------------------------------------------------\n")
-file.write("-----------------------------------------------------------------------------------------\n")
-file.write("Results for: " + last_name + ", " + first_name + "\n")
-file.write("\n\n")
+    total_balance_due = 0
+    for case in expunger.cases:
+        total_balance_due += case.balance_due_in_cents
 
-file.write("Number of cases  : " + str(len(expunger.cases)))
-file.write("\n")
-file.write("Number of charges: " + str(len(expunger._charges)))
-file.write("\n")
-file.write("Total balance due: $" + str(total_balance_due/100))
-file.write("\n\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("Results for: " + last_name + ", " + first_name + "\n")
+    file.write("\n\n")
 
-charge_count = 0
+    file.write("Number of cases  : " + str(len(expunger.cases)))
+    file.write("\n")
+    file.write("Number of charges: " + str(len(expunger._charges)))
+    file.write("\n")
+    file.write("Total balance due: $" + str(total_balance_due/100))
+    file.write("\n\n")
 
-for case in expunger.cases:
-    file.write("_________________________________________________________________________________________\n\n")
-    file.write("Case number : " + case.case_number + "\n")
-    file.write("Case status : " + case.current_status + "\n")
-    file.write("Case balance: $" + str(case.get_balance_due()) + "\n\n")
-    charge_count = len(case.charges)
+    charge_count = 0
 
-    for charge in case.charges:
-        file.write("      Charge     : " + charge.name + "\n")
-        file.write("      Statute    : " + charge.statute + "\n")
-        file.write("      Level      : " + charge.level + "\n")
-        file.write("      Date       : " + str(charge.date) + "\n\n")
-        file.write("      Disposition: '" + charge.disposition.ruling + "' : " + str(charge.disposition.date) + "\n\n")
-        file.write("      Eligibility: \n\n")
-        file.write("          Type eligible?  : " + str(charge.expungement_result.type_eligibility) + "\n")
-        file.write("          Reason          : " + charge.expungement_result.type_eligibility_reason + "\n\n")
-        file.write("          Time eligible?  : " + str(charge.expungement_result.time_eligibility) + "\n")
-        file.write("          Reason          : " + charge.expungement_result.time_eligibility_reason + "\n\n")
-        file.write("          Eligibility date: " + str(charge.expungement_result.date_of_eligibility) + "\n\n")
+    for case in expunger.cases:
+        file.write("_________________________________________________________________________________________\n\n")
+        file.write("Case number : " + case.case_number + "\n")
+        file.write("Case status : " + case.current_status + "\n")
+        file.write("Case balance: $" + str(case.get_balance_due()) + "\n\n")
+        charge_count = len(case.charges)
 
-        charge_count -= 1
-        if charge_count > 0:
-            file.write("     - - - - - - - - - - - - - - - - - - \n\n")
+        for charge in case.charges:
+            file.write("      Charge     : " + charge.name + "\n")
+            file.write("      Statute    : " + charge.statute + "\n")
+            file.write("      Level      : " + charge.level + "\n")
+            file.write("      Date       : " + str(charge.date) + "\n\n")
+            file.write("      Disposition: '" + charge.disposition.ruling + "' : " + str(charge.disposition.date) + "\n\n")
+            file.write("      Eligibility: \n\n")
+            file.write("          Type eligible?  : " + str(charge.expungement_result.type_eligibility) + "\n")
+            file.write("          Reason          : " + charge.expungement_result.type_eligibility_reason + "\n\n")
+            file.write("          Time eligible?  : " + str(charge.expungement_result.time_eligibility) + "\n")
+            file.write("          Reason          : " + charge.expungement_result.time_eligibility_reason + "\n\n")
+            file.write("          Eligibility date: " + str(charge.expungement_result.date_of_eligibility) + "\n\n")
 
-print("Expungement complete.")
-print("Closing file")
-file.close()
+            charge_count -= 1
+            if charge_count > 0:
+                file.write("     - - - - - - - - - - - - - - - - - - \n\n")
+
+    print("Expungement complete.")
+    print("Closing file")
+    file.close()
+
+    answer = input("\nWould you like to do another search? (y/n): ")
+    print(answer)
+    if answer[0].lower() == 'y':
+        crawler = Crawler()
+        crawler.login(username, password)
+    else:
+        exit()
