@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { get } from 'lodash';
-import './styles.scss';
 import { AppState } from "../../redux/store";
 
 import Footer from '../Footer';
@@ -17,10 +16,10 @@ class App extends React.Component {
           <RecordSearch/>
         </LoggedIn>
         :
-        <main className="mw6 ph2 center">
+        <div>
           <LogIn/>
           <Footer/>
-        </main>
+        </div>
     );
   }
 }
