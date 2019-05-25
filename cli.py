@@ -69,6 +69,14 @@ while True:
 
     print("Writing results to file...")
 
+    num_charges_expungeable = 0
+    expungeable_charges = []
+    for case in expunger.cases:
+        for charge in case.charges:
+            if charge.expungement_result.type_eligibility and charge.expungement_result.time_eligibility:
+                expungeable_charges.append(charge)
+                num_charges_expungeable += 1
+
     total_balance_due = 0
     for case in expunger.cases:
         total_balance_due += case.balance_due_in_cents
@@ -83,10 +91,34 @@ while True:
     file.write("Number of charges: " + str(len(expunger._charges)))
     file.write("\n")
     file.write("Total balance due: $" + str(total_balance_due/100))
+    file.write("\n")
+    file.write("Total number of charges that can be expunged : " + str(num_charges_expungeable))
     file.write("\n\n")
 
     charge_count = 0
 
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("                            Expungeable charges\n")
+    file.write("_________________________________________________________________________________________\n\n")
+    for charge in expungeable_charges:
+        file.write("  Case: " + charge.case()().case_number + "\n")
+        file.write("      Charge     : " + charge.name + "\n")
+        file.write("      Statute    : " + charge.statute + "\n")
+        file.write("      Level      : " + charge.level + "\n")
+        file.write("      Date       : " + str(charge.date) + "\n\n")
+        file.write("      Disposition: '" + charge.disposition.ruling + "' : " + str(charge.disposition.date) + "\n\n")
+        file.write("      Eligibility: \n\n")
+        file.write("          Type eligible?  : " + str(charge.expungement_result.type_eligibility) + "\n")
+        file.write("          Reason          : " + charge.expungement_result.type_eligibility_reason + "\n\n")
+        file.write("          Time eligible?  : " + str(charge.expungement_result.time_eligibility) + "\n")
+        file.write("          Reason          : " + charge.expungement_result.time_eligibility_reason + "\n\n")
+        file.write("          Eligibility date: " + str(charge.expungement_result.date_of_eligibility) + "\n\n")
+        file.write("     - - - - - - - - - - - - - - - - - - \n\n")
+
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("                            All Cases and Charges\n")
     for case in expunger.cases:
         file.write("_________________________________________________________________________________________\n\n")
         file.write("Case number : " + case.case_number + "\n")
