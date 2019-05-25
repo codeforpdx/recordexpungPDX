@@ -1,12 +1,14 @@
+import os
+import getpass
+
 from src.backend.expungeservice.crawler.crawler import Crawler
 from src.backend.expungeservice.expunger.expunger import Expunger
 from datetime import datetime
-import os
 
 
 crawler = Crawler()
-username = input("Enter username: ")
-password = input("Enter password: ")
+username = input("Username: ")
+password = getpass.getpass()
 
 logged_in = crawler.login(username, password)
 
