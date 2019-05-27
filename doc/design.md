@@ -259,7 +259,9 @@ Database Schema
 
 Tables:
 
-    users (uuid, email, hashed_password, password_salt, admin, date_created, date_modified), uuid primary key
+    users (uuid, email, admin, date_created, date_modified), uuid primary key
+
+    auth (uuid, hashed_password, user_id), uuid primary key
 
     clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
 
@@ -267,7 +269,7 @@ Tables:
 
     rules (uuid, text)
 
-    analysis (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged) 
+    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged)
 
 
 Notes:
