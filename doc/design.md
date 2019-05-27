@@ -294,6 +294,10 @@ Return the password_hash associated with an email. The password hash can then be
 
 Check the Users table to see if a user with the given email already exists. Returns boolean. If query fails, throws an error.
 
+    check_is_admin(database, email)
+
+Check the Users table to see if a user with the given email is admin. Returns boolean. If query fails e.g. because user does not exist, throws an error.
+
     save_stats(database, email, record)
 
 Takes a Record object which has processed by the expungement analyzer. Saves only a limited amount of information. Details tbd, but here are a few examples for tracking app usage and app impact:
