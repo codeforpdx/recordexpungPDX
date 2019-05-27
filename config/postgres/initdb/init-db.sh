@@ -12,11 +12,11 @@ psql \
     ALTER USER docker WITH SUPERUSER CREATEDB CREATEROLE REPLICATION BYPASSRLS;
 EOSQL
 
-# Create tables.
+# Create tables and functions.
+
 psql \
     -v ON_ERROR_STOP=1 \
     -v POSTGRES_USER="${POSTGRES_USER}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     --username "${POSTGRES_USER}" \
-    -f /docker-entrypoint-initdb.d/scripts/create-tables.sql
-
+    -f /docker-entrypoint-initdb.d/scripts/create-tables-and-functions.sql
