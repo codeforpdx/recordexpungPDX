@@ -6,9 +6,10 @@ setup(
     version='0.1',
     description='recordexpungPDX Expunge Service',
     packages=['crawler',
+              'database',
               'endpoints',
               'expunger',
-              'test'],
+              'models'],
     setup_requires=[],
     package_dir={}
 )
