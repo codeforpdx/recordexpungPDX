@@ -276,3 +276,34 @@ Notes:
 
 - Store passwords encrypted
 - Use Postgres features for exporting JSON
+
+Database Functions
+--------------
+Functions that query or update the database will be organized into a single module in the expungeservice.
+
+    create_user(database, email, admin, hashed_password)
+
+Insert a new user into the Users table with the given email string and admin flag, and inserts the password hash into the Auth table and link it with the User uuid. The uuid of each, and the date_created and date_updated are generated within the database.
+
+This pair of inserts is an atomic operation, so if one fails then the other one is cancelled and has no effect.
+Returns None if insert is successful; otherwise throws an informative error.
+
+    get_password_hash(database, email)
+
+Return the password_hash associated with an email. The password hash can then be compared against a password in the calling code. If the user doesn't exist, an informative error is thrown. Otherwise, the function returns the password hash value.
+
+    check_user(database, email)
+
+Check the Users table to see if a user with the given email already exists. Returns boolean. If query fails, throws an error.
+
+    check_is_admin(database, email)
+
+Check the Users table to see if a user with the given email is admin. Returns boolean. If query fails e.g. because user does not exist, throws an error.
+
+    save_stats(database, email, record)
+
+Takes a Record object which has processed by the expungement analyzer. Saves only a limited amount of information. Details tbd, but here are a few examples for tracking app usage and app impact:
+ -  User activity: When a search is performed, log the username and timestamp; but not the search parameters.
+  - Expunged charges: record the individual charges, by their crime level, some eligibility information, and the month that the search was performed.
+     * An inexact timestamp makes it hard to reconstruct a complete record which could then be de-anonymized.
+     * Eligibility information could be kept vague, e.g, only "eligible", "not eligible", "time-eligible", and "undetermined", as opposed to keeping the detailed analysis returned by the expunger.
