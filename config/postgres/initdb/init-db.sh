@@ -19,3 +19,4 @@ psql \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     --username "${POSTGRES_USER}" \
     -f /docker-entrypoint-initdb.d/scripts/create-tables.sql
+
