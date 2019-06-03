@@ -1,7 +1,6 @@
 import unittest
 import pytest
 import os
-import dotenv
 import psycopg2
 from expungeservice.database import Database
 from expungeservice.database import user
@@ -11,13 +10,16 @@ class TestDatabaseOperations(unittest.TestCase):
 
 
     def setUp(self):
-        dotenv_path = os.path.join(os.path.dirname(__file__), '../../../../config/postgres/postgres.env')
-        dotenv.load_dotenv(dotenv_path)
+
+        if not "PGHOST" in os.environ.keys():
+            raise Exception("Database connection info not set. Copy .env.example file to .env for running in pipenv.")
+        host = os.environ['PGHOST']
+        port = os.environ['PGPORT']
+        name = os.environ['PGDATABASE']
+        username = os.environ['PGUSER']
         password = os.environ['POSTGRES_PASSWORD']
 
-        self.database = Database(host="localhost", port="5432",
-            name="record_expunge", username="postgres",
-             password=password)
+        self.database = Database(host=host, port=port, name=name, username=username, password=password)
 
         self.db_cleanup()
 
