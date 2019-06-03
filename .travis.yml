@@ -2,10 +2,22 @@ language: python
 sudo: required
 dist: xenial
 python: 3.7.0
+services:
+- docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+before_install:
+- docker swarm init
+- cp ./.env.example ./.env
 install:
 - pip install pipenv
 - pipenv install
-script:
+- make dev
+before_script:
+- counter=0 ; while ((counter < 10)) && ! pg_isready --host=$PGHOST --port=$PGPORT --dbname=$PGDATABASE ; do sleep 3; let counter=counter+1; done
+script: 
 - pipenv run pytest
 notifications:
   slack:
