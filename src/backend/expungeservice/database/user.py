@@ -9,7 +9,7 @@ def create_user(database, email, password_hash, admin):
 
     database.cursor.execute(
         """
-        SELECT * FROM CREATE_USER( %(em)s, %(adm)s,  %(pass)s);
+        SELECT * FROM CREATE_USER( %(em)s, %(pass)s, %(adm)s );
         """, {'em':email, 'pass':password_hash, 'adm': admin})
 
     result = database.cursor.fetchone()
