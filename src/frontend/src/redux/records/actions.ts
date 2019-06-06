@@ -1,4 +1,4 @@
-import { Record, LOAD_RECORDS } from "./types";
+import { Record, LOAD_RECORDS } from './types';
 
 // This function is an action creator.
 export function loadRecords(records: Record[]) {
