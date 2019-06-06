@@ -45,7 +45,7 @@ applogs:
 	docker logs --details -ft $$(docker ps -qf name=expungeservice)
 
 test:
-	pipenv run pytest
+	pipenv run pytest --ignore=src/frontend/
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
