@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { AppState } from "../../redux/store";
+import { connect } from 'react-redux';
+import { AppState } from '../../redux/store';
 import { get } from 'lodash';
-import { logOut } from "../../redux/system/actions";
+import { logOut } from '../../redux/system/actions';
 
 class LogOut extends React.Component {
-
   constructor() {
     super(arguments[0]);
     this.logOutNow = this.logOutNow.bind(this);
@@ -19,17 +18,12 @@ class LogOut extends React.Component {
   }
 
   public render() {
-    return(
-      <span onClick={this.logOutNow}>
-        {this.props.children}
-      </span>
-    )
+    return <span onClick={this.logOutNow}>{this.props.children}</span>;
   }
-
 }
 
 const mapStateToProps = (state: AppState) => ({
-  system: state.system,
+  system: state.system
 });
 
 export default connect(

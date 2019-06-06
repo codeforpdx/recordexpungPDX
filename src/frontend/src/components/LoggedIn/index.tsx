@@ -5,7 +5,7 @@ class LoggedIn extends React.Component {
   public render() {
     return (
       <div className="center">
-        <LoggedInHeader/>
+        <LoggedInHeader />
         {this.props.children}
       </div>
     );

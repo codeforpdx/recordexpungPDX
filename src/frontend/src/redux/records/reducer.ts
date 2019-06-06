@@ -6,7 +6,7 @@ const initialState: RecordsState = {
 
 export function recordsReducer(
   state = initialState,
-  action: RecordActionTypes,
+  action: RecordActionTypes
 ): RecordsState {
   switch (action.type) {
     case LOAD_RECORDS:
@@ -16,8 +16,8 @@ export function recordsReducer(
       // is a "destructive update".
       return {
         records: action.records
-      }
-     default:
-       return state;
+      };
+    default:
+      return state;
   }
 }
