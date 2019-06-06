@@ -2,10 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { loadRecords } from '../../redux/records/actions';
+import { SystemState } from '../../redux/system/types';
 import moment from 'moment';
 
-class RecordSearch extends React.Component {
-  state = {
+interface Props {
+  system: SystemState;
+}
+
+interface State {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  firstNameHasInput: boolean;
+  lastNameHasInput: boolean;
+  missingInputs: null | boolean;
+  invalidDate: boolean;
+}
+
+class RecordSearch extends React.Component<Props, State> {
+  state: State = {
     firstName: '',
     lastName: '', // Validation check relies on string length.
     dateOfBirth: '', // Moment expects a string to be passed in as a paramenter in the validateForm function.
@@ -16,7 +31,9 @@ class RecordSearch extends React.Component {
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
-    this.setState({
+    // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
+    // using the "any" type.
+    this.setState<any>({
       [e.target.id]: e.target.value
     });
   };
