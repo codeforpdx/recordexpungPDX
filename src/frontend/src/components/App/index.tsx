@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { get } from 'lodash';
-import { AppState } from "../../redux/store";
+import { AppState } from '../../redux/store';
 
 import Footer from '../Footer';
 import LogIn from '../LogIn';
@@ -10,22 +10,24 @@ import RecordSearch from '../RecordSearch';
 
 class App extends React.Component {
   public render() {
-    return (
-      get(this, 'props.system.loggedIn') ?
-        <LoggedIn>
-          <RecordSearch/>
-        </LoggedIn>
-        :
-        <div>
-          <LogIn/>
-          <Footer/>
-        </div>
+    return get(this, 'props.system.loggedIn') ? (
+      <LoggedIn>
+        <RecordSearch />
+      </LoggedIn>
+    ) : (
+      <div>
+        <LogIn />
+        <Footer />
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state: AppState) => ({
-  system: state.system,
+  system: state.system
 });
 
-export default connect(mapStateToProps, {})(App);
+export default connect(
+  mapStateToProps,
+  {}
+)(App);

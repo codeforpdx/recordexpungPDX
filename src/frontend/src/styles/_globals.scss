@@ -84,7 +84,7 @@ $washed-red: #f0e0e8;
   border: 3px solid rgba(186, 216, 255, 0.2);
 }
 .spinner:after {
-  content: "";
+  content: '';
   position: absolute;
   top: -3px;
   right: -3px;
@@ -130,7 +130,7 @@ $washed-red: #f0e0e8;
   position: relative;
 }
 .loading-btn:before {
-  content: "";
+  content: '';
   position: absolute;
   height: 60px;
   width: 60px;
@@ -187,7 +187,7 @@ footer {
   left: 0;
   top: 1px;
   background: white;
-  border: 2px solid rgba(0,0,0,.2);
+  border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
@@ -243,7 +243,7 @@ footer {
   top: 1px;
   background: white;
   border-radius: 50%;
-  border: 2px solid rgba(0,0,0,.2);
+  border: 2px solid rgba(0, 0, 0, 0.2);
 }
 .radio label::after {
   left: 5px;
