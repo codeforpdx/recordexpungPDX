@@ -1,20 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { get } from 'lodash';
 import { logOut } from '../../redux/system/actions';
+import { SystemState } from '../../redux/system/types';
 
-class LogOut extends React.Component {
-  constructor() {
-    super(arguments[0]);
+interface Props {
+  system: SystemState;
+  logOut: typeof logOut;
+}
+interface State {}
+
+class LogOut extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.logOutNow = this.logOutNow.bind(this);
   }
 
-  public logOutNow() {
-    // TODO: clean this up. Not yet sure how to appease Typescript here.
-    get(this, 'props.logOut')();
-    arguments[0].preventDefault();
-    arguments[0].stopPropagation();
+  public logOutNow(event: React.SyntheticEvent) {
+    this.props.logOut();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public render() {

@@ -1,21 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { get } from 'lodash';
 import { logIn } from '../../redux/system/actions';
 import Logo from '../Logo';
+import { SystemState } from '../../redux/system/types';
 
-class LogIn extends React.Component {
-  constructor() {
-    super(arguments[0]);
+interface Props {
+  system: SystemState;
+  logIn: typeof logIn;
+}
+interface State {}
+
+class LogIn extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.logInNow = this.logInNow.bind(this);
   }
 
-  public logInNow() {
-    // TODO: clean this up. Not sure how to appease Typescript here.
-    get(this, 'props.logIn')();
-    arguments[0].preventDefault();
-    arguments[0].stopPropagation();
+  public logInNow(event: React.SyntheticEvent) {
+    this.props.logIn();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public render() {
