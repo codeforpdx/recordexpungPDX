@@ -40,3 +40,14 @@ class TestCaseClosedMethod(unittest.TestCase):
     def test_it_returns_true_for_an_inactive_case(self):
         self.case.current_status = 'Inactive'
         assert self.case.closed() is True
+
+
+class TestBirthYearDefaultValue(unittest.TestCase):
+    def setUp(self):
+        self.case = CaseFactory.build()
+
+    def test_birth_year_defaults_to_empty_string(self):
+        self.case['info'] = ['John Doe']
+        case = CaseFactory.save(self.case)
+
+        assert case.birth_year == ''
