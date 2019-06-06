@@ -3,8 +3,6 @@ A project to automate expunging qualifying criminal records.  This project is do
 
 This README is primarily for the backend. For info on the frontend see [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/codeforpdx/recordexpungPDX.svg?columns=all)](https://waffle.io/codeforpdx/recordexpungPDX)
-
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 ## Table of Contents
