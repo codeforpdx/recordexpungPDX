@@ -4,8 +4,8 @@ from datetime import datetime
 class Case:
 
     def __init__(self, info, case_number, citation_number, date_location, type_status, charges, case_detail_link):
-        self.name, birth_year = info
-        self.birth_year = int(birth_year)
+        self.name = info[0]
+        self.birth_year = self._set_birth_year(info)
         self.case_number = case_number
         self.citation_number = citation_number[0] if citation_number else ""
         date, self.location = date_location
@@ -25,3 +25,10 @@ class Case:
 
     def closed(self):
         return self.current_status == 'Closed' or self.current_status == 'Inactive'
+
+    @staticmethod
+    def _set_birth_year(info):
+        if len(info) > 1:
+            return int(info[1])
+        else:
+            return ''

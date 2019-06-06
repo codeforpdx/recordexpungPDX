@@ -73,3 +73,14 @@ class TestEmptyRecord(unittest.TestCase):
         parser.feed(JohnDoe.BLANK_RECORD)
 
         assert len(parser.cases) == 0
+
+
+class TestRecordWithoutBirthYear(unittest.TestCase):
+
+    def test_it_assigns_birth_year(self):
+        parser = RecordParser()
+        parser.feed(JohnDoe.RECORD_WITH_MISSING_BIRTH_YEAR)
+
+        assert parser.cases[0].birth_year == 1943
+        assert parser.cases[1].birth_year == 1943
+        assert parser.cases[2].birth_year == ''
