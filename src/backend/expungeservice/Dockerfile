@@ -1,4 +1,4 @@
-FROM recordexpungpdx:expungeservicebase
+FROM recordexpungpdx/recordexpungpdx:expungeservicebase
 
 RUN mkdir -p /var/www/expungeservice
 COPY . /var/www/expungeservice
