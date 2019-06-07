@@ -1,12 +1,10 @@
-import importlib
-import os
-
 from flask import Flask
 
 from .config import app_config
 
 # Add new endpoint imports here:
 from .endpoints import hello, auth, users, protected
+from .request import before, teardown
 
 def create_app(env_name):
     """
@@ -23,4 +21,6 @@ def create_app(env_name):
     users.register(app)
     protected.register(app)
 
+    app.before_request(before)
+    app.teardown_request(teardown)
     return app
