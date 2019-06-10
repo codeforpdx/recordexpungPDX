@@ -93,7 +93,7 @@ class TestChargeStatuteSectionAssignment(unittest.TestCase):
     def test_it_sets_section_to_none_if_statute_is_does_not_contain_a_section(self):
         charge = ChargeFactory.create(statute='29')
 
-        assert charge._section is None
+        assert charge._section == ''
 
     def test_it_normalizes_section(self):
         charge = ChargeFactory.create(statute='475B.349(3)(C)')
