@@ -118,6 +118,13 @@ Follow installation instructions in:
 [Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 Links to install instructions for other linux distros listed in the sidebar.
 
+9. Create a local .env file
+
+While in the directory of your local repo, run:
+```
+cp .env.example .env
+
+```
 ## Running Components
 
 ### Backend
