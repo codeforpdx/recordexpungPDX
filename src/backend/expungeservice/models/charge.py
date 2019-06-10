@@ -92,7 +92,7 @@ class Charge:
     def __set_section(statute):
         statute = Charge.__strip_non_alphanumeric_chars(statute)
         if len(statute) < 6:
-            return None
+            return ''
         elif statute[3].isalpha():
             return statute[0:7]
         return statute[0:6]
