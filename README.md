@@ -103,6 +103,21 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 	$ npm install
   ```
 
+8. Install docker
+
+    * **Mac**
+
+Follow installation instructions in:
+
+    [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+
+(click on `Get Docker for Mac [Stable])
+
+    * **Linux**
+
+[Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+Links to install instructions for other linux distros listed in the sidebar.
+
 ## Running Components
 
 ### Backend
@@ -129,6 +144,18 @@ While in the directory of your local repo, run:
 $ make clean
 ```
 in order to remove build artifacts.
+
+#### Running the Docker stack
+
+Docker provides a fully sandboxed virual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (below) to pass. While in the directory of your local repo, run:
+
+```
+docker swarm init
+make dev
+```
+
+For more project documentation on our Docker setup and usage basics, see:
+https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md
 
 ## Testing
 

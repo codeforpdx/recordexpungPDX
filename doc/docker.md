@@ -65,12 +65,12 @@ Do this once:
     docker swarm init
 
 
-To start the containers, do:
+To build and start the containers, do:
 
     make dev
 
 
-This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file. 
+This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more replicated containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file.
 
 To see which containers are running:
 
