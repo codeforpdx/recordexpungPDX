@@ -37,12 +37,6 @@ class TestDatabaseOperations(unittest.TestCase):
         rows = self.database.cursor.fetchall()
         assert rows or rows == []
 
-    def test_connection_invalid_password(self):
-        with pytest.raises(psycopg2.OperationalError):
-            Database(host="localhost", port="5432",
-                name="record_expunge", username="postgres",
-                password="wrongpassword")
-
     def test_create_user_success(self):
 
         email = "pytest_create@example.com"
