@@ -65,7 +65,7 @@ class Charge:
         return self._section in ineligible_statutes
 
     def ineligible_under_137_225_5(self):
-        return self._crime_against_person() or self.traffic_crime() or self._felony_class_a()
+        return self._crime_against_person() or self.motor_vehicle_violation() or self._felony_class_a()
 
     def possession_sched_1(self):
         return self._section in ['475854', '475874', '475884', '475894']
