@@ -108,5 +108,5 @@ class Expunger:
 
     def _most_recent_non_traffic_violation(self):
         for charge in self._charges:
-            if not charge.traffic_crime():
+            if not charge.motor_vehicle_violation():
                 return charge

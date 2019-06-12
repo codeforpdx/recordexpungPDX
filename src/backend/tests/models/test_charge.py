@@ -99,3 +99,57 @@ class TestChargeStatuteSectionAssignment(unittest.TestCase):
         charge = ChargeFactory.create(statute='475B.349(3)(C)')
 
         assert charge._section == '475B349'
+
+
+class TestTrafficTickets(unittest.TestCase):
+
+    def setUp(self):
+        self.charge = ChargeFactory.build()
+
+    def test_it_knows_parking_tickets(self):
+        self.charge['statute'] = '01'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.parking_ticket() is True
+
+    def test_00_is_not_a_parking_ticket(self):
+        self.charge['statute'] = '00'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.parking_ticket() is False
+
+    def test_100_is_not_a_parking_ticket(self):
+        self.charge['statute'] = '100'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.parking_ticket() is False
+
+    def test_99_is_a_parking_ticket(self):
+        self.charge['statute'] = '99'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.parking_ticket() is True
+
+    def test_55_is_a_parking_ticket(self):
+        self.charge['statute'] = '55'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.parking_ticket() is True
+
+
+class TestMotorVehicleViolation(unittest.TestCase):
+
+    def setUp(self):
+        self.charge = ChargeFactory.build()
+
+    def test_parking_violation_is_a_motor_vehicle_violation(self):
+        self.charge['statute'] = '01'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.motor_vehicle_violation() is True
+
+    def test_driving_charge_is_motor_vehicle_violation(self):
+        self.charge['statute'] = '825.999'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.motor_vehicle_violation() is True
