@@ -42,6 +42,16 @@ class Charge:
         else:
             return False
 
+    def parking_ticket(self):
+        statute_range = range(1, 100)
+        if self.statute.isdigit():
+            return int(self.statute) in statute_range
+        else:
+            return False
+
+    def motor_vehicle_violation(self):
+        return self.parking_ticket() or self.traffic_crime()
+
     def marijuana_ineligible(self):
         if self.statute == '475B3493C':
             return True
@@ -55,7 +65,7 @@ class Charge:
         return self._section in ineligible_statutes
 
     def ineligible_under_137_225_5(self):
-        return self._crime_against_person() or self.traffic_crime() or self._felony_class_a()
+        return self._crime_against_person() or self.motor_vehicle_violation() or self._felony_class_a()
 
     def possession_sched_1(self):
         return self._section in ['475854', '475874', '475884', '475894']
