@@ -1,7 +1,7 @@
 .PHONY: install run clean
 
 install:
-	pipenv install '-e .'
+	pipenv install
 
 run: install
 	pipenv run flask run
