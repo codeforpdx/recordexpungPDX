@@ -49,6 +49,9 @@ class Charge:
         else:
             return False
 
+    def motor_vehicle_violation(self):
+        return self.parking_ticket() or self.traffic_crime()
+
     def marijuana_ineligible(self):
         if self.statute == '475B3493C':
             return True
