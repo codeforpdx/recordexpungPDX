@@ -42,6 +42,13 @@ class Charge:
         else:
             return False
 
+    def parking_ticket(self):
+        statute_range = range(1, 100)
+        if self.statute.isdigit():
+            return int(self.statute) in statute_range
+        else:
+            return False
+
     def marijuana_ineligible(self):
         if self.statute == '475B3493C':
             return True
