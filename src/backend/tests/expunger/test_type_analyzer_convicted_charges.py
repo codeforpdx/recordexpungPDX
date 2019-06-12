@@ -539,7 +539,7 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
     def test_non_traffic_violation(self):
         self.single_charge['name'] = 'Viol Treatment'
-        self.single_charge['statute'] = '1615652'
+        self.single_charge['statute'] = '1615662'
         self.single_charge['level'] = 'Violation Unclassified'
         charge = self.create_recent_charge()
         self.charges.append(charge)
