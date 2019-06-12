@@ -189,12 +189,14 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
 
         assert expunger._most_recent_charge == two_year_ago_dismissal
 
-    def test_two_digit_statute_executes(self):
+    def test_parking_ticket_is_not_recent_charge(self):
         case = CaseFactory.create()
-        parking_ticket = ChargeFactory.create(statute='82',
+        parking_ticket = ChargeFactory.create(statute='40',
                                               disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
 
         case.charges = [parking_ticket]
-        expunger = Expunger([case])
 
-        assert expunger.run()
+        expunger = Expunger([case])
+        expunger.run()
+
+        assert expunger._most_recent_charge is None
