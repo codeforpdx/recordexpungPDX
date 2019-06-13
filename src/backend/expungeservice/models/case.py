@@ -29,6 +29,6 @@ class Case:
     @staticmethod
     def _set_birth_year(info):
         if len(info) > 1:
-            return int(info[1])
+            return int(info[1].split('/')[-1])
         else:
             return ''

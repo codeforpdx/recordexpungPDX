@@ -42,7 +42,8 @@ class TestCaseClosedMethod(unittest.TestCase):
         assert self.case.closed() is True
 
 
-class TestBirthYearDefaultValue(unittest.TestCase):
+class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
+
     def setUp(self):
         self.case = CaseFactory.build()
 
@@ -51,3 +52,15 @@ class TestBirthYearDefaultValue(unittest.TestCase):
         case = CaseFactory.save(self.case)
 
         assert case.birth_year == ''
+
+    def test_it_assigns_birth_year_when_given_the_year(self):
+        self.case['info'] = ['John Doe', '1979']
+        case = CaseFactory.save(self.case)
+
+        assert case.birth_year == 1979
+
+    def test_it_assigns_birth_year_when_given_the_month_day_year_format(self):
+        self.case['info'] = ['John Doe', '12/21/1979']
+        case = CaseFactory.save(self.case)
+
+        assert case.birth_year == 1979
