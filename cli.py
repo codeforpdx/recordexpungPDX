@@ -56,7 +56,7 @@ while True:
     if middle_name:
         filename += '_' + middle_name
     if birth_date:
-        filename += '_' + birth_date
+        filename += '_' + birth_date.replace('/', '')
     filename += '_' + timestamp + '.txt'
 
     os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
