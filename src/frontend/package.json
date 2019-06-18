@@ -11,7 +11,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-redux": "^7.1.0",
     "@types/react-test-renderer": "^16.8.1",
-    "@fortawesome/fontawesome-free": "^5.8.2",
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "husky": "^2.4.1",
     "lint-staged": "^8.2.1",
     "lodash": "^4.17.11",
