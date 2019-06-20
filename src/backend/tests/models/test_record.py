@@ -1,7 +1,7 @@
 import unittest
 
 from expungeservice.models.case import Case
-from tests.models.record_object import Record
+from expungeservice.models.record_object import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 
