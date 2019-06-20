@@ -4,10 +4,10 @@ import datetime
 import re
 
 from flask.views import MethodView
-from flask import request, abort, jsonify, current_app
+from flask import request, abort, jsonify, current_app, g
 from werkzeug.security import check_password_hash
 
-from expungeservice.endpoints.users import users
+from expungeservice.database.user import get_user_by_email
 
 def get_auth_token(app, email):
     dt = datetime.datetime.utcnow()
@@ -31,7 +31,7 @@ def auth_required(f):
             if auth_hdr == None:
                 return 'Missing Authorization header!', 401
 
-            match = re.match('Bearer\s+(.+)', auth_hdr)
+            match = re.match('Bearer +(.+)', auth_hdr)
 
             if match == None:
                 abort(400)
@@ -41,8 +41,10 @@ def auth_required(f):
                 current_app.config.get('JWT_SECRET_KEY')
             )
 
-            # TODO temp hack - replace with table from DB
-            if not payload['sub'] in users:
+            g.auth_hdr_payload = payload
+
+            user_db_result = get_user_by_email(g.database, payload['sub'])
+            if user_db_result == []:
                 return 'Invalid auth token claim!', 401
 
             return f(*args, **kwargs)
@@ -61,9 +63,10 @@ class AuthToken(MethodView):
 
         if data == None:
             abort(400)
+        user_db_result = get_user_by_email(g.database, data['email'])
 
-        if (data['email'] not in users or
-                not check_password_hash(users[data['email']], data['password'])):
+        if (not user_db_result or
+                not check_password_hash(user_db_result['hashed_password'], data['password'])):
             return 'Unauthorized', 401
 
         response_data = {

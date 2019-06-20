@@ -49,6 +49,8 @@ class TestDatabaseOperations(unittest.TestCase):
         assert create_result['admin'] == admin
         assert create_result['user_id']
         assert create_result['auth_id']
+        assert create_result['date_created']
+        assert create_result['date_modified']
 
         self.verify_user_data(email, hashed_password, admin)
 
@@ -116,3 +118,5 @@ class TestDatabaseOperations(unittest.TestCase):
         assert user_result['admin'] == admin
         assert user_result['user_id']
         assert user_result['auth_id']
+        assert user_result['date_created']
+        assert user_result['date_modified']
