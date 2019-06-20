@@ -103,7 +103,7 @@ class TestDatabaseOperations(unittest.TestCase):
     def verify_user_data(self, email, hashed_password, admin):
 
         verify_query = """
-            SELECT USERS.user_id::text, email, admin, hashed_password, auth_id::text
+            SELECT USERS.user_id::text, email, admin, hashed_password, auth_id::text, date_created, date_modified
             FROM USERS JOIN
             AUTH ON USERS.user_id = AUTH.user_id
             WHERE email = %(email)s;"""
