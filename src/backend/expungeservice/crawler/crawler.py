@@ -1,4 +1,5 @@
 import requests
+import logging
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.disposition import Disposition
@@ -31,16 +32,25 @@ class Crawler:
 
         # perform search
         response = self.session.post(url, data=payload)
-        self.result.feed(response.text)
-
+        try:
+            self.result.feed(response.text)
+        except Exception:
+            logging.exception(f" While parsing record.")
         # Parse search results (case detail pages)
         for case in self.result.cases:
-            case_parser = self.__parse_case(case)
-            case.set_balance_due(case_parser.balance_due)
+            try:
+                case_parser = self.__parse_case(case)
+                case.set_balance_due(case_parser.balance_due)
+            except Exception:
+                logging.exception(f" While parsing case: {case.case_number} : {case.case_detail_link}")
+
             for charge_id, charge in case_parser.hashed_charge_data.items():
-                charge['case'] = case
-                new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
-                case.charges.append(new_charge)
+                try:
+                    charge['case'] = case
+                    new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
+                    case.charges.append(new_charge)
+                except Exception:
+                    logging.exception(f" While creating charge ID: {charge_id} :: {case.case_number} : {case.case_detail_link}")
 
         self.session.close()
         return Record(self.result.cases)
