@@ -7,6 +7,11 @@ from src.backend.expungeservice.crawler.crawler import Crawler
 from src.backend.expungeservice.expunger.expunger import Expunger
 from datetime import datetime
 
+
+##############################################
+PRODUCTION = True
+##############################################
+
 ERROR_LOG_FILE = 'Documents/RecordExpungeCLI/error_logs/errors.log'
 
 def file_name(last_name, first_name, middle_name, birth_date, file_format):
@@ -20,11 +25,19 @@ def file_name(last_name, first_name, middle_name, birth_date, file_format):
     filename += '_' + timestamp + file_format
     return filename
 
-url = 'https://morning-mountain-16534.herokuapp.com/error_logs'
-# url = 'http://localhost:3000/error_logs'
+if PRODUCTION:
+    print("Welcome :-)")
+    url = 'https://morning-mountain-16534.herokuapp.com/error_logs'
+    log_success = 'https://morning-mountain-16534.herokuapp.com/log_success'
+    log_failure = 'https://morning-mountain-16534.herokuapp.com/log_failure'
+else:
+    url = 'http://localhost:3000/error_logs'
+    log_success = 'http://localhost:3000/log_success'
+    log_failure = 'http://localhost:3000/log_failure'
 
 os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
 os.makedirs('Documents/RecordExpungeCLI/error_logs', exist_ok=True)
+
 
 crawler = Crawler()
 username = input("Username: ")
@@ -170,7 +183,7 @@ while True:
     file.close()
 
     print()
-    print("Checking error log.")
+    print("Checking error log...")
     print()
 
     with open(ERROR_LOG_FILE, 'r') as log_file:
@@ -189,6 +202,7 @@ while True:
         print("Please wait: Uploading error log...")
         search_params = f"{last_name} : {first_name} : {middle_name} : {birth_date}"
 
+        requests.post(log_failure)
         response = requests.post(url, data={'name': search_params, 'content': content})
         print()
         print('*********************************************************')
@@ -199,6 +213,7 @@ while True:
         print('*********************************************************')
         print()
     else:
+        requests.post(log_success)
         print("No errors found.")
         print()
 
