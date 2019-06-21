@@ -27,11 +27,13 @@ def file_name(last_name, first_name, middle_name, birth_date, file_format):
 
 if PRODUCTION:
     print("Welcome :-)")
+    home_url = 'https://morning-mountain-16534.herokuapp.com'
     url = 'https://morning-mountain-16534.herokuapp.com/error_logs'
     log_success = 'https://morning-mountain-16534.herokuapp.com/log_success'
     log_failure = 'https://morning-mountain-16534.herokuapp.com/log_failure'
 else:
     print("Loading development environment")
+    home_url = 'http://localhost:3000'
     url = 'http://localhost:3000/error_logs'
     log_success = 'http://localhost:3000/log_success'
     log_failure = 'http://localhost:3000/log_failure'
@@ -80,6 +82,9 @@ while True:
     logging.basicConfig(filename=ERROR_LOG_FILE)
 
     print("Searching... and parsing results...")
+
+    # wake up logging server
+    requests.get(home_url)
 
     crawler.search(first_name, last_name, middle_name, birth_date)
 
