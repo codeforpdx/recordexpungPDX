@@ -31,6 +31,7 @@ if PRODUCTION:
     log_success = 'https://morning-mountain-16534.herokuapp.com/log_success'
     log_failure = 'https://morning-mountain-16534.herokuapp.com/log_failure'
 else:
+    print("Loading development environment")
     url = 'http://localhost:3000/error_logs'
     log_success = 'http://localhost:3000/log_success'
     log_failure = 'http://localhost:3000/log_failure'
