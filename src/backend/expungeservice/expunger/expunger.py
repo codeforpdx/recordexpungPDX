@@ -1,4 +1,5 @@
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+import logging
 
 
 class Expunger:
@@ -47,14 +48,22 @@ class Expunger:
             self.errors.append('Open cases exist')
             return False
 
-        self._tag_skipped_charges()
-        self._remove_skipped_charges()
-        self._categorize_charges()
-        self._set_most_recent_dismissal()
-        self._set_most_recent_convictions()
-        self._assign_most_recent_charge()
-        self._assign_class_b_felonies()
-        TimeAnalyzer.evaluate(self)
+        try:
+            self._tag_skipped_charges()
+            self._remove_skipped_charges()
+            self._categorize_charges()
+            self._set_most_recent_dismissal()
+            self._set_most_recent_convictions()
+            self._assign_most_recent_charge()
+            self._assign_class_b_felonies()
+        except Exception:
+            logging.exception(f" During time analysis setup")
+        try:
+            TimeAnalyzer.evaluate(self)
+        except Exception:
+            logging.exception(f" During time analysis")
+            self.errors.append("Warning: There was an error during the time analysis")
+
         return True
 
     def _open_cases(self):
