@@ -1,10 +1,30 @@
 import os
 import getpass
+import requests
+import logging
 
 from src.backend.expungeservice.crawler.crawler import Crawler
 from src.backend.expungeservice.expunger.expunger import Expunger
 from datetime import datetime
 
+ERROR_LOG_FILE = 'Documents/RecordExpungeCLI/error_logs/errors.log'
+
+def file_name(last_name, first_name, middle_name, birth_date, file_format):
+    timestamp = datetime.today().strftime("%Y%m%d%H%M%S")
+
+    filename = last_name + '_' + first_name
+    if middle_name:
+        filename += '_' + middle_name
+    if birth_date:
+        filename += '_' + birth_date.replace('/', '')
+    filename += '_' + timestamp + file_format
+    return filename
+
+url = 'https://morning-mountain-16534.herokuapp.com/error_logs'
+# url = 'http://localhost:3000/error_logs'
+
+os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
+os.makedirs('Documents/RecordExpungeCLI/error_logs', exist_ok=True)
 
 crawler = Crawler()
 username = input("Username: ")
@@ -17,7 +37,7 @@ while not logged_in:
     print("Incorrect login information. Please re-enter credentials; otherwise hit control C to exit")
     print()
     username = input("Enter username: ")
-    password = input("Enter password: ")
+    password = getpass.getpass()
     logged_in = crawler.login(username, password)
 
 print()
@@ -37,29 +57,32 @@ while True:
     birth_date = input("Enter birth date: ")
 
     print()
+
+    # Ensure log file is empty at start
+    if os.path.isfile(ERROR_LOG_FILE):
+        file = open(ERROR_LOG_FILE, mode='w')
+        file.close()
+
+    logging.basicConfig(filename=ERROR_LOG_FILE)
+
     print("Searching... and parsing results...")
+
     crawler.search(first_name, last_name, middle_name, birth_date)
+
+
+
     print("Search complete. Performing expungement")
     print()
 
     expunger = Expunger(crawler.result.cases)
     expunged = expunger.run()
 
-    print()
-    if not expunged:
-        print("Could not expunge cases. Errors:", expunger.errors, "However type eligibility was done.")
+    print("Expungement complete.")
     print()
 
-    timestamp = datetime.today().strftime("%Y%m%d%H%M%S")
 
-    filename = last_name + '_' + first_name
-    if middle_name:
-        filename += '_' + middle_name
-    if birth_date:
-        filename += '_' + birth_date.replace('/', '')
-    filename += '_' + timestamp + '.txt'
+    filename = file_name(last_name, first_name, middle_name, birth_date, '.txt')
 
-    os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
 
     print("Creating file:", filename)
 
@@ -143,14 +166,54 @@ while True:
             if charge_count > 0:
                 file.write("     - - - - - - - - - - - - - - - - - - \n\n")
 
-    print("Expungement complete.")
     print("Closing file")
     file.close()
 
+    print()
+    print("Checking error log.")
+    print()
+
+    with open(ERROR_LOG_FILE, 'r') as log_file:
+        content = log_file.read()
+
+    if content != '':
+        print('*********************************************************')
+        print('*************Sorry there were some Errors:***************')
+        print('*********************************************************')
+        print()
+        for i in expunger.errors:
+            print(f"    # {i}")
+            print()
+
+
+        print("Please wait: Uploading error log...")
+        search_params = f"{last_name} : {first_name} : {middle_name} : {birth_date}"
+
+        response = requests.post(url, data={'name': search_params, 'content': content})
+        print()
+        print('*********************************************************')
+        if response.status_code > 399:
+            print("There was an issue logging the error")
+        else:
+            print("Uploaded successfully.")
+        print('*********************************************************')
+        print()
+    else:
+        print("No errors found.")
+        print()
+
+    print()
+    if 'Open cases exist' in expunger.errors:
+        print("Open cases exist: Time analysis was not done")
+
     answer = input("\nWould you like to do another search? (y/n): ")
+
     print(answer)
     if answer[0].lower() == 'y':
         crawler = Crawler()
         crawler.login(username, password)
     else:
+        # erase log file by opening for writing and closing
+        file = open(ERROR_LOG_FILE, mode='w')
+        file.close()
         exit()
