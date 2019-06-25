@@ -7,6 +7,8 @@ from flask import request, abort, jsonify, current_app, g
 from werkzeug.security import check_password_hash
 
 from expungeservice.database.user import get_user_by_email, get_user_by_id
+from expungeservice.request import check_data_fields
+
 
 def get_auth_token(app, user_id):
     dt = datetime.datetime.utcnow()
@@ -65,6 +67,7 @@ def authorized(f, admin_required, *args, **kwargs):
         if admin_required and not user_data['admin']:
             return 'Logged in user not admin', 403
 
+        #no endpoint code uses the logged in user_id so this is commented for now. This may change.
         #g.logged_in_user_id = user_data['user_id']
 
         return f(*args, **kwargs)
@@ -83,6 +86,9 @@ class AuthToken(MethodView):
 
         if data == None:
             abort(400)
+
+        check_data_fields(data, ['email', 'password'])
+
         user_db_result = get_user_by_email(g.database, data['email'])
 
         if (not user_db_result or

@@ -163,6 +163,9 @@ Returns: New user
     * admin
     * timestamp
 
+Note:
+- user_id is not required here so is not returned.
+
 Status codes:
 
 - `201 CREATED`: user creation was successful
