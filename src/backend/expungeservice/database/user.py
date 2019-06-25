@@ -31,7 +31,7 @@ def get_user(database, lookup_field, key):
 
     database.cursor.execute(
         sql.SQL("""
-            SELECT USERS.user_id::varchar user_id, email, admin, hashed_password, auth_id::varchar
+            SELECT USERS.user_id::text user_id, email, admin, hashed_password, auth_id::text
             FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
             WHERE users.{} = %(key)s
         ;
