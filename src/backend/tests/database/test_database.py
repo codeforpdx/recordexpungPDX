@@ -49,6 +49,8 @@ class TestDatabaseOperations(unittest.TestCase):
         assert create_result['admin'] == admin
         assert create_result['user_id']
         assert create_result['auth_id']
+        assert create_result['date_created']
+        assert create_result['date_modified']
 
         self.verify_user_data(email, hashed_password, admin)
 
@@ -76,7 +78,7 @@ class TestDatabaseOperations(unittest.TestCase):
     def test_get_missing_user(self):
 
         email = "pytest_get_user_does_not_exist@example.com"
-        #with pytest.raises(Exception):
+
         user_result = user.get_user_by_email(self.database, email)
 
         assert user_result == None
@@ -101,7 +103,7 @@ class TestDatabaseOperations(unittest.TestCase):
     def verify_user_data(self, email, hashed_password, admin):
 
         verify_query = """
-            SELECT USERS.user_id::text, email, admin, hashed_password, auth_id::text
+            SELECT USERS.user_id::text, email, admin, hashed_password, auth_id::text, date_created, date_modified
             FROM USERS JOIN
             AUTH ON USERS.user_id = AUTH.user_id
             WHERE email = %(email)s;"""
@@ -116,3 +118,5 @@ class TestDatabaseOperations(unittest.TestCase):
         assert user_result['admin'] == admin
         assert user_result['user_id']
         assert user_result['auth_id']
+        assert user_result['date_created']
+        assert user_result['date_modified']
