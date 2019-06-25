@@ -3,12 +3,25 @@ import os
 import time
 import datetime
 import unittest
-
 from flask import jsonify, current_app, g
-from expungeservice.database import user
+from flask.views import MethodView
 from werkzeug.security import generate_password_hash
 
+from expungeservice.database import user
+from expungeservice.endpoints.auth import user_auth_required, admin_auth_required
+
+
 import expungeservice
+
+class AdminProtectedView(MethodView):
+    @admin_auth_required
+    def get(self):
+        return 'Admin-level Protected View'
+class UserProtectedView(MethodView):
+            @user_auth_required
+            def get(self):
+                return 'User-level Protected View'
+
 
 class TestAuth(unittest.TestCase):
 
@@ -21,12 +34,16 @@ class TestAuth(unittest.TestCase):
         self.app = expungeservice.create_app('development')
         self.client = self.app.test_client()
 
+        self.app.add_url_rule('/api/v0.1/test/user_protected', view_func=UserProtectedView.as_view('user_protected'))
+        self.app.add_url_rule('/api/v0.1/test/admin_protected', view_func=AdminProtectedView.as_view('admin_protected'))
+
         with self.app.app_context():
             expungeservice.request.before()
 
             self.db_cleanup()
             user.create_user(g.database, self.email, self.hashed_password, False)
             expungeservice.request.teardown(None)
+
 
     def tearDown(self):
         with self.app.app_context():
@@ -67,14 +84,14 @@ class TestAuth(unittest.TestCase):
 
     def test_access_valid_auth_token(self):
         response = self.get_auth_token(self.email, self.password)
-        response = self.client.get('/api/v0.1/test/protected', headers={
+        response = self.client.get('/api/v0.1/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
         assert(response.status_code == 200)
 
     def test_access_invalid_auth_token(self):
         response = self.get_auth_token(self.email, self.password)
-        response = self.client.get('/api/v0.1/test/protected', headers={
+        response = self.client.get('/api/v0.1/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format('Invalid auth token')
         })
         assert(response.status_code == 401)
@@ -85,7 +102,34 @@ class TestAuth(unittest.TestCase):
 
         response = self.get_auth_token(self.email, self.password)
         time.sleep(1)
-        response = self.client.get('/api/v0.1/test/protected', headers={
+        response = self.client.get('/api/v0.1/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
         assert(response.status_code == 401)
+
+    def test_is_admin_auth_token(self):
+
+        admin_email = 'pytest_admin_user@auth_test.com'
+        admin_password = 'pytest_admin_password'
+        hashed_admin_password = generate_password_hash(admin_password)
+
+        with self.app.app_context():
+            expungeservice.request.before()
+
+            user.create_user(g.database, admin_email, hashed_admin_password, True)
+            expungeservice.request.teardown(None)
+
+        response = self.get_auth_token(admin_email, admin_password)
+        response = self.client.get('/api/v0.1/test/admin_protected', headers={
+            'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
+        })
+        assert(response.status_code == 200)
+
+    def test_is_not_admin_auth_token(self):
+
+        response = self.get_auth_token(self.email, self.password)
+        response = self.client.get('/api/v0.1/test/admin_protected', headers={
+            'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
+        })
+        assert(response.status_code == 403)
+

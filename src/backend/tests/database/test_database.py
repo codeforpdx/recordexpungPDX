@@ -78,7 +78,7 @@ class TestDatabaseOperations(unittest.TestCase):
     def test_get_missing_user(self):
 
         email = "pytest_get_user_does_not_exist@example.com"
-        #with pytest.raises(Exception):
+
         user_result = user.get_user_by_email(self.database, email)
 
         assert user_result == None

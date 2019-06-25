@@ -88,6 +88,23 @@ class TestUsers(unittest.TestCase):
                     'password': new_password,
                     'admin': False})
 
+
+    def test_create_user_missing_data_field(self):
+
+        new_email = "pytest_create_user@endpoint_test.com"
+
+
+        get_auth_response = self.get_auth_token(self.admin_email, self.admin_password)
+
+        response = self.client.post('/api/v0.1/users', headers={
+            'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
+                json = {'email':new_email,
+                        #'password': new_password,
+                        'admin': True})
+
+
+        assert(response.status_code == 400)
+
     def test_create_user_duplicate_email(self):
 
         new_email = "pytest_create_user@endpoint_test.com"

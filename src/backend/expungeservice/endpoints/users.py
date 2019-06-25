@@ -4,29 +4,28 @@ from werkzeug.security import generate_password_hash
 
 from flask import g
 from expungeservice.database.user import create_user, get_user_by_email
-from expungeservice.endpoints.auth import auth_required
+from expungeservice.endpoints.auth import admin_auth_required
+from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
 
 
 class Users(MethodView):
-    @auth_required
+    @admin_auth_required
     def post(self):
+        """
+        Create a new user with provided email, password, and admin flag.
+        - If required fields are missing in the request, return 400
+        - Password must be 8 or more characters long. Otherwise return 422
+        - Email must not already be in use by an existing user. Otherwise return 422
+        If success, return 201 with the new user's email, admin flag, and creation timestamp.
+        """
+
         data = request.get_json()
 
         if data == None:
             abort(400)
 
-        """
-        - the @auth_required decorator identifies the logged in user. If no auth, return 401 UNAUTHORIZED.
-        - Verify the logged in user is admin. if not, return 403 FORBIDDEN.
-        - Verify the password meets the 8-character length requirement. If not, return 422
-        - Attempt to insert the user into the database. If failure due to duplicate entry, return 422
-        - If success, return the new user's email, admin flag, and creation timestamp.
-        """
-
-        authorized_user_db_result = get_user_by_email(g.database, g.auth_hdr_payload['sub'])
-        if not authorized_user_db_result['admin']:
-            return 'Logged in user not admin', 403
+        check_data_fields(data, ['email', 'password', 'admin'])
 
         if len(data['password']) <8:
             return 'New password is less than 8 characters long!', 422
