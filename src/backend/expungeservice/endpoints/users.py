@@ -44,8 +44,9 @@ class Users(MethodView):
             'email': create_user_result['email'],
             'admin': create_user_result['admin'],
             'timestamp': create_user_result['date_created'],
-
         }
+        # user_id is not required by the frontend here so it is not included.
+        # other endpoints may expose the user_id e.g. for other admin user-management operations.
 
         return jsonify(response_data), 201
 

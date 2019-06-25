@@ -72,9 +72,9 @@ class TestUsers(unittest.TestCase):
         assert(response.status_code == 201)
 
         data = response.get_json()
-        assert(data['email'] == new_email)
-        assert(data['admin'] == True)
-        assert(data['timestamp'])
+        assert data['email'] == new_email
+        assert data['admin'] == True
+        assert data['timestamp']
 
 
     def test_create_user_no_auth(self):
