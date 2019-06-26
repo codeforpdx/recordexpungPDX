@@ -9,7 +9,7 @@ def before():
     port = os.environ['PGPORT']
     name = os.environ['PGDATABASE']
     username = os.environ['PGUSER']
-    password = os.environ['PGPASSWORD']
+    password = os.environ['POSTGRES_PASSWORD']
 
     g.database = Database(
         host=host,
