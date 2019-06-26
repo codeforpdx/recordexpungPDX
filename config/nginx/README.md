@@ -13,6 +13,5 @@ Features:
 * Some of this will be refactored as part of #174 but that is out of scope for this PR.
 * The nginx config file specifies the server name, which is distinct for dev vs prod. I’m not sure where is the best point in the workflow to make the distinction between which of these nginx configurations is copied into the Docker image. E.g. no other containers have different Dockerfiles for dev vs prod. Should the make target instead copy the correct nginx config file locally before building the image?
 * All the expungeservice endpoints have a leading "/api/" in their uri. I added this to the /hello/ endpoint also for consistency (I think keeping this endpoint for now makes sense because it's the only one that doesn't require any data in the request).
-* I renamed the POSTGRES_PASSWORD env var to PGPASSWORD for consistency, and for now both are defined in Travis. We can delete the old one without breaking anything after this branch is merged.
 * The nginx Dockerfile is based on the tutorial here: https://medium.com/thepeaklab/how-to-deploy-a-react-application-to-production-with-docker-multi-stage-builds-4da347f2d681
 * Building the new docker image in Travis slows down the build again :((((

@@ -11,7 +11,7 @@ clean:
 	find . -type f -name \*pyc | xargs rm
 	rm -rf src/backend/*.egg-info
 
-IMAGES := database_image expungeservice_image #webserver_image
+IMAGES := database_image expungeservice_image webserver_image
 
 STACK_NAME := recordexpungpdx
 DB_NAME := record_expunge
