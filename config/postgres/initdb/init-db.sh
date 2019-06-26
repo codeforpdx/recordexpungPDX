@@ -4,8 +4,8 @@ set -e
 # Create database and docker user.
 psql \
     -v ON_ERROR_STOP=1 \
-    -v POSTGRES_USER="${POSTGRES_USER}" \
-    -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+    -v POSTGRES_USER="${PGUSER}" \
+    -v POSTGRES_PASSWORD="${PGPASSWORD}" \
     <<-EOSQL
     CREATE USER docker;
     CREATE DATABASE record_expunge;
@@ -16,7 +16,7 @@ EOSQL
 
 psql \
     -v ON_ERROR_STOP=1 \
-    -v POSTGRES_USER="${POSTGRES_USER}" \
-    -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
-    --username "${POSTGRES_USER}" \
+    -v POSTGRES_USER="${PGUSER}" \
+    -v POSTGRES_PASSWORD="${PGPASSWORD}" \
+    --username "${PGUSER}" \
     -f /docker-entrypoint-initdb.d/scripts/create-tables-and-functions.sql

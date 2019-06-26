@@ -16,6 +16,9 @@ services:
         depends_on:
             - db
 
+    webserver:
+        image: recordexpungpdx:webserver
+
 volumes:
 
     database_storage:

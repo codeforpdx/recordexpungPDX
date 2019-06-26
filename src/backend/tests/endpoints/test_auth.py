@@ -16,7 +16,7 @@ def client(app):
     return app.test_client()
 
 def test_hello(client):
-    response = client.get('/hello')
+    response = client.get('/api/hello')
     assert(response.data == b'Hello, world!')
 
 email = 'test_user@test.com'
