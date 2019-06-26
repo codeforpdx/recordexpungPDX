@@ -1,6 +1,7 @@
 
 Features:
 
+(notes related to first nginx PR, some features and readme notes subject to change )
 * Docker image that contains the static web content and the configured nginx server process, which handles uri redirection for api calls.
 * Stanza in docker-compose.yml defining the webserver service.
 * port 3000 of the webserver container is published to 3000 in docker-compose.dev.yml, matching the behavior of running the frontend with node. I assume in prod the server would instead publish to 80 or 443, which are already exposed by the nginx base image.
@@ -14,4 +15,4 @@ Features:
 * All the expungeservice endpoints have a leading "/api/" in their uri. I added this to the /hello/ endpoint also for consistency (I think keeping this endpoint for now makes sense because it's the only one that doesn't require any data in the request).
 * I renamed the POSTGRES_PASSWORD env var to PGPASSWORD for consistency, and for now both are defined in Travis. We can delete the old one without breaking anything after this branch is merged.
 * The nginx Dockerfile is based on the tutorial here: https://medium.com/thepeaklab/how-to-deploy-a-react-application-to-production-with-docker-multi-stage-builds-4da347f2d681
-
+* Building the new docker image in Travis slows down the build again :((((
