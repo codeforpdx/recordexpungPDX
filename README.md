@@ -15,20 +15,20 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 - [License](#license)
 
 ## Installation
- 
-1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**, 
+
+1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
 2. Install Python:
 
-    * **Mac** 
-    
+    * **Mac**
+
       To install the latest version of Python on Mac run:
-		
+
           $ brew install python3
 
       <!-- -->
-		note: This will pull the latest version of Python, so when Python 3.8 or 
+		note: This will pull the latest version of Python, so when Python 3.8 or
 		greater is released it will install that version.
 
     * **Linux**
@@ -37,12 +37,12 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
 			To install Python 3.7 on Ubuntu 18.04 run the command:
 			```
-			$ sudo apt-get install python3.7 -y 
+			$ sudo apt-get install python3.7 -y
 			```
 
         - Ubuntu 16.04
-	
-			To install Python 3.7 on Ubuntu 16.04 follow the instructions 
+
+			To install Python 3.7 on Ubuntu 16.04 follow the instructions
 			[here](https://github.com/codeforpdx/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
     * **Windows**
@@ -51,8 +51,8 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
 3. Install Pipenv
 
-	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install) 
-	package manager which also automatically creates and manages virtual 
+	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install)
+	package manager which also automatically creates and manages virtual
 	environments.
 
 4. Install additional libraries needed for running the backend natively or with pipenv:
@@ -75,21 +75,21 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
       TBD
 
-5. Install NPM if you don't already have it installed. [This link provides 
+5. Install NPM if you don't already have it installed. [This link provides
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 6. Install backend dependencies:
 
-	A [Makefile](https://www.gnu.org/software/make/) controls installing 
+	A [Makefile](https://www.gnu.org/software/make/) controls installing
   dependencies, running the Flask app, and removing build artifacts.
-	While in the directory of your local `recordexpungePDX` repo, install the 
+	While in the directory of your local `recordexpungePDX` repo, install the
   backend dependencies by running:
-	
+
 	```
 	$ make install
 	```
-	
-	Make will read `Pipfile` and install listed Python packages into a `Pipenv` 
+
+	Make will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
 7. Install frontend dependencies
@@ -132,12 +132,12 @@ cp .env.example .env
 #### Running Backend Development Server
 
 While in the directory of your local repo, run:
-	
+
 ```
 $ make run
 ```
-	
-Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will 
+
+Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will
 also install dependencies as part of this process). On success, a
 development server for the backend should be started on `http://localhost:5000`.
 To check this, navigate to `http://localhost:5000/hello`. If everything worked
@@ -146,7 +146,7 @@ correctly, your browser should display the text `Hello, world!`.
 ##### Cleaning
 
 While in the directory of your local repo, run:
-	
+
 ```
 $ make clean
 ```
@@ -161,12 +161,12 @@ docker swarm init
 make dev
 ```
 
-For more project documentation on our Docker setup and usage basics, see:
+For more project documentation on our Docker setup, troubleshooting, and usage basics, see:
 https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md
 
 ## Testing
 
-Currently using [pytest](https://docs.pytest.org) for testing.   
+Currently using [pytest](https://docs.pytest.org) for testing.
 Run all tests with the following command:
 
 ```bash

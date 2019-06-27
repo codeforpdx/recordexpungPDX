@@ -64,6 +64,7 @@ Do this once:
 
     docker swarm init
 
+This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't do this in our dev environment, but it is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will nee to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
 
 To build and start the containers, do:
 
