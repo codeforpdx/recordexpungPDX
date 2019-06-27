@@ -154,7 +154,7 @@ in order to remove build artifacts.
 
 #### Running the Docker stack
 
-Docker provides a fully sandboxed virual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (below) to pass. While in the directory of your local repo, run:
+Docker provides a fully sandboxed virual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (discussed below) to pass, because it runs a local instance of the database. While in the directory of your local repo, run:
 
 ```
 docker swarm init
