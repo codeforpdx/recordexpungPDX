@@ -34,7 +34,7 @@ class Charge:
 
     def _set_type(self):
         self._marijuana_ineligible()
-
+        self._list_b()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -70,10 +70,11 @@ class Charge:
         if self.statute == '475B3493C' or self._section in ineligible_statutes:
             self._type = 'Marijuana Ineligible'
 
-    def list_b(self):
+    def _list_b(self):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
                                '164395', '162185', '166220', '163225', '163165']
-        return self._section in ineligible_statutes
+        if self._section in ineligible_statutes:
+            self._type = 'List B'
 
     def ineligible_under_137_225_5(self):
         return self._crime_against_person() or self.motor_vehicle_violation() or self._felony_class_a()

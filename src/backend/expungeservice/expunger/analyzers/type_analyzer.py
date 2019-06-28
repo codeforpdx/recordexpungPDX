@@ -16,7 +16,7 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.226')
 
-        elif charge.list_b():
+        elif charge.type == 'List B':
             charge.expungement_result.set_reason('Further Analysis Needed')
 
         elif charge.ineligible_under_137_225_5():
