@@ -116,13 +116,13 @@ class TestTrafficTickets(unittest.TestCase):
         self.charge['statute'] = '00'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.type is None
+        assert charge.type != 'Parking ticket'
 
     def test_100_is_not_a_parking_ticket(self):
         self.charge['statute'] = '100'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.type is None
+        assert charge.type != 'Parking ticket'
 
     def test_99_is_a_parking_ticket(self):
         self.charge['statute'] = '99'

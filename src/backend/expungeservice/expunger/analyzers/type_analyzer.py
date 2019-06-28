@@ -31,7 +31,7 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(d)')
 
-        elif charge.level == 'Felony Class C' or 'Misdemeanor' in charge.level:
+        elif charge.type == 'Felony Class C' or charge.type == 'Misdemeanor' in charge.level:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(b)')
 
