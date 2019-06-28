@@ -8,7 +8,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY frontend/package.json /usr/src/app/package.json
 
 WORKDIR /usr/src/app
-RUN npm install --silent
+RUN npm install
 COPY ./frontend /usr/src/app
 RUN npm run build
 

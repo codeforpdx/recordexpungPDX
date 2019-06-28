@@ -16,7 +16,7 @@ class TestDatabaseOperations(unittest.TestCase):
         host = os.environ['PGHOST']
         port = os.environ['PGPORT']
         name = os.environ['PGDATABASE']
-        username = os.environ['PGUSER']
+        username = os.environ['POSTGRES_USERNAME']
         password = os.environ['POSTGRES_PASSWORD']
 
         self.database = Database(host=host, port=port, name=name, username=username, password=password)
