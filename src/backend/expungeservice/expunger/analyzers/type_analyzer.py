@@ -12,7 +12,7 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(1)(b)')
 
-        elif charge.marijuana_ineligible():
+        elif charge.type == 'Marijuana Ineligible':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.226')
 

@@ -33,7 +33,7 @@ class Charge:
             return self._type
 
     def _set_type(self):
-        pass
+        self._marijuana_ineligible()
 
 
     def acquitted(self):
@@ -65,12 +65,10 @@ class Charge:
     def motor_vehicle_violation(self):
         return self.parking_ticket() or self.traffic_crime()
 
-    def marijuana_ineligible(self):
+    def _marijuana_ineligible(self):
         ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
         if self.statute == '475B3493C' or self._section in ineligible_statutes:
-            return True
-        else:
-            return False
+            self._type = 'Marijuana Ineligible'
 
     def list_b(self):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
