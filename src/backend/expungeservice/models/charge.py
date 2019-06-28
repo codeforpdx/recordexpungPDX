@@ -79,9 +79,6 @@ class Charge:
         if self.statute.isdigit() and int(self.statute) in statute_range:
             self._type = 'Parking ticket'
 
-    def ineligible_under_137_225_5(self):
-        return self._felony_class_a()
-
     def possession_sched_1(self):
         return self._section in ['475854', '475874', '475884', '475894']
 
@@ -97,11 +94,6 @@ class Charge:
         self.expungement_result.time_eligibility = True
         self.expungement_result.time_eligibility_reason = reason
         self.expungement_result.date_of_eligibility = None
-
-
-
-    def _felony_class_a(self):
-        return self.level == 'Felony Class A'
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):

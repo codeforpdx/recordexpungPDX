@@ -19,7 +19,7 @@ class TypeAnalyzer:
         elif charge.type == 'List B':
             charge.expungement_result.set_reason('Further Analysis Needed')
 
-        elif charge.ineligible_under_137_225_5() or charge.type == 'Crime against person' or charge.type == '800 Level Traffic crime' or charge.type == 'Parking ticket':
+        elif charge.type == 'Crime against person' or charge.type == '800 Level Traffic crime' or charge.type == 'Parking ticket':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
@@ -38,6 +38,10 @@ class TypeAnalyzer:
         elif charge.level == 'Felony Class B':
             self.class_b_felonies.append(charge)
             charge.expungement_result.set_reason('Further Analysis Needed')
+
+        elif charge.level == 'Felony Class A':
+            charge.expungement_result.set_type_eligibility(False)
+            charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
         else:
             charge.expungement_result.set_reason('Examine')
