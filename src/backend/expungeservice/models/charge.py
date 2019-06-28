@@ -11,6 +11,7 @@ from expungeservice.models.expungement_result import ExpungementResult
 class Charge:
 
     def __init__(self, case, name, statute, level, date):
+        self._type = None
         self.name = name
         self.statute = Charge.__strip_non_alphanumeric_chars(statute)
         self.level = level
@@ -22,6 +23,18 @@ class Charge:
 
     def case(self):
         return self._case
+
+    @property
+    def type(self):
+        if self._type:
+            return self._type
+        else:
+            self._set_type()
+            return self._type
+
+    def _set_type(self):
+        pass
+
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
