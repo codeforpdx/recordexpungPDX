@@ -23,7 +23,7 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-        elif charge.possession_sched_1():
+        elif charge.type == 'Schedule 1 PCS':
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(C)')
 

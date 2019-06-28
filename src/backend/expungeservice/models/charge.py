@@ -38,6 +38,7 @@ class Charge:
         self._crime_against_person()
         self._traffic_crime()
         self._parking_ticket()
+        self._schedule_1_pcs()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -79,8 +80,9 @@ class Charge:
         if self.statute.isdigit() and int(self.statute) in statute_range:
             self._type = 'Parking ticket'
 
-    def possession_sched_1(self):
-        return self._section in ['475854', '475874', '475884', '475894']
+    def _schedule_1_pcs(self):
+        if self._section in ['475854', '475874', '475884', '475894']:
+            self._type = 'Schedule 1 PCS'
 
     def non_traffic_violation(self):
         return 'Violation' in self.level
