@@ -66,11 +66,11 @@ class Charge:
         return self.parking_ticket() or self.traffic_crime()
 
     def marijuana_ineligible(self):
-        if self.statute == '475B3493C':
+        ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
+        if self.statute == '475B3493C' or self._section in ineligible_statutes:
             return True
         else:
-            ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
-            return self._section in ineligible_statutes
+            return False
 
     def list_b(self):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
