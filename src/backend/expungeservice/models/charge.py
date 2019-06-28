@@ -50,6 +50,7 @@ class Charge:
         self._misdemeanor()
         self._felony_class_c()
         self._felony_class_b()
+        self._felony_class_a()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -110,6 +111,10 @@ class Charge:
     def _felony_class_b(self):
         if self.level == 'Felony Class B':
             self._type = 'Felony Class B'
+
+    def _felony_class_a(self):
+        if self.level == 'Felony Class A':
+            self._type = 'Felony Class A'
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         self.expungement_result.time_eligibility = False

@@ -39,7 +39,7 @@ class TypeAnalyzer:
             self.class_b_felonies.append(charge)
             charge.expungement_result.set_reason('Further Analysis Needed')
 
-        elif charge.level == 'Felony Class A':
+        elif charge.type == 'Felony Class A':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
