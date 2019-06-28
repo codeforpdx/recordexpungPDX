@@ -33,12 +33,20 @@ class Charge:
             return self._type
 
     def _set_type(self):
+        self._set_type_by_statute()
+        if not self._type:
+            self._set_type_by_level()
+
+    def _set_type_by_statute(self):
         self._marijuana_ineligible()
         self._list_b()
         self._crime_against_person()
         self._traffic_crime()
         self._parking_ticket()
         self._schedule_1_pcs()
+
+    def _set_type_by_level(self):
+        self._non_traffic_violation()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -84,8 +92,9 @@ class Charge:
         if self._section in ['475854', '475874', '475884', '475894']:
             self._type = 'Schedule 1 PCS'
 
-    def non_traffic_violation(self):
-        return 'Violation' in self.level
+    def _non_traffic_violation(self):
+        if 'Violation' in self.level:
+            self._type = 'Non-Traffic Violation'
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         self.expungement_result.time_eligibility = False

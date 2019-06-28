@@ -27,7 +27,7 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(C)')
 
-        elif charge.non_traffic_violation():
+        elif charge.type == 'Non-Traffic Violation':
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(d)')
 
