@@ -36,6 +36,8 @@ class Charge:
         self._set_type_by_statute()
         if not self._type:
             self._set_type_by_level()
+        if not self._type:
+            self._type = 'Unclassified'
 
     def _set_type_by_statute(self):
         self._marijuana_ineligible()

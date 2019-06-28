@@ -43,5 +43,5 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-        else:
+        elif charge.type == 'Unclassified':
             charge.expungement_result.set_reason('Examine')
