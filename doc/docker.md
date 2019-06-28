@@ -64,13 +64,14 @@ Do this once:
 
     docker swarm init
 
+This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't do this in our dev environment, but it is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
 
-To start the containers, do:
+To build and start the containers, do:
 
     make dev
 
 
-This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file. 
+This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more replicated containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file.
 
 To see which containers are running:
 
