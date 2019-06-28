@@ -49,6 +49,7 @@ class Charge:
         self._non_traffic_violation()
         self._misdemeanor()
         self._felony_class_c()
+        self._felony_class_b()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -105,6 +106,10 @@ class Charge:
     def _felony_class_c(self):
         if self.level == 'Felony Class C':
             self._type = 'Felony Class C'
+
+    def _felony_class_b(self):
+        if self.level == 'Felony Class B':
+            self._type = 'Felony Class B'
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         self.expungement_result.time_eligibility = False
