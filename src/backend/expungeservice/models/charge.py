@@ -36,6 +36,7 @@ class Charge:
         self._marijuana_ineligible()
         self._list_b()
         self._crime_against_person()
+        self._traffic_crime()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -48,14 +49,6 @@ class Charge:
         three_years_ago = (date_class.today() + relativedelta(years=-3))
         return self.acquitted() and self.date > three_years_ago
 
-    def traffic_crime(self):
-        statute_range = range(801, 826)
-
-        if self.statute[0:3].isdigit():
-            return int(self.statute[0:3]) in statute_range
-        else:
-            return False
-
     def parking_ticket(self):
         statute_range = range(1, 100)
         if self.statute.isdigit():
@@ -64,7 +57,7 @@ class Charge:
             return False
 
     def motor_vehicle_violation(self):
-        return self.parking_ticket() or self.traffic_crime()
+        return self.parking_ticket() or self.type == '800 Level Traffic crime'
 
     def _marijuana_ineligible(self):
         ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
@@ -82,8 +75,13 @@ class Charge:
         if self._section.isdigit() and any(int(self._section) in statute_range for statute_range in statute_ranges):
             self._type = 'Crime against person'
 
+    def _traffic_crime(self):
+        statute_range = range(801, 826)
+        if self.statute[0:3].isdigit() and int(self.statute[0:3]) in statute_range:
+            self._type = '800 Level Traffic crime'
+
     def ineligible_under_137_225_5(self):
-        return self.motor_vehicle_violation() or self._felony_class_a()
+        return self.parking_ticket() or self._felony_class_a()
 
     def possession_sched_1(self):
         return self._section in ['475854', '475874', '475884', '475894']
