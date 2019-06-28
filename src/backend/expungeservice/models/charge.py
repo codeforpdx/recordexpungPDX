@@ -35,6 +35,7 @@ class Charge:
     def _set_type(self):
         self._marijuana_ineligible()
         self._list_b()
+        self._crime_against_person()
 
     def acquitted(self):
         return self.disposition.ruling[0:9] != 'Convicted'
@@ -76,8 +77,13 @@ class Charge:
         if self._section in ineligible_statutes:
             self._type = 'List B'
 
+    def _crime_against_person(self):
+        statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
+        if self._section.isdigit() and any(int(self._section) in statute_range for statute_range in statute_ranges):
+            self._type = 'Crime against person'
+
     def ineligible_under_137_225_5(self):
-        return self._crime_against_person() or self.motor_vehicle_violation() or self._felony_class_a()
+        return self.motor_vehicle_violation() or self._felony_class_a()
 
     def possession_sched_1(self):
         return self._section in ['475854', '475874', '475884', '475894']
@@ -95,13 +101,7 @@ class Charge:
         self.expungement_result.time_eligibility_reason = reason
         self.expungement_result.date_of_eligibility = None
 
-    def _crime_against_person(self):
-        statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
 
-        if self._section.isdigit():
-            return any(int(self._section) in statute_range for statute_range in statute_ranges)
-        else:
-            return False
 
     def _felony_class_a(self):
         return self.level == 'Felony Class A'
