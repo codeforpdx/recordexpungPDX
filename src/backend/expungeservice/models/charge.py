@@ -1,7 +1,18 @@
 import re
 import sys
 
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.felony_class_a import FelonyClassA
+from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.models.charge_types.felony_class_c import FelonyClassC
+from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
+from expungeservice.models.charge_types.list_b import ListB
+from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
+from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
+from expungeservice.models.charge_types.parking_ticket import ParkingTicket
+from expungeservice.models.charge_types.person_crime import PersonCrime
+from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
+from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
 
 class Charge:
@@ -17,7 +28,7 @@ class Charge:
         kwargs['section'] = section
         kwargs['statute'] = statute
         kwargs['classification'] = cls.classification
-        return Charge._to_class('BaseCharge')(**kwargs)
+        return Charge._to_class(cls.classification)(**kwargs)
 
     @classmethod
     def _set_classification(cls, statute, level, section):
