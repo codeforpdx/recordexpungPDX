@@ -28,7 +28,7 @@ class BaseCharge:
         return self._case
 
     def motor_vehicle_violation(self):
-        return self.type == 'ParkingTicket' or self.type == 'Level800TrafficCrime'
+        return False
 
     def acquitted(self):
         if self.disposition.ruling:
