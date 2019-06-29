@@ -12,36 +12,36 @@ class TypeAnalyzer:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(1)(b)')
 
-        elif charge.type == 'Marijuana Ineligible':
+        elif charge.type == 'MarijuanaIneligible':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.226')
 
-        elif charge.type == 'List B':
+        elif charge.type == 'ListB':
             charge.expungement_result.set_reason('Further Analysis Needed')
 
-        elif charge.type == 'Crime against person' or charge.type == '800 Level Traffic crime' or charge.type == 'Parking ticket':
+        elif charge.type == 'PersonCrime' or charge.type == 'Level800TrafficCrime' or charge.type == 'ParkingTicket':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-        elif charge.type == 'Schedule 1 PCS':
+        elif charge.type == 'Schedule1PCS':
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(C)')
 
-        elif charge.type == 'Non-Traffic Violation':
+        elif charge.type == 'NonTrafficViolation':
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(d)')
 
-        elif charge.type == 'Felony Class C' or charge.type == 'Misdemeanor' in charge.level:
+        elif charge.type == 'FelonyClassC' or charge.type == 'Misdemeanor' in charge.level:
             charge.expungement_result.set_type_eligibility(True)
             charge.expungement_result.set_reason('Eligible under 137.225(5)(b)')
 
-        elif charge.type == 'Felony Class B':
+        elif charge.type == 'FelonyClassB':
             self.class_b_felonies.append(charge)
             charge.expungement_result.set_reason('Further Analysis Needed')
 
-        elif charge.type == 'Felony Class A':
+        elif charge.type == 'FelonyClassA':
             charge.expungement_result.set_type_eligibility(False)
             charge.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-        elif charge.type == 'Unclassified':
+        elif charge.type == 'UnclassifiedCharge':
             charge.expungement_result.set_reason('Examine')
