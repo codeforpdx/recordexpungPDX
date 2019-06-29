@@ -27,7 +27,6 @@ class Charge:
         Charge._set_classification(statute, level, section)
         kwargs['section'] = section
         kwargs['statute'] = statute
-        kwargs['classification'] = cls.classification
         return Charge._to_class(cls.classification)(**kwargs)
 
     @classmethod

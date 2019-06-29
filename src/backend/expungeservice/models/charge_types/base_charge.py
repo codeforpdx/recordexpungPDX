@@ -9,8 +9,7 @@ from expungeservice.models.expungement_result import ExpungementResult
 
 class BaseCharge:
 
-    def __init__(self, case, name, statute, level, date, section, classification, disposition=Disposition()):
-        self._type = classification
+    def __init__(self, case, name, statute, level, date, section, disposition=Disposition()):
         self.name = name
         self.statute = statute
         self.level = level
@@ -19,10 +18,6 @@ class BaseCharge:
         self.expungement_result = ExpungementResult()
         self._section = section
         self._case = weakref.ref(case)
-
-    @property
-    def type(self):
-        return self._type
 
     def case(self):
         return self._case
