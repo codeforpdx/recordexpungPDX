@@ -96,8 +96,8 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         expunger = Expunger(self.crawler.result.cases)
         expunger.run()
 
-        assert len(expunger._type_analyzer.class_b_felonies) == 1
-        assert expunger._type_analyzer.class_b_felonies[0].name == 'Aggravated theft in the first degree'
+        assert len(expunger._class_b_felonies) == 1
+        assert expunger._class_b_felonies[0].name == 'Aggravated theft in the first degree'
         assert expunger._time_analyzer._class_b_felonies[0].name == 'Aggravated theft in the first degree'
         assert expunger._time_analyzer._most_recent_charge.name == 'Aggravated theft in the first degree'
 
