@@ -1,4 +1,5 @@
 import re
+import sys
 
 from expungeservice.models.charge_types.base_charge import BaseCharge
 
@@ -16,7 +17,7 @@ class Charge:
         kwargs['section'] = section
         kwargs['statute'] = statute
         kwargs['classification'] = cls.classification
-        return BaseCharge(**kwargs)
+        return Charge._to_class('BaseCharge')(**kwargs)
 
     @classmethod
     def _set_classification(cls, statute, level, section):
@@ -103,6 +104,10 @@ class Charge:
     def _felony_class_a(cls, level):
         if level == 'Felony Class A':
             cls.classification = 'Felony Class A'
+
+    @staticmethod
+    def _to_class(name):
+        return getattr(sys.modules[__name__], name)
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
