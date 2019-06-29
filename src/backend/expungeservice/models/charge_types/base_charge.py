@@ -9,13 +9,13 @@ from expungeservice.models.expungement_result import ExpungementResult
 
 class BaseCharge:
 
-    def __init__(self, case, name, statute, level, date, section, classification):
+    def __init__(self, case, name, statute, level, date, section, classification, disposition=Disposition()):
         self._type = classification
         self.name = name
         self.statute = statute
         self.level = level
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
-        self.disposition = Disposition()
+        self.disposition = disposition
         self.expungement_result = ExpungementResult()
         self._section = section
         self._case = weakref.ref(case)
@@ -31,7 +31,8 @@ class BaseCharge:
         return self.type == 'ParkingTicket' or self.type == 'Level800TrafficCrime'
 
     def acquitted(self):
-        return self.disposition.ruling[0:9] != 'Convicted'
+        if self.disposition.ruling:
+            return self.disposition.ruling[0:9] != 'Convicted'
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))

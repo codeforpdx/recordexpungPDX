@@ -12,13 +12,11 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
         self.single_charge = ChargeFactory.build()
-        self.acquitted_disposition = {'ruling': 'Acquitted', 'date': last_week}
+        self.single_charge['disposition'] = Disposition(ruling='Acquitted', date=last_week)
         self.charges = []
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
-        charge.disposition = Disposition(**self.acquitted_disposition)
-        return charge
+        return ChargeFactory.save(self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge['name'] = 'Assault in the first degree'
@@ -37,13 +35,11 @@ class TestSingleChargeDismissals(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
         self.single_charge = ChargeFactory.build()
-        self.dismissed_disposition = {'ruling': 'Dismissed', 'date': last_week}
+        self.single_charge['disposition'] = Disposition(ruling='Dismissed', date=last_week)
         self.charges = []
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
-        charge.disposition = Disposition(**self.dismissed_disposition)
-        return charge
+        return ChargeFactory.save(self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge['name'] = 'Assault in the first degree'
@@ -62,13 +58,11 @@ class TestSingleChargeNoComplaint(unittest.TestCase):
         self.type_analyzer = TypeAnalyzer()
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
         self.single_charge = ChargeFactory.build()
-        self.acquitted_disposition = {'ruling': 'No Complaint', 'date': last_week}
+        self.single_charge['disposition'] = Disposition(date=last_week, ruling='No Complaint')
         self.charges = []
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
-        charge.disposition = Disposition(**self.acquitted_disposition)
-        return charge
+        return ChargeFactory.save(self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge['name'] = 'Assault in the first degree'
