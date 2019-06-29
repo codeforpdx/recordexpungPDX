@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime, timedelta
 from expungeservice.expunger.analyzers.type_analyzer import TypeAnalyzer
 from tests.factories.charge_factory import ChargeFactory
-from expungeservice.models.charge import Disposition
+from expungeservice.models.disposition import Disposition
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):

@@ -17,7 +17,7 @@ class ChargeFactory:
 
     @staticmethod
     def save(charge):
-        return Charge(**charge)
+        return Charge.create(**charge)
 
     @staticmethod
     def create(case=CaseFactory.create(),
@@ -26,7 +26,8 @@ class ChargeFactory:
                level='Misdemeanor Class A',
                date='1/1/0001',
                disposition=None):
-        charge = Charge(case, name, statute, level, date)
+        kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date}
+        charge = Charge.create(**kwargs)
         if disposition:
             charge.disposition.ruling, charge.disposition.date = disposition
 
@@ -38,7 +39,8 @@ class ChargeFactory:
                                 statute='164.125',
                                 level='Misdemeanor Class A',
                                 date='1/1/0001'):
-        charge = Charge(case, name, statute, level, date)
+        kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date}
+        charge = Charge.create(**kwargs)
         charge.disposition.ruling, charge.disposition.date = ['Dismissed', date_class.today()]
 
         return charge
