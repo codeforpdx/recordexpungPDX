@@ -2,8 +2,14 @@ version: '3.1'
 
 services:
     expungeservice:
-        ports: 
+        ports:
             - "5000:5000"
+
+    webserver:
+        ports:
+            - "3000:3000"
+
+
     db:
         ports:
             - "5432:5432"
