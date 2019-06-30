@@ -13,7 +13,8 @@ before_install:
 install:
 - pip install pipenv
 - pipenv install
-- make dev
+- make src/backend/expungeservice/requirements.txt database_image expungeservice_image
+- docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml recordexpungpdx
 before_script:
 - counter=0 ; while ((counter < 20)) && ! pg_isready --host=$PGHOST --port=$PGPORT --dbname=$PGDATABASE ; do sleep 3; let counter=counter+1; done
 script:

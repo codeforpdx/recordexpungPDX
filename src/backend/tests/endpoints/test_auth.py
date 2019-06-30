@@ -132,4 +132,3 @@ class TestAuth(unittest.TestCase):
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
         assert(response.status_code == 403)
-
