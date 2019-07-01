@@ -4,6 +4,7 @@ from datetime import datetime
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
+from expungeservice.models.record import Record
 
 
 class TestCrawler(unittest.TestCase):
@@ -12,10 +13,11 @@ class TestCrawler(unittest.TestCase):
         self.crawler = CrawlerFactory.setup()
 
     def test_search_function(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+        record = CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
                                                              'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
                                                              'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
 
+        assert record.__class__ == Record
         assert len(self.crawler.result.cases) == 3
 
         assert len(self.crawler.result.cases[0].charges) == 3
