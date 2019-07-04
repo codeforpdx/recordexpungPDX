@@ -18,6 +18,7 @@ Installing on Linux
 [Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 Links to install instructions for other linux distros listed in the sidebar.
 
+Configure Docker so that your user can run docker commands without using sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
 Documentation
 -------------
@@ -42,7 +43,7 @@ We will have two configurations:
 
 **Web Server Container**
 
-This container will run the Nginx web server and our application.
+This container will run the Nginx web server, which serves the static frontend pages, and forwards api calls to the backend service.
 
 
 **Database Container**
@@ -52,7 +53,7 @@ This container will run the PostgreSQL database.
 
 **Service Container**
 
-This container will run our Flask service.
+This container will the Python/Flask backend.
 
 
 Running the containers
@@ -64,7 +65,7 @@ Do this once:
 
     docker swarm init
 
-This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't do this in our dev environment, but it is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
+This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't work with multiple nodes in our dev environment, but the command is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
 
 To build and start the containers, do:
 
@@ -83,7 +84,7 @@ Individual targets in the Makefile exist for building each docker image. If maki
     make <image_name>
 
 
-To restart a single container:
+And then restarting the service to run with the new image:
 
     docker service update --force $(docker stack services ls -f name=CONTAINER_NAME)
 
@@ -93,7 +94,9 @@ While the docker stack is running, it will restart any stopped containers automa
     make dev_stop
     make dev_deploy
 
-Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service.
+Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service. To start a new docker stack without rebuilding the images, run this docker command directly while in the project's top-level directory:
+
+docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml recordexpungpdx 
 
 
 To explore the database:
