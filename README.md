@@ -16,6 +16,8 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
 ## Installation
 
+Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. Docker is used to build, test, and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running test code in pipenv.
+
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
@@ -62,18 +64,20 @@ This README is primarily for the backend. For info on the frontend see [src/fron
       ```
       brew install postgresql
       ```
+      Note: this step is only required to meet a dependency for python's psycopg2 package, namely `libpq-dev`. The dev environment doesn't require a local installation of the database, because the database runs within the docker stack.
+      
       It may be necessary to then run
       ```
       export LDFLAGS="-L/usr/local/opt/openssl/lib”
       ```
-      More information on a Mac isntallation here: https://wiki.postgresql.org/wiki/Homebrew
+      More information on a Mac installation here: https://wiki.postgresql.org/wiki/Homebrew
     * **Linux**
       ```
       sudo apt-get install libpq-dev -y
       ```
     * **Windows**
 
-      TBD
+     TBD
 
 5. Install NPM if you don't already have it installed. [This link provides
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
