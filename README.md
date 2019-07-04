@@ -169,6 +169,8 @@ docker swarm init
 make dev
 ```
 
+Note: running docker requires sudo by default. details to configure user-level access to docker commands TBD.
+
 For more project documentation on our Docker setup, troubleshooting, and usage basics, see:
 https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md
 
