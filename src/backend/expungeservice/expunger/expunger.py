@@ -1,10 +1,9 @@
-from expungeservice.expunger.analyzers.type_analyzer import TypeAnalyzer
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 
 
 class Expunger:
     """
-    This is more or less a wrapper for the time_analyzer and type_analyzer.
+    This is more or less a wrapper for the time_analyzer.
     After running this method the results can be extracted from the cases
     attribute. The errors attribute will list the reasons why the run
     method failed to evaluate in which case the run method will return
@@ -30,8 +29,8 @@ class Expunger:
         self._num_acquittals = 0
         self._acquittals = []
         self._convictions = []
+        self._class_b_felonies = []
         self._time_analyzer = None
-        self._type_analyzer = TypeAnalyzer()
 
     def run(self):
         """
@@ -41,7 +40,6 @@ class Expunger:
         """
         if self._open_cases():
             self._create_charge_list_from_closed_cases()
-            self._type_analyzer.evaluate(self._charges)
             self.errors.append('Open cases exist')
             return False
 
@@ -51,12 +49,12 @@ class Expunger:
         self._set_most_recent_convictions()
         self._set_num_acquittals()
         self._assign_most_recent_charge()
-        self._type_analyzer.evaluate(self._charges)
+        self._assign_class_b_felonies()
         self._time_analyzer = TimeAnalyzer(most_recent_conviction=self._most_recent_conviction,
                                            second_most_recent_conviction=self._second_most_recent_conviction,
                                            most_recent_dismissal=self._most_recent_dismissal,
                                            num_acquittals=self._num_acquittals,
-                                           class_b_felonies=self._type_analyzer.class_b_felonies,
+                                           class_b_felonies=self._class_b_felonies,
                                            most_recent_charge=self._most_recent_charge)
         self._time_analyzer.evaluate(self._charges)
         return True
@@ -110,3 +108,8 @@ class Expunger:
         for charge in self._charges:
             if not charge.motor_vehicle_violation():
                 return charge
+
+    def _assign_class_b_felonies(self):
+        for charge in self._charges:
+            if charge.__class__.__name__ == 'FelonyClassB':
+                self._class_b_felonies.append(charge)

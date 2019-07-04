@@ -1,98 +1,123 @@
 import re
-import weakref
+import sys
 
-from datetime import datetime
-from datetime import date as date_class
-from dateutil.relativedelta import relativedelta
-from expungeservice.models.disposition import Disposition
-from expungeservice.models.expungement_result import ExpungementResult
+from expungeservice.models.charge_types.felony_class_a import FelonyClassA
+from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.models.charge_types.felony_class_c import FelonyClassC
+from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
+from expungeservice.models.charge_types.list_b import ListB
+from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
+from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
+from expungeservice.models.charge_types.parking_ticket import ParkingTicket
+from expungeservice.models.charge_types.person_crime import PersonCrime
+from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
+from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
 
 class Charge:
+    classification = None
 
-    def __init__(self, case, name, statute, level, date):
-        self.name = name
-        self.statute = Charge.__strip_non_alphanumeric_chars(statute)
-        self.level = level
-        self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
-        self.disposition = Disposition()
-        self.expungement_result = ExpungementResult()
-        self._section = Charge.__set_section(statute)
-        self._case = weakref.ref(case)
+    @classmethod
+    def create(cls, **kwargs):
+        cls.classification = None
+        statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
+        level = kwargs['level']
+        section = Charge.__set_section(statute)
+        Charge._set_classification(statute, level, section)
+        kwargs['section'] = section
+        kwargs['statute'] = statute
+        return Charge._to_class(cls.classification)(**kwargs)
 
-    def case(self):
-        return self._case
+    @classmethod
+    def _set_classification(cls, statute, level, section):
+        Charge._set_classification_by_statute(statute, section)
+        if not cls.classification:
+            Charge._set_classification_by_level(level)
+        if not cls.classification:
+            cls.classification = 'UnclassifiedCharge'
 
-    def acquitted(self):
-        return self.disposition.ruling[0:9] != 'Convicted'
+    @staticmethod
+    def _set_classification_by_statute(statute, section):
+        Charge._marijuana_ineligible(statute, section)
+        Charge._list_b(section)
+        Charge._crime_against_person(section)
+        Charge._traffic_crime(statute)
+        Charge._parking_ticket(statute)
+        Charge._schedule_1_pcs(section)
 
-    def recent_conviction(self):
-        ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        return not self.acquitted() and self.disposition.date > ten_years_ago
+    @staticmethod
+    def _set_classification_by_level(level):
+        Charge._non_traffic_violation(level)
+        Charge._misdemeanor(level)
+        Charge._felony_class_c(level)
+        Charge._felony_class_b(level)
+        Charge._felony_class_a(level)
 
-    def recent_acquittal(self):
-        three_years_ago = (date_class.today() + relativedelta(years=-3))
-        return self.acquitted() and self.date > three_years_ago
+    @classmethod
+    def _marijuana_ineligible(cls, statute, section):
+        ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
+        if statute == '475B3493C' or section in ineligible_statutes:
+            cls.classification = 'MarijuanaIneligible'
 
-    def traffic_crime(self):
-        statute_range = range(801, 826)
-
-        if self.statute[0:3].isdigit():
-            return int(self.statute[0:3]) in statute_range
-        else:
-            return False
-
-    def parking_ticket(self):
-        statute_range = range(1, 100)
-        if self.statute.isdigit():
-            return int(self.statute) in statute_range
-        else:
-            return False
-
-    def motor_vehicle_violation(self):
-        return self.parking_ticket() or self.traffic_crime()
-
-    def marijuana_ineligible(self):
-        if self.statute == '475B3493C':
-            return True
-        else:
-            ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
-            return self._section in ineligible_statutes
-
-    def list_b(self):
+    @classmethod
+    def _list_b(cls, section):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
                                '164395', '162185', '166220', '163225', '163165']
-        return self._section in ineligible_statutes
+        if section in ineligible_statutes:
+            cls.classification = 'ListB'
 
-    def ineligible_under_137_225_5(self):
-        return self._crime_against_person() or self.motor_vehicle_violation() or self._felony_class_a()
-
-    def possession_sched_1(self):
-        return self._section in ['475854', '475874', '475884', '475894']
-
-    def non_traffic_violation(self):
-        return 'Violation' in self.level
-
-    def set_time_ineligible(self, reason, date_of_eligibility):
-        self.expungement_result.time_eligibility = False
-        self.expungement_result.time_eligibility_reason = reason
-        self.expungement_result.date_of_eligibility = date_of_eligibility
-
-    def set_time_eligible(self, reason=''):
-        self.expungement_result.time_eligibility = True
-        self.expungement_result.time_eligibility_reason = reason
-        self.expungement_result.date_of_eligibility = None
-
-    def _crime_against_person(self):
+    @classmethod
+    def _crime_against_person(cls, section):
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
+        if section.isdigit() and any(int(section) in statute_range for statute_range in statute_ranges):
+            cls.classification = 'PersonCrime'
 
-        if self._section.isdigit():
-            return any(int(self._section) in statute_range for statute_range in statute_ranges)
-        else:
-            return False
+    @classmethod
+    def _traffic_crime(cls, statute):
+        statute_range = range(801, 826)
+        if statute[0:3].isdigit() and int(statute[0:3]) in statute_range:
+            cls.classification = 'Level800TrafficCrime'
 
-    def _felony_class_a(self):
-        return self.level == 'Felony Class A'
+    @classmethod
+    def _parking_ticket(cls, statute):
+        statute_range = range(1, 100)
+        if statute.isdigit() and int(statute) in statute_range:
+            cls.classification = 'ParkingTicket'
+
+    @classmethod
+    def _schedule_1_pcs(cls, section):
+        if section in ['475854', '475874', '475884', '475894']:
+            cls.classification = 'Schedule1PCS'
+
+    @classmethod
+    def _non_traffic_violation(cls, level):
+        if 'Violation' in level:
+            cls.classification = 'NonTrafficViolation'
+
+    @classmethod
+    def _misdemeanor(cls, level):
+        if 'Misdemeanor' in level:
+            cls.classification = 'Misdemeanor'
+
+    @classmethod
+    def _felony_class_c(cls, level):
+        if level == 'Felony Class C':
+            cls.classification = 'FelonyClassC'
+
+    @classmethod
+    def _felony_class_b(cls, level):
+        if level == 'Felony Class B':
+            cls.classification = 'FelonyClassB'
+
+    @classmethod
+    def _felony_class_a(cls, level):
+        if level == 'Felony Class A':
+            cls.classification = 'FelonyClassA'
+
+    @staticmethod
+    def _to_class(name):
+        return getattr(sys.modules[__name__], name)
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):

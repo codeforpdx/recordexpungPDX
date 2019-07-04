@@ -110,31 +110,31 @@ class TestTrafficTickets(unittest.TestCase):
         self.charge['statute'] = '01'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.parking_ticket() is True
+        assert charge.__class__.__name__ == 'ParkingTicket'
 
     def test_00_is_not_a_parking_ticket(self):
         self.charge['statute'] = '00'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.parking_ticket() is False
+        assert charge.__class__.__name__ != 'ParkingTicket'
 
     def test_100_is_not_a_parking_ticket(self):
         self.charge['statute'] = '100'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.parking_ticket() is False
+        assert charge.__class__.__name__ != 'ParkingTicket'
 
     def test_99_is_a_parking_ticket(self):
         self.charge['statute'] = '99'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.parking_ticket() is True
+        assert charge.__class__.__name__ == 'ParkingTicket'
 
     def test_55_is_a_parking_ticket(self):
         self.charge['statute'] = '55'
         charge = ChargeFactory.save(self.charge)
 
-        assert charge.parking_ticket() is True
+        assert charge.__class__.__name__ == 'ParkingTicket'
 
 
 class TestMotorVehicleViolation(unittest.TestCase):

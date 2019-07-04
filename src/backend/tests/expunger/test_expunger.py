@@ -17,10 +17,10 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
 
-    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2))
-    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1))
-    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3))
-    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4))
+    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
+    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
+    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
+    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
 
     def test_expunger_sets_most_recent_dismissal_when_charge_is_less_than_3yrs(self):
         case = CaseFactory.create()

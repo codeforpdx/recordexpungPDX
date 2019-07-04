@@ -132,3 +132,6 @@ venv.bak/
 
 # PyCharm editors
 .idea/
+
+# Ignore CLI documents
+Documents/

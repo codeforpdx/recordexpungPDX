@@ -1,5 +1,6 @@
 from datetime import date as date_class
 from expungeservice.models.charge import Charge
+from expungeservice.models.disposition import Disposition
 from tests.factories.case_factory import CaseFactory
 
 
@@ -12,12 +13,13 @@ class ChargeFactory:
                   'name': 'Theft of services',
                   'statute': '164.125',
                   'level': 'Misdemeanor Class A',
-                  'date': '1/1/0001'
+                  'date': '1/1/0001',
+                  'disposition': Disposition()
                 }
 
     @staticmethod
     def save(charge):
-        return Charge(**charge)
+        return Charge.create(**charge)
 
     @staticmethod
     def create(case=CaseFactory.create(),
@@ -26,11 +28,14 @@ class ChargeFactory:
                level='Misdemeanor Class A',
                date='1/1/0001',
                disposition=None):
-        charge = Charge(case, name, statute, level, date)
         if disposition:
-            charge.disposition.ruling, charge.disposition.date = disposition
+            ruling, date = disposition
+            disposition = Disposition(date=date, ruling=ruling)
+        else:
+            disposition = Disposition()
+        kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date, 'disposition': disposition}
 
-        return charge
+        return Charge.create(**kwargs)
 
     @staticmethod
     def create_dismissed_charge(case=CaseFactory.create(),
@@ -38,7 +43,7 @@ class ChargeFactory:
                                 statute='164.125',
                                 level='Misdemeanor Class A',
                                 date='1/1/0001'):
-        charge = Charge(case, name, statute, level, date)
-        charge.disposition.ruling, charge.disposition.date = ['Dismissed', date_class.today()]
+        disposition = Disposition(date=date_class.today().strftime('%m/%d/%Y'), ruling='Dismissed')
+        kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date, 'disposition': disposition}
 
-        return charge
+        return Charge.create(**kwargs)

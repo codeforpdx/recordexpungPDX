@@ -8,14 +8,14 @@ from tests.factories.charge_factory import ChargeFactory
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):
-    TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20))
-    LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1))
-    TEN_YEARS_AGO = (date.today() + relativedelta(years=-10))
-    SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7))
-    FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5))
-    LESS_THAN_THREE_YEARS_AGO = date.today() + relativedelta(years=-3, days=+1)
-    THREE_YEARS_AGO = (date.today() + relativedelta(years=-3))
-    TWO_YEARS_AGO = (date.today() + relativedelta(years=-2))
+    TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20)).strftime('%m/%d/%Y')
+    LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1)).strftime('%m/%d/%Y')
+    TEN_YEARS_AGO = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
+    SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7)).strftime('%m/%d/%Y')
+    FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5)).strftime('%m/%d/%Y')
+    LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
+    THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
+    TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     TOMORROW = date.today() + relativedelta(days=+1)
 
     ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
@@ -136,7 +136,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
     def test_multiple_acquittals_with_2yr_old_acquittal(self):
         case = CaseFactory.create()
-        two_year_acquittal = ChargeFactory.create(case=case, date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'), disposition=['Dismissed', self.TWO_YEARS_AGO])
+        two_year_acquittal = ChargeFactory.create(case=case, date=self.TWO_YEARS_AGO, disposition=['Dismissed', self.TWO_YEARS_AGO])
         case.charges = [two_year_acquittal]
 
         less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
@@ -156,7 +156,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_multiple_acquittals_belonging_to_same_case(self):
         case = CaseFactory.create()
         two_year_acquittal = ChargeFactory.create(case=case,
-                                                  date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                  date=self.TWO_YEARS_AGO,
                                                   disposition=['Dismissed', self.TWO_YEARS_AGO])
         less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
         case.charges = [two_year_acquittal, less_than_3yr_acquittal]
@@ -176,7 +176,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_multiple_case_recent_acquittals(self):
         case = CaseFactory.create()
         two_year_acquittal = ChargeFactory.create(case=case,
-                                                  date=self.TWO_YEARS_AGO.strftime('%m/%d/%Y'),
+                                                  date=self.TWO_YEARS_AGO,
                                                   disposition=['Dismissed', self.TWO_YEARS_AGO])
         less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
         case.charges=[two_year_acquittal, less_than_3yr_acquittal]
@@ -205,7 +205,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         charge = ChargeFactory.create(name='Aggravated theft in the first degree',
                                       statute='164.057',
                                       level='Felony Class B',
-                                      date=self.TWENTY_YEARS_AGO.strftime('%m/%d/%Y'),
+                                      date=self.TWENTY_YEARS_AGO,
                                       disposition=['Convicted', self.TWENTY_YEARS_AGO])
 
         self.charges.extend([charge])
@@ -220,7 +220,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         charge = ChargeFactory.create(name='Aggravated theft in the first degree',
                                       statute='164.057',
                                       level='Felony Class B',
-                                      date=self.LESS_THAN_TWENTY_YEARS_AGO.strftime('%m/%d/%Y'),
+                                      date=self.LESS_THAN_TWENTY_YEARS_AGO,
                                       disposition=['Convicted', self.LESS_THAN_TWENTY_YEARS_AGO])
 
         self.charges.extend([charge])
