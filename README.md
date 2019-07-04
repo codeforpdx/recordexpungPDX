@@ -123,8 +123,9 @@ Follow installation instructions in:
 
     * **Linux**
 
-[Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
-Links to install instructions for other linux distros listed in the sidebar.
+[Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+
+Configure docker to run [without root access](https://docs.docker.com/install/linux/linux-postinstall/) 
 
 9. Create a local .env file
 
