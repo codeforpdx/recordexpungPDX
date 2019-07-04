@@ -3,9 +3,9 @@ A project to automate expunging qualifying criminal records.  This project is do
 
 This README is covers project installation and getting started as a contributor. For more info:
 
-Frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+Project design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
 
-Backend documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
+Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
@@ -115,9 +115,9 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
    * **Mac**
 
-Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+        - Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
 
-(click on Get Docker for Mac [Stable])
+          (click on Get Docker for Mac [Stable])
 
    * **Linux**
     
@@ -147,8 +147,8 @@ $ make run
 Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will
 also install dependencies as part of this process). On success, a
 development server for the backend should be started on `http://localhost:5000`.
-To check this, navigate to `http://localhost:5000/hello`. If everything worked
-correctly, your browser should display the text `Hello, world!`.
+To check this, navigate to `http://localhost:5000/api/hello`. If everything worked
+correctly, your browser should display the text `Hello, world!`. Be sure to stop this process before launching the docker stack, because its backend service publishes to the same port.
 
 ##### Cleaning
 
@@ -167,11 +167,13 @@ Docker provides a fully sandboxed virual environment from which we will run the 
 docker swarm init
 make dev
 ```
+This command builds the docker images (web server, flask backend, and postgres database) and launches a docker stack running the three services. Verify the backend is serving requests by navigating to `http://localhost:5000/api/hello`. The frontend can be reached at `http://localhost:3000`.
 
 Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
 
-For more project documentation on our Docker setup, troubleshooting, and usage basics, see:
-https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md
+For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
+[doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+
 
 ## Testing
 
