@@ -18,32 +18,32 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         self.crawler = CrawlerFactory.setup()
 
     def test_expunger_with_open_case(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+        record = CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
                                                              'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
                                                              'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
         assert expunger.run() is False
         assert expunger.errors == ['Open cases exist']
 
     def test_type_analyzer_runs_when_open_cases_exit(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
+        record = CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
                                                              'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
                                                              'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
         expunger.run()
 
         assert expunger.cases[0].charges[1].expungement_result.type_eligibility is True
 
     def test_expunger_with_an_empty_record(self):
-        CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
-        expunger = Expunger(self.crawler.result.cases)
+        record = CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
+        expunger = Expunger(record.cases)
 
         assert expunger.run() is True
         assert expunger._most_recent_dismissal is None
         assert expunger._most_recent_conviction is None
 
     def test_expunger_categorizes_charges(self):
-        CrawlerFactory.create(self.crawler,
+        record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(dispo_ruling_1='Convicted - Failure to show',
                                                                  dispo_ruling_2='Dismissed',
                                                                  dispo_ruling_3='Acquitted'),
@@ -53,14 +53,14 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                      'X0003': CaseDetails.case_x(dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='Dismissed',
                                                                  dispo_ruling_3='Convicted')})
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
 
         assert expunger.run() is True
         assert len(expunger._acquittals) == 5
         assert len(expunger._convictions) == 4
 
     def test_expunger_calls_time_analyzer(self):
-        CrawlerFactory.create(self.crawler,
+        record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
                                                                  dispo_ruling_1='Dismissed',
                                                                  dispo_ruling_2='Dismissed',
@@ -73,7 +73,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                                                  dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='Convicted',
                                                                  dispo_ruling_3='No Complaint')})
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
 
         assert expunger.run() is True
 
@@ -83,7 +83,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger._time_analyzer._num_acquittals == 4
 
     def test_expunger_invokes_time_analyzer_with_most_recent_charge(self):
-        CrawlerFactory.create(self.crawler,
+        record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
                                                                  charge1_name='Aggravated theft in the first degree',
                                                                  charge1_statute='164.057',
@@ -93,7 +93,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                      'X0002': CaseDetails.case_x(),
                                      'X0003': CaseDetails.case_x()})
 
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
         expunger.run()
 
         assert len(expunger._class_b_felonies) == 1
@@ -102,7 +102,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger._time_analyzer._most_recent_charge.name == 'Aggravated theft in the first degree'
 
     def test_expunger_expunges(self):
-        CrawlerFactory.create(self.crawler,
+        record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(arrest_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
                                                                  dispo_date=self.FIFTEEN_YEARS_AGO.strftime('%m/%d/%Y'),
                                                                  dispo_ruling_1='Dismissed',
@@ -116,7 +116,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                                                  dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='No Complaint',
                                                                  dispo_ruling_3='No Complaint')})
-        expunger = Expunger(self.crawler.result.cases)
+        expunger = Expunger(record.cases)
 
         assert expunger.run() is True
 

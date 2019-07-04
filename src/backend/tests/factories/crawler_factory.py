@@ -35,4 +35,4 @@ class CrawlerFactory:
             for key, value in cases.items():
                 m.get("{}{}{}".format(base_url, 'CaseDetail.aspx?CaseID=', key), text=value)
 
-            crawler.search('John', 'Doe')
+            return crawler.search('John', 'Doe')

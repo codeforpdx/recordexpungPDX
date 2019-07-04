@@ -1,7 +1,7 @@
 import unittest
 
 from expungeservice.models.case import Case
-from expungeservice.models.record_object import Record
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 
@@ -27,8 +27,8 @@ class TestRecordObject(unittest.TestCase):
         self.record = Record(self.list_cases)
 
     def test_print_balance_in_cents(self):
-        assert self.record.total_balance_due() == 369.0
+        assert self.record.total_balance_due == 369.0
 
     def test_print_list_charges(self):
-        assert self.record.charges()[0] == self.list_charges[0]
-        assert self.record.charges()[1] == self.list_charges[0]
+        assert self.record.charges[0] == self.list_charges[0]
+        assert self.record.charges[1] == self.list_charges[0]
