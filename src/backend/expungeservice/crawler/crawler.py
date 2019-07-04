@@ -67,8 +67,7 @@ class Crawler:
 
     @staticmethod
     def __build_charge(charge_id, charge, case_parser):
-        new_charge = Charge(**charge)
         if case_parser.hashed_dispo_data.get(charge_id):
-            new_charge.disposition = Disposition(case_parser.hashed_dispo_data[charge_id].get('date'),
-                                                 case_parser.hashed_dispo_data[charge_id].get('ruling'))
-        return new_charge
+            charge['disposition'] = Disposition(case_parser.hashed_dispo_data[charge_id].get('date'),
+                                                case_parser.hashed_dispo_data[charge_id].get('ruling'))
+        return Charge.create(**charge)
