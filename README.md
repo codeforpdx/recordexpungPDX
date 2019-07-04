@@ -113,14 +113,17 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
 8. Install docker
 
-    * **Mac**
+   * **Mac**
 
 Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
 
 (click on Get Docker for Mac [Stable])
-    * **Linux**
+
+   * **Linux**
+    
         - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
-        - Configure you user to [run docker without sudo](https://docs.docker.com/install/linux/linux-postinstall/) 
+	
+        - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/ 
 
 9. Create a local .env file
 
@@ -165,7 +168,7 @@ docker swarm init
 make dev
 ```
 
-Note: running docker requires sudo by default. details to configure user-level access to docker commands TBD.
+Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
 
 For more project documentation on our Docker setup, troubleshooting, and usage basics, see:
 https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md
