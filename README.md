@@ -1,7 +1,11 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is primarily for the backend. For info on the frontend see [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+This README is covers project installation and getting started as a contributor. For more info:
+
+Frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+
+Backend documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
