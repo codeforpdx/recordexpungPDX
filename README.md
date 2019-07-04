@@ -115,17 +115,12 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
     * **Mac**
 
-Follow installation instructions in:
+Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
 
-    [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
-
-(click on `Get Docker for Mac [Stable])
-
+(click on Get Docker for Mac [Stable])
     * **Linux**
-
-[Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
-
-Configure docker to run [without root access](https://docs.docker.com/install/linux/linux-postinstall/) 
+        - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+        - Configure you user to [run docker without sudo](https://docs.docker.com/install/linux/linux-postinstall/) 
 
 9. Create a local .env file
 
