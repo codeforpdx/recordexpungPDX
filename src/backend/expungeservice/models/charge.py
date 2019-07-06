@@ -1,5 +1,6 @@
 import re
 import sys
+import logging
 
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
@@ -21,17 +22,23 @@ class Charge:
 
     @classmethod
     def create(cls, **kwargs):
-        cls.classification = None
-        case = kwargs['case']
-        statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
-        level = kwargs['level']
-        chapter = Charge._set_chapter(kwargs['statute'])
-        section = Charge.__set_section(statute)
-        Charge._set_classification(case, statute, level, chapter, section)
-        kwargs['chapter'] = chapter
-        kwargs['section'] = section
-        kwargs['statute'] = statute
-        return Charge._to_class(cls.classification)(**kwargs)
+        try:
+            cls.classification = None
+            case = kwargs['case']
+            statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
+            level = kwargs['level']
+            chapter = Charge._set_chapter(kwargs['statute'])
+            section = Charge.__set_section(statute)
+            Charge._set_classification(case, statute, level, chapter, section)
+            kwargs['chapter'] = chapter
+            kwargs['section'] = section
+            kwargs['statute'] = statute
+            return Charge._to_class(cls.classification)(**kwargs)
+        except Exception:
+            charge = UnclassifiedCharge(**kwargs)
+            self.errors.append(f"Error while analyzing type for charge: {charge.name} in case: {charge.case()().case_number}")
+            logging.exception(f" While evaluating charge type: {charge.case()().case_number} : {charge.name}")
+            return charge
 
     @classmethod
     def _set_classification(cls, case, statute, level, chapter, section):
