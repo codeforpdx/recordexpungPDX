@@ -4,6 +4,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger.expunger import Expunger
 from expungeservice.models.disposition import Disposition
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 
@@ -26,8 +27,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case = CaseFactory.create()
         mrd_charge = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
         case.charges = [mrd_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_dismissal is mrd_charge
@@ -37,8 +39,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         charge_1 = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
         charge_2 = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
         case.charges = [charge_1, charge_2]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_dismissal is None
@@ -48,8 +51,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         mrd_charge = ChargeFactory.create_dismissed_charge(date=self.TWO_YEARS_AGO)
         charge = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
         case.charges = [charge, charge, mrd_charge, charge, charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_dismissal is mrd_charge
@@ -59,8 +63,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         mrd_charge = ChargeFactory.create_dismissed_charge(date=self.TWO_YEARS_AGO)
         charge = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
         case.charges = [charge, charge, mrd_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_dismissal is mrd_charge
@@ -70,8 +75,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         mrc_charge = ChargeFactory.create()
         mrc_charge.disposition = Disposition(self.LESS_THAN_TEN_YEARS_AGO, 'Convicted')
         case.charges = [mrc_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_conviction is mrc_charge
@@ -84,8 +90,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         second_mrc_charge.disposition = Disposition(self.LESS_THAN_TEN_YEARS_AGO, 'Convicted')
 
         case.charges = [second_mrc_charge, mrc_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._second_most_recent_conviction is second_mrc_charge
@@ -95,8 +102,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         mrc_charge = ChargeFactory.create()
         mrc_charge.disposition = Disposition(self.TEN_YEARS, 'Convicted')
         case.charges = [mrc_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_conviction is None
@@ -108,8 +116,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         second_mrc_charge = ChargeFactory.create()
         second_mrc_charge.disposition = Disposition(self.TEN_YEARS, 'Convicted')
         case.charges = [mrc_charge, second_mrc_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._second_most_recent_conviction is None
@@ -123,8 +132,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         charge = ChargeFactory.create()
         charge.disposition = Disposition(self.TEN_YEARS, 'Convicted')
         case.charges = [charge, charge, second_mrc_charge, mrc_charge, charge, charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_conviction is mrc_charge
@@ -138,8 +148,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
 
         case.charges = [one_year_ago_dismissal, two_year_ago_dismissal, three_year_ago_dismissal, less_than_3_year_ago_dismissal]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._num_acquittals == 3
@@ -149,8 +160,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
 
         case.charges = [three_year_ago_dismissal]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._num_acquittals == 0
@@ -163,8 +175,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
                                                        disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
 
         case.charges = [one_year_traffic_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_charge is None
@@ -183,8 +196,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
                                                         disposition=['Convicted', self.FOUR_YEAR_AGO_DATE])
 
         case.charges = [one_year_traffic_charge, two_year_ago_dismissal, three_year_ago_dismissal, four_year_traffic_charge]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_charge == two_year_ago_dismissal
@@ -195,8 +209,9 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
                                               disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
 
         case.charges = [parking_ticket]
+        record = Record([case])
 
-        expunger = Expunger([case])
+        expunger = Expunger(record)
         expunger.run()
 
         assert expunger._most_recent_charge is None

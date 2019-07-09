@@ -13,15 +13,15 @@ class Expunger:
     query's if/when we start persisting the model objects to the db.
     """
 
-    def __init__(self, cases):
+    def __init__(self, record):
         '''
         Constructor
 
-        :param cases: A list of cases
+        :param record: A Record object
         '''
-        self.cases = cases
+        self.record = record
+        self._charges = record.charges
         self.errors = []
-        self._charges = []
         self._most_recent_dismissal = None
         self._most_recent_conviction = None
         self._second_most_recent_conviction = None
@@ -43,7 +43,6 @@ class Expunger:
             self.errors.append('Open cases exist')
             return False
 
-        self._create_charge_list()
         self._categorize_charges()
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
@@ -60,14 +59,10 @@ class Expunger:
         return True
 
     def _open_cases(self):
-        for case in self.cases:
+        for case in self.record.cases:
             if not case.closed():
                 return True
         return False
-
-    def _create_charge_list(self):
-        for case in self.cases:
-            self._charges.extend(case.charges)
 
     def _create_charge_list_from_closed_cases(self):
         for case in self.cases:
