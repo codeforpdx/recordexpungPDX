@@ -21,7 +21,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         record = CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
                                                              'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
                                                              'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
         assert expunger.run() is False
         assert expunger.errors == ['Open cases exist']
 
@@ -29,14 +29,14 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         record = CrawlerFactory.create(self.crawler, JohnDoe.RECORD, {'X0001': CaseDetails.CASE_X1,
                                                              'X0002': CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION,
                                                              'X0003': CaseDetails.CASE_WITHOUT_DISPOS})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
         expunger.run()
 
-        assert expunger.cases[0].charges[1].expungement_result.type_eligibility is True
+        assert record.cases[0].charges[1].expungement_result.type_eligibility is True
 
     def test_expunger_with_an_empty_record(self):
         record = CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
 
         assert expunger.run() is True
         assert expunger._most_recent_dismissal is None
@@ -53,7 +53,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                      'X0003': CaseDetails.case_x(dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='Dismissed',
                                                                  dispo_ruling_3='Convicted')})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
 
         assert expunger.run() is True
         assert len(expunger._acquittals) == 5
@@ -73,7 +73,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                                                  dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='Convicted',
                                                                  dispo_ruling_3='No Complaint')})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
 
         assert expunger.run() is True
 
@@ -93,7 +93,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                      'X0002': CaseDetails.case_x(),
                                      'X0003': CaseDetails.case_x()})
 
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
         expunger.run()
 
         assert len(expunger._class_b_felonies) == 1
@@ -116,7 +116,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
                                                                  dispo_ruling_1='No Complaint',
                                                                  dispo_ruling_2='No Complaint',
                                                                  dispo_ruling_3='No Complaint')})
-        expunger = Expunger(record.cases)
+        expunger = Expunger(record)
 
         assert expunger.run() is True
 
@@ -125,23 +125,23 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger._most_recent_dismissal.disposition.ruling == 'No Complaint'
         assert len(expunger._acquittals) == 8
 
-        assert expunger.cases[0].charges[0].expungement_result.type_eligibility is True
-        assert expunger.cases[0].charges[0].expungement_result.time_eligibility is False
-        assert expunger.cases[0].charges[1].expungement_result.type_eligibility is False
-        assert expunger.cases[0].charges[1].expungement_result.time_eligibility is False
-        assert expunger.cases[0].charges[2].expungement_result.type_eligibility is True
-        assert expunger.cases[0].charges[2].expungement_result.time_eligibility is False
+        assert record.cases[0].charges[0].expungement_result.type_eligibility is True
+        assert record.cases[0].charges[0].expungement_result.time_eligibility is False
+        assert record.cases[0].charges[1].expungement_result.type_eligibility is False
+        assert record.cases[0].charges[1].expungement_result.time_eligibility is False
+        assert record.cases[0].charges[2].expungement_result.type_eligibility is True
+        assert record.cases[0].charges[2].expungement_result.time_eligibility is False
 
-        assert expunger.cases[1].charges[0].expungement_result.type_eligibility is True
-        assert expunger.cases[1].charges[0].expungement_result.time_eligibility is False
-        assert expunger.cases[1].charges[1].expungement_result.type_eligibility is True
-        assert expunger.cases[1].charges[1].expungement_result.time_eligibility is False
-        assert expunger.cases[1].charges[2].expungement_result.type_eligibility is True
-        assert expunger.cases[1].charges[2].expungement_result.time_eligibility is False
+        assert record.cases[1].charges[0].expungement_result.type_eligibility is True
+        assert record.cases[1].charges[0].expungement_result.time_eligibility is False
+        assert record.cases[1].charges[1].expungement_result.type_eligibility is True
+        assert record.cases[1].charges[1].expungement_result.time_eligibility is False
+        assert record.cases[1].charges[2].expungement_result.type_eligibility is True
+        assert record.cases[1].charges[2].expungement_result.time_eligibility is False
 
-        assert expunger.cases[2].charges[0].expungement_result.type_eligibility is True
-        assert expunger.cases[2].charges[0].expungement_result.time_eligibility is True
-        assert expunger.cases[2].charges[1].expungement_result.type_eligibility is True
-        assert expunger.cases[2].charges[1].expungement_result.time_eligibility is True
-        assert expunger.cases[2].charges[2].expungement_result.type_eligibility is True
-        assert expunger.cases[2].charges[2].expungement_result.time_eligibility is True
+        assert record.cases[2].charges[0].expungement_result.type_eligibility is True
+        assert record.cases[2].charges[0].expungement_result.time_eligibility is True
+        assert record.cases[2].charges[1].expungement_result.type_eligibility is True
+        assert record.cases[2].charges[1].expungement_result.time_eligibility is True
+        assert record.cases[2].charges[2].expungement_result.type_eligibility is True
+        assert record.cases[2].charges[2].expungement_result.time_eligibility is True
