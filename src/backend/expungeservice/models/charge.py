@@ -23,27 +23,29 @@ class Charge:
         cls.classification = None
         statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
         level = kwargs['level']
+        chapter = Charge._set_chapter(kwargs['statute'])
         section = Charge.__set_section(statute)
-        Charge._set_classification(statute, level, section)
+        Charge._set_classification(statute, level, chapter, section)
+        kwargs['chapter'] = chapter
         kwargs['section'] = section
         kwargs['statute'] = statute
         return Charge._to_class(cls.classification)(**kwargs)
 
     @classmethod
-    def _set_classification(cls, statute, level, section):
-        Charge._set_classification_by_statute(statute, section)
+    def _set_classification(cls, statute, level, chapter, section):
+        Charge._set_classification_by_statute(statute, chapter, section)
         if not cls.classification:
             Charge._set_classification_by_level(level)
         if not cls.classification:
             cls.classification = 'UnclassifiedCharge'
 
     @staticmethod
-    def _set_classification_by_statute(statute, section):
+    def _set_classification_by_statute(statute, chapter, section):
         Charge._marijuana_ineligible(statute, section)
         Charge._list_b(section)
         Charge._crime_against_person(section)
         Charge._traffic_crime(statute)
-        Charge._parking_ticket(statute)
+        Charge._parking_ticket(statute, chapter)
         Charge._schedule_1_pcs(section)
 
     @staticmethod
@@ -80,9 +82,12 @@ class Charge:
             cls.classification = 'Level800TrafficCrime'
 
     @classmethod
-    def _parking_ticket(cls, statute):
+    def _parking_ticket(cls, statute, chapter):
         statute_range = range(1, 100)
-        if statute.isdigit() and int(statute) in statute_range:
+        if chapter:
+            if chapter.isdigit() and int(chapter) in statute_range:
+                cls.classification = 'ParkingTicket'
+        elif statute.isdigit() and int(statute) in statute_range:
             cls.classification = 'ParkingTicket'
 
     @classmethod
@@ -124,8 +129,14 @@ class Charge:
         return re.sub(r'[^a-zA-Z0-9*]', '', statute).upper()
 
     @staticmethod
+    def _set_chapter(statute):
+        if '.' in statute:
+            return statute.split('.')[0]
+        else:
+            return None
+
+    @staticmethod
     def __set_section(statute):
-        statute = Charge.__strip_non_alphanumeric_chars(statute)
         if len(statute) < 6:
             return ''
         elif statute[3].isalpha():
