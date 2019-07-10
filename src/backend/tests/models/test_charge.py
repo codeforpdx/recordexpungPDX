@@ -136,6 +136,12 @@ class TestTrafficTickets(unittest.TestCase):
 
         assert charge.__class__.__name__ == 'ParkingTicket'
 
+    def test_park_over_crosswalk_statute(self):
+        self.charge['statute'] = '16.20.130-Q'
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.__class__.__name__ == 'ParkingTicket'
+
 
 class TestMotorVehicleViolation(unittest.TestCase):
 

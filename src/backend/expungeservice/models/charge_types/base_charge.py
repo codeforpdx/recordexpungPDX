@@ -9,13 +9,14 @@ from expungeservice.models.expungement_result import ExpungementResult
 
 class BaseCharge:
 
-    def __init__(self, case, name, statute, level, date, section, disposition=Disposition()):
+    def __init__(self, case, name, statute, level, date, chapter, section, disposition=Disposition()):
         self.name = name
         self.statute = statute
         self.level = level
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = disposition
         self.expungement_result = ExpungementResult()
+        self._chapter = chapter
         self._section = section
         self._case = weakref.ref(case)
 
