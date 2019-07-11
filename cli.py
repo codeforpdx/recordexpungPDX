@@ -38,6 +38,12 @@ else:
     log_success = 'http://localhost:3000/log_success'
     log_failure = 'http://localhost:3000/log_failure'
 
+try:
+    # wake up logging server
+    requests.get(home_url)
+except Exception:
+    pass
+
 os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
 os.makedirs('Documents/RecordExpungeCLI/error_logs', exist_ok=True)
 
@@ -83,17 +89,14 @@ while True:
 
     print("Searching... and parsing results...")
 
-    # wake up logging server
-    requests.get(home_url)
-
-    crawler.search(first_name, last_name, middle_name, birth_date)
+    record = crawler.search(first_name, last_name, middle_name, birth_date)
 
 
 
     print("Search complete. Performing expungement")
     print()
 
-    expunger = Expunger(crawler.result.cases)
+    expunger = Expunger(record)
     expunged = expunger.run()
 
     print("Expungement complete.")
@@ -113,14 +116,14 @@ while True:
 
     num_charges_expungeable = 0
     expungeable_charges = []
-    for case in expunger.cases:
+    for case in record.cases:
         for charge in case.charges:
             if charge.expungement_result.type_eligibility and charge.expungement_result.time_eligibility:
                 expungeable_charges.append(charge)
                 num_charges_expungeable += 1
 
     total_balance_due = 0
-    for case in expunger.cases:
+    for case in record.cases:
         total_balance_due += case.balance_due_in_cents
 
     file.write("-----------------------------------------------------------------------------------------\n")
@@ -128,9 +131,9 @@ while True:
     file.write("Results for: " + last_name + ", " + first_name + "\n")
     file.write("\n\n")
 
-    file.write("Number of cases  : " + str(len(expunger.cases)))
+    file.write("Number of cases  : " + str(len(record.cases)))
     file.write("\n")
-    file.write("Number of charges: " + str(len(expunger._charges)))
+    file.write("Number of charges: " + str(len(record.charges)))
     file.write("\n")
     file.write("Total balance due: $" + str(total_balance_due/100))
     file.write("\n")
@@ -161,7 +164,7 @@ while True:
     file.write("-----------------------------------------------------------------------------------------\n")
     file.write("-----------------------------------------------------------------------------------------\n")
     file.write("                            All Cases and Charges\n")
-    for case in expunger.cases:
+    for case in record.cases:
         file.write("_________________________________________________________________________________________\n\n")
         file.write("Case number : " + case.case_number + "\n")
         file.write("Case status : " + case.current_status + "\n")
@@ -208,8 +211,11 @@ while True:
         print("Please wait: Uploading error log...")
         search_params = f"{last_name} : {first_name} : {middle_name} : {birth_date}"
 
-        requests.post(log_failure)
-        response = requests.post(url, data={'name': search_params, 'content': content})
+        try:
+            requests.post(log_failure)
+            response = requests.post(url, data={'name': search_params, 'content': content})
+        except Exception:
+            print("Unable to connect to server")
         print()
         print('*********************************************************')
         if response.status_code > 399:
@@ -219,7 +225,10 @@ while True:
         print('*********************************************************')
         print()
     else:
-        requests.post(log_success)
+        try:
+            requests.post(log_success)
+        except Exception:
+            print("Unable to connect to server")
         print("No errors found.")
         print()
 
