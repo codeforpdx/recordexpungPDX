@@ -215,3 +215,12 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger.run()
 
         assert expunger._most_recent_charge is None
+
+    def test_it_skips_closed_cases_without_dispositions(self):
+        case = CaseFactory.create()
+        charge_without_dispo = ChargeFactory.create()
+        case.charges = [charge_without_dispo]
+        record = Record([case])
+        expunger = Expunger(record)
+
+        assert expunger.run()
