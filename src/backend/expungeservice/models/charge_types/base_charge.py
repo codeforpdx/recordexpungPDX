@@ -27,7 +27,9 @@ class BaseCharge:
         return False
 
     def acquitted(self):
-        if self.disposition.ruling:
+        if not self.disposition.ruling:
+            return False
+        else:
             return self.disposition.ruling[0:9] != 'Convicted'
 
     def recent_conviction(self):
