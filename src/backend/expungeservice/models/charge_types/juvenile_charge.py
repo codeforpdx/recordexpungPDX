@@ -7,3 +7,6 @@ class JuvenileCharge(BaseCharge):
         super(JuvenileCharge, self).__init__(**kwargs)
         self.expungement_result.set_type_eligibility(None)
         self.expungement_result.set_reason('Juvenile Charge : Needs further analysis')
+
+    def skip_analysis(self):
+        return True

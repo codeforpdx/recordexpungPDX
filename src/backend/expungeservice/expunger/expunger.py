@@ -22,7 +22,7 @@ class Expunger:
         self.record = record
         self._charges = record.charges
         self.errors = []
-        self._dispositionless_charges = []
+        self._skipped_charges = []
         self._most_recent_dismissal = None
         self._most_recent_conviction = None
         self._second_most_recent_conviction = None
@@ -43,8 +43,8 @@ class Expunger:
             self.errors.append('Open cases exist')
             return False
 
-        self._tag_dispositionless_charges()
-        self._remove_dispositionless_charge()
+        self._tag_skipped_charges()
+        self._remove_skipped_charges()
         self._categorize_charges()
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
@@ -66,14 +66,13 @@ class Expunger:
                 return True
         return False
 
-    def _tag_dispositionless_charges(self):
+    def _tag_skipped_charges(self):
         for charge in self._charges:
-            if Expunger._charge_without_disposition(charge):
-                charge.expungement_result.type_eligibility_reason = "Disposition not found. Needs further analysis"
-                self._dispositionless_charges.append(charge)
+            if charge.skip_analysis():
+                self._skipped_charges.append(charge)
 
-    def _remove_dispositionless_charge(self):
-        for charge in self._dispositionless_charges:
+    def _remove_skipped_charges(self):
+        for charge in self._skipped_charges:
             self._charges.remove(charge)
 
     def _categorize_charges(self):
@@ -115,10 +114,3 @@ class Expunger:
         for charge in self._charges:
             if charge.__class__.__name__ == 'FelonyClassB':
                 self._class_b_felonies.append(charge)
-
-    @staticmethod
-    def _charge_without_disposition(charge):
-        if not charge.disposition.ruling:
-            return True
-        else:
-            return False
