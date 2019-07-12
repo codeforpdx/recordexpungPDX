@@ -1,6 +1,7 @@
 import re
 import sys
 
+from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
@@ -21,23 +22,30 @@ class Charge:
     @classmethod
     def create(cls, **kwargs):
         cls.classification = None
+        case = kwargs['case']
         statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
         level = kwargs['level']
         chapter = Charge._set_chapter(kwargs['statute'])
         section = Charge.__set_section(statute)
-        Charge._set_classification(statute, level, chapter, section)
+        Charge._set_classification(case, statute, level, chapter, section)
         kwargs['chapter'] = chapter
         kwargs['section'] = section
         kwargs['statute'] = statute
         return Charge._to_class(cls.classification)(**kwargs)
 
     @classmethod
-    def _set_classification(cls, statute, level, chapter, section):
+    def _set_classification(cls, case, statute, level, chapter, section):
+        if Charge._juvenile_charge(case):
+            cls.classification = 'JuvenileCharge'
         Charge._set_classification_by_statute(statute, chapter, section)
         if not cls.classification:
             Charge._set_classification_by_level(level)
         if not cls.classification:
             cls.classification = 'UnclassifiedCharge'
+
+    @staticmethod
+    def _juvenile_charge(case):
+        return 'juvenile' in case.violation_type.lower()
 
     @staticmethod
     def _set_classification_by_statute(statute, chapter, section):
