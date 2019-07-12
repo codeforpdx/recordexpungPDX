@@ -224,3 +224,15 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
 
         assert expunger.run()
+
+    def test_it_skips_juvenile_charges(self):
+        case = CaseFactory.create(type_status=['a juvenile case', 'Closed'])
+        juvenile_charge = ChargeFactory.create(case=case)
+        case.charges = [juvenile_charge]
+
+        record = Record([case])
+        expunger = Expunger(record)
+
+        assert expunger.run()
+        assert expunger._skipped_charges[0] == juvenile_charge
+        assert expunger._charges == []
