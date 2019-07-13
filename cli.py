@@ -2,6 +2,7 @@ import os
 import getpass
 import requests
 import logging
+import threading
 
 from src.backend.expungeservice.crawler.crawler import Crawler
 from src.backend.expungeservice.expunger.expunger import Expunger
@@ -38,11 +39,15 @@ else:
     log_success = 'http://localhost:3000/log_success'
     log_failure = 'http://localhost:3000/log_failure'
 
-try:
-    # wake up logging server
-    requests.get(home_url)
-except Exception:
-    pass
+def ping_server():
+    try:
+        # wake up logging server
+        requests.get(home_url)
+    except Exception:
+        pass
+
+logging_server = threading.Thread(target=ping_server)
+logging_server.start()
 
 os.makedirs('Documents/RecordExpungeCLI/results', exist_ok=True)
 os.makedirs('Documents/RecordExpungeCLI/error_logs', exist_ok=True)
@@ -86,6 +91,11 @@ while True:
         file.close()
 
     logging.basicConfig(filename=ERROR_LOG_FILE)
+
+    print("Pinging logging server to wake it up...")
+    ping_server()
+
+    print()
 
     print("Searching... and parsing results...")
 
@@ -215,7 +225,7 @@ while True:
             requests.post(log_failure)
             response = requests.post(url, data={'name': search_params, 'content': content})
         except Exception:
-            print("Unable to connect to server")
+            pass
         print()
         print('*********************************************************')
         if response.status_code > 399:
@@ -228,7 +238,7 @@ while True:
         try:
             requests.post(log_success)
         except Exception:
-            print("Unable to connect to server")
+            pass
         print("No errors found.")
         print()
 
