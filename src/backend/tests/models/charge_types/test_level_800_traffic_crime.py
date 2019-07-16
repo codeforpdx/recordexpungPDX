@@ -56,3 +56,23 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert traffic_violation_max.expungement_result.type_eligibility is False
         assert traffic_violation_max.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+
+    def test_felony_class_c(self):
+        self.single_charge['name'] = 'Possession of a Stolen Vehicle'
+        self.single_charge['statute'] = '819.300'
+        self.single_charge['level'] = 'Felony Class C'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
+
+    def test_misdemeanor(self):
+        self.single_charge['name'] = 'Driving Under the Influence of Intoxicants'
+        self.single_charge['statute'] = '813.010(4)'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+
+        assert charge.expungement_result.type_eligibility is True
+        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
