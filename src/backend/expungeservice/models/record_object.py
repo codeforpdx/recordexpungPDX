@@ -1,5 +1,7 @@
 from expungeservice.models.case import Case
 
+from decimal import Decimal
+
 class Record:
     def __init__(self, list_cases):
         self.cases = list_cases
@@ -13,9 +15,10 @@ class Record:
         return list_charges
 
     def total_balance_due(self):
-        total = 0.0
+        total = 0
 
         for case in self.cases:
             total += case.balance_due_in_cents
 
-        return total/100.0
+        #for two decimal places
+        return round(total/100.0,2)
