@@ -12,7 +12,7 @@
     "@types/react-redux": "^7.1.1",
     "@types/react-test-renderer": "^16.8.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
-    "husky": "^2.4.1",
+    "husky": "^3.0.0",
     "lint-staged": "^8.2.1",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
