@@ -23,14 +23,14 @@ class Expunger:
         self._charges = record.charges
         self.errors = []
         self._skipped_charges = []
-        self._most_recent_dismissal = None
-        self._most_recent_conviction = None
-        self._second_most_recent_conviction = None
-        self._most_recent_charge = None
-        self._num_acquittals = 0
-        self._acquittals = []
+        self.most_recent_dismissal = None
+        self.most_recent_conviction = None
+        self.second_most_recent_conviction = None
+        self.most_recent_charge = None
+        self.num_acquittals = 0
+        self.acquittals = []
         self._convictions = []
-        self._class_b_felonies = []
+        self.class_b_felonies = []
         self._time_analyzer = None
 
     def run(self):
@@ -78,32 +78,32 @@ class Expunger:
     def _categorize_charges(self):
         for charge in self._charges:
             if charge.acquitted():
-                self._acquittals.append(charge)
+                self.acquittals.append(charge)
             else:
                 self._convictions.append(charge)
 
     def _set_most_recent_dismissal(self):
-        self._acquittals.sort(key=lambda charge: charge.date)
-        if self._acquittals and self._acquittals[-1].recent_acquittal():
-            self._most_recent_dismissal = self._acquittals[-1]
+        self.acquittals.sort(key=lambda charge: charge.date)
+        if self.acquittals and self.acquittals[-1].recent_acquittal():
+            self.most_recent_dismissal = self.acquittals[-1]
 
     def _set_most_recent_convictions(self):
         self._convictions.sort(key=lambda charge: charge.disposition.date)
         if len(self._convictions) > 0 and self._convictions[-1].recent_conviction():
-            self._most_recent_conviction = self._convictions[-1]
+            self.most_recent_conviction = self._convictions[-1]
         if len(self._convictions) > 1 and self._convictions[-2].recent_conviction():
-            self._second_most_recent_conviction = self._convictions[-2]
+            self.second_most_recent_conviction = self._convictions[-2]
 
     def _set_num_acquittals(self):
-        for charge in self._acquittals:
+        for charge in self.acquittals:
             if charge.recent_acquittal():
-                self._num_acquittals += 1
+                self.num_acquittals += 1
 
     def _assign_most_recent_charge(self):
         self._charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
 
         if self._charges:
-            self._most_recent_charge = self._most_recent_non_traffic_violation()
+            self.most_recent_charge = self._most_recent_non_traffic_violation()
 
     def _most_recent_non_traffic_violation(self):
         for charge in self._charges:
@@ -113,4 +113,4 @@ class Expunger:
     def _assign_class_b_felonies(self):
         for charge in self._charges:
             if charge.__class__.__name__ == 'FelonyClassB':
-                self._class_b_felonies.append(charge)
+                self.class_b_felonies.append(charge)

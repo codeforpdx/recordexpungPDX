@@ -30,8 +30,8 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         expunger = Expunger(record)
 
         assert expunger.run() is True
-        assert expunger._most_recent_dismissal is None
-        assert expunger._most_recent_conviction is None
+        assert expunger.most_recent_dismissal is None
+        assert expunger.most_recent_conviction is None
 
     def test_expunger_categorizes_charges(self):
         record = CrawlerFactory.create(self.crawler,
@@ -47,7 +47,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         expunger = Expunger(record)
 
         assert expunger.run() is True
-        assert len(expunger._acquittals) == 5
+        assert len(expunger.acquittals) == 5
         assert len(expunger._convictions) == 4
 
     def test_expunger_calls_time_analyzer(self):
@@ -87,8 +87,8 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert len(expunger._class_b_felonies) == 1
-        assert expunger._class_b_felonies[0].name == 'Aggravated theft in the first degree'
+        assert len(expunger.class_b_felonies) == 1
+        assert expunger.class_b_felonies[0].name == 'Aggravated theft in the first degree'
         assert expunger._time_analyzer._class_b_felonies[0].name == 'Aggravated theft in the first degree'
         assert expunger._time_analyzer._most_recent_charge.name == 'Aggravated theft in the first degree'
 
@@ -111,10 +111,10 @@ class TestCrawlerAndExpunger(unittest.TestCase):
 
         assert expunger.run() is True
 
-        assert expunger._most_recent_conviction is None
-        assert expunger._second_most_recent_conviction is None
-        assert expunger._most_recent_dismissal.disposition.ruling == 'No Complaint'
-        assert len(expunger._acquittals) == 8
+        assert expunger.most_recent_conviction is None
+        assert expunger.second_most_recent_conviction is None
+        assert expunger.most_recent_dismissal.disposition.ruling == 'No Complaint'
+        assert len(expunger.acquittals) == 8
 
         assert record.cases[0].charges[0].expungement_result.time_eligibility is False
         assert record.cases[0].charges[1].expungement_result.time_eligibility is False
