@@ -31,9 +31,12 @@ See https://nodejs.org/api/errors.html#errors_common_system_errors for more info
 The proxy error is expected pending updates to the backend.
 
 
+5. While developing frontend code, may be useful to run the app backend to have access to its api endpoints. This process runs in the project Docker stack, which also runs an instance of the frontend webserver, at the same port used by `npm start`. In order to run the the npm server instead, you can first launch the docker stack (see the README.md file at the project's top-level directory) and then kill the docker webserver with `docker service rm recordexpungpdx_webserver`. You can also locally prevent the webserver from running within the docker stack, by uncommenting the relevant lines in the docker-compose.dev.yml file at the top-level project directory.
+
 If you run into any issues with the above steps, please ask someone for help.
 
-- - - 
+- - -
+
 
 The rest of this README is the text that [Create React App](https://github.com/facebook/create-react-app) (which we used to bootstrap the app) generates by default.
 
