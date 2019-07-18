@@ -26,7 +26,7 @@
     "redux": "^4.0.4",
     "redux-starter-kit": "^0.6.0",
     "tachyons": "^4.11.1",
-    "typescript": "3.5.2"
+    "typescript": "3.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
