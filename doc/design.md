@@ -118,7 +118,7 @@ Global headers:
 - `Accept: application/json`
 
 
-**`POST`** `/api/<version>/auth_token`
+**`POST`** `/api/auth_token`
 
 Post email, password to create an auth token (JWT) that can be used when
 accessing protected APIs
@@ -143,7 +143,7 @@ Returns: auth token
 - `400 BAD FORMAT`: missing email or password
 
 
-**`POST`** `/api/<version>/users/`
+**`POST`** `/api/users/`
 
 Creates a user
 
@@ -175,7 +175,7 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
-**`GET`** `/api/<version>/users/EMAIL`
+**`GET`** `/api/users/EMAIL`
 
 Returns: Requested user
 
@@ -190,7 +190,7 @@ Status codes:
 - `200 OK`
 
 
-**`POST`** `/api/<version>/search`
+**`POST`** `/api/search`
 
 Performs search of remote system
 
@@ -209,7 +209,7 @@ Returns: Search results
     * tbd
 
 
-**`GET`** `/api/<version>/stats`
+**`GET`** `/api/stats`
 
 Reports on statistics run on data
 
