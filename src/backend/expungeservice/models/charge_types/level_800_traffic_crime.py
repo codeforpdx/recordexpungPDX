@@ -5,7 +5,7 @@ class Level800TrafficCrime(BaseCharge):
 
     def __init__(self, **kwargs):
         super(Level800TrafficCrime, self).__init__(**kwargs)
-        if self.acquitted():
+        if self._expungeable(**kwargs):
             self.expungement_result.set_type_eligibility(True)
             self.expungement_result.set_reason('Eligible under 137.225(1)(b)')
         else:
@@ -14,3 +14,6 @@ class Level800TrafficCrime(BaseCharge):
 
     def motor_vehicle_violation(self):
         return True
+
+    def _expungeable(self, **kwargs):
+        return 'violation' not in kwargs['level'].lower()

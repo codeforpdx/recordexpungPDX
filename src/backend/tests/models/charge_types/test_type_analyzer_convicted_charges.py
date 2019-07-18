@@ -102,22 +102,6 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert convicted_charge.expungement_result.type_eligibility is False
         assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
 
-    def test_traffic_crime_801_000(self):
-        self.single_charge['statute'] = '801.000'
-        convicted_charge = self.create_recent_charge()
-        self.charges.append(convicted_charge)
-
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
-
-    def test_traffic_crime_825_999(self):
-        self.single_charge['statute'] = '825.999'
-        convicted_charge = self.create_recent_charge()
-        self.charges.append(convicted_charge)
-
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
-
     def test_misdemeanor(self):
         self.single_charge['name'] = 'Criminal Trespass in the Second Degree'
         self.single_charge['statute'] = '164.245'
@@ -187,26 +171,6 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility is False
         assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
-
-    def test_traffic_violation_min_statute(self):
-        self.single_charge['name'] = 'Traffic Violation'
-        self.single_charge['statute'] = '801.000'
-        self.single_charge['level'] = 'Class C Traffic Violation'
-        traffic_violation_min = self.create_recent_charge()
-        self.charges.append(traffic_violation_min)
-
-        assert traffic_violation_min.expungement_result.type_eligibility is False
-        assert traffic_violation_min.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
-
-    def test_traffic_violation_max_statute(self):
-        self.single_charge['name'] = 'Traffic Violation'
-        self.single_charge['statute'] = '825.999'
-        self.single_charge['level'] = 'Class C Traffic Violation'
-        traffic_violation_max = self.create_recent_charge()
-        self.charges.append(traffic_violation_max)
-
-        assert traffic_violation_max.expungement_result.type_eligibility is False
-        assert traffic_violation_max.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
 
     # List B Tests - Currently being marked as "Further Analysis Needed"
 
