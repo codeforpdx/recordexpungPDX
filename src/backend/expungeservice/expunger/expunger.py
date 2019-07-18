@@ -16,6 +16,12 @@ class Expunger:
     def __init__(self, record):
         '''
         Constructor
+        most_recent_conviction: Most recent conviction if one exists from within the last ten years
+        second_most_recent_conviction: Second most recent conviction if one exists from within the last ten years
+        most_recent_dismissal: Most recent dismissal if one exists from within the last three years
+        num_acquittals: Number of acquittals within the last three years
+        class_b_felonies: A list of class B felonies; excluding person crimes or firearm crimes
+        most_recent_charge: The most recent charge within the last 20yrs; excluding traffic violations
 
         :param record: A Record object
         '''
@@ -51,12 +57,7 @@ class Expunger:
         self._set_num_acquittals()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
-        self._time_analyzer = TimeAnalyzer(most_recent_conviction=self._most_recent_conviction,
-                                           second_most_recent_conviction=self._second_most_recent_conviction,
-                                           most_recent_dismissal=self._most_recent_dismissal,
-                                           num_acquittals=self._num_acquittals,
-                                           class_b_felonies=self._class_b_felonies,
-                                           most_recent_charge=self._most_recent_charge)
+        self._time_analyzer = TimeAnalyzer(self)
         self._time_analyzer.evaluate(self._charges)
         return True
 

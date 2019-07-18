@@ -68,10 +68,10 @@ class TestCrawlerAndExpunger(unittest.TestCase):
 
         assert expunger.run() is True
 
-        assert expunger._time_analyzer._most_recent_conviction.date == self.ONE_YEAR_AGO
-        assert expunger._time_analyzer._second_most_recent_conviction.date == self.TWO_YEARS_AGO
-        assert expunger._time_analyzer._most_recent_dismissal.date == self.ONE_YEAR_AGO
-        assert expunger._time_analyzer._num_acquittals == 4
+        assert expunger._time_analyzer._expunger.most_recent_conviction.date == self.ONE_YEAR_AGO
+        assert expunger._time_analyzer._expunger.second_most_recent_conviction.date == self.TWO_YEARS_AGO
+        assert expunger._time_analyzer._expunger.most_recent_dismissal.date == self.ONE_YEAR_AGO
+        assert expunger._time_analyzer._expunger.num_acquittals == 4
 
     def test_expunger_invokes_time_analyzer_with_most_recent_charge(self):
         record = CrawlerFactory.create(self.crawler,
@@ -89,8 +89,8 @@ class TestCrawlerAndExpunger(unittest.TestCase):
 
         assert len(expunger.class_b_felonies) == 1
         assert expunger.class_b_felonies[0].name == 'Aggravated theft in the first degree'
-        assert expunger._time_analyzer._class_b_felonies[0].name == 'Aggravated theft in the first degree'
-        assert expunger._time_analyzer._most_recent_charge.name == 'Aggravated theft in the first degree'
+        assert expunger._time_analyzer._expunger.class_b_felonies[0].name == 'Aggravated theft in the first degree'
+        assert expunger._time_analyzer._expunger.most_recent_charge.name == 'Aggravated theft in the first degree'
 
     def test_expunger_expunges(self):
         record = CrawlerFactory.create(self.crawler,
