@@ -72,7 +72,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
       
       It may be necessary to then run
       ```
-      export LDFLAGS="-L/usr/local/opt/openssl/lib”
+      export LDFLAGS="-L/usr/local/opt/openssl/lib"
       ```
       More information on a Mac installation here: https://wiki.postgresql.org/wiki/Homebrew
     * **Linux**
