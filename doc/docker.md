@@ -1,25 +1,6 @@
 Record Expunge Docker Setup
 ===========================
 
-
-Installing on Mac
------------------
-
-Follow installation instructions in:
-
-    [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
-
-(click on `Get Docker for Mac [Stable])
-
-
-Installing on Linux
--------------------
-
-[Ubuntu Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
-Links to install instructions for other linux distros listed in the sidebar.
-
-Configure Docker so that your user can run docker commands without using sudo: https://docs.docker.com/install/linux/linux-postinstall/
-
 Documentation
 -------------
 
@@ -31,7 +12,7 @@ Containers
 
 We will have three containers: a container for the web server and webapp; a container for the database; and a container for our service.
 
-Each container will have a Dockerfile that describes the container's contents. As a group the containers will be managed with `docker swarm`. For conveninence any complex/multi-part command will have a shorter Make target.
+Each container will have a Dockerfile that describes the container's contents. For conveninence any complex/multi-part command will have a shorter Make target.
 
 We will have two configurations:
 
@@ -53,7 +34,7 @@ This container will run the PostgreSQL database.
 
 **Service Container**
 
-This container will the Python/Flask backend.
+This container will run the Python/Flask backend.
 
 
 Running the containers
@@ -74,12 +55,14 @@ To build and start the containers, do:
 
 This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more replicated containers) from each component image. While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file.
 
+Take a look at the Makefile to see all the steps in this make target. You can run these steps individually using the additional make targets provided.
+
 To see which containers are running:
 
     docker ps
 
 
-Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by rebuilding the image with:
+Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by first rebuilding the image with:
 
     make <image_name>
 
@@ -94,9 +77,9 @@ While the docker stack is running, it will restart any stopped containers automa
     make dev_stop
     make dev_deploy
 
-Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service. To start a new docker stack without rebuilding the images, run this docker command directly while in the project's top-level directory:
+Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service. To start a new docker stack without rebuilding the images, use:
 
-docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml recordexpungpdx 
+    make dev_start
 
 
 To explore the database:

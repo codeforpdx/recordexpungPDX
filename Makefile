@@ -3,13 +3,10 @@
 install:
 	pipenv install
 
-run: install
-	pipenv run flask run
-
 clean:
+	rm -rf src/backend/*.egg-info
 	find . -type f -name \*~ | xargs rm
 	find . -type f -name \*pyc | xargs rm
-	rm -rf src/backend/*.egg-info
 
 IMAGES := database_image expungeservice_image webserver_image
 
@@ -21,7 +18,10 @@ REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
 dev: $(REQUIREMENTS_TXT) dev_deploy
 	echo $@
 
-dev_deploy: $(IMAGES)
+dev_deploy: $(IMAGES) dev_start
+	echo $@
+
+dev_start:
 	echo $@
 	docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml $(STACK_NAME)
 
