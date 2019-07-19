@@ -26,7 +26,7 @@ class Expunger:
         :param record: A Record object
         '''
         self.record = record
-        self._charges = record.charges
+        self.charges = record.charges
         self.errors = []
         self._skipped_charges = []
         self.most_recent_dismissal = None
@@ -68,16 +68,16 @@ class Expunger:
         return False
 
     def _tag_skipped_charges(self):
-        for charge in self._charges:
+        for charge in self.charges:
             if charge.skip_analysis():
                 self._skipped_charges.append(charge)
 
     def _remove_skipped_charges(self):
         for charge in self._skipped_charges:
-            self._charges.remove(charge)
+            self.charges.remove(charge)
 
     def _categorize_charges(self):
-        for charge in self._charges:
+        for charge in self.charges:
             if charge.acquitted():
                 self.acquittals.append(charge)
             else:
@@ -101,17 +101,17 @@ class Expunger:
                 self.num_acquittals += 1
 
     def _assign_most_recent_charge(self):
-        self._charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
 
-        if self._charges:
+        if self.charges:
             self.most_recent_charge = self._most_recent_non_traffic_violation()
 
     def _most_recent_non_traffic_violation(self):
-        for charge in self._charges:
+        for charge in self.charges:
             if not charge.motor_vehicle_violation():
                 return charge
 
     def _assign_class_b_felonies(self):
-        for charge in self._charges:
+        for charge in self.charges:
             if charge.__class__.__name__ == 'FelonyClassB':
                 self.class_b_felonies.append(charge)

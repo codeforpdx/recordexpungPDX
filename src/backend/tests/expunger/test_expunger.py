@@ -235,4 +235,4 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
 
         assert expunger.run()
         assert expunger._skipped_charges[0] == juvenile_charge
-        assert expunger._charges == []
+        assert expunger.charges == []
