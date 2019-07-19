@@ -37,7 +37,6 @@ class Expunger:
         self.acquittals = []
         self._convictions = []
         self.class_b_felonies = []
-        self._time_analyzer = None
 
     def run(self):
         """
@@ -57,8 +56,7 @@ class Expunger:
         self._set_num_acquittals()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
-        self._time_analyzer = TimeAnalyzer(self)
-        self._time_analyzer.evaluate(self._charges)
+        TimeAnalyzer.evaluate(self)
         return True
 
     def _open_cases(self):
