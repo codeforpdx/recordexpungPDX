@@ -8,6 +8,10 @@ services:
     webserver:
         ports:
             - "3000:3000"
+        ### uncomment these lines to disable the webserver in the docker stack.
+        ### This is useful if you'd rather run the npm server while developing frontend code.
+        #deploy:
+        #    replicas: 0
 
 
     db:

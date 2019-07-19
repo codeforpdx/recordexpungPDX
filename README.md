@@ -69,7 +69,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
       brew install postgresql
       ```
       Note: this step is only required to meet a dependency for python's psycopg2 package, namely `libpq-dev`. The dev environment doesn't require a local installation of the database, because the database runs within the docker stack.
-      
+
       It may be necessary to then run
       ```
       export LDFLAGS="-L/usr/local/opt/openssl/lib"
@@ -120,10 +120,10 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
           (click on Get Docker for Mac [Stable])
 
    * **Linux**
-    
+
         - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
-	
-        - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/ 
+
+        - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
 9. Create a local .env file
 
@@ -132,23 +132,6 @@ While in the directory of your local repo, run:
 cp .env.example .env
 
 ```
-## Running Components
-
-### Backend
-
-#### Running Backend Development Server
-
-While in the directory of your local repo, run:
-
-```
-$ make run
-```
-
-Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will
-also install dependencies as part of this process). On success, a
-development server for the backend should be started on `http://localhost:5000`.
-To check this, navigate to `http://localhost:5000/api/hello`. If everything worked
-correctly, your browser should display the text `Hello, world!`. Be sure to stop this process before launching the docker stack, because its backend service publishes to the same port.
 
 ##### Cleaning
 
@@ -161,12 +144,18 @@ in order to remove build artifacts.
 
 #### Running the Docker stack
 
-Docker provides a fully sandboxed virual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (discussed below) to pass, because it runs a local instance of the database. While in the directory of your local repo, run:
+Docker provides a fully sandboxed virtual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (discussed below) to pass, because it runs a local instance of the database. While in the directory of your local repo, run:
 
 ```
 docker swarm init
+```
+
+This enables docker to run a stack locally and only needs to be run once.
+
+```
 make dev
 ```
+
 This command builds the docker images (web server, flask backend, and postgres database) and launches a docker stack running the three services. Verify the backend is serving requests by navigating to `http://localhost:5000/api/hello`. The frontend can be reached at `http://localhost:3000`.
 
 Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
@@ -183,6 +172,8 @@ Run all tests with the following command:
 ```bash
 $ make test
 ```
+
+If all of these tests pass, you have successfully set up the backend dev environment!
 
 ## Project Layout
 
@@ -201,7 +192,6 @@ $ make test
 `src`: Source dir
 
 `src/backend/expungeservice/app.py`: Flask application
-`
 
 ## <a name="contributing"></a>Contributing
 
