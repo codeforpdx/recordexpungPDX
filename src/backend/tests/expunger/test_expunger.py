@@ -32,7 +32,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_dismissal is mrd_charge
+        assert expunger.most_recent_dismissal is mrd_charge
 
     def test_expunger_does_not_set_most_recent_dismissal_when_case_is_older_than_3yrs(self):
         case = CaseFactory.create()
@@ -44,7 +44,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_dismissal is None
+        assert expunger.most_recent_dismissal is None
 
     def test_expunger_sets_mrd_when_mrd_is_in_middle_of_list(self):
         case = CaseFactory.create()
@@ -56,7 +56,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_dismissal is mrd_charge
+        assert expunger.most_recent_dismissal is mrd_charge
 
     def test_expunger_sets_mrd_when_mrd_is_at_end_of_list(self):
         case = CaseFactory.create()
@@ -68,7 +68,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_dismissal is mrd_charge
+        assert expunger.most_recent_dismissal is mrd_charge
 
     def test_it_sets_most_recent_conviction_from_the_last_10yrs(self):
         case = CaseFactory.create()
@@ -80,7 +80,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_conviction is mrc_charge
+        assert expunger.most_recent_conviction is mrc_charge
 
     def test_it_sets_the_second_most_recent_conviction_within_the_last_10yrs(self):
         case = CaseFactory.create()
@@ -95,7 +95,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._second_most_recent_conviction is second_mrc_charge
+        assert expunger.second_most_recent_conviction is second_mrc_charge
 
     def test_it_does_not_set_mrc_when_greater_than_10yrs(self):
         case = CaseFactory.create()
@@ -107,7 +107,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_conviction is None
+        assert expunger.most_recent_conviction is None
 
     def test_it_does_not_set_2nd_mrc_when_greater_than_10yrs(self):
         case = CaseFactory.create()
@@ -121,7 +121,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._second_most_recent_conviction is None
+        assert expunger.second_most_recent_conviction is None
 
     def test_mrc_and_second_mrc(self):
         case = CaseFactory.create()
@@ -137,8 +137,8 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_conviction is mrc_charge
-        assert expunger._second_most_recent_conviction is second_mrc_charge
+        assert expunger.most_recent_conviction is mrc_charge
+        assert expunger.second_most_recent_conviction is second_mrc_charge
 
     def test_num_acquittals(self):
         case = CaseFactory.create()
@@ -153,7 +153,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._num_acquittals == 3
+        assert expunger.num_acquittals == 3
 
     def test_num_acquittals(self):
         case = CaseFactory.create()
@@ -165,7 +165,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._num_acquittals == 0
+        assert expunger.num_acquittals == 0
 
     def test_most_recent_charge(self):
         case = CaseFactory.create()
@@ -180,7 +180,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_charge is None
+        assert expunger.most_recent_charge is None
 
     def test_most_recent_charge_with_non_traffic_violations(self):
         case = CaseFactory.create()
@@ -201,7 +201,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_charge == two_year_ago_dismissal
+        assert expunger.most_recent_charge == two_year_ago_dismissal
 
     def test_parking_ticket_is_not_recent_charge(self):
         case = CaseFactory.create()
@@ -214,7 +214,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
-        assert expunger._most_recent_charge is None
+        assert expunger.most_recent_charge is None
 
     def test_it_skips_closed_cases_without_dispositions(self):
         case = CaseFactory.create()
@@ -235,4 +235,4 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
 
         assert expunger.run()
         assert expunger._skipped_charges[0] == juvenile_charge
-        assert expunger._charges == []
+        assert expunger.charges == []
