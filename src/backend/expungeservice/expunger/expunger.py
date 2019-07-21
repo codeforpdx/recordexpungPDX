@@ -33,7 +33,6 @@ class Expunger:
         self.most_recent_conviction = None
         self.second_most_recent_conviction = None
         self.most_recent_charge = None
-        self.num_acquittals = 0
         self.acquittals = []
         self.convictions = []
         self.class_b_felonies = []
@@ -53,7 +52,6 @@ class Expunger:
         self._categorize_charges()
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
-        self._set_num_acquittals()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
         TimeAnalyzer.evaluate(self)
@@ -92,11 +90,6 @@ class Expunger:
             self.most_recent_conviction = self.convictions[-1]
         if len(self.convictions) > 1 and self.convictions[-2].recent_conviction():
             self.second_most_recent_conviction = self.convictions[-2]
-
-    def _set_num_acquittals(self):
-        for charge in self.acquittals:
-            if charge.recent_acquittal():
-                self.num_acquittals += 1
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
