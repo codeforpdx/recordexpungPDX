@@ -109,7 +109,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert three_years_ago_charge.expungement_result.date_of_eligibility == two_years_ago_charge.disposition.date + Time.TEN_YEARS
 
         assert two_years_ago_charge.expungement_result.time_eligibility is False
-        assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Recent convictions within the last ten years'
+        assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
         assert two_years_ago_charge.expungement_result.date_of_eligibility == three_years_ago_charge.disposition.date + Time.TEN_YEARS
 
     def test_7_yr_old_conviction_5_yr_old_mrc(self):
@@ -126,7 +126,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert seven_year_ago_charge.expungement_result.date_of_eligibility == five_year_ago_charge.disposition.date + Time.TEN_YEARS
 
         assert five_year_ago_charge.expungement_result.time_eligibility is False
-        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Recent convictions within the last ten years'
+        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
         assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
 
     def test_felony_class_b_greater_than_20yrs(self):

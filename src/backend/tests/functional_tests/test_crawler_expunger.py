@@ -75,7 +75,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert len(expunger.acquittals) == 8
 
         assert record.cases[0].charges[0].expungement_result.time_eligibility is False
-        assert record.cases[0].charges[1].expungement_result.time_eligibility is False
+        assert record.cases[0].charges[1].expungement_result.time_eligibility is True
         assert record.cases[0].charges[2].expungement_result.time_eligibility is False
 
         assert record.cases[1].charges[0].expungement_result.time_eligibility is False
