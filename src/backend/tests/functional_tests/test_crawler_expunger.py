@@ -48,7 +48,7 @@ class TestCrawlerAndExpunger(unittest.TestCase):
 
         assert expunger.run() is True
         assert len(expunger.acquittals) == 5
-        assert len(expunger._convictions) == 4
+        assert len(expunger.convictions) == 4
 
     def test_expunger_runs_time_analyzer(self):
         record = CrawlerFactory.create(self.crawler,
