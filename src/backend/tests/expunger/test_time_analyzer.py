@@ -3,6 +3,8 @@ import unittest
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+from expungeservice.expunger.expunger import Expunger
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
@@ -124,92 +126,8 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert seven_year_ago_charge.expungement_result.date_of_eligibility == five_year_ago_charge.disposition.date + Time.TEN_YEARS
 
         assert five_year_ago_charge.expungement_result.time_eligibility is False
-        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
-        assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + self.TEN_YEARS
-
-    def test_less_than_3yr_old_acquittal(self):
-        less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-
-        self.expunger.most_recent_dismissal = less_than_3yr_acquittal
-        self.expunger.charges = [less_than_3yr_acquittal]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility is True
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == ''
-        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility is None
-
-    def test_multiple_acquittals_with_2yr_old_acquittal(self):
-        case = CaseFactory.create()
-        two_year_acquittal = ChargeFactory.create(case=case, date=self.TWO_YEARS_AGO, disposition=['Dismissed', self.TWO_YEARS_AGO])
-        case.charges = [two_year_acquittal]
-
-        less_than_3yr_acquittal = ChargeFactory.create(disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-
-        self.expunger.most_recent_dismissal = two_year_acquittal
-        self.expunger.num_acquittals = 2
-
-        self.expunger.charges = [two_year_acquittal, less_than_3yr_acquittal]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert two_year_acquittal.expungement_result.time_eligibility is True
-        assert two_year_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
-        assert two_year_acquittal.expungement_result.date_of_eligibility is None
-
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility is False
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
-        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == self.ONE_YEARS_FROM_NOW
-
-    def test_multiple_acquittals_belonging_to_same_case(self):
-        case = CaseFactory.create()
-        two_year_acquittal = ChargeFactory.create(case=case,
-                                                  date=self.TWO_YEARS_AGO,
-                                                  disposition=['Dismissed', self.TWO_YEARS_AGO])
-        less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-        case.charges = [two_year_acquittal, less_than_3yr_acquittal]
-
-        self.expunger.most_recent_dismissal = two_year_acquittal
-        self.expunger.num_acquittals = 2
-
-        self.expunger.charges = [two_year_acquittal, less_than_3yr_acquittal]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert two_year_acquittal.expungement_result.time_eligibility is True
-        assert two_year_acquittal.expungement_result.time_eligibility_reason == ''
-        assert two_year_acquittal.expungement_result.date_of_eligibility is None
-
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility is True
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == ''
-        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == None
-
-    def test_multiple_case_recent_acquittals(self):
-        case = CaseFactory.create()
-        two_year_acquittal = ChargeFactory.create(case=case,
-                                                  date=self.TWO_YEARS_AGO,
-                                                  disposition=['Dismissed', self.TWO_YEARS_AGO])
-        less_than_3yr_acquittal = ChargeFactory.create(case=case, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-        case.charges=[two_year_acquittal, less_than_3yr_acquittal]
-
-        case_2 = CaseFactory.create()
-        less_than_3yr_acquittal_2 = ChargeFactory.create(case=case_2, disposition=['Dismissed', self.LESS_THAN_THREE_YEARS_AGO])
-        case_2.charges = [less_than_3yr_acquittal_2]
-
-        self.expunger.most_recent_dismissal = two_year_acquittal
-        self.expunger.num_acquittals = 3
-
-        self.expunger.charges = [two_year_acquittal, less_than_3yr_acquittal, less_than_3yr_acquittal_2]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert two_year_acquittal.expungement_result.time_eligibility is True
-        assert two_year_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
-        assert two_year_acquittal.expungement_result.date_of_eligibility is None
-
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility is True
-        assert less_than_3yr_acquittal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
-        assert less_than_3yr_acquittal.expungement_result.date_of_eligibility == None
-
-        assert less_than_3yr_acquittal_2.expungement_result.time_eligibility is False
-        assert less_than_3yr_acquittal_2.expungement_result.time_eligibility_reason == 'Recommend sequential expungement of arrests'
-        assert less_than_3yr_acquittal_2.expungement_result.date_of_eligibility == self.ONE_YEARS_FROM_NOW
+        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Recent convictions within the last ten years'
+        assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
 
     def test_felony_class_b_greater_than_20yrs(self):
         charge = ChargeFactory.create(name='Aggravated theft in the first degree',
@@ -243,4 +161,64 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         assert charge.expungement_result.time_eligibility is False
         assert charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(5)(a)(A)(i)'
-        assert charge.expungement_result.date_of_eligibility == self.TOMORROW
+        assert charge.expungement_result.date_of_eligibility == Time.TOMORROW
+
+
+class TestDismissalBlock(unittest.TestCase):
+
+    def setUp(self):
+        self.case_1 = CaseFactory.create()
+        self.case_2 = CaseFactory.create()
+
+        self.recent_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_1, date=Time.TWO_YEARS_AGO)
+        self.case_1.charges = [self.recent_dismissal]
+
+    def test_record_with_only_an_mrd_is_time_eligible(self):
+        record = Record([self.case_1])
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert self.recent_dismissal.expungement_result.time_eligibility is True
+        assert self.recent_dismissal.expungement_result.time_eligibility_reason == ''
+        assert self.recent_dismissal.expungement_result.date_of_eligibility is None
+
+    def test_all_mrd_case_related_dismissals_are_expungeable(self):
+        case_related_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_1, date=Time.TWO_YEARS_AGO)
+        self.case_1.charges.append(case_related_dismissal)
+
+        record = Record([self.case_1])
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert self.recent_dismissal.expungement_result.time_eligibility is True
+        assert self.recent_dismissal.expungement_result.time_eligibility_reason == ''
+        assert self.recent_dismissal.expungement_result.date_of_eligibility is None
+
+        assert case_related_dismissal.expungement_result.time_eligibility is True
+        assert case_related_dismissal.expungement_result.time_eligibility_reason == ''
+        assert case_related_dismissal.expungement_result.date_of_eligibility is None
+
+    def test_mrd_blocks_dismissals_in_unrelated_cases(self):
+        unrelated_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_2, date=Time.TEN_YEARS_AGO)
+        self.case_2.charges = [unrelated_dismissal]
+        
+        record = Record([self.case_1, self.case_2])
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert unrelated_dismissal.expungement_result.time_eligibility is False
+        assert unrelated_dismissal.expungement_result.time_eligibility_reason == 'Recommend sequential expungement'
+        assert unrelated_dismissal.expungement_result.date_of_eligibility == Time.ONE_YEARS_FROM_NOW
+
+    def test_mrd_does_not_block_convictions(self):
+        case = CaseFactory.create()
+        convicted_charge = ChargeFactory.create(case=case, date=Time.TWENTY_YEARS_AGO, disposition=['Convicted', Time.TWENTY_YEARS_AGO])
+        case.charges = [convicted_charge]
+
+        record = Record([self.case_1, case])
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert convicted_charge.expungement_result.time_eligibility is True
+        assert convicted_charge.expungement_result.time_eligibility_reason == ''
+        assert convicted_charge.expungement_result.date_of_eligibility is None
