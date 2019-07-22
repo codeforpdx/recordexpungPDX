@@ -11,3 +11,6 @@ class ParkingTicket(BaseCharge):
         else:
             self.expungement_result.set_type_eligibility(False)
             self.expungement_result.set_reason('Ineligible under 137.225(5)')
+
+    def skip_analysis(self):
+        return True
