@@ -5,6 +5,7 @@ import { logIn } from '../../redux/system/actions';
 import Logo from '../Logo';
 import { SystemState } from '../../redux/system/types';
 import history from '../History';
+import { Link } from 'react-router-dom';
 
 interface Props {
   system: SystemState;
@@ -56,9 +57,13 @@ class LogIn extends React.Component<Props, State> {
             </button>
             <div role="alert" />
             <div className="tc">
-              <a className="link underline hover-blue" href="/">
+              <Link
+                to="/passwordreset"
+                className="link underline hover-blue"
+                href="/"
+              >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </form>
         </section>

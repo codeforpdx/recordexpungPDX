@@ -10,6 +10,7 @@ import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
 import OECIlogin from '../OECI';
+import PasswordReset from '../PasswordReset';
 
 class App extends React.Component {
   public render() {
@@ -22,8 +23,9 @@ class App extends React.Component {
       </Router>
     ) : (
       <Router history={history}>
-        <LogIn />
-        <Footer />
+        <Route exact path="/" component={LogIn} />
+        <Route exact path="/" component={Footer} />
+        <Route path="/passwordreset" component={PasswordReset} />
       </Router>
     );
   }
