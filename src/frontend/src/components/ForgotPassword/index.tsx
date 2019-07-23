@@ -55,7 +55,6 @@ class ForgotPassword extends React.Component<Props, State> {
   };
 
   public render() {
-    console.log(this.state);
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
