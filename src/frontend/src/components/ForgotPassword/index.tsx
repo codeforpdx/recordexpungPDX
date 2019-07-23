@@ -4,7 +4,6 @@ import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 import Logo from '../Logo';
-import history from '../History';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -39,6 +38,10 @@ class ForgotPassword extends React.Component<Props, State> {
     this.validateForm();
   };
 
+  emailCheck = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   validateForm = () => {
     this.setState({
       emailHasInput: this.state.email.trim().length === 0
@@ -46,14 +49,22 @@ class ForgotPassword extends React.Component<Props, State> {
     this.setState({
       missingInputs: this.state.email.trim().length === 0
     });
+    this.setState({
+      emailIsValid: this.emailCheck(this.state.email)
+    });
   };
 
   public render() {
+    console.log(this.state);
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
           <Logo />
-          <form onSubmit={this.handleSubmit} noValidate>
+          <form
+            onSubmit={this.handleSubmit}
+            noValidate
+            aria-label="Forgot Password"
+          >
             <fieldset>
               <legend className="f4 fw7 pt4">Forgot your password?</legend>
               <label htmlFor="email" className="db mt4 mb1 fw6">
@@ -73,18 +84,22 @@ class ForgotPassword extends React.Component<Props, State> {
                 Send email to reset password
               </button>
             </fieldset>
-            <div role="alert" className="mb4">
-              {this.state.missingInputs === true ? (
+            <div role="alert">
+              {this.state.missingInputs === true ||
+              this.state.emailIsValid === false ? (
                 <p className="bg-washed-red mb3 pa3 br3 fw6">
-                  Please enter your email.
+                  Please enter a valid email.
                 </p>
               ) : null}
             </div>
             <div role="status">
-              <p className="bg-washed-green mb3 pa3 br3 fw6">
-                Thanks, we're sending an email that will help you reset your
-                password.
-              </p>
+              {this.state.missingInputs === false &&
+              this.state.emailIsValid === true ? (
+                <p className="bg-washed-green mb3 pa3 br3 fw6">
+                  Thanks, we're sending an email that will help you reset your
+                  password.
+                </p>
+              ) : null}
             </div>
           </form>
           <div className="tc">
