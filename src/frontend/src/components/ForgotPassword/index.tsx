@@ -75,6 +75,9 @@ class ForgotPassword extends React.Component<Props, State> {
                 className="w-100 mb4 pa3 br2 b--black-20"
                 type="email"
                 required
+                aria-describedby={
+                  this.state.emailHasInput ? 'email_msg' : undefined
+                }
                 onChange={this.handleChange}
               />
               <button
@@ -87,7 +90,7 @@ class ForgotPassword extends React.Component<Props, State> {
             <div role="alert">
               {this.state.missingInputs === true ||
               this.state.emailIsValid === false ? (
-                <p className="bg-washed-red mb3 pa3 br3 fw6">
+                <p id="email_msg" className="bg-washed-red mb3 pa3 br3 fw6">
                   Please enter a valid email.
                 </p>
               ) : null}

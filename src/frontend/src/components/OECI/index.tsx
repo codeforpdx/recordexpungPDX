@@ -57,7 +57,7 @@ class OECIlogin extends React.Component<Props, State> {
       () =>
         this.state.missingInputs === false
           ? history.push('/recordsearch')
-          : null // using setState(updater, callback) beccause setState doesn't immediately update component
+          : null // Using setState(updater, callback) because setState doesn't immediately update component
     );
     //need validation for userId & PW
   };
@@ -91,7 +91,7 @@ class OECIlogin extends React.Component<Props, State> {
                   type="text"
                   required
                   aria-describedby={
-                    this.state.userIdHasInput ? 'userId_desc' : undefined
+                    this.state.userIdHasInput ? 'inputs_msg' : undefined
                   }
                   aria-invalid={this.state.userIdHasInput}
                   onChange={this.handleChange}
@@ -106,7 +106,7 @@ class OECIlogin extends React.Component<Props, State> {
                 id="password"
                 required
                 aria-describedby={
-                  this.state.passwordHasInput ? 'password_desc' : undefined
+                  this.state.passwordHasInput ? 'inputs_msg' : undefined
                 }
                 aria-invalid={this.state.passwordHasInput}
                 onChange={this.handleChange}
@@ -120,7 +120,7 @@ class OECIlogin extends React.Component<Props, State> {
             </fieldset>
             <div role="alert" className="mb4">
               {this.state.missingInputs === true ? (
-                <p className="bg-washed-red mb3 pa3 br3 fw6">
+                <p id="inputs_msg" className="bg-washed-red mb3 pa3 br3 fw6">
                   All fields are required.
                 </p>
               ) : null}
