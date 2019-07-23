@@ -11,6 +11,7 @@ import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
 import OECIlogin from '../OECI';
 import ForgotPassword from '../ForgotPassword';
+import PasswordReset from '../PasswordReset';
 
 class App extends React.Component {
   public render() {
@@ -26,6 +27,7 @@ class App extends React.Component {
         <Route exact path="/" component={LogIn} />
         <Route exact path="/" component={Footer} />
         <Route path="/forgotpassword" component={ForgotPassword} />
+        <Route path="/passwordreset" component={PasswordReset} />
       </Router>
     );
   }
