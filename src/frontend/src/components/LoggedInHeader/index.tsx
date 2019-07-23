@@ -1,6 +1,7 @@
 import React from 'react';
 import LogOut from '../LogOut';
 import Logo from '../Logo';
+import history from '../History';
 
 class LoggedInHeader extends React.Component {
   public render() {
@@ -21,7 +22,10 @@ class LoggedInHeader extends React.Component {
               Account
             </button>
             <LogOut>
-              <button className="link hover-blue f6 f5-ns dib pa3">
+              <button
+                onClick={() => history.push('/')}
+                className="link hover-blue f6 f5-ns dib pa3"
+              >
                 Log Out
               </button>
             </LogOut>

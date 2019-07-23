@@ -4,6 +4,7 @@ import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import Logo from '../Logo';
 import { SystemState } from '../../redux/system/types';
+import history from '../History';
 
 interface Props {
   system: SystemState;
@@ -21,6 +22,7 @@ class LogIn extends React.Component<Props, State> {
     this.props.logIn();
     event.preventDefault();
     event.stopPropagation();
+    history.push('/oeci');
   }
 
   public render() {
