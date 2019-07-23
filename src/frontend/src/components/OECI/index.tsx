@@ -69,9 +69,9 @@ class OECIlogin extends React.Component<Props, State> {
           <form
             onSubmit={this.handleSubmit}
             noValidate
-            className="login-form"
-            id="LoginForm"
-            aria-label="Record Expunge Login Form"
+            className="oeci-login-form"
+            id="OECILoginForm"
+            aria-label="OECI Login Form"
           >
             <fieldset>
               <legend className="f4 fw6 dib pb3">

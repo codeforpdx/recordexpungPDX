@@ -58,7 +58,7 @@ class LogIn extends React.Component<Props, State> {
             <div role="alert" />
             <div className="tc">
               <Link
-                to="/passwordreset"
+                to="/forgotpassword"
                 className="link underline hover-blue"
                 href="/"
               >

@@ -12,21 +12,17 @@ interface Props {
   logIn: typeof logIn;
 }
 interface State {
-  userId: string;
-  password: string;
-  userIdHasInput: boolean;
-  passwordHasInput: boolean;
-  invalidCredentials: null | boolean;
+  email: string;
+  emailHasInput: boolean;
+  emailIsValid: null | boolean;
   missingInputs: null | boolean;
 }
 
-class PasswordReset extends React.Component<Props, State> {
+class ForgotPassword extends React.Component<Props, State> {
   state: State = {
-    userId: '',
-    password: '',
-    userIdHasInput: false,
-    passwordHasInput: false,
-    invalidCredentials: null,
+    email: '',
+    emailHasInput: false,
+    emailIsValid: null, // email validation to be added
     missingInputs: null
   };
 
@@ -45,23 +41,11 @@ class PasswordReset extends React.Component<Props, State> {
 
   validateForm = () => {
     this.setState({
-      userIdHasInput: this.state.userId.trim().length === 0
+      emailHasInput: this.state.email.trim().length === 0
     });
     this.setState({
-      passwordHasInput: this.state.password.trim().length === 0
+      missingInputs: this.state.email.trim().length === 0
     });
-    this.setState(
-      {
-        missingInputs:
-          this.state.userId.trim().length === 0 ||
-          this.state.password.trim().length === 0
-      },
-      () =>
-        this.state.missingInputs === false
-          ? history.push('/recordsearch')
-          : null // using setState(updater, callback) beccause setState doesn't immediately update component
-    );
-    //need validation for userId & PW
   };
 
   public render() {
@@ -69,7 +53,7 @@ class PasswordReset extends React.Component<Props, State> {
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
           <Logo />
-          <form>
+          <form onSubmit={this.handleSubmit} noValidate>
             <fieldset>
               <legend className="f4 fw7 pt4">Forgot your password?</legend>
               <label htmlFor="email" className="db mt4 mb1 fw6">
@@ -77,20 +61,24 @@ class PasswordReset extends React.Component<Props, State> {
               </label>
               <input
                 id="email"
-                type="email"
                 className="w-100 mb4 pa3 br2 b--black-20"
+                type="email"
+                required
+                onChange={this.handleChange}
               />
-              <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc">
+              <button
+                className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+                type="submit"
+              >
                 Send email to reset password
               </button>
             </fieldset>
-            <div role="alert">
-              <p className="bg-washed-red mb3 pa3 br3 fw6">
-                Please enter your email.
-              </p>
-              <p className="bg-washed-red mb3 pa3 br3 fw6">
-                Technical difficulties, please try again later.
-              </p>
+            <div role="alert" className="mb4">
+              {this.state.missingInputs === true ? (
+                <p className="bg-washed-red mb3 pa3 br3 fw6">
+                  Please enter your email.
+                </p>
+              ) : null}
             </div>
             <div role="status">
               <p className="bg-washed-green mb3 pa3 br3 fw6">
@@ -117,4 +105,4 @@ const mapStateToProps = (state: AppState) => ({
 export default connect(
   mapStateToProps,
   { logIn }
-)(PasswordReset);
+)(ForgotPassword);
