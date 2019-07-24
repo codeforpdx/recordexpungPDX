@@ -15,6 +15,12 @@ PRODUCTION = True
 
 ERROR_LOG_FILE = 'Documents/RecordExpungeCLI/error_logs/errors.log'
 
+def has_eligible_charge(case):
+    for el in case.charges:
+        if el.expungement_result.type_eligibility is True and el.expungement_result.time_eligibility is True:
+           return True
+    return False
+
 def file_name(last_name, first_name, middle_name, birth_date, file_format):
     timestamp = datetime.today().strftime("%Y%m%d%H%M%S")
 
@@ -150,14 +156,28 @@ while True:
     file.write("Total number of charges that can be expunged : " + str(num_charges_expungeable))
     file.write("\n\n")
 
-    charge_count = 0
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("                            Expungeable Cases\n")
+    file.write("_________________________________________________________________________________________\n\n")
+
+    for case in record.cases:
+        if has_eligible_charge(case):
+            file.write(case.case_number + " : " + case.violation_type)
+            file.write("\n")
+
+    file.write("\n\n")
 
     file.write("-----------------------------------------------------------------------------------------\n")
     file.write("-----------------------------------------------------------------------------------------\n")
     file.write("                            Expungeable charges\n")
     file.write("_________________________________________________________________________________________\n\n")
+
+    charge_count = 0
     for charge in expungeable_charges:
         file.write("  Case: " + charge.case()().case_number + "\n")
+        file.write("\n")
+        file.write("     " + charge.__class__.__name__ + "\n\n")
         file.write("      Charge     : " + charge.name + "\n")
         file.write("      Statute    : " + charge.statute + "\n")
         file.write("      Level      : " + charge.level + "\n")
@@ -182,6 +202,7 @@ while True:
         charge_count = len(case.charges)
 
         for charge in case.charges:
+            file.write("     " + charge.__class__.__name__ + "\n\n")
             file.write("      Charge     : " + charge.name + "\n")
             file.write("      Statute    : " + charge.statute + "\n")
             file.write("      Level      : " + charge.level + "\n")
@@ -197,6 +218,10 @@ while True:
             charge_count -= 1
             if charge_count > 0:
                 file.write("     - - - - - - - - - - - - - - - - - - \n\n")
+
+    file.write("-----------------------------------------------------------------------------------------\n")
+    file.write("-----------------------------------END OF FILE-------------------------------------------\n")
+    file.write("-----------------------------------------------------------------------------------------\n")
 
     print("Closing file")
     file.close()
