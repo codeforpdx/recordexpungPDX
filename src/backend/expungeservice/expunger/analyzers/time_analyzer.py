@@ -26,14 +26,22 @@ class TimeAnalyzer:
 
     @staticmethod
     def _check_mrc_time_eligibility(expunger):
+        eligibility_date = TimeAnalyzer._calc_furthest_out_elig_date(expunger)
         if expunger.second_most_recent_conviction:
-            elig_date = TimeAnalyzer._calc_elig_date(expunger.second_most_recent_conviction, TimeAnalyzer.TEN_YEARS)
-            expunger.most_recent_conviction.set_time_ineligible('Multiple convictions within last ten years', elig_date)
+            expunger.most_recent_conviction.set_time_ineligible('Multiple convictions within last ten years', eligibility_date)
         elif TimeAnalyzer._most_recent_conviction_is_greater_than_three_years_old(expunger):
             expunger.most_recent_conviction.set_time_eligible()
         else:
-            elig_date = TimeAnalyzer._calc_elig_date(expunger.most_recent_conviction, TimeAnalyzer.THREE_YEARS)
-            expunger.most_recent_conviction.set_time_ineligible('Most recent conviction is less than three years old', elig_date)
+            expunger.most_recent_conviction.set_time_ineligible('Most recent conviction is less than three years old', eligibility_date)
+
+    @staticmethod
+    def _calc_furthest_out_elig_date(expunger):
+        if expunger.second_most_recent_conviction:
+            date_1 = TimeAnalyzer._calc_elig_date(expunger.second_most_recent_conviction, TimeAnalyzer.TEN_YEARS)
+            date_2 = TimeAnalyzer._calc_elig_date(expunger.most_recent_conviction, TimeAnalyzer.THREE_YEARS)
+            return max(date_1, date_2)
+        else:
+            return TimeAnalyzer._calc_elig_date(expunger.most_recent_conviction, TimeAnalyzer.THREE_YEARS)
 
     @staticmethod
     def _calc_elig_date(charge, years):
