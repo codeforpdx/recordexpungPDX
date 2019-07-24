@@ -33,9 +33,8 @@ class Expunger:
         self.most_recent_conviction = None
         self.second_most_recent_conviction = None
         self.most_recent_charge = None
-        self.num_acquittals = 0
         self.acquittals = []
-        self._convictions = []
+        self.convictions = []
         self.class_b_felonies = []
 
     def run(self):
@@ -53,7 +52,6 @@ class Expunger:
         self._categorize_charges()
         self._set_most_recent_dismissal()
         self._set_most_recent_convictions()
-        self._set_num_acquittals()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
         TimeAnalyzer.evaluate(self)
@@ -79,7 +77,7 @@ class Expunger:
             if charge.acquitted():
                 self.acquittals.append(charge)
             else:
-                self._convictions.append(charge)
+                self.convictions.append(charge)
 
     def _set_most_recent_dismissal(self):
         self.acquittals.sort(key=lambda charge: charge.date)
@@ -87,16 +85,11 @@ class Expunger:
             self.most_recent_dismissal = self.acquittals[-1]
 
     def _set_most_recent_convictions(self):
-        self._convictions.sort(key=lambda charge: charge.disposition.date)
-        if len(self._convictions) > 0 and self._convictions[-1].recent_conviction():
-            self.most_recent_conviction = self._convictions[-1]
-        if len(self._convictions) > 1 and self._convictions[-2].recent_conviction():
-            self.second_most_recent_conviction = self._convictions[-2]
-
-    def _set_num_acquittals(self):
-        for charge in self.acquittals:
-            if charge.recent_acquittal():
-                self.num_acquittals += 1
+        self.convictions.sort(key=lambda charge: charge.disposition.date)
+        if len(self.convictions) > 0 and self.convictions[-1].recent_conviction():
+            self.most_recent_conviction = self.convictions[-1]
+        if len(self.convictions) > 1 and self.convictions[-2].recent_conviction():
+            self.second_most_recent_conviction = self.convictions[-2]
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
