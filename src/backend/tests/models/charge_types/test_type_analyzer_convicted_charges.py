@@ -460,17 +460,6 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert charge.expungement_result.type_eligibility is True
         assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(d)'
 
-    # Parking ticket
-
-    def test_parking_violation(self):
-        self.single_charge['name'] = 'Loading Zone'
-        self.single_charge['statute'] = '29'
-        self.single_charge['level'] = 'Violation Unclassified'
-        charge = self.create_recent_charge()
-
-        assert charge.expungement_result.type_eligibility is False
-        assert charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
-
 
 class TestMultipleCharges(unittest.TestCase):
 

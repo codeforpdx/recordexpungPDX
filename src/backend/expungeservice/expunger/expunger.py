@@ -93,14 +93,8 @@ class Expunger:
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
-
         if self.charges:
-            self.most_recent_charge = self._most_recent_non_traffic_violation()
-
-    def _most_recent_non_traffic_violation(self):
-        for charge in self.charges:
-            if not charge.motor_vehicle_violation():
-                return charge
+            self.most_recent_charge = self.charges[0]
 
     def _assign_class_b_felonies(self):
         for charge in self.charges:
