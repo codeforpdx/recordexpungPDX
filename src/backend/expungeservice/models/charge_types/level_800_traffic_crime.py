@@ -12,8 +12,11 @@ class Level800TrafficCrime(BaseCharge):
             self.expungement_result.set_type_eligibility(False)
             self.expungement_result.set_reason('Ineligible under 137.225(5)')
 
-    def motor_vehicle_violation(self):
-        return True
+    def skip_analysis(self):
+        if self.expungement_result.type_eligibility is True:
+            return False
+        else:
+            return True
 
     def _expungeable(self, **kwargs):
         return 'violation' not in kwargs['level'].lower()
