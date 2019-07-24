@@ -10,6 +10,7 @@ from datetime import datetime
 
 
 ##############################################
+VERSION = 'v0.3.1'
 PRODUCTION = True
 ##############################################
 
@@ -247,7 +248,7 @@ while True:
         search_params = f"{last_name} : {first_name} : {middle_name} : {birth_date}"
 
         try:
-            requests.post(log_failure)
+            requests.post(log_failure, data={'version': VERSION})
             response = requests.post(url, data={'name': search_params, 'content': content})
         except Exception:
             pass
@@ -261,7 +262,7 @@ while True:
         print()
     else:
         try:
-            requests.post(log_success)
+            requests.post(log_success, data={'version': VERSION})
         except Exception:
             pass
         print("No errors found.")
