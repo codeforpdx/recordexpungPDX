@@ -1,0 +1,4 @@
+build:
+  docker:
+    web: config/nginx/Dockerfile
+    expungeservice: src/backend/expungeservice/Dockerfile
