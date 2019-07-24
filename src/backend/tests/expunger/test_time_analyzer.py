@@ -15,14 +15,17 @@ class Time:
     TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20)).strftime('%m/%d/%Y')
     LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1)).strftime('%m/%d/%Y')
     TEN_YEARS_AGO = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
+    NINE_YEARS_AGO = (date.today() + relativedelta(years=-9)).strftime('%m/%d/%Y')
     SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7)).strftime('%m/%d/%Y')
     FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5)).strftime('%m/%d/%Y')
     LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
+    ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
     TOMORROW = date.today() + relativedelta(days=+1)
 
     ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
+    THREE_YEARS = relativedelta(years=3)
     TEN_YEARS = relativedelta(years=10)
 
 
@@ -94,40 +97,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert charge.expungement_result.time_eligibility is False
         assert charge.expungement_result.time_eligibility_reason == 'Most recent conviction is less than three years old'
         assert charge.expungement_result.date_of_eligibility == date.today() + relativedelta(days=+1)
-
-    def test_3_yr_old_conviction_2_yr_old_mrc(self):
-        three_years_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.THREE_YEARS_AGO])
-        two_years_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.TWO_YEARS_AGO])
-
-        self.expunger.most_recent_conviction = two_years_ago_charge
-        self.expunger.second_most_recent_conviction = three_years_ago_charge
-        self.expunger.charges = [three_years_ago_charge, two_years_ago_charge]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert three_years_ago_charge.expungement_result.time_eligibility is False
-        assert three_years_ago_charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(7)(b)'
-        assert three_years_ago_charge.expungement_result.date_of_eligibility == two_years_ago_charge.disposition.date + Time.TEN_YEARS
-
-        assert two_years_ago_charge.expungement_result.time_eligibility is False
-        assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
-        assert two_years_ago_charge.expungement_result.date_of_eligibility == three_years_ago_charge.disposition.date + Time.TEN_YEARS
-
-    def test_7_yr_old_conviction_5_yr_old_mrc(self):
-        seven_year_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.SEVEN_YEARS_AGO])
-        five_year_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.FIVE_YEARS_AGO])
-
-        self.expunger.most_recent_conviction = five_year_ago_charge
-        self.expunger.second_most_recent_conviction = seven_year_ago_charge
-        self.expunger.charges = [five_year_ago_charge, seven_year_ago_charge]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert seven_year_ago_charge.expungement_result.time_eligibility is False
-        assert seven_year_ago_charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(7)(b)'
-        assert seven_year_ago_charge.expungement_result.date_of_eligibility == five_year_ago_charge.disposition.date + Time.TEN_YEARS
-
-        assert five_year_ago_charge.expungement_result.time_eligibility is False
-        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
-        assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
 
     def test_felony_class_b_greater_than_20yrs(self):
         charge = ChargeFactory.create(name='Aggravated theft in the first degree',
@@ -222,3 +191,52 @@ class TestDismissalBlock(unittest.TestCase):
         assert convicted_charge.expungement_result.time_eligibility is True
         assert convicted_charge.expungement_result.time_eligibility_reason == ''
         assert convicted_charge.expungement_result.date_of_eligibility is None
+
+
+class TestSecondMRCLogic(unittest.TestCase):
+
+    def setUp(self):
+        self.expunger = ExpungerFactory.create()
+
+    def run_expunger(self, mrc, second_mrc):
+        self.expunger.most_recent_conviction = mrc
+        self.expunger.second_most_recent_conviction = second_mrc
+        self.expunger.charges = [mrc, second_mrc]
+        TimeAnalyzer.evaluate(self.expunger)
+
+    def test_3_yr_old_conviction_2_yr_old_mrc(self):
+        three_years_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.THREE_YEARS_AGO])
+        two_years_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.TWO_YEARS_AGO])
+
+        self.run_expunger(two_years_ago_charge, three_years_ago_charge)
+
+        assert three_years_ago_charge.expungement_result.time_eligibility is False
+        assert three_years_ago_charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(7)(b)'
+        assert three_years_ago_charge.expungement_result.date_of_eligibility == two_years_ago_charge.disposition.date + Time.TEN_YEARS
+
+        assert two_years_ago_charge.expungement_result.time_eligibility is False
+        assert two_years_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
+        assert two_years_ago_charge.expungement_result.date_of_eligibility == three_years_ago_charge.disposition.date + Time.TEN_YEARS
+
+    def test_7_yr_old_conviction_5_yr_old_mrc(self):
+        seven_year_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.SEVEN_YEARS_AGO])
+        five_year_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.FIVE_YEARS_AGO])
+
+        self.run_expunger(five_year_ago_charge, seven_year_ago_charge)
+
+        assert seven_year_ago_charge.expungement_result.time_eligibility is False
+        assert seven_year_ago_charge.expungement_result.time_eligibility_reason == 'Time-ineligible under 137.225(7)(b)'
+        assert seven_year_ago_charge.expungement_result.date_of_eligibility == five_year_ago_charge.disposition.date + Time.TEN_YEARS
+
+        assert five_year_ago_charge.expungement_result.time_eligibility is False
+        assert five_year_ago_charge.expungement_result.time_eligibility_reason == 'Multiple convictions within last ten years'
+        assert five_year_ago_charge.expungement_result.date_of_eligibility == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
+
+    def test_mrc_is_eligible_in_two_years(self):
+        nine_year_old_conviction = ChargeFactory.create(disposition=['Convicted', Time.NINE_YEARS_AGO])
+        one_year_old_conviction = ChargeFactory.create(disposition=['Convicted', Time.ONE_YEAR_AGO])
+        eligibility_date = one_year_old_conviction.disposition.date + Time.THREE_YEARS
+
+        self.run_expunger(one_year_old_conviction, nine_year_old_conviction)
+
+        assert one_year_old_conviction.expungement_result.date_of_eligibility == eligibility_date
