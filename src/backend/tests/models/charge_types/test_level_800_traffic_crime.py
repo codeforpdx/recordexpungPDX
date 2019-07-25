@@ -86,10 +86,28 @@ class TestLevel800Charges(unittest.TestCase):
 
         assert charge.skip_analysis() is False
 
+    def test_level_800_felony_does_not_skip_time_analysis(self):
+        self.single_charge['name'] = 'Driving Under the Influence of Intoxicants'
+        self.single_charge['statute'] = '813.010(4)'
+        self.single_charge['level'] = 'Felony Class A'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+
+        assert charge.skip_analysis() is False
+
     def test_level_800_violations_skip_analysis(self):
         self.single_charge['name'] = 'Traffic Violation'
         self.single_charge['statute'] = '825.999'
         self.single_charge['level'] = 'Class C Traffic Violation'
+        traffic_violation = self.create_recent_charge()
+        self.charges.append(traffic_violation)
+
+        assert traffic_violation.skip_analysis() is True
+
+    def test_level_800_infractions_skip_analysis(self):
+        self.single_charge['name'] = 'Careless Driving'
+        self.single_charge['statute'] = '811135'
+        self.single_charge['level'] = 'Infraction Class B'
         traffic_violation = self.create_recent_charge()
         self.charges.append(traffic_violation)
 
