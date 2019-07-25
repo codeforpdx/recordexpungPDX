@@ -2,11 +2,11 @@ import apiService from './api-service';
 
 describe('API SERVICE TEST', () => {
   it('returns data with GET', () => {
-    const req = {
+    const request = {
       url: 'http://localhost:5000/api/hello',
-      method: 'GET'
+      method: 'post'
     };
-    apiService(req).then(response => {
+    apiService(request).then(response => {
       expect(response).toEqual({
         data: 'Hello, world!',
         status: 200,

@@ -58,7 +58,9 @@ const axios = {
     ) {
       return Promise.reject(new Error('Request failed with status code 404'));
     } else if (!request.url.includes('http://localhost:5000/api/')) {
-      return Promise.reject(new Error('bad url'));
+      return Promise.reject(
+        new Error('bad base url, it should be: http://localhost:5000/api/ ')
+      );
     }
   })
 };

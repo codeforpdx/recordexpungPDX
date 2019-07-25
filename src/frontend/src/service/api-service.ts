@@ -1,28 +1,23 @@
 import axios from 'axios';
 
-type MethodOptions =
-  | 'POST'
-  | 'post'
-  | 'GET'
-  | 'get'
-  | 'DELETE'
-  | 'delete'
-  | 'head'
-  | 'HEAD'
-  | 'put'
-  | 'PUT'
-  | 'patch'
-  | 'PATCH';
+enum MethodOptions {
+  post = 'post',
+  get = 'get',
+  delete = 'delete',
+  head = 'head',
+  put = 'put',
+  patch = 'patch'
+}
 
-type Req = {
+type Request = {
   url: string;
   data?: object;
   method: MethodOptions;
 };
 
-export default function apiService(req: Req) {
+export default function apiService(request: Request) {
   return axios
-    .request(req)
+    .request(request)
     .then(res => [res.statusText, res.data, res.status])
     .then(([statusText, data, status]) => {
       if (statusText) {
