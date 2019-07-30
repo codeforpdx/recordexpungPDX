@@ -8,22 +8,9 @@ export type Request = {
   method: Method;
 };
 
-type Response = {
-  statusText?: string;
-  data?: object;
-  status?: number;
-  error?: Error;
-};
-
 export default function apiService(request: Request) {
   return axios
     .request(request)
-    .then((response: Response) => {
-      return {
-        data: response.data,
-        status: response.status,
-        statusText: response.statusText
-      };
-    })
+    .then(response => response)
     .catch(error => error);
 }
