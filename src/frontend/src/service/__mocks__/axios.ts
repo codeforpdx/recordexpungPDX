@@ -2,16 +2,14 @@ export const axios = {
   request: jest.fn(request => {
     if (
       request.url === 'http://localhost:5000/api/hello' &&
-      request.method === 'GET'
+      request.method === 'get'
     ) {
       return Promise.resolve({
-        data: 'Hello, world!',
-        status: 200,
-        statusText: 'OK'
+        data: 'Hello, world!'
       });
     } else if (
       request.url === 'http://localhost:5000/api/search' &&
-      request.method === 'POST'
+      request.method === 'post'
     ) {
       return Promise.resolve({
         data: [
@@ -47,22 +45,28 @@ export const axios = {
             case_detail_link:
               'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=9036658'
           }
-        ],
-        status: 200,
-        statusText: 'OK'
+        ]
       });
     } else if (
-      request.url.includes(
-        'http://localhost:5000/api/' && request.method === 'GET'
-      )
+      request.url.includes('http://localhost:5000/api/') &&
+      request.method === 'get'
     ) {
-      return Promise.reject(new Error('Request failed with status code 404'));
+      return Promise.reject({
+        error: new Error('Request failed with status code 404')
+      });
     } else if (!request.url.includes('http://localhost:5000/api/')) {
-      return Promise.reject(
-        new Error('bad base url, it should be: http://localhost:5000/api/ ')
-      );
+      return Promise.reject({
+        error: new Error(
+          'bad base url, it should be: http://localhost:5000/api/'
+        )
+      });
+    } else {
+      return Promise.reject({
+        error: new Error(
+          `mock API doesn't recognize the request.  Please check your code, or update the mock API`
+        )
+      });
     }
   })
 };
-
 module.exports = axios;

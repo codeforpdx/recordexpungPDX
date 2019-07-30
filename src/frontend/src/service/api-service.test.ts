@@ -1,43 +1,44 @@
 import apiService, { Request } from './api-service';
 
 describe('API SERVICE TEST', () => {
-  it('returns data with GET', () => {
+  it('returns data with get', () => {
     const request: Request = {
       url: 'http://localhost:5000/api/hello',
-      method: 'post'
-    };
-    apiService(request).then(response => {
-      expect(response).toEqual({
-        data: 'Hello, world!',
-        status: 200,
-        statusText: 'OK'
-      });
-    });
-  });
-  it('returns with error on bad url', done => {
-    const request: Request = {
-      url: 'ddd',
       method: 'get'
     };
     apiService(request).then(response => {
       expect(response).toEqual({
-        error: 'bad url'
+        data: 'Hello, world!'
       });
+    });
+  });
+
+  it('returns with error on bad base url', done => {
+    const request: Request = {
+      url: 'http://:5000/api/',
+      method: 'get'
+    };
+    apiService(request).then(response => {
+      expect(response.error.message).toEqual(
+        'bad base url, it should be: http://localhost:5000/api/'
+      );
       done();
     });
   });
+
   it('returns with 404 error on bad route', done => {
     const request: Request = {
       url: 'http://localhost:5000/api/ello',
       method: 'get'
     };
     apiService(request).then(response => {
-      expect(response).toEqual({
-        error: 'Request failed with status code 404'
-      });
+      expect(response.error.message).toEqual(
+        'Request failed with status code 404'
+      );
       done();
     });
   });
+
   it('returns search in JSON', done => {
     const request: Request = {
       url: 'http://localhost:5000/api/search',
@@ -78,9 +79,7 @@ describe('API SERVICE TEST', () => {
             case_detail_link:
               'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=9036658'
           }
-        ],
-        status: 200,
-        statusText: 'OK'
+        ]
       });
       done();
     });
