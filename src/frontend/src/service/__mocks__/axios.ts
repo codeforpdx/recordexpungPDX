@@ -1,8 +1,8 @@
-const axios = {
+export const axios = {
   request: jest.fn(request => {
     if (
-      (request.url === 'http://localhost:5000/api/hello') &
-      (request.method === 'GET')
+      request.url === 'http://localhost:5000/api/hello' &&
+      request.method === 'GET'
     ) {
       return Promise.resolve({
         data: 'Hello, world!',
@@ -10,8 +10,8 @@ const axios = {
         statusText: 'OK'
       });
     } else if (
-      (request.url === 'http://localhost:5000/api/search') &
-      (request.method === 'POST')
+      request.url === 'http://localhost:5000/api/search' &&
+      request.method === 'POST'
     ) {
       return Promise.resolve({
         data: [
@@ -53,7 +53,7 @@ const axios = {
       });
     } else if (
       request.url.includes(
-        'http://localhost:5000/api/' & (request.method === 'GET')
+        'http://localhost:5000/api/' && request.method === 'GET'
       )
     ) {
       return Promise.reject(new Error('Request failed with status code 404'));

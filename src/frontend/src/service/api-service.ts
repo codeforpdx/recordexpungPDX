@@ -1,18 +1,11 @@
 import axios from 'axios';
 
-enum MethodOptions {
-  post = 'post',
-  get = 'get',
-  delete = 'delete',
-  head = 'head',
-  put = 'put',
-  patch = 'patch'
-}
+type Method = 'post' | 'delete' | 'get' | 'head' | 'delete' | 'options' | 'put';
 
-type Request = {
+export type Request = {
   url: string;
   data?: object;
-  method: MethodOptions;
+  method: Method;
 };
 
 export default function apiService(request: Request) {

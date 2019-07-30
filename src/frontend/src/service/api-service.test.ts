@@ -1,8 +1,8 @@
-import apiService from './api-service';
+import apiService, { Request } from './api-service';
 
 describe('API SERVICE TEST', () => {
   it('returns data with GET', () => {
-    const request = {
+    const request: Request = {
       url: 'http://localhost:5000/api/hello',
       method: 'post'
     };
@@ -15,21 +15,21 @@ describe('API SERVICE TEST', () => {
     });
   });
   it('returns with error on bad url', done => {
-    const request = {
+    const request: Request = {
       url: 'ddd',
-      method: 'GET'
+      method: 'get'
     };
-    apiService(request).then(res => {
-      expect(res).toEqual({
+    apiService(request).then(response => {
+      expect(response).toEqual({
         error: 'bad url'
       });
       done();
     });
   });
   it('returns with 404 error on bad route', done => {
-    const request = {
+    const request: Request = {
       url: 'http://localhost:5000/api/ello',
-      method: 'GET'
+      method: 'get'
     };
     apiService(request).then(response => {
       expect(response).toEqual({
@@ -39,9 +39,9 @@ describe('API SERVICE TEST', () => {
     });
   });
   it('returns search in JSON', done => {
-    const request = {
+    const request: Request = {
       url: 'http://localhost:5000/api/search',
-      method: 'POST'
+      method: 'post'
     };
     apiService(request).then(response => {
       expect(response).toEqual({
