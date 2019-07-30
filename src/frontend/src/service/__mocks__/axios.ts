@@ -1,4 +1,4 @@
-export const axios = {
+export default {
   request: jest.fn(request => {
     if (
       request.url === 'http://localhost:5000/api/hello' &&
@@ -69,4 +69,3 @@ export const axios = {
     }
   })
 };
-module.exports = axios;
