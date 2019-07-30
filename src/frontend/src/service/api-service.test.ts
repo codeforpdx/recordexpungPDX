@@ -6,7 +6,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/hello',
       method: 'get'
     };
-    apiService(request).then(response => {
+    apiService(request).then((response: object) => {
       expect(response).toEqual({
         data: 'Hello, world!'
       });
@@ -18,7 +18,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://:5000/api/',
       method: 'get'
     };
-    apiService(request).then(response => {
+    apiService(request).then((response: object) => {
       expect(response.error.message).toEqual(
         'bad base url, it should be: http://localhost:5000/api/'
       );
@@ -31,7 +31,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/ello',
       method: 'get'
     };
-    apiService(request).then(response => {
+    apiService(request).then((response: object) => {
       expect(response.error.message).toEqual(
         'Request failed with status code 404'
       );
@@ -44,7 +44,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/search',
       method: 'post'
     };
-    apiService(request).then(response => {
+    apiService(request).then((response: object) => {
       expect(response).toEqual({
         data: [
           {
