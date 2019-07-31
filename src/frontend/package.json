@@ -24,7 +24,7 @@
     "react-scripts": "3.0.1",
     "react-test-renderer": "^16.8.6",
     "redux": "^4.0.4",
-    "redux-starter-kit": "^0.6.0",
+    "redux-starter-kit": "^0.6.3",
     "tachyons": "^4.11.1",
     "typescript": "3.5.3"
   },
