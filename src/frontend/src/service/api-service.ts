@@ -9,8 +9,5 @@ export type Request = {
 };
 
 export default function apiService(request: Request) {
-  return axios
-    .request(request)
-    .then(response => response)
-    .catch(error => error);
+  return axios.request(request);
 }
