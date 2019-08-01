@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash
 
 from expungeservice.database.user import get_user_by_email, get_user_by_id
 from expungeservice.request import check_data_fields
+from expungeservice.request.error import error
 
 
 def get_auth_token(app, user_id):
@@ -49,11 +50,11 @@ def authorized(f, admin_required, *args, **kwargs):
     try:
         auth_hdr = request.headers.get('Authorization')
         if auth_hdr == None:
-            return 'Missing Authorization header!', 401
+            error(401, 'Missing Authorization header')
 
         auth_hdr_split =  auth_hdr.split("Bearer")
         if not len(auth_hdr_split) == 2:
-            return 'Invalid auth token!', 401
+            error(401, 'Malformed auth token string, should be: "Bearer [auth_string]"')
 
         payload = jwt.decode(
             auth_hdr_split[1].strip(),
@@ -62,10 +63,10 @@ def authorized(f, admin_required, *args, **kwargs):
 
         user_data = get_user_by_id(g.database, payload['sub'])
         if user_data == []:
-            return 'Invalid auth token claim!', 401
+            error(401, 'Invalid auth token claim')
 
         if admin_required and not user_data['admin']:
-            return 'Logged in user not admin', 403
+            error(403, 'Logged in user not admin')
 
         #no endpoint code uses the logged in user_id so this is commented for now. This may change.
         #g.logged_in_user_id = user_data['user_id']
@@ -76,16 +77,16 @@ def authorized(f, admin_required, *args, **kwargs):
             jwt.exceptions.InvalidTokenError,
             jwt.exceptions.InvalidSignatureError,
     ):
-        return 'Invalid auth token!', 401
+        error(401, 'Invalid auth token, signature verification failed')
     except jwt.exceptions.ExpiredSignatureError:
-        return 'auth token expired!', 401
+        error(401, 'Auth token expired')
 
 class AuthToken(MethodView):
     def get(self):
         data = request.get_json()
 
         if data == None:
-            abort(400)
+            error(400, "No json data in request body")
 
         check_data_fields(data, ['email', 'password'])
 
@@ -93,7 +94,7 @@ class AuthToken(MethodView):
 
         if (not user_db_result or
                 not check_password_hash(user_db_result['hashed_password'], data['password'])):
-            return 'Unauthorized', 401
+            error(401, 'Invalid username or password')
 
         response_data = {
             'auth_token': get_auth_token(current_app, user_db_result['user_id'])
@@ -101,4 +102,4 @@ class AuthToken(MethodView):
         return jsonify(response_data)
 
 def register(app):
-    app.add_url_rule('/api/v0.1/auth_token', view_func=AuthToken.as_view('auth_token'))
+    app.add_url_rule('/api/auth_token', view_func=AuthToken.as_view('auth_token'))
