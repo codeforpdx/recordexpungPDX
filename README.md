@@ -173,7 +173,27 @@ Run all tests with the following command:
 $ make test
 ```
 
-If all of these tests pass, you have successfully set up the backend dev environment!
+All of these tests should pass if you have correctly set up the backend dev environment.
+
+### Create a Local User
+
+In order to call API endpoints locally, e.g. while working on the frontend, you will need login credentials already stored in the local database. These are needed to obtain a JWT auth token (required for most endpoints). To do so:
+
+1. Choose a password and compute its bcrypt hash:
+
+In the project directory, run
+```pipenv run python
+$ from werkzeug.security import generate_password_hash
+$ generate_password_hash('your-password')
+```
+
+2. Choose an email address and insert it and your password hash into the database:
+
+In the project directory, run
+```
+make dev_psql
+=# SELECT * FROM CREATE_USER('your_email', 'your_hashed_password', true);
+```
 
 ## Project Layout
 
