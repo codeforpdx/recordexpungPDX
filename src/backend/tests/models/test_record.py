@@ -13,20 +13,13 @@ class TestRecordObject(unittest.TestCase):
         recordTest = RecordFactory.create([CaseFactory.create(balance = '123.00'),
                                            CaseFactory.create(balance = '246.00')])
 
-        assert recordTest.total_balance_due() == 369.00
+        assert recordTest.total_balance_due == 369.00
 
     def test_print_balance_in_cents_empty(self):
 
         recordTest = RecordFactory.create([CaseFactory.create()])
 
-        assert recordTest.total_balance_due() == 0.00
-
-    def test_print_list_charges(self):
-        
-        recordTest = RecordFactory.create([CaseFactory.create(charges = [ChargeFactory.build()])]) 
-
-        assert recordTest.charges()[0]['name'] == ChargeFactory.build()['name']
-
+        assert recordTest.total_balance_due == 0.00
 
 class TestChargeMethod(unittest.TestCase):
     def setUp(self):
@@ -43,21 +36,21 @@ class TestChargeMethod(unittest.TestCase):
 
     def test_num_cases(self):
         
-        assert len(self.record.charges()) == 3
+        assert len(self.record.charges) == 3
         
     def test_charges_index_0(self):
 
-        assert self.record.charges()[0] == self.charge_zero
+        assert self.record.charges[0] == self.charge_zero
 
     def test_charges_index_1(self):
         record = RecordFactory.create([self.case_zero, self.case_one])
 
-        assert self.record.charges()[1] == self.charge_one
+        assert self.record.charges[1] == self.charge_one
 
     def test_charges_index_2(self):
         record = RecordFactory.create([self.case_zero, self.case_one])
 
-        assert self.record.charges()[2] == self.charge_two
+        assert self.record.charges[2] == self.charge_two
 
 
 
