@@ -23,9 +23,6 @@ class BaseCharge:
     def case(self):
         return self._case
 
-    def motor_vehicle_violation(self):
-        return False
-
     def acquitted(self):
         if not self.disposition.ruling:
             return False

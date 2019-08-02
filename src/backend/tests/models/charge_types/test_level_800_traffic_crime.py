@@ -5,7 +5,7 @@ from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
 
 
-class TestSingleChargeConvictions(unittest.TestCase):
+class TestLevel800Charges(unittest.TestCase):
     """
     Level 800 traffic charges expungeability are determined by the level of the charge and disposition.
     If the level contains the word violation then it is not expungeable (Violations are not type eligible).
@@ -76,3 +76,21 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
         assert charge.expungement_result.type_eligibility is True
         assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
+
+    def test_level_800_midemeanor_does_not_skip_time_analysis(self):
+        self.single_charge['name'] = 'Driving Under the Influence of Intoxicants'
+        self.single_charge['statute'] = '813.010(4)'
+        self.single_charge['level'] = 'Misdemeanor Class A'
+        charge = self.create_recent_charge()
+        self.charges.append(charge)
+
+        assert charge.skip_analysis() is False
+
+    def test_level_800_violations_skip_analysis(self):
+        self.single_charge['name'] = 'Traffic Violation'
+        self.single_charge['statute'] = '825.999'
+        self.single_charge['level'] = 'Class C Traffic Violation'
+        traffic_violation = self.create_recent_charge()
+        self.charges.append(traffic_violation)
+
+        assert traffic_violation.skip_analysis() is True
