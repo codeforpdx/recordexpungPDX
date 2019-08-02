@@ -1,5 +1,4 @@
 import unittest
-
 from expungeservice.models.record_object import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
@@ -50,40 +49,3 @@ class TestChargeMethod(unittest.TestCase):
         record = RecordFactory.create([self.case_zero, self.case_one])
 
         assert self.record.charges[2] == self.charge_two
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

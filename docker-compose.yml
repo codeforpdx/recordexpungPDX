@@ -12,9 +12,13 @@ services:
     expungeservice:
         image: recordexpungpdx:expungeservice
         env_file:
-            - config/postgres/postgres.env
+            - config/expungeservice/expungeservice.env
+
         depends_on:
             - db
+
+    webserver:
+        image: recordexpungpdx:webserver
 
 volumes:
 

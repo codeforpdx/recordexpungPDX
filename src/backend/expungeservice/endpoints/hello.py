@@ -8,4 +8,4 @@ class Hello(MethodView):
         return 'Hello, world!'
 
 def register(app):
-    app.add_url_rule('/hello', view_func=Hello.as_view('hello'))
+    app.add_url_rule('/api/hello', view_func=Hello.as_view('hello'))

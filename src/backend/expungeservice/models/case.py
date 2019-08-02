@@ -24,7 +24,10 @@ class Case:
         return self.balance_due_in_cents / 100
 
     def closed(self):
-        return self.current_status == 'Closed' or self.current_status == 'Inactive'
+        if self._ignore_open_case():
+            return True
+        else:
+            return self._closed()
 
     @staticmethod
     def _set_birth_year(info):
@@ -32,3 +35,9 @@ class Case:
             return int(info[1].split('/')[-1])
         else:
             return ''
+
+    def _ignore_open_case(self):
+        return 'violation' in self.violation_type.lower() or 'municipal parking' == self.violation_type.lower() 
+
+    def _closed(self):
+        return self.current_status == 'Closed' or self.current_status == 'Inactive'
