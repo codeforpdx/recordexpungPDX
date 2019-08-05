@@ -19,4 +19,4 @@ class Level800TrafficCrime(BaseCharge):
             return True
 
     def _expungeable(self, **kwargs):
-        return 'violation' not in kwargs['level'].lower()
+        return 'misdemeanor' in kwargs['level'].lower() or 'felony' in kwargs['level'].lower()
