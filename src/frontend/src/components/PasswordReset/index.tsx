@@ -4,7 +4,7 @@ import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 import Logo from '../Logo';
-import history from '../History';
+import { Redirect } from 'react-router';
 
 interface Props {
   system: SystemState;
@@ -14,13 +14,15 @@ interface State {
   password: string;
   missingPasswordInput: null | boolean;
   passwordIsValid: null | boolean;
+  redirect: boolean;
 }
 
 class PasswordReset extends React.Component<Props, State> {
   state: State = {
     password: '',
     missingPasswordInput: null,
-    passwordIsValid: null
+    passwordIsValid: null,
+    redirect: false
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -38,7 +40,9 @@ class PasswordReset extends React.Component<Props, State> {
       this.state.passwordIsValid === true &&
       this.state.missingPasswordInput === false
     ) {
-      history.push('/');
+      this.setState({
+        redirect: true
+      });
     }
   };
 
@@ -50,6 +54,10 @@ class PasswordReset extends React.Component<Props, State> {
   };
 
   public render() {
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/record-search" />;
+    }
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
