@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
-import history from '../History';
+import { Redirect } from 'react-router';
 
 interface Props {
   system: SystemState;
@@ -16,6 +16,7 @@ interface State {
   missingPassword: boolean;
   invalidCredentials: null | boolean;
   missingInputs: null | boolean;
+  redirect: boolean;
 }
 
 class OeciLogin extends React.Component<Props, State> {
@@ -25,7 +26,8 @@ class OeciLogin extends React.Component<Props, State> {
     missingUserId: false, // Initially set to false for aria-invalid
     missingPassword: false, // Initially set to false for aria-invalid
     invalidCredentials: null,
-    missingInputs: null
+    missingInputs: null,
+    redirect: false
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -39,30 +41,29 @@ class OeciLogin extends React.Component<Props, State> {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
+    if (this.state.missingInputs === false) {
+      this.setState({
+        redirect: true
+      });
+    }
   };
 
   validateForm = () => {
     this.setState({
-      missingUserId: this.state.userId.trim().length === 0
+      missingUserId: this.state.userId.trim().length === 0,
+      missingPassword: this.state.password.trim().length === 0,
+      missingInputs:
+        this.state.userId.trim().length === 0 ||
+        this.state.password.trim().length === 0
     });
-    this.setState({
-      missingPassword: this.state.password.trim().length === 0
-    });
-    this.setState(
-      {
-        missingInputs:
-          this.state.userId.trim().length === 0 ||
-          this.state.password.trim().length === 0
-      },
-      () =>
-        this.state.missingInputs === false
-          ? history.push('/record-search')
-          : null // Using setState(updater, callback) because setState doesn't immediately update component
-    );
     // Need validation for userId & PW
   };
 
   public render() {
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/record-search" />;
+    }
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">

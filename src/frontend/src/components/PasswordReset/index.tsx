@@ -34,22 +34,19 @@ class PasswordReset extends React.Component<Props, State> {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm();
+    if (
+      this.state.passwordIsValid === true &&
+      this.state.missingPasswordInput === false
+    ) {
+      history.push('/');
+    }
   };
 
   validateForm = () => {
     this.setState({
-      missingPasswordInput: this.state.password.trim().length === 0
+      missingPasswordInput: this.state.password.trim().length === 0,
+      passwordIsValid: this.state.password.trim().length >= 10 // Need to implement a more robust password check.
     });
-    this.setState(
-      {
-        passwordIsValid: this.state.password.trim().length >= 10 // Need to implement a more robust password check.
-      },
-      () =>
-        this.state.passwordIsValid === true &&
-        this.state.missingPasswordInput === false
-          ? history.push('/')
-          : null // Using setState(updater, callback) beccause setState doesn't immediately update component
-    );
   };
 
   public render() {
