@@ -71,8 +71,8 @@ class ForgotPassword extends React.Component<Props, State> {
                 type="email"
                 required
                 aria-invalid={
-                  this.state.ariaInvalid == true ||
-                  this.state.emailIsValid == false
+                  this.state.ariaInvalid === true ||
+                  this.state.emailIsValid === false
                 }
                 aria-describedby={
                   this.state.ariaInvalid ? 'email_msg' : undefined
