@@ -140,33 +140,6 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         assert expunger.most_recent_conviction is mrc_charge
         assert expunger.second_most_recent_conviction is second_mrc_charge
 
-    def test_num_acquittals(self):
-        case = CaseFactory.create()
-        one_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.ONE_YEAR_AGO)
-        two_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.TWO_YEARS_AGO)
-        less_than_3_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.LESS_THAN_THREE_YEARS_AGO)
-        three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
-
-        case.charges = [one_year_ago_dismissal, two_year_ago_dismissal, three_year_ago_dismissal, less_than_3_year_ago_dismissal]
-        record = Record([case])
-
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.num_acquittals == 3
-
-    def test_num_acquittals(self):
-        case = CaseFactory.create()
-        three_year_ago_dismissal = ChargeFactory.create_dismissed_charge(date=self.THREE_YEARS_AGO)
-
-        case.charges = [three_year_ago_dismissal]
-        record = Record([case])
-
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.num_acquittals == 0
-
     def test_most_recent_charge(self):
         case = CaseFactory.create()
         one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',

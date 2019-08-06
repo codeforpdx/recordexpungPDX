@@ -141,21 +141,3 @@ class TestTrafficTickets(unittest.TestCase):
         charge = ChargeFactory.save(self.charge)
 
         assert charge.__class__.__name__ == 'ParkingTicket'
-
-
-class TestMotorVehicleViolation(unittest.TestCase):
-
-    def setUp(self):
-        self.charge = ChargeFactory.build()
-
-    def test_parking_violation_is_a_motor_vehicle_violation(self):
-        self.charge['statute'] = '01'
-        charge = ChargeFactory.save(self.charge)
-
-        assert charge.motor_vehicle_violation() is True
-
-    def test_driving_charge_is_motor_vehicle_violation(self):
-        self.charge['statute'] = '825.999'
-        charge = ChargeFactory.save(self.charge)
-
-        assert charge.motor_vehicle_violation() is True
