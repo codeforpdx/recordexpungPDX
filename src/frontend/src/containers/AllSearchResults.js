@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadSearchRecords } from '../redux/search-results/actions';
+import {
+  loadSearchRecordsMockAction,
+  loadSearchRecordsAction
+} from '../redux/search-results/actions';
 
 class AllSearchResults extends Component {
   componentDidMount() {
@@ -9,13 +12,14 @@ class AllSearchResults extends Component {
   }
 
   render() {
-    console.log('hi');
+    console.log('hi', this.props.fetch);
     return <h1>All Search and Results Container Place Holder</h1>;
   }
 }
 const mapDispatchToProps = dispatch => ({
-  async fetch() {
-    return await dispatch(loadSearchRecords());
+  fetch() {
+    //change loadSearchRecordsMockAction to loadSearchREcordsAction when get back end running
+    return dispatch(loadSearchRecordsMockAction());
   }
 });
 

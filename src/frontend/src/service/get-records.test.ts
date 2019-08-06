@@ -1,8 +1,8 @@
-import getSerachRecords from './get-records';
+import getSearchRecords from './get-records';
 
 describe('test get-records service', () => {
   it('gets records', done => {
-    getSerachRecords().then(results => {
+    getSearchRecords().then(results => {
       console.log('results', results);
       expect(results.data).toEqual([
         {
