@@ -12,8 +12,8 @@ interface Props {
 interface State {
   userId: string;
   password: string;
-  userIdHasInput: boolean;
-  passwordHasInput: boolean;
+  missingUserId: boolean;
+  missingPassword: boolean;
   invalidCredentials: null | boolean;
   missingInputs: null | boolean;
 }
@@ -22,8 +22,8 @@ class OeciLogin extends React.Component<Props, State> {
   state: State = {
     userId: '',
     password: '',
-    userIdHasInput: false,
-    passwordHasInput: false,
+    missingUserId: false, // Initially set to false for aria-invalid
+    missingPassword: false, // Initially set to false for aria-invalid
     invalidCredentials: null,
     missingInputs: null
   };
@@ -43,10 +43,10 @@ class OeciLogin extends React.Component<Props, State> {
 
   validateForm = () => {
     this.setState({
-      userIdHasInput: this.state.userId.trim().length === 0
+      missingUserId: this.state.userId.trim().length === 0
     });
     this.setState({
-      passwordHasInput: this.state.password.trim().length === 0
+      missingPassword: this.state.password.trim().length === 0
     });
     this.setState(
       {
@@ -91,9 +91,9 @@ class OeciLogin extends React.Component<Props, State> {
                   type="text"
                   required
                   aria-describedby={
-                    this.state.userIdHasInput ? 'inputs_msg' : undefined
+                    this.state.missingUserId ? 'inputs_msg' : undefined
                   }
-                  aria-invalid={this.state.userIdHasInput}
+                  aria-invalid={this.state.missingUserId}
                   onChange={this.handleChange}
                 />
               </div>
@@ -106,9 +106,9 @@ class OeciLogin extends React.Component<Props, State> {
                 id="password"
                 required
                 aria-describedby={
-                  this.state.passwordHasInput ? 'inputs_msg' : undefined
+                  this.state.missingPassword ? 'inputs_msg' : undefined
                 }
-                aria-invalid={this.state.passwordHasInput}
+                aria-invalid={this.state.missingPassword}
                 onChange={this.handleChange}
               />
               <button
