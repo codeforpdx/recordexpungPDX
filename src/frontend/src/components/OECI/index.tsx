@@ -56,10 +56,10 @@ class OeciLogin extends React.Component<Props, State> {
       },
       () =>
         this.state.missingInputs === false
-          ? history.push('/recordsearch')
+          ? history.push('/record-search')
           : null // Using setState(updater, callback) because setState doesn't immediately update component
     );
-    //need validation for userId & PW
+    // Need validation for userId & PW
   };
 
   public render() {
@@ -70,7 +70,7 @@ class OeciLogin extends React.Component<Props, State> {
             onSubmit={this.handleSubmit}
             noValidate
             className="oeci-login-form"
-            id="OECILoginForm"
+            id="OeciLoginForm"
             aria-label="OECI Login Form"
           >
             <fieldset>

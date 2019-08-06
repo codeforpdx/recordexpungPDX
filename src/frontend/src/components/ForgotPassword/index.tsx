@@ -12,7 +12,7 @@ interface Props {
 }
 interface State {
   email: string;
-  emailHasInput: boolean;
+  ariaInvalid: boolean;
   emailIsValid: null | boolean;
   missingInputs: null | boolean;
 }
@@ -20,7 +20,7 @@ interface State {
 class ForgotPassword extends React.Component<Props, State> {
   state: State = {
     email: '',
-    emailHasInput: false,
+    ariaInvalid: false,
     emailIsValid: null, // email validation to be added
     missingInputs: null
   };
@@ -44,12 +44,8 @@ class ForgotPassword extends React.Component<Props, State> {
 
   validateForm = () => {
     this.setState({
-      emailHasInput: this.state.email.trim().length === 0
-    });
-    this.setState({
-      missingInputs: this.state.email.trim().length === 0
-    });
-    this.setState({
+      ariaInvalid: this.state.email.trim().length === 0,
+      missingInputs: this.state.email.trim().length === 0,
       emailIsValid: this.emailCheck(this.state.email)
     });
   };
@@ -74,8 +70,12 @@ class ForgotPassword extends React.Component<Props, State> {
                 className="w-100 mb4 pa3 br2 b--black-20"
                 type="email"
                 required
+                aria-invalid={
+                  this.state.ariaInvalid == true ||
+                  this.state.emailIsValid == false
+                }
                 aria-describedby={
-                  this.state.emailHasInput ? 'email_msg' : undefined
+                  this.state.ariaInvalid ? 'email_msg' : undefined
                 }
                 onChange={this.handleChange}
               />
