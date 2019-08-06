@@ -19,15 +19,15 @@ class App extends React.Component {
       <Router history={history}>
         <LoggedIn>
           <Route path="/oeci" component={OeciLogin} />
-          <Route path="/recordsearch" component={RecordSearch} />
+          <Route path="/record-search" component={RecordSearch} />
         </LoggedIn>
       </Router>
     ) : (
       <Router history={history}>
         <Route exact path="/" component={LogIn} />
         <Route exact path="/" component={Footer} />
-        <Route path="/forgotpassword" component={ForgotPassword} />
-        <Route path="/passwordreset" component={PasswordReset} />
+        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route path="/password-reset" component={PasswordReset} />
       </Router>
     );
   }
