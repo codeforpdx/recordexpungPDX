@@ -1,4 +1,4 @@
-import { RecordsState, LOAD_RECORDS, RecordActionTypes } from './types';
+import { RecordsState, LOAD_RECORDS, RecordActionTypes } from '../types';
 
 const initialState: RecordsState = {
   records: []

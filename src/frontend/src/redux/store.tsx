@@ -7,10 +7,12 @@ import { combineReducers } from 'redux';
 // Reducers:
 import { recordsReducer } from './records/reducer';
 import { systemReducer } from './system/reducer';
+import { searchRecordsReducer } from './search-results/reducer';
 
 const rootReducer = combineReducers({
   system: systemReducer,
-  records: recordsReducer
+  records: recordsReducer,
+  searchRecordsReducer
 });
 
 const store = configureStore({ reducer: rootReducer });

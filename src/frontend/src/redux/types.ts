@@ -28,7 +28,6 @@ export interface RecordsState {
 
 // These constants are used as the 'type' field in Redux actions.
 export const LOAD_RECORDS = 'LOAD_RECORDS';
-
 interface LoadRecordsAction {
   type: typeof LOAD_RECORDS;
   records: Record[];
@@ -37,3 +36,17 @@ interface LoadRecordsAction {
 // Add other Action types here like so:
 // export type RecordActionTypes = LoadRecordsAction | OtherRecordsAction;
 export type RecordActionTypes = LoadRecordsAction;
+
+//********FOR SEARCH RESULTS COMPONENT
+// These are constants for search-results component
+export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
+// This is initial state for search-results reducer
+export interface SearchRecordState {
+  search_records: Record[];
+}
+interface SearchRecordsAction {
+  type: string;
+  search_records: Record[];
+}
+export type SearchRecordsActionType = SearchRecordsAction;
+//**END OF SEARCH RESULTS COMPONENT

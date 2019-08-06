@@ -5,6 +5,6 @@ const request: Request = {
   method: 'post'
 };
 
-export default function loadSearchRecords() {
+export default function getSearchRecords() {
   return apiService(request);
 }
