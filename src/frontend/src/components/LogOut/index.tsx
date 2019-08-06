@@ -8,6 +8,7 @@ interface Props {
   system: SystemState;
   logOut: typeof logOut;
 }
+
 interface State {}
 
 class LogOut extends React.Component<Props, State> {
@@ -20,6 +21,7 @@ class LogOut extends React.Component<Props, State> {
     this.props.logOut();
     event.preventDefault();
     event.stopPropagation();
+    window.location.pathname = '';
   }
 
   public render() {

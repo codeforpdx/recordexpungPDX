@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { AppState } from '../../redux/store';
@@ -12,7 +13,13 @@ class App extends React.Component {
   public render() {
     return get(this, 'props.system.loggedIn') ? (
       <LoggedIn>
-        <RecordSearch />
+        <Switch>
+          <Route path="/search" component={RecordSearch} />
+          <Route path="/stats" /*component={}*/ />
+          <Route path="/admin" /*component={}*/ />
+          <Route path="/account" /*component={}*/ />
+          <Route component={RecordSearch} />
+        </Switch>
       </LoggedIn>
     ) : (
       <div>
