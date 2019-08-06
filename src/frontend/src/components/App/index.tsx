@@ -9,7 +9,7 @@ import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
-import OECIlogin from '../OECI';
+import OeciLogin from '../Oeci';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
 
@@ -18,7 +18,7 @@ class App extends React.Component {
     return get(this, 'props.system.loggedIn') ? (
       <Router history={history}>
         <LoggedIn>
-          <Route path="/oeci" component={OECIlogin} />
+          <Route path="/oeci" component={OeciLogin} />
           <Route path="/recordsearch" component={RecordSearch} />
         </LoggedIn>
       </Router>

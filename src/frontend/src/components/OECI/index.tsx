@@ -18,7 +18,7 @@ interface State {
   missingInputs: null | boolean;
 }
 
-class OECIlogin extends React.Component<Props, State> {
+class OeciLogin extends React.Component<Props, State> {
   state: State = {
     userId: '',
     password: '',
@@ -150,4 +150,4 @@ const mapStateToProps = (state: AppState) => ({
 export default connect(
   mapStateToProps,
   { logIn }
-)(OECIlogin);
+)(OeciLogin);
