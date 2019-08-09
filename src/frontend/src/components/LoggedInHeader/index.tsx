@@ -22,6 +22,10 @@ class LoggedInHeader extends React.Component {
               Account
             </button>
             <LogOut>
+              {/* Nesting the button within a <Link> tag here would
+                render but creates invalid HTML.
+                https://stackoverflow.com/questions/42463263/wrapping-a-react-router-link-in-an-html-button
+              */}
               <button
                 onClick={() => history.push('/')}
                 className="link hover-blue f6 f5-ns dib pa3"

@@ -39,6 +39,8 @@ class ForgotPassword extends React.Component<Props, State> {
   };
 
   emailCheck = (email: string) => {
+    // Relatively permissive  regex checking for syntax in '_@_._' format.
+    // Will not accept addresses with '_@_@._'
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
