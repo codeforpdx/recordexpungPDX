@@ -16,8 +16,8 @@ def create_app(env_name):
     app = Flask(__name__)
     app.config.from_object(app_config[env_name])
 
-    logHandler = logging.StreamHandler()
-    app.logger.addHandler(logHandler)
+    log_handler = logging.StreamHandler()
+    app.logger.addHandler(log_handler)
     app.logger.setLevel(logging.INFO)
 
     # Register endpoint routes here:
