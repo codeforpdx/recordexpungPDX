@@ -45,3 +45,16 @@ heroku logs --tail --app=recordexpungpdxapi
 ### Backend
 
 While in the project/src/backend subdir of the project directory, run:
+
+```
+heroku container:push --recursive --app=recordexpungpdxapi
+heroku container:release web --app=recordexpungpdxapi
+```
+
+Once these apps are pushed to heroku, they should be running at
+https://recordexpungpdx.herokuapp.com and
+https://recordexpungpdxapi.herokuapp.com respectively.
+
+### Design and Dev notes:
+
+The Dockerfiles for dev and prod environments have important differences, so the prod versions will be maintained with the Dockerfile.web filename.
