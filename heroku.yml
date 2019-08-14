@@ -1,3 +1,0 @@
-build:
-  docker:
-    web: src/backend/expungeservice/Dockerfile
