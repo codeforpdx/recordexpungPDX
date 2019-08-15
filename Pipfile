@@ -16,6 +16,7 @@ pytest = "*"
 requests-mock = "*"
 requests = "*"
 python-dateutil = "*"
+uwsgi = "*"
 
 [dev-packages]
 

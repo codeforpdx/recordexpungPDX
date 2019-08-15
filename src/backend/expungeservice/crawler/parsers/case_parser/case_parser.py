@@ -76,7 +76,11 @@ class CaseParser(HTMLParser):
                 start_index = 3
 
             while start_index < len(dispo_row) - 1:
-                charge_id, charge = dispo_row[start_index].split('.\xa0')
+                if CaseParser._valid_data(dispo_row[start_index].split('.\xa0')):
+                    charge_id, charge = dispo_row[start_index].split('.\xa0')
+                else:
+                    start_index += 2
+                    continue
                 charge_id = int(charge_id)
                 self.hashed_dispo_data[charge_id] = {}
                 self.hashed_dispo_data[charge_id]['date'] = dispo_row[0]
@@ -111,3 +115,7 @@ class CaseParser(HTMLParser):
             self.hashed_charge_data[charge_id]['level'] = self.charge_table_data[index + 3]
             self.hashed_charge_data[charge_id]['date'] = self.charge_table_data[index + 4]
             index += 5
+
+    @staticmethod
+    def _valid_data(disposition):
+        return len(disposition) == 2

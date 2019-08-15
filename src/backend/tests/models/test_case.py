@@ -64,3 +64,27 @@ class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
         case = CaseFactory.save(self.case)
 
         assert case.birth_year == 1979
+
+
+class TestViolationLevelTrafficCases(unittest.TestCase):
+
+    def setUp(self):
+        self.case = CaseFactory.build()
+
+    def test_open_cases_are_treated_as_closed(self):
+        self.case['type_status'] = ['Offense Violation', 'Open']
+        case = CaseFactory.save(self.case)
+
+        assert case.closed() is True
+
+
+class TestParkingCases(unittest.TestCase):
+
+    def setUp(self):
+        self.case = CaseFactory.build()
+
+    def test_open_cases_are_treated_as_closed(self):
+        self.case['type_status'] = ['Municipal Parking', 'Open']
+        case = CaseFactory.save(self.case)
+
+        assert case.closed() is True

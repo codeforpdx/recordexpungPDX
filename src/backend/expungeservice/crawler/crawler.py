@@ -2,6 +2,7 @@ import requests
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.disposition import Disposition
+from expungeservice.models.record import Record
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
@@ -42,6 +43,7 @@ class Crawler:
                 case.charges.append(new_charge)
 
         self.session.close()
+        return Record(self.result.cases)
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
@@ -67,8 +69,7 @@ class Crawler:
 
     @staticmethod
     def __build_charge(charge_id, charge, case_parser):
-        new_charge = Charge(**charge)
         if case_parser.hashed_dispo_data.get(charge_id):
-            new_charge.disposition = Disposition(case_parser.hashed_dispo_data[charge_id].get('date'),
-                                                 case_parser.hashed_dispo_data[charge_id].get('ruling'))
-        return new_charge
+            charge['disposition'] = Disposition(case_parser.hashed_dispo_data[charge_id].get('date'),
+                                                case_parser.hashed_dispo_data[charge_id].get('ruling'))
+        return Charge.create(**charge)

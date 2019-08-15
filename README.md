@@ -1,34 +1,40 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is primarily for the backend. For info on the frontend see [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+This README is covers project installation and getting started as a contributor. For more info:
+
+Project design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
+
+Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Running Components](#running-components)
+- [Running Components](#running-the-docker-stack)
 - [Testing](#testing)
 - [Project Layout](#project-layout)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Installation
- 
-1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**, 
+
+Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. Docker is used to build, test, and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running test code in pipenv.
+
+1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
 
 2. Install Python:
 
-    * **Mac** 
-    
+    * **Mac**
+
       To install the latest version of Python on Mac run:
-		
+
           $ brew install python3
 
       <!-- -->
-		note: This will pull the latest version of Python, so when Python 3.8 or 
+		note: This will pull the latest version of Python, so when Python 3.8 or
 		greater is released it will install that version.
 
     * **Linux**
@@ -37,12 +43,12 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
 			To install Python 3.7 on Ubuntu 18.04 run the command:
 			```
-			$ sudo apt-get install python3.7 -y 
+			$ sudo apt-get install python3.7 -y
 			```
 
         - Ubuntu 16.04
-	
-			To install Python 3.7 on Ubuntu 16.04 follow the instructions 
+
+			To install Python 3.7 on Ubuntu 16.04 follow the instructions
 			[here](https://github.com/codeforpdx/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
     * **Windows**
@@ -51,8 +57,8 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 
 3. Install Pipenv
 
-	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install) 
-	package manager which also automatically creates and manages virtual 
+	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install)
+	package manager which also automatically creates and manages virtual
 	environments.
 
 4. Install additional libraries needed for running the backend natively or with pipenv:
@@ -62,34 +68,36 @@ This README is primarily for the backend. For info on the frontend see [src/fron
       ```
       brew install postgresql
       ```
+      Note: this step is only required to meet a dependency for python's psycopg2 package, namely `libpq-dev`. The dev environment doesn't require a local installation of the database, because the database runs within the docker stack.
+
       It may be necessary to then run
       ```
-      export LDFLAGS="-L/usr/local/opt/openssl/lib”
+      export LDFLAGS="-L/usr/local/opt/openssl/lib"
       ```
-      More information on a Mac isntallation here: https://wiki.postgresql.org/wiki/Homebrew
+      More information on a Mac installation here: https://wiki.postgresql.org/wiki/Homebrew
     * **Linux**
       ```
       sudo apt-get install libpq-dev -y
       ```
     * **Windows**
 
-      TBD
+     TBD
 
-5. Install NPM if you don't already have it installed. [This link provides 
+5. Install NPM if you don't already have it installed. [This link provides
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 6. Install backend dependencies:
 
-	A [Makefile](https://www.gnu.org/software/make/) controls installing 
+	A [Makefile](https://www.gnu.org/software/make/) controls installing
   dependencies, running the Flask app, and removing build artifacts.
-	While in the directory of your local `recordexpungePDX` repo, install the 
+	While in the directory of your local `recordexpungePDX` repo, install the
   backend dependencies by running:
-	
+
 	```
 	$ make install
 	```
-	
-	Make will read `Pipfile` and install listed Python packages into a `Pipenv` 
+
+	Make will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
 7. Install frontend dependencies
@@ -103,41 +111,69 @@ This README is primarily for the backend. For info on the frontend see [src/fron
 	$ npm install
   ```
 
-## Running Components
+8. Install docker
 
-### Backend
+   * **Mac**
 
-#### Running Backend Development Server
+        - Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+
+          (click on Get Docker for Mac [Stable])
+
+   * **Linux**
+
+        - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+
+        - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
+
+9. Create a local .env file
 
 While in the directory of your local repo, run:
-	
 ```
-$ make run
+cp .env.example .env
+
 ```
-	
-Doing so runs the `Flask` app inside a `Pipenv` virtualenv (the `Flask` app will 
-also install dependencies as part of this process). On success, a
-development server for the backend should be started on `http://localhost:5000`.
-To check this, navigate to `http://localhost:5000/hello`. If everything worked
-correctly, your browser should display the text `Hello, world!`.
 
 ##### Cleaning
 
 While in the directory of your local repo, run:
-	
+
 ```
 $ make clean
 ```
 in order to remove build artifacts.
 
+## Running the Docker stack
+
+Docker provides a fully sandboxed virtual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (discussed below) to pass, because it runs a local instance of the database. While in the directory of your local repo, run:
+
+```
+docker swarm init
+```
+
+This enables docker to run a stack locally and only needs to be run once.
+
+```
+make dev
+```
+
+This command builds the docker images (web server, flask backend, and postgres database) and launches a docker stack running the three services. Verify the backend is serving requests by navigating to `http://localhost:5000/api/hello`. The frontend can be reached at `http://localhost:3000`.
+
+Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
+
+For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
+[doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+
+
 ## Testing
 
-Currently using [pytest](https://docs.pytest.org) for testing.   
+Currently using [pytest](https://docs.pytest.org) for testing.
 Run all tests with the following command:
 
 ```bash
 $ make test
 ```
+
+If all of these tests pass, you have successfully set up the backend dev environment!
 
 ## Project Layout
 
@@ -156,7 +192,6 @@ $ make test
 `src`: Source dir
 
 `src/backend/expungeservice/app.py`: Flask application
-`
 
 ## <a name="contributing"></a>Contributing
 

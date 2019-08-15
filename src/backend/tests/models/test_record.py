@@ -1,5 +1,9 @@
 import unittest
+<<<<<<< HEAD
 
+=======
+from expungeservice.models.record_object import Record
+>>>>>>> 022521c169cedeaa13a0b948ce37a15383c3b8c7
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.record_factory import RecordFactory
@@ -43,4 +47,7 @@ class TestChargeMethod(unittest.TestCase):
 
     def test_charges_index_2(self):
         assert self.record.charges[2] == self.charge_two
+<<<<<<< HEAD
 
+=======
+>>>>>>> 022521c169cedeaa13a0b948ce37a15383c3b8c7
