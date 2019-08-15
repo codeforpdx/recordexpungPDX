@@ -1,7 +1,5 @@
 from expungeservice.models.case import Case
 
-from decimal import Decimal
-
 class Record:
     def __init__(self, list_cases):
         self.cases = list_cases
