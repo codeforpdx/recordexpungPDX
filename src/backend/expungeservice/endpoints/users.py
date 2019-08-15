@@ -7,6 +7,7 @@ from expungeservice.database.user import create_user, get_user_by_email
 from expungeservice.endpoints.auth import admin_auth_required
 from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
+from expungeservice.request.error import error
 
 
 class Users(MethodView):
@@ -23,12 +24,12 @@ class Users(MethodView):
         data = request.get_json()
 
         if data == None:
-            abort(400)
+            error(400, "No json data in request body")
 
         check_data_fields(data, ['email', 'password', 'admin'])
 
         if len(data['password']) <8:
-            return 'New password is less than 8 characters long!', 422
+            error(422, 'New password is less than 8 characters long!')
 
         password_hash = generate_password_hash(data['password'])
 
@@ -38,7 +39,7 @@ class Users(MethodView):
                                              password_hash = password_hash,
                                              admin = data['admin'])
         except UniqueViolation:
-            return 'User with that email address already exists!', 422
+            error(422, 'User with that email address already exists')
 
         response_data = {
             'email': create_user_result['email'],
@@ -51,4 +52,4 @@ class Users(MethodView):
         return jsonify(response_data), 201
 
 def register(app):
-    app.add_url_rule('/api/v0.1/users', view_func=Users.as_view('users'))
+    app.add_url_rule('/api/users', view_func=Users.as_view('users'))
