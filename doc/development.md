@@ -10,7 +10,8 @@ In order to call API endpoints locally, e.g. while working on the frontend, you 
 1. Choose a password and compute its bcrypt hash:
 
 In the project directory, run
-```pipenv run python
+```
+pipenv run python
 ```
 to open the python interactive terminal with the project's dependencies loaded. Then run
 
