@@ -48,7 +48,7 @@ class TestUsers(unittest.TestCase):
         g.database.connection.commit()
 
     def get_auth_token(self, email, password):
-        return self.client.get('/api/v0.1/auth_token', json={
+        return self.client.get('/api/auth_token', json={
             'email': email,
             'password': password,
         })
@@ -62,7 +62,7 @@ class TestUsers(unittest.TestCase):
 
         get_auth_response = self.get_auth_token(self.admin_email, self.admin_password)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
                 json = {'email':new_email,
                         'password': new_password,
@@ -82,7 +82,7 @@ class TestUsers(unittest.TestCase):
         new_email = "pytest_create_user@endpoint_test.com"
         new_password = "new_password"
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': '' },
             json = {'email':new_email,
                     'password': new_password,
@@ -96,7 +96,7 @@ class TestUsers(unittest.TestCase):
 
         get_auth_response = self.get_auth_token(self.admin_email, self.admin_password)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
                 json = {'email':new_email,
                         #'password': new_password,
@@ -113,7 +113,7 @@ class TestUsers(unittest.TestCase):
 
         get_auth_response = self.get_auth_token(self.admin_email, self.admin_password)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
                     'password': new_password,
@@ -121,7 +121,7 @@ class TestUsers(unittest.TestCase):
 
         assert(response.status_code == 201)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
                     'password': new_password,
@@ -136,7 +136,7 @@ class TestUsers(unittest.TestCase):
 
         get_auth_response = self.get_auth_token(self.admin_email, self.admin_password)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
                     'password': short_password,
@@ -152,7 +152,7 @@ class TestUsers(unittest.TestCase):
 
         get_auth_response = self.get_auth_token(self.email, self.password)
 
-        response = self.client.post('/api/v0.1/users', headers={
+        response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(get_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
                     'password': new_password,

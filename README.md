@@ -173,7 +173,8 @@ Run all tests with the following command:
 $ make test
 ```
 
-If all of these tests pass, you have successfully set up the backend dev environment!
+All of these tests should pass if you have correctly set up the backend dev environment.
+
 
 ## Project Layout
 
