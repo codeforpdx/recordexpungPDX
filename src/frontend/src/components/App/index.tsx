@@ -9,7 +9,7 @@ import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
-import OeciLogin from '../Oeci';
+import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
 
