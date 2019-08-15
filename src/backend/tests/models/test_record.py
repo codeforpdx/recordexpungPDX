@@ -1,34 +1,46 @@
 import unittest
 
-from expungeservice.models.case import Case
-from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
+from tests.factories.record_factory import RecordFactory
 
 class TestRecordObject(unittest.TestCase):
 
-    def setUp(self):
-        self.list_cases = []
-        self.list_charges = []
-
-        self.charge1 = ChargeFactory.build()
-
-        self.list_charges.append(self.charge1)
-
-        self.case1 = Case(("John Doe", "1990"), "", "", ("1/1/2019",""), ("",""), self.list_charges, "")
-        self.case2 = Case(("John Doe", "1991"), "", "", ("1/2/2019",""), ("",""), self.list_charges, "")
-
-        self.case1.set_balance_due("123")
-        self.case2.set_balance_due("246")
-
-        self.list_cases.append(self.case1)
-        self.list_cases.append(self.case2)
-
-        self.record = Record(self.list_cases)
-
     def test_print_balance_in_cents(self):
-        assert self.record.total_balance_due == 369.0
 
-    def test_print_list_charges(self):
-        assert self.record.charges[0] == self.list_charges[0]
-        assert self.record.charges[1] == self.list_charges[0]
+        recordTest = RecordFactory.create([CaseFactory.create(balance = '123.00'),
+                                           CaseFactory.create(balance = '246.00')])
+
+        assert recordTest.total_balance_due == 369.00
+
+    def test_print_balance_in_cents_empty(self):
+
+        recordTest = RecordFactory.create([CaseFactory.create()])
+
+        assert recordTest.total_balance_due == 0.00
+
+class TestChargeMethod(unittest.TestCase):
+    def setUp(self):
+        self.case_zero = CaseFactory.create()
+        self.charge_zero = ChargeFactory.create(case=self.case_zero)
+        self.case_zero.charges = [self.charge_zero]
+        
+        self.case_one = CaseFactory.create()
+        self.charge_one = ChargeFactory.create(case=self.case_one)
+        self.charge_two = ChargeFactory.create(case=self.case_one)
+        self.case_one.charges = [self.charge_one, self.charge_two]
+        
+        self.record = RecordFactory.create([self.case_zero, self.case_one])
+
+    def test_num_cases(self):
+        assert len(self.record.charges) == 3
+        
+    def test_charges_index_0(self):
+        assert self.record.charges[0] == self.charge_zero
+
+    def test_charges_index_1(self):
+        assert self.record.charges[1] == self.charge_one
+
+    def test_charges_index_2(self):
+        assert self.record.charges[2] == self.charge_two
+
