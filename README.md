@@ -235,6 +235,11 @@ All of these tests should pass if you have correctly set up the backend dev envi
   $ git checkout -b BRANCH_NAME
 ```
 
+  Python code should follow the [PEP8 standard](https://www.python.org/dev/peps/pep-0008/). Notably:
+
+  * **module** names should be lowercase and run together, e.g. `mymodule`
+  * **class** names should be camel case, e.g. `MyClass`
+  * **method** and variable names should be snake case, e.g. `my_method()` and `my_var`
 
 ## License
 
