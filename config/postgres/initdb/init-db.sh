@@ -18,5 +18,6 @@ psql \
     -v ON_ERROR_STOP=1 \
     -v POSTGRES_USER="${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+    -v DBNAME="${DB_NAME)}" \
     --username "${POSTGRES_USERNAME}" \
     -f /docker-entrypoint-initdb.d/scripts/create-tables-and-functions.sql
