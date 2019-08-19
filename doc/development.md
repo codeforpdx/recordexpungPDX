@@ -56,7 +56,7 @@ which should return something like this:
 }
 ```
 
-the auth_token string provides the proof that a particular user is logged in. Subsequent endpoints that require authorization will read the auth_token string to verify the logged-in user's credentials.
+the auth_token string provides a claim that a particular user is logged in. Subsequent endpoints that require authorization will read the auth_token string to verify the logged-in user's credentials.
 
 To run the /users/ POST endpoint, run
 

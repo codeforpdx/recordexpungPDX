@@ -36,7 +36,7 @@ dev_stop:
 	docker stack rm $(STACK_NAME)
 
 dev_psql:
-	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(DB_NAME)
+	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
 
 database_image:
 	docker build --no-cache -t $(STACK_NAME):database config/postgres

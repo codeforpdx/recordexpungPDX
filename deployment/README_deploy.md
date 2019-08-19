@@ -1,4 +1,6 @@
 
+##Deployment
+
 This directory and document contain information and make targets needed for deployment to our prod platform, Heroku.
 
 Web deployment is broken into three parts, corresponding to the three services in our app stack:
@@ -13,7 +15,16 @@ The heruko app frontend and backend are each deployed as a Docker image which ge
 
 We have Make targets (in the adjacent Makefile) for rebuilding and deploying the frontend and backend. Since these webapps don't store persistent data, we it's ok to just replace the existing images on Heroku with a new build.
 
-Updating the database deployment needs accompanying data backup and restore ops.
+Updating the database deployment needs accompanying data backup and restore ops. Database operations:
+
+ - To run a sql script in the app's attached database:
+
+ ```heroku pg:psql --app=recordexpungpdxapi -f ./path/to/scripts/script.sql ```
+
+ -
+####Additional dev notes
+
+In order to make changes to the published apps, the user must be logged into the apps' owner account with `heroku login`
 
 The frontend and backend apps each need to be "created" only once on Heroku, enabling push and deployment, using the following command:
 
