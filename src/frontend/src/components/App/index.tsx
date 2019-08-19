@@ -9,11 +9,7 @@ import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
-<<<<<<< 685562e274f71eefd6f70618532dcb8cbe40a04f
 import OeciLogin from '../OeciLogin';
-=======
-import OeciLogin from '../OECI';
->>>>>>> heroku deploy file structure still in progress
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
 

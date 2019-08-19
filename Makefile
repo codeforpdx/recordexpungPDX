@@ -1,5 +1,7 @@
 .PHONY: install run clean
 
+include .env
+
 install:
 	pipenv install
 
@@ -11,7 +13,6 @@ clean:
 IMAGES := database_image expungeservice_image webserver_image
 
 STACK_NAME := recordexpungpdx
-DB_NAME := record_expunge
 DB_CONTAINER_NAME := db
 REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
 
@@ -22,6 +23,11 @@ dev_deploy: $(IMAGES) dev_start
 	echo $@
 
 dev_start:
+	# This restarts the docker stack without rebuilding the underlying docker images;
+	# to reflect  code changes in the new stack you'll need to rebuild the altered image(s)
+	# with the appropriate make target,
+	# or with `make dev` which rebuilds all three images.
+
 	echo $@
 	docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml $(STACK_NAME)
 
