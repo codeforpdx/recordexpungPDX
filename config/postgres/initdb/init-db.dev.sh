@@ -6,9 +6,10 @@ set -e
 psql \
     -v ON_ERROR_STOP=1 \
     -U "${POSTGRES_USERNAME}" \
+    -d "${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     <<-EOSQL
-    CREATE DATABASE ${DB_NAME};
+    CREATE DATABASE ${PGDATABASE};
 EOSQL
 
 # Create tables and functions.
@@ -20,7 +21,7 @@ psql \
     -v ON_ERROR_STOP=1 \
     -U "${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
-    -d "${DB_NAME}" \
+    -d "${PGDATABASE}" \
     -f /docker-entrypoint-initdb.d/scripts/create-tables-and-functions.sql
 
 
@@ -28,5 +29,5 @@ psql \
     -v ON_ERROR_STOP=1 \
     -U "${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
-    -d "${DB_NAME}" \
+    -d "${PGDATABASE}" \
     -f /docker-entrypoint-initdb.d/scripts/initial_credentials.dev.sql
