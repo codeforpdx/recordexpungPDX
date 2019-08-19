@@ -12,17 +12,6 @@ class TestDatabaseOperations(unittest.TestCase):
 
         self.database = get_database()
 
-        '''if not "PGHOST" in os.environ.keys():
-            raise Exception("Database connection info not set. Copy .env.example file to .env for running in pipenv.")
-        host = os.environ['PGHOST']
-        port = os.environ['PGPORT']
-        name = os.environ['PGDATABASE']
-        username = os.environ['POSTGRES_USERNAME']
-        password = os.environ['POSTGRES_PASSWORD']
-
-        self.database = Database(host=host, port=port, name=name, username=username, password=password)
-        '''
-
         self.db_cleanup()
 
     def tearDown(self):

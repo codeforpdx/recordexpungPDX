@@ -1,6 +1,6 @@
 .PHONY: install run clean
 
-include .env
+
 
 install:
 	pipenv install
@@ -13,6 +13,7 @@ clean:
 IMAGES := database_image expungeservice_image webserver_image
 
 STACK_NAME := recordexpungpdx
+PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
 REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
 

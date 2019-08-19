@@ -19,7 +19,9 @@ Updating the database deployment needs accompanying data backup and restore ops.
 
  - To run a sql script in the app's attached database:
 
- ```heroku pg:psql --app=recordexpungpdxapi -f ./path/to/scripts/script.sql ```
+ ```
+ heroku pg:psql --app=recordexpungpdxapi -f ./path/to/scripts/script.sql
+ ```
 
  -
 ####Additional dev notes

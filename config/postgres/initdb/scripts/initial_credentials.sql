@@ -1,1 +1,2 @@
-SELECT * FROM CREATE_USER( 'another', 'pbkdf2:sha256:150000$m9E2pJF6$7e817f6eadbaa9ebf80ca5fd332bd6abc1bbabd0ceba549ead758529481ff6cb', true);
+SELECT * FROM CREATE_USER( 'admin@recordexpungpdx', 'pbkdf2:sha256:150000$KIpAe08L$a973731b56dae510cb6b4477a7adb61db3d5a13fb5f02bc46bc21f4dc39a3650', true);
+

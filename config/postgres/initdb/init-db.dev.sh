@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-# Create database and docker user.
-echo "POSTGRES_USERNAME=${POSTGRES_USERNAME}"
-echo "POSTGRES_PASSWORD=${POSTGRES_USERNAME}"
+# Create database
+
 psql \
     -v ON_ERROR_STOP=1 \
     -U "${POSTGRES_USERNAME}" \
@@ -14,7 +13,8 @@ EOSQL
 
 # Create tables and functions.
 
- # this stopped working? -v POSTGRES_USER="${POSTGRES_USERNAME}" \
+ # this syntax stopped working I guess? -v POSTGRES_USER="${POSTGRES_USERNAME}"
+ # replaced with: -U "${POSTGRES_USERNAME}"
 
 psql \
     -v ON_ERROR_STOP=1 \
@@ -29,4 +29,4 @@ psql \
     -U "${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     -d "${DB_NAME}" \
-    -f /docker-entrypoint-initdb.d/scripts/initial_credentials.sql
+    -f /docker-entrypoint-initdb.d/scripts/initial_credentials.dev.sql
