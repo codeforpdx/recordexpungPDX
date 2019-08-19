@@ -1,9 +1,9 @@
 from flask import g, abort
 import os
 from expungeservice.database import Database
+from expungeservice.request.error import error
 
 def before():
-
     host = os.environ['PGHOST']
     port = os.environ['PGPORT']
     name = os.environ['PGDATABASE']
@@ -23,4 +23,4 @@ def teardown(exception):
 def check_data_fields(request_json, required_fields):
 
     if not all([field in request_json.keys() for field in required_fields]):
-        abort(400)
+        error(400, "missing one or more required fields: " + str(required_fields))

@@ -97,4 +97,5 @@ Reading
 -------
 
 [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+
 [Get started with Docker for Mac](https://docs.docker.com/docker-for-mac/)
