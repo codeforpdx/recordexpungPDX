@@ -1,4 +1,6 @@
 import weakref
+import pdb
+
 
 from datetime import datetime
 from datetime import date as date_class
@@ -7,7 +9,7 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import ExpungementResult
 
 
-class BaseCharge:
+class BaseCharge(object):
 
     def __init__(self, case, name, statute, level, date, chapter, section, disposition=Disposition()):
         self.name = name
@@ -19,6 +21,13 @@ class BaseCharge:
         self._chapter = chapter
         self._section = section
         self._case = weakref.ref(case)
+
+    def __new__(cls, case, name, statute, level, date, chapter, section, disposition=Disposition()):
+        # if isinstance(disposition.date, datetime.date):
+        pdb.set_trace()
+        return object.__new__(cls)
+        # else:
+        #     return None
 
     def case(self):
         return self._case
