@@ -15,7 +15,6 @@ export function searchRecordsReducer(
   switch (action.type) {
     case LOAD_SEARCH_RECORDS:
       return { search_records: action.search_records };
-
     default:
       return state;
   }

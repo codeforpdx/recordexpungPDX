@@ -5,20 +5,23 @@ import {
   loadSearchRecordsAction
 } from '../redux/search-results/actions';
 
-class AllSearchResults extends Component {
+type Props = {
+  fetch: Function;
+};
+
+class AllSearchResults extends Component<Props> {
   componentDidMount() {
     console.log('helllo search results!');
     this.props.fetch();
   }
 
   render() {
-    console.log('hi', this.props.fetch);
     return <h1>All Search and Results Container Place Holder</h1>;
   }
 }
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Function) => ({
   fetch() {
-    //change loadSearchRecordsMockAction to loadSearchREcordsAction when get back end running
+    //change loadSearchRecordsMockAction to loadSearchRecordsAction when get back end running
     return dispatch(loadSearchRecordsMockAction());
   }
 });

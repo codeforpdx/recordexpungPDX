@@ -13,7 +13,6 @@ export const loadSearchRecordsAction = () => (dispatch: Function) => {
   console.log('loadSearchRecordsAction has been invoked');
   return getSearchRecords()
     .then(results => {
-      console.log('results in the action');
       dispatch({
         type: LOAD_SEARCH_RECORDS,
         search_records: results.data
@@ -21,6 +20,7 @@ export const loadSearchRecordsAction = () => (dispatch: Function) => {
     })
     .catch(error => {
       console.log('error is', error);
+      return error;
     });
 };
 
