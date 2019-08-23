@@ -17,8 +17,8 @@ class AllSearchResults extends Component<Props> {
     console.log(this.props.fetch);
   }
 
-  thingy = () => {
-    console.log(this.props);
+  records = () => {
+    console.log(this.props.records);
   };
 
   componentDidMount() {
@@ -27,7 +27,12 @@ class AllSearchResults extends Component<Props> {
   }
 
   render() {
-    return <button onClick={this.thingy}>log</button>;
+    //Now that the records is available in props, you can render
+    //the SearchResultsComponent and pass it the records as a prop
+    //<SearchResultsComponent records={this.props.records}>
+    //Currently you can now hit the button and console log the records
+    //that were fetched from redux
+    return <button onClick={this.records}>Console Log Current Props</button>;
   }
 }
 const mapDispatchToProps = (dispatch: Function) => ({
