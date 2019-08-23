@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { AppState } from '../redux/store';
+import { Record } from '../redux/types';
 import {
   loadSearchRecordsMockAction,
   loadSearchRecordsAction
@@ -7,16 +9,25 @@ import {
 
 type Props = {
   fetch: Function;
+  records: Record[];
 };
 
 class AllSearchResults extends Component<Props> {
+  public log(event: React.SyntheticEvent) {
+    console.log(this.props.fetch);
+  }
+
+  thingy = () => {
+    console.log(this.props);
+  };
+
   componentDidMount() {
     console.log('helllo search results!');
     this.props.fetch();
   }
 
   render() {
-    return <h1>All Search and Results Container Place Holder</h1>;
+    return <button onClick={this.thingy}>log</button>;
   }
 }
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -26,7 +37,11 @@ const mapDispatchToProps = (dispatch: Function) => ({
   }
 });
 
+const mapStateToProps = (state: AppState) => ({
+  records: state.searchRecordsReducer.search_records
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AllSearchResults);
