@@ -82,7 +82,7 @@ def authorized(f, admin_required, *args, **kwargs):
         error(401, 'Auth token expired')
 
 class AuthToken(MethodView):
-    def get(self):
+    def post(self):
         data = request.get_json()
 
         if data == None:

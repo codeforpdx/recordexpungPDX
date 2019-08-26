@@ -13,6 +13,10 @@ from expungeservice.endpoints.auth import user_auth_required, admin_auth_require
 
 import expungeservice
 
+
+'''
+protected-view template endpoints.
+'''
 class AdminProtectedView(MethodView):
     @admin_auth_required
     def get(self):
@@ -59,14 +63,14 @@ class TestAuth(unittest.TestCase):
         g.database.connection.commit()
 
 
-    def get_auth_token(self, email, password):
-        return self.client.get('/api/auth_token', json={
+    def generate_auth_token(self, email, password):
+        return self.client.post('/api/auth_token', json={
             'email': email,
             'password': password,
         })
 
     def test_auth_token_valid_credentials(self):
-        response = self.get_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.email, self.password)
 
         assert(response.status_code == 200)
         assert(response.headers.get('Content-type') == 'application/json')
@@ -75,22 +79,22 @@ class TestAuth(unittest.TestCase):
         assert(len(data['auth_token']))
 
     def test_auth_token_invalid_username(self):
-        response = self.get_auth_token('wrong_user@test.com', 'test_password')
+        response = self.generate_auth_token('wrong_user@test.com', 'test_password')
         assert(response.status_code == 401)
 
     def test_login_invalid_pasword(self):
-        response = self.get_auth_token(self.email, 'wrong_password')
+        response = self.generate_auth_token(self.email, 'wrong_password')
         assert(response.status_code == 401)
 
     def test_access_valid_auth_token(self):
-        response = self.get_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.email, self.password)
         response = self.client.get('/api/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
         assert(response.status_code == 200)
 
     def test_access_invalid_auth_token(self):
-        response = self.get_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.email, self.password)
         response = self.client.get('/api/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format('Invalid auth token')
         })
@@ -100,7 +104,8 @@ class TestAuth(unittest.TestCase):
         self.app.config['JWT_EXPIRY_TIMER'] = datetime.timedelta(seconds=0)
 
 
-        response = self.get_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.email, self.password)
+        print(response)
         time.sleep(1)
         response = self.client.get('/api/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
@@ -119,7 +124,7 @@ class TestAuth(unittest.TestCase):
             user.create_user(g.database, admin_email, hashed_admin_password, True)
             expungeservice.request.teardown(None)
 
-        response = self.get_auth_token(admin_email, admin_password)
+        response = self.generate_auth_token(admin_email, admin_password)
         response = self.client.get('/api/test/admin_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
@@ -127,7 +132,7 @@ class TestAuth(unittest.TestCase):
 
     def test_is_not_admin_auth_token(self):
 
-        response = self.get_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.email, self.password)
         response = self.client.get('/api/test/admin_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
