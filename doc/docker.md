@@ -44,7 +44,7 @@ Development of component source code should often be possible without touching D
 
 Do this once:
 
-    docker swarm init
+        docker swarm init
 
 This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't work with multiple nodes in our dev environment, but the command is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
 
@@ -71,7 +71,7 @@ Take a look at the Makefile to see all the steps in this make target. You can ru
 
 And then restarting the service to run with the new image:
 
-    docker service update --force $(docker stack services ls -f name=CONTAINER_NAME)
+        docker service update --force $(docker stack services ls -f name=CONTAINER_NAME)
 
 
 4. While the docker stack is running, it will restart any stopped containers automatically using the most recently built image. To stop and restart the entire stack, use the commands
@@ -81,8 +81,8 @@ And then restarting the service to run with the new image:
 
 Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service. To start a new docker stack without rebuilding the images, use:
 
-    make dev_stop
-    make dev_start
+        make dev_stop
+        make dev_start
 
 5. To stop a single *service* in the running stack, run:
 
