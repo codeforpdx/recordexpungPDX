@@ -30,7 +30,7 @@ dev_start:
 	# or with `make dev` which rebuilds all three images.
 
 	echo $@
-	docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml $(STACK_NAME)
+	docker stack deploy -c docker-compose.dev.yml $(STACK_NAME)
 
 dev_stop:
 	echo $@
@@ -40,14 +40,14 @@ dev_psql:
 	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
 
 database_image:
-	docker build --no-cache -t $(STACK_NAME):database config/postgres
+	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
 
 expungeservice_image:
-	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice
+	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice -f src/backend/expungeservice/Dockerfile.dev
 
 webserver_image:
 	cp -r src/frontend/ config/nginx/frontend
-	docker build --no-cache -t $(STACK_NAME):webserver config/nginx
+	docker build --no-cache -t $(STACK_NAME):webserver config/nginx -f config/nginx/Dockerfile.dev
 	rm -rf config/nginx/frontend
 
 dblogs:
@@ -59,6 +59,10 @@ applogs:
 test:
 	pipenv run pytest --ignore=src/frontend/
 
+dev_stack_test:
+	docker cp ./src/backend/tests/ $$(docker ps -qf name=expungeservice):/var/www/tests
+	docker exec -ti $$(docker ps -qf name=expungeservice) touch /var/www/conftest.py
+	docker exec -ti $$(docker ps -qf name=expungeservice) pytest
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
 
