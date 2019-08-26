@@ -63,6 +63,7 @@ dev_stack_test:
 	docker cp ./src/backend/tests/ $$(docker ps -qf name=expungeservice):/var/www/tests
 	docker exec -ti $$(docker ps -qf name=expungeservice) touch /var/www/conftest.py
 	docker exec -ti $$(docker ps -qf name=expungeservice) pytest
+
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
 
