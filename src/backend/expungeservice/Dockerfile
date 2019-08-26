@@ -7,6 +7,12 @@ RUN python3.7 -m pip install -r requirements.txt && rm requirements.txt &&\
     python3.7 -m setup install
 
 WORKDIR /var/www
+
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
+
+RUN mv /var/www/expungeservice/tests /var/www/tests &&\
+    touch /var/www/conftest.py
+
+#CMD pytest
 CMD ["uwsgi", "--http", "0.0.0.0:5000", "--module", "expungeservice.wsgi"]
