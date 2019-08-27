@@ -157,7 +157,7 @@ This command builds the docker images (web server, flask backend, and postgres d
 
 Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
 
-For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
+Once you start making local code changes, you'll want to familiarize with some essential Docker commands. For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
 
 
