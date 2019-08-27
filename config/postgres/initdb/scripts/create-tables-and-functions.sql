@@ -1,5 +1,3 @@
-\c record_expunge;
-
 CREATE EXTENSION "uuid-ossp";
 CREATE EXTENSION citext;
 

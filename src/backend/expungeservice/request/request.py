@@ -1,21 +1,11 @@
 from flask import g, abort
-import os
-from expungeservice.database import Database
+from expungeservice.database import get_database
 from expungeservice.request.error import error
 
 def before():
-    host = os.environ['PGHOST']
-    port = os.environ['PGPORT']
-    name = os.environ['PGDATABASE']
-    username = os.environ['POSTGRES_USERNAME']
-    password = os.environ['POSTGRES_PASSWORD']
 
-    g.database = Database(
-        host=host,
-        port=port,
-        name=name,
-        username=username,
-        password=password)
+
+    g.database = get_database()
 
 def teardown(exception):
     g.database.close_connection()
