@@ -48,7 +48,7 @@ Do this once:
 
 This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't work with multiple nodes in our dev environment, but the command is required to deploy and run a docker stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
 
-Below are several docker commands for managing the local docker stack, including rebuilding and restarting the entire stack or its individual images. All make commands need to be executed in the project main folder (the relative location of your Makefile) 
+Below are several docker commands for managing the local docker stack, including rebuilding and restarting the entire stack or its individual images. All make commands need to be executed in the project main folder (the relative location of your Makefile).
 
 1. To build and start the containers, do:
 
@@ -59,10 +59,11 @@ This builds the docker images that contain the different app components, then la
 
 Take a look at the Makefile to see all the steps in this make target. You can run these steps individually using the additional make targets provided.
 
-2. To see which containers are running:
+2. To see which containers are running (and with the optional flag to see stopped containers also):
 
-        docker ps
+        docker ps [-a]
 
+ **Note:** docker commands and make targets that launch or stop running the containers may return immediately, but take several seconds to take effect. `docker ps` is super useful for this!
 
 3. Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by first rebuilding the image with:
 
