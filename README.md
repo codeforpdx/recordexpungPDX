@@ -94,7 +94,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 	$ make install
 	```
 	
-        This will read `Pipfile` and install listed Python packages into a `Pipenv`
+  This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
 7. Install frontend dependencies
