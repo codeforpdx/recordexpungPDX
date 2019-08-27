@@ -2,8 +2,7 @@ import unittest
 import pytest
 import os
 import psycopg2
-from expungeservice.database import Database
-from expungeservice.database import user
+from expungeservice.database import Database, user, get_database
 
 
 class TestDatabaseOperations(unittest.TestCase):
@@ -11,15 +10,7 @@ class TestDatabaseOperations(unittest.TestCase):
 
     def setUp(self):
 
-        if not "PGHOST" in os.environ.keys():
-            raise Exception("Database connection info not set. Copy .env.example file to .env for running in pipenv.")
-        host = os.environ['PGHOST']
-        port = os.environ['PGPORT']
-        name = os.environ['PGDATABASE']
-        username = os.environ['POSTGRES_USERNAME']
-        password = os.environ['POSTGRES_PASSWORD']
-
-        self.database = Database(host=host, port=port, name=name, username=username, password=password)
+        self.database = get_database()
 
         self.db_cleanup()
 
