@@ -6,7 +6,6 @@ from expungeservice.expunger.expunger import Expunger
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
-import pdb
 
 
 class TestCrawlerAndExpunger(unittest.TestCase):

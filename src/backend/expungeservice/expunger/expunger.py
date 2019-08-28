@@ -1,4 +1,6 @@
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+from datetime import date as date_class
+from dateutil.relativedelta import relativedelta
 
 
 class Expunger:
@@ -92,7 +94,7 @@ class Expunger:
             self.second_most_recent_conviction = self.convictions[-2]
 
     def _assign_most_recent_charge(self):
-        self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        self.charges.sort(key=lambda charge: charge.disposition.date if charge.disposition.date else (date_class.today() + relativedelta(years=-1000)), reverse=True)
         if self.charges:
             self.most_recent_charge = self.charges[0]
 

@@ -1,6 +1,4 @@
 import weakref
-import pdb
-
 
 from datetime import datetime
 from datetime import date as date_class
@@ -9,7 +7,7 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import ExpungementResult
 
 
-class BaseCharge(object):
+class BaseCharge:
 
     def __init__(self, case, name, statute, level, date, chapter, section, disposition=Disposition()):
         self.name = name
@@ -22,15 +20,6 @@ class BaseCharge(object):
         self._section = section
         self._case = weakref.ref(case)
 
-    def __new__(cls, case, name, statute, level, date, chapter, section, disposition=Disposition()):
-        # try if exists instead of type?
-        # if isinstance(disposition.date, date_class):
-        if isinstance(disposition.date, date_class):
-            pdb.set_trace()
-            return object.__new__(cls)
-        else:
-            raise ValueError
-
     def case(self):
         return self._case
 
@@ -40,9 +29,18 @@ class BaseCharge(object):
         else:
             return self.disposition.ruling[0:9] != 'Convicted'
 
+    def convicted(self):
+        if not self.disposition.ruling:
+            return False
+        else:
+            return self.disposition.ruling[0:9] == 'Convicted'
+
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        return not self.acquitted() and self.disposition.date > ten_years_ago
+        if not self.convicted():
+            return False
+        else:
+            return self.disposition.date > ten_years_ago
 
     def recent_acquittal(self):
         three_years_ago = (date_class.today() + relativedelta(years=-3))
