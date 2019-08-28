@@ -23,11 +23,13 @@ class BaseCharge(object):
         self._case = weakref.ref(case)
 
     def __new__(cls, case, name, statute, level, date, chapter, section, disposition=Disposition()):
-        # if isinstance(disposition.date, datetime.date):
-        pdb.set_trace()
-        return object.__new__(cls)
-        # else:
-        #     return None
+        # try if exists instead of type?
+        # if isinstance(disposition.date, date_class):
+        if isinstance(disposition.date, date_class):
+            pdb.set_trace()
+            return object.__new__(cls)
+        else:
+            raise ValueError
 
     def case(self):
         return self._case
