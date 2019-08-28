@@ -27,13 +27,13 @@ class BaseCharge:
         if not self.disposition.ruling:
             return False
         else:
-            return self.disposition.ruling[0:9] != 'Convicted'
+            return self.disposition.ruling[0:9].lower() != 'convicted'
 
     def convicted(self):
         if not self.disposition.ruling:
             return False
         else:
-            return self.disposition.ruling[0:9] == 'Convicted'
+            return self.disposition.ruling[0:9].lower() == 'convicted'
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
