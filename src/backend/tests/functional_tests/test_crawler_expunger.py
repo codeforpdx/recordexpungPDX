@@ -6,6 +6,7 @@ from expungeservice.expunger.expunger import Expunger
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
+import pdb
 
 
 class TestCrawlerAndExpunger(unittest.TestCase):
@@ -32,6 +33,13 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger.run() is True
         assert expunger.most_recent_dismissal is None
         assert expunger.most_recent_conviction is None
+
+    def test_partial_dispos(self):
+        crawler = CrawlerFactory.setup()
+        record = CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD, {'CASEJD1': CaseDetails.CASE_WITH_PARTIAL_DISPOS})
+
+        expunger = Expunger(record)
+        expunger.run()
 
     def test_expunger_categorizes_charges(self):
         record = CrawlerFactory.create(self.crawler,
