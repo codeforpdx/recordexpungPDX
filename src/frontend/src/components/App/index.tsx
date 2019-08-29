@@ -7,7 +7,7 @@ import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
-import AllSearchResults from '../../containers/AllSearchResults';
+import AllSearchResults from '../../containers/AllSearchComponents';
 
 class App extends React.Component {
   public render() {
