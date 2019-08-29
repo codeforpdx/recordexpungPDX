@@ -4,14 +4,28 @@ Record Expunge System
 Some thoughts on the Record Expunge System.
 
 
-Stack
------
+Table of Contents
+-----------------
+- [Project Stack](#project-stack)
+- [User Flow](#user-flow)
+- [Frontend Routes](#frontend-routes)
+- [Backend Endpoints](#backend-endpoints)
+- [Data Model](#data-model)
+- [Database Schema](#database)
+- [Database Functions](#database-functions)
 
-[ Web Server ]  -- Apache or Nginx, https enabled
+- [License](#license)
 
-[ Application ] -- JavaScript/ReactJS
+Project Stack
+-------------
 
-[ Micro Service ] [ Database ] -- Python, Flask, Requests, PostgreSQL, Psycopg, Swagger
+The app stack is deployed as three services in a Docker stack:
+
+[ Web Server ]  -- Nginx, https enabled. Serves static pages and proxies API calls
+
+[ Backend API ] -- Python, Flask, Psycopg
+
+[ Database ] -- PostgreSQL
 
 
 User Flow
@@ -61,8 +75,8 @@ If user chooses log out:
 - User is directed to login page
 
 
-Application Routes
-------------------
+Frontend Routes
+---------------
 
 These routes are set up in the front-end application for navigating between the different views.
 
@@ -106,8 +120,8 @@ Admin page for creating users
 - admin permissions (T/F)
 
 
-Back-End Endpoints
-------------------
+Backend Endpoints
+-----------------
 
 These endpoints comprise our API. All requests of these endpoints go through the web server.
 

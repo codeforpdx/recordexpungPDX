@@ -1,0 +1,24 @@
+# Builds a webserver container that includes the web app static files
+
+### STAGE 1: Static web files ###
+
+FROM node as build
+RUN mkdir /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY frontend/package.json /usr/src/app/package.json
+
+WORKDIR /usr/src/app
+RUN npm install
+COPY ./frontend /usr/src/app
+RUN npm run build
+
+### STAGE 2: Webserver ###
+
+FROM nginx
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY recordexpunge-nginx.conf /etc/nginx/conf.d/recordexpunge-nginx.conf.template
+
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/recordexpunge-nginx.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'

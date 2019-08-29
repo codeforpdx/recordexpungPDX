@@ -20,7 +20,7 @@ Additional frontend documentation: [src/frontend/README.md](https://github.com/c
 
 ## Installation
 
-Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. Docker is used to build, test, and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running test code in pipenv.
+Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. We use pipenv and pytest to develop backend code. Docker is used to build and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running the test code in pipenv.
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
@@ -52,9 +52,9 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 			[here](https://github.com/codeforpdx/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
     * **Windows**
-
-      To install Python 3.7 on Windows, follow the instructions [in this guide.](https://wiki.python.org/moin/BeginnersGuide/Download).
-
+    
+      Developing this project on Windows is no longer supported in our documentation. The current approach some individual devs are using is to run linux in a VM. Anyone who wants to wrangle Windows is totally free to jump off the deep end! And then report back with supporting documentation :)
+    
 3. Install Pipenv
 
 	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install)
@@ -79,9 +79,6 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
       ```
       sudo apt-get install libpq-dev -y
       ```
-    * **Windows**
-
-     TBD
 
 5. Install NPM if you don't already have it installed. [This link provides
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
@@ -89,15 +86,15 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 6. Install backend dependencies:
 
 	A [Makefile](https://www.gnu.org/software/make/) controls installing
-  dependencies, running the Flask app, and removing build artifacts.
+  python dependencies, removing build artifacts, and building / running the Docker stack locally.
 	While in the directory of your local `recordexpungePDX` repo, install the
   backend dependencies by running:
 
 	```
 	$ make install
 	```
-
-	Make will read `Pipfile` and install listed Python packages into a `Pipenv`
+	
+  This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
 7. Install frontend dependencies
@@ -121,7 +118,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
    * **Linux**
 
-        - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+        - First, follow: [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
@@ -160,7 +157,7 @@ This command builds the docker images (web server, flask backend, and postgres d
 
 Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
 
-For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
+Once you start making local code changes, you'll want to familiarize with some essential Docker commands. For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
 
 
@@ -173,7 +170,8 @@ Run all tests with the following command:
 $ make test
 ```
 
-If all of these tests pass, you have successfully set up the backend dev environment!
+All of these tests should pass if you have correctly set up the backend dev environment.
+
 
 ## Project Layout
 
@@ -234,6 +232,11 @@ If all of these tests pass, you have successfully set up the backend dev environ
   $ git checkout -b BRANCH_NAME
 ```
 
+  Python code should follow the [PEP8 standard](https://www.python.org/dev/peps/pep-0008/). Notably:
+
+  * **module** names should be lowercase and run together, e.g. `mymodule`
+  * **class** names should be camel case, e.g. `MyClass`
+  * **method** and variable names should be snake case, e.g. `my_method()` and `my_var`
 
 ## License
 
