@@ -7,13 +7,13 @@ import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
 import RecordSearch from '../RecordSearch';
-import AllSearchResults from '../../containers/AllSearchComponents';
+import AllSearchComponents from '../../containers/AllSearchComponents';
 
 class App extends React.Component {
   public render() {
     return get(this, 'props.system.loggedIn') ? (
       <LoggedIn>
-        <AllSearchResults />
+        <AllSearchComponents />
         <RecordSearch />
       </LoggedIn>
     ) : (
