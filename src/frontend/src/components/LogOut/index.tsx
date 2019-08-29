@@ -21,7 +21,6 @@ class LogOut extends React.Component<Props, State> {
     this.props.logOut();
     event.preventDefault();
     event.stopPropagation();
-    window.location.pathname = '';
   }
 
   public render() {
