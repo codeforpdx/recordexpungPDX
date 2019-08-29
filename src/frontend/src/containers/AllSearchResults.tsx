@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
 });
 
 const mapStateToProps = (state: AppState) => ({
-  records: state.searchRecordsReducer.search_records
+  records: state.searchRecordsReducer.records
 });
 
 export default connect(

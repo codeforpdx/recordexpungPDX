@@ -42,7 +42,7 @@ export type RecordActionTypes = LoadRecordsAction;
 export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
 // This is initial state for search-results reducer
 export interface SearchRecordState {
-  search_records: Record[];
+  records: Record[];
 }
 interface SearchRecordsAction {
   type: string;

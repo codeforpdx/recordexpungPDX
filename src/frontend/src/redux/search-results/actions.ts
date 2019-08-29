@@ -2,7 +2,6 @@ import { LOAD_SEARCH_RECORDS } from '../types';
 import getSearchRecords from '../../service/get-records';
 
 export function loadSearchRecords() {
-  console.log('get records action was invoked');
   return {
     type: LOAD_SEARCH_RECORDS,
     search_records: getSearchRecords()
@@ -10,7 +9,6 @@ export function loadSearchRecords() {
 }
 
 export const loadSearchRecordsAction = () => (dispatch: Function) => {
-  console.log('loadSearchRecordsAction has been invoked');
   return getSearchRecords()
     .then(results => {
       dispatch({

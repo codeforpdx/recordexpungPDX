@@ -5,7 +5,7 @@ import {
 } from '../types';
 
 const initalState: SearchRecordState = {
-  search_records: []
+  records: []
 };
 
 export function searchRecordsReducer(
@@ -14,7 +14,7 @@ export function searchRecordsReducer(
 ): SearchRecordState {
   switch (action.type) {
     case LOAD_SEARCH_RECORDS:
-      return { search_records: action.search_records };
+      return { records: action.search_records };
     default:
       return state;
   }

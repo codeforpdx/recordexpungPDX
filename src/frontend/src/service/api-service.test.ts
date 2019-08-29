@@ -7,6 +7,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/hello',
       method: 'get'
     };
+
     apiService(request).then((response: any) => {
       expect(response).toEqual({
         data: 'Hello, world!'
