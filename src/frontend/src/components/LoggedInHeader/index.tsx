@@ -1,7 +1,6 @@
 import React from 'react';
 import LogOut from '../LogOut';
 import Logo from '../Logo';
-import { Link } from 'react-router-dom';
 import history from '../History';
 
 class LoggedInHeader extends React.Component {
@@ -13,17 +12,29 @@ class LoggedInHeader extends React.Component {
             <Logo />
           </div>
           <div className="dib mb4">
-            <button className="link hover-blue f6 f5-ns dib pa3">
-              <Link to="/record-search">Search</Link>
+            <button
+              onClick={() => history.push('/record-search')}
+              className="link hover-blue f6 f5-ns dib pa3"
+            >
+              Search
             </button>
-            <button className="link hover-blue f6 f5-ns dib pa3">
-              <Link to="/stats">Stats</Link>
+            <button
+              onClick={() => history.push('/stats')}
+              className="link hover-blue f6 f5-ns dib pa3"
+            >
+              Stats
             </button>
-            <button className="link hover-blue f6 f5-ns dib pa3">
-              <Link to="/admin">Admin</Link>
+            <button
+              onClick={() => history.push('/admin')}
+              className="link hover-blue f6 f5-ns dib pa3"
+            >
+              Admin
             </button>
-            <button className="link hover-blue f6 f5-ns dib pa3">
-              <Link to="/account">Account</Link>
+            <button
+              onClick={() => history.push('/account')}
+              className="link hover-blue f6 f5-ns dib pa3"
+            >
+              Account
             </button>
             <LogOut>
               {/* Nesting the button within a <Link> tag here would
