@@ -8,6 +8,7 @@ interface Props {
   system: SystemState;
   logOut: typeof logOut;
 }
+
 interface State {}
 
 class LogOut extends React.Component<Props, State> {

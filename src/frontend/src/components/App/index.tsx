@@ -20,6 +20,9 @@ class App extends React.Component {
         <LoggedIn>
           <Route path="/oeci" component={OeciLogin} />
           <Route path="/record-search" component={RecordSearch} />
+          <Route path="/stats" /*component={}*/ />
+          <Route path="/admin" /*component={}*/ />
+          <Route path="/account" /*component={}*/ />
         </LoggedIn>
       </Router>
     ) : (
