@@ -12,6 +12,7 @@ import RecordSearch from '../RecordSearch';
 import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
+import Admin from '../Admin';
 
 class App extends React.Component {
   public render() {
@@ -21,7 +22,7 @@ class App extends React.Component {
           <Route path="/oeci" component={OeciLogin} />
           <Route path="/record-search" component={RecordSearch} />
           <Route path="/stats" /*component={}*/ />
-          <Route path="/admin" /*component={}*/ />
+          <Route path="/admin" component={Admin} />
           <Route path="/account" /*component={}*/ />
         </LoggedIn>
       </Router>

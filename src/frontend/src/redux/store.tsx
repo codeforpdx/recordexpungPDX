@@ -5,12 +5,14 @@ import { configureStore } from 'redux-starter-kit';
 import { combineReducers } from 'redux';
 
 // Reducers:
+import { usersReducer } from './users/reducer';
 import { recordsReducer } from './records/reducer';
 import { systemReducer } from './system/reducer';
 
 const rootReducer = combineReducers({
   system: systemReducer,
-  records: recordsReducer
+  records: recordsReducer,
+  users: usersReducer
 });
 
 const store = configureStore({ reducer: rootReducer });
