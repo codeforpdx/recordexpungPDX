@@ -33,6 +33,13 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         assert expunger.most_recent_dismissal is None
         assert expunger.most_recent_conviction is None
 
+    def test_partial_dispos(self):
+        crawler = CrawlerFactory.setup()
+        record = CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD, {'CASEJD1': CaseDetails.CASE_WITH_PARTIAL_DISPOS})
+
+        expunger = Expunger(record)
+        expunger.run()
+
     def test_expunger_categorizes_charges(self):
         record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(dispo_ruling_1='Convicted - Failure to show',
