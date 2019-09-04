@@ -9,9 +9,6 @@
 # production
 /build
 
-#logfiles
-/logs/*.txt
-
 # misc
 .DS_Store
 .env.local
