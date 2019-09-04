@@ -43,3 +43,19 @@ def get_user(database, lookup_field, key):
         return res._asdict()
     else:
         return res
+
+
+def get_all_users(database):
+
+    database.cursor.execute(
+        sql.SQL("""
+            SELECT USERS.user_id::text user_id, email, admin, auth_id::text
+            FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
+        ;
+        """), {})
+
+    res = database.cursor.fetchall()
+    if res:
+        return res._asdict()
+    else:
+        return res
