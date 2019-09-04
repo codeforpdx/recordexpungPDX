@@ -6,7 +6,6 @@ import Logo from '../Logo';
 import { SystemState } from '../../redux/system/types';
 import history from '../History';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 interface Props {
   system: SystemState;
@@ -25,32 +24,6 @@ class LogIn extends React.Component<Props, State> {
     event.preventDefault();
     event.stopPropagation();
     history.push('/oeci');
-
-    // TODO: read these from input fields:
-    const email = 'admin';
-    const password = 'admin';
-
-    axios({
-      method: 'post',
-      url: '/api/auth_token',
-
-      data: {
-        email: email,
-        password: password
-      }
-    })
-      .then(function(response) {
-        console.log('get resp');
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log('get error');
-        //console.log(error);
-
-        if (error.response) {
-          console.log(error.response);
-        }
-      });
   }
 
   public render() {
