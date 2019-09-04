@@ -1,11 +1,11 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is covers project installation and getting started as a contributor. For more info:
+This README is covers project installation and getting started as a contributor. If you're interested in contributing, considering joining us at one of our meetup events: https://www.meetup.com/Code-for-PDX/
 
-Project design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
-
-Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+More documentation:
+ - Project technical design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
+ - Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
@@ -30,7 +30,8 @@ Our latest dev version (this repo's master branch) is publicly viewable! Here: h
 
 ## Installation
 
-To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. 
+To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org 
+
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
