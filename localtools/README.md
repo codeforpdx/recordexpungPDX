@@ -9,3 +9,14 @@ Before running the script you'll need to have built the docker image for the new
 
 `docker build -t workspaceserver ./ -f Dockerfile.dev`
 
+To stop the nginx server container, run:
+
+`docker stop workspaceserver`
+
+The custom docker stack that runs only a database will occupy the same port as the database container from our regular dev stack. So you'll want to take one down whenever starting the other. The manual docker command is:
+
+`docker stack rm recexp_workspace_stack `
+
+or
+
+`docker stack rm recordexpungpdx `

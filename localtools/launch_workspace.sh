@@ -38,4 +38,7 @@ export FLASK_ENV=development
 cd ../ && pipenv run flask run  &
 echo "launched flask server"
 
+# For some weird reason the setup still works if you then take down the nginx server.
+# (the frontend dev server's calls still get routed to the backend )
+# so this command  does that.
 docker stop workspaceserver
