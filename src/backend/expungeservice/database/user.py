@@ -51,6 +51,7 @@ def get_all_users(database):
     database.cursor.execute(
         sql.SQL("""
             SELECT USERS.user_id::text user_id, email, admin, hashed_password, auth_id::text, date_created, date_modified
+
             FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
         ;
         """), {})
@@ -61,3 +62,6 @@ def get_all_users(database):
     else:
         return res
 
+        return res._asdict()
+    else:
+        return res
