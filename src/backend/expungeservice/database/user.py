@@ -62,6 +62,3 @@ def get_all_users(database):
     else:
         return res
 
-        return res._asdict()
-    else:
-        return res
