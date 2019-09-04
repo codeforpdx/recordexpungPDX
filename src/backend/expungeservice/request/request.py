@@ -4,8 +4,7 @@ from expungeservice.request.error import error
 import logging
 logger = logging.getLogger("recordexpunge")
 def before():
-
-    logger.info("in request.before\n" + str(request))
+    logger.info("before request")
     g.database = get_database()
 
 def teardown(exception):

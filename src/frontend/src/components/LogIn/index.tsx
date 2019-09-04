@@ -31,9 +31,6 @@ class LogIn extends React.Component<Props, State> {
     const password = 'admin';
 
     axios({
-      //method:'get',
-      //url: 'https://twitter.com',
-
       method: 'post',
       url: '/api/auth_token',
 

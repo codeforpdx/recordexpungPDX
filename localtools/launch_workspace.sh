@@ -5,11 +5,11 @@
 
 # BEFORE LAUNCH: you need to build the workspaceserver Docker image.
 # in the /localtools/workspace/ directory, run:
-# docker build -t workingserver ./ -f Dockerfile.dev
+# docker build -t workspaceserver ./ -f Dockerfile.dev
 #
 
 # launch the nginx server that redirects to the frontend and backend dev servers
-docker run --network "host" -p 3005:3005 -d workspaceserver
+docker run --name workspaceserver --network "host" -p 3005:3005 -d workspaceserver
 echo "workspaceserver launched"
 
 #take down the local docker stack because it occupies the same frontend and backend ports
@@ -31,9 +31,11 @@ echo "launched docker stack with db only"
 
 #start the flask and npm servers.
 npm --prefix ../src/frontend/ start >> /dev/null &
-echo "launched npm"
+echo "launched npm server"
 
 export FLASK_ENV=development
 
 cd ../ && pipenv run flask run  &
-echo "launched flask"
+echo "launched flask server"
+
+docker stop workspaceserver
