@@ -10,7 +10,7 @@ Additional frontend documentation: [src/frontend/README.md](https://github.com/c
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 ## Table of Contents
-
+- [Tech Overview](#tech-overview)
 - [Installation](#installation)
 - [Running Components](#running-the-docker-stack)
 - [Testing](#testing)
@@ -18,9 +18,19 @@ Additional frontend documentation: [src/frontend/README.md](https://github.com/c
 - [Contributing](#contributing)
 - [License](#license)
 
+## Tech Overview
+
+This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/). 
+
+The app is deployed on the free(mium) webapp hosting service, [Heroku](https://www.heroku.com/).
+
+Our latest dev version (this repo's master branch) is publicly viewable! Here: https://recordexpungpdx.herokuapp.com/
+
+**Our dev environment** uses Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies, and [pytest](https://pytest.org/en/latest/) to develop backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development/testing and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
+
 ## Installation
 
-Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. We use pipenv and pytest to develop backend code. Docker is used to build and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running the test code in pipenv.
+To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. 
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
