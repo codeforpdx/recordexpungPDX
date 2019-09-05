@@ -67,7 +67,7 @@ class Expunger:
 
     def _tag_skipped_charges(self):
         for charge in self.charges:
-            if charge.skip_analysis() or Expunger._dispositionless(charge):
+            if Expunger._dispositionless(charge) or charge.skip_analysis():
                 self._skipped_charges.append(charge)
 
     @staticmethod
