@@ -209,3 +209,19 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         assert expunger.run()
         assert expunger._skipped_charges[0] == juvenile_charge
         assert expunger.charges == []
+
+
+class TestDispositionlessCharge(unittest.TestCase):
+
+    def test_charge_is_marked_as_missing_disposition(self):
+        case = CaseFactory.create()
+        charge = ChargeFactory.create(case=case, statute='825.999', level='Class C traffic violation')
+        print(charge.skip_analysis())
+        print(charge.expungement_result.type_eligibility_reason)
+
+        case.charges = [charge]
+        expunger = Expunger(Record([case]))
+
+        expunger.run()
+
+        assert charge.expungement_result.type_eligibility_reason == "Disposition not found. Needs further analysis"
