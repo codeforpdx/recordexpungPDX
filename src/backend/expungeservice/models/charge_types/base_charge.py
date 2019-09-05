@@ -9,7 +9,7 @@ from expungeservice.models.expungement_result import ExpungementResult
 
 class BaseCharge:
 
-    def __init__(self, case, name, statute, level, date, chapter, section, disposition=Disposition()):
+    def __init__(self, case, name, statute, level, date, chapter, section, disposition=None):
         self.name = name
         self.statute = statute
         self.level = level
