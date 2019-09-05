@@ -31,10 +31,10 @@ class BaseCharge:
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        if not self.convicted():
-            return False
-        else:
+        if self.convicted():
             return self.disposition.date > ten_years_ago
+        else:
+            return False
 
     def recent_acquittal(self):
         three_years_ago = (date_class.today() + relativedelta(years=-3))
