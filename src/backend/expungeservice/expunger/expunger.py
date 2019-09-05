@@ -67,8 +67,14 @@ class Expunger:
 
     def _tag_skipped_charges(self):
         for charge in self.charges:
-            if charge.skip_analysis() or charge.disposition is None:
+            if charge.skip_analysis() or Expunger._dispositionless(charge):
                 self._skipped_charges.append(charge)
+
+    @staticmethod
+    def _dispositionless(charge):
+        if charge.disposition is None:
+            charge.expungement_result.type_eligibility_reason = "Disposition not found. Needs further analysis"
+            return True
 
     def _remove_skipped_charges(self):
         for charge in self._skipped_charges:
