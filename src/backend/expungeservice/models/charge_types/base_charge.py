@@ -24,11 +24,11 @@ class BaseCharge:
         return self._case
 
     def acquitted(self):
-        return self.disposition.ruling and self.disposition.ruling[0:9].lower() != 'convicted'
+        return self.disposition and self.disposition.ruling[0:9].lower() != 'convicted'
 
     def convicted(self):
-        return self.disposition.ruling and not self.acquitted()
-        
+        return self.disposition and not self.acquitted()
+
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
         if not self.convicted():
@@ -41,7 +41,7 @@ class BaseCharge:
         return self.acquitted() and self.date > three_years_ago
 
     def skip_analysis(self):
-        if not self.disposition.ruling:
+        if not self.disposition:
             self.expungement_result.type_eligibility_reason = "Disposition not found. Needs further analysis"
             return True
         else:
