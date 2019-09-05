@@ -41,11 +41,7 @@ class BaseCharge:
         return self.acquitted() and self.date > three_years_ago
 
     def skip_analysis(self):
-        if not self.disposition:
-            self.expungement_result.type_eligibility_reason = "Disposition not found. Needs further analysis"
-            return True
-        else:
-            return False
+        return False
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         self.expungement_result.time_eligibility = False

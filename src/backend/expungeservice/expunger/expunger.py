@@ -67,7 +67,7 @@ class Expunger:
 
     def _tag_skipped_charges(self):
         for charge in self.charges:
-            if charge.skip_analysis():
+            if charge.skip_analysis() or charge.disposition is None:
                 self._skipped_charges.append(charge)
 
     def _remove_skipped_charges(self):
@@ -94,7 +94,7 @@ class Expunger:
             self.second_most_recent_conviction = self.convictions[-2]
 
     def _assign_most_recent_charge(self):
-        self.charges.sort(key=lambda charge: charge.disposition.date if charge.disposition.date else (date_class.today() + relativedelta(years=-1000)), reverse=True)
+        self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
         if self.charges:
             self.most_recent_charge = self.charges[0]
 
