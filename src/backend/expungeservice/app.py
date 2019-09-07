@@ -7,6 +7,9 @@ from .endpoints import hello, auth, users
 from .request import before, teardown
 import logging
 
+from .loggers import attach_logger
+
+
 def create_app(env_name):
     """
     Create app
@@ -16,9 +19,8 @@ def create_app(env_name):
     app = Flask(__name__)
     app.config.from_object(app_config[env_name])
 
-    log_handler = logging.StreamHandler()
-    app.logger.addHandler(log_handler)
-    app.logger.setLevel(logging.INFO)
+    attach_logger(app)
+    app.logger.setLevel(logging.DEBUG)
 
     # Register endpoint routes here:
     hello.register(app)
@@ -27,4 +29,8 @@ def create_app(env_name):
 
     app.before_request(before)
     app.teardown_request(teardown)
+
+    app.logger.debug("Flask app created!")
+
+
     return app
