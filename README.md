@@ -1,7 +1,8 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is covers project installation and getting started as a contributor. If you're interested in contributing, considering joining us at one of our meetup events: https://www.meetup.com/Code-for-PDX/
+This README is covers project installation and getting started as a contributor. If you're interested in contributing, considering joining us at one of our meetup events: https://www.meetup.com/Code-for-PDX/. Also here's a short description of how you could help: [doc/contributing.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/contributing.md)
+
 
 More documentation:
  - Project technical design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
@@ -20,7 +21,7 @@ More documentation:
 
 ## Tech Overview
 
-This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/). 
+This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/).
 
 The app is deployed on the free(mium) webapp hosting service, [Heroku](https://www.heroku.com/).
 
@@ -30,7 +31,7 @@ Our latest dev version (this repo's master branch) is publicly viewable! Here: h
 
 ## Installation
 
-To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org 
+To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
@@ -63,9 +64,9 @@ To get your dev environment set up for running the app locally and becoming a co
 			[here](https://github.com/codeforpdx/recordexpungPDX/wiki/Installing-python3.7-on-ubuntu-16.04).
 
     * **Windows**
-    
+
       Developing this project on Windows is no longer supported in our documentation. The current approach some individual devs are using is to run linux in a VM. Anyone who wants to wrangle Windows is totally free to jump off the deep end! And then report back with supporting documentation :)
-    
+
 3. Install Pipenv
 
 	Install the [pipenv](https://pipenv.readthedocs.io/en/latest/install)
@@ -104,7 +105,7 @@ To get your dev environment set up for running the app locally and becoming a co
 	```
 	$ make install
 	```
-	
+
   This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
