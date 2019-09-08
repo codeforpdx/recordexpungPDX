@@ -11,7 +11,7 @@ Table of Contents
 - [Frontend Routes](#frontend-routes)
 - [Backend Endpoints](#backend-endpoints)
 - [Data Model](#data-model)
-- [Database Schema](#database)
+- [Database Schema](#database-schema)
 - [Database Functions](#database-functions)
 
 - [License](#license)
