@@ -3,7 +3,7 @@ from flask import request, abort, jsonify
 from werkzeug.security import generate_password_hash
 
 from flask import g
-from expungeservice.database.user import create_user, get_user_by_email
+from expungeservice.database.user import create_user, get_user_by_email, get_all_users
 from expungeservice.endpoints.auth import admin_auth_required
 from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
@@ -50,6 +50,25 @@ class Users(MethodView):
         # other endpoints may expose the user_id e.g. for other admin user-management operations.
 
         return jsonify(response_data), 201
+
+    @admin_auth_required
+    def get(self):
+        """
+        Fetch the list of users, including their email, admin clear
+        """
+
+        user_db_data = get_all_users(g.database)
+
+        response_data={'users':[]}
+        for user_entry in user_db_data:
+            response_data['users'].append({
+                'email':user_entry['email'],
+                'admin':user_entry['admin'],
+                'timestamp': user_entry['date_created']
+                })
+
+        return jsonify(response_data), 201
+
 
 def register(app):
     app.add_url_rule('/api/users', view_func=Users.as_view('users'))

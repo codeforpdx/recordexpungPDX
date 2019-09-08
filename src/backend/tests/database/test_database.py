@@ -66,6 +66,37 @@ class TestDatabaseOperations(unittest.TestCase):
 
         self.verify_user_data(email, hashed_password, admin)
 
+
+    def test_get_all_users(self):
+        """
+        test inserts two new users, then fetches from the table with the db get function and
+        raw sql to compare the results. Checks the number of returned rows is the same,
+        and that all of the columns match from each returned row.
+        """
+
+        email1 = "pytest_get_user@example.com"
+        hashed_password = 'examplepasswordhash2'
+        admin = True
+        self.create_example_user(email1, hashed_password, admin)
+
+        email2 = "pytest_get_user_2@example.com"
+        hashed_password = 'examplepasswordhash3'
+        admin = True
+        self.create_example_user(email2, hashed_password, admin)
+
+        users_get_endpoint_result = user.get_all_users(self.database)
+
+        verify_query = """
+            SELECT * FROM USERS;"""
+        self.database.cursor.execute(verify_query)
+
+        verify_rows = [r._asdict() for r in self.database.cursor.fetchall()]
+
+        assert len(verify_rows) == len(users_get_endpoint_result)
+
+        for (email, hashed_password, admin) in [
+        (r['email'], r['hashed_password'], r['admin']) for r in users_get_endpoint_result]:
+            self.verify_user_data(email, hashed_password, admin)
     def test_get_missing_user(self):
 
         email = "pytest_get_user_does_not_exist@example.com"
@@ -92,6 +123,8 @@ class TestDatabaseOperations(unittest.TestCase):
 
     #Helper function
     def verify_user_data(self, email, hashed_password, admin):
+    # is passed the data obtained from the app feature e.g. a database function,
+    # and checks the fields match a second, raw SQL query.
 
         verify_query = """
             SELECT USERS.user_id::text, email, admin, hashed_password, auth_id::text, date_created, date_modified
