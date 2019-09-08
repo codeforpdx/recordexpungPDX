@@ -31,7 +31,8 @@ def get_user(database, lookup_field, key):
 
     database.cursor.execute(
         sql.SQL("""
-            SELECT USERS.user_id::text user_id, email, admin, hashed_password, auth_id::text
+            SELECT USERS.user_id::text user_id, email, admin,
+            hashed_password, auth_id::text, date_created, date_modified
             FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
             WHERE users.{} = %(key)s
         ;
@@ -43,3 +44,20 @@ def get_user(database, lookup_field, key):
         return res._asdict()
     else:
         return res
+
+
+def get_all_users(database):
+
+    database.cursor.execute(
+        sql.SQL("""
+            SELECT USERS.user_id::text user_id, email, admin, hashed_password, auth_id::text, date_created, date_modified
+            FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
+        ;
+        """), {})
+
+    res = database.cursor.fetchall()
+    if res:
+        return [r._asdict() for r in res]
+    else:
+        return res
+

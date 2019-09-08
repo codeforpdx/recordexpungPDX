@@ -159,3 +159,36 @@ class TestUsers(unittest.TestCase):
                     'admin': False})
 
         assert(response.status_code == 403)
+
+
+    def test_get_users_success(self):
+
+        generate_auth_response = self.generate_auth_token(self.admin_email, self.admin_password)
+
+        response = self.client.get('/api/users', headers={
+            'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
+                json = {})
+
+
+        assert(response.status_code == 201)
+
+        data = response.get_json()
+
+        assert data['users'][0]['email']
+        assert data['users'][0]['admin']
+        assert data['users'][0]['timestamp']
+
+
+    def test_get_users_not_admin(self):
+
+        new_email = "pytest_create_user@endpoint_test.com"
+        new_password = "new_password"
+
+        generate_auth_response = self.generate_auth_token(self.email, self.password)
+
+        response = self.client.get('/api/users', headers={
+            'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
+            json = {})
+
+        assert(response.status_code == 403)
+

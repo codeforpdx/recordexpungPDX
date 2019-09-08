@@ -157,9 +157,58 @@ Returns: auth token
 - `400 BAD FORMAT`: missing email or password
 
 
+**`GET`** `/api/users/`
+
+Fetches the list of existing users
+
+Required headers:
+
+- `Authorization: <JWT string>`
+
+Returns: List of users:
+
+- format: `JSON`
+- fields:
+    * users :: list
+        * email
+        * admin
+        * timestamp
+
+Status codes:
+
+- `200 OK`
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `403 FORBIDDEN`: authorized user is not admin
+
+
+**`GET`** `/api/users/EMAIL`
+
+Required headers:
+
+- `Authorization: <JWT string>`
+
+Returns: Requested user
+
+- format: `JSON`
+- fields:
+    * email
+    * admin
+    * timestamp
+
+Status codes:
+
+- `200 OK`
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `403 FORBIDDEN`: authorized user is not admin
+
+
 **`POST`** `/api/users/`
 
 Creates a user
+
+Required headers:
+
+- `Authorization: <JWT string>`
 
 `POST` body:
 
@@ -189,24 +238,14 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
-**`GET`** `/api/users/EMAIL`
-
-Returns: Requested user
-
-- format: `JSON`
-- fields:
-    * email
-    * admin permissions
-    * timestamp
-
-Status codes:
-
-- `200 OK`
-
 
 **`POST`** `/api/search`
 
 Performs search of remote system
+
+Required headers:
+
+- `Authorization: <JWT string>`
 
 `POST` body:
 
