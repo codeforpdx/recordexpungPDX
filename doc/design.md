@@ -132,7 +132,7 @@ Global headers:
 - `Accept: application/json`
 
 
-**`POST`** `/api/auth_token`
+### **`POST`** `/api/auth_token`
 
 Post email, password to create an auth token (JWT) that can be used when
 accessing protected APIs
@@ -157,7 +157,7 @@ Returns: auth token
 - `400 BAD FORMAT`: missing email or password
 
 
-**`GET`** `/api/users/`
+### **`GET`** `/api/users/`
 
 Fetches the list of existing users
 
@@ -181,11 +181,12 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 
 
-**`GET`** `/api/user?email=EMAIL`
+### **`GET`** `/api/user?email=EMAIL`
 
 Fetches the data for a single user. Admin access is required if the requested email does not match the logged-in user (identified by the JWT token)
 
-#Question:
+## Question
+
 What is this used for in the frontend? An admin inspecting a single user's profile?
 Any user inspecting their own profile?
 What data should be returned? Is it different for those two use cases?
@@ -213,12 +214,13 @@ Status codes:
 
 - `404 NOT FOUND`
 
-#Question:
+## Question:
+
 Is 404 still appropriate if it's due to a query param and not a path?
 Or is this a  `422 UPROCESSABLE ENTITY` as though it was a field in POST body?
 
 
-**`POST`** `/api/new_user/`
+### **`POST`** `/api/new_user/`
 
 Creates a user and sends a verification email with a link to set a password.
 
@@ -257,11 +259,12 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
-**`POST`** `/api/search`
+### **`POST`** `/api/search`
 
 Performs search of remote OECI system.
 
-#Question
+## Question
+
 We need to design the workflow for logging into OECI. See Question below at **`POST`** `/oeci_login/`
 
 `POST` body:
@@ -279,7 +282,7 @@ Returns: Search results
     * tbd
 
 
-**`GET`** `/api/stats`
+### **`GET`** `/api/stats`
 
 Reports on statistics run on data
 
@@ -290,9 +293,10 @@ Returns:
     * tbd
 
 
-**`POST`** `/oeci_login` ?
+### **`POST`** `/oeci_login` ?
 
-#Question
+## Question
+
 What's the workflow for accessing OECI?
 
 Is it a webpage redirect, like the frontend prototype?
@@ -305,13 +309,13 @@ I see three design versions:
 - Rely on a frontend page redirect, which obtains login access from the OECI directly to allow subsequent requests by Crawler. This requires a Crawler redesign, which currently passes creds to the remote site. It also requires caching a login token provided by OECI. Does the OECI login allow that, e.g. use a cookie?
 
 - Roll the login  into the `/search/` endpoint.
-If so, we need to add oeci credentials to the **`POST`** `/search/ ` body. And also cache the login credentials clientside so we can re-send them on every search (baad).
+If so, we need to add oeci credentials to the **`POST`** `/search/ ` body. And also cache the login credentials clientside so we can re-send them on every search (bad).
 
 - Send oeci login credentials to the backend once, and the /search/ endpoint uses them for every /search/ call. That means caching the OECI login creds in the backend.
 
 
 
-**`POST`** `/api/forgot_password`
+### **`POST`** `/api/forgot_password`
 
 Requests a password reset link be sent to a valid (recognized) email address
 
@@ -328,16 +332,18 @@ Status codes:
 - `5xx` of some kind if the email-send failed
 
 
-**`POST`** `/api/update_password`
+### **`POST`** `/api/update_password`
 
 Follows a password reset link (from a sent email), that provides login authorization
 
-#Question: How does this work?
+## Question: How does this work?
 
 A password reset link provided in an email needs to be a GET request, so the endpoint requires a different method for yielding auth access. If this method is a POST and auth-protected, we need to first obtain an auth_token via the **`GET`** `/api/auth_token` method below.
 
-#Or,
-Is this a GET that has been passed the `auth_token` string as a url query param?
+### Or,
+
+Is this a GET that has been passed an `auth_token` string as a url query param? That's an irregular authorization that is not processed in a POST header, but we're still using it to authorize a password-change. that's weird. I like option 1 better.
+
 
 Headers:
 - `Authorization: <JWT_AUTH_TOKEN>`
@@ -354,17 +360,29 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`
 
 
-
-**`GET`** `/api/auth_token?auth=<special_auth_token>`
+### **`GET`** `/api/auth_token?auth=<special_auth_token>`
 
 Obtains an auth_token using a query param instead of login credentials.
 This is necessary for one option of the Password Reset workflow described above.
 
+Status codes:
 
+- `200 OK`
+- `422 UPROCESSABLE ENTITY` if the auth token query param is invalid
 
-**`POST`** `/api/change_user_settings`
+Returns: auth token usable as a regular POST Authorization header.
 
-Alter use account settings, like password, email address, and admin access, or account information like Name or Group
+- format: `JSON`
+- fields:
+    * auth_token
+    
+### **`POST`** `/api/change_user_settings`
+
+Alter user account settings, like password, email address, and admin access, or account information like Name or Group
+
+## Comment re password-reset
+
+If the workflow to change your password is: 1) obtain a regular JWT token by special means (without password) then 2) use your new JWT token to change your password, then this endpoint can just be used to change your password. That sounds DRY. 
 
 Headers:
 - `Authorization: <JWT_AUTH_TOKEN>`
@@ -376,6 +394,7 @@ Headers:
     * new_name [optional]
     * new_group [optional]
     * new_password [optional]
+    * new_admin_value [optional]
 
     Status codes:
 
@@ -384,7 +403,6 @@ Headers:
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is admin but is trying to change password
 - `403 FORBIDDEN`: authorized user is not admin nor the target user
-
 
 
 
@@ -438,17 +456,18 @@ Tables:
 
     auth (uuid, hashed_password, user_id), uuid primary key
 
-#Question:
-
-what are do we save any of this information?
-
-    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
-
     result_codes (uuid, code) uuid primary key
 
     rules (uuid, text)
 
-    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged)
+## Question:
+
+Do we store client information? I think we have at some point decided not to. 
+
+    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
+
+    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, 
+    date_modified, expunged, date_expunged)
 
 
 Notes:
