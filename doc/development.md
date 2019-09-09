@@ -3,6 +3,24 @@ Project Development Tips
 
 A few things to do when developing the frontend or backend.
 
+## When Pulling Changes From Master
+
+Be aware that source code changes are not reflected in the Docker stack until you manually rebuild the Docker images.
+
+Additionally, database changes don't take effect until you ALSO replace the database Docker Volume, which is 
+ a persistent storage container attached to the ephemeral Docker stack container.
+ 
+ To perform both of these steps:
+ 
+ ```
+ make dev_stop
+ make dev_drop_db
+ make dev
+ ```
+ 
+If you don't want to lose the contents of your database ... well we don't currently have a tool to automatically export/import the data. But we need it! See Issue #299, and feel free to add this feature.
+
+
 ## Create a Local User
 
 In order to call API endpoints locally, e.g. while working on the frontend, you will need login credentials already stored in the local database. These are needed to obtain a JWT auth token (required for most endpoints). To do so:
