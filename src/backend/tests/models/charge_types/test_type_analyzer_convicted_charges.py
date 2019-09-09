@@ -9,13 +9,11 @@ class TestSingleChargeConvictions(unittest.TestCase):
 
     def setUp(self):
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.single_charge = ChargeFactory.build()
-        self.convicted_disposition = {'ruling': 'Convicted', 'date': last_week}
+        self.single_charge = ChargeFactory.build(disposition=Disposition(ruling='Convicted', date=last_week))
         self.charges = []
 
     def create_recent_charge(self):
         charge = ChargeFactory.save(self.single_charge)
-        charge.disposition = Disposition(**self.convicted_disposition)
         return charge
 
     def test_felony_class_a_charge(self):
@@ -465,13 +463,12 @@ class TestMultipleCharges(unittest.TestCase):
 
     def setUp(self):
         last_week = (datetime.today() - timedelta(days=7)).strftime('%m/%d/%Y')
-        self.charge = ChargeFactory.build()
-        self.convicted_disposition = {'ruling': 'Convicted', 'date': last_week}
+        disposition = Disposition(ruling='Convicted', date=last_week)
+        self.charge = ChargeFactory.build(disposition=disposition)
         self.charges = []
 
     def create_charge(self):
         charge = ChargeFactory.save(self.charge)
-        charge.disposition = Disposition(**self.convicted_disposition)
         return charge
 
     def test_two_charges(self):
