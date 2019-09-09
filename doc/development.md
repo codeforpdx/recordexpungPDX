@@ -14,7 +14,7 @@ Additionally, database changes don't take effect until you ALSO replace the data
  
  ```
  make dev_stop
- make dev_drop_db
+ make dev_drop_database
  make dev
  ```
  
