@@ -14,11 +14,17 @@ import expungeservice
 class TestUsers(unittest.TestCase):
 
     email = 'pytest_user@auth_test.com'
+    name = 'Endpoint Test'
+    group_name = 'Endpoint Test Group'
     password = 'pytest_password'
+
     hashed_password = generate_password_hash(password)
 
     admin_email = 'pytest_admin@auth_test.com'
     admin_password = 'pytest_password_admin'
+    admin_name = 'Endpoint AdminTest'
+    admin_group_name = 'Endpoint AdminTest Group'
+
     hashed_admin_password = generate_password_hash(admin_password)
 
     def setUp(self):
@@ -30,8 +36,8 @@ class TestUsers(unittest.TestCase):
             expungeservice.request.before()
 
             self.db_cleanup()
-            user.create_user(g.database, self.email, self.hashed_password, False)
-            user.create_user(g.database, self.admin_email, self.hashed_admin_password, True)
+            user.create_user(g.database, self.email, self.name, self.group_name, self.hashed_password, False)
+            user.create_user(g.database, self.admin_email, self.admin_name, self.admin_group_name, self.hashed_admin_password, True)
             expungeservice.request.teardown(None)
 
     def tearDown(self):
@@ -66,12 +72,15 @@ class TestUsers(unittest.TestCase):
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
                 json = {'email':new_email,
                         'password': new_password,
+                        'name': self.name,
+                        'group_name': self.group_name,
                         'admin': True})
 
 
         assert(response.status_code == 201)
 
         data = response.get_json()
+        print("data fron JSON response: ", data)
         assert data['email'] == new_email
         assert data['admin'] == True
         assert data['timestamp']
@@ -85,6 +94,8 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': '' },
             json = {'email':new_email,
+                    'name': self.name,
+                    'group_name': self.group_name,
                     'password': new_password,
                     'admin': False})
 
@@ -99,6 +110,9 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
                 json = {'email':new_email,
+                        'name': self.name,
+                        'group_name': self.group_name,
+
                         #'password': new_password,
                         'admin': True})
 
@@ -116,6 +130,8 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
+                    'name': self.name,
+                    'group_name': self.group_name,
                     'password': new_password,
                     'admin': False})
 
@@ -124,6 +140,8 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
+                    'name': self.name,
+                    'group_name': self.group_name,
                     'password': new_password,
                     'admin': False})
 
@@ -139,6 +157,8 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
+                    'name': self.name,
+                    'group_name': self.group_name,
                     'password': short_password,
                     'admin': False}
         )
@@ -155,6 +175,9 @@ class TestUsers(unittest.TestCase):
         response = self.client.post('/api/users', headers={
             'Authorization': 'Bearer {}'.format(generate_auth_response.get_json()['auth_token'])},
             json = {'email':new_email,
+                    'name': self.name,
+                    'group_name': self.group_name,
+
                     'password': new_password,
                     'admin': False})
 
@@ -175,7 +198,7 @@ class TestUsers(unittest.TestCase):
         data = response.get_json()
 
         assert data['users'][0]['email']
-        assert data['users'][0]['admin']
+        assert data['users'][0]['admin'] in [True, False]
         assert data['users'][0]['timestamp']
 
 
