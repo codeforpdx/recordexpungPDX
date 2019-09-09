@@ -159,18 +159,20 @@ Returns: auth token
 
 ### **`GET`** `/api/users/`
 
-Fetches the list of existing users
+Fetches the array of existing users
 
 Required headers:
 
 - `Authorization: <JWT string>`
 
-Returns: List of users:
+Returns: Array of users:
 
 - format: `JSON`
 - fields:
-    * users :: list
+    * users :: array
         * email
+        * name
+        * group_name
         * admin
         * timestamp
 
