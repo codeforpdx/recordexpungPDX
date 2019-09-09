@@ -34,12 +34,12 @@ class TestCrawler(unittest.TestCase):
         assert record.cases[1].charges[0].disposition.ruling == 'Dismissed'
         assert record.cases[1].charges[0].disposition.date == datetime.date(datetime.strptime('04/30/1992', '%m/%d/%Y'))
 
-        assert record.cases[2].charges[0].disposition.ruling is None
-        assert record.cases[2].charges[0].disposition.date is None
-        assert record.cases[2].charges[1].disposition.ruling is None
-        assert record.cases[2].charges[1].disposition.date is None
-        assert record.cases[2].charges[2].disposition.ruling is None
-        assert record.cases[2].charges[2].disposition.date is None
+        assert record.cases[2].charges[0].disposition is None
+        assert record.cases[2].charges[0].disposition is None
+        assert record.cases[2].charges[1].disposition is None
+        assert record.cases[2].charges[1].disposition is None
+        assert record.cases[2].charges[2].disposition is None
+        assert record.cases[2].charges[2].disposition is None
 
     def test_a_blank_search_response(self):
         record = CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
