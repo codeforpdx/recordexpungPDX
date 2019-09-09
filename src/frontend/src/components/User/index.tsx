@@ -8,9 +8,7 @@ interface Props {
   };
 }
 
-interface State {}
-
-class User extends React.Component<Props, State> {
+class User extends React.Component<Props> {
   public render() {
     return (
       <tr>
