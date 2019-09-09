@@ -4,6 +4,8 @@ CREATE EXTENSION citext;
 CREATE TABLE users (
     user_id         UUID NOT NULL,
     email           CITEXT UNIQUE NOT NULL,
+    name            TEXT NOT NULL,
+    group_name      TEXT, 
     admin           BOOLEAN NOT NULL DEFAULT FALSE,
     date_created    TIMESTAMP WITH TIME ZONE DEFAULT now(),
     date_modified   TIMESTAMP WITH TIME ZONE DEFAULT now(),
@@ -59,18 +61,19 @@ CREATE TABLE analyses (
     PRIMARY KEY (client_id, case_id)
 );
 
-CREATE FUNCTION create_user( email citext, hashed_password text, admin boolean default false)
-RETURNS TABLE (USER_ID TEXT, EMAIL CITEXT, ADMIN BOOLEAN, AUTH_ID TEXT, HASHED_PASSWORD TEXT, DATE_CREATED TIMESTAMP WITH TIME ZONE, DATE_MODIFIED TIMESTAMP WITH TIME ZONE)
+CREATE FUNCTION create_user( email citext, hashed_password text, name text,
+        group_name text,admin boolean default false)
+RETURNS TABLE (USER_ID TEXT, EMAIL CITEXT, NAME TEXT, GROUP_NAME TEXT, ADMIN BOOLEAN, AUTH_ID TEXT, HASHED_PASSWORD TEXT, DATE_CREATED TIMESTAMP WITH TIME ZONE, DATE_MODIFIED TIMESTAMP WITH TIME ZONE)
 as $$
 WITH USER_INSERT_RESULT AS
             (
-            INSERT INTO USERS (user_id, email, admin)
-            VALUES ( uuid_generate_v4(), $1, $3)
+            INSERT INTO USERS (user_id, email, name, group_name, admin)
+            VALUES ( uuid_generate_v4(), $1, $3, $4, $5)
             RETURNING user_id)
             INSERT INTO AUTH (auth_id, hashed_password, user_id)
             SELECT uuid_generate_v4(), $2, user_id FROM USER_INSERT_RESULT;
             
-SELECT USERS.USER_ID::text, EMAIL, ADMIN, AUTH_ID::text, HASHED_PASSWORD, DATE_CREATED, DATE_MODIFIED
+SELECT USERS.USER_ID::text, EMAIL, NAME, GROUP_NAME, ADMIN, AUTH_ID::text, HASHED_PASSWORD, DATE_CREATED, DATE_MODIFIED
 FROM USERS JOIN AUTH ON USERS.USER_ID = AUTH.USER_ID
 WHERE EMAIL=$1;
 $$
