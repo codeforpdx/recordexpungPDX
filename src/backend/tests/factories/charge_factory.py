@@ -7,14 +7,14 @@ from tests.factories.case_factory import CaseFactory
 class ChargeFactory:
 
     @staticmethod
-    def build():
+    def build(disposition=None):
         return {
                   'case': CaseFactory.create(),
                   'name': 'Theft of services',
                   'statute': '164.125',
                   'level': 'Misdemeanor Class A',
                   'date': '1/1/0001',
-                  'disposition': Disposition()
+                  'disposition': disposition
                 }
 
     @staticmethod
@@ -31,8 +31,6 @@ class ChargeFactory:
         if disposition:
             ruling, date = disposition
             disposition = Disposition(date=date, ruling=ruling)
-        else:
-            disposition = Disposition()
         kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date, 'disposition': disposition}
 
         return Charge.create(**kwargs)

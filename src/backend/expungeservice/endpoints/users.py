@@ -26,7 +26,8 @@ class Users(MethodView):
         if data == None:
             error(400, "No json data in request body")
 
-        check_data_fields(data, ['email', 'password', 'admin'])
+        #print("data received by Users.post():", data)
+        check_data_fields(data, ['email', 'name', 'group_name', 'password', 'admin'])
 
         if len(data['password']) <8:
             error(422, 'New password is less than 8 characters long!')
@@ -36,6 +37,8 @@ class Users(MethodView):
         try:
             create_user_result = create_user(g.database,
                                              email = data['email'],
+                                             name = data['name'],
+                                             group_name = data['group_name'],
                                              password_hash = password_hash,
                                              admin = data['admin'])
         except UniqueViolation:
@@ -63,6 +66,8 @@ class Users(MethodView):
         for user_entry in user_db_data:
             response_data['users'].append({
                 'email':user_entry['email'],
+                'name' :user_entry['name'],
+                'group_name' :user_entry['group_name'],
                 'admin':user_entry['admin'],
                 'timestamp': user_entry['date_created']
                 })

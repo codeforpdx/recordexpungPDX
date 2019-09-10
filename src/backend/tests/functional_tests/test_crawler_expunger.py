@@ -40,6 +40,13 @@ class TestCrawlerAndExpunger(unittest.TestCase):
         expunger = Expunger(record)
         expunger.run()
 
+    def test_case_without_dispos(self):
+        crawler = CrawlerFactory.setup()
+        record = CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD, {'CASEJD1': CaseDetails.CASE_WITHOUT_DISPOS})
+
+        expunger = Expunger(record)
+        expunger.run()
+
     def test_expunger_categorizes_charges(self):
         record = CrawlerFactory.create(self.crawler,
                               cases={'X0001': CaseDetails.case_x(dispo_ruling_1='Convicted - Failure to show',
