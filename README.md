@@ -1,12 +1,17 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is covers project installation and getting started as a contributor. If you're interested in contributing, considering joining us at one of our meetup events: https://www.meetup.com/Code-for-PDX/. Also here's a short description of how you could help: [doc/contributing.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/contributing.md)
+This README is covers project installation and getting started as a contributor. If you're interested in contributing, please join us at one of our meetup events! https://www.meetup.com/Code-for-PDX/ Also here's a short description of how you could help: [doc/contributing.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/contributing.md)
 
 
 More documentation:
- - Project technical design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
- - Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+ - Project technical design: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
+ - Additional frontend docs, mostly design patterns: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+ - Some support docs for doing development: 
+   - [doc/development.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/development.md)
+   - Docker usage: [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+   - Dev "workspace" server: [localtools/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/localtools/README.md), 
+ - 
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
