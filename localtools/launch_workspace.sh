@@ -12,7 +12,7 @@
 docker rm -f workspaceserver
 echo "deleting the previous workspace server"
 
-do sleep 3;
+sleep 3
 docker run --name workspaceserver --network "host" -p 3005:3005 -d workspaceserver
 echo "workspace nginx server launched"
 
@@ -20,14 +20,14 @@ echo "workspace nginx server launched"
 make -C ../ dev_stop
 #- counter=0 ; while ((counter < 20)) &&  pg_isready --host=localhost --port=5432 --dbname=$PGDATABASE ; do sleep 3; let counter=counter+1; done
 echo "halting the dev stack"
-do sleep 3;
+sleep 3
 
 kill $(pgrep -f node)
 echo "halting other node processes"
 
 kill $(pgrep -f flask)
 echo "halting other flask processes"
-do sleep 3;
+sleep 3
 
 
 

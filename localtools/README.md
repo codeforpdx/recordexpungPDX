@@ -40,3 +40,7 @@ docker volume rm recexp_workspace_stack_database_storage
  - To stop the nginx server container, run:
 
 `docker stop workspaceserver`
+
+ - The npm and flask dev servers run in detached mode, so kill them with:
+
+` killall flask node`
