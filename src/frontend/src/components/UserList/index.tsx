@@ -1,34 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { loadUsers } from '../../redux/users/actions';
 import { SystemState } from '../../redux/system/types';
-import { UserState } from '../../redux/users/types';
+import { loadUsers } from '../../redux/users/actions';
+import { UserState, UserTypes } from '../../redux/users/types';
 import User from '../User';
-
-// Data for loadUsers action to populate the store with user data
-const placeholderUserData: UserTypes[] = [
-  {
-    name: 'Jane Dolby',
-    role: 'Search',
-    group: 'Metropolitan Public Defender'
-  },
-  {
-    name: 'Michael Zhang',
-    role: 'Admin',
-    group: 'Metropolitan Public Defender'
-  },
-  {
-    name: 'Melissa Jennings',
-    role: 'Search',
-    group: 'Royce, Jennings & Coldwater'
-  },
-  {
-    name: 'Terri Royce',
-    role: 'Search',
-    group: 'Royce, Jennings & Coldwater'
-  }
-];
 
 interface Props {
   system: SystemState;
@@ -36,26 +12,16 @@ interface Props {
   loadUsers: Function;
 }
 
-interface UserTypes {
-  name: string;
-  role: string;
-  group: string;
-}
-
-class UserList extends React.Component<Props, UserState> {
-  state: UserState = {
-    userList: []
-  };
-
-  componentWillMount() {
-    // This is just a placeholder to mock how the component will look with user data
-    this.props.loadUsers(placeholderUserData);
+class UserList extends React.Component<Props> {
+  public componentWillMount() {
+    // this will call the axios request to populate the component with userList
+    this.props.loadUsers();
   }
 
-  displayUsers = (inputUsers: UserTypes[]) => {
+  public displayUsers = (inputUsers: UserTypes[]) => {
     if (inputUsers) {
-      let returnList = inputUsers.map(user => {
-        return <User user={user} />;
+      const returnList = inputUsers.map(user => {
+        return <User key={user.id} user={user} />;
       });
 
       return returnList;

@@ -1,11 +1,8 @@
 import React from 'react';
+import { UserTypes } from '../../redux/users/types';
 
 interface Props {
-  user: {
-    name: string;
-    role: string;
-    group: string;
-  };
+  user: UserTypes;
 }
 
 class User extends React.Component<Props> {
