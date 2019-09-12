@@ -1,8 +1,8 @@
 export interface UserState {
-  userList: UserTypes[];
+  userList: User[];
 }
 
-export interface UserTypes {
+export interface User {
   email: string;
   group: string;
   id: number;
@@ -14,7 +14,7 @@ export const LOAD_USERS = 'LOAD_USERS';
 
 interface LoadUsersAction {
   type: typeof LOAD_USERS;
-  users: UserTypes[];
+  users: User[];
 }
 
 export type UserActionTypes = LoadUsersAction;

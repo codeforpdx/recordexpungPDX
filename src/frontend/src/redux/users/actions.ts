@@ -1,11 +1,11 @@
 import { Dispatch } from 'redux';
-import { LOAD_USERS, UserTypes } from './types';
+import { LOAD_USERS, User } from './types';
 
 export const loadUsers = () => (dispatch: Dispatch) => {
   return new Promise(resolve => {
     setTimeout(() => {
       // placeholderUserData will be replaced with the payload from the axios request
-      const users: UserTypes[] = placeholderUserData;
+      const users: User[] = placeholderUserData;
       dispatch({
         type: LOAD_USERS,
         users
@@ -15,7 +15,7 @@ export const loadUsers = () => (dispatch: Dispatch) => {
 };
 
 // Data for loadUsers action to populate the store with user data
-const placeholderUserData: UserTypes[] = [
+const placeholderUserData: User[] = [
   {
     email: 'jane@email.com',
     group: 'Metropolitan Public Defender',

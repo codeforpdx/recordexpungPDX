@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserTypes } from '../../redux/users/types';
+import { User as UserTypes } from '../../redux/users/types';
 
 interface Props {
   user: UserTypes;

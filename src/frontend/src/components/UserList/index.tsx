@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { loadUsers } from '../../redux/users/actions';
-import { UserState, UserTypes } from '../../redux/users/types';
+import { User as UserTypes, UserState } from '../../redux/users/types';
 import User from '../User';
 
 interface Props {
