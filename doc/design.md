@@ -148,6 +148,7 @@ Returns: auth token
 
 - format: `JSON`
 - fields:
+    * user_id
     * auth_token
 
  Status codes:
@@ -181,15 +182,9 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 
 
-**`GET`** `/api/user?email=EMAIL`
+**`GET`** `/api/user/user_id`
 
 Fetches the data for a single user. Admin access is required if the requested email does not match the logged-in user (identified by the JWT token)
-
-#Question:
-What is this used for in the frontend? An admin inspecting a single user's profile?
-Any user inspecting their own profile?
-What data should be returned? Is it different for those two use cases?
-
 
 Required headers:
 
@@ -199,6 +194,7 @@ Returns: Requested user
 
 - format: `JSON`
 - fields:
+    * user_id
     * email
     * admin
     * timestamp
@@ -211,12 +207,7 @@ Status codes:
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user
 
-- `404 NOT FOUND`
-
-#Question:
-Is 404 still appropriate if it's due to a query param and not a path?
-Or is this a  `422 UPROCESSABLE ENTITY` as though it was a field in POST body?
-
+- `404 NOT FOUND`: unrecognized user_id
 
 **`POST`** `/api/new_user/`
 
@@ -230,6 +221,7 @@ Required Headers:
 - format: `JSON`
 - fields:
     * email
+    * password
     * admin
     * name
     * group
