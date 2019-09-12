@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { SystemState } from '../../redux/system/types';
 import { loadUsers } from '../../redux/users/actions';
 import { UserState, UserTypes } from '../../redux/users/types';
 import User from '../User';
 
 interface Props {
-  system: SystemState;
   users: UserState;
   loadUsers: Function;
 }
@@ -60,7 +58,6 @@ class UserList extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  system: state.system,
   users: state.users
 });
 
