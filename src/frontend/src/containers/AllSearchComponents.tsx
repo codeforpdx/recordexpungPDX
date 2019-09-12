@@ -3,20 +3,25 @@ import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { Record } from '../redux/types';
 import {
-  loadSearchRecordsMockAction,
-  loadSearchRecordsAction
+  loadSearchRecordsMock,
+  loadSearchRecords
 } from '../redux/search-results/actions';
 
 type Props = {
-  fetch: Function;
+  loadSearchRecords: Function;
+  loadSearchRecordsMock: Function;
   records: Record[];
 };
 
 class AllSearchResults extends Component<Props> {
   componentDidMount() {
-    this.props.fetch();
+    //switch to loadSearchRecordsAction when go to production
+    // this.props.dispatch(loadSearchRecordsMockAction())
+    // loadSearchRecordsMockActionNotThunk(this.props.dispatch)
+    this.props.loadSearchRecordsMock();
   }
   render() {
+    //actions vs action creators
     //NOTE 1*****
     //Now that the records array available in props, you can render
     //the SearchResultsComponent and pass it the records as a prop
@@ -27,7 +32,7 @@ class AllSearchResults extends Component<Props> {
     //The RecordSearch Component should be imported and rendered here.
     //fetch should be passed down to the RecordSearchComponent and invoked
     //when a search has been performed.
-
+    console.log('props', this.props);
     return (
       <button
         onClick={() => {
@@ -39,12 +44,11 @@ class AllSearchResults extends Component<Props> {
     );
   }
 }
-const mapDispatchToProps = (dispatch: Function) => ({
-  fetch() {
-    //change loadSearchRecordsMockAction to loadSearchRecordsAction when get back end running
-    return dispatch(loadSearchRecordsMockAction());
-  }
-});
+
+const mapDispatchToProps = {
+  loadSearchRecordsMock,
+  loadSearchRecords
+};
 
 const mapStateToProps = (state: AppState) => ({
   records: state.searchRecordsReducer.records
