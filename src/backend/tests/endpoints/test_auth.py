@@ -30,6 +30,7 @@ class UserProtectedView(MethodView):
 class TestAuth(unittest.TestCase):
 
     email = 'pytest_user@auth_test.com'
+    ids = {}
     name= 'AuthTest Name'
     group_name= 'AuthTest Group Name'
     password = 'pytest_password'
@@ -47,8 +48,10 @@ class TestAuth(unittest.TestCase):
             expungeservice.request.before()
 
             self.db_cleanup()
-            user.create_user(g.database, self.email, self.name, self.group_name, self.hashed_password, False)
+            db_create_user_result = user.create_user(g.database, self.email, self.name, self.group_name, self.hashed_password, False)
+            self.ids[self.email] = db_create_user_result['user_id']
             expungeservice.request.teardown(None)
+
 
 
     def tearDown(self):
@@ -78,7 +81,10 @@ class TestAuth(unittest.TestCase):
         assert(response.headers.get('Content-type') == 'application/json')
         data = response.get_json()
         assert('auth_token' in data)
-        assert(len(data['auth_token']))
+        assert(len(data['auth_token']) > 0 )
+        assert(data['user_id'] == self.ids[self.email])
+
+
 
     def test_auth_token_invalid_username(self):
         response = self.generate_auth_token('wrong_user@test.com', 'test_password')
@@ -126,13 +132,16 @@ class TestAuth(unittest.TestCase):
             expungeservice.request.before()
 
             user.create_user(g.database, admin_email, admin_name, admin_group_name, hashed_admin_password, True)
+
             expungeservice.request.teardown(None)
+
 
         response = self.generate_auth_token(admin_email, admin_password)
         response = self.client.get('/api/test/admin_protected', headers={
             'Authorization': 'Bearer {}'.format(response.get_json()['auth_token'])
         })
         assert(response.status_code == 200)
+
 
     def test_is_not_admin_auth_token(self):
 

@@ -97,7 +97,8 @@ class AuthToken(MethodView):
             error(401, 'Invalid username or password')
 
         response_data = {
-            'auth_token': get_auth_token(current_app, user_db_result['user_id'])
+            'auth_token': get_auth_token(current_app, user_db_result['user_id']),
+            'user_id' : user_db_result['user_id']
         }
         return jsonify(response_data)
 
