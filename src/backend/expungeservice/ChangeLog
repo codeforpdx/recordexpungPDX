@@ -1,0 +1,46 @@
+Changelog
+
+v0.3.3
+
+## Bug Fixes
+
+
+
+v0.3.2
+
+## Bug Fixes
+
+ - Fixed issue where infractions were affecting the analysis. Now it explicitely checks whether or not the level is felony or misdemeanor. (#290)
+ - Fixed issue where 800 level charges were incorrectly being set as type eligible. Charges are only set as type eligible if they're dismissed and either a misdemeanor or felony. (#319)
+
+
+________________________________________________________________________________________________
+
+v0.3.1
+
+## Enhancements
+
+ - Small speed improvement. Pinging the logging server to wake it up is now done asynchronously.
+ - The results file now contains a list of eligible cases under the header of the file.
+ - "END OF FILE" is now printed at the bottom of the results file
+ - For each charge that is displayed it also prints out how the type analyzer classified the charge type. For example: Level800Charge, Misdemeanor, FelonyClassC, etc... is now shown above each charge. This can be used to determine the exit point of the expungement analysis for the charge so that it can be shown why it is or isn't type eligible. And can be helpful in providing feedback/bug reports if a charge is classified incorrectly. Currently any charge that cannot be classified will be classified as an 'Unclassified Charge', the long term goal is to have zero charges falling into this classification.
+
+## Bug Fixes
+
+ - Fixed issue where some parking tickets were not being classified correctly. (#250)
+
+ - Charges without a disposition are marked as 'Disposition not found' and skipped. (#255)
+
+ - Juvenile charges are marked appropriately and skipped by the expunger. (#258)
+
+ - Fixed issue where Case Parser threw a ValueError exception when encountering a disposition transaction being used to log a comment. (#263)
+
+ - Fixed issue where expungment analysis was not ran when open violation level & parking cases exist. They're now treated as being closed cases. (#264)
+
+ - Fixed traffic charge type eligibility. Felonies and misdemeanors are now type eligibile, violations are not. (#268)
+
+ - Fixed issue that MRD was blocking convictions. MRD now only blocks arrests. (#280)
+
+ - Fixed issue where motor vehicle violations were affecting the time analysis. Parking tickets and level 800 "violations" are no longer included in the time analysis. (#286)
+
+ - Fixed issue that an incorrect eligibility date could be calculated when a 2nd mrc exists. (#288)
