@@ -11,7 +11,7 @@ Table of Contents
 - [Frontend Routes](#frontend-routes)
 - [Backend Endpoints](#backend-endpoints)
 - [Data Model](#data-model)
-- [Database Schema](#database)
+- [Database Schema](#database-schema)
 - [Database Functions](#database-functions)
 
 - [License](#license)
@@ -132,7 +132,7 @@ Global headers:
 - `Accept: application/json`
 
 
-**`POST`** `/api/auth_token`
+### **`POST`** `/api/auth_token`
 
 Post email, password to return the user_id an auth token (JWT) that can be used when accessing protected APIs
 
@@ -157,20 +157,22 @@ Returns: auth token
 - `400 BAD FORMAT`: missing email or password
 
 
-**`GET`** `/api/users/`
+### **`GET`** `/api/users/`
 
-Fetches the list of existing users
+Fetches the array of existing users
 
 Required headers:
 
 - `Authorization: <JWT string>`
 
-Returns: List of users:
+Returns: Array of users:
 
 - format: `JSON`
 - fields:
-    * users :: list
+    * users :: array
         * email
+        * name
+        * group_name
         * admin
         * timestamp
 
@@ -205,7 +207,6 @@ Status codes:
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user
-
 - `404 NOT FOUND`: unrecognized user_id
 
 **`POST`** `/api/user/`
@@ -220,7 +221,6 @@ Required Headers:
 - format: `JSON`
 - fields:
     * email
-    * password
     * admin
     * name
     * group
@@ -265,7 +265,7 @@ Returns: Search results
     * tbd
 
 
-**`GET`** `/api/stats`
+### **`GET`** `/api/stats`
 
 Reports on statistics run on data
 
@@ -276,9 +276,10 @@ Returns:
     * tbd
 
 
-**`POST`** `/oeci_login` ?
+### **`POST`** `/oeci_login` ?
 
-#Question
+## Question
+
 What's the workflow for accessing OECI?
 
 Is it a webpage redirect, like the frontend prototype?
@@ -291,13 +292,13 @@ I see three design versions:
 - Rely on a frontend page redirect, which obtains login access from the OECI directly to allow subsequent requests by Crawler. This requires a Crawler redesign, which currently passes creds to the remote site. It also requires caching a login token provided by OECI. Does the OECI login allow that, e.g. use a cookie?
 
 - Roll the login  into the `/search/` endpoint.
-If so, we need to add oeci credentials to the **`POST`** `/search/ ` body. And also cache the login credentials clientside so we can re-send them on every search (baad).
+If so, we need to add oeci credentials to the **`POST`** `/search/ ` body. And also cache the login credentials clientside so we can re-send them on every search (bad).
 
 - Send oeci login credentials to the backend once, and the /search/ endpoint uses them for every /search/ call. That means caching the OECI login creds in the backend.
 
 
 
-**`POST`** `/api/forgot_password`
+### **`POST`** `/api/forgot_password`
 
 Requests a password reset link be sent to a valid (recognized) email address
 
@@ -340,17 +341,32 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`
 
 
-
-**`GET`** `/api/auth_token?auth=<special_auth_token>`
+### **`GET`** `/api/auth_token?auth=<special_auth_token>`
 
 Obtains an auth_token using a query param instead of login credentials.
 This is necessary for one option of the Password Reset workflow described above.
 
+Status codes:
+
+- `200 OK`
+- `422 UPROCESSABLE ENTITY` if the auth token query param is invalid
+
+Returns: auth token usable as a regular POST Authorization header.
+
+- format: `JSON`
+- fields:
+    * auth_token
+    
 
 
-**`PUT`** `/api/user`
+### **`PUT`** `/api/user`
 
 Alter user account settings, like password, email address, and admin access, or account information like Name or Group
+
+
+## Comment re password-reset
+
+If the workflow to change your password is: 1) obtain a regular JWT token by special means (without password) then 2) use your new JWT token to change your password, then this endpoint can just be used to change your password. That sounds DRY. 
 
 Headers:
 - `Authorization: <JWT_AUTH_TOKEN>`
@@ -359,10 +375,11 @@ Headers:
 - fields:
     * user_id
     * new_email [optional]
-    * new_role [optional]
+    * new_email [optional]
     * new_name [optional]
     * new_group [optional]
     * new_password [optional]
+    * new_admin_value [optional]
 
     Status codes:
 
@@ -371,7 +388,6 @@ Headers:
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is admin but is trying to change password
 - `403 FORBIDDEN`: authorized user is not admin nor the target user
-
 
 
 
@@ -425,17 +441,17 @@ Tables:
 
     auth (uuid, hashed_password, user_id), uuid primary key
 
-#Question:
-
-what are do we save any of this information?
-
-    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
-
     result_codes (uuid, code) uuid primary key
 
     rules (uuid, text)
 
-    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged)
+### Note:
+The `clients` and `analyses` tables are obsolete for the current design of not saving client information.  
+
+    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
+
+    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, 
+    date_modified, expunged, date_expunged)
 
 
 Notes:
