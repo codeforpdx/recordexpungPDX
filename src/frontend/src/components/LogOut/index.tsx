@@ -19,7 +19,6 @@ class LogOut extends React.Component<Props, State> {
 
   public logOutNow(event: React.SyntheticEvent) {
     this.props.logOut();
-
     event.preventDefault();
     event.stopPropagation();
   }
