@@ -79,6 +79,7 @@ class TestAuth(unittest.TestCase):
         data = response.get_json()
         assert('auth_token' in data)
         assert(len(data['auth_token']))
+        assert(data['user_id'])
 
     def test_auth_token_invalid_username(self):
         response = self.generate_auth_token('wrong_user@test.com', 'test_password')
