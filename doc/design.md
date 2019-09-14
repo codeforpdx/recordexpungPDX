@@ -357,8 +357,9 @@ Headers:
 
 - format: `JSON`
 - fields:
-    * email
+    * user_id
     * new_email [optional]
+    * new_role [optional]
     * new_name [optional]
     * new_group [optional]
     * new_password [optional]
