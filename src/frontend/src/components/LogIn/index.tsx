@@ -49,9 +49,7 @@ class LogIn extends React.Component<Props, State> {
     event.preventDefault();
     event.stopPropagation();
 
-    // checks to see if the form is ready for submission and updates error messages
-    this.validateForm();
-    if (!this.state.missingInputs && !this.state.invalidEmail) {
+    if (this.validateForm()) {
       const request: Request = {
         url: '/api/auth_token',
         data: {
@@ -64,8 +62,7 @@ class LogIn extends React.Component<Props, State> {
       apiService(request)
         .then(response => {
           // attach token to auth headers
-          // console.log(response);
-          this.props.logIn();
+          this.props.logIn(response.data.auth_token);
           history.push('/oeci');
         })
         .catch(error => {
@@ -75,10 +72,7 @@ class LogIn extends React.Component<Props, State> {
           });
         });
     } else {
-      // ERROR: technical difficulty error
-      this.setState({
-        invalidResponse: true
-      });
+      // ERRORS: will be set by this.validateForm() and request is not submitted
     }
   }
 
@@ -89,16 +83,18 @@ class LogIn extends React.Component<Props, State> {
 
   public validateForm = () => {
     this.setState({
-      invalidEmail: this.isEmailValid(this.state.email.toLowerCase().trim())
-        ? false
-        : true
+      invalidEmail: !this.isEmailValid(this.state.email.trim())
     });
-    if (
-      this.state.email.trim().length === 0 ||
-      this.state.password.trim().length === 0
-    ) {
-      this.setState({ missingInputs: true });
-    }
+    this.setState({
+      missingInputs:
+        this.state.email.trim().length === 0 ||
+        this.state.password.trim().length === 0
+    });
+
+    return (
+      this.isEmailValid(this.state.email.trim()) === true &&
+      this.state.password.trim().length !== 0
+    );
   };
 
   public render() {
@@ -125,7 +121,7 @@ class LogIn extends React.Component<Props, State> {
                   : undefined
               }
               aria-invalid={
-                this.state.invalidEmail && this.state.invalidCredentials
+                this.state.invalidEmail || this.state.invalidCredentials
                   ? true
                   : false
               }
@@ -148,7 +144,7 @@ class LogIn extends React.Component<Props, State> {
                   : undefined
               }
               aria-invalid={
-                this.state.invalidCredentials && this.state.missingInputs
+                this.state.invalidCredentials || this.state.missingInputs
                   ? true
                   : false
               }
@@ -171,11 +167,6 @@ class LogIn extends React.Component<Props, State> {
               {this.state.invalidCredentials === true ? (
                 <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Email and password do not match.
-                </p>
-              ) : null}
-              {this.state.invalidResponse === true ? (
-                <p id="tech_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                  Technical difficulties, please try again later.
                 </p>
               ) : null}
             </div>
