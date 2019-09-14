@@ -83,9 +83,7 @@ class LogIn extends React.Component<Props, State> {
 
   public validateForm = () => {
     this.setState({
-      invalidEmail: !this.isEmailValid(this.state.email.trim())
-    });
-    this.setState({
+      invalidEmail: !this.isEmailValid(this.state.email.trim()),
       missingInputs:
         this.state.email.trim().length === 0 ||
         this.state.password.trim().length === 0
