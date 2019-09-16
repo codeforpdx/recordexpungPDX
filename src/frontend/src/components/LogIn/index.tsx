@@ -70,6 +70,7 @@ class LogIn extends React.Component<Props, State> {
         missingPassword: this.state.password.length === 0
       },
       () => {
+        // if no errors are present, logInNow()
         if (!this.state.invalidEmail && !this.state.missingPassword) {
           this.logInNow();
         }
@@ -89,7 +90,7 @@ class LogIn extends React.Component<Props, State> {
 
     apiService(request)
       .then(response => {
-        // attach token to auth headers
+        // attach token and userID to store
         this.props.logIn(response.data);
         history.push('/oeci');
       })
