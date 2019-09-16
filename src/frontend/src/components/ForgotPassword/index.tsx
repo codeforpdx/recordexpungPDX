@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 import Logo from '../Logo';
 import { Link } from 'react-router-dom';
+import validateEmail from '../../service/email-validation';
 
 interface Props {
   system: SystemState;
-  logIn: typeof logIn;
 }
 interface State {
   email: string;
@@ -21,7 +20,7 @@ class ForgotPassword extends React.Component<Props, State> {
   state: State = {
     email: '',
     ariaInvalid: false,
-    emailIsValid: null, // email validation to be added
+    emailIsValid: null,
     missingInputs: null
   };
 
@@ -38,17 +37,11 @@ class ForgotPassword extends React.Component<Props, State> {
     this.validateForm();
   };
 
-  emailCheck = (email: string) => {
-    // Relatively permissive  regex checking for syntax in '_@_._' format.
-    // Will not accept addresses with '_@_@._'
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
   validateForm = () => {
     this.setState({
       ariaInvalid: this.state.email.trim().length === 0,
       missingInputs: this.state.email.trim().length === 0,
-      emailIsValid: this.emailCheck(this.state.email)
+      emailIsValid: validateEmail(this.state.email)
     });
   };
 
@@ -121,7 +114,4 @@ const mapStateToProps = (state: AppState) => ({
   system: state.system
 });
 
-export default connect(
-  mapStateToProps,
-  { logIn }
-)(ForgotPassword);
+export default connect(mapStateToProps)(ForgotPassword);

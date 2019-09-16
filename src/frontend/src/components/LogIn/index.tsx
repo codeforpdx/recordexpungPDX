@@ -5,6 +5,7 @@ import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 import apiService, { Request } from '../../service/api-service';
+import validateEmail from '../../service/email-validation';
 import history from '../History';
 import Logo from '../Logo';
 
@@ -19,7 +20,7 @@ interface State {
   invalidCredentials: boolean;
   invalidResponse: boolean;
   invalidEmail: boolean;
-  missingInputs: boolean;
+  missingPassword: boolean;
 }
 
 class LogIn extends React.Component<Props, State> {
@@ -29,7 +30,7 @@ class LogIn extends React.Component<Props, State> {
     invalidCredentials: false,
     invalidResponse: false,
     invalidEmail: false,
-    missingInputs: false
+    missingPassword: false
   };
 
   constructor(props: Props) {
@@ -45,62 +46,74 @@ class LogIn extends React.Component<Props, State> {
     });
   };
 
-  public logInNow(event: React.BaseSyntheticEvent) {
+  public handleSubmit = (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.validateForm()) {
-      const request: Request = {
-        url: '/api/auth_token',
-        data: {
-          email: this.state.email.toLowerCase().trim(),
-          password: this.state.password.trim()
-        },
-        method: 'post'
-      };
+    // Standardize email-lowerCase and trim both form inputs
+    this.setState(
+      {
+        email: this.state.email.toLowerCase().trim(),
+        password: this.state.password.trim()
+      },
+      () => {
+        this.validateForm();
+      }
+    );
+  };
 
-      apiService(request)
-        .then(response => {
-          // attach token to auth headers
-          this.props.logIn(response.data.auth_token);
-          history.push('/oeci');
-        })
-        .catch(error => {
-          // ERROR: email and password do not match
+  public validateForm() {
+    // validate email returns true for email input of: "_@_._" empty returns false
+    this.setState(
+      {
+        invalidEmail: !validateEmail(this.state.email),
+        missingPassword: this.state.password.length === 0
+      },
+      () => {
+        if (!this.state.invalidEmail && !this.state.missingPassword) {
+          this.logInNow();
+        }
+      }
+    );
+  }
+
+  public logInNow() {
+    const request: Request = {
+      url: '/api/auth_token',
+      data: {
+        email: this.state.email,
+        password: this.state.password
+      },
+      method: 'post'
+    };
+
+    apiService(request)
+      .then(response => {
+        // attach token to auth headers
+        this.props.logIn(response.data);
+        history.push('/oeci');
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          // error: email and password do not match
           this.setState({
             invalidCredentials: true
           });
-        });
-    } else {
-      // ERRORS: will be set by this.validateForm() and request is not submitted
-    }
+        } else {
+          // error: technical difficulties
+          this.setState({
+            invalidResponse: true
+          });
+        }
+      });
   }
-
-  public isEmailValid = (email: string) => {
-    // returns true if the email is correct format: https://www.w3resource.com/javascript/form/email-validation.php
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-  };
-
-  public validateForm = () => {
-    this.setState({
-      invalidEmail: !this.isEmailValid(this.state.email.trim()),
-      missingInputs:
-        this.state.email.trim().length === 0 ||
-        this.state.password.trim().length === 0
-    });
-
-    return (
-      this.isEmailValid(this.state.email.trim()) === true &&
-      this.state.password.trim().length !== 0
-    );
-  };
 
   public render() {
     return (
       <main className="mw6 ph2 center">
         <section className="cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
           <Logo />
-          <form onSubmit={this.logInNow} noValidate={true}>
+          <form onSubmit={this.handleSubmit} noValidate={true}>
             <legend className="visually-hidden">Log in</legend>
             <label htmlFor="email" className="db mt4 mb1 fw6">
               Email
@@ -137,12 +150,12 @@ class LogIn extends React.Component<Props, State> {
               aria-describedby={
                 this.state.invalidCredentials
                   ? 'no_match_msg'
-                  : this.state.missingInputs
+                  : this.state.missingPassword
                   ? 'input_msg'
                   : undefined
               }
               aria-invalid={
-                this.state.invalidCredentials || this.state.missingInputs
+                this.state.invalidCredentials || this.state.missingPassword
                   ? true
                   : false
               }
@@ -157,7 +170,7 @@ class LogIn extends React.Component<Props, State> {
                   Invalid email address.
                 </p>
               ) : null}
-              {this.state.missingInputs === true ? (
+              {this.state.missingPassword === true ? (
                 <p id="input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Both fields are required.
                 </p>
@@ -165,6 +178,11 @@ class LogIn extends React.Component<Props, State> {
               {this.state.invalidCredentials === true ? (
                 <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Email and password do not match.
+                </p>
+              ) : null}
+              {this.state.invalidResponse === true ? (
+                <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Technical difficulties try again later.
                 </p>
               ) : null}
             </div>

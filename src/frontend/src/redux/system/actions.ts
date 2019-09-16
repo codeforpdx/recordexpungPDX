@@ -1,16 +1,16 @@
-import axios from 'axios';
-import { LOG_IN, LOG_OUT } from './types';
+import { LOG_IN, LOG_OUT, LogInData } from './types';
 
-export function logIn(token: string) {
-  axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+export function logIn(data: LogInData) {
   return {
-    type: LOG_IN
+    type: LOG_IN,
+    userId: data.user_id,
+    authToken: data.auth_token
   };
 }
 
 export function logOut() {
-  delete axios.defaults.headers.common['Authorization'];
   return {
-    type: LOG_OUT
+    type: LOG_OUT,
+    authToken: ''
   };
 }
