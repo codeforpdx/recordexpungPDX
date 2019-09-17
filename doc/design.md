@@ -202,13 +202,13 @@ Returns: Requested user. requires admin authorization or that the logged-in user
     * group
     * admin
     * timestamp
-    
+
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
 
 
 **`POST`** `/api/user/`
@@ -249,6 +249,38 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
+
+**`POST`** `/api/oeci_login/`
+
+Takes oeci login credentials, attempts to log in, and if successful returns a cookie containing the encrypted credentials.
+
+Required headers:
+
+- `Authorization: <JWT string>`
+
+`POST` body:
+
+- format: `JSON`
+- fields:
+    * oeci_username
+    * oeci_password
+
+Returns: cookie attached to Response object.
+
+- format: `JSON`
+- fields:
+    * (no json data returned)
+
+Status codes:
+
+- `201 CREATED`: OECI login was successful and cookie returned
+- `400 BAD FORMAT`: missing one or more fields
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `422 UPROCESSABLE ENTITY`: oeci login attempt failed.
+
+### comment:
+
+Not certain that 422 is the best code here. 401/403 don't seem right because the error is propagated from a 3rd party.
 
 
 **`GET`** `/api/search`
