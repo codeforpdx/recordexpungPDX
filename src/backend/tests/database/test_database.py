@@ -7,7 +7,6 @@ from expungeservice.database import Database, user, get_database
 
 class TestDatabaseOperations(unittest.TestCase):
 
-
     def setUp(self):
 
         self.database = get_database()
@@ -19,7 +18,7 @@ class TestDatabaseOperations(unittest.TestCase):
 
     def db_cleanup(self):
         cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
-        self.database.cursor.execute(cleanup_query, {"pattern":"%pytest%"})
+        self.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
         self.database.connection.commit()
 
     def test_database_connection(self):
@@ -35,7 +34,8 @@ class TestDatabaseOperations(unittest.TestCase):
         group_name = "Ima Test Group"
         hashed_password = "examplepasswordhash3"
         admin = True
-        create_result = user.create_user(self.database, email, name, group_name, hashed_password, admin)
+        create_result = user.create(self.database, email, name,
+                                    group_name, hashed_password, admin)
 
         assert create_result['email'] == email
         assert create_result['hashed_password'] == hashed_password
@@ -56,10 +56,12 @@ class TestDatabaseOperations(unittest.TestCase):
         group_name = "Ima Test Group",
         hashed_password = 'examplepasswordhash'
         admin = True
-        user.create_user(self.database, email, name, group_name, hashed_password, admin)
+        user.create(self.database, email, name, group_name,
+                    hashed_password, admin)
 
         with pytest.raises(psycopg2.errors.UniqueViolation):
-            user.create_user(self.database, email, name, group_name, hashed_password, admin)
+            user.create(self.database, email, name, group_name,
+                        hashed_password, admin)
 
     def test_get_user(self):
         email = "pytest_get_user@example.com"
@@ -68,18 +70,20 @@ class TestDatabaseOperations(unittest.TestCase):
         hashed_password = 'examplepasswordhash2'
         admin = True
 
-        self.create_example_user(email, name, group_name, hashed_password, admin)
+        self.create_example_user(email, name, group_name, hashed_password,
+                                 admin)
 
-        user_result = user.get_user_by_email(self.database, email)
+        user_result = user.read(
+            self.database, user.identify_by_email(self.database, email))
 
         self.verify_user_data(email, name, group_name, hashed_password, admin)
 
-
     def test_get_all_users(self):
         """
-        test inserts two new users, then fetches from the table with the db get function and
-        raw sql to compare the results. Checks the number of returned rows is the same,
-        and that all of the columns match from each returned row.
+        test inserts two new users, then fetches from the table with the db
+        get function and raw sql to compare the results. Checks the number of
+        returned rows is the same, and that all of the columns match from
+        each returned row.
         """
 
         email1 = "pytest_get_user@example.com"
@@ -87,16 +91,18 @@ class TestDatabaseOperations(unittest.TestCase):
         name1 = "Ima Test1"
         group_name1 = "Ima Test Group1"
         admin = True
-        self.create_example_user(email1, name1, group_name1, hashed_password, admin)
+        self.create_example_user(
+            email1, name1, group_name1, hashed_password, admin)
 
         email2 = "pytest_get_user_2@example.com"
         name2 = "Ima Tes2t"
         group_name2 = "Ima Test Group2"
         hashed_password = 'examplepasswordhash3'
         admin = True
-        self.create_example_user(email2, name2, group_name2, hashed_password, admin)
+        self.create_example_user(
+            email2, name2, group_name2, hashed_password, admin)
 
-        users_get_endpoint_result = user.get_all_users(self.database)
+        users_get_endpoint_result = user.fetchall(self.database)
 
         verify_query = """
             SELECT * FROM USERS;"""
@@ -107,48 +113,59 @@ class TestDatabaseOperations(unittest.TestCase):
         assert len(verify_rows) == len(users_get_endpoint_result)
 
         for (email, name, group_name, hashed_password, admin) in [
-            (r['email'], r['name'], r['group_name'], r['hashed_password'], r['admin']) for r in users_get_endpoint_result]:
-            self.verify_user_data(email, name, group_name, hashed_password, admin)
+                    (r['email'], r['name'], r['group_name'],
+                     r['hashed_password'], r['admin'])
+                    for r in users_get_endpoint_result]:
+
+            self.verify_user_data(
+                email, name, group_name, hashed_password, admin)
 
     def test_get_missing_user(self):
 
         email = "pytest_get_user_does_not_exist@example.com"
 
-        user_result = user.get_user_by_email(self.database, email)
+        user_result = user.read(self.database,
+                                user.identify_by_email(self.database, email))
 
-        assert user_result == None
+        assert user_result is None
 
-    #Helper function
-    def create_example_user(self, email, name, group_name, hashed_password, admin):
+    # Helper function
+    def create_example_user(self, email, name, group_name,
+                            hashed_password, admin):
 
         self.database.cursor.execute(
-        """
-        WITH USER_INSERT_RESULT AS
-            (
-            INSERT INTO USERS (user_id, email, name, group_name, admin)
-            VALUES ( uuid_generate_v4(),
-                %(email)s,
-                %(name)s,
-                %(group_name)s,
-                %(adm)s)
-            RETURNING user_id)
-            INSERT INTO AUTH (auth_id, hashed_password, user_id)
-            SELECT uuid_generate_v4(), %(pass)s, user_id FROM USER_INSERT_RESULT;
-        """, {'email':email, 'pass':hashed_password, 'name':name, 'group_name': group_name, 'adm': admin})
+            """
+            WITH USER_INSERT_RESULT AS
+                (
+                INSERT INTO USERS (user_id, email, name, group_name, admin)
+                VALUES ( uuid_generate_v4(),
+                    %(email)s,
+                    %(name)s,
+                    %(group_name)s,
+                    %(adm)s)
+                RETURNING user_id)
+                INSERT INTO AUTH (auth_id, hashed_password, user_id)
+                SELECT uuid_generate_v4(), %(pass)s, user_id
+                FROM USER_INSERT_RESULT;
+            """, {'email': email, 'pass': hashed_password, 'name': name,
+                  'group_name': group_name, 'adm': admin})
 
         self.database.connection.commit()
 
-    #Helper function
-    def verify_user_data(self, email, name, group_name, hashed_password, admin):
-    # is passed the data obtained from the app function to be tested, e.g. a database function or endpoint,
-    # and checks that the fields match a second, raw SQL query.
+    # Helper function
+    def verify_user_data(self, email, name, group_name,
+                         hashed_password, admin):
+        # is passed the data obtained from the app function to be tested, e.g.
+        # a database function or endpoint,
+        # and checks that the fields match a second, raw SQL query.
 
         verify_query = """
-            SELECT USERS.user_id::text, email, name, group_name, admin, hashed_password, auth_id::text, date_created, date_modified
+            SELECT USERS.user_id::text, email, name, group_name, admin,
+            hashed_password, auth_id::text, date_created, date_modified
             FROM USERS JOIN
             AUTH ON USERS.user_id = AUTH.user_id
             WHERE email = %(email)s;"""
-        self.database.cursor.execute(verify_query, {'email':email})
+        self.database.cursor.execute(verify_query, {'email': email})
 
         rows = self.database.cursor.fetchall()
 
