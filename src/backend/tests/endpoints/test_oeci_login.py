@@ -20,13 +20,6 @@ class TestUsers(unittest.TestCase):
 
     hashed_password = generate_password_hash(password)
 
-    admin_email = 'pytest_admin@auth_test.com'
-    admin_password = 'pytest_password_admin'
-    admin_name = 'Endpoint AdminTest'
-    admin_group_name = 'Endpoint AdminTest Group'
-
-    hashed_admin_password = generate_password_hash(admin_password)
-
     def setUp(self):
 
         self.app = expungeservice.create_app('development')
@@ -38,9 +31,6 @@ class TestUsers(unittest.TestCase):
             self.db_cleanup()
             user.create(g.database, self.email, self.name,
                         self.group_name, self.hashed_password, False)
-            user.create(g.database, self.admin_email, self.admin_name,
-                        self.admin_group_name, self.hashed_admin_password,
-                        True)
             expungeservice.request.teardown(None)
 
     def tearDown(self):
@@ -62,37 +52,18 @@ class TestUsers(unittest.TestCase):
             'password': password,
         })
 
-    def test_get_users_success(self):
-
-        generate_auth_response = self.generate_auth_token(
-            self.admin_email, self.admin_password)
-
-        response = self.client.get(
-            '/api/users',
-            headers={
-                'Authorization': 'Bearer {}'.format(
-                    generate_auth_response.get_json()['auth_token'])})
-
-        assert(response.status_code == 201)
-
-        data = response.get_json()
-
-        assert data['users'][0]['email']
-        assert data['users'][0]['admin'] in [True, False]
-        assert data['users'][0]['timestamp']
-        assert data['users'][0]['name']
-        assert data['users'][0]['group_name']
-        assert data['users'][0]['user_id']
-
-    def test_get_users_not_admin(self):
+    def test_oeci_login_success(self):
 
         generate_auth_response = self.generate_auth_token(
             self.email, self.password)
 
-        response = self.client.get(
-            '/api/users',
-            headers={
-                'Authorization': 'Bearer {}'.format(
-                    generate_auth_response.get_json()['auth_token'])})
+        response = self.client.post('/api/oeci_login', headers={
+            'Authorization': 'Bearer {}'.format(
+                generate_auth_response.get_json()['auth_token'])},
+                json={'oeci_username': "oeci_username",
+                      'oeci_password': "oeci_password",
+                      })
 
-        assert(response.status_code == 403)
+        assert(response.status_code == 201)
+        assert self.client.cookie_jar._cookies[
+            'localhost.local']['/']['oeci_token'].value
