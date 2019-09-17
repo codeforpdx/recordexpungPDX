@@ -71,7 +71,7 @@ class TestUser(unittest.TestCase):
         generate_auth_response = self.generate_auth_token(
             self.admin_email, self.admin_password)
 
-        response = self.client.post('/api/users', headers={
+        response = self.client.post('/api/user', headers={
             'Authorization': 'Bearer {}'.format(
                 generate_auth_response.get_json()['auth_token'])},
                 json={'email': new_email,
@@ -94,7 +94,7 @@ class TestUser(unittest.TestCase):
         new_password = "new_password"
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': ''},
             json={
@@ -112,7 +112,7 @@ class TestUser(unittest.TestCase):
             self.admin_email, self.admin_password)
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': 'Bearer {}'.format(
                     generate_auth_response.get_json()['auth_token'])},
@@ -134,7 +134,7 @@ class TestUser(unittest.TestCase):
             self.admin_email, self.admin_password)
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': 'Bearer {}'.format(
                     generate_auth_response.get_json()['auth_token'])},
@@ -147,7 +147,7 @@ class TestUser(unittest.TestCase):
         assert(response.status_code == 201)
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': 'Bearer {}'.format(
                     generate_auth_response.get_json()['auth_token'])},
@@ -168,7 +168,7 @@ class TestUser(unittest.TestCase):
             self.admin_email, self.admin_password)
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': 'Bearer {}'.format(
                     generate_auth_response.get_json()['auth_token'])},
@@ -190,7 +190,7 @@ class TestUser(unittest.TestCase):
             self.email, self.password)
 
         response = self.client.post(
-            '/api/users',
+            '/api/user',
             headers={
                 'Authorization': 'Bearer {}'.format(
                     generate_auth_response.get_json()['auth_token'])},
