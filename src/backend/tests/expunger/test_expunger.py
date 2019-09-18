@@ -70,6 +70,58 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
 
         assert expunger.most_recent_dismissal is mrd_charge
 
+    def test_it_skips_closed_cases_without_dispositions(self):
+        case = CaseFactory.create()
+        charge_without_dispo = ChargeFactory.create()
+        case.charges = [charge_without_dispo]
+        record = Record([case])
+        expunger = Expunger(record)
+
+        assert expunger.run()
+
+    def test_it_skips_juvenile_charges(self):
+        case = CaseFactory.create(type_status=['a juvenile case', 'Closed'])
+        juvenile_charge = ChargeFactory.create(case=case)
+        case.charges = [juvenile_charge]
+
+        record = Record([case])
+        expunger = Expunger(record)
+
+        assert expunger.run()
+        assert expunger._skipped_charges[0] == juvenile_charge
+        assert expunger.charges == []
+
+
+class TestDispositionlessCharge(unittest.TestCase):
+
+    def test_charge_is_marked_as_missing_disposition(self):
+        case = CaseFactory.create()
+        charge = ChargeFactory.create(case=case, statute='825.999', level='Class C traffic violation')
+        print(charge.skip_analysis())
+        print(charge.expungement_result.type_eligibility_reason)
+
+        case.charges = [charge]
+        expunger = Expunger(Record([case]))
+
+        expunger.run()
+
+        assert charge.expungement_result.type_eligibility_reason == "Disposition not found. Needs further analysis"
+
+
+class TestMostRecentConvictions(unittest.TestCase):
+
+    TEN_YEARS = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
+    LESS_THAN_TEN_YEARS_AGO = (date.today() + relativedelta(years=-10, days=+1)).strftime('%m/%d/%Y')
+    LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
+    THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
+    TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
+    ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
+
+    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
+    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
+    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
+    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
+
     def test_it_sets_most_recent_conviction_from_the_last_10yrs(self):
         case = CaseFactory.create()
         mrc_charge = ChargeFactory.create()
@@ -188,40 +240,3 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger.run()
 
         assert expunger.most_recent_charge is None
-
-    def test_it_skips_closed_cases_without_dispositions(self):
-        case = CaseFactory.create()
-        charge_without_dispo = ChargeFactory.create()
-        case.charges = [charge_without_dispo]
-        record = Record([case])
-        expunger = Expunger(record)
-
-        assert expunger.run()
-
-    def test_it_skips_juvenile_charges(self):
-        case = CaseFactory.create(type_status=['a juvenile case', 'Closed'])
-        juvenile_charge = ChargeFactory.create(case=case)
-        case.charges = [juvenile_charge]
-
-        record = Record([case])
-        expunger = Expunger(record)
-
-        assert expunger.run()
-        assert expunger._skipped_charges[0] == juvenile_charge
-        assert expunger.charges == []
-
-
-class TestDispositionlessCharge(unittest.TestCase):
-
-    def test_charge_is_marked_as_missing_disposition(self):
-        case = CaseFactory.create()
-        charge = ChargeFactory.create(case=case, statute='825.999', level='Class C traffic violation')
-        print(charge.skip_analysis())
-        print(charge.expungement_result.type_eligibility_reason)
-
-        case.charges = [charge]
-        expunger = Expunger(Record([case]))
-
-        expunger.run()
-
-        assert charge.expungement_result.type_eligibility_reason == "Disposition not found. Needs further analysis"
