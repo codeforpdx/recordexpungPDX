@@ -37,6 +37,7 @@ class Expunger:
         self.most_recent_charge = None
         self.acquittals = []
         self.convictions = []
+        self.recent_convictions = []
         self.class_b_felonies = []
 
     def run(self):
@@ -52,6 +53,7 @@ class Expunger:
         self._tag_skipped_charges()
         self._remove_skipped_charges()
         self._categorize_charges()
+        self._extract_most_recent_convictions()
         self._set_most_recent_dismissal()
         self._set_most_recent_conviction()
         self._set_second_most_recent_conviction()
@@ -88,21 +90,28 @@ class Expunger:
             else:
                 self.convictions.append(charge)
 
+    def _extract_most_recent_convictions(self):
+        for charge in self.convictions:
+            if charge.recent_conviction():
+                self.recent_convictions.append(charge)
+
     def _set_most_recent_dismissal(self):
         self.acquittals.sort(key=lambda charge: charge.date)
         if self.acquittals and self.acquittals[-1].recent_acquittal():
             self.most_recent_dismissal = self.acquittals[-1]
 
     def _set_most_recent_conviction(self):
-        self.convictions.sort(key=lambda charge: charge.disposition.date)
-        if len(self.convictions) > 0 and self.convictions[-1].recent_conviction():
-            if self.convictions[-1].level != 'Violation':
-                self.most_recent_conviction = self.convictions[-1]
+        self.recent_convictions.sort(key=lambda charge: charge.disposition.date)
+        if len(self.recent_convictions) > 0:
+            if self.recent_convictions[-1].level != 'Violation':
+                self.most_recent_conviction = self.recent_convictions[-1]
+            elif len(self.recent_convictions) > 1:
+                self.most_recent_conviction = self.recent_convictions[-2]
 
     def _set_second_most_recent_conviction(self):
-        self.convictions.sort(key=lambda charge: charge.disposition.date)
-        if len(self.convictions) > 1 and self.convictions[-2].recent_conviction():
-            self.second_most_recent_conviction = self.convictions[-2]
+        self.recent_convictions.sort(key=lambda charge: charge.disposition.date)
+        if len(self.recent_convictions) > 1:
+            self.second_most_recent_conviction = self.recent_convictions[-2]
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
