@@ -27,5 +27,6 @@ db:
 	heroku addons:create heroku-postgresql:hobby-dev --app=recordexpungpdxapi
 
 	#this runs the initialization scripts
-	heroku pg:psql --app=recordexpungpdxapi -f ./config/postgres/initdb/scripts/create-tables-and-functions.sql
+	heroku pg:psql --app=recordexpungpdxapi -f ./config/postgres/initdb/scripts/create-tables.sql
+	heroku pg:psql --app=recordexpungpdxapi -f ./config/postgres/initdb/scripts/create-functions.sql
 	heroku pg:psql --app=recordexpungpdxapi -f ./config/postgres/initdb/scripts/initial_credentials.sql
