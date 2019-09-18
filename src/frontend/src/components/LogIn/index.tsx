@@ -57,12 +57,12 @@ class LogIn extends React.Component<Props, State> {
         password: this.state.password.trim()
       },
       () => {
-        this.validateForm();
+        this.validateLogIn();
       }
     );
   };
 
-  public validateForm() {
+  public validateLogIn() {
     // validate email returns true for email input of: "_@_._" empty returns false
     this.setState(
       {
@@ -95,17 +95,11 @@ class LogIn extends React.Component<Props, State> {
         history.push('/oeci');
       })
       .catch(error => {
-        if (error.response.status === 401) {
-          // error: email and password do not match
-          this.setState({
-            invalidCredentials: true
-          });
-        } else {
-          // error: technical difficulties
-          this.setState({
-            invalidResponse: true
-          });
-        }
+        error.response.status === 401
+          ? // error: email and password do not match
+            this.setState({ invalidCredentials: true })
+          : // error: technical difficulties
+            this.setState({ invalidResponse: true });
       });
   }
 
