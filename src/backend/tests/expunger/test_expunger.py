@@ -240,3 +240,15 @@ class TestMostRecentConvictions(unittest.TestCase):
         expunger.run()
 
         assert expunger.most_recent_charge is None
+
+    def test_violation_is_not_most_recent(self):
+        case = CaseFactory.create()
+        mrc_charge = ChargeFactory.create(level='Violation')
+        mrc_charge.disposition = Disposition(self.LESS_THAN_TEN_YEARS_AGO, 'Convicted')
+        case.charges = [mrc_charge]
+        record = Record([case])
+
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert expunger.most_recent_conviction is None

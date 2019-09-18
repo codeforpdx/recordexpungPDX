@@ -96,7 +96,8 @@ class Expunger:
     def _set_most_recent_conviction(self):
         self.convictions.sort(key=lambda charge: charge.disposition.date)
         if len(self.convictions) > 0 and self.convictions[-1].recent_conviction():
-            self.most_recent_conviction = self.convictions[-1]
+            if self.convictions[-1].level != 'Violation':
+                self.most_recent_conviction = self.convictions[-1]
 
     def _set_second_most_recent_conviction(self):
         self.convictions.sort(key=lambda charge: charge.disposition.date)
