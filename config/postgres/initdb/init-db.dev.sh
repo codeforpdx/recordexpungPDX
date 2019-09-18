@@ -22,8 +22,14 @@ psql \
     -U "${POSTGRES_USERNAME}" \
     -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
     -d "${PGDATABASE}" \
-    -f /docker-entrypoint-initdb.d/scripts/create-tables-and-functions.sql
+    -f /docker-entrypoint-initdb.d/scripts/create-tables.sql
 
+psql \
+    -v ON_ERROR_STOP=1 \
+    -U "${POSTGRES_USERNAME}" \
+    -v POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+    -d "${PGDATABASE}" \
+    -f /docker-entrypoint-initdb.d/scripts/create-functions.sql
 
 psql \
     -v ON_ERROR_STOP=1 \

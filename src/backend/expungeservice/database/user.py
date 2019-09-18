@@ -6,62 +6,78 @@ from expungeservice.database.db_util import rollback_errors
 
 from psycopg2 import sql
 
+
 @rollback_errors
-def create_user(database, email, name,
-        group_name, password_hash, admin):
+def create(database, email, name,
+           group_name, password_hash, admin):
 
     database.cursor.execute(
         """
-        SELECT * FROM CREATE_USER( %(em)s, %(pass)s, %(name)s, %(group_name)s, %(adm)s );
-        """, {'em':email, 'pass':password_hash, 'name':name,
-              'group_name':group_name,
+        SELECT * FROM USERS_CREATE( %(em)s, %(pass)s, %(name)s, %(group_name)s,
+         %(adm)s );
+        """, {'em': email, 'pass': password_hash, 'name': name,
+              'group_name': group_name,
               'adm': admin})
 
     result = database.cursor.fetchone()
     database.connection.commit()
     return result._asdict()
 
-def get_user_by_id(database, user_id):
 
-    return get_user(database, lookup_field = "user_id", key = user_id)
-
-def get_user_by_email(database, email):
-
-    return get_user(database, lookup_field = "email", key = email)
-
-
-def get_user(database, lookup_field, key):
-
+def identify_by_email(database, email):
     database.cursor.execute(
-        sql.SQL("""
-            SELECT USERS.user_id::text user_id, email, admin,
-            hashed_password, auth_id::text, date_created, date_modified
-            FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
-            WHERE users.{} = %(key)s
-        ;
-        """).format(sql.Identifier(lookup_field)), {"key":key}
-        )
+        """
+        SELECT user_id::text
+        FROM USERS where email = %(email)s
+        ;""", {"email": email})
 
     res = database.cursor.fetchone()
     if res:
-        return res._asdict()
+        return res._asdict()['user_id']
     else:
-        return res
+        return None
 
 
-def get_all_users(database):
+def read(database, user_id):
 
     database.cursor.execute(
-        sql.SQL("""
 
-            SELECT USERS.user_id::text user_id, email, name, group_name, admin, hashed_password, auth_id::text, date_created, date_modified
-            FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
-        ;
-        """), {})
+        """
+        SELECT * FROM USERS_READ( %(user_id)s );
+        """, {'user_id': user_id})
+
+    res = database.cursor.fetchone()
+
+    if res:
+        return res._asdict()
+    else:
+        return None
+
+
+def fetchall(database):
+
+    database.cursor.execute(
+        sql.SQL(
+            """SELECT * FROM USERS_FETCHALL();
+            """), {})
 
     res = database.cursor.fetchall()
     if res:
         return [r._asdict() for r in res]
     else:
-        return res
+        return None
 
+'''
+Here is an example of safe SQL formatting to insert column names and values:
+
+lookup_field = "email"
+key = "person@email.com"
+database.cursor.execute(
+        sql.SQL("""
+            SELECT USERS.user_id::text user_id, email, hashed_password
+            FROM USERS JOIN AUTH ON USERS.user_id = AUTH.user_id
+            WHERE users.{} = %(key)s
+            ;
+            """).format(sql.Identifier(lookup_field)), {"key":key}
+        )
+'''

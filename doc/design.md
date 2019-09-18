@@ -148,7 +148,9 @@ Returns: auth token
 
 - format: `JSON`
 - fields:
+    * user_id
     * auth_token
+
 
  Status codes:
 
@@ -159,20 +161,23 @@ Returns: auth token
 
 **`GET`** `/api/users/`
 
-Fetches the list of existing users
+Fetches the list of existing users. requires admin authorization
 
 Required headers:
 
-- `Authorization: <JWT string>`
+- `Authorization: <JWT auth_token>`
 
 Returns: List of users:
 
 - format: `JSON`
 - fields:
     * users :: list
+        * user_id
         * email
+        * name
+        * group
         * admin
-        * timestamp
+        * date_created_timestamp
 
 Status codes:
 
@@ -181,28 +186,32 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 
 
-**`GET`** `/api/users/EMAIL`
+**`GET`** `/api/user/user_id`
 
 Required headers:
 
-- `Authorization: <JWT string>`
+- `Authorization: <JWT auth_token>`
 
-Returns: Requested user
+Returns: Requested user. requires admin authorization or that the logged-in user match the requested user_id.
 
 - format: `JSON`
 - fields:
+    * user_id
     * email
+    * name
+    * group
     * admin
     * timestamp
+    
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
 
 
-**`POST`** `/api/users/`
+**`POST`** `/api/user/`
 
 Creates a user
 
@@ -215,6 +224,8 @@ Required headers:
 - format: `JSON`
 - fields:
     * email
+    * name
+    * group
     * password
     * admin
 
@@ -222,12 +233,13 @@ Returns: New user
 
 - format: `JSON`
 - fields:
+    * user_id
     * email
+    * name
+    * group
     * admin
     * timestamp
 
-Note:
-- user_id is not required here so is not returned.
 
 Status codes:
 
@@ -239,13 +251,13 @@ Status codes:
 
 
 
-**`POST`** `/api/search`
+**`GET`** `/api/search`
 
 Performs search of remote system
 
 Required headers:
 
-- `Authorization: <JWT string>`
+- `Authorization: <JWT auth_token>`
 
 `POST` body:
 
@@ -321,13 +333,9 @@ Tables:
 
     auth (uuid, hashed_password, user_id), uuid primary key
 
-    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
-
     result_codes (uuid, code) uuid primary key
 
     rules (uuid, text)
-
-    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged)
 
 
 Notes:
