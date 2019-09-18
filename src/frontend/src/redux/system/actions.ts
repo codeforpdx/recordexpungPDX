@@ -1,13 +1,16 @@
-import { LOG_IN, LOG_OUT } from './types';
+import { LOG_IN, LOG_OUT, LogInData } from './types';
 
-export function logIn() {
+export function logIn(data: LogInData) {
   return {
-    type: LOG_IN
+    type: LOG_IN,
+    userId: data.user_id,
+    authToken: data.auth_token
   };
 }
 
 export function logOut() {
   return {
-    type: LOG_OUT
+    type: LOG_OUT,
+    authToken: ''
   };
 }
