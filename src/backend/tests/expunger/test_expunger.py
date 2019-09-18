@@ -292,3 +292,21 @@ class TestMostRecentConvictions(unittest.TestCase):
         expunger.run()
 
         assert expunger.most_recent_conviction is None
+
+    def test_two_most_recent_are_violations(self):
+        case = CaseFactory.create()
+
+        viol_charge = ChargeFactory.create(level='Violation')
+        viol2_charge = ChargeFactory.create(level='Violation')
+
+        viol_charge.disposition = Disposition(self.ONE_YEAR_AGO, 'Convicted')
+        viol2_charge.disposition = Disposition(self.TWO_YEARS_AGO, 'Convicted')
+
+        case.charges = [viol_charge, viol2_charge]
+
+        record = Record([case])
+
+        expunger = Expunger(record)
+        expunger.run()
+
+        assert expunger.most_recent_conviction is viol2_charge
