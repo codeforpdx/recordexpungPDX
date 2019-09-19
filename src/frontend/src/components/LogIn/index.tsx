@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { logIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
-import apiService, { Request } from '../../service/api-service';
 import validateEmail from '../../service/email-validation';
-import history from '../History';
 import Logo from '../Logo';
 
 interface Props {
@@ -32,11 +30,6 @@ class LogIn extends React.Component<Props, State> {
     invalidEmail: false,
     missingPassword: false
   };
-
-  constructor(props: Props) {
-    super(props);
-    this.logInNow = this.logInNow.bind(this);
-  }
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
@@ -70,37 +63,20 @@ class LogIn extends React.Component<Props, State> {
         missingPassword: this.state.password.length === 0
       },
       () => {
-        // if no errors are present, logInNow()
+        // If no errors are present, attempt to log in.
         if (!this.state.invalidEmail && !this.state.missingPassword) {
-          this.logInNow();
+          this.props
+            .logIn(this.state.email, this.state.password)
+            .catch((error: any) => {
+              error.response.status === 401
+                ? // error: email and password do not match
+                  this.setState({ invalidCredentials: true })
+                : // error: technical difficulties
+                  this.setState({ invalidResponse: true });
+            });
         }
       }
     );
-  }
-
-  public logInNow() {
-    const request: Request = {
-      url: '/api/auth_token',
-      data: {
-        email: this.state.email,
-        password: this.state.password
-      },
-      method: 'post'
-    };
-
-    apiService(request)
-      .then(response => {
-        // attach token and userID to store
-        this.props.logIn(response.data);
-        history.push('/oeci');
-      })
-      .catch(error => {
-        error.response.status === 401
-          ? // error: email and password do not match
-            this.setState({ invalidCredentials: true })
-          : // error: technical difficulties
-            this.setState({ invalidResponse: true });
-      });
   }
 
   public render() {

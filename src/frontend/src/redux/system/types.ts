@@ -7,11 +7,6 @@ export interface SystemState {
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 
-export interface LogInData {
-  user_id: string;
-  auth_token: string;
-}
-
 interface LogInAction {
   type: typeof LOG_IN;
   userId: string;

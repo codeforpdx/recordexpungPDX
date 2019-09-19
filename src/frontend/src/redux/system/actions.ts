@@ -1,10 +1,21 @@
-import { LOG_IN, LOG_OUT, LogInData } from './types';
+import apiService from '../../service/api-service';
+import history from '../../service/history';
+import { LOG_IN, LOG_OUT } from './types';
 
-export function logIn(data: LogInData) {
-  return {
-    type: LOG_IN,
-    userId: data.user_id,
-    authToken: data.auth_token
+export function logIn(email: string, password: string): any {
+  return (dispatch: Function) => {
+    return apiService(dispatch, {
+      url: '/api/auth_token',
+      data: { email, password },
+      method: 'post'
+    }).then((response: any) => {
+      dispatch({
+        type: LOG_IN,
+        userId: response.data.user_id,
+        authToken: response.data.auth_token
+      });
+      history.push('/oeci');
+    });
   };
 }
 
