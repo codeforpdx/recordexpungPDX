@@ -1,7 +1,7 @@
 import React from 'react';
 import LogOut from '../LogOut';
 import Logo from '../Logo';
-import history from '../History';
+import history from '../../service/history';
 
 class LoggedInHeader extends React.Component {
   public render() {

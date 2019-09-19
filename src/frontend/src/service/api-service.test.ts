@@ -1,4 +1,10 @@
 import apiService, { Request } from './api-service';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import RequestMiddleware from '../redux/middleware/request';
+
+const middlewares = [RequestMiddleware, thunk];
+const mockStore = configureMockStore(middlewares)({});
 
 describe('API SERVICE TEST', () => {
   it('returns data with get', () => {
@@ -6,7 +12,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/hello',
       method: 'get'
     };
-    apiService(request).then((response: any) => {
+    apiService(mockStore.dispatch, request).then((response: any) => {
       expect(response).toEqual({
         data: 'Hello, world!'
       });
@@ -18,7 +24,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://:5000/api/',
       method: 'get'
     };
-    apiService(request).catch((error: any) => {
+    apiService(mockStore.dispatch, request).catch((error: any) => {
       expect(error.error.message).toEqual(
         'bad base url, it should be: http://localhost:5000/api/'
       );
@@ -31,7 +37,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/ello',
       method: 'get'
     };
-    apiService(request).catch((error: any) => {
+    apiService(mockStore.dispatch, request).catch((error: any) => {
       expect(error.error.message).toEqual(
         'Request failed with status code 404'
       );
@@ -44,7 +50,7 @@ describe('API SERVICE TEST', () => {
       url: 'http://localhost:5000/api/search',
       method: 'post'
     };
-    apiService(request).then((response: any) => {
+    apiService(mockStore.dispatch, request).then((response: any) => {
       expect(response).toEqual({
         data: [
           {
