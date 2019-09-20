@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { Record } from '../redux/types';
-import {
-  loadSearchRecordsMock,
-  loadSearchRecords
-} from '../redux/records/actions';
+import { loadSearchRecords } from '../redux/records/actions';
+import { loadSearchRecordsMock } from '../redux/records/mock-actions';
 
 type Props = {
   fetch: Function;
