@@ -1,4 +1,4 @@
-import { LOAD_SEARCH_RECORDS } from '../types';
+import { LOAD_SEARCH_RECORDS } from './types';
 import getSearchRecords from '../../service/get-records';
 
 export const loadSearchRecords = () => (dispatch: Function) => {

@@ -2,7 +2,7 @@ import {
   LOAD_SEARCH_RECORDS,
   SearchRecordState,
   SearchRecordsActionType
-} from '../types';
+} from './types';
 
 const initalState: SearchRecordState = {
   records: []

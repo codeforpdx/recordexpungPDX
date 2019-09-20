@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
-import { Record } from '../redux/types';
+import { Record } from '../redux/records/types';
 import { loadSearchRecords } from '../redux/records/actions';
 import { loadSearchRecordsMock } from '../redux/records/mock-actions';
 
