@@ -10,6 +10,16 @@ import unittest
 from werkzeug.security import generate_password_hash
 from flask import jsonify, current_app, g, request
 
+from expungeservice.crawler.request import URL
+from tests.fixtures.post_login_page import PostLoginPage
+
+
+from expungeservice.database import user
+import expungeservice
+
+from expungeservice.endpoints import oeci_login
+
+
 print('\n============\nTEST CASE FILE STARTING\n==============')
 
 class MockCrawler:
@@ -34,35 +44,8 @@ class TestOeciLogin(unittest.TestCase):
     @unittest.mock.patch("expungeservice.crawler.crawler.Crawler")
     def setUp(self, mock_crawler):
 
-        print("startings Mocked Setup")
+        print("starting Mocked Setup (doing nothing)")
 
-        from expungeservice.crawler.request import URL
-        from tests.fixtures.post_login_page import PostLoginPage
-
-
-        from expungeservice.database import user
-        import expungeservice
-
-        from expungeservice.endpoints import oeci_login
-
-
-        mock_crawler().return_value.login.return_value=False
-        mock_crawler.return_value.login.return_value=False
-
-        #crawler = expungeservice.crawler.crawler.Crawler()
-        #print("in setup crawler:", crawler)
-
-
-        self.app = expungeservice.create_app('development')
-        self.client = self.app.test_client()
-
-        with self.app.app_context():
-            expungeservice.request.before()
-
-            self.db_cleanup()
-            user.create(g.database, self.email, self.name,
-                        self.group_name, self.hashed_password, False)
-            expungeservice.request.teardown(None)
 
     def tearDown(self):
         from expungeservice.database import user
@@ -88,10 +71,31 @@ class TestOeciLogin(unittest.TestCase):
 
     @unittest.mock.patch("expungeservice.crawler.crawler.Crawler")
     def test_oeci_login_success(self, mock_crawler):
-        print("==================\ntest_oeci_login_success\n====================")
 
-        mock_crawler.return_value.login.return_value = True
-        mock_crawler().return_value.login.return_value = True
+
+        print("==================\ntesting oeci login success\n====================")
+        print("didn't create app yet")
+        #mock_crawler().return_value.login.return_value=False
+        mock_crawler.return_value.login.return_value=False
+        mock_crawler.return_value.__login_validation.return_value = "login validation return value"
+
+        #crawler = expungeservice.crawler.crawler.Crawler()
+        #print("in setup crawler:", crawler)
+
+
+        self.app = expungeservice.create_app('development')
+
+        self.client = self.app.test_client()
+
+
+        with self.app.app_context():
+            expungeservice.request.before()
+
+            self.db_cleanup()
+            user.create(g.database, self.email, self.name,
+                        self.group_name, self.hashed_password, False)
+            expungeservice.request.teardown(None)
+
 
 
         generate_auth_response = self.generate_auth_token(
@@ -122,6 +126,22 @@ class TestOeciLogin(unittest.TestCase):
 
         #print("mock_crawler in failure:", mock_crawler)
         #input("...")
+
+
+        self.app = expungeservice.create_app('development')
+
+        self.client = self.app.test_client()
+
+
+        with self.app.app_context():
+            expungeservice.request.before()
+
+            self.db_cleanup()
+            user.create(g.database, self.email, self.name,
+                        self.group_name, self.hashed_password, False)
+            expungeservice.request.teardown(None)
+
+
 
         generate_auth_response = self.generate_auth_token(
             self.email, self.password)

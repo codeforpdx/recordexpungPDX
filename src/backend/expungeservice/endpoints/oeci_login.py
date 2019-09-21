@@ -13,7 +13,6 @@ from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 
 print("====\n====\n====\n====\n====\n====\nOECILOGIN ENDPOINT IMPORT HAPPENED====\n====\n====\n====\n====\n====\n")
-input()
 
 class OeciLogin(MethodView):
 
@@ -38,7 +37,7 @@ class OeciLogin(MethodView):
         login_result = c.login(data["oeci_username"], data["oeci_password"])
 
         print("crawler.login in endpoint result:", login_result)
-        input("...")
+        #input("...")
 
         if not login_result:
             error(401, "Invalid OECI login credentials")
