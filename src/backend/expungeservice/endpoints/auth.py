@@ -60,7 +60,8 @@ def authorized(f, admin_required, *args, **kwargs):
 
         payload = jwt.decode(
             auth_hdr_split[1].strip(),
-            current_app.config.get('JWT_SECRET_KEY')
+            current_app.config.get('JWT_SECRET_KEY'),
+            algorithms=["HS256"]
         )
 
         user_data = user.read(g.database, payload['sub'])

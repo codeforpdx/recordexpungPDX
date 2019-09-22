@@ -1,10 +1,9 @@
-import flask
 from flask.views import MethodView
-from flask import request, make_response, abort, jsonify, g
+from flask import request, make_response, current_app
 from werkzeug.security import generate_password_hash
 import time
-
-print("====\n====\n====\n====\n====\n====\nOECILOGIN ENDPOINT IMPORT STARTING====\n====\n====\n====\n====\n====\n")
+from cryptography import Fernet
+import json
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.database import user
@@ -12,14 +11,14 @@ from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 
-print("====\n====\n====\n====\n====\n====\nOECILOGIN ENDPOINT IMPORT HAPPENED====\n====\n====\n====\n====\n====\n")
-
 class OeciLogin(MethodView):
 
     @user_auth_required
     def post(self):
         """
-
+        Attempts to log in to the OECI web site using the provided username
+        and password if successful, encrypt those credentials and return them
+        in a cookie. If the credentials
         """
 
         data = request.get_json()
@@ -29,25 +28,20 @@ class OeciLogin(MethodView):
 
         check_data_fields(data, ['oeci_username', 'oeci_password'])
 
-        print("in oeci login endpoint, json data is:\n")
-        print(data)
-        c = Crawler()
-        print("\ncrawler object is :\n", c)
-
-        login_result = c.login(data["oeci_username"], data["oeci_password"])
-
-        print("crawler.login in endpoint result:", login_result)
-        #input("...")
+        login_result = Crawler().login(data["oeci_username"], data["oeci_password"])
 
         if not login_result:
-            error(401, "Invalid OECI login credentials")
+            error(401, "Invalid OECI username or password.")
 
-        """
-        TODO: encrypt and sign a new JWT containing the oeci credentials
-        to store in the returned cookie
-        """
+        key = current_app.config.get('JWT_SECRET_KEY')
 
-        response = flask.make_response()
+        credentials = json.dumps({
+            "oeci_username":data["oeci_username"],
+            "oeci_password":data["oeci_password"]}).encode("utf-8")
+
+        encrypted = Fernet.encrypt(credentials)
+
+        response = make_response()
 
         response.set_cookie(
             "oeci_token",
@@ -55,9 +49,7 @@ class OeciLogin(MethodView):
             httponly = True,
             samesite = 'strict',
             expires =  time.time() + 15 * 60,
-            value="I'm a fake oeci token!")
-
-        app = flask.Flask(__name__)
+            value=encrypted)
 
         return response, 201
 
