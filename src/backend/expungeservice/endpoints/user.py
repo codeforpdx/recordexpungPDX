@@ -28,33 +28,33 @@ class User(MethodView):
         if data is None:
             error(400, "No json data in request body")
 
-        check_data_fields(data, ['email', 'name', 'group_name',
-                                 'password', 'admin'])
+        check_data_fields(data, ["email", "name", "group_name",
+                                 "password", "admin"])
 
-        if len(data['password']) < 8:
-            error(422, 'New password is less than 8 characters long!')
+        if len(data["password"]) < 8:
+            error(422, "New password is less than 8 characters long!")
 
-        password_hash = generate_password_hash(data['password'])
+        password_hash = generate_password_hash(data["password"])
 
         try:
             create_user_result = user.create(
                 g.database,
-                email=data['email'],
-                name=data['name'],
-                group_name=data['group_name'],
+                email=data["email"],
+                name=data["name"],
+                group_name=data["group_name"],
                 password_hash=password_hash,
-                admin=data['admin'])
+                admin=data["admin"])
 
         except UniqueViolation:
-            error(422, 'User with that email address already exists')
+            error(422, "User with that email address already exists")
 
         response_data = {
-            'user_id': create_user_result['user_id'],
-            'email': create_user_result['email'],
-            'admin': create_user_result['admin'],
-            'name': create_user_result['name'],
-            'group_name': create_user_result['group_name'],
-            'timestamp': create_user_result['date_created']
+            "user_id": create_user_result["user_id"],
+            "email": create_user_result["email"],
+            "admin": create_user_result["admin"],
+            "name": create_user_result["name"],
+            "group_name": create_user_result["group_name"],
+            "timestamp": create_user_result["date_created"]
 
         }
 
@@ -62,4 +62,4 @@ class User(MethodView):
 
 
 def register(app):
-    app.add_url_rule('/api/user', view_func=User.as_view('user'))
+    app.add_url_rule("/api/user", view_func=User.as_view("user"))
