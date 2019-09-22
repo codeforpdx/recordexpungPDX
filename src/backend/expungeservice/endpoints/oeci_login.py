@@ -11,6 +11,7 @@ from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 
+
 class OeciLogin(MethodView):
 
     @user_auth_required
@@ -28,7 +29,9 @@ class OeciLogin(MethodView):
 
         check_data_fields(data, ['oeci_username', 'oeci_password'])
 
-        login_result = Crawler().login(data["oeci_username"], data["oeci_password"])
+        login_result = Crawler().login(
+            data["oeci_username"],
+            data["oeci_password"])
 
         if not login_result:
             error(401, "Invalid OECI username or password.")
@@ -36,8 +39,8 @@ class OeciLogin(MethodView):
         key = current_app.config.get('JWT_SECRET_KEY')
 
         credentials = json.dumps({
-            "oeci_username":data["oeci_username"],
-            "oeci_password":data["oeci_password"]}).encode("utf-8")
+            "oeci_username": data["oeci_username"],
+            "oeci_password": data["oeci_password"]}).encode("utf-8")
 
         encrypted = Fernet.encrypt(credentials)
 
@@ -45,14 +48,15 @@ class OeciLogin(MethodView):
 
         response.set_cookie(
             "oeci_token",
-            secure = True,
-            httponly = True,
-            samesite = 'strict',
-            expires =  time.time() + 15 * 60,
+            secure=True,
+            httponly=True,
+            samesite='strict',
+            expires=time.time() + 15 * 60,
             value=encrypted)
 
         return response, 201
 
 
 def register(app):
-    app.add_url_rule('/api/oeci_login', view_func=OeciLogin.as_view('oeci_login'))
+    app.add_url_rule('/api/oeci_login',
+                     view_func=OeciLogin.as_view('oeci_login'))
