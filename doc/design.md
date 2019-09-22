@@ -276,11 +276,7 @@ Status codes:
 - `201 CREATED`: OECI login was successful and cookie returned
 - `400 BAD FORMAT`: missing one or more fields
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `422 UPROCESSABLE ENTITY`: oeci login attempt failed.
-
-### comment:
-
-Not certain that 422 is the best code here. 401/403 don't seem right because the error is propagated from a 3rd party.
+- `401 UNAUTHORIZED`: oeci login attempt failed.
 
 
 **`GET`** `/api/search`

@@ -49,22 +49,17 @@ class User(MethodView):
             error(422, 'User with that email address already exists')
 
         response_data = {
+            'user_id': create_user_result['user_id'],
             'email': create_user_result['email'],
             'admin': create_user_result['admin'],
-            'timestamp': create_user_result['date_created'],
+            'name': create_user_result['name'],
+            'group_name': create_user_result['group_name'],
+            'timestamp': create_user_result['date_created']
+
         }
-        # user_id is not required by the frontend here so it is not included.
-        # other endpoints may expose the user_id e.g. for other admin
-        # user-management operations.
 
         return jsonify(response_data), 201
-    '''
-    @admin_auth_required
-    def get(self):
-        """
-        Fetch the list of users, including their email, admin clear
-        """
-    '''
+
 
 def register(app):
     app.add_url_rule('/api/user', view_func=User.as_view('user'))

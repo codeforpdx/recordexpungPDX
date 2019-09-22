@@ -20,19 +20,19 @@ class Users(MethodView):
 
         user_db_data = user.fetchall(g.database)
 
-        response_data = {'users': []}
+        response_data = {"users": []}
         for user_entry in user_db_data:
-            response_data['users'].append({
-                'user_id': user_entry['user_id'],
-                'email': user_entry['email'],
-                'name': user_entry['name'],
-                'group_name': user_entry['group_name'],
-                'admin': user_entry['admin'],
-                'timestamp': user_entry['date_created']
+            response_data["users"].append({
+                "user_id": user_entry["user_id"],
+                "email": user_entry["email"],
+                "name": user_entry["name"],
+                "group_name": user_entry["group_name"],
+                "admin": user_entry["admin"],
+                "timestamp": user_entry["date_created"]
                 })
 
         return jsonify(response_data), 201
 
 
 def register(app):
-    app.add_url_rule('/api/users', view_func=Users.as_view('users'))
+    app.add_url_rule("/api/users", view_func=Users.as_view("users"))
