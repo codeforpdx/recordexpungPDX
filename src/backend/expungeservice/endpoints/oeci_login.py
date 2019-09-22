@@ -26,7 +26,7 @@ class OeciLogin(MethodView):
         if data is None:
             error(400, "No json data in request body")
 
-        check_data_fields(data, ['oeci_username', 'oeci_password'])
+        check_data_fields(data, ["oeci_username", "oeci_password"])
 
         login_result = Crawler().login(
             data["oeci_username"],
@@ -35,7 +35,7 @@ class OeciLogin(MethodView):
         if not login_result:
             error(401, "Invalid OECI username or password.")
 
-        key = base64.encodebytes(current_app.config.get('JWT_SECRET_KEY'))
+        key = base64.encodebytes(current_app.config.get("JWT_SECRET_KEY"))
 
         credentials = json.dumps({
             "oeci_username": data["oeci_username"],
@@ -50,7 +50,7 @@ class OeciLogin(MethodView):
             "oeci_token",
             secure=True,
             httponly=True,
-            samesite='strict',
+            samesite="strict",
             expires=time.time() + 15 * 60,
             value=encrypted)
 
@@ -58,5 +58,5 @@ class OeciLogin(MethodView):
 
 
 def register(app):
-    app.add_url_rule('/api/oeci_login',
-                     view_func=OeciLogin.as_view('oeci_login'))
+    app.add_url_rule("/api/oeci_login",
+                     view_func=OeciLogin.as_view("oeci_login"))
