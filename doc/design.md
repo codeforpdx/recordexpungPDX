@@ -250,35 +250,6 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
-**`POST`** `/api/oeci_login/`
-
-Takes oeci login credentials, attempts to log in, and if successful returns a cookie containing the encrypted credentials.
-
-Required headers:
-
-- `Authorization: <JWT string>`
-
-`POST` body:
-
-- format: `JSON`
-- fields:
-    * oeci_username
-    * oeci_password
-
-Returns: cookie attached to Response object.
-
-- format: `JSON`
-- fields:
-    * (no json data returned)
-
-Status codes:
-
-- `201 CREATED`: OECI login was successful and cookie returned
-- `400 BAD FORMAT`: missing one or more fields
-- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `401 UNAUTHORIZED`: oeci login attempt failed.
-
-
 **`GET`** `/api/search`
 
 Performs search of remote system
