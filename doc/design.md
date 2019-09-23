@@ -202,13 +202,13 @@ Returns: Requested user. requires admin authorization or that the logged-in user
     * group
     * admin
     * timestamp
-
+    
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
 
 
 **`POST`** `/api/user/`
@@ -248,6 +248,7 @@ Status codes:
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is not admin
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
+
 
 
 **`GET`** `/api/search`
