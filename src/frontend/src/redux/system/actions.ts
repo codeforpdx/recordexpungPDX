@@ -14,14 +14,25 @@ export function logIn(email: string, password: string): any {
         userId: response.data.user_id,
         authToken: response.data.auth_token
       });
+      document.cookie = `authToken=${response.data.auth_token}`;
+      document.cookie = `userId=${response.data.user_id}`;
       history.push('/oeci');
     });
   };
 }
 
 export function logOut() {
+  document.cookie = 'authToken=';
+  document.cookie = 'userId=';
   return {
-    type: LOG_OUT,
-    authToken: ''
+    type: LOG_OUT
+  };
+}
+
+export function refreshLocalAuth(inputToken: string, inputId: string) {
+  return {
+    type: LOG_IN,
+    userId: inputId,
+    authToken: inputToken
   };
 }
