@@ -76,7 +76,12 @@ class TestDatabaseOperations(unittest.TestCase):
         user_result = user.read(
             self.database, user.identify_by_email(self.database, email))
 
-        self.verify_user_data(email, name, group_name, hashed_password, admin)
+        self.verify_user_data(
+            user_result["email"],
+            user_result["name"],
+            user_result["group_name"],
+            user_result["hashed_password"],
+            user_result["admin"])
 
     def test_get_all_users(self):
         """
