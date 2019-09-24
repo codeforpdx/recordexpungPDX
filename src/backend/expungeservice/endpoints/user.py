@@ -61,5 +61,32 @@ class User(MethodView):
         return jsonify(response_data), 201
 
 
+class Users(MethodView):
+
+    @admin_auth_required
+    def get(self):
+        """
+        Fetch the list of users, with their user_id, name, group name,
+        email, admin status, and date_created.
+        """
+
+        user_db_data = user.fetchall(g.database)
+
+        response_data = {"users": []}
+        for user_entry in user_db_data:
+            response_data["users"].append({
+                "user_id": user_entry["user_id"],
+                "email": user_entry["email"],
+                "name": user_entry["name"],
+                "group_name": user_entry["group_name"],
+                "admin": user_entry["admin"],
+                "timestamp": user_entry["date_created"]
+                })
+
+        return jsonify(response_data), 201
+
+
 def register(app):
+    app.add_url_rule("/api/users", view_func=Users.as_view("users"))
     app.add_url_rule("/api/user", view_func=User.as_view("user"))
+
