@@ -11,7 +11,7 @@ import expungeservice
 from tests.endpoints.endpoint_util import EndpointShared
 
 
-class TestUser(EndpointShared):
+class TestUsers(EndpointShared):
 
     def test_create_success(self):
 
@@ -20,7 +20,7 @@ class TestUser(EndpointShared):
         new_hashed_password = generate_password_hash(new_password)
 
         response = self.client.post(
-            "/api/user", headers=self.admin_auth_header,
+            "/api/users", headers=self.admin_auth_header,
             json={"email": new_email,
                   "password": new_password,
                   "name": self.name,
@@ -43,7 +43,7 @@ class TestUser(EndpointShared):
         new_password = "new_password"
 
         response = self.client.post(
-            "/api/user",
+            "/api/users",
             headers={
                 "Authorization": ""},
             json={
@@ -61,7 +61,7 @@ class TestUser(EndpointShared):
             self.admin_email, self.admin_password)
 
         response = self.client.post(
-            "/api/user",
+            "/api/users",
             headers=self.admin_auth_header,
             json={"email": new_email,
                   "name": self.name,
@@ -78,7 +78,7 @@ class TestUser(EndpointShared):
         new_hashed_password = generate_password_hash(new_password)
 
         response = self.client.post(
-            "/api/user",
+            "/api/users",
             headers=self.admin_auth_header,
             json={"email": new_email,
                   "name": self.name,
@@ -89,7 +89,7 @@ class TestUser(EndpointShared):
         assert(response.status_code == 201)
 
         response = self.client.post(
-            "/api/user",
+            "/api/users",
             headers=self.admin_auth_header,
             json={"email": new_email,
                   "name": self.name,
@@ -105,7 +105,7 @@ class TestUser(EndpointShared):
         short_password = "shrt_pw"
 
         response = self.client.post(
-            "/api/user",
+            "/api/users",
             headers=self.admin_auth_header,
             json={"email": new_email,
                   "name": self.name,
@@ -133,8 +133,6 @@ class TestUser(EndpointShared):
 
         assert(response.status_code == 403)
 
-class TestUsers(EndpointShared):
-
     def test_get_users_success(self):
 
         response = self.client.get(
@@ -160,3 +158,20 @@ class TestUsers(EndpointShared):
                 )
 
         assert(response.status_code == 403)
+
+    def test_get_single_user_success(self):
+
+        response = self.client.get(
+            "/api/users/%s" % self.ids[self.email],
+            headers=self.user_auth_header)
+
+        assert(response.status_code == 201)
+
+        data = response.get_json()
+
+        assert data["email"] == self.email
+        assert data["admin"] is False
+        assert data["name"] == self.name
+        assert data["group_name"] == self.group_name
+        assert data["user_id"] == self.ids[self.email]
+        assert data["timestamp"]

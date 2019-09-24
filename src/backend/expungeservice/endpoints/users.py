@@ -10,7 +10,51 @@ from psycopg2.errors import UniqueViolation
 from expungeservice.request.error import error
 
 
-class User(MethodView):
+class Users(MethodView):
+
+    @admin_auth_required
+    def get(self, user_id):
+        """
+        Fetch the list of users, with their user_id, name, group name,
+        email, admin status, and date_created.
+        """
+
+        print("in endpoint; getting with userid = ", user_id)
+
+        if user_id:
+            user_db_data = user.read(g.database, user_id)
+
+            print("user db read result: ", user_db_data)
+
+            if user_db_data:
+                response_data = {
+                    user_db_data["user_id"],
+                    user_db_data["email"],
+                    user_db_data["name"],
+                    user_db_data["group"],
+                    user_db_data["admin"],
+                    user_db_data["timestamp"]}
+                return jsonify(response_data), 201
+
+            else:
+                error(404, "User id not recognized")
+
+        else:
+            user_db_data = user.fetchall(g.database)
+
+            response_data = {"users": []}
+            for user_entry in user_db_data:
+                response_data["users"].append({
+                    "user_id": user_entry["user_id"],
+                    "email": user_entry["email"],
+                    "name": user_entry["name"],
+                    "group_name": user_entry["group_name"],
+                    "admin": user_entry["admin"],
+                    "timestamp": user_entry["date_created"]
+                    })
+
+            return jsonify(response_data), 201
+
     @admin_auth_required
     def post(self):
         """
@@ -55,38 +99,18 @@ class User(MethodView):
             "name": create_user_result["name"],
             "group_name": create_user_result["group_name"],
             "timestamp": create_user_result["date_created"]
-
         }
 
         return jsonify(response_data), 201
 
 
-class Users(MethodView):
-
-    @admin_auth_required
-    def get(self):
-        """
-        Fetch the list of users, with their user_id, name, group name,
-        email, admin status, and date_created.
-        """
-
-        user_db_data = user.fetchall(g.database)
-
-        response_data = {"users": []}
-        for user_entry in user_db_data:
-            response_data["users"].append({
-                "user_id": user_entry["user_id"],
-                "email": user_entry["email"],
-                "name": user_entry["name"],
-                "group_name": user_entry["group_name"],
-                "admin": user_entry["admin"],
-                "timestamp": user_entry["date_created"]
-                })
-
-        return jsonify(response_data), 201
-
-
 def register(app):
-    app.add_url_rule("/api/users", view_func=Users.as_view("users"))
-    app.add_url_rule("/api/user", view_func=User.as_view("user"))
+    user_view = Users.as_view('users')
+    app.add_url_rule('/api/users', defaults={'user_id': None},
+                     view_func=user_view,
+                     methods=['GET'])
 
+    app.add_url_rule('/api/users', view_func=user_view, methods=['POST'])
+    app.add_url_rule('/api/users/<int:user_id>',
+                     view_func=user_view,
+                     methods=['GET', 'PUT'])
