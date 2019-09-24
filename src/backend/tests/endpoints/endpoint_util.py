@@ -39,6 +39,8 @@ class EndpointShared(unittest.TestCase):
     admin_name = "Endpoint AdminTest"
     admin_group_name = "Endpoint AdminTest Group"
 
+    ids = {}
+
     hashed_admin_password = generate_password_hash(admin_password)
 
     def setUp(self):
@@ -60,7 +62,7 @@ class EndpointShared(unittest.TestCase):
             create_result = user.create(
                 g.database, self.email, self.name,
                 self.group_name, self.hashed_password, False)
-            self.ids = {self.email: create_result["user_id"]}
+            self.ids[self.email] = create_result["user_id"]
             create_result = user.create(
                 g.database, self.admin_email, self.admin_name,
                 self.admin_group_name, self.hashed_admin_password, True)

@@ -4,7 +4,8 @@ from werkzeug.security import generate_password_hash
 
 from flask import g
 from expungeservice.database import user
-from expungeservice.endpoints.auth import admin_auth_required
+from expungeservice.endpoints.auth import \
+    user_auth_required, admin_auth_required
 from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
 from expungeservice.request.error import error
@@ -12,7 +13,7 @@ from expungeservice.request.error import error
 
 class Users(MethodView):
 
-    @admin_auth_required
+    @user_auth_required
     def get(self, user_id):
         """
         Fetch the list of users, with their user_id, name, group name,
@@ -28,12 +29,12 @@ class Users(MethodView):
 
             if user_db_data:
                 response_data = {
-                    user_db_data["user_id"],
-                    user_db_data["email"],
-                    user_db_data["name"],
-                    user_db_data["group"],
-                    user_db_data["admin"],
-                    user_db_data["timestamp"]}
+                    "user_id": user_db_data["user_id"],
+                    "email": user_db_data["email"],
+                    "name": user_db_data["name"],
+                    "group_name": user_db_data["group_name"],
+                    "admin": user_db_data["admin"],
+                    "timestamp": user_db_data["date_created"]}
                 return jsonify(response_data), 201
 
             else:
@@ -111,6 +112,6 @@ def register(app):
                      methods=['GET'])
 
     app.add_url_rule('/api/users', view_func=user_view, methods=['POST'])
-    app.add_url_rule('/api/users/<int:user_id>',
+    app.add_url_rule('/api/users/<user_id>',
                      view_func=user_view,
                      methods=['GET', 'PUT'])
