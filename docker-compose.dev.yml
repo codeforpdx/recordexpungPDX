@@ -1,39 +1,66 @@
-version: '3.1'
+version: '3.4'
 
 services:
 
     db:
-        image: recordexpungpdx:database
+        build:
+            context: ./config/postgres
+            network: host
+        container_name: db
         env_file:
             - config/postgres/postgres.env
         volumes:
-            - database_storage:/var/lib/postgresql/data
-        ports:
-            - "5432:5432"
+            - ./config/postgres/data:/var/lib/postgres/data
+        networks:
+            codepdxnet:
+                ipv4_address: 172.16.238.2
 
     expungeservice:
-        image: recordexpungpdx:expungeservice
+        build:
+            context: ./src/backend/expungeservice
+            network: host
+        container_name: expungeservice
         env_file:
             - config/expungeservice/expungeservice.env
+        volumes:
+            - ./src/backend/expungeservice:/var/www/expungeservice
         ports:
             - "5000:5000"
-        depends_on:
-            - db
+        networks:
+            codepdxnet:
+                ipv4_address: 172.16.238.3
+
 
     webserver:
-        image: recordexpungpdx:webserver
+        build:
+            context: ./src/frontend
+            network: host
+        container_name: webserver
+        volumes:
+            - ./src/frontend/src:/usr/src/app/src
         ports:
             - "3000:3000"
-        ### uncomment these lines to disable the webserver in the docker stack.
-        ### This is useful if you'd rather run the npm server while developing frontend code.
-        #deploy:
-        #    replicas: 0
+        networks:
+            codepdxnet:
+                ipv4_address: 172.16.238.4
 
-volumes:
+    nginx:
+        image: nginx:stable
+        container_name: nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ./config/nginx/recordexpunge-nginx.dev.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            codepdxnet:
+                ipv4_address: 172.16.238.5
 
-    database_storage:
-
-
-
-
-
+networks:
+    codepdxnet:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.16.238.0/24
+        driver_opts:
+            com.docker.network.bridge.name: codepdxnet
