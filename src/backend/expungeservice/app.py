@@ -32,5 +32,4 @@ def create_app(env_name):
 
     app.logger.debug("Flask app created!")
 
-
     return app
