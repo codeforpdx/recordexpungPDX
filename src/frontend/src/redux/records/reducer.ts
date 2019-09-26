@@ -8,7 +8,7 @@ const initalState: SearchRecordState = {
   records: []
 };
 
-export function searchRecordsReducer(
+export function recordsReducer(
   state = initalState,
   action: SearchRecordsActionType
 ): SearchRecordState {

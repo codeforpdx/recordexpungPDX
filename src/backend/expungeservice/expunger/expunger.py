@@ -1,4 +1,6 @@
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+from datetime import date as date_class
+from dateutil.relativedelta import relativedelta
 
 
 class Expunger:
@@ -65,8 +67,14 @@ class Expunger:
 
     def _tag_skipped_charges(self):
         for charge in self.charges:
-            if charge.skip_analysis():
+            if Expunger._dispositionless(charge) or charge.skip_analysis():
                 self._skipped_charges.append(charge)
+
+    @staticmethod
+    def _dispositionless(charge):
+        if charge.disposition is None:
+            charge.expungement_result.type_eligibility_reason = "Disposition not found. Needs further analysis"
+            return True
 
     def _remove_skipped_charges(self):
         for charge in self._skipped_charges:

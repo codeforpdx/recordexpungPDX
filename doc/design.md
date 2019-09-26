@@ -4,14 +4,28 @@ Record Expunge System
 Some thoughts on the Record Expunge System.
 
 
-Stack
------
+Table of Contents
+-----------------
+- [Project Stack](#project-stack)
+- [User Flow](#user-flow)
+- [Frontend Routes](#frontend-routes)
+- [Backend Endpoints](#backend-endpoints)
+- [Data Model](#data-model)
+- [Database Schema](#database)
+- [Database Functions](#database-functions)
 
-[ Web Server ]  -- Apache or Nginx, https enabled
+- [License](#license)
 
-[ Application ] -- JavaScript/ReactJS
+Project Stack
+-------------
 
-[ Micro Service ] [ Database ] -- Python, Flask, Requests, PostgreSQL, Psycopg, Swagger
+The app stack is deployed as three services in a Docker stack:
+
+[ Web Server ]  -- Nginx, https enabled. Serves static pages and proxies API calls
+
+[ Backend API ] -- Python, Flask, Psycopg
+
+[ Database ] -- PostgreSQL
 
 
 User Flow
@@ -61,8 +75,8 @@ If user chooses log out:
 - User is directed to login page
 
 
-Application Routes
-------------------
+Frontend Routes
+---------------
 
 These routes are set up in the front-end application for navigating between the different views.
 
@@ -106,8 +120,8 @@ Admin page for creating users
 - admin permissions (T/F)
 
 
-Back-End Endpoints
-------------------
+Backend Endpoints
+-----------------
 
 These endpoints comprise our API. All requests of these endpoints go through the web server.
 
@@ -134,7 +148,9 @@ Returns: auth token
 
 - format: `JSON`
 - fields:
+    * user_id
     * auth_token
+
 
  Status codes:
 
@@ -143,15 +159,73 @@ Returns: auth token
 - `400 BAD FORMAT`: missing email or password
 
 
-**`POST`** `/api/users/`
+**`GET`** `/api/users/`
+
+Fetches the list of existing users. requires admin authorization
+
+Required headers:
+
+- `Authorization: <JWT auth_token>`
+
+Returns: List of users:
+
+- format: `JSON`
+- fields:
+    * users :: list
+        * user_id
+        * email
+        * name
+        * group
+        * admin
+        * date_created_timestamp
+
+Status codes:
+
+- `200 OK`
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `403 FORBIDDEN`: authorized user is not admin
+
+
+**`GET`** `/api/user/user_id`
+
+Required headers:
+
+- `Authorization: <JWT auth_token>`
+
+Returns: Requested user. requires admin authorization or that the logged-in user match the requested user_id.
+
+- format: `JSON`
+- fields:
+    * user_id
+    * email
+    * name
+    * group
+    * admin
+    * timestamp
+    
+
+Status codes:
+
+- `200 OK`
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
+
+
+**`POST`** `/api/user/`
 
 Creates a user
+
+Required headers:
+
+- `Authorization: <JWT string>`
 
 `POST` body:
 
 - format: `JSON`
 - fields:
     * email
+    * name
+    * group
     * password
     * admin
 
@@ -159,12 +233,13 @@ Returns: New user
 
 - format: `JSON`
 - fields:
+    * user_id
     * email
+    * name
+    * group
     * admin
     * timestamp
 
-Note:
-- user_id is not required here so is not returned.
 
 Status codes:
 
@@ -175,24 +250,14 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
-**`GET`** `/api/users/EMAIL`
 
-Returns: Requested user
-
-- format: `JSON`
-- fields:
-    * email
-    * admin permissions
-    * timestamp
-
-Status codes:
-
-- `200 OK`
-
-
-**`POST`** `/api/search`
+**`GET`** `/api/search`
 
 Performs search of remote system
+
+Required headers:
+
+- `Authorization: <JWT auth_token>`
 
 `POST` body:
 
@@ -268,13 +333,9 @@ Tables:
 
     auth (uuid, hashed_password, user_id), uuid primary key
 
-    clients (uuid, first_name, last_name, dob, date_created, date_modified), uuid primary key
-
     result_codes (uuid, code) uuid primary key
 
     rules (uuid, text)
-
-    analyses (client_id, case_id, result_code, statute, date_eligible, rules[], date_created, date_modified, expunged, date_expunged)
 
 
 Notes:

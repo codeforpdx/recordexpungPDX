@@ -5,7 +5,7 @@ class Level800TrafficCrime(BaseCharge):
 
     def __init__(self, **kwargs):
         super(Level800TrafficCrime, self).__init__(**kwargs)
-        if self._expungeable(**kwargs):
+        if self._expungeable():
             self.expungement_result.set_type_eligibility(True)
             self.expungement_result.set_reason('Eligible under 137.225(1)(b)')
         else:
@@ -13,10 +13,13 @@ class Level800TrafficCrime(BaseCharge):
             self.expungement_result.set_reason('Ineligible under 137.225(5)')
 
     def skip_analysis(self):
-        if self.expungement_result.type_eligibility is True:
+        if self._affects_time_analysis():
             return False
         else:
             return True
 
-    def _expungeable(self, **kwargs):
-        return 'misdemeanor' in kwargs['level'].lower() or 'felony' in kwargs['level'].lower()
+    def _expungeable(self):
+        return self.acquitted() and self._affects_time_analysis()
+
+    def _affects_time_analysis(self):
+        return 'misdemeanor' in self.level.lower() or 'felony' in self.level.lower()

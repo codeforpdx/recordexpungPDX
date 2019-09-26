@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+    db:
+        image: recordexpungpdx:database
+        env_file:
+            - ../config/postgres/postgres.env
+        volumes:
+            - database_storage:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+volumes:
+
+    database_storage:
+
+
+
+
+

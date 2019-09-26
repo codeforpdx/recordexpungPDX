@@ -1,16 +1,22 @@
 # recordexpungPDX
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-This README is covers project installation and getting started as a contributor. For more info:
+This README is covers project installation and getting started as a contributor. If you're interested in contributing, please join us at one of our meetup events! https://www.meetup.com/Code-for-PDX/ Also here's a short description of how you could help: [doc/contributing.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/contributing.md)
 
-Project design documentation: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
 
-Additional frontend documentation: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+More documentation:
+ - Project technical design: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
+ - Additional frontend docs, mostly design patterns: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
+ - Some support docs for doing development: 
+   - [doc/development.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/development.md)
+   - Docker usage: [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+   - Dev "workspace" server: [localtools/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/localtools/README.md), 
+ - 
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 ## Table of Contents
-
+- [Tech Overview](#tech-overview)
 - [Installation](#installation)
 - [Running Components](#running-the-docker-stack)
 - [Testing](#testing)
@@ -18,9 +24,20 @@ Additional frontend documentation: [src/frontend/README.md](https://github.com/c
 - [Contributing](#contributing)
 - [License](#license)
 
+## Tech Overview
+
+This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/).
+
+The app is deployed on the free(mium) webapp hosting service, [Heroku](https://www.heroku.com/).
+
+Our latest dev version (this repo's master branch) is publicly viewable! Here: https://recordexpungpdx.herokuapp.com/
+
+**Our dev environment** uses Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies, and [pytest](https://pytest.org/en/latest/) to develop backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
+
 ## Installation
 
-Our dev environment uses pipenv for maintaining backend dependencies, and npm to develop the frontend. Docker is used to build, test, and deploy the app stack. A postgres database runs as a service within the docker stack, which exposes a connection locally for running test code in pipenv.
+To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
+
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
@@ -53,7 +70,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
     * **Windows**
 
-      To install Python 3.7 on Windows, follow the instructions [in this guide.](https://wiki.python.org/moin/BeginnersGuide/Download).
+      Developing this project on Windows is no longer supported in our documentation. The current approach some individual devs are using is to run linux in a VM. Anyone who wants to wrangle Windows is totally free to jump off the deep end! And then report back with supporting documentation :)
 
 3. Install Pipenv
 
@@ -79,9 +96,6 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
       ```
       sudo apt-get install libpq-dev -y
       ```
-    * **Windows**
-
-     TBD
 
 5. Install NPM if you don't already have it installed. [This link provides
 	instructions on how to install Node.js and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
@@ -89,7 +103,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 6. Install backend dependencies:
 
 	A [Makefile](https://www.gnu.org/software/make/) controls installing
-  dependencies, running the Flask app, and removing build artifacts.
+  python dependencies, removing build artifacts, and building / running the Docker stack locally.
 	While in the directory of your local `recordexpungePDX` repo, install the
   backend dependencies by running:
 
@@ -97,7 +111,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 	$ make install
 	```
 
-	Make will read `Pipfile` and install listed Python packages into a `Pipenv`
+  This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
 7. Install frontend dependencies
@@ -121,7 +135,7 @@ Our dev environment uses pipenv for maintaining backend dependencies, and npm to
 
    * **Linux**
 
-        - [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+        - First, follow: [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
@@ -160,7 +174,7 @@ This command builds the docker images (web server, flask backend, and postgres d
 
 Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
 
-For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
+Once you start making local code changes, you'll want to familiarize with some essential Docker commands. For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
 
 
@@ -173,7 +187,8 @@ Run all tests with the following command:
 $ make test
 ```
 
-If all of these tests pass, you have successfully set up the backend dev environment!
+All of these tests should pass if you have correctly set up the backend dev environment.
+
 
 ## Project Layout
 
@@ -234,6 +249,11 @@ If all of these tests pass, you have successfully set up the backend dev environ
   $ git checkout -b BRANCH_NAME
 ```
 
+  Python code should follow the [PEP8 standard](https://www.python.org/dev/peps/pep-0008/). Notably:
+
+  * **module** names should be lowercase and run together, e.g. `mymodule`
+  * **class** names should be camel case, e.g. `MyClass`
+  * **method** and variable names should be snake case, e.g. `my_method()` and `my_var`
 
 ## License
 

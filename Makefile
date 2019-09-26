@@ -1,5 +1,7 @@
 .PHONY: install run clean
 
+
+
 install:
 	pipenv install
 
@@ -11,7 +13,7 @@ clean:
 IMAGES := database_image expungeservice_image webserver_image
 
 STACK_NAME := recordexpungpdx
-DB_NAME := record_expunge
+PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
 REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
 
@@ -22,25 +24,30 @@ dev_deploy: $(IMAGES) dev_start
 	echo $@
 
 dev_start:
+	# This restarts the docker stack without rebuilding the underlying docker images;
+	# to reflect  code changes in the new stack you'll need to rebuild the altered image(s)
+	# with the appropriate make target,
+	# or with `make dev` which rebuilds all three images.
+
 	echo $@
-	docker stack deploy -c docker-compose.yml -c docker-compose.dev.yml $(STACK_NAME)
+	docker stack deploy -c docker-compose.dev.yml $(STACK_NAME)
 
 dev_stop:
 	echo $@
 	docker stack rm $(STACK_NAME)
 
 dev_psql:
-	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(DB_NAME)
+	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
 
 database_image:
-	docker build --no-cache -t $(STACK_NAME):database config/postgres
+	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
 
 expungeservice_image:
-	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice
+	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice -f src/backend/expungeservice/Dockerfile.dev
 
 webserver_image:
 	cp -r src/frontend/ config/nginx/frontend
-	docker build --no-cache -t $(STACK_NAME):webserver config/nginx
+	docker build --no-cache -t $(STACK_NAME):webserver config/nginx -f config/nginx/Dockerfile.dev
 	rm -rf config/nginx/frontend
 
 dblogs:
@@ -51,6 +58,11 @@ applogs:
 
 test:
 	pipenv run pytest --ignore=src/frontend/
+
+dev_stack_test:
+	docker cp ./src/backend/tests/ $$(docker ps -qf name=expungeservice):/var/www/tests
+	docker exec -ti $$(docker ps -qf name=expungeservice) touch /var/www/conftest.py
+	docker exec -ti $$(docker ps -qf name=expungeservice) pytest
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
