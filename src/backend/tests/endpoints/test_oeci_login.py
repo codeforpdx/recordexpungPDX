@@ -8,14 +8,12 @@ from tests.endpoints.endpoint_util import EndpointShared
 
 class TestOeciLogin(EndpointShared):
 
-    def test_oeci_login_success(self):
-
-        def faked_login(a, b, c):
-            return True
+    def mock_login(self, value):
+        return lambda a, b, c: value
 
     def test_oeci_login_success(self):
 
-        oeci_login.Crawler.login = faked_login
+        oeci_login.Crawler.login = self.mock_login(True)
 
         self.client.post(
             "/api/oeci_login", headers=self.admin_auth_header,
@@ -35,12 +33,7 @@ class TestOeciLogin(EndpointShared):
 
     def test_oeci_login_invalid_credentials(self):
 
-        def faked_login(a, b, c):
-            return False
-
-        actual_login = oeci_login.Crawler.login
-
-        oeci_login.Crawler.login = faked_login
+        oeci_login.Crawler.login = self.mock_login(False)
 
         response = self.client.post(
             "/api/oeci_login", headers=self.admin_auth_header,
