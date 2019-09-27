@@ -1,11 +1,6 @@
-import pytest
-import unittest
-from flask import jsonify, current_app, g, request
 import base64
 import cryptography
 import json
-
-import expungeservice
 
 from expungeservice.endpoints import oeci_login
 from tests.endpoints.endpoint_util import EndpointShared
@@ -18,11 +13,11 @@ class TestOeciLogin(EndpointShared):
         def faked_login(a, b, c):
             return True
 
-        actual_login = oeci_login.Crawler.login
+    def test_oeci_login_success(self):
 
         oeci_login.Crawler.login = faked_login
 
-        response = self.client.post(
+        self.client.post(
             "/api/oeci_login", headers=self.admin_auth_header,
             json={"oeci_username": "correctname",
                   "oeci_password": "correctpwd"})
@@ -35,12 +30,8 @@ class TestOeciLogin(EndpointShared):
         creds = json.loads(cipher.decrypt(bytes(
             credentials_cookie_string, "utf-8")))
 
-        print(creds)
-
         assert creds["oeci_username"] == "correctname"
         assert creds["oeci_password"] == "correctpwd"
-
-        oeci_login.Crawler.login = actual_login
 
     def test_oeci_login_invalid_credentials(self):
 
@@ -57,6 +48,3 @@ class TestOeciLogin(EndpointShared):
                   "oeci_password": "wrongpwd"})
 
         assert(response.status_code == 401)
-
-        oeci_login.Crawler.login = actual_login
-
