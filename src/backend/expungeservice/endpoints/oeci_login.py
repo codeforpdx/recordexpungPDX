@@ -30,7 +30,8 @@ class OeciLogin(MethodView):
 
         login_result = Crawler().login(
             data["oeci_username"],
-            data["oeci_password"])
+            data["oeci_password"],
+            True)
 
         if not login_result:
             error(401, "Invalid OECI username or password.")
