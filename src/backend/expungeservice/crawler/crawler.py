@@ -17,11 +17,15 @@ class Crawler:
         self.response = requests.Response
         self.result = RecordParser()
 
-    def login(self, username, password):
+    def login(self, username, password, close=False):
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
 
         self.response = self.session.post(url, data=payload)
+
+        if close:
+            self.session.close()
+
         return Crawler.__login_validation(self.response, url)
 
     def search(self, first_name, last_name, middle_name='', birth_date=''):
