@@ -8,6 +8,13 @@ from tests.endpoints.endpoint_util import EndpointShared
 
 class TestOeciLogin(EndpointShared):
 
+    def setUp(self):
+        EndpointShared.setUp(self)
+        self.login = oeci_login.Crawler.login
+
+    def tearDown(self):
+        oeci_login.Crawler.login = self.login
+
     def mock_login(self, value):
         return lambda a, b, c: value
 
@@ -41,3 +48,4 @@ class TestOeciLogin(EndpointShared):
                   "oeci_password": "wrongpwd"})
 
         assert(response.status_code == 401)
+
