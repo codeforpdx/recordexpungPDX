@@ -17,6 +17,7 @@ requests-mock = "*"
 requests = "*"
 python-dateutil = "*"
 uwsgi = "*"
+cryptography = "*"
 
 [dev-packages]
 

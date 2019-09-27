@@ -1,10 +1,7 @@
 import unittest
 from werkzeug.security import generate_password_hash
-from flask import g
-from flask.views import MethodView
 
 import expungeservice
-from expungeservice.database import user
 from expungeservice.endpoints.auth import *
 
 
