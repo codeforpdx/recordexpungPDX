@@ -6,6 +6,7 @@ services:
         build:
             context: ./config/postgres
             network: host
+            dockerfile: Dockerfile.dev
         container_name: db
         env_file:
             - config/postgres/postgres.env
@@ -19,6 +20,7 @@ services:
         build:
             context: ./src/backend/expungeservice
             network: host
+            dockerfile: Dockerfile.dev
         container_name: expungeservice
         env_file:
             - config/expungeservice/expungeservice.env
