@@ -12,6 +12,8 @@ services:
             - config/postgres/postgres.env
         volumes:
             - ./config/postgres/data:/var/lib/postgres/data
+        ports:
+            - "5432:5432"
         networks:
             codepdxnet:
                 ipv4_address: 172.16.238.2
