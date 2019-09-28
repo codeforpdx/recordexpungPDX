@@ -34,7 +34,7 @@ Our latest dev version (this repo's master branch) is publicly viewable! Here: h
 
 ## Installation
 
-You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code code changes propagate on the local servers right away. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
+You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code changes propagate on the local servers right away. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
   and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
@@ -44,7 +44,7 @@ You can get your dev environment up and running with installing only Docker and 
 
    * **Mac**
 
-        - Follow installation instructions in:[Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+        - Follow installation instructions in: [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
 
           (click on Get Docker for Mac [Stable])
 
@@ -57,9 +57,13 @@ You can get your dev environment up and running with installing only Docker and 
    * **Window**
         - instructions not written. If you use Windows, we'd love your contribution here!
 
+3. Install [docker-compose](https://docs.docker.com/compose/install/)
+
 ### Running the dev stack
 
-In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`
+In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
+
+If you need to rebuild the project (for example if you add new dependencies to the frontend or backend services), you can run the `make dev_build` command.
 
 For more project documentation on Docker, some troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
