@@ -19,6 +19,8 @@ services:
             - "5000:5000"
         depends_on:
             - db
+        volumes:
+            - ./src/backend/tests:/var/www/tests
 
     webserver:
         image: recordexpungpdx:webserver
