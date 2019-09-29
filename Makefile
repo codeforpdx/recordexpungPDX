@@ -1,7 +1,5 @@
 .PHONY: install run clean
 
-
-
 install:
 	pipenv install
 
@@ -52,6 +50,12 @@ dev_stop:
 dev_psql:
 	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
 
+bash_backend:
+	docker exec -it $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) /bin/bash
+
+bash_frontend:
+	docker exec -it $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME)) /bin/bash
+
 database_image:
 	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
 
@@ -67,18 +71,16 @@ dblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))
 
 applogs:
-	docker logs --details -ft $$(docker ps -qf name=${BACKEND_CONTAINER_NAME})
+	docker logs --details -ft $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME))
 
 weblogs:
-	docker logs --details -ft $$(docker ps -qf name=${FRONTEND_CONTAINER_NAME})
+	docker logs --details -ft $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME))
 
 test:
 	pipenv run pytest --ignore=src/frontend/
 
-dev_stack_test:
-	docker cp ./src/backend/tests/ $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}):/var/www/tests
-	docker exec -ti $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}) touch /var/www/conftest.py
-	docker exec -ti $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}) pytest
+dev_test:
+	docker exec $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))

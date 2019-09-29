@@ -4,10 +4,10 @@ RUN python3.7 -m pip install pipenv
 RUN mkdir -p /var/www/expungeservice
 RUN mkdir /var/www/logs/
 
-COPY ./Pipfile ./Pipfile.lock ./setup.py /var/www/expungeservice/
-WORKDIR /var/www/expungeservice
-RUN pipenv install --system --deploy &&\
-    python3.7 -m setup install
+COPY ./Pipfile ./Pipfile.lock /var/www/
+COPY setup-docker.py /var/www/setup.py
+WORKDIR /var/www
+RUN pipenv install --system --deploy
 COPY . /var/www/expungeservice
 
 
