@@ -5,7 +5,6 @@ services:
     db:
         build:
             context: ./config/postgres
-            network: host
             dockerfile: Dockerfile.dev
         container_name: db
         env_file:
@@ -14,14 +13,10 @@ services:
             - ./config/postgres/data:/var/lib/postgres/data
         ports:
             - "5432:5432"
-        networks:
-            codepdxnet:
-                ipv4_address: 172.16.238.2
 
     expungeservice:
         build:
             context: ./src/backend/expungeservice
-            network: host
             dockerfile: Dockerfile.dev
         container_name: expungeservice
         env_file:
@@ -30,23 +25,16 @@ services:
             - ./src/backend/expungeservice:/var/www/expungeservice
         ports:
             - "5000:5000"
-        networks:
-            codepdxnet:
-                ipv4_address: 172.16.238.3
 
 
     webserver:
         build:
             context: ./src/frontend
-            network: host
         container_name: webserver
         volumes:
             - ./src/frontend/src:/usr/src/app/src
         ports:
             - "3000:3000"
-        networks:
-            codepdxnet:
-                ipv4_address: 172.16.238.4
 
     nginx:
         image: nginx:stable
@@ -55,16 +43,3 @@ services:
             - "80:80"
         volumes:
             - ./config/nginx/recordexpunge-nginx.dev.conf:/etc/nginx/conf.d/default.conf
-        networks:
-            codepdxnet:
-                ipv4_address: 172.16.238.5
-
-networks:
-    codepdxnet:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 172.16.238.0/24
-        driver_opts:
-            com.docker.network.bridge.name: codepdxnet
