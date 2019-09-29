@@ -63,6 +63,15 @@ You can get your dev environment up and running with installing only Docker and 
 
 In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
 
+After running `make dev_up`, you can navigate to localhost in the browser and see the frontend running.  You can now log in using either of the following credentials
+
+* Email: admin@email.com, Password: admin
+* Email: user@email.com, Password: user
+
+If you run docker ps, you can see a front end running on localhost:3000, however if you try logging while not on just localhost, you will get a 500 server error.
+
+
+
 If you need to rebuild the project (for example if you add new dependencies to the frontend or backend services), you can run the `make dev_build` command.
 
 For more project documentation on Docker, some troubleshooting, and some basic commands, see:
