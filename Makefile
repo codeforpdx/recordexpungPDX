@@ -15,22 +15,23 @@ IMAGES := database_image expungeservice_image webserver_image
 STACK_NAME := recordexpungpdx
 PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
+BACKEND_CONTAINER_NAME := expungeservice
+FRONTEND_CONTAINER_NAME := webserver
 REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
 
 dev: dev_up
-	echo $@
 
 dev_up:
-	echo $@
-	docker-compose -f docker-compose.dev.yml up
+	docker-compose -f docker-compose.dev.yml up -d
 
 dev_down:
-	echo $@
 	docker-compose -f docker-compose.dev.yml down
 
 dev_build:
-	echo @
 	docker-compose -f docker-compose.dev.yml build
+
+dev_logs:
+	docker-compose -f docker-compose.dev.yml logs -f
 
 dev_deploy: $(IMAGES) dev_start
 	echo $@
@@ -66,15 +67,18 @@ dblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))
 
 applogs:
-	docker logs --details -ft $$(docker ps -qf name=expungeservice)
+	docker logs --details -ft $$(docker ps -qf name=${BACKEND_CONTAINER_NAME})
+
+weblogs:
+	docker logs --details -ft $$(docker ps -qf name=${FRONTEND_CONTAINER_NAME})
 
 test:
 	pipenv run pytest --ignore=src/frontend/
 
 dev_stack_test:
-	docker cp ./src/backend/tests/ $$(docker ps -qf name=expungeservice):/var/www/tests
-	docker exec -ti $$(docker ps -qf name=expungeservice) touch /var/www/conftest.py
-	docker exec -ti $$(docker ps -qf name=expungeservice) pytest
+	docker cp ./src/backend/tests/ $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}):/var/www/tests
+	docker exec -ti $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}) touch /var/www/conftest.py
+	docker exec -ti $$(docker ps -qf name=${BACKEND_CONTAINER_NAME}) pytest
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
