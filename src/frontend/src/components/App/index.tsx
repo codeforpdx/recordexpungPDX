@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import { AppState } from '../../redux/store';
 import { Router, Route } from 'react-router-dom';
 import AllRecords from '../../containers/AllRecords';
-
 import history from '../../service/history';
 import Footer from '../Footer';
 import LogIn from '../LogIn';
