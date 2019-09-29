@@ -1,6 +1,8 @@
 Record Expunge Docker Setup
 ===========================
 
+This document is deprecated.
+
 Documentation
 -------------
 
@@ -89,7 +91,7 @@ Note: the `dev_deploy` target rebuilds every image in the stack which may be tim
 
         docker service rm recordexpungpdx_*
 
-replacing * with the service name e.g.  webserver or expungeservice. This stops the corresponding docker container and also prevents the docker orchestrator from spinning up a replacement container. This is useful if you want to, for example, run the node server for frontend development, since the node daemon automatically and rapidly propagates source code changes. 
+replacing * with the service name e.g.  webserver or expungeservice. This stops the corresponding docker container and also prevents the docker orchestrator from spinning up a replacement container. This is useful if you want to, for example, run the node server for frontend development, since the node daemon automatically and rapidly propagates source code changes.
 
 6. To explore the database:
 

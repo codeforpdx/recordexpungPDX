@@ -136,3 +136,9 @@ venv.bak/
 
 # Ignore CLI documents
 Documents/
+
+# Postgres data volume mount
+config/postgres/data
+
+#VS Code Files
+.vscode

@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+    db:
+        image: recordexpungpdx:database
+        env_file:
+            - config/postgres/postgres.env
+        volumes:
+            - database_storage:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    expungeservice:
+        image: recordexpungpdx:expungeservice
+        env_file:
+            - config/expungeservice/expungeservice.env
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
+        volumes:
+            - ./src/backend/tests:/var/www/tests
+
+    webserver:
+        image: recordexpungpdx:webserver
+        ports:
+            - "3000:3000"
+        ### uncomment these lines to disable the webserver in the docker stack.
+        ### This is useful if you'd rather run the npm server while developing frontend code.
+        #deploy:
+        #    replicas: 0
+
+volumes:
+
+    database_storage:
