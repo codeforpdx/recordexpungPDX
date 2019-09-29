@@ -65,7 +65,7 @@ In the project's root directory, run `make dev_up`. This builds the dev version 
 
 After running `make dev_up`, you can navigate to localhost in the browser and see the frontend running.  You can now log in using either of the following credentials
 
-* Email: admin@dmail.com, Password: admin
+* Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
 If you run docker ps, you can see a front end running on localhost:3000, however if you try logging while not on just localhost, you will get a 500 server error.
