@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { Record } from '../redux/records/types';
 import { loadSearchRecordsMock } from '../redux/records/mock-actions';
+import RecordSearch from '../components/RecordSearch';
 
 type Props = {
   fetch: Function;
@@ -12,19 +13,22 @@ type Props = {
 class AllRecords extends Component<Props> {
   componentDidMount() {
     this.props.fetch();
-    //When we render the search component, fetch should be passed down to it as a prop.
+    //Next we need to pass down the fetch to RecordSearch component as a prop, and trigger it
+    //on a new search instead of componentDidMount.  When this happens we shoud replace the loadSearchRecordsMock function with a real api call
+    //and use the populated fields in the RecrodSearch component as paramaters for the API request.
   }
   render() {
-    // ***NOTE***
-    // Eventually the search and searchResults component will replace the button that is currently rendered.
-    // When this happens fetch will be passed down  to the search componen as a prop and invoked when user searches for records.
-    // The records will then be passed to Redux and passed down as props to searchResults component.
-    return <></>;
+    // We still need to create and import SeachResults component and pass it records down as a prop so that it can render new records
+    // This component should be rendered below the <RecordSearch /> coponent below.
+    return (
+      <>
+        <RecordSearch />
+      </>
+    );
   }
 }
 
 const mapStateToProps = (state: AppState) => {
-  console.log(state.records);
   return {
     records: state.records.records
   };
