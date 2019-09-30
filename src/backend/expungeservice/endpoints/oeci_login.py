@@ -6,7 +6,7 @@ from expungeservice.crawler.crawler import Crawler
 from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
-from expungeservice.crypto import CredentialsCipher
+from expungeservice.crypto import DataCipher
 
 
 class OeciLogin(MethodView):
@@ -37,7 +37,10 @@ class OeciLogin(MethodView):
         if not login_result:
             error(401, "Invalid OECI username or password.")
 
-        encrypted_credentials = CredentialsCipher().encrypt(credentials)
+        cipher = DataCipher(
+            key=current_app.config.get("JWT_SECRET_KEY"))
+
+        encrypted_credentials = cipher.encrypt(credentials)
 
         response = make_response()
 
@@ -45,7 +48,7 @@ class OeciLogin(MethodView):
             "oeci_token",
             secure=True,
             httponly=True,
-            samesite='strict',
+            samesite="strict",
             expires=time.time() + 15 * 60,  # 15 minutes
             value=encrypted_credentials)
 

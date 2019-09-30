@@ -1,10 +1,11 @@
 import base64
 import cryptography
 import json
+from flask import current_app
 
 from expungeservice.endpoints import oeci_login
 from tests.endpoints.endpoint_util import EndpointShared
-from expungeservice.crypto import CredentialsCipher
+from expungeservice.crypto import DataCipher
 
 
 class TestOeciLogin(EndpointShared):
@@ -14,8 +15,8 @@ class TestOeciLogin(EndpointShared):
         self.login = oeci_login.Crawler.login
         with self.app.app_context():
 
-            self.cipher = CredentialsCipher()
-
+            self.cipher = DataCipher(
+                key=current_app.config.get("JWT_SECRET_KEY"))
 
     def tearDown(self):
         oeci_login.Crawler.login = self.login
@@ -35,8 +36,8 @@ class TestOeciLogin(EndpointShared):
         credentials_cookie_string = self.client.cookie_jar._cookies[
             "localhost.local"]["/"]["oeci_token"].value
 
-
         creds = self.cipher.decrypt(credentials_cookie_string)
+
         assert creds["oeci_username"] == "correctname"
         assert creds["oeci_password"] == "correctpwd"
 
