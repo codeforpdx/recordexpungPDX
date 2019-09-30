@@ -218,6 +218,22 @@ pytest ./tests/[subdir]
 
 To specify and run a subset of the test cases.
 
+### Backend virtual environment testing, deprecated
+
+If you want to mess around with backend code outside of the docker container, you can use a locally installed pipenv environment instead. This is our prior setup and shouldn't be necessary, but to temporarily maintain a bit of backwards-compat:
+
+In the project root, run
+
+```
+make install
+```
+
+which will copy the required environment files, and set up a pipenv virtual environment and then you can work in that environment using the
+
+`pipenv shell`
+
+Note that the postgres database can only run in the docker stack so you'll likely want to be running that anyway. Docker and other container systems are the way of the future, yo.
+
 ## Project Layout
 
 `.flaskenv`: Environment variables read by `flask` command-line interface via [python-dotenv](https://github.com/theskumar/python-dotenv)
