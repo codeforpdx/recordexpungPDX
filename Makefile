@@ -1,6 +1,7 @@
 .PHONY: install run clean
 
 install:
+	cp src/backend/expungeservice/Pipfile src/backend/expungeservice/Pipfile.lock ./
 	pipenv install
 
 clean:
