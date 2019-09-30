@@ -34,11 +34,12 @@ class CredentialsCipher():
 
     def decrypt(self, encrypted):
         """
-        decrypts a bytes object into dictionary object.
+        decrypts a string or bytes object into dictionary object.
         """
+        if type(encrypted) == str:
+            encrypted = bytes(encrypted, "utf-8")
 
-        decoded_bytes = bytes(encrypted, "utf-8")
-        json_str = self.cipher.decrypt(decoded_bytes)
+        json_str = self.cipher.decrypt(encrypted)
         credentials = json.loads(json_str)
 
         return credentials
