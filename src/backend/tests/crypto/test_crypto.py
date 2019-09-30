@@ -36,4 +36,3 @@ class TestEncryption(unittest.TestCase):
         c = "a secret message"
 
         assert c == self.cipher.decrypt(self.cipher.encrypt(c))
-

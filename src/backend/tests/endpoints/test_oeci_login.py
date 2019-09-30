@@ -51,4 +51,3 @@ class TestOeciLogin(EndpointShared):
                   "oeci_password": "wrongpwd"})
 
         assert(response.status_code == 401)
-

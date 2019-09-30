@@ -1,5 +1,3 @@
-
-import time
 from cryptography.fernet import Fernet
 import json
 import base64
