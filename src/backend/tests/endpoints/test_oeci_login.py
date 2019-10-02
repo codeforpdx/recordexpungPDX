@@ -1,9 +1,11 @@
 import base64
 import cryptography
 import json
+from flask import current_app
 
 from expungeservice.endpoints import oeci_login
 from tests.endpoints.endpoint_util import EndpointShared
+from expungeservice.crypto import DataCipher
 
 
 class TestOeciLogin(EndpointShared):
@@ -11,12 +13,16 @@ class TestOeciLogin(EndpointShared):
     def setUp(self):
         EndpointShared.setUp(self)
         self.login = oeci_login.Crawler.login
+        with self.app.app_context():
+
+            self.cipher = DataCipher(
+                key=current_app.config.get("JWT_SECRET_KEY"))
 
     def tearDown(self):
         oeci_login.Crawler.login = self.login
 
     def mock_login(self, value):
-        return lambda a, b, c, d: value
+        return lambda s, username, password, close_session: value
 
     def test_oeci_login_success(self):
 
@@ -30,10 +36,7 @@ class TestOeciLogin(EndpointShared):
         credentials_cookie_string = self.client.cookie_jar._cookies[
             "localhost.local"]["/"]["oeci_token"].value
 
-        jwt_key = base64.encodebytes(self.app.config.get("JWT_SECRET_KEY"))
-        cipher = cryptography.fernet.Fernet(key=jwt_key)
-        creds = json.loads(cipher.decrypt(bytes(
-            credentials_cookie_string, "utf-8")))
+        creds = self.cipher.decrypt(credentials_cookie_string)
 
         assert creds["oeci_username"] == "correctname"
         assert creds["oeci_password"] == "correctpwd"
@@ -48,4 +51,3 @@ class TestOeciLogin(EndpointShared):
                   "oeci_password": "wrongpwd"})
 
         assert(response.status_code == 401)
-
