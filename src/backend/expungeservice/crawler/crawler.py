@@ -17,13 +17,13 @@ class Crawler:
         self.response = requests.Response
         self.result = RecordParser()
 
-    def login(self, username, password, close=False):
+    def login(self, username, password, close_session=False):
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
 
         self.response = self.session.post(url, data=payload)
 
-        if close:
+        if close_session:
             self.session.close()
 
         return Crawler.__login_validation(self.response, url)
