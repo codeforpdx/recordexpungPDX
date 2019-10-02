@@ -1,7 +1,7 @@
 from flask.views import MethodView
-from flask import request, abort, jsonify, current_app, g
+from flask import request, abort, current_app, g
+import json
 
-from expungeservice.database import user
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crawler.crawler import Crawler
@@ -18,7 +18,7 @@ class Search(MethodView):
             error(400, "No json data in request body")
 
         check_data_fields(data, ["first_name", "last_name",
-                                 "middle_name", "birthdate"])
+                                 "middle_name", "birth_date"])
 
         """
         Check the request has a cookie,
@@ -36,21 +36,22 @@ class Search(MethodView):
         first_name = data["first_name"]
         last_name = data["last_name"]
         middle_name = data["middle_name"]
-        birthdate = data["birthdate"]
+        birth_date = data["birth_date"]
 
-        record = crawler.search(first_name, last_name, middle_name, birth_date='')
+        record = crawler.search(first_name, last_name, middle_name, birth_date)
 
         """
-        record could be empty. check for that.
+        If the crawler returns nothing, don't expunge.
         """
-
-        expunger = Expunger(record)
+        if record:
+            expunger = Expunger(record)
+            expunger.run()
 
         response_data = {
             "record": record
         }
 
-        return jsonify(response_data)
+        return json.dumps(response_data, cls=ExpungeModelEncoder)
 
 
 def register(app):

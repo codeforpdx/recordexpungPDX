@@ -202,18 +202,18 @@ Returns: Requested user. requires admin authorization or that the logged-in user
     * group
     * admin
     * timestamp
-    
+
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
 
 
 **`POST`** `/api/user/`
 
-Creates a user
+Creates a new user. requires admin authorization
 
 Required headers:
 
@@ -250,28 +250,66 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
+**`POST`** `/api/oeci_login/`
 
-**`GET`** `/api/search`
-
-Performs search of remote system
+Attempts to log into the oeci web portal. If successful, returns ...
 
 Required headers:
 
-- `Authorization: <JWT auth_token>`
+- `Authorization: <JWT string>`
 
 `POST` body:
 
 - format: `JSON`
 - fields:
-    * first name
-    * last name
-    * dob
+    * oeci_username
+    * oeci_password
+
+Returns: encrypted cookie
+
+- response body empty
+- cookie: encrypted json string
+  - fields:
+    * oeci_username
+    * oeci_password
+  - encrypted with Fernet cipher
+
+
+Status codes:
+
+- `201 CREATED`: credentials valided, encrypted, and returned
+- `400 BAD FORMAT`: missing data in request body or one or more fields
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `401 UNAUTHORIZED`: oeci authorization rejected; incorrect username or password
+
+
+**`POST`** `/api/search`
+
+Performs search of remote system, using the search params provided in the request body
+Records anonymous stats on the rearch result and returns a Record object in json response data
+
+Required headers:
+
+- `Authorization: <JWT auth_token>`
+
+Required cookie:
+
+- `{encrypted result of /api/oeci_login endpoint}`
+
+`POST` body:
+
+- format: `JSON`
+- fields:
+    * first_name
+    * last_name
+    * middle_name
+    * birth_date
 
 Returns: Search results
 
 - format: `JSON`
 - fields:
-    * tbd
+    * record
 
 
 **`GET`** `/api/stats`

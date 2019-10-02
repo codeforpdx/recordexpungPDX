@@ -8,7 +8,8 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def record_to_json(self, record):
         return {
             "total_balance_due": record.total_balance_due,
-            "cases": [self.case_to_json(case) for case in record.cases]
+            "cases": [self.case_to_json(case) for case in record.cases],
+            "errors": record.errors
         }
 
     def case_to_json(self, case):
