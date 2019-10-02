@@ -3,7 +3,8 @@ Changelog
 v0.3.3
 
 ## Bug Fixes
-
+ - The function to check if a case is closed now returns true when the term `Purgable` is encountered in the status. (386)
+ -
 
 
 v0.3.2
