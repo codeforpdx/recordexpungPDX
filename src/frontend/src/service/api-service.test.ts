@@ -1,4 +1,5 @@
-//NOTE, JSON data has changed, this file need to be updated
+// NOTE, the API response for records has changed since this file was made.  This test needs to be updated.
+
 import apiService, { Request } from './api-service';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

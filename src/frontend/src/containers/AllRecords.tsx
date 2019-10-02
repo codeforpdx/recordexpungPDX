@@ -17,6 +17,7 @@ class AllRecords extends Component<Props> {
     //on a new search instead of componentDidMount.  When this happens we shoud replace the loadSearchRecordsMock function with a real api call
     //and use the populated fields in the RecrodSearch component as paramaters for the API request.
   }
+
   render() {
     // We still need to create and import SeachResults component and pass it records down as a prop so that it can render new records
     // This component should be rendered below the <RecordSearch /> coponent below.
