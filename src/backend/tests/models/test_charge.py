@@ -141,3 +141,11 @@ class TestTrafficTickets(unittest.TestCase):
         charge = ChargeFactory.save(self.charge)
 
         assert charge.__class__.__name__ == 'ParkingTicket'
+
+    def test_parking_ticket_created_by_case_type(self):
+        case = CaseFactory.create(type_status=['Municipal Parking', 'Closed'])
+        self.charge['statute'] = '109'
+        self.charge['case'] = case
+        charge = ChargeFactory.save(self.charge)
+
+        assert charge.__class__.__name__ == 'ParkingTicket'
