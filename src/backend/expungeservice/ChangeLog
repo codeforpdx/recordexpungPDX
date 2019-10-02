@@ -2,6 +2,9 @@ Changelog
 
 v0.3.3
 
+## Enhancements
+ - Improved CLI output for better readability
+
 ## Bug Fixes
 
  - The function to check if a case is closed now returns true when the term `Purgable` is encountered in the status. (386)
