@@ -1,8 +1,6 @@
 .PHONY: install run clean
 
 install:
-	cp src/backend/expungeservice/Pipfile src/backend/expungeservice/Pipfile.lock ./
-	cp ./.env.example ./.env
 	pipenv install
 
 clean:

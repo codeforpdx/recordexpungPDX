@@ -157,6 +157,8 @@ This is a deprecated setup that runs the backend tests, the flask dev server, an
   This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
+  Note: due to our new setup with docker, the `Pipfile` and `Pipfile.lock` files are no longer in the project root directory. Copy them if you want to use pipenv. More cleanup and removal of this deprecated setup is forthcoming.
+
 7. Install frontend dependencies
 
 	While in the directory of your local `recordexpungePDX` repo, enter into your

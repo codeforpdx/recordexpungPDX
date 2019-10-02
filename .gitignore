@@ -142,7 +142,3 @@ config/postgres/data
 
 #VS Code Files
 .vscode
-
-#Second Pipfile copy
-/Pipfile
-/Pipfile.lock
