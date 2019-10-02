@@ -59,7 +59,7 @@ You can get your dev environment up and running with installing only Docker and 
 
 3. Install [docker-compose](https://docs.docker.com/compose/install/)
 
-### Running the dev stack
+### Running the docker stack
 
 In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
 
@@ -80,7 +80,7 @@ For more project documentation on Docker, some troubleshooting, and some basic c
 
 ## Installation, deprecated:
 
-This is a deprecated setup that runs the backend tests, the flask dev server, and/or the npm dev server natively. With Docker set up correctly you shouldn't have to use this. The above is a work in progress but *should* be the easiest setup, so if you have any trouble at all please ping the slack channel.
+This is a deprecated setup that runs the backend tests, the flask dev server, and/or the npm dev server natively. With Docker set up correctly you shouldn't have to use this. The above is a newly added feature but it *should* be the easiest setup, so if you have any trouble at all please ping the slack channel.
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
@@ -157,6 +157,8 @@ This is a deprecated setup that runs the backend tests, the flask dev server, an
   This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
+  Note: due to our new setup with docker, the `Pipfile` and `Pipfile.lock` files are no longer in the project root directory. Copy them if you want to use pipenv. More cleanup and removal of this deprecated setup is forthcoming.
+
 7. Install frontend dependencies
 
 	While in the directory of your local `recordexpungePDX` repo, enter into your
@@ -182,14 +184,6 @@ This is a deprecated setup that runs the backend tests, the flask dev server, an
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
-9. Create a local .env file
-
-While in the directory of your local repo, run:
-```
-cp .env.example .env
-
-```
-
 ##### Cleaning
 
 While in the directory of your local repo, run:
@@ -202,15 +196,29 @@ in order to remove build artifacts.
 
 ## Testing
 
-Currently using [pytest](https://docs.pytest.org) for testing.
-Run all tests with the following command:
+Currently using [pytest](https://docs.pytest.org) for testing the backend.
+Run all tests by running the following command in the project root directory:
 
-```bash
-$ make test
+```
+$ make dev_test
 ```
 
-All of these tests should pass if you have correctly set up the backend dev environment.
+This runs a `pytest` command inside the backend docker container. All of these tests should pass if you have correctly set up the backend dev environment.
 
+
+To run a smaller set of test cases, or to test the backend code interactively, you can run
+
+```
+make bash_backend
+```
+
+To open a shell inside the backend container. You can then run the python interactive shell or
+
+```
+pytest ./tests/[subdir]
+```
+
+To specify and run a subset of the test cases.
 
 ## Project Layout
 
