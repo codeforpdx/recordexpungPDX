@@ -17,7 +17,7 @@ class Crawler:
         self.response = requests.Response
         self.result = RecordParser()
 
-    def login(self, username, password, close_session=True):
+    def login(self, username, password, close_session=False):
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
 
