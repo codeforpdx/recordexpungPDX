@@ -80,7 +80,7 @@ test:
 	pipenv run pytest --ignore=src/frontend/
 
 dev_test:
-	docker exec $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
+	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
 
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
