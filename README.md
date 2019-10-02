@@ -203,19 +203,27 @@ Run all tests by running the following command in the project root directory:
 $ make dev_test
 ```
 
-This runs a `pytest` command inside the backend docker container. All of these tests should pass if you have correctly set up the backend dev environment.
+This runs a `pytest` command to execute all the unit tests inside the backend docker container. All of these tests should pass if you have correctly set up the backend dev environment.
 
-
-To run a smaller set of test cases, or to test the backend code interactively, you can run
+There are also make targets to operate in a docker container interactively: 
 
 ```
 make bash_backend
 ```
 
-To open a shell inside the backend container. You can then run the python interactive shell or
+or 
 
 ```
-pytest ./tests/[subdir]
+make bash_frontend
+```
+
+
+which opens a bash shell inside the respective container. In the backend container, you can then run the python interactive shell `python3` or `pytest` commands.
+
+To run a subset of test cases without first shelling into the docker container, you can use a docker `exec` command, which specifies a container by name and a runnable command in the container in a single step, e.g.: 
+
+```
+docker exec -t expungeservice pytest ./tests/[subdir]
 ```
 
 To specify and run a subset of the test cases.
