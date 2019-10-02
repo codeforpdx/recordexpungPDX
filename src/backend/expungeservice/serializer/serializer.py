@@ -2,7 +2,7 @@ import flask
 import expungeservice
 
 
-class ExpungeModelJsonifier(flask.json.JSONEncoder):
+class ExpungeModelEncoder(flask.json.JSONEncoder):
 
 
     def record_to_json(self, record):
