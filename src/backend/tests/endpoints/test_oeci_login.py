@@ -22,7 +22,7 @@ class TestOeciLogin(EndpointShared):
         oeci_login.Crawler.login = self.login
 
     def mock_login(self, value):
-        return lambda a, b, c, d: value
+        return lambda s, username, password, close_session: value
 
     def test_oeci_login_success(self):
 

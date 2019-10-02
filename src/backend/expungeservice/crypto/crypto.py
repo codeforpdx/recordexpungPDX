@@ -26,12 +26,9 @@ class DataCipher():
         encrypts a serializable data object into a bytes object.
         """
 
-        json_str = json.dumps(data)
-        utf_encoded = json_str.encode("utf-8")
+        utf_encoded_json = json.dumps(data).encode("utf-8")
 
-        encrypted = self.cipher.encrypt(bytes(utf_encoded))
-
-        return encrypted
+        return self.cipher.encrypt(bytes(utf_encoded_json))
 
     def decrypt(self, encrypted):
         """
@@ -42,6 +39,6 @@ class DataCipher():
             encrypted = bytes(encrypted, "utf-8")
 
         json_str = self.cipher.decrypt(encrypted)
-        data = json.loads(json_str)
+        deserialzed_data = json.loads(json_str)
 
-        return data
+        return deserialzed_data
