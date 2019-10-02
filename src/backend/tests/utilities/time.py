@@ -16,8 +16,9 @@ class Time:
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-    TOMORROW = date.today() + relativedelta(days=+1)
+    YESTERDAY = (date.today() + relativedelta(days=-1)).strftime('%m/%d/%Y')
 
+    TOMORROW = date.today() + relativedelta(days=+1)
     ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
     THREE_YEARS = relativedelta(years=3)
     TEN_YEARS = relativedelta(years=10)
