@@ -14,14 +14,10 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
     TEN_YEARS = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
     LESS_THAN_TEN_YEARS_AGO = (date.today() + relativedelta(years=-10, days=+1)).strftime('%m/%d/%Y')
     LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
+    FOUR_YEARS_AGO = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-
-    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
-    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
-    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
 
     def test_expunger_sets_most_recent_dismissal_when_charge_is_less_than_3yrs(self):
         case = CaseFactory.create()
@@ -113,14 +109,10 @@ class TestMostRecentConvictions(unittest.TestCase):
     TEN_YEARS = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
     LESS_THAN_TEN_YEARS_AGO = (date.today() + relativedelta(years=-10, days=+1)).strftime('%m/%d/%Y')
     LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
+    FOUR_YEARS_AGO = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
     THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
     TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
     ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-
-    TWO_YEAR_AGO_DATE = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
-    ONE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-    THREE_YEAR_AGO_DATE = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
-    FOUR_YEAR_AGO_DATE = (date.today() + relativedelta(years=-4)).strftime('%m/%d/%Y')
 
     def test_it_sets_most_recent_conviction_from_the_last_10yrs(self):
         case = CaseFactory.create()
@@ -197,7 +189,7 @@ class TestMostRecentConvictions(unittest.TestCase):
         one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
                                                        statute='825.999',
                                                        level='Class C traffic violation',
-                                                       disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
+                                                       disposition=['Convicted', self.ONE_YEAR_AGO])
 
         case.charges = [one_year_traffic_charge]
         record = Record([case])
@@ -212,13 +204,13 @@ class TestMostRecentConvictions(unittest.TestCase):
         one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
                                                        statute='825.999',
                                                        level='Class C traffic violation',
-                                                       disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
-        two_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.TWO_YEAR_AGO_DATE])
-        three_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.THREE_YEAR_AGO_DATE])
+                                                       disposition=['Convicted', self.ONE_YEAR_AGO])
+        two_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.TWO_YEARS_AGO])
+        three_year_ago_dismissal = ChargeFactory.create(disposition=['Dismissed', self.THREE_YEARS_AGO])
         four_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
                                                         statute='825.999',
                                                         level='Class C traffic violation',
-                                                        disposition=['Convicted', self.FOUR_YEAR_AGO_DATE])
+                                                        disposition=['Convicted', self.FOUR_YEARS_AGO])
 
         case.charges = [one_year_traffic_charge, two_year_ago_dismissal, three_year_ago_dismissal, four_year_traffic_charge]
         record = Record([case])
@@ -231,7 +223,7 @@ class TestMostRecentConvictions(unittest.TestCase):
     def test_parking_ticket_is_not_recent_charge(self):
         case = CaseFactory.create()
         parking_ticket = ChargeFactory.create(statute='40',
-                                              disposition=['Convicted', self.ONE_YEAR_AGO_DATE])
+                                              disposition=['Convicted', self.ONE_YEAR_AGO])
 
         case.charges = [parking_ticket]
         record = Record([case])
