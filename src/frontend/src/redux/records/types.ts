@@ -31,7 +31,7 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordsAction {
-  type: string;
+  type: typeof LOAD_SEARCH_RECORDS;
   search_records: Record[];
 }
 
