@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Switch } from 'react-router-dom';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import history from '../../service/history';
 
 import LogIn from '../LogIn';
@@ -14,6 +14,8 @@ import PublicRoute from '../PublicRoute';
 import InterimPage from '../InterimPage';
 
 class AppRouter extends React.Component {
+  public redirect = () => <Redirect to="/" />;
+
   public render() {
     return (
       <Router history={history}>
@@ -27,6 +29,10 @@ class AppRouter extends React.Component {
           <PublicRoute exact={true} path="/" component={LogIn} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
+
+          {/* This route catches undefined url entries and redirects back to app
+              we could put a 404 page in place at some point */}
+          <Route render={this.redirect} />
         </Switch>
       </Router>
     );

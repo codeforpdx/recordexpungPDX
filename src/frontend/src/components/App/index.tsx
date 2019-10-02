@@ -39,20 +39,14 @@ class App extends React.Component<Props> {
     });
   }
 
-  public displayHeader = () =>
-    this.props.system.loggedIn ? <LoggedInHeader /> : null;
-
-  public displayApp = () =>
-    this.state.loading ? null : (
+  public render() {
+    return this.state.loading ? null : (
       <>
-        {this.displayHeader()}
+        <LoggedInHeader />
         <AppRouter />
         <Footer />
       </>
     );
-
-  public render() {
-    return this.displayApp();
   }
 }
 
