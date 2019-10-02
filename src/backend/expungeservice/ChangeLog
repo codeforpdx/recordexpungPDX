@@ -3,9 +3,13 @@ Changelog
 v0.3.3
 
 ## Bug Fixes
+
  - The function to check if a case is closed now returns true when the term `Purgable` is encountered in the status. (386)
  - Fixed issue where parking tickets that were acquitted were being tagged as type eligible. Parking tickets are never type eligible. (369)
+ - Fixed issue where some parking tickets were being missed due to the difference in reporting statute codes. Parking tickets are now created by case type `Municipal Parking` after statute creation fails. (#427)
 
+
+________________________________________________________________________________________________
 
 v0.3.2
 

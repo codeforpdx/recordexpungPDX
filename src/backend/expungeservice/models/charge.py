@@ -39,6 +39,8 @@ class Charge:
             cls.classification = 'JuvenileCharge'
         Charge._set_classification_by_statute(statute, chapter, section)
         if not cls.classification:
+            Charge._municipal_parking(case)
+        if not cls.classification:
             Charge._set_classification_by_level(level)
         if not cls.classification:
             cls.classification = 'UnclassifiedCharge'
@@ -102,6 +104,11 @@ class Charge:
     def _schedule_1_pcs(cls, section):
         if section in ['475854', '475874', '475884', '475894']:
             cls.classification = 'Schedule1PCS'
+
+    @classmethod
+    def _municipal_parking(cls, case):
+        if 'parking' in case.violation_type.lower():
+            cls.classification = 'ParkingTicket'
 
     @classmethod
     def _non_traffic_violation(cls, level):
