@@ -4,7 +4,7 @@ v0.3.3
 
 ## Bug Fixes
 
-
+ - Fixed issue where some parking tickets were being missed due to the difference in reporting statute codes. Parking tickets are now created by case type `Municipal Parking` after statute creation fails. (#427)
 
 v0.3.2
 
