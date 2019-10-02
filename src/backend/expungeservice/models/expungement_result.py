@@ -12,12 +12,3 @@ class ExpungementResult:
 
     def set_reason(self, reason):
         self.type_eligibility_reason = reason
-
-    def __dict__(self):
-        return {
-            "type_eligibility": self.type_eligibility,
-            "type_eligibility_reason": self.type_eligibility_reason,
-            "time_eligibility": self.time_eligibility,
-            "time_eligibility_reason": self.time_eligibility,
-            "date_of_eligibility": self.date_of_eligibility
-        }

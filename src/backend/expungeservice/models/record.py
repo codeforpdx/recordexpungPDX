@@ -20,9 +20,3 @@ class Record:
             total += case.balance_due_in_cents
 
         return total/100.0
-
-    def __dict__(self):
-        return {
-            "total_balance_due": self.total_balance_due,
-            "cases": [case.__dict__() for case in self.cases]
-        }
