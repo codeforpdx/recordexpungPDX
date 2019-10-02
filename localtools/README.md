@@ -1,11 +1,9 @@
 
 ### Workspace Nginx Server
 
-WARNING: this tool is janky as hell and pretty fragile. If you want to use it but it doesn't run "out of the box," ask Jordan and/or give him a hard time.
+This tool is depracated and will be deleted soon. Its purpose is subsumed by our main install setup using docker-compose.
 
-TODO: rewrite the steps in the ./launch_workspace.sh script into a Makefile that separates out some of the steps into different targets. This will make it easier to use and more reliable.
-
-This tool runs the frontend and backend dev servers behind a shared nginx server, allowing both to pick up and publish local code changes right away. This setup bypasses a [CORS error](https://developer.mozilla.org/en-US/docs/Glossary/CORS) (Cross-Origin Resource Sharing) that would throw if the servers simply run natively at different ports.
+This runs the frontend and backend dev servers behind a shared nginx server, allowing both to pick up and publish local code changes right away. This setup bypasses a [CORS error](https://developer.mozilla.org/en-US/docs/Glossary/CORS) (Cross-Origin Resource Sharing) that would throw if the servers simply run natively at different ports.
 
 The backend functions that hit the postgres database still need the docker stack running to host it, so this runs a docker stack setup containing only the the database.
 

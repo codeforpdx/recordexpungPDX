@@ -7,11 +7,9 @@ This README is covers project installation and getting started as a contributor.
 More documentation:
  - Project technical design: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
  - Additional frontend docs, mostly design patterns: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
- - Some support docs for doing development: 
+ - Some support docs for doing development:
    - [doc/development.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/development.md)
    - Docker usage: [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
-   - Dev "workspace" server: [localtools/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/localtools/README.md), 
- - 
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
@@ -36,8 +34,53 @@ Our latest dev version (this repo's master branch) is publicly viewable! Here: h
 
 ## Installation
 
-To get your dev environment set up for running the app locally and becoming a contributor, you'll rely on all the afore-mentioned technologies. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
+You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code changes propagate on the local servers right away. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)! If you don't have access to the slack channel yet, please ask our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 
+1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
+  and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
+
+
+2. Install docker
+
+   * **Mac**
+
+        - Follow installation instructions in: [Getting Started -- Docker on Mac OS X](https://medium.com/allenhwkim/getting-started-docker-on-mac-os-x-72c64670464a)
+
+          (click on Get Docker for Mac [Stable])
+
+   * **Linux**
+
+        - First, follow: [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
+
+        - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
+
+   * **Window**
+        - instructions not written. If you use Windows, we'd love your contribution here!
+
+3. Install [docker-compose](https://docs.docker.com/compose/install/)
+
+### Running the docker stack
+
+In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
+
+After running `make dev_up`, you can navigate to localhost in the browser and see the frontend running.  You can now log in using either of the following credentials
+
+* Email: admin@email.com, Password: admin
+* Email: user@email.com, Password: user
+
+If you run docker ps, you can see a front end running on localhost:3000, however if you try logging while not on just localhost, you will get a 500 server error.
+
+
+
+If you need to rebuild the project (for example if you add new dependencies to the frontend or backend services), you can run the `make dev_build` command.
+
+For more project documentation on Docker, some troubleshooting, and some basic commands, see:
+[doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+
+
+## Installation, deprecated:
+
+This is a deprecated setup that runs the backend tests, the flask dev server, and/or the npm dev server natively. With Docker set up correctly you shouldn't have to use this. The above is a newly added feature but it *should* be the easiest setup, so if you have any trouble at all please ping the slack channel.
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
 	and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
@@ -114,6 +157,8 @@ To get your dev environment set up for running the app locally and becoming a co
   This will read `Pipfile` and install listed Python packages into a `Pipenv`
   virtualenv.
 
+  Note: due to our new setup with docker, the `Pipfile` and `Pipfile.lock` files are no longer in the project root directory. Copy them if you want to use pipenv. More cleanup and removal of this deprecated setup is forthcoming.
+
 7. Install frontend dependencies
 
 	While in the directory of your local `recordexpungePDX` repo, enter into your
@@ -139,14 +184,6 @@ To get your dev environment set up for running the app locally and becoming a co
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
-9. Create a local .env file
-
-While in the directory of your local repo, run:
-```
-cp .env.example .env
-
-```
-
 ##### Cleaning
 
 While in the directory of your local repo, run:
@@ -156,39 +193,40 @@ $ make clean
 ```
 in order to remove build artifacts.
 
-## Running the Docker stack
-
-Docker provides a fully sandboxed virtual environment from which we will run the app in production. The project stack must be built and run locally for the complete set of tests (discussed below) to pass, because it runs a local instance of the database. While in the directory of your local repo, run:
-
-```
-docker swarm init
-```
-
-This enables docker to run a stack locally and only needs to be run once.
-
-```
-make dev
-```
-
-This command builds the docker images (web server, flask backend, and postgres database) and launches a docker stack running the three services. Verify the backend is serving requests by navigating to `http://localhost:5000/api/hello`. The frontend can be reached at `http://localhost:3000`.
-
-Note: running docker requires root access by default. If you try to run this command with sudo it may fail because it messes up pipenv. Be sure to configure docker so you can run it without using sudo (see above).
-
-Once you start making local code changes, you'll want to familiarize with some essential Docker commands. For more project documentation on our Docker setup, troubleshooting, and some basic commands, see:
-[doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
-
 
 ## Testing
 
-Currently using [pytest](https://docs.pytest.org) for testing.
-Run all tests with the following command:
+Currently using [pytest](https://docs.pytest.org) for testing the backend.
+Run all tests by running the following command in the project root directory:
 
-```bash
-$ make test
+```
+$ make dev_test
 ```
 
-All of these tests should pass if you have correctly set up the backend dev environment.
+This runs a `pytest` command to execute all the unit tests inside the backend docker container. All of these tests should pass if you have correctly set up the backend dev environment.
 
+There are also make targets to operate in a docker container interactively: 
+
+```
+make bash_backend
+```
+
+or 
+
+```
+make bash_frontend
+```
+
+
+which opens a bash shell inside the respective container. In the backend container, you can then run the python interactive shell `python3` or `pytest` commands.
+
+To run a subset of test cases without first shelling into the docker container, you can use a docker `exec` command, which specifies a container by name and a runnable command in the container in a single step, e.g.: 
+
+```
+docker exec -t expungeservice pytest ./tests/[subdir]
+```
+
+To specify and run a subset of the test cases.
 
 ## Project Layout
 

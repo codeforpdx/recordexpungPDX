@@ -30,7 +30,7 @@ class TestCaseClosedMethod(unittest.TestCase):
         self.case = CaseFactory.create()
 
     def test_it_returns_true_for_a_closed_case(self):
-        self.case.current_status = 'Closed'
+        self.case.current_status = 'Closed' 
         assert self.case.closed() is True
 
     def test_it_returns_false_for_an_open_case(self):
@@ -41,6 +41,9 @@ class TestCaseClosedMethod(unittest.TestCase):
         self.case.current_status = 'Inactive'
         assert self.case.closed() is True
 
+    def test_it_returns_true_for_a_purged_case(self):
+        self.case.current_status = 'Purgable' 
+        assert self.case.closed() is True
 
 class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
 

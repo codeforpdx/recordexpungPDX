@@ -12,74 +12,14 @@ from expungeservice.endpoints.auth import *
 
 
 import expungeservice
+from tests.endpoints.endpoint_util import EndpointShared
 
 
-'''
-protected-view template endpoints.
-'''
-
-
-class AdminProtectedView(MethodView):
-    @admin_auth_required
-    def get(self):
-        return 'Admin-level Protected View'
-
-
-class UserProtectedView(MethodView):
-            @user_auth_required
-            def get(self):
-                return 'User-level Protected View'
-
-
-class TestAuth(unittest.TestCase):
-
-    email = 'pytest_user@auth_test.com'
-    ids = {}
-    name = 'AuthTest Name'
-    group_name = 'AuthTest Group Name'
-    password = 'pytest_password'
-    hashed_password = generate_password_hash(password)
+class TestAuth(EndpointShared):
 
     def setUp(self):
 
-        self.app = expungeservice.create_app('development')
-        self.client = self.app.test_client()
-
-        self.app.add_url_rule(
-            '/api/test/user_protected', view_func=UserProtectedView.as_view(
-                'user_protected'))
-        self.app.add_url_rule(
-            '/api/test/admin_protected', view_func=AdminProtectedView.as_view(
-                'admin_protected'))
-
-        with self.app.app_context():
-            expungeservice.request.before()
-
-            self.db_cleanup()
-            db_create_user_result = user.create(
-                g.database, self.email, self.name, self.group_name,
-                self.hashed_password, False)
-            self.ids[self.email] = db_create_user_result['user_id']
-            expungeservice.request.teardown(None)
-
-    def tearDown(self):
-        with self.app.app_context():
-            expungeservice.request.before()
-
-            self.db_cleanup()
-            expungeservice.request.teardown(None)
-
-    def db_cleanup(self):
-
-        cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
-        g.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
-        g.database.connection.commit()
-
-    def generate_auth_token(self, email, password):
-        return self.client.post('/api/auth_token', json={
-            'email': email,
-            'password': password,
-        })
+        EndpointShared.setUp(self)
 
     def test_auth_token_valid_credentials(self):
         response = self.generate_auth_token(self.email, self.password)
