@@ -11,3 +11,9 @@ class Disposition:
         if date:
             return datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         return None
+
+    def __dict__(self):
+        return {
+            "date": self.date ,
+            "ruling": self.ruling
+        }

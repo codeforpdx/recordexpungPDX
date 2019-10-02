@@ -52,3 +52,13 @@ class BaseCharge:
         self.expungement_result.time_eligibility = True
         self.expungement_result.time_eligibility_reason = reason
         self.expungement_result.date_of_eligibility = None
+
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "statute": self.statute,
+            "level": self.level,
+            "date": self.date,
+            "disposition": self.disposition.__dict__(),
+            "expungement_result": self.expungement_result.__dict__(),
+        }
