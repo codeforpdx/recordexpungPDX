@@ -1,33 +1,38 @@
 import React, { ComponentClass } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import history from '../../service/history';
+import { AppState } from '../../redux/store';
+import { connect } from 'react-redux';
 
 interface Props {
   component: ComponentClass;
-  isAuthenticated: boolean;
+  loggedIn: boolean;
   path: string;
   exact?: boolean;
 }
 
-const PublicRoute = ({
-  component: Component,
-  isAuthenticated,
-  ...rest
-}: Props) => {
-  const displayComponent = (props: any) => {
-    console.log(props.location);
-    if (!isAuthenticated) {
-      return <Component />;
-    } else {
-      props.location.state ? history.goBack() : history.replace('/oeci');
-    }
+class PublicRoute extends React.Component<Props> {
+  public isAuthenticated = () => this.props.loggedIn;
+
+  public displayComponent = () => {
+    const { component: Component, ...props } = this.props;
+
+    // checks if there is current authentication:
+    // if authenticated it redirects to the OECI login
+    // otherwise it renders the desired component
+    return this.isAuthenticated() ? (
+      <Redirect to="/oeci" />
+    ) : (
+      <Component {...props} />
+    );
   };
 
-  return (
-    <Route {...rest} path="path" render={props => displayComponent(props)} />
-    //   {displayComponent()}
-    // </Route>
-  );
-};
+  public render() {
+    return <Route render={this.displayComponent} />;
+  }
+}
 
-export default PublicRoute;
+const mapStateToProps = (state: AppState) => ({
+  loggedIn: state.system.loggedIn
+});
+
+export default connect(mapStateToProps)(PublicRoute);
