@@ -5,6 +5,7 @@ interface Cookie {
 
 export function decodeCookie() {
   // this decodes the cookie creating an object with {key: `value`} pairs
+  // https://gist.github.com/rendro/525bbbf85e84fa9042c2#gistcomment-2784930
   const data: any = document.cookie.split(';').reduce((res, c) => {
     const [key, val] = c
       .trim()
