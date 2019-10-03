@@ -12,6 +12,7 @@
 // Convicted: 2/12/1987
 // Case: ZA0061902
 // Case Balance: None
+
 export interface Record {
   time: string;
   type: string;
@@ -22,18 +23,18 @@ export interface Record {
   caseBalance: string;
 }
 
-export interface RecordsState {
+// These constants are used as the 'type' field in Redux actions.
+export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
+
+export interface SearchRecordState {
   records: Record[];
 }
 
-// These constants are used as the 'type' field in Redux actions.
-export const LOAD_RECORDS = 'LOAD_RECORDS';
-
-interface LoadRecordsAction {
-  type: typeof LOAD_RECORDS;
-  records: Record[];
+interface SearchRecordsAction {
+  type: typeof LOAD_SEARCH_RECORDS;
+  search_records: Record[];
 }
 
 // Add other Action types here like so:
 // export type RecordActionTypes = LoadRecordsAction | OtherRecordsAction;
-export type RecordActionTypes = LoadRecordsAction;
+export type SearchRecordsActionType = SearchRecordsAction;

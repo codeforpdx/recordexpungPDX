@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { loadRecords } from '../../redux/records/actions';
 import { SystemState } from '../../redux/system/types';
 import moment from 'moment';
 
@@ -156,7 +155,4 @@ const mapStateToProps = (state: AppState) => ({
   system: state.system
 });
 
-export default connect(
-  mapStateToProps,
-  { loadRecords }
-)(RecordSearch);
+export default connect(mapStateToProps)(RecordSearch);

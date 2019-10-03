@@ -16,7 +16,7 @@ class Expunger:
     """
 
     def __init__(self, record):
-        '''
+        """
         Constructor
         most_recent_conviction: Most recent conviction if one exists from within the last ten years
         second_most_recent_conviction: Second most recent conviction if one exists from within the last ten years
@@ -26,7 +26,7 @@ class Expunger:
         most_recent_charge: The most recent charge within the last 20yrs; excluding traffic violations
 
         :param record: A Record object
-        '''
+        """
         self.record = record
         self.charges = record.charges
         self.errors = []
@@ -37,6 +37,7 @@ class Expunger:
         self.most_recent_charge = None
         self.acquittals = []
         self.convictions = []
+        self._recent_convictions = []
         self.class_b_felonies = []
 
     def run(self):
@@ -52,8 +53,10 @@ class Expunger:
         self._tag_skipped_charges()
         self._remove_skipped_charges()
         self._categorize_charges()
+        self._extract_most_recent_convictions()
         self._set_most_recent_dismissal()
-        self._set_most_recent_convictions()
+        self._set_recent_conviction()
+        self._set_second_most_recent_conviction()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
         TimeAnalyzer.evaluate(self)
@@ -87,17 +90,37 @@ class Expunger:
             else:
                 self.convictions.append(charge)
 
+    def _extract_most_recent_convictions(self):
+        for charge in self.convictions:
+            if charge.recent_conviction():
+                self._recent_convictions.append(charge)
+
     def _set_most_recent_dismissal(self):
         self.acquittals.sort(key=lambda charge: charge.date)
         if self.acquittals and self.acquittals[-1].recent_acquittal():
             self.most_recent_dismissal = self.acquittals[-1]
 
-    def _set_most_recent_convictions(self):
-        self.convictions.sort(key=lambda charge: charge.disposition.date)
-        if len(self.convictions) > 0 and self.convictions[-1].recent_conviction():
-            self.most_recent_conviction = self.convictions[-1]
-        if len(self.convictions) > 1 and self.convictions[-2].recent_conviction():
-            self.second_most_recent_conviction = self.convictions[-2]
+    def _set_recent_conviction(self, set_mrc=True):
+        self._recent_convictions.sort(key=lambda charge: charge.disposition.date)
+        if len(self._recent_convictions) > 0:
+            if self._recent_convictions[-1].level != "Violation":
+                if set_mrc:
+                    self.most_recent_conviction = self._recent_convictions[-1]
+                else:
+                    self.second_most_recent_conviction = self._recent_convictions[-1]
+            elif len(self._recent_convictions) > 1:
+                if set_mrc:
+                    self.most_recent_conviction = self._recent_convictions[-2]
+                else:
+                    self.second_most_recent_conviction = self._recent_convictions[-2]
+
+    def _set_second_most_recent_conviction(self):
+        self._remove_mrc_from_recent_convictions()
+        self._set_recent_conviction(set_mrc=False)
+
+    def _remove_mrc_from_recent_convictions(self):
+        if self.most_recent_conviction:
+            self._recent_convictions.remove(self.most_recent_conviction)
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
@@ -106,5 +129,5 @@ class Expunger:
 
     def _assign_class_b_felonies(self):
         for charge in self.charges:
-            if charge.__class__.__name__ == 'FelonyClassB':
+            if charge.__class__.__name__ == "FelonyClassB":
                 self.class_b_felonies.append(charge)

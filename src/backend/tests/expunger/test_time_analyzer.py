@@ -8,25 +8,7 @@ from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
-
-
-class Time:
-
-    TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20)).strftime('%m/%d/%Y')
-    LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1)).strftime('%m/%d/%Y')
-    TEN_YEARS_AGO = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
-    NINE_YEARS_AGO = (date.today() + relativedelta(years=-9)).strftime('%m/%d/%Y')
-    SEVEN_YEARS_AGO = (date.today() + relativedelta(years=-7)).strftime('%m/%d/%Y')
-    FIVE_YEARS_AGO = (date.today() + relativedelta(years=-5)).strftime('%m/%d/%Y')
-    LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime('%m/%d/%Y')
-    THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime('%m/%d/%Y')
-    TWO_YEARS_AGO = (date.today() + relativedelta(years=-2)).strftime('%m/%d/%Y')
-    ONE_YEAR_AGO = (date.today() + relativedelta(years=-1)).strftime('%m/%d/%Y')
-    TOMORROW = date.today() + relativedelta(days=+1)
-
-    ONE_YEARS_FROM_NOW = date.today() + relativedelta(years=+1)
-    THREE_YEARS = relativedelta(years=3)
-    TEN_YEARS = relativedelta(years=10)
+from tests.utilities.time import Time
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):
@@ -170,7 +152,7 @@ class TestDismissalBlock(unittest.TestCase):
     def test_mrd_blocks_dismissals_in_unrelated_cases(self):
         unrelated_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_2, date=Time.TEN_YEARS_AGO)
         self.case_2.charges = [unrelated_dismissal]
-        
+
         record = Record([self.case_1, self.case_2])
         expunger = Expunger(record)
         expunger.run()
