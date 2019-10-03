@@ -16,7 +16,6 @@ class Crawler:
         self.session = requests.Session()
         self.response = requests.Response
         self.result = RecordParser()
-        self.logged_in = False
 
     def login(self, username, password, close_session=False):
         url = URL.login_url()
@@ -27,13 +26,9 @@ class Crawler:
         if close_session:
             self.session.close()
 
-        login_result = Crawler.__login_validation(self.response, url)
-        self.logged_in = login_result
-
-        return login_result
+        return Crawler.__login_validation(self.response, url)
 
     def search(self, first_name, last_name, middle_name='', birth_date=''):
-
         url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100'
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)

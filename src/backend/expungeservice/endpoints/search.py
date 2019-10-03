@@ -10,7 +10,6 @@ from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 
 
-
 class Search(MethodView):
 
     @user_auth_required
