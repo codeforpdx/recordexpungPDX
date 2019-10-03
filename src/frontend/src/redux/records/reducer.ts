@@ -1,22 +1,24 @@
-import { RecordsState, LOAD_RECORDS, RecordActionTypes } from './types';
+import {
+  LOAD_SEARCH_RECORDS,
+  SearchRecordState,
+  SearchRecordsActionType
+} from './types';
 
-const initialState: RecordsState = {
+const initalState: SearchRecordState = {
   records: []
 };
 
 export function recordsReducer(
-  state = initialState,
-  action: RecordActionTypes
-): RecordsState {
+  state = initalState,
+  action: SearchRecordsActionType
+): SearchRecordState {
   switch (action.type) {
-    case LOAD_RECORDS:
+    case LOAD_SEARCH_RECORDS:
       // The new state is the records returned in the
       // action. We ignore existing records and do not
       // necessarily include them in the new state. This
       // is a "destructive update".
-      return {
-        records: action.records
-      };
+      return { records: action.search_records };
     default:
       return state;
   }

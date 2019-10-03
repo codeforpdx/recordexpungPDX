@@ -1,3 +1,6 @@
+// NOTE, the API response for records has changed since this file was made.  This test needs to be updated.
+// For reference to what the API response lookslike now, visit https://github.com/codeforpdx/recordexpungPDX/commit/8bed5d309f9f43a433ecdda6e768f01b1a2a7481?diff=unified
+
 import apiService, { Request } from './api-service';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
