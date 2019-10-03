@@ -16,9 +16,11 @@ class Crawler:
         self.session = requests.Session()
         self.response = requests.Response
         self.result = RecordParser()
+        self.logged_in = False
 
     def login(self, username, password, close_session=False):
         url = URL.login_url()
+        print("in login method, uname/pas:\n", username, password)
         payload = Payload.login_payload(username, password)
 
         self.response = self.session.post(url, data=payload)
@@ -26,9 +28,15 @@ class Crawler:
         if close_session:
             self.session.close()
 
-        return Crawler.__login_validation(self.response, url)
+        login_result = Crawler.__login_validation(self.response, url)
+        self.logged_in = login_result
+
+        return login_result
 
     def search(self, first_name, last_name, middle_name='', birth_date=''):
+
+        if not self.logged_in:
+            raise Exception("Not logged in to OECI system")
         url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100'
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)

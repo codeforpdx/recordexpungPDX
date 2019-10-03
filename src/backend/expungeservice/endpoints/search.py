@@ -1,49 +1,47 @@
 from flask.views import MethodView
-from flask import request, abort, current_app, g
-import json
+from flask import request, current_app
 
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger.expunger import Expunger
+from expungeservice.endpoints.auth import user_auth_required
+from expungeservice.serializer import ExpungeModelEncoder
+from expungeservice.crypto import DataCipher
+
 
 
 class Search(MethodView):
 
     @user_auth_required
     def post(self):
-        data = request.get_json()
+        request_data = request.get_json()
 
-        if data is None:
+        if request_data is None:
             error(400, "No json data in request body")
 
-        check_data_fields(data, ["first_name", "last_name",
+        check_data_fields(request_data, ["first_name", "last_name",
                                  "middle_name", "birth_date"])
 
-        """
-        Check the request has a cookie,
-        Extract / decrypt the oeci login username and password
+        cipher = DataCipher(
+            key=current_app.config.get("JWT_SECRET_KEY"))
 
-        If these fail, return 400 error
-        """
-
-        oeci_username, oeci_password = {}
-
+        decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
         crawler = Crawler()
-        login_result = crawler.login(oeci_username, oeci_password)
 
-        first_name = data["first_name"]
-        last_name = data["last_name"]
-        middle_name = data["middle_name"]
-        birth_date = data["birth_date"]
+        login_result = crawler.login(
+            decrypted_credentials["oeci_username"],
+            decrypted_credentials["oeci_password"],
+            close_session=False)
 
-        record = crawler.search(first_name, last_name, middle_name, birth_date)
+        record = crawler.search(
+            request_data["first_name"],
+            request_data["last_name"],
+            request_data["middle_name"],
+            request_data["birth_date"])
 
-        """
-        If the crawler returns nothing, don't expunge.
-        """
-        if record:
+        if record.cases:
             expunger = Expunger(record)
             expunger.run()
 
@@ -51,9 +49,11 @@ class Search(MethodView):
             "record": record
         }
 
-        return json.dumps(response_data, cls=ExpungeModelEncoder)
+        current_app.json_encoder = ExpungeModelEncoder
+
+        return response_data #Json-encoding happens automatically here
 
 
 def register(app):
     app.add_url_rule("/api/search",
-                     view_func=Search.as_view('search'))
+                     view_func=Search.as_view("search"))
