@@ -188,11 +188,13 @@ Status codes:
 
 **`GET`** `/api/user/user_id`
 
+Returns the requested user's profile data. Requires admin authorization or that the logged-in user match the requested user_id.
+
 Required headers:
 
 - `Authorization: <JWT auth_token>`
 
-Returns: Requested user. requires admin authorization or that the logged-in user match the requested user_id.
+Returns:
 
 - format: `JSON`
 - fields:
@@ -213,7 +215,7 @@ Status codes:
 
 **`POST`** `/api/user/`
 
-Creates a new user. requires admin authorization
+Creates a new user. Requires an admin-level authorization token
 
 Required headers:
 
@@ -252,7 +254,9 @@ Status codes:
 
 **`POST`** `/api/oeci_login/`
 
-Attempts to log into the oeci web portal. If successful, returns ...
+Requires a user authentication token.
+
+Attempts to log into the OECI web portal with the provided username and password. If successful, closes the session with OECI and returns those credientials encrypted in a cookie. No "logged in" state is maintained with the remote site. Instead, subsequent calls to the /api/search endpoint use the encrypted credentials to log in again before performing the search.
 
 Required headers:
 
@@ -285,8 +289,14 @@ Status codes:
 
 **`POST`** `/api/search`
 
-Performs search of remote system, using the search params provided in the request body
-Records anonymous stats on the rearch result and returns a Record object in json response data
+Requires a user authentication token.
+
+Performs search of remote system, using the search params provided in the request body. The oeci_login
+endpoint must get called beforehand to obtain the oeci_token cookie.
+
+Returns a serialized version of the Record object in the json response body. The `record` data object matches the format specified in /doc/results_format.json
+
+Also records anonymized stats based on the rearch results.
 
 Required headers:
 
@@ -294,7 +304,7 @@ Required headers:
 
 Required cookie:
 
-- `{encrypted result of /api/oeci_login endpoint}`
+- `{oeci_token: <encrypted result of /api/oeci_login attempt>}`
 
 `POST` body:
 
