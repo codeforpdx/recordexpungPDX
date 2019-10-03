@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { AppState } from '../../redux/store';
 import { Router, Route } from 'react-router-dom';
-
+import AllRecords from '../../containers/AllRecords';
 import history from '../../service/history';
 import Footer from '../Footer';
 import LogIn from '../LogIn';
 import LoggedIn from '../LoggedIn';
-import RecordSearch from '../RecordSearch';
 import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
@@ -20,7 +19,7 @@ class App extends React.Component {
       <Router history={history}>
         <LoggedIn>
           <Route path="/oeci" component={OeciLogin} />
-          <Route path="/record-search" component={RecordSearch} />
+          <Route path="/record-search" component={AllRecords} />
           <Route path="/stats" /*component={}*/ />
           <Route path="/admin" component={Admin} />
           <Route path="/account" /*component={}*/ />
