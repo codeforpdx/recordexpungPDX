@@ -256,7 +256,8 @@ Status codes:
 
 Requires a user authentication token.
 
-Attempts to log into the OECI web portal with the provided username and password. If successful, closes the session with OECI and returns those credientials encrypted in a cookie. No "logged in" state is maintained with the remote site. Instead, subsequent calls to the /api/search endpoint use the encrypted credentials to log in again before performing the search.
+Attempts to log into the OECI web portal with the provided username and password. If successful, closes the session with OECI and returns those credientials encrypted in a cookie. No "logged in" state is maintained with the remote site. Instead, subsequent calls to the /api/search endpoint use the encrypted credentials to log in again before performing the search. Credentials are encrypted with Fernet cipher using the app's `JWT_SECRET_KEY` attribute as the symmetric key.
+
 
 Required headers:
 
@@ -276,7 +277,6 @@ Returns: encrypted cookie
   - fields:
     * oeci_username
     * oeci_password
-  - encrypted with Fernet cipher
 
 
 Status codes:
