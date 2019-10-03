@@ -1,10 +1,11 @@
-import React, { ComponentClass } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { connect } from 'react-redux';
+import { ReactComponentLike } from 'prop-types';
 
 interface Props {
-  component: ComponentClass;
+  component: ReactComponentLike;
   loggedIn: boolean;
   path: string;
   exact?: boolean;
