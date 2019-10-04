@@ -2,6 +2,7 @@ import apiService, { Request } from './api-service';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import RequestMiddleware from '../redux/middleware/request';
+
 const middlewares = [RequestMiddleware, thunk];
 const mockStore = configureMockStore(middlewares)({});
 
