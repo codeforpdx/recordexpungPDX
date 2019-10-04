@@ -14,25 +14,20 @@
 // Case Balance: None
 
 export interface Record {
-  time: string;
-  type: string;
-  charge: string;
-  disposition: string;
-  convicted: number;
-  case: string;
-  caseBalance: string;
+  total_balance_Due?: number;
+  cases?: any[];
 }
 
 // These constants are used as the 'type' field in Redux actions.
 export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
 
 export interface SearchRecordState {
-  records: Record[];
+  records?: Record;
 }
 
 interface SearchRecordsAction {
   type: typeof LOAD_SEARCH_RECORDS;
-  search_records: Record[];
+  search_records: Record;
 }
 
 // Add other Action types here like so:
