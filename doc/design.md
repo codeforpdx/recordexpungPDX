@@ -186,7 +186,7 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 
 
-**`GET`** `/api/user/user_id`
+**`GET`** `/api/users/<user_id>`
 
 Required headers:
 
@@ -202,16 +202,16 @@ Returns: Requested user. requires admin authorization or that the logged-in user
     * group
     * admin
     * timestamp
-    
+
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
 
 
-**`POST`** `/api/user/`
+**`POST`** `/api/users/`
 
 Creates a user
 
