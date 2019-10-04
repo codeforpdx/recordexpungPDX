@@ -4,6 +4,7 @@ import { AppState } from '../redux/store';
 import { Record } from '../redux/records/types';
 import { loadSearchRecordsMock } from '../redux/records/mock-actions';
 import RecordSearch from '../components/RecordSearch';
+import SearchResults from '../components/SearchResults';
 
 type Props = {
   fetch: Function;
@@ -22,9 +23,10 @@ class AllRecords extends Component<Props> {
     // We still need to create and import SeachResults component and pass it records down as a prop so that it can render new records
     // This component should be rendered below the <RecordSearch /> coponent below.
     return (
-      <>
+      <main className="mw8 center ph2">
         <RecordSearch />
-      </>
+        <SearchResults />
+      </main>
     );
   }
 }
