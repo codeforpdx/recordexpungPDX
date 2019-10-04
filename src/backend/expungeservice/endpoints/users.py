@@ -42,6 +42,7 @@ class Users(MethodView):
             return jsonify(response_data), 201
 
         else:
+            # No user_id given; this is a GET all users request.
             if not g.logged_in_user_is_admin:
                 error(403, "Logged in user not admin ")
 
