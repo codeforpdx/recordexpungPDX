@@ -9,7 +9,7 @@ interface Props {
   isAuthenticated: boolean;
 }
 
-class LoggedInHeader extends React.Component<Props> {
+class Header extends React.Component<Props> {
   public render() {
     return this.props.isAuthenticated ? (
       <nav className="center pt4 ph2 bg-white shadow">
@@ -65,4 +65,4 @@ const mapStateToProps = (state: AppState) => ({
   isAuthenticated: state.system.loggedIn
 });
 
-export default connect(mapStateToProps)(LoggedInHeader);
+export default connect(mapStateToProps)(Header);
