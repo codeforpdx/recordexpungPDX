@@ -23,6 +23,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "violation_type": case.violation_type,
             "current_status": case.current_status,
             "charges": [self.charge_to_json(charge) for charge in case.charges],
+            "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link
         }
 
