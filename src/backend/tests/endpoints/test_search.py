@@ -24,7 +24,6 @@ class TestSearch(EndpointShared):
 
 
     def tearDown(self):
-        pass
         search.Crawler.login = self.login
         search.Crawler.search = self.search
 

@@ -34,15 +34,17 @@ class Search(MethodView):
             decrypted_credentials["oeci_password"],
             close_session=False)
 
+        if login_result is False:
+            error(401, "Attempted login to OECI failed")
+
         record = crawler.search(
             request_data["first_name"],
             request_data["last_name"],
             request_data["middle_name"],
             request_data["birth_date"])
 
-        if record.cases:
-            expunger = Expunger(record)
-            expunger.run()
+        expunger = Expunger(record)
+        expunger.run()
 
         response_data = {
             "record": record
