@@ -2,6 +2,7 @@ class Record:
 
     def __init__(self, list_cases):
         self.cases = list_cases
+        self.errors = []
 
     @property
     def charges(self):
