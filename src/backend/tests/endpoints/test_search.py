@@ -59,7 +59,7 @@ class TestSearch(EndpointShared):
                   "birth_date": "02/02/1990"})
 
         assert(response.status_code == 200)
-        data = response.get_json()
+        data = response.get_json()["data"]
 
         """
         Check that the resulting "record" field in the response matches what we gave to the
