@@ -47,7 +47,9 @@ class Search(MethodView):
         expunger.run()
 
         response_data = {
-            "record": record
+            "data": {
+                "record": record
+            }
         }
 
         current_app.json_encoder = ExpungeModelEncoder
