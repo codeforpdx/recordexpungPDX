@@ -40,25 +40,32 @@ const placeholderGroupData: Group[] = [
         id: 3,
         name: 'Melissa Jennings',
         role: 'Search'
-      },
-      {
-        email: 'terri@email.com',
-        group: 'Royce, Jennings & Coldwater',
-        id: 4,
-        name: 'Terri Royce',
-        role: 'Search'
       }
     ]
   },
   {
     id: 1,
-    name: 'Chicken and a Cow',
+    name: 'Chicken and Cow LLC',
     users: [
       {
         email: 'jane@email.com',
         group: 'Metropolitan Public Defender',
         id: 1,
         name: 'Jane Dolby',
+        role: 'Search'
+      },
+      {
+        email: 'michael@email.com',
+        group: 'Metropolitan Public Defender',
+        id: 2,
+        name: 'Michael Zhang',
+        role: 'Admin'
+      },
+      {
+        email: 'melissa@email.com',
+        group: 'Royce, Jennings & Coldwater',
+        id: 3,
+        name: 'Melissa Jennings',
         role: 'Search'
       },
       {
@@ -135,20 +142,6 @@ const placeholderGroupData: Group[] = [
         id: 2,
         name: 'Michael Zhang',
         role: 'Admin'
-      },
-      {
-        email: 'melissa@email.com',
-        group: 'Royce, Jennings & Coldwater',
-        id: 3,
-        name: 'Melissa Jennings',
-        role: 'Search'
-      },
-      {
-        email: 'terri@email.com',
-        group: 'Royce, Jennings & Coldwater',
-        id: 4,
-        name: 'Terri Royce',
-        role: 'Search'
       }
     ]
   }

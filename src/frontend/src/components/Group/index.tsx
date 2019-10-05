@@ -7,16 +7,23 @@ interface Props {
 
 class Group extends React.Component<Props> {
   public render() {
-    return (
-      <tr>
-        <td className="pa3 bb b--black-20">
-          <a href="#" className="underline">
-            {this.props.group.name}
-          </a>
-        </td>
-        <td className="pa3 bb b--black-20">{this.props.group.name}</td>
-        <td className="pa3 bb b--black-20">{this.props.group.users.length}</td>
-      </tr>
+    return (         
+      <div className="bt br bl b--black-10 flex-ns justify-between flex-wrap items-center">
+        <div className="pa3">{this.props.group.name}</div>
+        <div className="pa3">
+          <span className="pr3">
+          {this.props.group.users.length}
+            <span className="visually-hidden">User count</span>
+            <i aria-hidden="true" className="fa fa-user pl1"></i>
+          </span>
+          <button aria-label="edit group" className="navy hover-dark-blue">
+            <i aria-hidden="true" className="fa fa-pen pr3"></i>
+          </button>
+          <button aria-label="delete group" className="navy hover-dark-blue">
+            <i aria-hidden="true" className="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
     );
   }
 }
