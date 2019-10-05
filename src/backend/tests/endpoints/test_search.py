@@ -2,7 +2,6 @@ import json
 
 from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
-from expungeservice.crawler.crawler import Crawler
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.serializer import ExpungeModelEncoder
 
