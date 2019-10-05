@@ -188,11 +188,13 @@ Status codes:
 
 **`GET`** `/api/user/user_id`
 
+Returns the requested user's profile data. Requires admin authorization or that the logged-in user match the requested user_id.
+
 Required headers:
 
 - `Authorization: <JWT auth_token>`
 
-Returns: Requested user. requires admin authorization or that the logged-in user match the requested user_id.
+Returns:
 
 - format: `JSON`
 - fields:
@@ -202,18 +204,18 @@ Returns: Requested user. requires admin authorization or that the logged-in user
     * group
     * admin
     * timestamp
-    
+
 
 Status codes:
 
 - `200 OK`
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id 
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
 
 
 **`POST`** `/api/user/`
 
-Creates a user
+Creates a new user. Requires an admin-level authorization token
 
 Required headers:
 
@@ -250,28 +252,74 @@ Status codes:
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
 
 
+**`POST`** `/api/oeci_login/`
 
-**`GET`** `/api/search`
+Requires a user authentication token.
 
-Performs search of remote system
+Attempts to log into the OECI web portal with the provided username and password. If successful, closes the session with OECI and returns those credientials encrypted in a cookie. No "logged in" state is maintained with the remote site. Instead, subsequent calls to the /api/search endpoint use the encrypted credentials to log in again before performing the search. Credentials are encrypted with Fernet cipher using the app's `JWT_SECRET_KEY` attribute as the symmetric key.
+
 
 Required headers:
 
-- `Authorization: <JWT auth_token>`
+- `Authorization: <JWT string>`
 
 `POST` body:
 
 - format: `JSON`
 - fields:
-    * first name
-    * last name
-    * dob
+    * oeci_username
+    * oeci_password
+
+Returns: encrypted cookie
+
+- response body empty
+- cookie: encrypted json string
+  - fields:
+    * oeci_username
+    * oeci_password
+
+
+Status codes:
+
+- `201 CREATED`: credentials valided, encrypted, and returned
+- `400 BAD FORMAT`: missing data in request body or one or more fields
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `401 UNAUTHORIZED`: oeci authorization rejected; incorrect username or password
+
+
+**`POST`** `/api/search`
+
+Requires a user authentication token.
+
+Performs search of remote system, using the search params provided in the request body. The oeci_login
+endpoint must get called beforehand to obtain the oeci_token cookie.
+
+Returns a serialized version of the Record object in the json response body. The `record` data object matches the format specified in /doc/results_format.json
+
+Also records anonymized stats based on the rearch results.
+
+Required headers:
+
+- `Authorization: <JWT auth_token>`
+
+Required cookie:
+
+- `{oeci_token: <encrypted result of /api/oeci_login attempt>}`
+
+`POST` body:
+
+- format: `JSON`
+- fields:
+    * first_name
+    * last_name
+    * middle_name
+    * birth_date
 
 Returns: Search results
 
 - format: `JSON`
 - fields:
-    * tbd
+    * record
 
 
 **`GET`** `/api/stats`

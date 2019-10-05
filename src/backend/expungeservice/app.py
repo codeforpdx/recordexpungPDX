@@ -3,7 +3,7 @@ from flask import Flask
 from .config import app_config
 
 # Add new endpoint imports here:
-from .endpoints import hello, auth, users, oeci_login
+from .endpoints import hello, auth, users, oeci_login, search
 from .request import before, teardown
 import logging
 
@@ -27,6 +27,7 @@ def create_app(env_name):
     auth.register(app)
     users.register(app)
     oeci_login.register(app)
+    search.register(app)
 
     app.before_request(before)
     app.teardown_request(teardown)
