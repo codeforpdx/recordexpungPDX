@@ -1,15 +1,7 @@
 import React from 'react';
+import { CaseProps } from '../../redux/records/types';
 
-interface Props {
-  case: {
-    name: string;
-    case_number: string;
-    birth_year: number;
-    balance_due: number;
-  };
-}
-
-export default class Cases extends React.Component<Props> {
+export default class Cases extends React.Component<CaseProps> {
   render() {
     const { name, case_number, birth_year, balance_due } = this.props.case;
     return (
