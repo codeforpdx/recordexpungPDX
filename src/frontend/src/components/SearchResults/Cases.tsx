@@ -7,10 +7,10 @@ interface Props {
 
 export default class Cases extends React.Component<Props> {
   render() {
-    const allCases = this.props.cases.map((cases, i) => {
+    const allCases = this.props.cases.map((caseInstance, index) => {
       return (
-        <li key={i}>
-          <Case case={cases} />
+        <li key={index}>
+          <Case case={caseInstance} />
         </li>
       );
     });

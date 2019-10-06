@@ -12,7 +12,6 @@ interface Props {
 export default class Cases extends React.Component<Props> {
   render() {
     const { name, case_number, birth_year, balance_due } = this.props.case;
-    console.log(this.props.case);
     return (
       <div className="cf pv2 br3 br--top shadow-case">
         <div className="fl ph3 pv1">

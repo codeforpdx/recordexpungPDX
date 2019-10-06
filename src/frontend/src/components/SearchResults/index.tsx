@@ -3,7 +3,6 @@ import Cases from './Cases';
 import { Record } from '../../redux/records/types';
 
 interface Props {
-  // records: SearchRecordState
   records: Record;
 }
 
