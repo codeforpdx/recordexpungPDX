@@ -46,25 +46,29 @@ Dockerfiles
 
 Some variations exist between the Dockerfiles used for each enviroment. TODO: elaborate on this a little bit.
 
+ - The biggest difference between `dev` and the other environments is that in `dev`, npm runs a webpack server to serve frontend files, whereas in `test` and `prob` the static files are transpiled when the nginx image is built and then served by nginx.
+ - The nginx `conf` file has some differences for each, because the respective servers ... need
 
 Running the Dev containers
 --------------------------
 
-Launching and managing the local workspace uses a few written in the project's Makefile:
+Launching and managing the local workspace uses a few commands written in the project's Makefile:
 
-Launch the docker enviroment with, and then launch the containers with.
+Launch the docker containers with:
 
 ```
 make dev_up
 ```
 
-Thist first builds the dev docker images if they don't already exist. It runs the docker stack in detached mode, so you can follow the container of logs with:
+This follows a few steps specified in the file `docker-compose.dev.yml`. It first builds the dev docker images using the named Dockerfiles if those images don't already exist. It then creates and launches a new docker container for each service. It runs the docker stack in detached mode, so you can follow the set of container logs with:
 
 ```
 make dev_logs
 ```
 
-While the dev stack is running, each service is accessible in the dev environment at `localhost:<port>`, at the exposed ports defined in the docker-compose.dev.yml file.
+While the dev stack is running, the integrated app (frontend and backend) is accessible at `http://localhost`. This port (80 is the default for http) is exposed by the nginx container, which proxies calls to the backend (any paths of the form `/api/*`) or to the frontend (any other paths).
+
+The docker-compose file also exposes the frontend, backend, and database each at their own port, so you can access each directly, e.g. if you want to connect to the database by running `psql` locally. Note that accessing the frontend at its own port causes its requests to the backend to fail, because they aren't going through the nginx server.
 
 Stop the running containers with
 
@@ -72,21 +76,26 @@ Stop the running containers with
 make dev_down
 ```
 
-To force a rebuild of the docker images (if you change the dependencies), use
+To force a rebuild of the docker images (if you change any package dependencies), use
 
 ```
-make dev_logs
-
+make dev_build
 ```
 
-Some Docker CLI commands
-------------------------
+Some CLI commands
+-----------------
 
 To see which containers are running (and with the optional flag to see stopped containers also):
 
 
         docker ps [-a]
 
+
+To start a PostgreSQL interactive terminal to access the database:
+
+        make dev_psql
+
+Exit the psql terminal with `\q`.
 
 Running the Test containers
 ---------------------------
@@ -146,9 +155,7 @@ Note: the `dev_deploy` target rebuilds every image in the stack which may be tim
 
 replacing * with the service name e.g.  webserver or expungeservice. This stops the corresponding docker container and also prevents the docker orchestrator from spinning up a replacement container.
 
-5. To explore the database:
-
-        make dev_psql
+5.
 
 6. To drop the test database by removing the database volume:
 
