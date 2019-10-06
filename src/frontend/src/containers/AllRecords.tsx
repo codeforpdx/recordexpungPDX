@@ -15,7 +15,7 @@ class AllRecords extends Component<Props> {
   render() {
     //Fetch has now been passed down to RecordSearch componant and is triggered when submit button is pressed.
     //Currentlly no matter what the user puts in the search fields, it still triggers a mock fetch with pre determined API response
-    //Once fetch adds records to Redux, a SearchResults container is rendered
+    //Once fetch adds records to Redux, a SearchResults container is rendered with updated records
     return (
       <main className="mw8 center ph2">
         <RecordSearch fetch={this.props.fetch} />
