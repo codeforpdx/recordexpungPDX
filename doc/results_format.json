@@ -34,7 +34,7 @@
                                 "time_eligibility": null,
                                 "time_eligibility_reason": "",
                                 "date_of_eligibility": null
-                            },
+                            }
                         }
                     ],
                     "balance_due": 199.99,
@@ -68,7 +68,7 @@
                                 "time_eligibility": null,
                                 "time_eligibility_reason": "",
                                 "date_of_eligibility": null
-                            },
+                            }
                         },
                         {
                             "name": "Violation Driving While Suspended or Revoked",
@@ -87,14 +87,15 @@
                                 "time_eligibility": null,
                                 "time_eligibility_reason": "",
                                 "date_of_eligibility": null
-                            },
+                            }
                         }
                     ],
                     "balance_due": 0.00,
                     "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555"
                 }
-            ],
-        }
-    },
-    "errors": []
+            ]
+        },
+        "errors": []
+    }
+
 }
