@@ -46,7 +46,7 @@ Dockerfiles
 
 Some variations exist between the Dockerfiles used for each enviroment. TODO: elaborate on this a little bit.
 
- - The biggest difference between `dev` and the other environments is that in `dev`, npm runs a webpack server to serve frontend files, whereas in `test` and `prob` the static files are transpiled when the nginx image is built and then served by nginx.
+ - The biggest difference between `dev` and the other environments is that in `dev`, npm runs a webpack server to serve frontend files, whereas in `test` and `prob` the static web files are generated when the nginx image is built and then served by nginx.
  - The nginx `conf` file has some differences for each, because the respective servers ... need
 
 Running the Dev containers
