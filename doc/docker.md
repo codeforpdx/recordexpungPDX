@@ -15,7 +15,7 @@ Dev Environment Containers
 
 There are four containers which are configured in /docker-compose.dev.yml , and managed using docker-compose. The project's main README.md includes the commands to manage the containers locally.
 
- - **webserver** npm dev server
+ - **webserver** webpack dev server
  - **expungeservice** wsgi server (hosting a Flask app)
  - **db** postgres database
  - **nginx** proxies /api/ paths to the backend and everything else to the frontend.
@@ -100,9 +100,9 @@ Exit the psql terminal with `\q`.
 Running the Test containers
 ---------------------------
 
-Because of the differences between the `dev` and `test` stacks, a different set of Dockerfiles and commands are used to build and run the test containers. You can do this for local testing as well as with the automated scripts on Travis. The deployment uses `docker stack` commands rather than `docker-compose`. This might be worth changing?
+Because of the differences between the `dev` and `test` stacks, a different set of Dockerfiles and commands are used to build and run the test containers. You can do this for local testing as well as with the automated scripts on Travis. The deployment uses `docker stack` commands rather than `docker-compose`. This is worth changing -- `docker stack` is good for doin more powerful container orchestration than with docker-compose, but we don't really need it for any part of our project.
 
-Some of these instructions are an artifact of our prior Docker setup. If you want to play around with Docker a bit more, here are some commands.
+If you want to play around with some of our deprecated Docker features a bit more, here is the defunct documentation:
 
 Do this once:
 
@@ -155,9 +155,7 @@ Note: the `dev_deploy` target rebuilds every image in the stack which may be tim
 
 replacing * with the service name e.g.  webserver or expungeservice. This stops the corresponding docker container and also prevents the docker orchestrator from spinning up a replacement container.
 
-5.
-
-6. To drop the test database by removing the database volume:
+5. To drop the test database by removing the database volume:
 
         make dev_stop
         make dev_drop_database
