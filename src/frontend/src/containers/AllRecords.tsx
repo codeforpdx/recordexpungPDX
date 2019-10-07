@@ -5,7 +5,7 @@ import { Record } from '../redux/records/types';
 import { loadSearchRecordsMock } from '../redux/records/mock-actions';
 import RecordSearch from '../components/RecordSearch';
 import SearchResults from '../components/SearchResults';
-import Status from './AllStatus';
+import AllStatus from './AllStatus';
 
 type Props = {
   fetchRecords: Function;
@@ -23,7 +23,7 @@ class AllRecords extends Component<Props> {
         {this.props.records ? (
           <SearchResults records={this.props.records} />
         ) : (
-          <Status />
+          <AllStatus />
         )}
       </main>
     );
