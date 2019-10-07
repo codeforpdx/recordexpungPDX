@@ -22,6 +22,7 @@ export interface Record {
 export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
 
 export interface SearchRecordState {
+  loading: boolean;
   records?: Record;
 }
 

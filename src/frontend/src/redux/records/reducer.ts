@@ -4,7 +4,9 @@ import {
   SearchRecordsActionType
 } from './types';
 
-const initalState: SearchRecordState = {};
+const initalState: SearchRecordState = {
+  loading: true
+};
 
 export function recordsReducer(
   state = initalState,
@@ -16,7 +18,7 @@ export function recordsReducer(
       // action. We ignore existing records and do not
       // necessarily include them in the new state. This
       // is a "destructive update".
-      return { records: action.search_records };
+      return { ...state, records: action.search_records, loading: false };
     default:
       return state;
   }
