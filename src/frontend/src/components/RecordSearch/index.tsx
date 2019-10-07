@@ -6,6 +6,7 @@ import moment from 'moment';
 
 interface Props {
   system: SystemState;
+  fetchRecords: Function;
 }
 
 interface State {
@@ -45,6 +46,7 @@ class RecordSearch extends React.Component<Props, State> {
       this.state.invalidDate === false
     ) {
       // Dispatch an action.
+      this.props.fetchRecords();
     }
   };
 
@@ -69,84 +71,82 @@ class RecordSearch extends React.Component<Props, State> {
 
   public render() {
     return (
-      <main className="mw8 center ph2">
-        <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
-          <h1 className="mb4 f4 fw6">Record Search</h1>
-          <form onSubmit={this.handleSubmit} noValidate>
-            <div className="flex flex-wrap items-end">
-              <div className="w-100 w-30-ns mb3 pr2-ns">
-                <label htmlFor="firstName" className="db mb1 fw6">
-                  First Name
-                </label>
-                <input
-                  id="firstName"
-                  type="text"
-                  className="w-100 pa3 br2 b--black-20"
-                  required
-                  aria-describedby={
-                    this.state.firstNameHasInput ? 'name_msg' : undefined
-                  }
-                  aria-invalid={this.state.firstNameHasInput}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="w-100 w-30-ns mb3 pr2-ns">
-                <label htmlFor="lastName" className="db mb1 fw6">
-                  Last Name
-                </label>
-                <input
-                  id="lastName"
-                  type="text"
-                  className="w-100 pa3 br2 b--black-20"
-                  required
-                  aria-describedby={
-                    this.state.lastNameHasInput ? 'name_msg' : undefined
-                  }
-                  aria-invalid={this.state.lastNameHasInput}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="w-100 w-30-ns mb3 pr2-ns">
-                <label htmlFor="dateOfBirth" className="db mb1 fw6">
-                  Date of Birth <span className="fw2 f6">MM/DD/YYYY</span>
-                </label>
-                <input
-                  id="dateOfBirth"
-                  type="text"
-                  className="w-100 pa3 br2 b--black-20"
-                  required
-                  aria-describedby={
-                    this.state.invalidDate ? 'dob_msg' : undefined
-                  }
-                  aria-invalid={this.state.invalidDate}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="w-100 w-10-ns mb3">
-                <button
-                  className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
-                  type="submit"
-                >
-                  <span className="visually-hidden">Search Records</span>
-                  <i aria-hidden="true" className="fas fa-search" />
-                </button>
-              </div>
-              <div role="alert" className="w-100">
-                {this.state.missingInputs === true ? (
-                  <p id="name_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                    All search fields are required.
-                  </p>
-                ) : null}
-                {this.state.invalidDate === true ? (
-                  <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                    The date format must be MM/DD/YYYY.
-                  </p>
-                ) : null}
-              </div>
+      <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
+        <h1 className="mb4 f4 fw6">Record Search</h1>
+        <form onSubmit={this.handleSubmit} noValidate>
+          <div className="flex flex-wrap items-end">
+            <div className="w-100 w-30-ns mb3 pr2-ns">
+              <label htmlFor="firstName" className="db mb1 fw6">
+                First Name
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                className="w-100 pa3 br2 b--black-20"
+                required
+                aria-describedby={
+                  this.state.firstNameHasInput ? 'name_msg' : undefined
+                }
+                aria-invalid={this.state.firstNameHasInput}
+                onChange={this.handleChange}
+              />
             </div>
-          </form>
-        </section>
-      </main>
+            <div className="w-100 w-30-ns mb3 pr2-ns">
+              <label htmlFor="lastName" className="db mb1 fw6">
+                Last Name
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                className="w-100 pa3 br2 b--black-20"
+                required
+                aria-describedby={
+                  this.state.lastNameHasInput ? 'name_msg' : undefined
+                }
+                aria-invalid={this.state.lastNameHasInput}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="w-100 w-30-ns mb3 pr2-ns">
+              <label htmlFor="dateOfBirth" className="db mb1 fw6">
+                Date of Birth <span className="fw2 f6">MM/DD/YYYY</span>
+              </label>
+              <input
+                id="dateOfBirth"
+                type="text"
+                className="w-100 pa3 br2 b--black-20"
+                required
+                aria-describedby={
+                  this.state.invalidDate ? 'dob_msg' : undefined
+                }
+                aria-invalid={this.state.invalidDate}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="w-100 w-10-ns mb3">
+              <button
+                className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+                type="submit"
+              >
+                <span className="visually-hidden">Search Records</span>
+                <i aria-hidden="true" className="fas fa-search" />
+              </button>
+            </div>
+            <div role="alert" className="w-100">
+              {this.state.missingInputs === true ? (
+                <p id="name_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  All search fields are required.
+                </p>
+              ) : null}
+              {this.state.invalidDate === true ? (
+                <p id="dob_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  The date format must be MM/DD/YYYY.
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </form>
+      </section>
     );
   }
 }

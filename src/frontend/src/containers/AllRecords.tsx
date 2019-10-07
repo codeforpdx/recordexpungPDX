@@ -4,27 +4,25 @@ import { AppState } from '../redux/store';
 import { Record } from '../redux/records/types';
 import { loadSearchRecordsMock } from '../redux/records/mock-actions';
 import RecordSearch from '../components/RecordSearch';
+import SearchResults from '../components/SearchResults';
 
 type Props = {
-  fetch: Function;
-  records: Record[];
+  fetchRecords: Function;
+  records?: Record;
 };
 
 class AllRecords extends Component<Props> {
-  componentDidMount() {
-    this.props.fetch();
-    //Next we need to pass down the fetch to RecordSearch component as a prop, and trigger it
-    //on a new search instead of componentDidMount.  When this happens we shoud replace the loadSearchRecordsMock function with a real api call
-    //and use the populated fields in the RecrodSearch component as paramaters for the API request.
-  }
-
   render() {
-    // We still need to create and import SeachResults component and pass it records down as a prop so that it can render new records
-    // This component should be rendered below the <RecordSearch /> coponent below.
+    // Fetch has now been passed down to RecordSearch componant and is triggered when submit button is pressed.
+    // Currentlly no matter what the user puts in the search fields, it still triggers a mock fetch with pre determined API response
+    // Once fetch adds records to Redux, a SearchResults container is rendered with updated records
     return (
-      <>
-        <RecordSearch />
-      </>
+      <main className="mw8 center ph2">
+        <RecordSearch fetchRecords={this.props.fetchRecords} />
+        {this.props.records ? (
+          <SearchResults records={this.props.records} />
+        ) : null}
+      </main>
     );
   }
 }
@@ -38,6 +36,6 @@ const mapStateToProps = (state: AppState) => {
 export default connect(
   mapStateToProps,
   {
-    fetch: loadSearchRecordsMock
+    fetchRecords: loadSearchRecordsMock
   }
 )(AllRecords);
