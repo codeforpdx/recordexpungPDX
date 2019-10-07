@@ -7,7 +7,7 @@ import RecordSearch from '../components/RecordSearch';
 import SearchResults from '../components/SearchResults';
 
 type Props = {
-  fetch: Function;
+  fetchRecords: Function;
   records?: Record;
 };
 
@@ -18,7 +18,7 @@ class AllRecords extends Component<Props> {
     // Once fetch adds records to Redux, a SearchResults container is rendered with updated records
     return (
       <main className="mw8 center ph2">
-        <RecordSearch fetch={this.props.fetch} />
+        <RecordSearch fetchRecords={this.props.fetchRecords} />
         {this.props.records ? (
           <SearchResults records={this.props.records} />
         ) : null}
@@ -36,6 +36,6 @@ const mapStateToProps = (state: AppState) => {
 export default connect(
   mapStateToProps,
   {
-    fetch: loadSearchRecordsMock
+    fetchRecords: loadSearchRecordsMock
   }
 )(AllRecords);

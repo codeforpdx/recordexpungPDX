@@ -1,5 +1,5 @@
 import React from 'react';
-import Case from './Case';
+import Case from '../Case';
 
 interface Props {
   cases: any[];

@@ -6,7 +6,7 @@ import moment from 'moment';
 
 interface Props {
   system: SystemState;
-  fetch: Function;
+  fetchRecords: Function;
 }
 
 interface State {
@@ -46,7 +46,7 @@ class RecordSearch extends React.Component<Props, State> {
       this.state.invalidDate === false
     ) {
       // Dispatch an action.
-      this.props.fetch();
+      this.props.fetchRecords();
     }
   };
 

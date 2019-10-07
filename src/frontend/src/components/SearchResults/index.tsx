@@ -1,5 +1,5 @@
 import React from 'react';
-import Cases from './Cases';
+import Cases from '../Cases';
 import { Record } from '../../redux/records/types';
 
 interface Props {
