@@ -42,6 +42,9 @@ class OeciLogin extends React.Component<Props, State> {
     e.preventDefault();
     this.validateForm();
     if (this.state.missingInputs === false) {
+      // endpoint for '/api/oeci_login'
+      // post: username, password
+      // resp.cookie should cotain 'oeci_token'
       this.setState({
         redirect: true
       });
