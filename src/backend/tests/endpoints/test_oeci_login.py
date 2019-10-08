@@ -29,7 +29,7 @@ class TestOeciLogin(EndpointShared):
         oeci_login.Crawler.login = self.mock_login(True)
 
         self.client.post(
-            "/api/oeci_login", headers=self.admin_auth_header,
+            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
             json={"oeci_username": "correctname",
                   "oeci_password": "correctpwd"})
 
@@ -46,7 +46,7 @@ class TestOeciLogin(EndpointShared):
         oeci_login.Crawler.login = self.mock_login(False)
 
         response = self.client.post(
-            "/api/oeci_login", headers=self.admin_auth_header,
+            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
             json={"oeci_username": "wrongname",
                   "oeci_password": "wrongpwd"})
 
