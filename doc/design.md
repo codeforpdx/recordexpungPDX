@@ -186,7 +186,7 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin
 
 
-**`GET`** `/api/user/user_id`
+**`GET`** `/api/users/<user_id>`
 
 Returns the requested user's profile data. Requires admin authorization or that the logged-in user match the requested user_id.
 
@@ -213,7 +213,7 @@ Status codes:
 - `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
 
 
-**`POST`** `/api/user/`
+**`POST`** `/api/users/`
 
 Creates a new user. Requires an admin-level authorization token
 
