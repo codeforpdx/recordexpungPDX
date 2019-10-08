@@ -15,7 +15,7 @@ export function logIn(email: string, password: string): any {
         userId: response.data.user_id,
         authToken: response.data.auth_token
       });
-      setCookie(response.data);
+      setCookie(response.data.auth_token, response.data.user_id);
       history.push('/oeci');
     });
   };
@@ -29,6 +29,8 @@ export function logOut() {
 }
 
 export function refreshLocalAuth(inputToken: string, inputId: string) {
+  // refresh the 'max-age' for cookie while user is active
+  setCookie(inputToken, inputId);
   return {
     type: LOG_IN,
     userId: inputId,

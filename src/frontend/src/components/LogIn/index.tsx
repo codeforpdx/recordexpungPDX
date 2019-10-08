@@ -68,7 +68,6 @@ class LogIn extends React.Component<Props, State> {
           this.props
             .logIn(this.state.email, this.state.password)
             .catch((error: any) => {
-              console.log(error.response);
               error.response.status === 401
                 ? // error: email and password do not match
                   this.setState({ invalidCredentials: true })

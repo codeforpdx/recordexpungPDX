@@ -14,11 +14,6 @@ interface State {
   loading: boolean;
 }
 
-interface CookieData {
-  authToken: string;
-  userId: string;
-}
-
 class Authenticator extends React.Component<Props> {
   public state: State = {
     loading: true
@@ -27,8 +22,8 @@ class Authenticator extends React.Component<Props> {
   public componentDidMount() {
     // Upon page refresh or navigation via manual url input this will
     // repopulate store with information stored in the browser cookie
-    const cookieData: CookieData = decodeCookie();
-    if (cookieData.authToken || cookieData.userId) {
+    const cookieData = decodeCookie();
+    if (cookieData.authToken && cookieData.userId) {
       this.props.refreshLocalAuth(cookieData.authToken, cookieData.userId);
     }
     this.setState({
