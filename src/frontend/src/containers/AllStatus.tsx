@@ -11,9 +11,9 @@ type Props = {
 class AllStatus extends React.Component<Props> {
   render() {
     return (
-      <div role="status">
+      <section>
         {this.props.loading ? <Spinner /> : <NoSearchResults />}
-      </div>
+      </section>
     );
   }
 }
