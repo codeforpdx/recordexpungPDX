@@ -2,10 +2,16 @@ import React from 'react';
 import LogOut from '../LogOut';
 import Logo from '../Logo';
 import history from '../../service/history';
+import { AppState } from '../../redux/store';
+import { connect } from 'react-redux';
 
-class LoggedInHeader extends React.Component {
+interface Props {
+  isAuthenticated: boolean;
+}
+
+class Header extends React.Component<Props> {
   public render() {
-    return (
+    return this.props.isAuthenticated ? (
       <nav className="center pt4 ph2 bg-white shadow">
         <div className="mw8 center flex-l justify-between">
           <div className="mb4">
@@ -51,8 +57,12 @@ class LoggedInHeader extends React.Component {
           </div>
         </div>
       </nav>
-    );
+    ) : null;
   }
 }
 
-export default LoggedInHeader;
+const mapStateToProps = (state: AppState) => ({
+  isAuthenticated: state.system.loggedIn
+});
+
+export default connect(mapStateToProps)(Header);
