@@ -4,7 +4,7 @@ from .config import app_config
 
 # Add new endpoint imports here:
 from .endpoints import hello, auth, users, oeci_login, search
-from .request import before, teardown
+from .request import before, after, teardown
 import logging
 
 from .loggers import attach_logger
@@ -30,6 +30,7 @@ def create_app(env_name):
     search.register(app)
 
     app.before_request(before)
+    app.after_request(after)
     app.teardown_request(teardown)
 
     app.logger.debug("Flask app created!")

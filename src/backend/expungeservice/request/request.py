@@ -7,8 +7,10 @@ def before():
 
     g.database = get_database()
 
-def teardown(exception):
+def after():
     g.database.connection.commit()
+
+def teardown(exception):
     g.database.close_connection()
 
 def check_data_fields(request_json, required_fields):
