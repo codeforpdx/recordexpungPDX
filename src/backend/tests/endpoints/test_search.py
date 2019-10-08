@@ -44,7 +44,7 @@ class TestSearch(EndpointShared):
         """
 
         self.client.post(
-            "/api/oeci_login", headers=self.user_auth_header,
+            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
             json={"oeci_username": "correctusername",
                   "oeci_password": "correctpassword"})
 
@@ -52,7 +52,7 @@ class TestSearch(EndpointShared):
             "localhost.local"]["/"]["oeci_token"]
 
 
-        response = self.client.post("/api/search", headers=self.user_auth_header,
+        response = self.client.post("/api/search", headers=self.user_data["user1"]["auth_header"],
             json={"first_name": "John",
                   "last_name": "Doe",
                   "middle_name": "",
