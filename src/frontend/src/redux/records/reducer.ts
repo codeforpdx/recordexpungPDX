@@ -4,9 +4,7 @@ import {
   SearchRecordsActionType
 } from './types';
 
-const initalState: SearchRecordState = {
-  records: []
-};
+const initalState: SearchRecordState = {};
 
 export function recordsReducer(
   state = initalState,
