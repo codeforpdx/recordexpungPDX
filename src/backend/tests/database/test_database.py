@@ -3,15 +3,17 @@ import pytest
 import os
 import psycopg2
 from expungeservice.database import Database, user, get_database
-
+from test.endpoint import endpoint_util
 
 class TestDatabaseOperations(unittest.TestCase):
 
     def setUp(self):
 
-        self.database = get_database()
+        self.database = endpoint_util.get_database()
 
         self.db_cleanup()
+
+        self.user_data = EndpointShared().user_data
 
     def tearDown(self):
         self.db_cleanup()
@@ -70,8 +72,7 @@ class TestDatabaseOperations(unittest.TestCase):
         hashed_password = 'examplepasswordhash2'
         admin = True
 
-        self.create_example_user(email, name, group_name, hashed_password,
-                                 admin)
+        self.create_example_user(email=email)
 
         user_result = user.read(
             self.database, user.identify_by_email(self.database, email))
@@ -92,20 +93,11 @@ class TestDatabaseOperations(unittest.TestCase):
         """
 
         email1 = "pytest_get_user@example.com"
-        hashed_password = 'examplepasswordhash2'
-        name1 = "Ima Test1"
-        group_name1 = "Ima Test Group1"
-        admin = True
-        self.create_example_user(
-            email1, name1, group_name1, hashed_password, admin)
+        self.create_example_user(email1)
 
         email2 = "pytest_get_user_2@example.com"
-        name2 = "Ima Tes2t"
-        group_name2 = "Ima Test Group2"
-        hashed_password = 'examplepasswordhash3'
-        admin = True
-        self.create_example_user(
-            email2, name2, group_name2, hashed_password, admin)
+
+        self.create_example_user(email2)
 
         users_get_endpoint_result = user.fetchall(self.database)
 
@@ -134,9 +126,21 @@ class TestDatabaseOperations(unittest.TestCase):
 
         assert user_result is None
 
+    def test_update_password(self):
+
+        create_example_user()
+
+        user.update(self.database, self.user)
+
     # Helper function
-    def create_example_user(self, email, name, group_name,
-                            hashed_password, admin):
+    def create_example_user(
+        self,
+        email=self.user_data["user1"]["email"],
+        name=self.user_data["user1"]["name"],
+        group_name=self.user_data["user1"]["group_name"],
+        hashed_password=self.user_data["user1"]["hashed_password"],
+        admin=self.user_data["user1"]["admin"]
+        ):
 
         self.database.cursor.execute(
             """
