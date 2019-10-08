@@ -22,14 +22,14 @@ class TestAuth(EndpointShared):
         EndpointShared.setUp(self)
 
     def test_auth_token_valid_credentials(self):
-        response = self.generate_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
 
         assert(response.status_code == 200)
-        assert(response.headers.get('Content-type') == 'application/json')
+        assert(response.headers.get("Content-type") == "application/json")
         data = response.get_json()
-        assert('auth_token' in data)
-        assert(len(data['auth_token']) > 0)
-        assert(data['user_id'] == self.ids[self.email])
+        assert("auth_token" in data)
+        assert(len(data["auth_token"]) > 0)
+        assert(data["user_id"] == self.user_data["user1"]["user_id"])
 
     def test_auth_token_invalid_username(self):
         response = self.generate_auth_token(
@@ -37,11 +37,11 @@ class TestAuth(EndpointShared):
         assert(response.status_code == 401)
 
     def test_login_invalid_pasword(self):
-        response = self.generate_auth_token(self.email, 'wrong_password')
+        response = self.generate_auth_token(self.user_data["user1"]["email"], "wrong_password")
         assert(response.status_code == 401)
 
     def test_access_valid_auth_token(self):
-        response = self.generate_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.get(
             '/api/test/user_protected',
             headers={
@@ -51,7 +51,6 @@ class TestAuth(EndpointShared):
         assert(response.status_code == 200)
 
     def test_access_invalid_auth_token(self):
-        response = self.generate_auth_token(self.email, self.password)
         response = self.client.get('/api/test/user_protected', headers={
             'Authorization': 'Bearer {}'.format('Invalid auth token')
         })
@@ -60,8 +59,7 @@ class TestAuth(EndpointShared):
     def test_access_expired_auth_token(self):
         self.app.config['JWT_EXPIRY_TIMER'] = datetime.timedelta(seconds=0)
 
-        response = self.generate_auth_token(self.email, self.password)
-        print(response)
+        response = self.generate_auth_token(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         time.sleep(1)
         response = self.client.get(
             '/api/test/user_protected',
@@ -98,7 +96,7 @@ class TestAuth(EndpointShared):
 
     def test_is_not_admin_auth_token(self):
 
-        response = self.generate_auth_token(self.email, self.password)
+        response = self.generate_auth_token(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.get(
             '/api/test/admin_protected',
             headers={

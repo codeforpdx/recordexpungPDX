@@ -16,31 +16,36 @@ class Users(MethodView):
     @user_auth_required
     def get(self, user_id):
         """
-        Fetch the list of users, with their user_id, name, group name,
-        email, admin status, and date_created.
+        Fetch a single user's data if a user_id is specified.
+        Otherwise fetch the list of all users.
+        Returned info contains user_id, name, group name,email,
+        admin status, and date_created.
         """
 
-        print("in endpoint; getting with userid = ", user_id)
-
         if user_id:
+
             user_db_data = user.read(g.database, user_id)
 
-            print("user db read result: ", user_db_data)
-
-            if user_db_data:
-                response_data = {
-                    "user_id": user_db_data["user_id"],
-                    "email": user_db_data["email"],
-                    "name": user_db_data["name"],
-                    "group_name": user_db_data["group_name"],
-                    "admin": user_db_data["admin"],
-                    "timestamp": user_db_data["date_created"]}
-                return jsonify(response_data), 201
-
-            else:
+            if not user_db_data:
                 error(404, "User id not recognized")
 
+            if not g.logged_in_user_is_admin and g.logged_in_user_id != user_id:
+                error(403, "Logged in user not admin and doesn't match requested user id.")
+
+            response_data = {
+                "user_id": user_db_data["user_id"],
+                "email": user_db_data["email"],
+                "name": user_db_data["name"],
+                "group_name": user_db_data["group_name"],
+                "admin": user_db_data["admin"],
+                "timestamp": user_db_data["date_created"]}
+            return jsonify(response_data), 201
+
         else:
+            # No user_id given; this is a GET all users request.
+            if not g.logged_in_user_is_admin:
+                error(403, "Logged in user not admin ")
+
             user_db_data = user.fetchall(g.database)
 
             response_data = {"users": []}
