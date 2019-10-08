@@ -9,10 +9,6 @@ docker exec -ti expungeservice pipenv run python tests/search_interactively.py
 import expungeservice
 import json
 import getpass
-import logging
-
-logging.disable()
-
 
 
 def flask_client_interactive_search():
