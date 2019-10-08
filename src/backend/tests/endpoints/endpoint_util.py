@@ -65,14 +65,9 @@ class EndpointShared(unittest.TestCase):
         )
         self.user_data[user_key]["user_id"] = create_result["user_id"]
 
-        generate_auth_response = self.generate_auth_token(
-            self.user_data[user_key]["email"],
-            self.user_data[user_key]["password"]
-        )
-
-        self.user_data[user_key]["auth_header"] = {"Authorization": "Bearer {}".format(
-                generate_auth_response.get_json()["auth_token"])}
-
+        self.user_data[user_key]["auth_header"] = {
+            "Authorization": "Bearer {}".format(
+                get_auth_token(self.app, create_result["user_id"]))}
     def setUp(self):
 
         self.app = expungeservice.create_app("development")
@@ -88,20 +83,9 @@ class EndpointShared(unittest.TestCase):
         with self.app.app_context():
             expungeservice.request.before()
             self.db_cleanup()
-            expungeservice.request.teardown(None)
 
-        with self.app.app_context():
-            expungeservice.request.before()
-            res = self.create_test_user("user1")
-            expungeservice.request.teardown(None)
-
-        with self.app.app_context():
-            expungeservice.request.before()
+            self.create_test_user("user1")
             self.create_test_user("user2")
-            expungeservice.request.teardown(None)
-
-        with self.app.app_context():
-            expungeservice.request.before()
             self.create_test_user("admin")
             expungeservice.request.teardown(None)
 
