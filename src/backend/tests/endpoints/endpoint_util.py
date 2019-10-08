@@ -1,5 +1,6 @@
 import unittest
 from werkzeug.security import generate_password_hash
+from flask import g
 
 import expungeservice
 from expungeservice.endpoints.auth import *
@@ -87,6 +88,8 @@ class EndpointShared(unittest.TestCase):
             self.create_test_user("user1")
             self.create_test_user("user2")
             self.create_test_user("admin")
+            g.database.connection.commit()
+
             expungeservice.request.teardown(None)
 
     def tearDown(self):
@@ -101,9 +104,3 @@ class EndpointShared(unittest.TestCase):
         cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
         g.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
         g.database.connection.commit()
-
-    def generate_auth_token(self, email, password):
-        return self.client.post("/api/auth_token", json={
-            "email": email,
-            "password": password,
-        })
