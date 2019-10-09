@@ -1,5 +1,6 @@
 import unittest
 from werkzeug.security import generate_password_hash
+from flask import g
 
 import expungeservice
 from expungeservice.endpoints.auth import *
@@ -65,14 +66,9 @@ class EndpointShared(unittest.TestCase):
         )
         self.user_data[user_key]["user_id"] = create_result["user_id"]
 
-        generate_auth_response = self.generate_auth_token(
-            self.user_data[user_key]["email"],
-            self.user_data[user_key]["password"]
-        )
-
-        self.user_data[user_key]["auth_header"] = {"Authorization": "Bearer {}".format(
-                generate_auth_response.get_json()["auth_token"])}
-
+        self.user_data[user_key]["auth_header"] = {
+            "Authorization": "Bearer {}".format(
+                get_auth_token(self.app, create_result["user_id"]))}
     def setUp(self):
 
         self.app = expungeservice.create_app("development")
@@ -88,21 +84,12 @@ class EndpointShared(unittest.TestCase):
         with self.app.app_context():
             expungeservice.request.before()
             self.db_cleanup()
-            expungeservice.request.teardown(None)
 
-        with self.app.app_context():
-            expungeservice.request.before()
-            res = self.create_test_user("user1")
-            expungeservice.request.teardown(None)
-
-        with self.app.app_context():
-            expungeservice.request.before()
+            self.create_test_user("user1")
             self.create_test_user("user2")
-            expungeservice.request.teardown(None)
-
-        with self.app.app_context():
-            expungeservice.request.before()
             self.create_test_user("admin")
+            g.database.connection.commit()
+
             expungeservice.request.teardown(None)
 
     def tearDown(self):
@@ -117,9 +104,3 @@ class EndpointShared(unittest.TestCase):
         cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
         g.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
         g.database.connection.commit()
-
-    def generate_auth_token(self, email, password):
-        return self.client.post("/api/auth_token", json={
-            "email": email,
-            "password": password,
-        })

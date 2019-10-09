@@ -20,7 +20,6 @@ def create(database, email, name,
               'adm': admin})
 
     result = database.cursor.fetchone()
-    database.connection.commit()
     return result._asdict()
 
 
