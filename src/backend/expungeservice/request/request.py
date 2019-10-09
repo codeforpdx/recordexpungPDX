@@ -7,6 +7,10 @@ def before():
 
     g.database = get_database()
 
+def after(response):
+    g.database.connection.commit()
+    return response
+
 def teardown(exception):
     g.database.close_connection()
 
