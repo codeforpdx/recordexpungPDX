@@ -1,5 +1,6 @@
 import unittest
 from werkzeug.security import generate_password_hash
+from flask import g
 
 import expungeservice
 from expungeservice.endpoints.auth import *
@@ -24,22 +25,50 @@ class UserProtectedView(MethodView):
 
 class EndpointShared(unittest.TestCase):
 
-    email = "pytest_user@auth_test.com"
-    name = "Endpoint Test"
-    group_name = "Endpoint Test Group"
-    password = "pytest_password"
+    user_data = {
+        "user1":
+        {
+            "email": "pytest_user@auth_test.com",
+            "name": "Endpoint Test",
+            "group_name": "Endpoint Test Group",
+            "admin": False,
+            "password": "password",
+            "hashed_password": generate_password_hash("password"),
+        },
+        "user2":
+        {
+            "email": "pytest_user2@auth_test.com",
+            "name": "Endpoint Test2",
+            "group_name": "Endpoint Test Group2",
+            "admin": False,
+            "password": "password2",
+            "hashed_password": generate_password_hash("password2")
+        },
+        "admin": {
+            "email": "pytest_admin@auth_test.com",
+            "name": "Endpoint AdminTest",
+            "group_name": "Endpoint AdminTest Group",
+            "admin": True,
+            "password": "admin",
+            "hashed_password": generate_password_hash("admin")
+        }
+    }
 
-    hashed_password = generate_password_hash(password)
+    def create_test_user(self, user_key):
 
-    admin_email = "pytest_admin@auth_test.com"
-    admin_password = "pytest_password_admin"
-    admin_name = "Endpoint AdminTest"
-    admin_group_name = "Endpoint AdminTest Group"
+        create_result = user.create(
+            g.database,
+            self.user_data[user_key]["email"],
+            self.user_data[user_key]["name"],
+            self.user_data[user_key]["group_name"],
+            self.user_data[user_key]["hashed_password"],
+            self.user_data[user_key]["admin"]
+        )
+        self.user_data[user_key]["user_id"] = create_result["user_id"]
 
-    ids = {}
-
-    hashed_admin_password = generate_password_hash(admin_password)
-
+        self.user_data[user_key]["auth_header"] = {
+            "Authorization": "Bearer {}".format(
+                get_auth_token(self.app, create_result["user_id"]))}
     def setUp(self):
 
         self.app = expungeservice.create_app("development")
@@ -54,29 +83,14 @@ class EndpointShared(unittest.TestCase):
 
         with self.app.app_context():
             expungeservice.request.before()
-
             self.db_cleanup()
-            create_result = user.create(
-                g.database, self.email, self.name,
-                self.group_name, self.hashed_password, False)
-            self.ids[self.email] = create_result["user_id"]
-            create_result = user.create(
-                g.database, self.admin_email, self.admin_name,
-                self.admin_group_name, self.hashed_admin_password, True)
-            self.ids[self.admin_email] = create_result["user_id"]
+
+            self.create_test_user("user1")
+            self.create_test_user("user2")
+            self.create_test_user("admin")
+            g.database.connection.commit()
+
             expungeservice.request.teardown(None)
-
-        generate_auth_response = self.generate_auth_token(
-            self.email, self.password)
-
-        self.user_auth_header = {"Authorization": "Bearer {}".format(
-                generate_auth_response.get_json()["auth_token"])}
-
-        generate_auth_response = self.generate_auth_token(
-            self.admin_email, self.admin_password)
-
-        self.admin_auth_header = {"Authorization": "Bearer {}".format(
-                generate_auth_response.get_json()["auth_token"])}
 
     def tearDown(self):
         with self.app.app_context():
@@ -90,9 +104,3 @@ class EndpointShared(unittest.TestCase):
         cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
         g.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
         g.database.connection.commit()
-
-    def generate_auth_token(self, email, password):
-        return self.client.post("/api/auth_token", json={
-            "email": email,
-            "password": password,
-        })

@@ -71,9 +71,8 @@ def authorized(f, admin_required, *args, **kwargs):
         if admin_required and not user_data['admin']:
             error(403, 'Logged in user not admin')
 
-        # no endpoint code uses the logged in user_id so this is commented for
-        # now. This may change.
-        # g.logged_in_user_id = user_data['user_id']
+        g.logged_in_user_id = user_data['user_id']
+        g.logged_in_user_is_admin = user_data['admin']
 
         return f(*args, **kwargs)
 
