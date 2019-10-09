@@ -3,13 +3,13 @@ import pytest
 import os
 import psycopg2
 from expungeservice.database import Database, user, get_database
-from test.endpoint import endpoint_util
+from tests.endpoints.endpoint_util import EndpointShared
 
 class TestDatabaseOperations(unittest.TestCase):
 
     def setUp(self):
 
-        self.database = endpoint_util.get_database()
+        self.database = get_database()
 
         self.db_cleanup()
 
@@ -128,20 +128,55 @@ class TestDatabaseOperations(unittest.TestCase):
 
     def test_update_password(self):
 
-        create_example_user()
+        self.create_example_user(self.user_data["user1"]["email"])
+        user_id = user.identify_by_email(self.database, self.user_data["user1"]["email"])
 
-        user.update(self.database, self.user)
+        user.update(self.database, user_id, {"hashed_password": "new_hashed_password"})
+
+
+        self.verify_user_data(
+            self.user_data["user1"]["email"],
+            self.user_data["user1"]["name"],
+            self.user_data["user1"]["group_name"],
+            "new_hashed_password",
+            self.user_data["user1"]["admin"])
+
+    def test_update_other_fields(self):
+
+        self.create_example_user(self.user_data["user1"]["email"])
+        user_id = user.identify_by_email(self.database, self.user_data["user1"]["email"])
+
+        user.update(self.database, user_id,
+                    {"email": "updated_pytest_@email.com",
+                     "admin": True,
+                     "name":"newname",
+                     "group_name":"newgroupname"})
+
+
+        self.verify_user_data(
+            "updated_pytest_@email.com",
+            "newname",
+            "newgroupname",
+            self.user_data["user1"]["hashed_password"],
+            True)
 
     # Helper function
     def create_example_user(
         self,
-        email=self.user_data["user1"]["email"],
-        name=self.user_data["user1"]["name"],
-        group_name=self.user_data["user1"]["group_name"],
-        hashed_password=self.user_data["user1"]["hashed_password"],
-        admin=self.user_data["user1"]["admin"]
+        email=None,
+        name=None,
+        group_name=None,
+        hashed_password=None,
+        admin=None
         ):
 
+        if email is None: email = self.user_data["user1"]["email"]
+        if name is None: name = self.user_data["user1"]["name"]
+        if group_name is None: group_name = self.user_data["user1"]["group_name"]
+        if hashed_password is None: hashed_password = self.user_data["user1"]["hashed_password"]
+        if admin is None: admin = self.user_data["user1"]["admin"]
+
+        #print("user data: ", email, name)
         self.database.cursor.execute(
             """
             WITH USER_INSERT_RESULT AS

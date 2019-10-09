@@ -110,6 +110,57 @@ class Users(MethodView):
         return jsonify(response_data), 201
 
 
+    @user_auth_required
+    def put(self, user_id):
+        """
+        Update the user entry with new values for one or more of the user data fields:
+        email, name, group_name, password, or admin
+        """
+        user_db_data = user.read(g.database, user_id)
+        if not user_db_data:
+            error(404, "User id not recognized")
+
+        if not g.logged_in_user_is_admin and g.logged_in_user_id != user_id:
+            error(403, "Logged in user not admin and doesn't match requested user id.")
+
+
+        data = request.get_json()
+
+        if data is None:
+            error(400, "No json data in request body")
+
+        if not any([key in data.keys() for key in ["email", "name", "group_name",
+                                 "password", "admin"]]):
+
+            error(400, "Json data must define one or more of: \
+email, name, group_name, password, admin")
+
+        if "password" in data.keys():
+            if len(data["password"]) < 8:
+                error(422, "New password is less than 8 characters long!")
+            data["hashed_password"] = generate_password_hash(data["password"])
+
+
+        try:
+            update_user_result = user.update(
+                g.database,
+                user_id,
+                data)
+
+        except UniqueViolation:
+            error(422, "User with that email address already exists")
+
+        response_data = {
+            "user_id": update_user_result["user_id"],
+            "email": update_user_result["email"],
+            "admin": update_user_result["admin"],
+            "name": update_user_result["name"],
+            "group_name": update_user_result["group_name"],
+            "timestamp": update_user_result["date_modified"]
+        }
+        return jsonify(response_data), 201
+
+
 def register(app):
     user_view = Users.as_view('users')
     app.add_url_rule('/api/users', defaults={'user_id': None},

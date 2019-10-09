@@ -74,7 +74,6 @@ def update(database, user_id, new_values):
     if not user_data:
         return None
 
-    print(user_data.keys())
     for col_name in ["name", "email", "group_name", "admin", "hashed_password"]:
         if col_name in new_values.keys():
             user_data[col_name] = new_values[col_name]
@@ -86,7 +85,7 @@ def update(database, user_id, new_values):
             %(admin)s, %(hashed_password)s )""",
         user_data)
 
-    res = cur.fetchone()
+    res = database.cursor.fetchone()
 
     if res:
         return res._asdict()
