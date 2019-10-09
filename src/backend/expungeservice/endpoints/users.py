@@ -150,6 +150,11 @@ email, name, group_name, password, admin")
         except UniqueViolation:
             error(422, "User with that email address already exists")
 
+        if update_user_result is None:
+            # Returns None if the user doesn't exist. We already checked this,
+            # but if it still fails, throw 404
+            error(404, "User id not recognized")
+
         response_data = {
             "user_id": update_user_result["user_id"],
             "email": update_user_result["email"],
