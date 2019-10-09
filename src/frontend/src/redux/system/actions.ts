@@ -2,9 +2,10 @@ import apiService from '../../service/api-service';
 import { setCookie, removeCookie } from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
+import { Dispatch } from 'redux';
 
 export function logIn(email: string, password: string): any {
-  return (dispatch: Function) => {
+  return (dispatch: Dispatch) => {
     return apiService(dispatch, {
       url: '/api/auth_token',
       data: { email, password },
@@ -35,5 +36,24 @@ export function refreshLocalAuth(inputToken: string, inputId: string) {
     type: LOG_IN,
     userId: inputId,
     authToken: inputToken
+  };
+}
+
+export function OECILogIn(username: string, password: string): any {
+  return (dispatch: Dispatch) => {
+    return apiService(dispatch, {
+      url: '/api/oeci_login',
+      data: { oeci_username: username, oeci_password: password },
+      method: 'post',
+      authenticated: true
+    })
+      .then((response: any) => {
+        console.log(response);
+        // setCookie(response.data.auth_token, response.data.user_id);
+        // history.push('/oeci');
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
   };
 }

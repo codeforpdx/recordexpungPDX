@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { logIn } from '../../redux/system/actions';
+import { OECILogIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 import { Redirect } from 'react-router';
 
 interface Props {
   system: SystemState;
-  logIn: typeof logIn;
+  OECILogIn: typeof OECILogIn;
 }
 interface State {
   userId: string;
@@ -45,9 +45,10 @@ class OeciLogin extends React.Component<Props, State> {
       // endpoint for '/api/oeci_login'
       // post: username, password
       // resp.cookie should cotain 'oeci_token'
-      this.setState({
-        redirect: true
-      });
+      this.props.OECILogIn(this.state.userId, this.state.password);
+      // this.setState({
+      //   redirect: true
+      // });
     }
   };
 
@@ -153,5 +154,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { logIn }
+  { OECILogIn }
 )(OeciLogin);
