@@ -163,7 +163,7 @@ email, name, group_name, password, admin")
             "group_name": update_user_result["group_name"],
             "timestamp": update_user_result["date_modified"]
         }
-        return jsonify(response_data), 201
+        return jsonify(response_data), 200
 
 
 def register(app):

@@ -284,11 +284,11 @@ Returns: Updated user
 
 Status codes:
 
-- `201 CREATED`: user creation was successful
-- `400 BAD FORMAT`: missing one or more fields
+- `200 OK`: user update was successful
+- `400 BAD FORMAT`: missing one or more expected fields
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
-- `403 FORBIDDEN`: authorized user is not admin
-- `422 UPROCESSABLE ENTITY`: duplicate user or password too short
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
+- `422 UPROCESSABLE ENTITY`: duplicate email or password too short
 
 
 **`POST`** `/api/oeci_login/`
