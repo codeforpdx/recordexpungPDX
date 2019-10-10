@@ -1,4 +1,4 @@
-import { LOAD_SEARCH_RECORDS } from './types';
+import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
 
 const fakeRecord = {
   total_balance_due: 199.99,
@@ -88,10 +88,16 @@ const fakeRecord = {
 };
 
 export const loadSearchRecordsMock = () => (dispatch: Function) => {
-  return Promise.resolve(fakeRecord).then(payload => {
-    dispatch({
-      type: LOAD_SEARCH_RECORDS,
-      search_records: payload
-    });
+  dispatch({
+    type: LOAD_SEARCH_RECORDS_LOADING
   });
+  const actionCreator = () =>
+    Promise.resolve(fakeRecord).then(payload => {
+      dispatch({
+        type: LOAD_SEARCH_RECORDS,
+        search_records: payload
+      });
+    });
+
+  setTimeout(actionCreator, 1500);
 };
