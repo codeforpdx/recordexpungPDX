@@ -5,17 +5,18 @@ A few things to do when developing the frontend or backend.
 
 ## When Pulling Changes From Master
 
-Be aware that source code changes are not reflected in the Docker stack until you manually rebuild the Docker images.
+These instructions are outdated given our current docker dev setup.
 
-Additionally, database changes don't take effect until you ALSO replace the database Docker Volume, which is 
- a persistent storage container attached to the ephemeral Docker stack container.
+Code changes to the database (tables or functions) are not reflected in the Docker stack until you manually rebuild the database Docker image and replace the database Docker Volume, which is a persistent storage container attached to the ephemeral Docker stack container.
  
  To perform both of these steps:
  
  ```
- make dev_stop
+ make dev_down
  make dev_drop_database
- make dev
+ make dev_build
+ make dev_up
+ 
  ```
  
 If you don't want to lose the contents of your database ... well we don't currently have a tool to automatically export/import the data. But we need it! See Issue #299, and feel free to add this feature.
@@ -23,13 +24,15 @@ If you don't want to lose the contents of your database ... well we don't curren
 
 ## Create a Local User
 
-In order to call API endpoints locally, e.g. while working on the frontend, you will need login credentials already stored in the local database. These are needed to obtain a JWT auth token (required for most endpoints). To do so:
+These instructions are outdated given our current docker dev setup.
+
+You can create user accounts manually in the database if you want to. Here's how:
 
 1. Choose a password and compute its bcrypt hash:
 
 In the project directory, run
 ```
-pipenv run python
+docker exec -ti pipenv run python
 ```
 to open the python interactive terminal with the project's dependencies loaded. Then run
 
@@ -48,7 +51,7 @@ make dev_psql
 This launches the PSQL interactive environment in the project's postgres docker container. In this terminal, run:
 
 ```
-$ SELECT * FROM CREATE_USER('your_email', 'your_hashed_password', true);
+$ SELECT * FROM USERS_CREATE('your_email', 'your_hashed_password', 'your name', 'your group name', true);
 ```
 
 providing your actual email and hashed password each in the single-quotes.
