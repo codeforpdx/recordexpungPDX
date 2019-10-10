@@ -31,7 +31,7 @@
     "redux-mock-store": "^1.5.3",
     "redux-starter-kit": "^0.7.0",
     "tachyons": "^4.11.1",
-    "typescript": "3.6.3"
+    "typescript": "3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
