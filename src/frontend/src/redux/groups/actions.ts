@@ -6,10 +6,13 @@ export const loadGroups = () => (dispatch: Dispatch) => {
     setTimeout(() => {
       // placeholderGroupData will be replaced with the payload from the axios request
       const groups: Group[] = placeholderGroupData;
-      dispatch({
-        type: LOAD_GROUPS,
-        groups
-      });
+      resolve(
+        dispatch({
+          type: LOAD_GROUPS,
+          groups
+        })
+      )
+
     }, 1000);
   });
 };
