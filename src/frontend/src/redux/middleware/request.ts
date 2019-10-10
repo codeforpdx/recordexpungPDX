@@ -1,6 +1,7 @@
 import { Request } from '../../service/api-service';
 import axios from 'axios';
 import { Store, Action } from 'redux';
+import { logOut } from '../system/actions';
 
 // This Redux Action type shouldn't be used outside of here and service/api-service.ts
 export const REQUEST = 'REQUEST';
@@ -44,7 +45,7 @@ const RequestMiddleware: any = (store: Store) => (next: Function) => (
   if (
     !(action.request.authenticated && action.request.authenticated === true)
   ) {
-    makeRequest(action);
+    makeUnauthenticatedRequest(action);
     return next(withoutUnserializables(action));
   }
 
@@ -54,17 +55,32 @@ const RequestMiddleware: any = (store: Store) => (next: Function) => (
   // a failure with the request.
   throwUnlessCurrentlyAuthenticated(store);
 
-  makeRequest(withAuthorizationHeader(store, action));
+  makeAuthenticatedRequest(store, action);
   return next(withoutUnserializables(action));
 };
 
-// Make the request with Axios and when the Promise Axios returns resolves or rejects,
-// send the control flow back to the Promise returned by apiService.
-function makeRequest(action: RequestAction): void {
-  // Can't figure out the types here for the moment. Help is welcome!
+function makeUnauthenticatedRequest(action: RequestAction): void {
   axios
     .request(action.request)
     .then(action.resolve as any, action.reject as any);
+}
+
+// Make the request with Axios and when the Promise Axios returns resolves or rejects,
+// send the control flow back to the Promise returned by apiService.
+function makeAuthenticatedRequest(store: Store, action: RequestAction): void {
+  // Can't figure out the types here for the moment. Help is welcome!
+  axios
+    .request(withAuthorizationHeader(store, action).request)
+    .then(action.resolve as any, error => {
+      if (
+        error.response &&
+        error.response.status &&
+        error.response.status === 401
+      ) {
+        store.dispatch(logOut());
+      }
+      action.reject(error);
+    });
 }
 
 function throwUnlessCurrentlyAuthenticated(store: Store): void {
