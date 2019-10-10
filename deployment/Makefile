@@ -1,22 +1,22 @@
-
+handle_error = (rm -rf ./build && exit 1)
 
 api:
 	echo $@
 	mkdir ./build
 	cp -r ../src/backend/expungeservice ./build/expungeservice
 
-	heroku container:push --recursive --app=recordexpungpdxapi
-	heroku container:release web --app=recordexpungpdxapi
+	heroku container:push --recursive --app=recordexpungpdxapi || $(handle_error)
+	heroku container:release web --app=recordexpungpdxapi || $(handle_error)
 	rm -rf ./build
 
 frontend:
 	echo $@
 	mkdir ./build
-	cp -r ../config/nginx/* ./build
-	cp -r ../src/frontend ./build/frontend
+	cp -r ../config/nginx/ ./build/
+	rsync -a ../src/frontend/ ./build/frontend/ --exclude node_modules
 
-	heroku container:push --recursive --app=recordexpungpdx
-	heroku container:release web --app=recordexpungpdx
+	heroku container:push --recursive --app=recordexpungpdx || $(handle_error)
+	heroku container:release web --app=recordexpungpdx || $(handle_error)
 	rm -rf ./build
 
 db:
