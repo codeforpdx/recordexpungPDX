@@ -71,21 +71,7 @@ class TestAuth(EndpointShared):
 
     def test_is_admin_auth_token(self):
 
-        admin_email = 'pytest_admin_user@auth_test.com'
-        admin_name = 'AuthTest Name'
-        admin_group_name = 'AuthTest Group Name'
-        admin_password = 'pytest_admin_password'
-        hashed_admin_password = generate_password_hash(admin_password)
-
-        with self.app.app_context():
-            expungeservice.request.before()
-
-            user.create(g.database, admin_email, admin_name,
-                        admin_group_name, hashed_admin_password, True)
-
-            expungeservice.request.teardown(None)
-
-        response = self.generate_auth_token(admin_email, admin_password)
+        response = self.generate_auth_token(self.user_data["admin"]["email"], self.user_data["admin"]["password"])
         response = self.client.get(
             '/api/test/admin_protected',
             headers={
@@ -104,3 +90,9 @@ class TestAuth(EndpointShared):
                     response.get_json()['auth_token'])
             })
         assert(response.status_code == 403)
+
+    def generate_auth_token(self, email, password):
+        return self.client.post("/api/auth_token", json={
+            "email": email,
+            "password": password,
+        })
