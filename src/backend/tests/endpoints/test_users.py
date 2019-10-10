@@ -202,7 +202,7 @@ class TestUsers(EndpointShared):
 
         self.check_user_data_match(response_data, self.user_data["user1"])
 
-        assert response.status_code == 201
+        assert response.status_code == 200
 
         """
         Attempt to log in with the new password
@@ -227,7 +227,7 @@ class TestUsers(EndpointShared):
 
         self.check_user_data_match(response_data, existing_user_data)
 
-        assert(response.status_code == 201)
+        assert(response.status_code == 200)
 
 
 
