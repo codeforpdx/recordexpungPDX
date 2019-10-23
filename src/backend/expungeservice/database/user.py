@@ -66,6 +66,33 @@ def fetchall(database):
     else:
         return None
 
+
+@rollback_errors
+def update(database, user_id, new_values):
+
+    user_data = read(database, user_id)
+    if not user_data:
+        return None
+
+    for col_name in ["name", "email", "group_name", "admin", "hashed_password"]:
+        if col_name in new_values.keys():
+            user_data[col_name] = new_values[col_name]
+    user_data["user_id"] = user_id
+
+    database.cursor.execute(
+        """SELECT * FROM USERS_UPDATE(
+            %(user_id)s, %(email)s,  %(name)s, %(group_name)s,
+            %(admin)s, %(hashed_password)s )""",
+        user_data)
+
+    res = database.cursor.fetchone()
+
+    if res:
+        return res._asdict()
+    else:
+        return None
+
+
 '''
 Here is an example of safe SQL formatting to insert column names and values:
 
