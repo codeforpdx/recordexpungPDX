@@ -1,4 +1,6 @@
 import { LOAD_SEARCH_RECORDS } from './types';
+import apiService from '../../service/api-service';
+import { Dispatch } from 'redux';
 
 const fakeRecord = {
   total_balance_due: 199.99,
@@ -87,11 +89,30 @@ const fakeRecord = {
   ]
 };
 
-export const loadSearchRecordsMock = () => (dispatch: Function) => {
-  return Promise.resolve(fakeRecord).then(payload => {
-    dispatch({
-      type: LOAD_SEARCH_RECORDS,
-      search_records: payload
+export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
+  console.log('RAN LOADSEARCHRECORDSMOCK');
+  return apiService(dispatch, {
+    url: '/api/search',
+    data: {
+      first_name: 'first',
+      middle_name: '',
+      last_name: 'last',
+      birth_date: '10102010'
+    },
+    method: 'post',
+    withCredentials: true,
+    authenticated: true
+  })
+    .then((response: any) => {
+      // data returned in the format that will be sent from crawler
+      console.log('SEARCH RESPONSE: ', response.data.data);
+      dispatch({
+        type: LOAD_SEARCH_RECORDS,
+        search_records: fakeRecord
+      });
+    })
+    .catch((error: any) => {
+      // Request errors ie: unauthenticated
+      console.log('SEARCH ERRORS: ', error.response);
     });
-  });
 };
