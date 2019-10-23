@@ -214,10 +214,10 @@ class TestUsers(EndpointShared):
 
         assert auth_response.status_code == 200
 
-    def test_update_self_success(self):
+    def test_update_nonadmin_self_success(self):
         response = self.client.put(
             "/api/users/%s" % self.user_data["user1"]["user_id"],
-            headers=self.user_data["admin"]["auth_header"],
+            headers=self.user_data["user1"]["auth_header"],
             json={"group_name":"updated group name"})
 
         response_data = response.get_json()
@@ -266,3 +266,13 @@ class TestUsers(EndpointShared):
             json={"email":self.user_data["user2"]["email"]})
 
         assert(response.status_code == 422)
+
+
+    def test_update_set_self_admin_fail(self):
+
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user1"]["auth_header"],
+            json={"admin":True})
+
+        assert(response.status_code == 403)

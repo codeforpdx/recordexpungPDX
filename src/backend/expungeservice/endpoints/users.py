@@ -118,7 +118,7 @@ class Users(MethodView):
         """
         user_db_data = user.read(g.database, user_id)
         if not user_db_data:
-            error(404, "User id not recognized")
+            error(404, "User id not recognized.")
 
         if not g.logged_in_user_is_admin and g.logged_in_user_id != user_id:
             error(403, "Logged in user not admin and doesn't match requested user id.")
@@ -135,9 +135,12 @@ class Users(MethodView):
             error(400, "Json data must define one or more of: \
 email, name, group_name, password, admin")
 
+        if ("admin" in data.keys()) and (data["admin"] is True) and (not g.logged_in_user_is_admin):
+            error(403, "Logged in user can not grant self admin privileges.")
+
         if "password" in data.keys():
             if len(data["password"]) < 8:
-                error(422, "New password is less than 8 characters long!")
+                error(422, "New password is less than 8 characters long.")
             data["hashed_password"] = generate_password_hash(data["password"])
 
 
