@@ -3,6 +3,7 @@ import os
 import time
 import datetime
 import unittest
+import copy
 
 from flask import jsonify, current_app, g, request
 from werkzeug.security import generate_password_hash
@@ -190,3 +191,88 @@ class TestUsers(EndpointShared):
             headers=self.user_data["user1"]["auth_header"])
 
         assert(response.status_code == 404)
+
+    def test_update_password_as_admin_success(self):
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["admin"]["auth_header"],
+            json={"password":"new_password"})
+
+        response_data = response.get_json()
+
+        self.check_user_data_match(response_data, self.user_data["user1"])
+
+        assert response.status_code == 200
+
+        """
+        Attempt to log in with the new password
+        """
+
+        auth_response = self.client.post("/api/auth_token",
+            json= {"email": self.user_data["user1"]["email"],
+                   "password": "new_password"})
+
+        assert auth_response.status_code == 200
+
+    def test_update_nonadmin_self_success(self):
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user1"]["auth_header"],
+            json={"group_name":"updated group name"})
+
+        response_data = response.get_json()
+        existing_user_data = copy.deepcopy(self.user_data["user1"])
+
+        existing_user_data["group_name"] = "updated group name"
+
+        self.check_user_data_match(response_data, existing_user_data)
+
+        assert(response.status_code == 200)
+
+
+
+
+    def test_update_user_id_mismatch_fail(self):
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user2"]["auth_header"],
+            json={"password":"new_password"})
+
+        assert(response.status_code == 403)
+
+
+    def test_update_unrecogized_fail(self):
+        response = self.client.put(
+            "/api/users/%s" % "unrecognized",
+            headers=self.user_data["user1"]["auth_header"],
+            json={"password":"new_password"})
+
+        assert(response.status_code == 404)
+
+
+    def test_update_no_matching_fields_fail(self):
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user1"]["auth_header"],
+            json={"random_field":"random_field_value"})
+
+        assert(response.status_code == 400)
+
+
+    def test_update_duplicated_email_fail(self):
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user1"]["auth_header"],
+            json={"email":self.user_data["user2"]["email"]})
+
+        assert(response.status_code == 422)
+
+
+    def test_update_set_self_admin_fail(self):
+
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            headers=self.user_data["user1"]["auth_header"],
+            json={"admin":True})
+
+        assert(response.status_code == 403)

@@ -10,6 +10,7 @@ More documentation:
  - Some support docs for doing development:
    - [doc/development.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/development.md)
    - Docker usage: [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
+   - Mock search.py and oeci_login.py useage: [src/frontend/developerUtils/developerUtils.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/developerUtils/developerUtils.md)
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 

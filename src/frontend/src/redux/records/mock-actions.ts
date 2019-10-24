@@ -1,6 +1,6 @@
-import { LOAD_SEARCH_RECORDS } from './types';
 import apiService from '../../service/api-service';
 import { Dispatch } from 'redux';
+import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
 
 const fakeRecord = {
   total_balance_due: 199.99,
@@ -90,6 +90,9 @@ const fakeRecord = {
 };
 
 export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: LOAD_SEARCH_RECORDS_LOADING
+  });
   // search endpoint requires first, middle, last, and birth_date
   return apiService(dispatch, {
     url: '/api/search',
