@@ -45,10 +45,12 @@ export default class Charge extends React.Component<Props> {
                 className="absolute fas fa-check-circle green"
               ></i>
               <div className="ml3 pl1">
-                <span className="fw7">Type:</span> Eligible{' '}
-                <span className="nowrap">
+                <span className="fw7">Type:</span>{' '}
+                {expungement_result.type_eligibility_reason}
+                {/* *****COMPONENT SHOULD GET ELIGIBILITY AND DETERMINE WHAT LOGO TO DISPLAY */}
+                {/* <span className="nowrap">
                   {expungement_result.type_eligibility_reason}
-                </span>
+                </span> */}
               </div>
             </div>
           </div>
