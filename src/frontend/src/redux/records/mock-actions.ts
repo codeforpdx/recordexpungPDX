@@ -90,7 +90,7 @@ const fakeRecord = {
 };
 
 export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
-  console.log('RAN LOADSEARCHRECORDSMOCK');
+  // search endpoint requires first, middle, last, and birth_date
   return apiService(dispatch, {
     url: '/api/search',
     data: {
@@ -105,14 +105,13 @@ export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
   })
     .then((response: any) => {
       // data returned in the format that will be sent from crawler
-      console.log('SEARCH RESPONSE: ', response.data.data);
+      // as `response.data.data`
       dispatch({
         type: LOAD_SEARCH_RECORDS,
         search_records: fakeRecord
       });
     })
     .catch((error: any) => {
-      // Request errors ie: unauthenticated
-      console.log('SEARCH ERRORS: ', error.response);
+      // Request errors ie: unauthenticated as `error.response`
     });
 };
