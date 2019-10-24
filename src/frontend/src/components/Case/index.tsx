@@ -4,7 +4,6 @@ import Charges from '../Charges';
 
 export default class Cases extends React.Component<CaseProps> {
   render() {
-    console.log('case', this.props.case);
     const {
       name,
       case_number,

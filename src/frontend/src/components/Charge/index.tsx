@@ -2,15 +2,26 @@ import React from 'react';
 
 interface Props {
   charge: {
+    statute: string;
+    name: string;
     disposition: {
       ruling: string;
+      date: string;
+    };
+    expungement_result: {
+      type_eligibility_reason: string;
     };
   };
 }
 
 export default class Charge extends React.Component<Props> {
   render() {
-    const { disposition } = this.props.charge;
+    const {
+      disposition,
+      statute,
+      name,
+      expungement_result
+    } = this.props.charge;
 
     return (
       <div className="br3 ma2 bg-white">
@@ -35,21 +46,23 @@ export default class Charge extends React.Component<Props> {
               ></i>
               <div className="ml3 pl1">
                 <span className="fw7">Type:</span> Eligible{' '}
-                <span className="nowrap">137.225(5)(b)</span>
+                <span className="nowrap">
+                  {expungement_result.type_eligibility_reason}
+                </span>
               </div>
             </div>
           </div>
           <div className="w-100 w-70-l pr3">
             <ul className="list">
               <li className="mb2">
-                <span className="fw7">Charge: </span>4759924B - Poss Controlled
-                Sub 2
+                <span className="fw7">Charge: </span>
+                {`${statute}-${name}`}
               </li>
               <li className="mb2">
                 <span className="fw7">Disposition: </span> {disposition.ruling}
               </li>
               <li className="mb2">
-                <span className="fw7">Convicted: </span>2/12/1987
+                <span className="fw7">Convicted: </span> {disposition.date}
               </li>
             </ul>
           </div>
