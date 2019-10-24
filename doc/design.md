@@ -175,7 +175,7 @@ Returns: List of users:
         * user_id
         * email
         * name
-        * group
+        * group_name
         * admin
         * date_created_timestamp
 
@@ -201,7 +201,7 @@ Returns:
     * user_id
     * email
     * name
-    * group
+    * group_name
     * admin
     * timestamp
 
@@ -227,7 +227,7 @@ Required headers:
 - fields:
     * email
     * name
-    * group
+    * group_name
     * password
     * admin
 
@@ -238,7 +238,7 @@ Returns: New user
     * user_id
     * email
     * name
-    * group
+    * group_name
     * admin
     * timestamp
 
@@ -250,6 +250,45 @@ Status codes:
 - `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
 - `403 FORBIDDEN`: authorized user is not admin
 - `422 UPROCESSABLE ENTITY`: duplicate user or password too short
+
+
+**`PUT`** `/api/users/<user_id>`
+
+Updates one or more data fields for an existing user. Requires admin authorization or that the logged-in user's id match the requested user_id.
+
+Required headers:
+
+- `Authorization: <JWT string>`
+
+`PUT` body:
+
+- format: `JSON`
+- fields (one or more of):
+    * email
+    * name
+    * group_name
+    * password
+    * admin
+
+Returns: Updated user
+
+- format: `JSON`
+- fields:
+    * user_id
+    * email
+    * name
+    * group_name
+    * admin
+    * timestamp
+
+
+Status codes:
+
+- `200 OK`: user update was successful
+- `400 BAD FORMAT`: missing one or more expected fields
+- `401 UNAUTHORIZED`: authorization rejected; missing or invalid auth token
+- `403 FORBIDDEN`: authorized user is not admin or doesn't match the requested user_id
+- `422 UPROCESSABLE ENTITY`: duplicate email or password too short
 
 
 **`POST`** `/api/oeci_login/`
