@@ -14,8 +14,8 @@ To use them replace the corresponding files in the `/src/backend/expungeservice/
 
 from the root directory of the app you can run:  
 
-`cp src/frontend/developerUtils/search.py src/backend/expungeservice/endpoints/search.py`  
-
-`cp src/frontend/developerUtils/oeci_login.py src/backend/expungeservice/endpoints/oeci_login.py`  
+`$ make dev_utils_up`
 
 ## Before committing make sure to revert these two files to their original forms.  
+
+`$ make dev_utils_down`

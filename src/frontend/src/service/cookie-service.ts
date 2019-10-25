@@ -1,3 +1,5 @@
+import { decode } from 'punycode';
+
 interface Cookie {
   [key: string]: string;
 }
@@ -27,12 +29,12 @@ export function setLogInCookie(inputToken: string, inputId: string) {
   document.cookie = `userId=${inputId}; max-age=36000;`;
 }
 
-export function setOECICookie(inputToken: string) {
-  document.cookie = `oeci_token=${inputToken}; max-age=900`;
-}
-
 export function removeCookie() {
   document.cookie = 'authToken=; max-age=0;';
   document.cookie = 'userId=; max-age=0;';
   document.cookie = 'oeci_token=; max-age=0;';
+}
+
+export function hasOeciToken() {
+  return decodeCookie().oeci_token;
 }

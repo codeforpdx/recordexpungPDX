@@ -1,5 +1,9 @@
 import apiService from '../../service/api-service';
-import { setLogInCookie, removeCookie } from '../../service/cookie-service';
+import {
+  setLogInCookie,
+  removeCookie,
+  hasOeciToken
+} from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
 import { Dispatch } from 'redux';
@@ -39,7 +43,7 @@ export function refreshLocalAuth(inputToken: string, inputId: string) {
   };
 }
 
-export function OECILogIn(username: string, password: string): any {
+export function oeciLogIn(username: string, password: string): any {
   return (dispatch: Dispatch) => {
     return apiService(dispatch, {
       url: '/api/oeci_login',
@@ -48,7 +52,9 @@ export function OECILogIn(username: string, password: string): any {
       authenticated: true,
       withCredentials: true
     }).then((response: any) => {
-      history.push('/record-search');
+      if (hasOeciToken()) {
+        history.push('/record-search');
+      }
     });
   };
 }

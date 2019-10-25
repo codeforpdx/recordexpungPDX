@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { OECILogIn } from '../../redux/system/actions';
+import { oeciLogIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
 
 interface Props {
   system: SystemState;
-  OECILogIn: typeof OECILogIn;
+  oeciLogIn: typeof oeciLogIn;
 }
 interface State {
   userId: string;
@@ -39,28 +39,29 @@ class OeciLogin extends React.Component<Props, State> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.validateForm();
-    if (this.state.missingInputs === false) {
-      this.props
-        .OECILogIn(this.state.userId, this.state.password)
-        .catch((error: any) => {
-          error.response.status === 401
-            ? // error: email and password do not match
-              this.setState({ invalidCredentials: true })
-            : // error: technical difficulties
-              this.setState({ invalidResponse: true });
-        });
-    }
-  };
-
-  validateForm = () => {
-    this.setState({
-      missingUserId: this.state.userId.trim().length === 0,
-      missingPassword: this.state.password.trim().length === 0,
-      missingInputs:
-        this.state.userId.trim().length === 0 ||
-        this.state.password.trim().length === 0
-    });
+    // validate form
+    this.setState(
+      {
+        missingUserId: this.state.userId.trim().length === 0,
+        missingPassword: this.state.password.trim().length === 0,
+        missingInputs:
+          this.state.userId.trim().length === 0 ||
+          this.state.password.trim().length === 0
+      },
+      () => {
+        if (this.state.missingInputs === false) {
+          this.props
+            .oeciLogIn(this.state.userId, this.state.password)
+            .catch((error: any) => {
+              error.response.status === 401
+                ? // error: email and password do not match
+                  this.setState({ invalidCredentials: true })
+                : // error: technical difficulties
+                  this.setState({ invalidResponse: true });
+            });
+        }
+      }
+    );
     // Need validation for userId & PW
   };
 
@@ -156,5 +157,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { OECILogIn }
+  { oeciLogIn }
 )(OeciLogin);
