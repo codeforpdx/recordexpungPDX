@@ -460,3 +460,42 @@ class TestFelicia(unittest.TestCase):
 
         assert self.parser.hashed_dispo_data[2]['ruling'] == 'Dismissed'
         assert self.parser.hashed_dispo_data[2]['date'] == '07/19/2005'
+
+class TestRevokedProbation(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = CaseParser()
+        self.parser.feed(CaseDetails.CASE_WITH_REVOKED_PROBATION)
+
+    def test_ids_are_collected(self):
+        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
+        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
+
+    def test_charge_names_are_collected(self):
+        assert self.parser.charge_table_data[1] == 'Possession of Cocaine'
+        assert self.parser.charge_table_data[6] == 'Possession of Cocaine'
+
+    def test_statutes_are_collected(self):
+        assert self.parser.charge_table_data[2] == '475.884'
+        assert self.parser.charge_table_data[7] == '475.884'
+
+    def test_charge_levels_are_collected(self):
+        assert self.parser.charge_table_data[3] == 'Felony Class C'
+        assert self.parser.charge_table_data[8] == 'Felony Class C'
+
+    def test_charge_dates_are_collected(self):
+        assert self.parser.charge_table_data[4] == '06/13/2009'
+        assert self.parser.charge_table_data[9] == '02/17/2009'
+
+    def test_financial_data_is_parsed(self):
+        assert self.parser.balance_due == '529.08'
+
+    # Test data is formatted
+    def test_dispo_data_gets_formatted(self):
+        assert len(self.parser.hashed_dispo_data) == 2
+
+        assert self.parser.hashed_dispo_data[1]['ruling'] == 'Convicted'
+        assert self.parser.hashed_dispo_data[1]['date'] == '07/06/2009'
+
+        assert self.parser.hashed_dispo_data[2]['ruling'] == 'Removed From Charging Instrument'
+        assert self.parser.hashed_dispo_data[2]['date'] == '06/22/2009'
