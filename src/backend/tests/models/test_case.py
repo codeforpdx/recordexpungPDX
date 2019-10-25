@@ -54,7 +54,7 @@ class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
         self.case['info'] = ['John Doe']
         case = CaseFactory.save(self.case)
 
-        assert case.birth_year == ''
+        assert case.birth_year is None
 
     def test_it_assigns_birth_year_when_given_the_year(self):
         self.case['info'] = ['John Doe', '1979']

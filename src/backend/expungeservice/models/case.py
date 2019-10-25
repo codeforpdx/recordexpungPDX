@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime, date
-from typing import List
+from typing import List, Optional
 
 from expungeservice.models.charge import Charge
 
@@ -8,7 +8,7 @@ from expungeservice.models.charge import Charge
 @dataclass
 class Case:
     name: str
-    birth_year: int
+    birth_year: Optional[int]
     case_number: str
     citation_number: str
     location: str
@@ -23,7 +23,7 @@ class Case:
     def create(info, case_number, citation_number, date_location, type_status,
                charges, case_detail_link, balance="0"):
         name = info[0]
-        birth_year = Case._set_birth_year(info)
+        birth_year = Case._parse_birth_year(info)
         citation_number = citation_number[0] if citation_number else ""
         date, location = date_location
         date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
@@ -49,11 +49,11 @@ class Case:
             return self._closed()
 
     @staticmethod
-    def _set_birth_year(info):
+    def _parse_birth_year(info) -> Optional[int]:
         if len(info) > 1:
             return int(info[1].split('/')[-1])
         else:
-            return ''
+            return None
 
     def _ignore_open_case(self):
         return 'violation' in self.violation_type.lower() or 'municipal parking' == self.violation_type.lower()
