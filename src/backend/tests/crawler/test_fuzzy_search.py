@@ -1,14 +1,12 @@
 import unittest
 
 from expungeservice.crawler.fuzzy_search import FuzzySearch
+from expungeservice.crawler.parsers.case_parser.case_parser import \
+    PROBATION_REVOKED_SEARCH_TERMS
 
 from tests.fixtures.case_details import CaseDetails
 
-
 class TestFuzzySearch(unittest.TestCase):
-    def setUp(self):
-        self.probation_revoked_search_terms = ["probation revoked",
-                                               "prob revoked"]
 
     def test_simple_searches(self):
         text = "The quick brown fox jumps over the lazy dog."
@@ -23,7 +21,7 @@ class TestFuzzySearch(unittest.TestCase):
                 Court Action: Signed; Court Action Date: 11/08/2010;
                 Judge: Judge;
         """
-        assert FuzzySearch.search(text, self.probation_revoked_search_terms)
+        assert FuzzySearch.search(text, PROBATION_REVOKED_SEARCH_TERMS)
 
     def test_negative_probation_revoked_search(self):
         text = """
@@ -40,7 +38,7 @@ class TestFuzzySearch(unittest.TestCase):
                 Guidelines: Severity
                 1 History E
         """
-        assert not FuzzySearch.search(text, self.probation_revoked_search_terms)
+        assert not FuzzySearch.search(text, PROBATION_REVOKED_SEARCH_TERMS)
 
     def test_simple_probation_revoked_search_with_html_tags(self):
         text = """
@@ -63,9 +61,9 @@ class TestFuzzySearch(unittest.TestCase):
             </table>
         </nobr>
         """
-        assert FuzzySearch.search(text, self.probation_revoked_search_terms)
+        assert FuzzySearch.search(text, PROBATION_REVOKED_SEARCH_TERMS)
 
     def test_full_cases_for_revoked_probation(self):
-        assert FuzzySearch.search(CaseDetails.CASE_WITH_REVOKED_PROBATION, self.probation_revoked_search_terms)
-        assert not FuzzySearch.search(CaseDetails.CASE_PARKING_VIOLATION, self.probation_revoked_search_terms)
-        assert not FuzzySearch.search(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION, self.probation_revoked_search_terms)
+        assert FuzzySearch.search(CaseDetails.CASE_WITH_REVOKED_PROBATION, PROBATION_REVOKED_SEARCH_TERMS)
+        assert not FuzzySearch.search(CaseDetails.CASE_PARKING_VIOLATION, PROBATION_REVOKED_SEARCH_TERMS)
+        assert not FuzzySearch.search(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION, PROBATION_REVOKED_SEARCH_TERMS)

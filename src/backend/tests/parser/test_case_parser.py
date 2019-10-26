@@ -95,6 +95,9 @@ class TestCaseWithDisposition(unittest.TestCase):
         assert self.parser.hashed_charge_data[2]['date'] == '04/01/2016'
         assert self.parser.hashed_charge_data[3]['date'] == '05/22/2015'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
 
@@ -152,6 +155,9 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
         assert self.parser.hashed_charge_data[1]['statute'] == '4759924B'
         assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
         assert self.parser.hashed_charge_data[1]['date'] == '04/12/1992'
+
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
 
 
 class TestCaseWithPartialDisposition(unittest.TestCase):
@@ -240,6 +246,9 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
         assert self.parser.hashed_charge_data[3]['date'] == '03/06/2018'
         assert self.parser.hashed_charge_data[999]['date'] == '03/06/2018'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 
 class TestCaseWithoutDisposition(unittest.TestCase):
 
@@ -315,6 +324,9 @@ class TestCaseWithoutDisposition(unittest.TestCase):
         assert self.parser.hashed_charge_data[2]['date'] == '03/06/2018'
         assert self.parser.hashed_charge_data[3]['date'] == '03/06/2018'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 
 class TestParkingViolationCase(unittest.TestCase):
 
@@ -369,6 +381,9 @@ class TestParkingViolationCase(unittest.TestCase):
         assert self.parser.hashed_charge_data[1]['level'] == 'Violation Unclassified'
         assert self.parser.hashed_charge_data[1]['date'] == '12/01/2018'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 
 class TestCaseWithRelatedCases(unittest.TestCase):
 
@@ -421,6 +436,9 @@ class TestCaseWithRelatedCases(unittest.TestCase):
         assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
         assert self.parser.hashed_charge_data[1]['date'] == '03/19/2000'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 
 class TestFelicia(unittest.TestCase):
 
@@ -461,6 +479,9 @@ class TestFelicia(unittest.TestCase):
         assert self.parser.hashed_dispo_data[2]['ruling'] == 'Dismissed'
         assert self.parser.hashed_dispo_data[2]['date'] == '07/19/2005'
 
+    def test_probation_revoked_is_parsed(self):
+        assert not self.parser.probation_revoked
+
 class TestRevokedProbation(unittest.TestCase):
 
     def setUp(self):
@@ -499,3 +520,8 @@ class TestRevokedProbation(unittest.TestCase):
 
         assert self.parser.hashed_dispo_data[2]['ruling'] == 'Removed From Charging Instrument'
         assert self.parser.hashed_dispo_data[2]['date'] == '06/22/2009'
+
+    def test_probation_revoked_is_parsed(self):
+        assert self.parser.probation_revoked
+
+
