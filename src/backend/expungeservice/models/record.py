@@ -18,6 +18,6 @@ class Record:
         total = 0
 
         for case in self.cases:
-            total += case.balance_due_in_cents
+            total += case.get_balance_due()
 
-        return total/100.0
+        return round(total, 2)

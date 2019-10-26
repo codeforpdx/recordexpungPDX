@@ -1,5 +1,4 @@
-from expungeservice.models.record_object import Record
-from expungeservice.models.charge import Charge
+from expungeservice.models.record import Record
 
 class RecordFactory:
 
