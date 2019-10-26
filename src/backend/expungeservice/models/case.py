@@ -18,6 +18,7 @@ class Case:
     charges: List[Charge]
     case_detail_link: str
     __balance_due_in_cents: int = 0
+    __probation_revoked: bool = False
 
     @staticmethod
     def create(info, case_number, citation_number, date_location, type_status,
@@ -33,6 +34,12 @@ class Case:
                     case_detail_link)
         case.set_balance_due(balance)
         return case
+
+    def get_probation_revoked(self) -> bool:
+        return self.__probation_revoked
+
+    def set_probation_revoked(self, probation_revoked: bool):
+        self.__probation_revoked = probation_revoked
 
     def set_balance_due(self, balance_due_dollar_amount):
         if type(balance_due_dollar_amount) == str:
