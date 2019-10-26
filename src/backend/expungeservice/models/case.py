@@ -17,7 +17,7 @@ class Case:
     current_status: str
     charges: List[Charge]
     case_detail_link: str
-    balance_due_in_cents: int = 0
+    __balance_due_in_cents: int = 0
 
     @staticmethod
     def create(info, case_number, citation_number, date_location, type_status,
@@ -37,10 +37,10 @@ class Case:
     def set_balance_due(self, balance_due_dollar_amount):
         if type(balance_due_dollar_amount) == str:
             balance_due_dollar_amount = float(balance_due_dollar_amount.replace(',',''))
-        self.balance_due_in_cents = int(balance_due_dollar_amount * 100)
+        self.__balance_due_in_cents = int(balance_due_dollar_amount * 100)
 
     def get_balance_due(self):
-        return self.balance_due_in_cents / 100
+        return self.__balance_due_in_cents / 100
 
     def closed(self):
         if self._ignore_open_case():
