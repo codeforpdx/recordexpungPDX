@@ -2,11 +2,13 @@ import re
 
 from html.parser import HTMLParser
 
+from expungeservice.crawler.fuzzy_search import FuzzySearch
 from expungeservice.crawler.parsers.case_parser.charge_table_data import ChargeTableData
 from expungeservice.crawler.parsers.case_parser.event_table_data import EventTableData
 from expungeservice.crawler.parsers.case_parser.financial_table_data import FinancialTableData
 from expungeservice.crawler.parsers.case_parser.default_state import DefaultState
 
+PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked"]
 
 class CaseParser(HTMLParser):
 
@@ -22,6 +24,12 @@ class CaseParser(HTMLParser):
         self.hashed_charge_data = {}
 
         self.current_parser_state = DefaultState()
+
+        self.probation_revoked = False
+
+    def feed(self, data):
+        super().feed(data)
+        self.probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
 
     def handle_starttag(self, tag, attrs):
         if CaseParser.__at_table_title(tag, attrs):
