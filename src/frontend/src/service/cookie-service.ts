@@ -1,5 +1,3 @@
-import { decode } from 'punycode';
-
 interface Cookie {
   [key: string]: string;
 }

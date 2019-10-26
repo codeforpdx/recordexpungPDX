@@ -62,7 +62,6 @@ class OeciLogin extends React.Component<Props, State> {
         }
       }
     );
-    // Need validation for userId & PW
   };
 
   public render() {
