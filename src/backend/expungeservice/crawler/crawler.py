@@ -40,6 +40,7 @@ class Crawler:
         # Parse search results (case detail pages)
         for case in self.result.cases:
             case_parser = self.__parse_case(case)
+            case.set_probation_revoked(case_parser.probation_revoked)
             case.set_balance_due(case_parser.balance_due)
             for charge_id, charge in case_parser.hashed_charge_data.items():
                 charge['case'] = case
