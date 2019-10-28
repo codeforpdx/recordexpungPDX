@@ -34,5 +34,5 @@ export function removeCookie() {
 }
 
 export function hasOeciToken() {
-  return decodeCookie().oeci_token;
+  return decodeCookie().oeci_token ? true : false;
 }
