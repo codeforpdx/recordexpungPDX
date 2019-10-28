@@ -11,6 +11,7 @@ export type Request = {
   method: Method;
   headers?: object;
   authenticated?: boolean;
+  withCredentials?: boolean;
 };
 
 // The dispatch function is needed in order to send requests to the Request Middleware, which

@@ -1,3 +1,5 @@
+import apiService from '../../service/api-service';
+import { Dispatch } from 'redux';
 import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
 
 const fakeRecord = {
@@ -87,17 +89,32 @@ const fakeRecord = {
   ]
 };
 
-export const loadSearchRecordsMock = () => (dispatch: Function) => {
+export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
   dispatch({
     type: LOAD_SEARCH_RECORDS_LOADING
   });
-  const actionCreator = () =>
-    Promise.resolve(fakeRecord).then(payload => {
+  // search endpoint requires first, middle, last, and birth_date
+  return apiService(dispatch, {
+    url: '/api/search',
+    data: {
+      first_name: 'first',
+      middle_name: '',
+      last_name: 'last',
+      birth_date: '10102010'
+    },
+    method: 'post',
+    withCredentials: true,
+    authenticated: true
+  })
+    .then((response: any) => {
+      // data returned in the format that will be sent from crawler
+      // as `response.data.data`
       dispatch({
         type: LOAD_SEARCH_RECORDS,
-        search_records: payload
+        search_records: fakeRecord
       });
+    })
+    .catch((error: any) => {
+      // Request errors ie: unauthenticated as `error.response`
     });
-
-  setTimeout(actionCreator, 1500);
 };

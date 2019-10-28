@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { logIn } from '../../redux/system/actions';
+import { oeciLogIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
-import { Redirect } from 'react-router';
 
 interface Props {
   system: SystemState;
-  logIn: typeof logIn;
+  oeciLogIn: typeof oeciLogIn;
 }
 interface State {
   userId: string;
@@ -15,8 +14,8 @@ interface State {
   missingUserId: boolean;
   missingPassword: boolean;
   invalidCredentials: null | boolean;
+  invalidResponse: null | boolean;
   missingInputs: null | boolean;
-  redirect: boolean;
 }
 
 class OeciLogin extends React.Component<Props, State> {
@@ -26,8 +25,8 @@ class OeciLogin extends React.Component<Props, State> {
     missingUserId: false, // Initially set to false for aria-invalid
     missingPassword: false, // Initially set to false for aria-invalid
     invalidCredentials: null,
-    missingInputs: null,
-    redirect: false
+    invalidResponse: null,
+    missingInputs: null
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -40,30 +39,32 @@ class OeciLogin extends React.Component<Props, State> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.validateForm();
-    if (this.state.missingInputs === false) {
-      this.setState({
-        redirect: true
-      });
-    }
-  };
-
-  validateForm = () => {
-    this.setState({
-      missingUserId: this.state.userId.trim().length === 0,
-      missingPassword: this.state.password.trim().length === 0,
-      missingInputs:
-        this.state.userId.trim().length === 0 ||
-        this.state.password.trim().length === 0
-    });
-    // Need validation for userId & PW
+    // validate form
+    this.setState(
+      {
+        missingUserId: this.state.userId.trim().length === 0,
+        missingPassword: this.state.password.trim().length === 0,
+        missingInputs:
+          this.state.userId.trim().length === 0 ||
+          this.state.password.trim().length === 0
+      },
+      () => {
+        if (this.state.missingInputs === false) {
+          this.props
+            .oeciLogIn(this.state.userId, this.state.password)
+            .catch((error: any) => {
+              error.response.status === 401
+                ? // error: email and password do not match
+                  this.setState({ invalidCredentials: true })
+                : // error: technical difficulties
+                  this.setState({ invalidResponse: true });
+            });
+        }
+      }
+    );
   };
 
   public render() {
-    const { redirect } = this.state;
-    if (redirect) {
-      return <Redirect to="/record-search" />;
-    }
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
@@ -130,6 +131,11 @@ class OeciLogin extends React.Component<Props, State> {
                   User ID and password do not match.
                 </p>
               ) : null}
+              {this.state.invalidResponse === true ? (
+                <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Technical difficulties try again later.
+                </p>
+              ) : null}
             </div>
             <a
               className="db tc link underline hover-blue"
@@ -150,5 +156,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { logIn }
+  { oeciLogIn }
 )(OeciLogin);
