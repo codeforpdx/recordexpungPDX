@@ -85,6 +85,13 @@ dev_test:
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
 
+dev_utils_up:
+	cp src/frontend/developerUtils/search.py src/backend/expungeservice/endpoints/search.py
+	cp src/frontend/developerUtils/oeci_login.py src/backend/expungeservice/endpoints/oeci_login.py
+
+dev_utils_down:
+	git checkout -- src/backend/expungeservice/endpoints/oeci_login.py src/backend/expungeservice/endpoints/search.py
+
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
 	pipenv lock -r > $@

@@ -75,7 +75,8 @@ function makeAuthenticatedRequest(store: Store, action: RequestAction): void {
       if (
         error.response &&
         error.response.status &&
-        error.response.status === 401
+        error.response.status === 401 &&
+        !error.response.data.includes('Invalid OECI username or password.')
       ) {
         store.dispatch(logOut());
       }
