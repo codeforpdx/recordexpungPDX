@@ -1,14 +1,29 @@
-class ExpungementResult:
+from dataclasses import dataclass
+from datetime import date
+from enum import Enum
+from typing import Optional
 
-    def __init__(self):
-        self.type_eligibility = None
-        self.type_eligibility_reason = ''
-        self.time_eligibility = None
-        self.time_eligibility_reason = ''
-        self.date_of_eligibility = None
+
+class EligibilityStatus(str, Enum):
+    ELIGIBLE = "Eligible"
+    NEEDS_MORE_ANALYSIS = "Needs more analysis"
+    INELIGIBLE = "Ineligible"
+
+@dataclass
+class TypeEligibility:
+    status: EligibilityStatus
+    reason: str
+
+@dataclass
+class TimeEligibility:
+    status: bool
+    reason: str
+    date_will_be_eligible: Optional[date]
+
+@dataclass
+class ExpungementResult:
+    type_eligibility: Optional[TypeEligibility]
+    time_eligibility: Optional[TimeEligibility]
 
     def set_type_eligibility(self, type_eligibility):
         self.type_eligibility = type_eligibility
-
-    def set_reason(self, reason):
-        self.type_eligibility_reason = reason
