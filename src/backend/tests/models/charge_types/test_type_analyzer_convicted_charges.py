@@ -1,6 +1,9 @@
 import unittest
 
 from datetime import datetime, timedelta
+
+from expungeservice.models.expungement_result import EligibilityStatus
+
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
 
@@ -23,8 +26,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         felony_class_a_convicted = self.create_recent_charge()
         self.charges.append(felony_class_a_convicted)
 
-        assert felony_class_a_convicted.expungement_result.type_eligibility is False
-        assert felony_class_a_convicted.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert felony_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert felony_class_a_convicted.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_misdemeanor_sex_crime(self):
         self.single_charge['name'] = 'Sexual Abuse in the Third Degree'
@@ -33,72 +36,72 @@ class TestSingleChargeConvictions(unittest.TestCase):
         misdemeanor_class_a_convicted = self.create_recent_charge()
         self.charges.append(misdemeanor_class_a_convicted)
 
-        assert misdemeanor_class_a_convicted.expungement_result.type_eligibility is False
-        assert misdemeanor_class_a_convicted.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert misdemeanor_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert misdemeanor_class_a_convicted.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_min_statute_range_for_crimes_against_persons(self):
         self.single_charge['statute'] = '163.305'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_max_statute_range_for_crimes_against_persons(self):
         self.single_charge['statute'] = '163.479'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_min_statute_range_for_other_crimes_against_persons(self):
         self.single_charge['statute'] = '163.670'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_max_statute_range_for_other_crimes_against_persons(self):
         self.single_charge['statute'] = '163.693'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_min_statute_range_for_promoting_prostitution(self):
         self.single_charge['statute'] = '167.008'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_max_statute_range_for_promoting_prostitution(self):
         self.single_charge['statute'] = '167.107'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_min_statute_range_for_obscenity_and_minors(self):
         self.single_charge['statute'] = '167.057'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_max_statute_range_for_obscenity_and_minors(self):
         self.single_charge['statute'] = '167.080'
         convicted_charge = self.create_recent_charge()
         self.charges.append(convicted_charge)
 
-        assert convicted_charge.expungement_result.type_eligibility is False
-        assert convicted_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert convicted_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_misdemeanor(self):
         self.single_charge['name'] = 'Criminal Trespass in the Second Degree'
@@ -107,8 +110,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         misdemeanor_charge = self.create_recent_charge()
         self.charges.append(misdemeanor_charge)
 
-        assert misdemeanor_charge.expungement_result.type_eligibility is True
-        assert misdemeanor_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert misdemeanor_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert misdemeanor_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
     def test_rape_class_c_felony(self):
         self.single_charge['name'] = 'Rape in the Third Degree'
@@ -117,8 +120,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         sex_crime_charge = self.create_recent_charge()
         self.charges.append(sex_crime_charge)
 
-        assert sex_crime_charge.expungement_result.type_eligibility is False
-        assert sex_crime_charge.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert sex_crime_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert sex_crime_charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_marijuana_ineligible_statute_475b3493c(self):
         self.single_charge['name'] = 'Unlawful Manufacture of Marijuana Item'
@@ -127,8 +130,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_felony_class_c = self.create_recent_charge()
         self.charges.append(marijuana_felony_class_c)
 
-        assert marijuana_felony_class_c.expungement_result.type_eligibility is False
-        assert marijuana_felony_class_c.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_felony_class_c.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_felony_class_c.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     def test_marijuana_ineligible_statute_475b359(self):
         self.single_charge['name'] = 'Arson incident to manufacture of cannabinoid extract in first degree'
@@ -137,8 +140,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_felony_class_a = self.create_recent_charge()
         self.charges.append(marijuana_felony_class_a)
 
-        assert marijuana_felony_class_a.expungement_result.type_eligibility is False
-        assert marijuana_felony_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     def test_marijuana_ineligible_statute_475b367(self):
         self.single_charge['name'] = 'Causing another person to ingest marijuana'
@@ -147,8 +150,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_felony_class_a = self.create_recent_charge()
         self.charges.append(marijuana_felony_class_a)
 
-        assert marijuana_felony_class_a.expungement_result.type_eligibility is False
-        assert marijuana_felony_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     def test_marijuana_ineligible_statute_475b371(self):
         self.single_charge['name'] = 'Administration to another person under 18 years of age'
@@ -157,8 +160,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_felony_class_a = self.create_recent_charge()
         self.charges.append(marijuana_felony_class_a)
 
-        assert marijuana_felony_class_a.expungement_result.type_eligibility is False
-        assert marijuana_felony_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     def test_marijuana_ineligible_statute_167262(self):
         self.single_charge['name'] = 'Use of minor in controlled substance or marijuana item offense'
@@ -167,8 +170,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_misdemeanor_class_a = self.create_recent_charge()
         self.charges.append(marijuana_misdemeanor_class_a)
 
-        assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility is False
-        assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     # List B Tests - Currently being marked as "Further Analysis Needed"
 
@@ -179,8 +182,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163205(self):
         self.single_charge['name'] = 'Criminal mistreatment in the first degree'
@@ -189,8 +192,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163575(self):
         self.single_charge['name'] = 'Endangering the welfare of a minor'
@@ -199,8 +202,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163535(self):
         self.single_charge['name'] = 'Abandonment of a child'
@@ -209,8 +212,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163175(self):
         self.single_charge['name'] = 'Assault in the second degree'
@@ -219,8 +222,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163275(self):
         self.single_charge['name'] = 'Coercion'
@@ -229,8 +232,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_162165(self):
         self.single_charge['name'] = 'Escape in the first degree'
@@ -239,8 +242,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163525(self):
         self.single_charge['name'] = 'Incest'
@@ -249,8 +252,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_164405(self):
         self.single_charge['name'] = 'Robbery in the second degree'
@@ -259,8 +262,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_164395(self):
         self.single_charge['name'] = 'Robbery in the third degree'
@@ -269,8 +272,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_162185(self):
         self.single_charge['name'] = 'Supplying contraband'
@@ -279,8 +282,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163225(self):
         self.single_charge['name'] = 'Kidnapping in the second degree'
@@ -289,8 +292,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_163165(self):
         self.single_charge['name'] = 'Assault in the third degree'
@@ -299,8 +302,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_list_b_166220(self):
         self.single_charge['name'] = 'Unlawful use of weapon'
@@ -309,8 +312,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     # Test sub-chapters are not compared when not necessary.
 
@@ -321,8 +324,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         list_b_charge = self.create_recent_charge()
         self.charges.append(list_b_charge)
 
-        assert list_b_charge.expungement_result.type_eligibility is None
-        assert list_b_charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert list_b_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_marijuana_ineligible_statute_475b3592a(self):
         self.single_charge['name'] = 'Arson incident to manufacture of cannabinoid extract in first degree'
@@ -331,8 +334,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         marijuana_felony_class_a = self.create_recent_charge()
         self.charges.append(marijuana_felony_class_a)
 
-        assert marijuana_felony_class_a.expungement_result.type_eligibility is False
-        assert marijuana_felony_class_a.expungement_result.type_eligibility_reason == 'Ineligible under 137.226'
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == 'Ineligible under 137.226'
 
     # Possession of controlled substance tests
 
@@ -343,8 +346,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         pcs_charge = self.create_recent_charge()
         self.charges.append(pcs_charge)
 
-        assert pcs_charge.expungement_result.type_eligibility is True
-        assert pcs_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(C)'
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
 
     def test_pcs_475874(self):
         self.single_charge['name'] = 'Unlawful possession of 3,4-methylenedioxymethamphetamine'
@@ -353,8 +356,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         pcs_charge = self.create_recent_charge()
         self.charges.append(pcs_charge)
 
-        assert pcs_charge.expungement_result.type_eligibility is True
-        assert pcs_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(C)'
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
 
     def test_pcs_475884(self):
         self.single_charge['name'] = 'Unlawful possession of cocaine'
@@ -363,8 +366,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         pcs_charge = self.create_recent_charge()
         self.charges.append(pcs_charge)
 
-        assert pcs_charge.expungement_result.type_eligibility is True
-        assert pcs_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(C)'
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
 
     def test_pcs_475894(self):
         self.single_charge['name'] = 'Unlawful possession of methamphetamine'
@@ -373,8 +376,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         pcs_charge = self.create_recent_charge()
         self.charges.append(pcs_charge)
 
-        assert pcs_charge.expungement_result.type_eligibility is True
-        assert pcs_charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(C)'
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
 
     # Eligible misdemeanor and class C felony tests
 
@@ -385,8 +388,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is True
-        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
     def test_misdemeanor_164055(self):
         self.single_charge['name'] = 'Theft in the first degree'
@@ -395,8 +398,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is True
-        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
     def test_misdemeanor_164125(self):
         self.single_charge['name'] = 'Theft of services'
@@ -405,8 +408,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is True
-        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
     def test_drug_free_zone_variance_misdemeanor(self):
         self.single_charge['name'] = '	Drug Free Zone Variance'
@@ -415,8 +418,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is True
-        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
     def test_class_b_felony_164057(self):
         self.single_charge['name'] = 'Aggravated theft in the first degree'
@@ -425,8 +428,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is None
-        assert charge.expungement_result.type_eligibility_reason == 'Further Analysis Needed'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
 
     def test_class_felony_is_added_to_b_felony_attribute(self):
         self.single_charge['name'] = 'Aggravated theft in the first degree'
@@ -443,8 +446,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is None
-        assert charge.expungement_result.type_eligibility_reason == 'Examine'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert charge.expungement_result.type_eligibility.reason == 'Examine'
 
     # Test non-traffic violation
 
@@ -455,8 +458,8 @@ class TestSingleChargeConvictions(unittest.TestCase):
         charge = self.create_recent_charge()
         self.charges.append(charge)
 
-        assert charge.expungement_result.type_eligibility is True
-        assert charge.expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(d)'
+        assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(d)'
 
 
 class TestMultipleCharges(unittest.TestCase):
@@ -486,11 +489,11 @@ class TestMultipleCharges(unittest.TestCase):
         charge = self.create_charge()
         self.charges.append(charge)
 
-        assert self.charges[0].expungement_result.type_eligibility is True
-        assert self.charges[0].expungement_result.type_eligibility_reason == 'Eligible under 137.225(5)(b)'
+        assert self.charges[0].expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert self.charges[0].expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(b)'
 
-        assert self.charges[1].expungement_result.type_eligibility is False
-        assert self.charges[1].expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert self.charges[1].expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert self.charges[1].expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_multiple_class_b_felonies_are_added_to_b_felony_list(self):
         # first charge

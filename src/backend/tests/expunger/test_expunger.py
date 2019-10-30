@@ -90,7 +90,7 @@ class TestDispositionlessCharge(unittest.TestCase):
 
         expunger.run()
 
-        assert charge.expungement_result.type_eligibility_reason == "Disposition not found. Needs further analysis"
+        assert charge.expungement_result.type_eligibility.reason == "Disposition not found. Needs further analysis"
 
 
 class TestMostRecentConviction(unittest.TestCase):

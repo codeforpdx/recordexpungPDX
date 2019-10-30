@@ -1,6 +1,9 @@
 import unittest
 
 from datetime import datetime, timedelta
+
+from expungeservice.models.expungement_result import EligibilityStatus
+
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
 
@@ -23,8 +26,8 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         felony_class_a_acquitted = self.create_recent_charge()
         self.charges.append(felony_class_a_acquitted)
 
-        assert felony_class_a_acquitted.expungement_result.type_eligibility is True
-        assert felony_class_a_acquitted.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_acquitted.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert felony_class_a_acquitted.expungement_result.type_eligibility.reason == 'Eligible under 137.225(1)(b)'
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
@@ -45,8 +48,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         felony_class_a_dismissed = self.create_recent_charge()
         self.charges.append(felony_class_a_dismissed)
 
-        assert felony_class_a_dismissed.expungement_result.type_eligibility is True
-        assert felony_class_a_dismissed.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert felony_class_a_dismissed.expungement_result.type_eligibility.reason == 'Eligible under 137.225(1)(b)'
 
 
 class TestSingleChargeNoComplaint(unittest.TestCase):
@@ -67,5 +70,5 @@ class TestSingleChargeNoComplaint(unittest.TestCase):
         felony_class_a_no_complaint = self.create_recent_charge()
         self.charges.append(felony_class_a_no_complaint)
 
-        assert felony_class_a_no_complaint.expungement_result.type_eligibility is True
-        assert felony_class_a_no_complaint.expungement_result.type_eligibility_reason == 'Eligible under 137.225(1)(b)'
+        assert felony_class_a_no_complaint.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert felony_class_a_no_complaint.expungement_result.type_eligibility.reason == 'Eligible under 137.225(1)(b)'
