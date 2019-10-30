@@ -1,5 +1,7 @@
 import unittest
 
+from expungeservice.models.expungement_result import EligibilityStatus
+
 from tests.factories.charge_factory import ChargeFactory
 
 
@@ -14,8 +16,8 @@ class TestParkingTicket(unittest.TestCase):
     def test_parking_violation(self):
         self.build()
 
-        assert self.parking_ticket.expungement_result.type_eligibility is False
-        assert self.parking_ticket.expungement_result.type_eligibility_reason == 'Ineligible under 137.225(5)'
+        assert self.parking_ticket.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert self.parking_ticket.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_parking_tickets_skip_analysis(self):
         self.build()
@@ -27,4 +29,4 @@ class TestParkingTicket(unittest.TestCase):
 
         self.parking_ticket.disposition.ruling = 'Dismissed'
 
-        assert self.parking_ticket.expungement_result.type_eligibility is False
+        assert self.parking_ticket.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE

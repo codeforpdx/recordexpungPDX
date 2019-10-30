@@ -4,7 +4,8 @@ from datetime import datetime
 from datetime import date as date_class
 from dateutil.relativedelta import relativedelta
 from expungeservice.models.disposition import Disposition
-from expungeservice.models.expungement_result import ExpungementResult
+from expungeservice.models.expungement_result import ExpungementResult, \
+    TimeEligibility
 
 
 class BaseCharge:
@@ -15,7 +16,7 @@ class BaseCharge:
         self.level = level
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = disposition
-        self.expungement_result = ExpungementResult()
+        self.expungement_result = ExpungementResult(type_eligibility=None, time_eligibility=None)
         self._chapter = chapter
         self._section = section
         self._case = weakref.ref(case)
@@ -44,11 +45,9 @@ class BaseCharge:
         return False
 
     def set_time_ineligible(self, reason, date_of_eligibility):
-        self.expungement_result.time_eligibility = False
-        self.expungement_result.time_eligibility_reason = reason
-        self.expungement_result.date_of_eligibility = date_of_eligibility
+        time_eligibility = TimeEligibility(status = False, reason = reason, date_will_be_eligible = date_of_eligibility)
+        self.expungement_result.time_eligibility = time_eligibility
 
     def set_time_eligible(self, reason=''):
-        self.expungement_result.time_eligibility = True
-        self.expungement_result.time_eligibility_reason = reason
-        self.expungement_result.date_of_eligibility = None
+        time_eligibility = TimeEligibility(status = True, reason = reason, date_will_be_eligible = None)
+        self.expungement_result.time_eligibility = time_eligibility
