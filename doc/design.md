@@ -404,11 +404,22 @@ Data Model
  - ruling
 
 #### ExpungementResult:
- - type_eligibility
- - type_eligibility_reason
- - time_eligibility
- - time_eligibility_reason
- - date_of_eligibility
+ - type_eligibility :: type Optional[TypeEligibility]
+ - time_eligibility :: type Optional[TimeEligibility]
+
+#### TypeEligibility:
+ - status :: type EligibilityStatus
+ - reason :: type str
+
+#### TimeEligibility:
+ - status :: type bool
+ - reason :: type str
+ - date_will_be_eligible :: type Optional[date]
+
+#### EligibilityStatus: (Enum)
+ - ELIGIBLE
+ - NEEDS_MORE_ANALYSIS 
+ - INELIGIBLE
 
 
 Database Schema
