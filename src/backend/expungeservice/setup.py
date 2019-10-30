@@ -1,11 +1,9 @@
 from setuptools import setup
 
-project = 'expungeservice'
 setup(
-    name=project,
+    name='expungeservice',
     version='0.1',
     description='recordexpungPDX Expunge Service',
-    packages=[],
-    setup_requires=[],
-    package_dir={}
+    packages=['expungeservice'],
+    package_dir={'': '.'}
 )
