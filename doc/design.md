@@ -404,7 +404,7 @@ Data Model
  - ruling
 
 #### ExpungementResult:
- - type_eligibility :: type Optional[TypeEligibility]
+ - type_eligibility :: type TypeEligibility
  - time_eligibility :: type Optional[TimeEligibility]
 
 #### TypeEligibility:
