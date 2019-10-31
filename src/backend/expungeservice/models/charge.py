@@ -18,18 +18,18 @@ from expungeservice.models.charge_classifier import ChargeClassifier
 
 
 class Charge:
-    @classmethod
-    def create(cls, **kwargs):
+    @staticmethod
+    def create(**kwargs):
         case = kwargs['case']
         statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
         level = kwargs['level']
         chapter = Charge._set_chapter(kwargs['statute'])
         section = Charge.__set_section(statute)
-        cls.classification = ChargeClassifier(case, statute, level, chapter, section).classify()
+        classification = ChargeClassifier(case, statute, level, chapter, section).classify()
         kwargs['chapter'] = chapter
         kwargs['section'] = section
         kwargs['statute'] = statute
-        return Charge._to_class(cls.classification)(**kwargs)
+        return Charge._to_class(classification)(**kwargs)
 
     @staticmethod
     def _to_class(name):
