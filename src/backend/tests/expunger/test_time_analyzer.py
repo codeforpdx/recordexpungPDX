@@ -114,6 +114,21 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert charge.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(5)(a)(A)(i)'
         assert charge.expungement_result.time_eligibility.date_will_be_eligible == Time.TOMORROW
 
+    def test_felony_class_a_one_year_ago(self):
+        charge = ChargeFactory.create(name='Assault in the first degree',
+                                      statute='163.185',
+                                      level='Felony Class A',
+                                      date=Time.ONE_YEAR_AGO,
+                                      disposition=['Convicted', Time.ONE_YEAR_AGO])
+
+        self.expunger.most_recent_conviction = charge
+        self.expunger.charges = [charge]
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert charge.expungement_result.time_eligibility.status is False
+        assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
+        assert charge.expungement_result.time_eligibility.date_will_be_eligible is None # As type ineligible
+
 
 class TestDismissalBlock(unittest.TestCase):
 
