@@ -1,19 +1,5 @@
 import re
-import sys
 
-from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
-from expungeservice.models.charge_types.felony_class_a import FelonyClassA
-from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
-from expungeservice.models.charge_types.list_b import ListB
-from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
-from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
-from expungeservice.models.charge_types.parking_ticket import ParkingTicket
-from expungeservice.models.charge_types.person_crime import PersonCrime
-from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
-from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_classifier import ChargeClassifier
 
 
@@ -29,11 +15,7 @@ class Charge:
         kwargs['chapter'] = chapter
         kwargs['section'] = section
         kwargs['statute'] = statute
-        return Charge._to_class(classification)(**kwargs)
-
-    @staticmethod
-    def _to_class(name):
-        return getattr(sys.modules[__name__], name)
+        return classification(**kwargs)
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
