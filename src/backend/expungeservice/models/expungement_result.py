@@ -22,7 +22,7 @@ class TimeEligibility:
 
 @dataclass
 class ExpungementResult:
-    type_eligibility: Optional[TypeEligibility]
+    type_eligibility: TypeEligibility
     time_eligibility: Optional[TimeEligibility]
 
     def set_type_eligibility(self, type_eligibility):
