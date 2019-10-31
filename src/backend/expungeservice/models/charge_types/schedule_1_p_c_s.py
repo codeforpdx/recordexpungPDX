@@ -5,7 +5,9 @@ class Schedule1PCS(BaseCharge):
 
     def __init__(self, **kwargs):
         super(Schedule1PCS, self).__init__(**kwargs)
+
+    def default_type_eligibility(self):
         if self.acquitted():
-            self.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)'))
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)')
         else:
-            self.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(5)(C)'))
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(5)(C)')
