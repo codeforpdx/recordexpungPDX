@@ -48,33 +48,33 @@ class ChargeClassifier:
         yield ChargeClassifier._felony_class_b(level)
         yield ChargeClassifier._felony_class_a(level)
 
-    @classmethod
-    def _marijuana_ineligible(cls, statute, section):
+    @staticmethod
+    def _marijuana_ineligible(statute, section):
         ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
         if statute == '475B3493C' or section in ineligible_statutes:
             return 'MarijuanaIneligible'
 
-    @classmethod
-    def _list_b(cls, section):
+    @staticmethod
+    def _list_b(section):
         ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
                                '164395', '162185', '166220', '163225', '163165']
         if section in ineligible_statutes:
             return 'ListB'
 
-    @classmethod
-    def _crime_against_person(cls, section):
+    @staticmethod
+    def _crime_against_person(section):
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
         if section.isdigit() and any(int(section) in statute_range for statute_range in statute_ranges):
             return 'PersonCrime'
 
-    @classmethod
-    def _traffic_crime(cls, statute):
+    @staticmethod
+    def _traffic_crime(statute):
         statute_range = range(801, 826)
         if statute[0:3].isdigit() and int(statute[0:3]) in statute_range:
             return 'Level800TrafficCrime'
 
-    @classmethod
-    def _parking_ticket(cls, statute, chapter):
+    @staticmethod
+    def _parking_ticket(statute, chapter):
         statute_range = range(1, 100)
         if chapter:
             if chapter.isdigit() and int(chapter) in statute_range:
@@ -82,37 +82,37 @@ class ChargeClassifier:
         elif statute.isdigit() and int(statute) in statute_range:
             return 'ParkingTicket'
 
-    @classmethod
-    def _schedule_1_pcs(cls, section):
+    @staticmethod
+    def _schedule_1_pcs(section):
         if section in ['475854', '475874', '475884', '475894']:
             return 'Schedule1PCS'
 
-    @classmethod
-    def _municipal_parking(cls, case):
+    @staticmethod
+    def _municipal_parking(case):
         if 'parking' in case.violation_type.lower():
             return 'ParkingTicket'
 
-    @classmethod
-    def _non_traffic_violation(cls, level):
+    @staticmethod
+    def _non_traffic_violation(level):
         if 'Violation' in level:
             return 'NonTrafficViolation'
 
-    @classmethod
-    def _misdemeanor(cls, level):
+    @staticmethod
+    def _misdemeanor(level):
         if 'Misdemeanor' in level:
             return 'Misdemeanor'
 
-    @classmethod
-    def _felony_class_c(cls, level):
+    @staticmethod
+    def _felony_class_c(level):
         if level == 'Felony Class C':
             return 'FelonyClassC'
 
-    @classmethod
-    def _felony_class_b(cls, level):
+    @staticmethod
+    def _felony_class_b(level):
         if level == 'Felony Class B':
             return 'FelonyClassB'
 
-    @classmethod
-    def _felony_class_a(cls, level):
+    @staticmethod
+    def _felony_class_a(level):
         if level == 'Felony Class A':
             return 'FelonyClassA'
