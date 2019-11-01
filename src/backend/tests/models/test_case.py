@@ -7,7 +7,7 @@ from tests.factories.case_factory import CaseFactory
 class TestCaseBalanceDue(unittest.TestCase):
 
     def setUp(self):
-        self.case = Case(("John Doe", "1990"), "", "", ("1/1/2019",""), ("",""), "", "")
+        self.case = Case.create(("John Doe", "1990"), "", "", ("1/1/2019",""), ("",""), "", "")
 
     def test_balance_due_getter_setter(self):     
 
