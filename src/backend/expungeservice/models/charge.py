@@ -11,7 +11,7 @@ class Charge:
         level = kwargs['level']
         chapter = Charge._set_chapter(kwargs['statute'])
         section = Charge.__set_section(statute)
-        classification = ChargeClassifier(case, statute, level, chapter, section).classify()
+        classification = ChargeClassifier(case.violation_type, statute, level, chapter, section).classify()
         kwargs['chapter'] = chapter
         kwargs['section'] = section
         kwargs['statute'] = statute
