@@ -45,7 +45,7 @@ const RequestMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => (
   ) {
     let promise = makeUnauthenticatedRequest(action);
     let result = next(action);
-    return Object.assign({ promise: promise }, result);
+    return Object.assign({ promise }, result);
   }
 
   // This error shouldn't occur because app code has access to the store and thus knows
@@ -56,7 +56,7 @@ const RequestMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => (
 
   let promise = makeAuthenticatedRequest(store, action);
   let result = next(action);
-  return Object.assign({ promise: promise }, result);
+  return Object.assign({ promise }, result);
 };
 
 function makeUnauthenticatedRequest(action: RequestAction): AxiosPromise {
