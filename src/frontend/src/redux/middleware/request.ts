@@ -1,6 +1,6 @@
 import { Request } from '../../service/api-service';
-import axios from 'axios';
-import { Store, Action } from 'redux';
+import axios, { AxiosPromise } from 'axios';
+import { Action, Dispatch, MiddlewareAPI } from 'redux';
 import { logOut } from '../system/actions';
 
 // This Redux Action type shouldn't be used outside of here and service/api-service.ts
@@ -11,8 +11,6 @@ export const REQUEST = 'REQUEST';
 export interface RequestAction {
   type: typeof REQUEST;
   request: Request;
-  resolve: Function;
-  reject: Function;
 }
 
 // This is a custom Middleware that does three things:
@@ -32,7 +30,7 @@ export interface RequestAction {
 // in the Store or in Local Storage is vulnerable to XSS.
 //
 // Can't figure out the types here for the moment. Help is welcome!
-const RequestMiddleware: any = (store: Store) => (next: Function) => (
+const RequestMiddleware = (store: MiddlewareAPI) => (next: Dispatch) => (
   anyAction: Action
 ) => {
   if (anyAction.type !== REQUEST) {
@@ -45,8 +43,9 @@ const RequestMiddleware: any = (store: Store) => (next: Function) => (
   if (
     !(action.request.authenticated && action.request.authenticated === true)
   ) {
-    makeUnauthenticatedRequest(action);
-    return next(withoutUnserializables(action));
+    let promise = makeUnauthenticatedRequest(action);
+    let result = next(action);
+    return Object.assign({ promise: promise }, result);
   }
 
   // This error shouldn't occur because app code has access to the store and thus knows
@@ -55,23 +54,22 @@ const RequestMiddleware: any = (store: Store) => (next: Function) => (
   // a failure with the request.
   throwUnlessCurrentlyAuthenticated(store);
 
-  makeAuthenticatedRequest(store, action);
-  return next(withoutUnserializables(action));
+  let promise = makeAuthenticatedRequest(store, action);
+  let result = next(action);
+  return Object.assign({ promise: promise }, result);
 };
 
-function makeUnauthenticatedRequest(action: RequestAction): void {
-  axios
-    .request(action.request)
-    .then(action.resolve as any, action.reject as any);
+function makeUnauthenticatedRequest(action: RequestAction): AxiosPromise {
+  return axios.request(action.request);
 }
 
-// Make the request with Axios and when the Promise Axios returns resolves or rejects,
-// send the control flow back to the Promise returned by apiService.
-function makeAuthenticatedRequest(store: Store, action: RequestAction): void {
-  // Can't figure out the types here for the moment. Help is welcome!
-  axios
+function makeAuthenticatedRequest(
+  store: MiddlewareAPI,
+  action: RequestAction
+): AxiosPromise {
+  return axios
     .request(withAuthorizationHeader(store, action).request)
-    .then(action.resolve as any, error => {
+    .catch(error => {
       if (
         error.response &&
         error.response.status &&
@@ -80,11 +78,11 @@ function makeAuthenticatedRequest(store: Store, action: RequestAction): void {
       ) {
         store.dispatch(logOut());
       }
-      action.reject(error);
+      return Promise.reject(error);
     });
 }
 
-function throwUnlessCurrentlyAuthenticated(store: Store): void {
+function throwUnlessCurrentlyAuthenticated(store: MiddlewareAPI): void {
   const message =
     'Attempted to make an authenticated request without actually being authenticated';
 
@@ -97,7 +95,7 @@ function throwUnlessCurrentlyAuthenticated(store: Store): void {
   throw message;
 }
 
-function withAuthorizationHeader(store: Store, action: RequestAction) {
+function withAuthorizationHeader(store: MiddlewareAPI, action: RequestAction) {
   return Object.assign({}, action, {
     request: Object.assign({}, action.request, {
       headers: Object.assign({}, action.request.headers, {
@@ -107,22 +105,7 @@ function withAuthorizationHeader(store: Store, action: RequestAction) {
   });
 }
 
-// Redux Starter Kit includes the serializable-state-invariant-middleware which logs a
-// warning message in development if an Action is dispatched containing non-serializable
-// data, including functions like RequestAction.resolve. The goal of this is to guide
-// folks to avoid putting non-serializable data in the Store. Since we aren't doing that
-// here, this Middleware can safely work around this check by omitting the Functions in
-// RequestAction before passing the Action on to other Middleware. The only "gotcha" here
-// is that this Middleware needs to be first in line to avoid the error message-- which is
-// handled in frontend/src/redux/store.tsx.
-//
-// See https://redux.js.org/faq/actions#why-should-type-be-a-string-or-at-least-serializable-why-should-my-action-types-be-constants
-// for more info.
-function withoutUnserializables(action: RequestAction) {
-  return { type: action.type, request: action.request };
-}
-
-function getAuthToken(store: Store) {
+function getAuthToken(store: MiddlewareAPI) {
   return store.getState().system.authToken;
 }
 

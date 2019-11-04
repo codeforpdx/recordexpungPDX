@@ -1,4 +1,5 @@
 import { REQUEST, RequestAction } from '../redux/middleware/request';
+import { AxiosPromise } from 'axios';
 
 type Method = 'post' | 'delete' | 'get' | 'head' | 'delete' | 'options' | 'put';
 
@@ -19,11 +20,9 @@ export type Request = {
 export default function apiService(
   dispatch: Function,
   request: Request
-): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // The Action dispatched here is handled in the Request Middleware, which actually makes
-    // the request using the resolve and reject callbacks passed, so you can call
-    // apiService(...).then(...).catch(...) like a normal Axios request.
-    dispatch({ type: REQUEST, request, resolve, reject } as RequestAction);
-  });
+): AxiosPromise {
+  // The Action dispatched here is handled in the Request Middleware, so you can call
+  // apiService(...).then(...).catch(...) like a normal Axios request.
+  let result = dispatch({ type: REQUEST, request } as RequestAction);
+  return result.promise;
 }
