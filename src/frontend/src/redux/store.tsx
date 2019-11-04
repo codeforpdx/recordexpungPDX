@@ -18,8 +18,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  // See withoutUnserializables in middleware/request for why RequestMiddleware is first.
-  middleware: [RequestMiddleware, ...getDefaultMiddleware()]
+  middleware: [...getDefaultMiddleware(), RequestMiddleware]
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
