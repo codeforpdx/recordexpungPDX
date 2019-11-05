@@ -16,12 +16,13 @@ services:
 
     expungeservice:
         build:
-            context: ./src/backend/expungeservice
+            context: ./src/backend/
             dockerfile: Dockerfile.dev
         container_name: expungeservice
         env_file:
             - config/expungeservice/expungeservice.env
         volumes:
+            - ./src/backend/logs:/var/www/logs
             - ./src/backend/expungeservice:/var/www/expungeservice
             - ./src/backend/tests:/var/www/tests
         ports:

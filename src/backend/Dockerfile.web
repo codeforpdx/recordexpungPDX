@@ -1,9 +1,8 @@
 FROM recordexpungpdx/recordexpungpdx:expungeservicebase
 
-RUN mkdir -p /var/www/expungeservice
-RUN mkdir /var/www/logs/
-COPY . /var/www/expungeservice
-WORKDIR /var/www/expungeservice
+RUN mkdir -p /var/www/logs/
+COPY . /var/www/
+WORKDIR /var/www/
 RUN pip3 install pipenv && pipenv install --system --deploy
 
 
