@@ -3,7 +3,7 @@ handle_error = (rm -rf ./build && exit 1)
 api:
 	echo $@
 	mkdir ./build
-	cp -r ../src/backend/expungeservice ./build/expungeservice
+	cp -r ../src/backend/ ./build/expungeservice
 
 	heroku container:push --recursive --app=recordexpungpdxapi || $(handle_error)
 	heroku container:release web --app=recordexpungpdxapi || $(handle_error)
