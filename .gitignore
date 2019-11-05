@@ -142,3 +142,4 @@ config/postgres/data
 
 #VS Code Files
 .vscode
+src/backend/logs

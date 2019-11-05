@@ -15,7 +15,7 @@ PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
 BACKEND_CONTAINER_NAME := expungeservice
 FRONTEND_CONTAINER_NAME := webserver
-REQUIREMENTS_TXT := src/backend/expungeservice/requirements.txt
+REQUIREMENTS_TXT := src/backend/requirements.txt
 
 dev: dev_up
 
@@ -60,7 +60,7 @@ database_image:
 	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
 
 expungeservice_image:
-	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/expungeservice -f src/backend/expungeservice/Dockerfile.dev
+	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/ -f src/backend/Dockerfile.dev
 
 webserver_image:
 	cp -r src/frontend/ config/nginx/frontend
