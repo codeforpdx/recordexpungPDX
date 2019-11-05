@@ -1,10 +1,10 @@
 FROM recordexpungpdx/recordexpungpdx:expungeservicebase
 
 RUN mkdir -p /var/www/expungeservice
+RUN mkdir /var/www/logs/
 COPY . /var/www/expungeservice
 WORKDIR /var/www/expungeservice
-RUN python3.7 -m pip install -r requirements.txt && rm requirements.txt &&\
-    python3.7 -m setup install
+RUN pip3 install pipenv && pipenv install --system --deploy
 
 
 WORKDIR /var/www
