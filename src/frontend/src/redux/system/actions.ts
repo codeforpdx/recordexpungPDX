@@ -1,9 +1,5 @@
 import apiService from '../../service/api-service';
-import {
-  setLogInCookie,
-  removeCookie,
-  hasOeciToken
-} from '../../service/cookie-service';
+import { removeCookie, hasOeciToken } from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
 import { Dispatch } from 'redux';
@@ -16,11 +12,8 @@ export function logIn(email: string, password: string): any {
       method: 'post'
     }).then((response: any) => {
       dispatch({
-        type: LOG_IN,
-        userId: response.data.user_id,
-        authToken: response.data.auth_token
+        type: LOG_IN
       });
-      setLogInCookie(response.data.auth_token, response.data.user_id);
       history.push('/oeci');
     });
   };
@@ -33,13 +26,9 @@ export function logOut() {
   };
 }
 
-export function refreshLocalAuth(inputToken: string, inputId: string) {
-  // refresh the 'max-age' for cookie while user is active
-  setLogInCookie(inputToken, inputId);
+export function refreshLocalAuth() {
   return {
-    type: LOG_IN,
-    userId: inputId,
-    authToken: inputToken
+    type: LOG_IN
   };
 }
 

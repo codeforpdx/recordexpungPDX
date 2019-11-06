@@ -1,10 +1,13 @@
 import unittest
+
+from flask.views import MethodView
+from flask_login import login_required
 from werkzeug.security import generate_password_hash
 from flask import g
 
 import expungeservice
-from expungeservice.endpoints.auth import *
-
+from expungeservice.user import user_db_util
+from expungeservice.user.user import admin_login_required
 
 """
 protected-view template endpoints.
@@ -12,13 +15,13 @@ protected-view template endpoints.
 
 
 class AdminProtectedView(MethodView):
-    @admin_auth_required
+    @admin_login_required
     def get(self):
         return "Admin-level Protected View"
 
 
 class UserProtectedView(MethodView):
-            @user_auth_required
+            @login_required
             def get(self):
                 return "User-level Protected View"
 
@@ -56,7 +59,7 @@ class EndpointShared(unittest.TestCase):
 
     def create_test_user(self, user_key):
 
-        create_result = user.create(
+        create_result = user_db_util.create(
             g.database,
             self.user_data[user_key]["email"],
             self.user_data[user_key]["name"],
@@ -66,9 +69,12 @@ class EndpointShared(unittest.TestCase):
         )
         self.user_data[user_key]["user_id"] = create_result["user_id"]
 
-        self.user_data[user_key]["auth_header"] = {
-            "Authorization": "Bearer {}".format(
-                get_auth_token(self.app, create_result["user_id"]))}
+    def login(self, email, password):
+        return self.client.post("/api/auth_token", json={
+            "email": email,
+            "password": password,
+        })
+
     def setUp(self):
 
         self.app = expungeservice.create_app("development")

@@ -3,7 +3,6 @@
 // https://redux.js.org/recipes/usage-with-typescript
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
 import { combineReducers } from 'redux';
-import RequestMiddleware from './middleware/request';
 
 // Reducers:
 import { usersReducer } from './users/reducer';
@@ -18,7 +17,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [...getDefaultMiddleware(), RequestMiddleware]
+  middleware: [...getDefaultMiddleware()]
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

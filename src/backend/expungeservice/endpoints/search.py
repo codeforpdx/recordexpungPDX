@@ -1,18 +1,18 @@
 from flask.views import MethodView
 from flask import request, current_app
+from flask_login import login_required
 
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger.expunger import Expunger
-from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 
 
 class Search(MethodView):
 
-    @user_auth_required
+    @login_required
     def post(self):
         request_data = request.get_json()
 
