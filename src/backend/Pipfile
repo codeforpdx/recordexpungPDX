@@ -11,13 +11,14 @@ flask-bcrypt = "*"
 pyjwt = "*"
 python-dotenv = "*"
 recordexpunge = {editable = true,path = "."}
-expungeservice = {editable = true, path = "."}
+expungeservice = {editable = true,path = "."}
 pytest = "*"
 requests-mock = "*"
 requests = "*"
 python-dateutil = "*"
 uwsgi = "*"
 cryptography = "*"
+flask-login = "==0.4.1"
 
 [dev-packages]
 
