@@ -1,9 +1,7 @@
 import { LOG_IN, LOG_OUT, SystemState, SystemActionTypes } from './types';
 
 const initialState: SystemState = {
-  loggedIn: false,
-  userId: '',
-  authToken: ''
+  loggedIn: false
 };
 
 export function systemReducer(
@@ -13,16 +11,12 @@ export function systemReducer(
   switch (action.type) {
     case LOG_IN: {
       return {
-        loggedIn: true,
-        userId: action.userId,
-        authToken: action.authToken
+        loggedIn: true
       };
     }
     case LOG_OUT: {
       return {
-        loggedIn: false,
-        userId: '',
-        authToken: ''
+        loggedIn: false
       };
     }
     default:
