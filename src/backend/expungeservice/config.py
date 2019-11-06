@@ -7,6 +7,7 @@ class Development(object):
     """
     DEBUG = True
     TESTING = False
+    SECRET_KEY = os.urandom(32)
     JWT_SECRET_KEY = os.urandom(32)
     JWT_EXPIRY_TIMER = datetime.timedelta(minutes=60)
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
@@ -18,6 +19,7 @@ class Production(object):
     DEBUG = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
     JWT_EXPIRY_TIMER = datetime.timedelta(minutes=60)
 

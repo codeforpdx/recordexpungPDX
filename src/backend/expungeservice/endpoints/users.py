@@ -1,19 +1,19 @@
 from flask.views import MethodView
-from flask import request, abort, jsonify
+from flask import request, jsonify
+from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 
 from flask import g
-from expungeservice.database import user
-from expungeservice.endpoints.auth import \
-    user_auth_required, admin_auth_required
 from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
 from expungeservice.request.error import error
+from expungeservice.user import user_db_util
+from expungeservice.user.user import admin_login_required
 
 
 class Users(MethodView):
 
-    @user_auth_required
+    @login_required
     def get(self, user_id):
         """
         Fetch a single user's data if a user_id is specified.
@@ -24,12 +24,12 @@ class Users(MethodView):
 
         if user_id:
 
-            user_db_data = user.read(g.database, user_id)
+            user_db_data = user_db_util.read(g.database, user_id)
 
             if not user_db_data:
                 error(404, "User id not recognized")
 
-            if not g.logged_in_user_is_admin and g.logged_in_user_id != user_id:
+            if not current_user.is_admin and current_user.user_id != user_id:
                 error(403, "Logged in user not admin and doesn't match requested user id.")
 
             response_data = {
@@ -43,10 +43,10 @@ class Users(MethodView):
 
         else:
             # No user_id given; this is a GET all users request.
-            if not g.logged_in_user_is_admin:
+            if not current_user.is_admin:
                 error(403, "Logged in user not admin ")
 
-            user_db_data = user.fetchall(g.database)
+            user_db_data = user_db_util.fetchall(g.database)
 
             response_data = {"users": []}
             for user_entry in user_db_data:
@@ -61,7 +61,7 @@ class Users(MethodView):
 
             return jsonify(response_data), 201
 
-    @admin_auth_required
+    @admin_login_required
     def post(self):
         """
         Create a new user with provided email, password, and admin flag.
@@ -87,7 +87,7 @@ class Users(MethodView):
         password_hash = generate_password_hash(data["password"])
 
         try:
-            create_user_result = user.create(
+            create_user_result = user_db_util.create(
                 g.database,
                 email=data["email"],
                 name=data["name"],
@@ -109,20 +109,18 @@ class Users(MethodView):
 
         return jsonify(response_data), 201
 
-
-    @user_auth_required
+    @login_required
     def put(self, user_id):
         """
         Update the user entry with new values for one or more of the user data fields:
         email, name, group_name, password, or admin
         """
-        user_db_data = user.read(g.database, user_id)
+        user_db_data = user_db_util.read(g.database, user_id)
         if not user_db_data:
             error(404, "User id not recognized.")
 
-        if not g.logged_in_user_is_admin and g.logged_in_user_id != user_id:
+        if not current_user.is_admin and current_user.user_id != user_id:
             error(403, "Logged in user not admin and doesn't match requested user id.")
-
 
         data = request.get_json()
 
@@ -135,7 +133,7 @@ class Users(MethodView):
             error(400, "Json data must define one or more of: \
 email, name, group_name, password, admin")
 
-        if ("admin" in data.keys()) and (data["admin"] is True) and (not g.logged_in_user_is_admin):
+        if ("admin" in data.keys()) and (data["admin"] is True) and (not current_user.is_admin):
             error(403, "Logged in user can not grant self admin privileges.")
 
         if "password" in data.keys():
@@ -145,7 +143,7 @@ email, name, group_name, password, admin")
 
 
         try:
-            update_user_result = user.update(
+            update_user_result = user_db_util.update(
                 g.database,
                 user_id,
                 data)

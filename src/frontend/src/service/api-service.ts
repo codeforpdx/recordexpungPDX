@@ -1,5 +1,4 @@
-import { REQUEST, RequestAction } from '../redux/middleware/request';
-import { AxiosPromise } from 'axios';
+import axios, { AxiosPromise } from 'axios';
 
 type Method = 'post' | 'delete' | 'get' | 'head' | 'delete' | 'options' | 'put';
 
@@ -15,14 +14,12 @@ export type Request = {
   withCredentials?: boolean;
 };
 
-// The dispatch function is needed in order to send requests to the Request Middleware, which
-// handles authentication.
+const REQUEST = 'REQUEST';
+
 export default function apiService(
   dispatch: Function,
   request: Request
 ): AxiosPromise {
-  // The Action dispatched here is handled in the Request Middleware, so you can call
-  // apiService(...).then(...).catch(...) like a normal Axios request.
-  let result = dispatch({ type: REQUEST, request } as RequestAction);
-  return result.promise;
+  dispatch({ type: REQUEST, request });
+  return axios.request(request);
 }
