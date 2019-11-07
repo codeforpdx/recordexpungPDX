@@ -19,6 +19,7 @@ python-dateutil = "*"
 uwsgi = "*"
 cryptography = "*"
 flask-login = "==0.4.1"
+dacite = "==1.0.2"
 
 [dev-packages]
 
