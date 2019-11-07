@@ -14,13 +14,6 @@ class User:
     admin : bool
 
     @staticmethod
-    def from_user_db_dict(user_db_result: dict):
-        if user_db_result:
-            keys = ("user_id", "email", "name", "group_name", "admin") # TODO: Use reflection
-            stripped_dict = {k: user_db_result[k] for k in keys if k in user_db_result}
-            return User(**stripped_dict)
-
-    @staticmethod
     def login_user(user):
         login_user(user, remember=True)
 

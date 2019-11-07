@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask import request, jsonify, g
 from flask_login.login_manager import LoginManager
 from werkzeug.security import check_password_hash
+from dacite import from_dict
 
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
@@ -27,7 +28,7 @@ class AuthToken(MethodView):
                                         data['password'])):
             error(401, 'Invalid username or password')
 
-        user = User.from_user_db_dict(user_db_result)
+        user = from_dict(data_class=User, data=user_db_result)
         User.login_user(user)
         return jsonify({})
 
@@ -36,7 +37,7 @@ def __user_loader(user_id):
     user_db_result = user_db_util.read(
         g.database,
         user_id)
-    return User.from_user_db_dict(user_db_result)
+    return from_dict(data_class=User, data=user_db_result)
 
 
 def register(app):
