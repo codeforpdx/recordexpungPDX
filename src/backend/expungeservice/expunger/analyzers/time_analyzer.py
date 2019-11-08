@@ -2,6 +2,7 @@ from datetime import date
 from typing import List
 
 from dateutil.relativedelta import relativedelta
+from expungeservice.models.expungement_result import EligibilityStatus
 
 from expungeservice.expunger.charges_summarizer import ChargesWithSummary
 from expungeservice.models.charge import Charge
@@ -23,6 +24,7 @@ class TimeAnalyzer:
                 charges_with_summary.charges, "Time-ineligible under 137.225(7)(b)", elig_date
             )
             TimeAnalyzer._check_mrc_time_eligibility(charges_with_summary)
+            TimeAnalyzer._set_arrests_as_eligible(charges_with_summary)
         elif charges_with_summary.most_recent_dismissal:
             TimeAnalyzer._mark_all_acquittals_ineligible_using_mrd_date(charges_with_summary)
             TimeAnalyzer._mark_as_time_eligible(charges_with_summary.most_recent_dismissal.case()().charges)
@@ -132,6 +134,30 @@ class TimeAnalyzer:
     def _mark_as_time_ineligible(charges: List[Charge], reason: str, eligibility_date: date):
         for charge in charges:
             charge.set_time_ineligible(reason, eligibility_date)
+
+    @staticmethod
+    def _set_arrests_as_eligible(charges_with_summary: ChargesWithSummary):
+        # If most recent conviction is time eligible
+        # AND all other charges in the same case are arrests
+        # Then make all other charges in the case time eligible
+        mrc = charges_with_summary.most_recent_conviction
+        if charges_with_summary.most_recent_conviction.expungement_result.time_eligibility.status \
+            is EligibilityStatus.ELIGIBLE:
+            if charges_with_summary.second_most_recent_conviction:
+                pass
+            else:
+                for charge in mrc.case()().charges:
+                    if charge.acquitted():
+                        charge.set_time_eligible()
+        else:
+            if charges_with_summary.second_most_recent_conviction:
+                for charge in mrc.case()().charges:
+                    if charge.acquitted():
+                        charge.set_time_ineligible(
+                            'Multiple convictions within last ten years',
+                            charges_with_summary.second_most_recent_conviction.disposition.date\
+                            + relativedelta(years=+TimeAnalyzer.TEN_YEARS)
+                            )
 
     @staticmethod
     def _mark_as_time_eligible(charges: List[Charge]):
