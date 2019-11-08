@@ -17,6 +17,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.expunger = ExpungerFactory.create()
 
     def test_mrc_with_arrests(self):
+        """
+
+        """
         case = CaseFactory.create()
         three_yr_mrc = ChargeFactory.create(case=case, disposition=['Convicted', Time.THREE_YEARS_AGO])
         dismissed = ChargeFactory.create(
@@ -40,23 +43,28 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         assert three_yr_mrc.expungement_result.time_eligibility is True
         assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
-        assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert three_yr_mrc.expungement_result.time_eligibility\
+            .date_will_be_eligible is None
 
         assert dismissed.expungement_result.time_eligibility is True
         assert dismissed.expungement_result.time_eligibility.reason == ''
-        assert dismissed.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert dismissed.expungement_result.time_eligibility\
+            .date_will_be_eligible is None
 
         assert acquitted.expungement_result.time_eligibility is True
         assert acquitted.expungement_result.time_eligibility.reason == ''
-        assert acquitted.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert acquitted.expungement_result.time_eligibility\
+            .date_will_be_eligible is None
 
         assert dismissal.expungement_result.time_eligibility is True
         assert dismissal.expungement_result.time_eligibility.reason == ''
-        assert dismissal.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert dismissal.expungement_result.time_eligibility\
+            .date_will_be_eligible is None
 
         assert no_complaint.expungement_result.time_eligibility is True
         assert no_complaint.expungement_result.time_eligibility.reason == ''
-        assert no_complaint.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert no_complaint.expungement_result.time_eligibility\
+            .date_will_be_eligible is None
 
 
     def test_more_than_ten_year_old_conviction(self):
