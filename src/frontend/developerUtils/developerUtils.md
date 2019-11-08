@@ -4,11 +4,12 @@ These files help mock out the interaction with the backend for OECI authenticati
 
 The purpose here is to allow testing for frontend/backend integration without the backend making actual requests to the OECI site.
 
-The OECI log in information:
+Valid credentials for the OECI mocked endpoint are:
+
 > User ID: username
 > Password: password
 
-To make a search request using the mocked endpoint you do not need specific first name, last name, or date of birth at this point. Currently we are returning static JSON based on a successful OECI authenticated request.
+To make a search request using the mocked endpoint you do not need specific first name, last name, or date of birth at this point. Currently the endpoint returns static JSON, so long as the client has already obtained the oeci authentication cookie.
 
 Run the alternate version of the app by running the make target in the project root:
 
