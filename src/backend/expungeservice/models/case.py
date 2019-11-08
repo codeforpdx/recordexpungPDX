@@ -49,6 +49,9 @@ class Case:
     def get_balance_due(self):
         return self.__balance_due_in_cents / 100
 
+    def get_balance_due_in_cents(self):
+        return self.__balance_due_in_cents
+
     def closed(self):
         if self._ignore_open_case():
             return True
