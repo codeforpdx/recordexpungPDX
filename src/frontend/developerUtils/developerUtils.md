@@ -1,21 +1,21 @@
-## IMPORTANT! Do not check the modified files into version control.
+## Mocking OECI endpoints
 
-These files help mock out the interaction with the backend for OECI authentication and requesting search results.   
+These files help mock out the interaction with the backend for OECI authentication and requesting search results.
 
-With these you will be able to recieve mocked record search results if you are properly authenticated.
+With these you will be able to receive mocked record search results if you are properly authenticated.
 
-The OECI log in information:  
-> User ID: username  
-> Password: password  
+The OECI log in information:
+> User ID: username
+> Password: password
 
-To make a search request you do not need specific first name, last name, or date of birth at this point. Currently we are returning static JSON based on a successful OECI authenticated request.  
+To make a search request using the mocked endpoint you do not need specific first name, last name, or date of birth at this point. Currently we are returning static JSON based on a successful OECI authenticated request.
 
-To use them replace the corresponding files in the `/src/backend/expungeservice/endpoints/...` folder.  
+Run the alternate version of the app using:
 
-from the root directory of the app you can run:  
+`$ make dev_oeci_mock_up`
 
-`$ make dev_utils_up`
+This uses a docker volume mapping to replace the regular oeci endpoint files with the mocked versions within the running container.
 
-## Before committing make sure to revert these two files to their original forms.  
+Stop the running app with the usual make target:
 
-`$ make dev_utils_down`
+`$ make dev_down`
