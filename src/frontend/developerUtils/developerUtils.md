@@ -20,3 +20,7 @@ This uses a docker volume mapping to replace the regular oeci endpoint files wit
 Stop the app with the usual make target:
 
 `$ make dev_down`
+
+### Note:
+
+If the oeci source files in `src/backend/endpoints/` are changed, these mock versions may need to be updated as well or the utility will break.
