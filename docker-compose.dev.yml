@@ -24,7 +24,6 @@ services:
         volumes:
             - ./src/backend/logs:/var/www/logs
             - ./src/backend/expungeservice:/var/www/expungeservice
-
             - ./src/backend/tests:/var/www/tests
         ports:
             - "5000:5000"

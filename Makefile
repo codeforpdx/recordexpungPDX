@@ -85,8 +85,8 @@ dev_test:
 dev_drop_database:
 	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
 
-dev_oeci_mock_up:
-	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.oeci-mock.yml up -d
+dev_mock_oeci_up:
+	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.mock-oeci.yml up -d
 
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
