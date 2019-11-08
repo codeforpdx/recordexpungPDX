@@ -116,29 +116,29 @@ class TestUsers(EndpointShared):
         assert data["users"][0]["group_name"]
         assert data["users"][0]["user_id"]
 
-
     def test_get_users_not_admin(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.get("/api/users")
-
-
         assert(response.status_code == 403)
 
-
     def test_get_own_user_data_success(self):
+        def check_response_success(response, user_data):
+            assert (response.status_code == 201)
+            data = response.get_json()
+            assert data["email"] == user_data["user1"]["email"]
+            assert not data["admin"]
+            assert data["name"] == user_data["user1"]["name"]
+            assert data["group_name"] == user_data["user1"]["group_name"]
+            assert data["user_id"] == user_data["user1"]["user_id"]
+            assert data["timestamp"]
+
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+
         response = self.client.get("/api/users/%s" % self.user_data["user1"]["user_id"])
+        check_response_success(response, self.user_data)
 
-        assert(response.status_code == 201)
-
-        data = response.get_json()
-
-        assert data["email"] == self.user_data["user1"]["email"]
-        assert data["admin"] is False
-        assert data["name"] == self.user_data["user1"]["name"]
-        assert data["group_name"] == self.user_data["user1"]["group_name"]
-        assert data["user_id"] == self.user_data["user1"]["user_id"]
-        assert data["timestamp"]
+        response_without_explicit_id = self.client.get("/api/user")
+        check_response_success(response_without_explicit_id, self.user_data)
 
     def test_get_user_data_as_admin_success(self):
         self.login(self.user_data["admin"]["email"], self.user_data["admin"]["password"])
@@ -161,7 +161,6 @@ class TestUsers(EndpointShared):
         response = self.client.get("/api/users/%s" % self.user_data["user1"]["user_id"])
 
         assert(response.status_code == 403)
-
 
     def test_get_single_user_unrecognized(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
@@ -192,22 +191,23 @@ class TestUsers(EndpointShared):
         assert auth_response.status_code == 200
 
     def test_update_nonadmin_self_success(self):
+        def check_response_success(response, user_data, check_user_data_match_fn):
+            response_data = response.get_json()
+            existing_user_data = copy.deepcopy(user_data["user1"])
+            existing_user_data["group_name"] = "updated group name"
+            check_user_data_match_fn(response_data, existing_user_data)
+            assert (response.status_code == 200)
+
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.put(
             "/api/users/%s" % self.user_data["user1"]["user_id"],
             json={"group_name":"updated group name"})
+        check_response_success(response, self.user_data, self.check_user_data_match)
 
-        response_data = response.get_json()
-        existing_user_data = copy.deepcopy(self.user_data["user1"])
-
-        existing_user_data["group_name"] = "updated group name"
-
-        self.check_user_data_match(response_data, existing_user_data)
-
-        assert(response.status_code == 200)
-
-
-
+        response_without_explicit_id = self.client.put(
+            "/api/user",
+            json={"group_name":"updated group name"})
+        check_response_success(response_without_explicit_id, self.user_data, self.check_user_data_match)
 
     def test_update_user_id_mismatch_fail(self):
         self.login(self.user_data["user2"]["email"], self.user_data["user2"]["password"])
@@ -217,36 +217,50 @@ class TestUsers(EndpointShared):
 
         assert(response.status_code == 403)
 
-
     def test_update_unrecogized_fail(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.put(
             "/api/users/%s" % "unrecognized",
             json={"password":"new_password"})
-
         assert(response.status_code == 404)
 
+        response_without_explicit_id = self.client.put(
+            "/api/user/",
+            json={"password":"new_password"})
+        assert(response_without_explicit_id.status_code == 404)
 
     def test_update_no_matching_fields_fail(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.put(
             "/api/users/%s" % self.user_data["user1"]["user_id"],
             json={"random_field":"random_field_value"})
-
         assert(response.status_code == 400)
+
+        response_without_explicit_id = self.client.put(
+            "/api/user",
+            json={"random_field":"random_field_value"})
+        assert(response_without_explicit_id.status_code == 400)
 
     def test_update_duplicated_email_fail(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.put(
             "/api/users/%s" % self.user_data["user1"]["user_id"],
             json={"email":self.user_data["user2"]["email"]})
-
         assert(response.status_code == 422)
+
+        response_without_explicit_id = self.client.put(
+            "/api/user",
+            json={"email": self.user_data["user2"]["email"]})
+        assert (response_without_explicit_id.status_code == 422)
 
     def test_update_set_self_admin_fail(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.put(
             "/api/users/%s" % self.user_data["user1"]["user_id"],
             json={"admin":True})
-
         assert(response.status_code == 403)
+
+        response_without_explicit_id = self.client.put(
+            "/api/user",
+            json={"admin":True})
+        assert(response_without_explicit_id.status_code == 403)
