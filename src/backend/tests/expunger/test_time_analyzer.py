@@ -16,6 +16,49 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def setUp(self):
         self.expunger = ExpungerFactory.create()
 
+    def test_mrc_with_arrests(self):
+        case = CaseFactory.create()
+        three_yr_mrc = ChargeFactory.create(case=case, disposition=['Convicted', Time.THREE_YEARS_AGO])
+        dismissed = ChargeFactory.create(
+            # Arrest = 'Dismissed/Dismissal/Acquitted' No Complaints maybe as well, but didn't find instances of this
+            # Might have to use something like expunger.most_recent_dismissal.case()().charges
+            # Negative test as well? Nick will look out for this -- continue with pos case for now
+            case=case,
+            disposition=['Dismissed', Time.THREE_YEARS_AGO])
+        acquitted = ChargeFactory.create(
+            case=case,
+            disposition=['Acquitted', Time.THREE_YEARS_AGO])
+        dismissal = ChargeFactory.create(
+            case=case,
+            disposition=['Dismissal', Time.THREE_YEARS_AGO])
+        no_complaint = ChargeFactory.create(
+            case=case,
+            disposition=['No Complaint', Time.THREE_YEARS_AGO])
+
+        self.expunger.charges = [three_yr_mrc, dismissed, acquitted, dismissal, no_complaint]
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert three_yr_mrc.expungement_result.time_eligibility is True
+        assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
+        assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None
+
+        assert dismissed.expungement_result.time_eligibility is True
+        assert dismissed.expungement_result.time_eligibility.reason == ''
+        assert dismissed.expungement_result.time_eligibility.date_will_be_eligible is None
+
+        assert acquitted.expungement_result.time_eligibility is True
+        assert acquitted.expungement_result.time_eligibility.reason == ''
+        assert acquitted.expungement_result.time_eligibility.date_will_be_eligible is None
+
+        assert dismissal.expungement_result.time_eligibility is True
+        assert dismissal.expungement_result.time_eligibility.reason == ''
+        assert dismissal.expungement_result.time_eligibility.date_will_be_eligible is None
+
+        assert no_complaint.expungement_result.time_eligibility is True
+        assert no_complaint.expungement_result.time_eligibility.reason == ''
+        assert no_complaint.expungement_result.time_eligibility.date_will_be_eligible is None
+
+
     def test_more_than_ten_year_old_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
 
