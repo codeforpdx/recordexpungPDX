@@ -1,8 +1,8 @@
 ## Mocking OECI endpoints
 
-These files help mock out the interaction with the backend for OECI authentication and requesting search results.
+These files help mock out the interaction with the backend for OECI authentication and requesting search results. With these you will be able to receive mocked record search results from /api/search after getting a mocked authentation cooking from /api/oeci_login.
 
-With these you will be able to receive mocked record search results if you are properly authenticated.
+The purpose here is to allow testing for frontend/backend integration without the backend making actual requests to the OECI site.
 
 The OECI log in information:
 > User ID: username
