@@ -134,3 +134,13 @@ class TestAuth(EndpointShared):
 
         response = self.client.get('/api/test/user_protected')
         assert(response.status_code == 200) # TODO: Ideally this should be 401
+
+    def test_cookie_cannot_be_used_for_fresh_login(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+
+        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+
+        response = self.client.put(
+            "/api/users/%s" % self.user_data["user1"]["user_id"],
+            json={"password":"new_password"})
+        assert(response.status_code == 401)

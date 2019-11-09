@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, fresh_login_required
 from werkzeug.security import generate_password_hash
 
 from flask import g
@@ -85,7 +85,7 @@ def put_from_user_id(user_id):
 
 
 class UsersView(MethodView):
-    @login_required
+    @fresh_login_required
     def get(self, user_id):
         """
         Fetch a single user's data if a user_id is specified.
@@ -163,7 +163,7 @@ class UsersView(MethodView):
 
         return jsonify(response_data), 201
 
-    @login_required
+    @fresh_login_required
     def put(self, user_id):
         """
         Update the user entry with new values for one or more of the user data fields:
@@ -173,12 +173,12 @@ class UsersView(MethodView):
 
 
 class UserView(MethodView):
-    @login_required
+    @fresh_login_required
     def get(self):
         user_id = current_user.user_id
         return get_from_user_id(user_id)
 
-    @login_required
+    @fresh_login_required
     def put(self):
         user_id = current_user.user_id
         return put_from_user_id(user_id)
