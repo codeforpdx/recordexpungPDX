@@ -109,3 +109,28 @@ class TestAuth(EndpointShared):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
         response = self.client.get('/api/test/admin_protected')
         assert(response.status_code == 403)
+
+    def test_user_protected_is_unauthorized_after_logout(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        response = self.client.post('/api/logout')
+        assert(response.status_code == 200)
+
+        response = self.client.get('/api/test/user_protected')
+        assert(response.status_code == 401)
+
+    # The flask-login library doesn't invalidate the "remember_token" after
+    # logout yet. I do not consider this a critical security flaw as
+    # it only is an issue if an attacker has somehow obtained the remember_token
+    # before the user manages to logout and clear all cookies.
+    def test_cookie_is_invalid_after_logout(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        cookie = self.client.cookie_jar._cookies["localhost.local"]["/"]["remember_token"]
+        response = self.client.post('/api/logout')
+        assert(response.status_code == 200)
+        assert(not self.client.cookie_jar._cookies["localhost.local"]["/"].get("remember_token"))
+
+        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+        self.client.cookie_jar.set_cookie(cookie)
+
+        response = self.client.get('/api/test/user_protected')
+        assert(response.status_code == 200) # TODO: Ideally this should be 401
