@@ -21,11 +21,18 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         """
         case = CaseFactory.create()
-        three_yr_mrc = ChargeFactory.create(case=case, disposition=['Convicted', Time.THREE_YEARS_AGO])
+
+        three_yr_mrc = ChargeFactory.create(
+                        case=case,
+                        disposition=['Convicted', Time.THREE_YEARS_AGO])
+
+        # dismissed, acquitted, dismissal, and no_complaint are four types
+        # of arrest disposition.
+
+        # Might have to use something like expunger.most_recent_dismissal.case()().charges
+        # Negative test as well? Nick will look out for this -- continue with pos case for now
+
         dismissed = ChargeFactory.create(
-            # Arrest = 'Dismissed/Dismissal/Acquitted' No Complaints maybe as well, but didn't find instances of this
-            # Might have to use something like expunger.most_recent_dismissal.case()().charges
-            # Negative test as well? Nick will look out for this -- continue with pos case for now
             case=case,
             disposition=['Dismissed', Time.THREE_YEARS_AGO])
         acquitted = ChargeFactory.create(
@@ -38,30 +45,32 @@ class TestSingleChargeAcquittals(unittest.TestCase):
             case=case,
             disposition=['No Complaint', Time.THREE_YEARS_AGO])
 
+        self.expunger.most_recent_conviction = three_yr_mrc
         self.expunger.charges = [three_yr_mrc, dismissed, acquitted, dismissal, no_complaint]
         TimeAnalyzer.evaluate(self.expunger)
 
-        assert three_yr_mrc.expungement_result.time_eligibility is True
+
+        assert three_yr_mrc.expungement_result.time_eligibility.status is True
         assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
         assert three_yr_mrc.expungement_result.time_eligibility\
             .date_will_be_eligible is None
 
-        assert dismissed.expungement_result.time_eligibility is True
+        assert dismissed.expungement_result.time_eligibility.status is True
         assert dismissed.expungement_result.time_eligibility.reason == ''
         assert dismissed.expungement_result.time_eligibility\
             .date_will_be_eligible is None
 
-        assert acquitted.expungement_result.time_eligibility is True
+        assert acquitted.expungement_result.time_eligibility.status is True
         assert acquitted.expungement_result.time_eligibility.reason == ''
         assert acquitted.expungement_result.time_eligibility\
             .date_will_be_eligible is None
 
-        assert dismissal.expungement_result.time_eligibility is True
+        assert dismissal.expungement_result.time_eligibility.status is True
         assert dismissal.expungement_result.time_eligibility.reason == ''
         assert dismissal.expungement_result.time_eligibility\
             .date_will_be_eligible is None
 
-        assert no_complaint.expungement_result.time_eligibility is True
+        assert no_complaint.expungement_result.time_eligibility.status is True
         assert no_complaint.expungement_result.time_eligibility.reason == ''
         assert no_complaint.expungement_result.time_eligibility\
             .date_will_be_eligible is None
