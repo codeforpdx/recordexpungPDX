@@ -19,10 +19,15 @@ export function logIn(email: string, password: string): any {
   };
 }
 
-export function logOut() {
-  removeCookie();
-  return {
-    type: LOG_OUT
+export function logOut(): any {
+  return (dispatch: Dispatch) => {
+    return apiService(dispatch, {
+      url: '/api/logout',
+      method: 'post'
+    }).then((response: any) => {
+      removeCookie();
+      dispatch({ type: LOG_OUT });
+    });
   };
 }
 

@@ -1,5 +1,6 @@
 import axios, { AxiosPromise } from 'axios';
-import { logOut } from '../redux/system/actions';
+import { removeCookie } from './cookie-service';
+import { LOG_OUT } from '../redux/system/types';
 
 type Method = 'post' | 'delete' | 'get' | 'head' | 'delete' | 'options' | 'put';
 
@@ -21,7 +22,8 @@ export default function apiService(
 ): AxiosPromise {
   return axios.request(request).catch(error => {
     if (error.response && error.response.status === 401) {
-      dispatch(logOut());
+      removeCookie();
+      dispatch({ type: LOG_OUT });
     }
     return Promise.reject(error);
   });
