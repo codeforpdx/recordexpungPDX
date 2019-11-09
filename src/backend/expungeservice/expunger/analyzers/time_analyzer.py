@@ -15,6 +15,7 @@ class TimeAnalyzer:
             elig_date = TimeAnalyzer._calc_elig_date(expunger.most_recent_conviction, TimeAnalyzer.TEN_YEARS)
             TimeAnalyzer._mark_as_time_ineligible(expunger.charges, 'Time-ineligible under 137.225(7)(b)', elig_date)
             TimeAnalyzer._check_mrc_time_eligibility(expunger)
+            TimeAnalyzer._set_arrests_as_eligible(expunger)
         elif expunger.most_recent_dismissal:
             TimeAnalyzer._mark_all_acquittals_ineligible_using_mrd_date(expunger)
             TimeAnalyzer._mark_as_time_eligible(expunger.most_recent_dismissal.case()().charges)
@@ -70,6 +71,23 @@ class TimeAnalyzer:
     def _mark_as_time_ineligible(charges, reason, eligibility_date):
         for charge in charges:
             charge.set_time_ineligible(reason, eligibility_date)
+
+    @staticmethod
+    def _set_arrests_as_eligible(expunger):
+        if expunger.most_recent_conviction.expungement_result.time_eligibility.status:
+        # if len(expunger.charges) > 2:
+            arrest_dispositions = {'Dismissed', 'Acquitted', 'Dismissal', 'No Complaint'}
+            mrc = expunger.most_recent_conviction
+            non_mrc_charges = [x for x in expunger.charges if x != mrc]
+            non_mrc_rulings = {x.disposition.ruling for x in non_mrc_charges}
+            are_all_arrests = non_mrc_rulings.issubset(arrest_dispositions)
+            if are_all_arrests:
+                for charge in non_mrc_charges:
+                    charge.set_time_eligible()
+                # import pdb; pdb.set_trace()
+            # If all non-mrc are arrests
+            # Then make them all time-eligible
+
 
     @staticmethod
     def _mark_as_time_eligible(charges):

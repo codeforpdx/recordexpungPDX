@@ -49,7 +49,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.expunger.charges = [three_yr_mrc, dismissed, acquitted, dismissal, no_complaint]
         TimeAnalyzer.evaluate(self.expunger)
 
-
         assert three_yr_mrc.expungement_result.time_eligibility.status is True
         assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
         assert three_yr_mrc.expungement_result.time_eligibility\
