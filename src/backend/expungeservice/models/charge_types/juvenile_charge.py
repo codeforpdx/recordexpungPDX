@@ -6,8 +6,9 @@ class JuvenileCharge(BaseCharge):
 
     def __init__(self, **kwargs):
         super(JuvenileCharge, self).__init__(**kwargs)
-        self.expungement_result.set_type_eligibility(
-            TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = 'Juvenile Charge : Needs further analysis'))
+
+    def default_type_eligibility(self):
+        return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = 'Juvenile Charge : Needs further analysis')
 
     def skip_analysis(self):
         return True

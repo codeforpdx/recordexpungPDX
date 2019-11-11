@@ -6,12 +6,12 @@ class Level800TrafficCrime(BaseCharge):
 
     def __init__(self, **kwargs):
         super(Level800TrafficCrime, self).__init__(**kwargs)
+
+    def default_type_eligibility(self):
         if self._expungeable():
-            self.expungement_result.set_type_eligibility(
-                TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)'))
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)')
         else:
-            self.expungement_result.set_type_eligibility(
-                TypeEligibility(EligibilityStatus.INELIGIBLE, reason = 'Ineligible under 137.225(5)'))
+            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason = 'Ineligible under 137.225(5)')
 
     def skip_analysis(self):
         if self._affects_time_analysis():

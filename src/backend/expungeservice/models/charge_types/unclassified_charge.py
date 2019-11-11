@@ -5,7 +5,9 @@ class UnclassifiedCharge(BaseCharge):
 
     def __init__(self, **kwargs):
         super(UnclassifiedCharge, self).__init__(**kwargs)
+
+    def default_type_eligibility(self):
         if self.acquitted():
-            self.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)'))
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)')
         else:
-            self.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = 'Examine'))
+            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = 'Examine')

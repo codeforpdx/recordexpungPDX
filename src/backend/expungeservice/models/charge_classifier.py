@@ -13,12 +13,11 @@ from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_crime import PersonCrime
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
-from expungeservice.models.case import Case
 
 
 @dataclass
 class ChargeClassifier:
-    case : Case
+    violation_type: str
     statute : str
     level : str
     chapter : str
@@ -33,15 +32,15 @@ class ChargeClassifier:
                 return c
 
     def __classifications_list(self):
-        yield ChargeClassifier._juvenile_charge(self.case)
+        yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
-        yield ChargeClassifier._municipal_parking(self.case)
+        yield ChargeClassifier._municipal_parking(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level)
         yield UnclassifiedCharge
 
     @staticmethod
-    def _juvenile_charge(case):
-        if 'juvenile' in case.violation_type.lower():
+    def _juvenile_charge(violation_type):
+        if 'juvenile' in violation_type.lower():
             return JuvenileCharge
 
     @staticmethod
@@ -101,8 +100,8 @@ class ChargeClassifier:
             return Schedule1PCS
 
     @staticmethod
-    def _municipal_parking(case):
-        if 'parking' in case.violation_type.lower():
+    def _municipal_parking(violation_type):
+        if 'parking' in violation_type.lower():
             return ParkingTicket
 
     @staticmethod

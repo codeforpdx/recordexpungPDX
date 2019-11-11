@@ -383,13 +383,14 @@ Data Model
  - birth_year
  - case_number
  - citation_number
- - date
  - location
+ - date
  - violation_type
  - current_status
- - balance_due_in_cents
- - case_detail_link
  - charges # type list[Charge]
+ - case_detail_link
+ - __probation_revoked
+ - __balance_due_in_cents
 
 #### Charge:
  - name
@@ -404,7 +405,7 @@ Data Model
  - ruling
 
 #### ExpungementResult:
- - type_eligibility :: type Optional[TypeEligibility]
+ - type_eligibility :: type TypeEligibility
  - time_eligibility :: type Optional[TimeEligibility]
 
 #### TypeEligibility:

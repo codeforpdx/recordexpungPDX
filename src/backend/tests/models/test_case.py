@@ -7,7 +7,7 @@ from tests.factories.case_factory import CaseFactory
 class TestCaseBalanceDue(unittest.TestCase):
 
     def setUp(self):
-        self.case = Case(("John Doe", "1990"), "", "", ("1/1/2019",""), ("",""), "", "")
+        self.case = Case.create(("John Doe", "1990"), "", "", ("1/1/2019",""), ("",""), "", "")
 
     def test_balance_due_getter_setter(self):     
 
@@ -54,7 +54,7 @@ class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
         self.case['info'] = ['John Doe']
         case = CaseFactory.save(self.case)
 
-        assert case.birth_year == ''
+        assert case.birth_year is None
 
     def test_it_assigns_birth_year_when_given_the_year(self):
         self.case['info'] = ['John Doe', '1979']

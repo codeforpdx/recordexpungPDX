@@ -83,4 +83,4 @@ class TestRecordWithoutBirthYear(unittest.TestCase):
 
         assert parser.cases[0].birth_year == 1943
         assert parser.cases[1].birth_year == 1943
-        assert parser.cases[2].birth_year == ''
+        assert parser.cases[2].birth_year is None
