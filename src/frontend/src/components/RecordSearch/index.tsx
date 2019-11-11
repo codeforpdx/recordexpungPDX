@@ -46,7 +46,11 @@ class RecordSearch extends React.Component<Props, State> {
       this.state.invalidDate === false
     ) {
       // Dispatch an action.
-      this.props.fetchRecords();
+      let state = this.state;
+      let firstName = state.firstName;
+      let lastName = state.lastName;
+      let dateOfBirth = state.dateOfBirth;
+      this.props.fetchRecords(firstName, lastName, dateOfBirth);
     }
   };
 
