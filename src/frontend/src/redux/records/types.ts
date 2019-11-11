@@ -16,6 +16,7 @@
 export interface Record {
   total_balance_Due?: number;
   cases?: any[];
+  errors?: any;
 }
 
 // These constants are used as the 'type' field in Redux actions.

@@ -45,10 +45,17 @@ class OeciLogin(MethodView):
 
         response = make_response()
 
+        # TODO: Fix below
+        #
+        # Currently nginx/flask app are running as HTTP
+        # secure=True requires HTTPS to maintain secure cookies
+        # https://resources.infosecinstitute.com/securing-cookies-httponly-secure-flags/#gref
+        #
+        # We will need an OECILogout endpoint to remove httponly=true cookies from frontend
         response.set_cookie(
             "oeci_token",
-            secure=True,
-            httponly=True,
+            secure=False,
+            httponly=False,
             samesite="strict",
             expires=time.time() + 15 * 60,  # 15 minutes
             value=encrypted_credentials)

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { Record } from '../redux/records/types';
-import { loadSearchRecordsMock } from '../redux/records/mock-actions';
+import { loadSearchRecords } from '../redux/records/actions';
 import RecordSearch from '../components/RecordSearch';
 import SearchResults from '../components/SearchResults';
 import AllStatus from './AllStatus';
@@ -39,6 +39,6 @@ const mapStateToProps = (state: AppState) => {
 export default connect(
   mapStateToProps,
   {
-    fetchRecords: loadSearchRecordsMock
+    fetchRecords: loadSearchRecords
   }
 )(AllRecords);
