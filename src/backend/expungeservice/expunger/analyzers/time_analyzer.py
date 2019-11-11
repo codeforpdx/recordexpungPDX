@@ -74,8 +74,10 @@ class TimeAnalyzer:
 
     @staticmethod
     def _set_arrests_as_eligible(expunger):
+        # If most recent conviction is time eligible
+        # AND all other charges are arrests
+        # Then make all other charges time eligible
         if expunger.most_recent_conviction.expungement_result.time_eligibility.status:
-        # if len(expunger.charges) > 2:
             arrest_dispositions = {'Dismissed', 'Acquitted', 'Dismissal', 'No Complaint'}
             mrc = expunger.most_recent_conviction
             non_mrc_charges = [x for x in expunger.charges if x != mrc]
@@ -84,9 +86,6 @@ class TimeAnalyzer:
             if are_all_arrests:
                 for charge in non_mrc_charges:
                     charge.set_time_eligible()
-                # import pdb; pdb.set_trace()
-            # If all non-mrc are arrests
-            # Then make them all time-eligible
 
 
     @staticmethod

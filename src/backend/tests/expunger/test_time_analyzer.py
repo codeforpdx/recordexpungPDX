@@ -17,21 +17,17 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.expunger = ExpungerFactory.create()
 
     def test_mrc_with_arrests(self):
-        """
+        """Tests case with one conviction and multiple arrests, where all
+        charges should be time eligible.
 
+        The arrests cover the 4 arrest dispositions.
         """
         case = CaseFactory.create()
 
         three_yr_mrc = ChargeFactory.create(
                         case=case,
                         disposition=['Convicted', Time.THREE_YEARS_AGO])
-
-        # dismissed, acquitted, dismissal, and no_complaint are four types
-        # of arrest disposition.
-
-        # Might have to use something like expunger.most_recent_dismissal.case()().charges
-        # Negative test as well? Nick will look out for this -- continue with pos case for now
-
+        # Create the 4 arrest charges
         dismissed = ChargeFactory.create(
             case=case,
             disposition=['Dismissed', Time.THREE_YEARS_AGO])
@@ -46,7 +42,8 @@ class TestSingleChargeAcquittals(unittest.TestCase):
             disposition=['No Complaint', Time.THREE_YEARS_AGO])
 
         self.expunger.most_recent_conviction = three_yr_mrc
-        self.expunger.charges = [three_yr_mrc, dismissed, acquitted, dismissal, no_complaint]
+        self.expunger.charges = [
+            three_yr_mrc, dismissed, acquitted, dismissal, no_complaint]
         TimeAnalyzer.evaluate(self.expunger)
 
         assert three_yr_mrc.expungement_result.time_eligibility.status is True
@@ -73,7 +70,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert no_complaint.expungement_result.time_eligibility.reason == ''
         assert no_complaint.expungement_result.time_eligibility\
             .date_will_be_eligible is None
-
 
     def test_more_than_ten_year_old_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
