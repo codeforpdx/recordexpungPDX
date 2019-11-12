@@ -20,8 +20,6 @@ class Authenticator extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    // Upon page refresh or navigation via manual url input this will
-    // repopulate store with information stored in the browser cookie
     const cookieData = decodeCookie();
     if (cookieData.remember_token) {
       this.props.refreshLocalAuth();
