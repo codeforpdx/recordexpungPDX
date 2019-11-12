@@ -48,7 +48,6 @@ export function oeciLogIn(username: string, password: string): any {
       url: '/api/oeci_login',
       data: { oeci_username: username, oeci_password: password },
       method: 'post',
-      authenticated: true,
       withCredentials: true
     }).then((response: any) => {
       if (hasOeciToken()) {

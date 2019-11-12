@@ -12,7 +12,6 @@ export type Request = {
   data?: object;
   method: Method;
   headers?: object;
-  authenticated?: boolean;
   withCredentials?: boolean;
 };
 

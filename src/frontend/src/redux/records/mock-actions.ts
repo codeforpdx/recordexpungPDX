@@ -103,8 +103,7 @@ export const loadSearchRecordsMock = () => (dispatch: Dispatch) => {
       birth_date: '10102010'
     },
     method: 'post',
-    withCredentials: true,
-    authenticated: true
+    withCredentials: true
   })
     .then((response: any) => {
       // data returned in the format that will be sent from crawler
