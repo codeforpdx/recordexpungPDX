@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+    expungeservice:
+
+        volumes:
+            - ./src/frontend/developerUtils/search.py:/var/www/expungeservice/endpoints/search.py
+            - ./src/frontend/developerUtils/oeci_login.py:/var/www/expungeservice/endpoints/oeci_login.py
