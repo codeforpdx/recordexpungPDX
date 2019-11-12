@@ -1,8 +1,8 @@
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-class FelonyClassA(BaseCharge):
+class FelonyClassA(Charge):
 
     def __init__(self, **kwargs):
         super(FelonyClassA, self).__init__(**kwargs)

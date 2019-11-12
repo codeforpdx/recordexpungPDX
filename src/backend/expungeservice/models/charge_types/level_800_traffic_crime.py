@@ -1,8 +1,8 @@
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-class Level800TrafficCrime(BaseCharge):
+class Level800TrafficCrime(Charge):
 
     def __init__(self, **kwargs):
         super(Level800TrafficCrime, self).__init__(**kwargs)

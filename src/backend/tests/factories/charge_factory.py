@@ -1,5 +1,5 @@
 from datetime import date as date_class
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from tests.factories.case_factory import CaseFactory
 
@@ -19,7 +19,7 @@ class ChargeFactory:
 
     @staticmethod
     def save(charge):
-        return Charge.create(**charge)
+        return ChargeCreator.create(**charge)
 
     @staticmethod
     def create(case=CaseFactory.create(),
@@ -33,7 +33,7 @@ class ChargeFactory:
             disposition = Disposition(date=date, ruling=ruling)
         kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date, 'disposition': disposition}
 
-        return Charge.create(**kwargs)
+        return ChargeCreator.create(**kwargs)
 
     @staticmethod
     def create_dismissed_charge(case=CaseFactory.create(),
@@ -44,4 +44,4 @@ class ChargeFactory:
         disposition = Disposition(date=date_class.today().strftime('%m/%d/%Y'), ruling='Dismissed')
         kwargs = {'case': case, 'name': name, 'statute': statute, 'level': level, 'date': date, 'disposition': disposition}
 
-        return Charge.create(**kwargs)
+        return ChargeCreator.create(**kwargs)

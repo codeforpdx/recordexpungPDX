@@ -1,6 +1,6 @@
 import requests
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.record import Record
 from expungeservice.crawler.parsers.param_parser import ParamParser
@@ -77,4 +77,4 @@ class Crawler:
         if case_parser.hashed_dispo_data.get(charge_id):
             charge['disposition'] = Disposition(case_parser.hashed_dispo_data[charge_id].get('date'),
                                                 case_parser.hashed_dispo_data[charge_id].get('ruling'))
-        return Charge.create(**charge)
+        return ChargeCreator.create(**charge)
