@@ -4,8 +4,8 @@ import { AxiosResponse } from 'axios';
 import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
 
 export function loadSearchRecords(
-  first_name: string,
-  last_name: string,
+  firstName: string,
+  lastName: string,
   birthday: string
 ): any {
   return (dispatch: Dispatch) => {
@@ -15,9 +15,9 @@ export function loadSearchRecords(
     return apiService(dispatch, {
       url: '/api/search',
       data: {
-        first_name: first_name,
+        first_name: firstName,
         middle_name: '',
-        last_name: last_name,
+        last_name: lastName,
         birth_date: birthday
       },
       method: 'post',
