@@ -13,6 +13,13 @@
 // Case: ZA0061902
 // Case Balance: None
 
+export interface RecordWrapper {
+  record: Record;
+}
+export interface SearchResponse {
+  data: RecordWrapper;
+}
+
 export interface Record {
   total_balance_Due?: number;
   cases?: any[];
