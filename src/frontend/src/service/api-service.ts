@@ -15,13 +15,10 @@ export type Request = {
   withCredentials?: boolean;
 };
 
-const REQUEST = 'REQUEST';
-
 export default function apiService(
   dispatch: Function,
   request: Request
 ): AxiosPromise {
-  dispatch({ type: REQUEST, request });
   return axios.request(request).catch(error => {
     if (error.response && error.response.status === 401) {
       dispatch(logOut());
