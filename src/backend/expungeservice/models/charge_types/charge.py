@@ -3,12 +3,11 @@ import weakref
 from datetime import datetime
 from datetime import date as date_class
 from dateutil.relativedelta import relativedelta
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import ExpungementResult, \
     TimeEligibility, EligibilityStatus, TypeEligibility
 
 
-class BaseCharge:
+class Charge:
 
     def __init__(self, case, name, statute, level, date, chapter, section, disposition=None):
         self.name = name

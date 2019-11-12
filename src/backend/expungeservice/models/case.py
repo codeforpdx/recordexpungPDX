@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime, date
 from typing import List, Optional
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge_types.charge import Charge
 
 
 @dataclass
