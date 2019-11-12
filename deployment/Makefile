@@ -12,7 +12,7 @@ api:
 frontend:
 	echo $@
 	mkdir ./build
-	cp -r ../config/nginx/ ./build/
+	cp -r ../config/nginx/* ./build/
 	rsync -a ../src/frontend/ ./build/frontend/ --exclude node_modules
 
 	heroku container:push --recursive --app=recordexpungpdx || $(handle_error)
