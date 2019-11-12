@@ -39,7 +39,7 @@ class OeciLogin(MethodView):
             error(401, "Invalid OECI username or password.")
 
         cipher = DataCipher(
-            key=current_app.config.get("JWT_SECRET_KEY"))
+            key=current_app.config.get("SECRET_KEY"))
 
         encrypted_credentials = cipher.encrypt(credentials)
 
