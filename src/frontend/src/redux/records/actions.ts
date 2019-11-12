@@ -21,7 +21,6 @@ export function loadSearchRecords(
         birth_date: birthday
       },
       method: 'post',
-      authenticated: true,
       withCredentials: true
     }).then((response: AxiosResponse) => {
       dispatch({
