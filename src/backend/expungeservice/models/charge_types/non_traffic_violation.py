@@ -1,8 +1,8 @@
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-class NonTrafficViolation(BaseCharge):
+class NonTrafficViolation(Charge):
 
     def __init__(self, **kwargs):
         super(NonTrafficViolation, self).__init__(**kwargs)

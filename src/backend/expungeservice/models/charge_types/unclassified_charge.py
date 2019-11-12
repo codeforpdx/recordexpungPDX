@@ -1,7 +1,7 @@
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
-class UnclassifiedCharge(BaseCharge):
+class UnclassifiedCharge(Charge):
 
     def __init__(self, **kwargs):
         super(UnclassifiedCharge, self).__init__(**kwargs)

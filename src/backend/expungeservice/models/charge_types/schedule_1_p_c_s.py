@@ -1,7 +1,7 @@
-from expungeservice.models.charge_types.base_charge import BaseCharge
+from expungeservice.models.charge_types.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
-class Schedule1PCS(BaseCharge):
+class Schedule1PCS(Charge):
 
     def __init__(self, **kwargs):
         super(Schedule1PCS, self).__init__(**kwargs)
