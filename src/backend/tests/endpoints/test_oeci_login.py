@@ -13,7 +13,7 @@ class TestOeciLogin(EndpointShared):
         with self.app.app_context():
 
             self.cipher = DataCipher(
-                key=current_app.config.get("JWT_SECRET_KEY"))
+                key=current_app.config.get("SECRET_KEY"))
 
     def tearDown(self):
         oeci_login.Crawler.login = self.crawler_login

@@ -23,7 +23,7 @@ class Search(MethodView):
                                  "middle_name", "birth_date"])
 
         cipher = DataCipher(
-            key=current_app.config.get("JWT_SECRET_KEY"))
+            key=current_app.config.get("SECRET_KEY"))
 
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
