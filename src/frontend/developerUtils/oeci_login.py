@@ -2,8 +2,9 @@ from flask.views import MethodView
 from flask import request, make_response, current_app
 import time
 
+from flask_login import login_required
+
 from expungeservice.crawler.crawler import Crawler
-from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crypto import DataCipher
@@ -11,7 +12,7 @@ from expungeservice.crypto import DataCipher
 
 class OeciLogin(MethodView):
 
-    @user_auth_required
+    @login_required
     def post(self):
         """
         Attempts to log in to the OECI web site using the provided username
