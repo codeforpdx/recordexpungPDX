@@ -1,7 +1,11 @@
 import { Dispatch } from 'redux';
 import apiService from '../../service/api-service';
 import { AxiosError, AxiosResponse } from 'axios';
-import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
+import {
+  LOAD_SEARCH_RECORDS,
+  LOAD_SEARCH_RECORDS_LOADING,
+  SearchResponse
+} from './types';
 
 export function loadSearchRecords(
   firstName: string,
@@ -12,7 +16,7 @@ export function loadSearchRecords(
     dispatch({
       type: LOAD_SEARCH_RECORDS_LOADING
     });
-    return apiService(dispatch, {
+    return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
       data: {
         first_name: firstName,
@@ -23,13 +27,13 @@ export function loadSearchRecords(
       method: 'post',
       withCredentials: true
     })
-      .then((response: AxiosResponse) => {
+      .then((response: AxiosResponse<SearchResponse>) => {
         dispatch({
           type: LOAD_SEARCH_RECORDS,
           search_records: response.data.data.record
         });
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
       });
   };
