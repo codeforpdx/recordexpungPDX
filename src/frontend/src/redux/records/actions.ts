@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import apiService from '../../service/api-service';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { LOAD_SEARCH_RECORDS, LOAD_SEARCH_RECORDS_LOADING } from './types';
 
 export function loadSearchRecords(
@@ -22,11 +22,15 @@ export function loadSearchRecords(
       },
       method: 'post',
       withCredentials: true
-    }).then((response: AxiosResponse) => {
-      dispatch({
-        type: LOAD_SEARCH_RECORDS,
-        search_records: response.data.data.record
+    })
+      .then((response: AxiosResponse) => {
+        dispatch({
+          type: LOAD_SEARCH_RECORDS,
+          search_records: response.data.data.record
+        });
+      })
+      .catch((error: AxiosError) => {
+        alert(error.message);
       });
-    });
   };
 }
