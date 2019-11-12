@@ -3,6 +3,7 @@ import { removeCookie, hasOeciToken } from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
 import { Dispatch } from 'redux';
+import { AxiosError } from 'axios';
 
 export function logIn(email: string, password: string): any {
   return (dispatch: Dispatch) => {
@@ -24,10 +25,14 @@ export function logOut(): any {
     return apiService(dispatch, {
       url: '/api/logout',
       method: 'post'
-    }).then((response: any) => {
-      removeCookie();
-      dispatch({ type: LOG_OUT });
-    });
+    })
+      .then((response: any) => {
+        removeCookie();
+        dispatch({ type: LOG_OUT });
+      })
+      .catch((error: AxiosError) => {
+        alert(error.message);
+      });
   };
 }
 
