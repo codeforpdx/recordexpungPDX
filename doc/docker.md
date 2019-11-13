@@ -25,7 +25,7 @@ Docker volumes sync the project's source code directories with the frontend and 
 Test Environment Containers
 ---------------------------
 
-We run a continuous integregation testing pipe using [Travis CI](https://travis-ci.com/). This runs three containers which are managed in the docker-compose.test.yml file.
+We run a continuous integregation testing pipe using [Travis CI](https://travis-ci.com/). This runs three containers which are managed in the docker-compose.travis.yml file.
 
  - **webserver** nginx server that contains the frontend static files, built with webpack
  - **expungeservice** wsgi server (hosting a Flask app)
