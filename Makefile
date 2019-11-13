@@ -65,3 +65,7 @@ dev_drop_database:
 
 dev_mock_oeci_up:
 	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.mock-oeci.yml up -d
+
+.PHONY: $(REQUIREMENTS_TXT)
+$(REQUIREMENTS_TXT):
+	pipenv lock -r > $@
