@@ -4,6 +4,8 @@ api:
 	echo $@
 	mkdir ./build
 	cp -r ../src/backend/ ./build/expungeservice
+	# Ensures heroku doesn't unnecessarily build Dockerfile.dev which isn't used for production
+	rm ./build/expungeservice/Dockerfile.dev
 
 	heroku container:push --recursive --app=recordexpungpdxapi || $(handle_error)
 	heroku container:release web --app=recordexpungpdxapi || $(handle_error)
