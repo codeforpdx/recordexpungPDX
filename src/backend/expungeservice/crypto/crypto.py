@@ -3,8 +3,12 @@ import json
 import base64
 import os
 
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-class DataCipher():
+
+class DataCipher:
     """
     wraps an initialized Fernet cipher object to encrypt and decrypt
     data objects.
@@ -18,7 +22,21 @@ class DataCipher():
         if key is None:
             key = os.urandom(32)
 
-        key_bytes = base64.encodebytes(key)
+        if isinstance(key, str):
+            key_as_bytes = key.encode()
+        else:
+            key_as_bytes = key
+
+        salt_string = "constant so that session cookies carry across restarts of this app"
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt_string.encode(),
+            iterations=100000,
+            backend=default_backend()
+        )
+        hashed_key = kdf.derive(key_as_bytes)
+        key_bytes = base64.encodebytes(hashed_key)
         self.cipher = Fernet(key=key_bytes)
 
     def encrypt(self, data):
