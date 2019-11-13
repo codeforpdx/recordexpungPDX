@@ -1,13 +1,14 @@
-import apiService, { Request } from './api-service';
+import apiService from './api-service';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { AxiosRequestConfig } from 'axios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)({});
 
 describe('API SERVICE TEST', () => {
   it('returns data with get', () => {
-    const request: Request = {
+    const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/hello',
       method: 'get'
     };
@@ -19,7 +20,7 @@ describe('API SERVICE TEST', () => {
   });
 
   it('returns with error on bad base url', done => {
-    const request: Request = {
+    const request: AxiosRequestConfig = {
       url: 'http://:5000/api/',
       method: 'get'
     };
@@ -32,7 +33,7 @@ describe('API SERVICE TEST', () => {
   });
 
   it('returns with 404 error on bad route', done => {
-    const request: Request = {
+    const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/ello',
       method: 'get'
     };
@@ -45,7 +46,7 @@ describe('API SERVICE TEST', () => {
   });
 
   it('returns search in JSON', done => {
-    const request: Request = {
+    const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/search',
       method: 'post'
     };
