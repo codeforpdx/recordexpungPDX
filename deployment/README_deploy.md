@@ -17,6 +17,7 @@ In the terminal, use `heroku` commands to build docker images locally and then p
 First, use the project login credentials to access heroku admin:
 ```
 heroku login
+heroku container:login
 ```
 
 The heroku projects for the frontend and backend need to be already created and associated with this login account.
