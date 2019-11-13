@@ -7,6 +7,10 @@ import {
   SearchResponse
 } from './types';
 
+function validateResponseData(data: SearchResponse): boolean {
+  return data.hasOwnProperty('data') && data.data.hasOwnProperty('record');
+}
+
 export function loadSearchRecords(
   firstName: string,
   lastName: string,
@@ -28,10 +32,14 @@ export function loadSearchRecords(
       withCredentials: true
     })
       .then((response: AxiosResponse<SearchResponse>) => {
-        dispatch({
-          type: LOAD_SEARCH_RECORDS,
-          search_records: response.data.data.record
-        });
+        if (validateResponseData(response.data)) {
+          dispatch({
+            type: LOAD_SEARCH_RECORDS,
+            search_records: response.data.data.record
+          });
+        } else {
+          alert('Response data has unexpected format.');
+        }
       })
       .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
