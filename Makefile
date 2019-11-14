@@ -5,8 +5,6 @@ clean:
 	find . -type f -name \*~ | xargs rm &
 	find . -type f -name \*pyc | xargs rm
 
-IMAGES := database_image expungeservice_image webserver_image
-
 STACK_NAME := recordexpungpdx
 PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
