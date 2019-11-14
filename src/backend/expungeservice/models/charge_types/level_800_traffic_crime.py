@@ -4,9 +4,6 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 class Level800TrafficCrime(Charge):
 
-    def __init__(self, **kwargs):
-        super(Level800TrafficCrime, self).__init__(**kwargs)
-
     def default_type_eligibility(self):
         if self._expungeable():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)')
