@@ -4,62 +4,17 @@ This document provides some overall guidelines and suggestions for how to get st
 
 ## Table of Contents
 - [First steps](#first-steps)
-- [Contributing code](#contributing-code)
-- [Installation](#installation)
-- [Running Components](#running-the-docker-stack)
+
+- [Where to contribute](#where-to-contribute)
 
 ### First steps
 
 1. [Set up your local dev environment](README.md#installation)
-2. Be sure to read our [code of conduct](CODE_OF_CONDUCT.md)
+2. Be sure to read our [code of conduct](http://www.codeforpdx.org/about/conduct)
 3. Say hi on our Slack Channel!
 
-### Contributing code
+### Guidelines
 
- 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)** the repo on GitHub
- and **[Clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the project to your own machine. Replacing YOUR-USERNAME with your github username.
-   ```bash
-    $ git clone https://github.com/YOUR-USERNAME/recordexpungPDX.git
-   ```
- 3. cd into recordexpungPDX
-   ```bash
-    $ cd recordexpungPDX
-   ```
- 4. Configure upstream to sync with your fork
-   ```bash
-    $ git remote add upstream https://github.com/codeforpdx/recordexpungPDX.git
-   ```
- 5. Create a branch to work on. Replacing BRANCH_NAME with a descriptive name of the work planned such as `update_contributing_doc`
-   ```bash
-     $ git checkout -b BRANCH_NAME
-   ```
- 6. **Commit** changes to your branch (never to master)
- 7. **Push** your work back up to your fork
-   ```bash
-     $ git push
-   ```
-   - NOTE: The first time you do `git push` on your branch it will error with:
-   ```bash
-    fatal: The current branch BRANCH_NAME has no upstream branch.
-    To push the current branch and set the remote as upstream, use
-
-        git push --set-upstream origin BRANCH_NAME
-   ```
-   - Copy the output and run it. Then afterwords simply push more commits by running `git push`.
- 8. Submit a **Pull request**
-
-- NOTE: For future contributions be sure to sync master with upstream
-```bash
-  $ git checkout master
-  $ git pull upstream master
-  $ git checkout -b BRANCH_NAME
-```
-
-  Python code should follow the [PEP8 standard](https://www.python.org/dev/peps/pep-0008/). Notably:
-
-  * **module** names should be lowercase and run together, e.g. `mymodule`
-  * **class** names should be camel case, e.g. `MyClass`
-  * **method** and variable names should be snake case, e.g. `my_method()` and `my_var`
 
 
 ### Where to contribute

@@ -3,7 +3,7 @@ A project to automate expunging qualifying criminal records.  This project is do
 
 This README provides a project overview, installation instructions, and links for getting started as a contributor and related resources.
 
-Please read our [code of conduct](CODE_OF_CONDUCT.md)
+Please read our [code of conduct](http://www.codeforpdx.org/about/conduct)
 
 If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/) You can also request an invite to join our [Slack channel](https://codeforpdx.slack.com/#record_expung) by contacting our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 
@@ -128,8 +128,6 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Project Layout
 
-`.flaskenv`: Environment variables read by `flask` command-line interface via [python-dotenv](https://github.com/theskumar/python-dotenv)
-
 `Makefile`: GNU Makefile controlling installing dependencies and running the application
 
 `Pipfile`: `Pipenv` file listing project dependencies
@@ -137,8 +135,6 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 `config`: Project configuration files
 
 `doc`: Developer-generated documentation
-
-`settings.py`: `python-dotenv` configuration file
 
 `src`: Source dir
 
