@@ -4,7 +4,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 class Level800TrafficCrime(Charge):
 
-    def default_type_eligibility(self):
+    def _default_type_eligibility(self):
         if self._expungeable():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason = 'Eligible under 137.225(1)(b)')
         else:

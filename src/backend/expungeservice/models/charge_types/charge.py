@@ -15,13 +15,13 @@ class Charge:
         self.level = level
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = disposition
-        type_eligibility = self.default_type_eligibility()
+        type_eligibility = self._default_type_eligibility()
         self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
         self._chapter = chapter
         self._section = section
         self._case = weakref.ref(case)
 
-    def default_type_eligibility(self):
+    def _default_type_eligibility(self):
         return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Examine')
 
     def case(self):

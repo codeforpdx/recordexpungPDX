@@ -4,7 +4,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 class JuvenileCharge(Charge):
 
-    def default_type_eligibility(self):
+    def _default_type_eligibility(self):
         return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = 'Juvenile Charge : Needs further analysis')
 
     def skip_analysis(self):
