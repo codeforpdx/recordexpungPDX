@@ -1,32 +1,32 @@
 Project Development Tips
 ========================
 
-A few things to do when developing the frontend or backend.
+This document describes a few things that may be useful for development.
 
 ## When Pulling Changes From Master
 
-These instructions are outdated given our current docker dev setup.
+Code changes to the project's dependencies or database (tables or functions) are not reflected in the Docker stack until you manually rebuild the corresponding Docker images and replace the database Docker Volume, which is a persistent storage container attached to the ephemeral Docker stack container.
 
-Code changes to the database (tables or functions) are not reflected in the Docker stack until you manually rebuild the database Docker image and replace the database Docker Volume, which is a persistent storage container attached to the ephemeral Docker stack container.
- 
  To perform both of these steps:
- 
+
  ```
  make dev_down
  make dev_drop_database
  make dev_build
  make dev_up
- 
+
  ```
- 
+
 If you don't want to lose the contents of your database ... well we don't currently have a tool to automatically export/import the data. But we need it! See Issue #299, and feel free to add this feature.
+
+## In-project guide to using Docker:
+
+Available here: [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
 
 
 ## Create a Local User
 
-These instructions are outdated given our current docker dev setup.
-
-You can create user accounts manually in the database if you want to. Here's how:
+You can create user accounts manually in your local database if you'd like to do so for any manual testing. Here's how:
 
 1. Choose a password and compute its bcrypt hash:
 
@@ -59,7 +59,7 @@ providing your actual email and hashed password each in the single-quotes.
 This runs a custom SQL function which inserts your user credentials.
 
 
-## Test Backend API calls
+## Manually Testing Backend API calls
 
 See design.md for the specifications of each API endpoint.
 
@@ -92,3 +92,7 @@ replacing `[auth-string]` with the auth_token value you just received. This shou
   "email": "new_email",
   "timestamp": "[timestamp]"
 }
+
+## Mock Endpoints that make 3rd-party requests:
+
+We have an alternate Docker configuration that mocks the /api/search and /api/oeci endpoint behavior. See [src/frontend/developerUtils/developerUtils.md](../src/frontend/developerUtils/developerUtils.md)
