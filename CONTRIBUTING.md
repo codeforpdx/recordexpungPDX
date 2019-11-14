@@ -15,7 +15,7 @@ This document provides some overall guidelines and suggestions for how to get st
 
 ### Guidelines
 
-
+Suggestions on submitting Issues and Pull Requests to be added here
 
 ### Where to contribute
 
