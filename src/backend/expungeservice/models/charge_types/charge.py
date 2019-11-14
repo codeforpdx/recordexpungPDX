@@ -3,8 +3,7 @@ import weakref
 from datetime import datetime
 from datetime import date as date_class
 from dateutil.relativedelta import relativedelta
-from expungeservice.models.expungement_result import ExpungementResult, \
-    TimeEligibility, EligibilityStatus, TypeEligibility
+from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
 
 
 class Charge:
@@ -22,7 +21,7 @@ class Charge:
         self._case = weakref.ref(case)
 
     def _default_type_eligibility(self):
-        return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Examine')
+        raise NotImplementedError
 
     def case(self):
         return self._case
