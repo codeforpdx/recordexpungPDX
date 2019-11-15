@@ -20,6 +20,7 @@ uwsgi = "*"
 cryptography = "*"
 flask-login = "==0.4.1"
 dacite = "==1.0.2"
+mypy = "==0.740"
 
 [dev-packages]
 
