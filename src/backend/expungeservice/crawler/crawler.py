@@ -14,7 +14,7 @@ class Crawler:
 
     def __init__(self):
         self.session = requests.Session()
-        self.response = requests.Response
+        self.response = requests.Response()
         self.result = RecordParser()
 
     def login(self, username, password, close_session=False):
