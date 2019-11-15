@@ -52,7 +52,7 @@ class OeciLogin(MethodView):
             secure=os.getenv("TIER") == "production",
             httponly=False,
             samesite="strict",
-            expires=time.time() + 15 * 60,  # 15 minutes
+            expires=time.time() + 15 * 60, # type: ignore # 15 minutes
             value=encrypted_credentials)
 
         return response, 201

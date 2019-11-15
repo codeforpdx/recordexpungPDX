@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from flask.views import MethodView
 from flask import request, jsonify
 from flask_login import login_required, current_user, fresh_login_required
@@ -102,7 +104,7 @@ class UsersView(MethodView):
 
             user_db_data = user_db_util.fetchall(g.database)
 
-            response_data = {"users": []}
+            response_data: Dict[str, List[Dict[str, str]]] = {"users": []}
             for user_entry in user_db_data:
                 response_data["users"].append({
                     "user_id": user_entry["user_id"],
