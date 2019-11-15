@@ -50,13 +50,23 @@ export default class Charge extends React.Component<Props> {
       }
     };
 
+    const recordTimeRender = () => {
+      if (expungement_result.time_eligibility) {
+        return (
+          <RecordTime time_eligibility={expungement_result.time_eligibility} />
+        );
+      }
+    };
+
     return (
       <div className="br3 ma2 bg-white">
         <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-30-l pr3">
-            <RecordTime expungement_result={expungement_result} />
-            <RecordType expungement_result={expungement_result} />
+            {recordTimeRender()}
+            <RecordType
+              type_eligibility={expungement_result.type_eligibility}
+            />
           </div>
           <div className="w-100 w-70-l pr3">
             <ul className="list">

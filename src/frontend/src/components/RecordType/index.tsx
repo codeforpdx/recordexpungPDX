@@ -1,18 +1,15 @@
 import React from 'react';
-import { ExpungementResultType } from '../SearchResults/types';
+import { TypeEligibility } from '../SearchResults/types';
 
 interface Props {
-  expungement_result: ExpungementResultType;
+  type_eligibility: TypeEligibility;
 }
 
 export default class RecordType extends React.Component<Props> {
   render() {
-    const {
-      type_eligibility,
-      type_eligibility_reason
-    } = this.props.expungement_result;
+    const { status, reason } = this.props.type_eligibility;
 
-    const eligible = (
+    const eligible = (reason: string) => (
       <div className="relative mb3">
         <i
           aria-hidden="true"
@@ -20,7 +17,7 @@ export default class RecordType extends React.Component<Props> {
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Eligible{' '}
-          <span className="nowrap">({type_eligibility_reason})</span>
+          <span className="nowrap">({reason})</span>
         </div>
       </div>
     );
@@ -37,22 +34,22 @@ export default class RecordType extends React.Component<Props> {
       </div>
     );
 
-    const ineligible = (
+    const ineligible = (reason: string) => (
       <div className="relative mb3">
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Ineligible{' '}
-          <span className="nowrap">({type_eligibility_reason})</span>
+          <span className="nowrap">({reason})</span>
         </div>
       </div>
     );
 
-    if (type_eligibility === true) {
-      return eligible;
-    } else if (type_eligibility === null) {
+    if (status == 'Eligible') {
+      return eligible(reason);
+    } else if (status === 'Needs more analysis') {
       return review;
-    } else if (type_eligibility === false) {
-      return ineligible;
+    } else if (status === 'Ineligible') {
+      return ineligible(reason);
     } else {
       return 'Unknown type eligibility';
     }

@@ -29,9 +29,17 @@ export interface Record {
 }
 
 export interface ExpungementResultType {
-  type_eligibility: boolean | string;
-  time_eligibility: boolean;
+  type_eligibility: TypeEligibility;
+  time_eligibility?: TimeEligibility;
+}
+
+export interface TypeEligibility {
+  status: string;
+  reason: string;
+}
+
+export interface TimeEligibility {
+  status: string;
+  reason: string;
   date_of_eligibility: string;
-  time_eligibility_reason: string;
-  type_eligibility_reason: string;
 }
