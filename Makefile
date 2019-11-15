@@ -56,6 +56,7 @@ weblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME))
 
 dev_test:
+	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) mypy
 	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
 
 dev_drop_database:
