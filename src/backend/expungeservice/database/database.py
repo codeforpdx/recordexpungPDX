@@ -126,7 +126,7 @@ def get_database():
         In the dev environment, we use a set of env vars for the db conn:
         '''
         host = os.environ['PGHOST']
-        port = os.environ['PGPORT']
+        port = int(os.environ['PGPORT'])
         name = os.environ['PGDATABASE']
         username = os.environ['POSTGRES_USERNAME']
         password = os.environ['POSTGRES_PASSWORD']
