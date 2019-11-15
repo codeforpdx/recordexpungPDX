@@ -3,6 +3,7 @@ from datetime import date as date_class
 import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger.expunger import Expunger
+from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -126,14 +127,14 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
     assert expunger.most_recent_dismissal.disposition.ruling == 'No Complaint'
     assert len(expunger.acquittals) == 8
 
-    assert record.cases[0].charges[0].expungement_result.time_eligibility.status is False
-    assert record.cases[0].charges[1].expungement_result.time_eligibility.status is True
-    assert record.cases[0].charges[2].expungement_result.time_eligibility.status is False
+    assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert record.cases[0].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
 
-    assert record.cases[1].charges[0].expungement_result.time_eligibility.status is False
-    assert record.cases[1].charges[1].expungement_result.time_eligibility.status is False
-    assert record.cases[1].charges[2].expungement_result.time_eligibility.status is False
+    assert record.cases[1].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert record.cases[1].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert record.cases[1].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
 
-    assert record.cases[2].charges[0].expungement_result.time_eligibility.status is True
-    assert record.cases[2].charges[1].expungement_result.time_eligibility.status is True
-    assert record.cases[2].charges[2].expungement_result.time_eligibility.status is True
+    assert record.cases[2].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert record.cases[2].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert record.cases[2].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
