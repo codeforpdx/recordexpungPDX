@@ -1,16 +1,13 @@
 import React from 'react';
-import { ExpungementResultType } from '../SearchResults/types';
+import { TimeEligibility } from '../SearchResults/types';
 
 interface Props {
-  expungement_result: ExpungementResultType;
+  time_eligibility: TimeEligibility;
 }
 
 export default class RecordTime extends React.Component<Props> {
   render() {
-    const {
-      time_eligibility_reason,
-      time_eligibility
-    } = this.props.expungement_result;
+    const { status, reason } = this.props.time_eligibility;
 
     const timeNow = (
       <div className="relative mb3">
@@ -24,20 +21,20 @@ export default class RecordTime extends React.Component<Props> {
       </div>
     );
 
-    const timeLater = (
+    const timeLater = (reason: string) => (
       <div className="relative mb3">
         <i aria-hidden="true" className="absolute fas fa-clock dark-blue"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Time:</span> {time_eligibility_reason}
+          <span className="fw7">Time:</span> {reason}
         </div>
       </div>
     );
 
     const time = () => {
-      if (time_eligibility === true) {
+      if (status === 'Eligible') {
         return timeNow;
       } else {
-        return timeLater;
+        return timeLater(reason);
       }
     };
 

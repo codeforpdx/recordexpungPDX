@@ -72,11 +72,11 @@ const fakeRecord = {
               ruling: 'Convicted'
             },
             expungement_result: {
-              type_eligibility: false,
-              type_eligibility_reason: 'Ineligible under 137.225(5)',
-              time_eligibility: null,
-              time_eligibility_reason: '',
-              date_of_eligibility: null
+              type_eligibility: {
+                status: 'Ineligible',
+                reason: 'Ineligible under 137.225(5)'
+              },
+              time_eligibility: null
             }
           }
         ],
@@ -104,11 +104,15 @@ const fakeRecord = {
               ruling: 'Dismissed'
             },
             expungement_result: {
-              type_eligibility: true,
-              type_eligibility_reason: 'Eligible under 137.225(1)(b)',
-              time_eligibility: null,
-              time_eligibility_reason: '',
-              date_of_eligibility: '2/11/2020'
+              type_eligibility: {
+                status: 'Eligible',
+                reason: 'Eligible under 137.225(1)(b)'
+              },
+              time_eligibility: {
+                status: 'Ineligible',
+                reason: '',
+                date_of_eligibility: '2/11/2020'
+              }
             }
           },
           {
@@ -121,11 +125,15 @@ const fakeRecord = {
               ruling: 'Dismissed'
             },
             expungement_result: {
-              type_eligibility: true,
-              type_eligibility_reason: 'Eligible under 137.225(1)(b)',
-              time_eligibility: null,
-              time_eligibility_reason: '',
-              date_of_eligibility: '2/11/2020'
+              type_eligibility: {
+                status: 'Eligible',
+                reason: 'Eligible under 137.225(1)(b)'
+              },
+              time_eligibility: {
+                status: 'Ineligible',
+                reason: '',
+                date_of_eligibility: '2/11/2020'
+              }
             }
           }
         ],

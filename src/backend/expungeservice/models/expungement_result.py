@@ -16,7 +16,7 @@ class TypeEligibility:
 
 @dataclass
 class TimeEligibility:
-    status: bool
+    status: EligibilityStatus
     reason: str
     date_will_be_eligible: Optional[date]
 
