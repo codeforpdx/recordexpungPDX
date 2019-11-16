@@ -10,6 +10,7 @@ class Development(object):
     SECRET_KEY = os.urandom(32)
     JWT_EXPIRY_TIMER = datetime.timedelta(minutes=60)
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SESSION_COOKIE_SECURE = False
 
 class Production(object):
     """
@@ -20,6 +21,7 @@ class Production(object):
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_EXPIRY_TIMER = datetime.timedelta(minutes=60)
+    SESSION_COOKIE_SECURE = True
 
 app_config = {
     'development': Development,
