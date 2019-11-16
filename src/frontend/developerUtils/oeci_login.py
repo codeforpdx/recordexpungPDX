@@ -1,6 +1,7 @@
 from flask.views import MethodView
 from flask import request, make_response, current_app
 import time
+import os
 
 from flask_login import login_required
 
@@ -43,13 +44,10 @@ class OeciLogin(MethodView):
 
         response = make_response()
 
+        # TODO: We will need an OECILogout endpoint to remove httponly=true cookies from frontend
         response.set_cookie(
             "oeci_token",
-            # currently nginx/flask app are running as HTTP
-            # secure=True requires HTTPS to maintain secure cookies
-            # https://resources.infosecinstitute.com/securing-cookies-httponly-secure-flags/#gref
-            # We will need an OECILogout endpoint to remove httponly=true cookies from frontend
-            secure=False,
+            secure=os.getenv("TIER") == "production",
             httponly=False,
             samesite="strict",
             expires=time.time() + 15 * 60,  # 15 minutes
