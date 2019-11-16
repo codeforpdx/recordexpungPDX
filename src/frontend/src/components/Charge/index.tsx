@@ -27,8 +27,6 @@ export default class Charge extends React.Component<Props> {
       expungement_result
     } = this.props.charge;
 
-    console.log('in charge', expungement_result);
-
     return (
       <div className="br3 ma2 bg-white">
         <Eligibility expungement_result={expungement_result} />
