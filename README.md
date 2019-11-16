@@ -33,7 +33,7 @@ The app is deployed on the webapp hosting service, [Heroku](https://www.heroku.c
 
 Our latest dev version (this repo's master branch) is publicly viewable! Here: https://recordexpungpdx.herokuapp.com/
 
-**Our dev environment** is entirely containerized with Docker, and no other dependencies need to be installed natively. Within the Docker stack, we use Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies, and [pytest](https://pytest.org/en/latest/) to develop backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
+**Our dev environment** is entirely containerized with Docker, and no other dependencies need to be installed natively. We use Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies. We use [mypy](http://mypy-lang.org/) to type check any optional typings and [pytest](https://pytest.org/en/latest/) to test backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
 
 ## Installation
 
