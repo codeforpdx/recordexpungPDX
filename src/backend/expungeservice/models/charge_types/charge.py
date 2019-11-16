@@ -3,8 +3,7 @@ import weakref
 from datetime import datetime
 from datetime import date as date_class
 from dateutil.relativedelta import relativedelta
-from expungeservice.models.expungement_result import ExpungementResult, \
-    TimeEligibility, EligibilityStatus, TypeEligibility
+from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
 
 
 class Charge:
@@ -15,14 +14,14 @@ class Charge:
         self.level = level
         self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
         self.disposition = disposition
-        type_eligibility = self.default_type_eligibility()
+        type_eligibility = self._default_type_eligibility()
         self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
         self._chapter = chapter
         self._section = section
         self._case = weakref.ref(case)
 
-    def default_type_eligibility(self):
-        return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Examine')
+    def _default_type_eligibility(self):
+        raise NotImplementedError
 
     def case(self):
         return self._case
@@ -53,9 +52,9 @@ class Charge:
             date_will_be_eligible = date_of_eligibility
         else:
             date_will_be_eligible = None
-        time_eligibility = TimeEligibility(status = False, reason = reason, date_will_be_eligible = date_will_be_eligible)
+        time_eligibility = TimeEligibility(status=False, reason=reason, date_will_be_eligible=date_will_be_eligible)
         self.expungement_result.time_eligibility = time_eligibility
 
     def set_time_eligible(self, reason=''):
-        time_eligibility = TimeEligibility(status = True, reason = reason, date_will_be_eligible = None)
+        time_eligibility = TimeEligibility(status=True, reason=reason, date_will_be_eligible=None)
         self.expungement_result.time_eligibility = time_eligibility
