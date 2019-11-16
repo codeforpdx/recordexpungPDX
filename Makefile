@@ -1,14 +1,9 @@
-.PHONY: install run clean
-
-install:
-	pipenv install
+.PHONY: clean
 
 clean:
-	rm -rf src/backend/*.egg-info
-	find . -type f -name \*~ | xargs rm
+	rm -rf src/backend/*.egg-info &
+	find . -type f -name \*~ | xargs rm &
 	find . -type f -name \*pyc | xargs rm
-
-IMAGES := database_image expungeservice_image webserver_image
 
 STACK_NAME := recordexpungpdx
 PGDATABASE := record_expunge
@@ -30,22 +25,6 @@ dev_build:
 
 dev_logs:
 	docker-compose -f docker-compose.dev.yml logs -f
-
-dev_deploy: $(IMAGES) dev_start
-	echo $@
-
-dev_start:
-	# This restarts the docker stack without rebuilding the underlying docker images;
-	# to reflect  code changes in the new stack you'll need to rebuild the altered image(s)
-	# with the appropriate make target,
-	# or with `make dev` which rebuilds all three images.
-
-	echo $@
-	docker stack deploy -c docker-compose.dev.yml $(STACK_NAME)
-
-dev_stop:
-	echo $@
-	docker stack rm $(STACK_NAME)
 
 dev_psql:
 	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
@@ -75,9 +54,6 @@ applogs:
 
 weblogs:
 	docker logs --details -ft $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME))
-
-test:
-	pipenv run pytest --ignore=src/frontend/
 
 dev_test:
 	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
