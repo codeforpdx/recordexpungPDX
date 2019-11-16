@@ -48,8 +48,6 @@ export default class Eligibility extends React.Component<Props> {
       }
     };
 
-    console.log('in eligibility,', this.props.expungement_result);
-
     return eligibility();
   }
 }

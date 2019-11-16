@@ -1,5 +1,6 @@
 import React from 'react';
 import Eligibility from '../Eligibility';
+import Time from '../Time';
 
 interface Props {
   charge: {
@@ -11,6 +12,7 @@ interface Props {
     };
     expungement_result: {
       type_eligibility_reason: string;
+      time_eligibility: string;
     };
   };
 }
@@ -29,15 +31,7 @@ export default class Charge extends React.Component<Props> {
         <Eligibility expungement_result={{ expungement_result }} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-30-l pr3">
-            <div className="relative mb3">
-              <i
-                aria-hidden="true"
-                className="absolute fas fa-check-circle green"
-              ></i>
-              <div className="ml3 pl1">
-                <span className="fw7">Time:</span> Eligible now
-              </div>
-            </div>
+            <Time expungement_result={{ expungement_result }} />
             <div className="relative mb3">
               <i
                 aria-hidden="true"
