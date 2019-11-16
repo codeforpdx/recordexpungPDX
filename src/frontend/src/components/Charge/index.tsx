@@ -1,6 +1,7 @@
 import React from 'react';
 import Eligibility from '../Eligibility';
 import Time from '../Time';
+import Type from '../Type';
 
 interface Props {
   charge: {
@@ -26,25 +27,20 @@ export default class Charge extends React.Component<Props> {
       expungement_result
     } = this.props.charge;
 
+    console.log('in charge', expungement_result);
+
     return (
       <div className="br3 ma2 bg-white">
-        <Eligibility expungement_result={{ expungement_result }} />
+        <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-30-l pr3">
-            <Time expungement_result={{ expungement_result }} />
+            <Time expungement_result={expungement_result} />
             <div className="relative mb3">
               <i
                 aria-hidden="true"
                 className="absolute fas fa-check-circle green"
               ></i>
-              <div className="ml3 pl1">
-                <span className="fw7">Type:</span>{' '}
-                {expungement_result.type_eligibility_reason}
-                {/* *****COMPONENT SHOULD GET ELIGIBILITY AND DETERMINE WHAT LOGO TO DISPLAY */}
-                {/* <span className="nowrap">
-                  {expungement_result.type_eligibility_reason}
-                </span> */}
-              </div>
+              <Type expungement_result={expungement_result} />
             </div>
           </div>
           <div className="w-100 w-70-l pr3">
