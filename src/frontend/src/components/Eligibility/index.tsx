@@ -20,13 +20,13 @@ export default class Eligibility extends React.Component<Props> {
 
     const eligibleOn = (date: string) => (
       <h2 className="fw6 dark-blue bg-washed-blue pv2 ph3 ma2 mb3 dib br3">
-        `Eligible ${date}`
+        Eligible {date}
       </h2>
     );
 
     const eligibleWithReview = (date: string) => (
       <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">
-        `Eligible ${date} (review)`
+        Eligible {date} (review)
       </h2>
     );
 
@@ -43,7 +43,7 @@ export default class Eligibility extends React.Component<Props> {
         return eligibleOn(date_of_eligibility);
       } else if (type_eligibility === 'None') {
         return eligibleWithReview(date_of_eligibility);
-      } else {
+      } else if (type_eligibility === false) {
         return ineligible;
       }
     };

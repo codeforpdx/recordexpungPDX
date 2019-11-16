@@ -12,12 +12,16 @@ export default class Type extends React.Component<Props> {
       time_eligibility
     } = this.props.expungement_result;
 
-    console.log('HIII NPW', this.props.expungement_result);
-
     const eligible = (
-      <div className="ml3 pl1">
-        <span className="fw7">Type:</span> Eligible{' '}
-        <span className="nowrap">{type_eligibility_reason}</span>
+      <div className="relative mb3">
+        <i
+          aria-hidden="true"
+          className="absolute fas fa-check-circle green"
+        ></i>
+        <div className="ml3 pl1">
+          <span className="fw7">Type:</span> Eligible{' '}
+          <span className="nowrap">{type_eligibility_reason}</span>
+        </div>
       </div>
     );
 
@@ -28,27 +32,30 @@ export default class Type extends React.Component<Props> {
           className="absolute fas fa-question-circle purple"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {type_eligibility_reason}
+          <span className="fw7">Type:</span> List B
         </div>
       </div>
     );
 
     const ineligible = (
-      <div className="ml3 pl1">
-        <span className="fw7">Type:</span> Ineligible{' '}
-        <span className="nowrap">{type_eligibility_reason}</span>
+      <div className="relative mb3">
+        <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
+        <div className="ml3 pl1">
+          <span className="fw7">Type:</span> Ineligible{' '}
+          <span className="nowrap">{type_eligibility_reason}</span>
+        </div>
       </div>
     );
 
     const type = () => {
-      console.log('Type_eligibility:', type_eligibility);
       if (type_eligibility === true) {
         return eligible;
-      } else if (time_eligibility === null) {
+      } else if (type_eligibility === 'None') {
         return review;
-      } else {
+      } else if (time_eligibility === false) {
         return ineligible;
       }
+      return 'error';
     };
 
     return type();
