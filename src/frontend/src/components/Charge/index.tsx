@@ -2,20 +2,10 @@ import React from 'react';
 import Eligibility from '../Eligibility';
 import Time from '../Time';
 import Type from '../Type';
+import { ChargeType } from '../SearchResults/types';
 
 interface Props {
-  charge: {
-    statute: string;
-    name: string;
-    disposition: {
-      ruling: string;
-      date: string;
-    };
-    expungement_result: {
-      type_eligibility_reason: string;
-      time_eligibility: string;
-    };
-  };
+  charge: ChargeType;
 }
 
 export default class Charge extends React.Component<Props> {

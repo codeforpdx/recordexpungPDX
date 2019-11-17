@@ -1,8 +1,12 @@
 import React from 'react';
-import { CaseProps } from '../../redux/records/types';
+import { CaseProp } from '../SearchResults/types';
 import Charges from '../Charges';
 
-export default class Cases extends React.Component<CaseProps> {
+interface Props {
+  case: CaseProp;
+}
+
+export default class Cases extends React.Component<Props> {
   render() {
     const {
       name,
