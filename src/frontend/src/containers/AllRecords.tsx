@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { Record } from '../redux/records/types';
-import { loadSearchRecords } from '../redux/records/actions';
+import {
+  loadSearchRecords,
+  clearSearchRecords
+} from '../redux/records/actions';
 import RecordSearch from '../components/RecordSearch';
 import SearchResults from '../components/SearchResults';
 import AllStatus from './AllStatus';
 
 type Props = {
   fetchRecords: Function;
+  clearRecords: Function;
   records?: Record;
 };
 
 class AllRecords extends Component<Props> {
+  componentWillUnmount() {
+    this.props.clearRecords();
+  }
+
   render() {
     // Fetch has now been passed down to RecordSearch componant and is triggered when submit button is pressed.
     // Currentlly no matter what the user puts in the search fields, it still triggers a mock fetch with pre determined API response
@@ -36,9 +44,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchRecords: loadSearchRecords
-  }
-)(AllRecords);
+export default connect(mapStateToProps, {
+  fetchRecords: loadSearchRecords,
+  clearRecords: clearSearchRecords
+})(AllRecords);
