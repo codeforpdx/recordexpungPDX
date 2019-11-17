@@ -43,7 +43,7 @@ export default class Type extends React.Component<Props> {
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Ineligible{' '}
-          <span className="nowrap">{type_eligibility_reason}</span>
+          <span className="nowrap">({type_eligibility_reason})</span>
         </div>
       </div>
     );
