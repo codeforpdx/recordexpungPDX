@@ -4,7 +4,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 import {
   LOAD_SEARCH_RECORDS,
   LOAD_SEARCH_RECORDS_LOADING,
-  SearchResponse
+  SearchResponse,
+  CLEAR_SEARCH_RECORDS
 } from './types';
 
 function validateResponseData(data: SearchResponse): boolean {
@@ -44,5 +45,11 @@ export function loadSearchRecords(
       .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
       });
+  };
+}
+
+export function clearSearchRecords() {
+  return {
+    type: CLEAR_SEARCH_RECORDS
   };
 }

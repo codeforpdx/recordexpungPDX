@@ -29,6 +29,7 @@ export interface Record {
 // These constants are used as the 'type' field in Redux actions.
 export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
 export const LOAD_SEARCH_RECORDS_LOADING = 'LOAD_SEARCH_RECORDS_LOADING';
+export const CLEAR_SEARCH_RECORDS = 'CLEAR_SEARCH_RECORDS';
 
 export interface SearchRecordState {
   loading: boolean;
@@ -36,7 +37,10 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordsAction {
-  type: typeof LOAD_SEARCH_RECORDS | typeof LOAD_SEARCH_RECORDS_LOADING;
+  type:
+    | typeof LOAD_SEARCH_RECORDS
+    | typeof LOAD_SEARCH_RECORDS_LOADING
+    | typeof CLEAR_SEARCH_RECORDS;
   search_records: Record;
 }
 
