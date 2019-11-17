@@ -21,7 +21,7 @@ export default class Type extends React.Component<Props> {
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Eligible{' '}
-          <span className="nowrap">{type_eligibility_reason}</span>
+          <span className="nowrap">({type_eligibility_reason})</span>
         </div>
       </div>
     );
