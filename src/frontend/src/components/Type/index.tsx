@@ -53,7 +53,7 @@ export default class Type extends React.Component<Props> {
         return eligible;
       } else if (type_eligibility === 'None') {
         return review;
-      } else if (time_eligibility === false) {
+      } else if (type_eligibility === false) {
         return ineligible;
       }
       return 'error';
