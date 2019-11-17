@@ -9,8 +9,7 @@ export default class Type extends React.Component<Props> {
   render() {
     const {
       type_eligibility,
-      type_eligibility_reason,
-      time_eligibility
+      type_eligibility_reason
     } = this.props.expungement_result;
 
     const eligible = (
@@ -21,7 +20,7 @@ export default class Type extends React.Component<Props> {
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Eligible{' '}
-          <span className="nowrap">{type_eligibility_reason}</span>
+          <span className="nowrap">({type_eligibility_reason})</span>
         </div>
       </div>
     );
@@ -43,7 +42,7 @@ export default class Type extends React.Component<Props> {
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> Ineligible{' '}
-          <span className="nowrap">{type_eligibility_reason}</span>
+          <span className="nowrap">({type_eligibility_reason})</span>
         </div>
       </div>
     );
@@ -53,10 +52,11 @@ export default class Type extends React.Component<Props> {
         return eligible;
       } else if (type_eligibility === 'None') {
         return review;
-      } else if (time_eligibility === false) {
+      } else if (type_eligibility === false) {
         return ineligible;
+      } else {
+        return;
       }
-      return 'error';
     };
 
     return type();
