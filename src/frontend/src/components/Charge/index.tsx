@@ -22,7 +22,7 @@ export default class Charge extends React.Component<Props> {
         <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-30-l pr3">
-            <Time expungement_result={expungement_result} />
+            <RecordTime expungement_result={expungement_result} />
             <Type expungement_result={expungement_result} />
           </div>
           <div className="w-100 w-70-l pr3">
