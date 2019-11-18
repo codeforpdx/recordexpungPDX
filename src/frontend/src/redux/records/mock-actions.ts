@@ -25,10 +25,10 @@ const fakeRecord = {
             ruling: 'Convicted'
           },
           expungement_result: {
-            type_eligibility: false,
-            type_eligibility_reason: 'Ineligible under 137.225(5)',
+            type_eligibility: 'None',
+            type_eligibility_reason: 'List b',
             time_eligibility: null,
-            time_eligibility_reason: '',
+            time_eligibility_reason: 'Further Analysis Needed',
             date_of_eligibility: null
           }
         }
@@ -60,8 +60,8 @@ const fakeRecord = {
             type_eligibility: true,
             type_eligibility_reason: 'Eligible under 137.225(1)(b)',
             time_eligibility: null,
-            time_eligibility_reason: '',
-            date_of_eligibility: null
+            time_eligibility_reason: '2 years without a ticket',
+            date_of_eligibility: '11/22/2020'
           }
         },
         {
@@ -76,9 +76,41 @@ const fakeRecord = {
           expungement_result: {
             type_eligibility: true,
             type_eligibility_reason: 'Eligible under 137.225(1)(b)',
-            time_eligibility: null,
+            time_eligibility: true,
             time_eligibility_reason: '',
-            date_of_eligibility: null
+            date_of_eligibility: '12/14/2020'
+          }
+        }
+      ],
+      balance_due: 0.0,
+      case_detail_link:
+        'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555'
+    },
+    {
+      name: 'Doe, John',
+      birth_year: 1970,
+      case_number: '18VI55555',
+      citation_number: 'RU420001442',
+      location: 'Multnomah',
+      date: '04/02/2018',
+      violation_type: 'Offense Violation',
+      current_status: 'Closed',
+      charges: [
+        {
+          name: 'Violation Driving While Suspended or Revoked',
+          statute: '811175',
+          level: 'Violation Class A',
+          date: '03/06/2018',
+          disposition: {
+            date: '04/02/2018',
+            ruling: 'Dismissed'
+          },
+          expungement_result: {
+            type_eligibility: false,
+            type_eligibility_reason: 'Eligible under 137.225(1)(b)',
+            time_eligibility: false,
+            time_eligibility_reason: 'No more than 1 arrest in 3 years',
+            date_of_eligibility: '12/14/2020'
           }
         }
       ],
