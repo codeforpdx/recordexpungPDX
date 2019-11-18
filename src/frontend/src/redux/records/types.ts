@@ -50,5 +50,6 @@ export type CaseProps = {
     case_number: string;
     birth_year: number;
     balance_due: number;
+    charges: any[];
   };
 };
