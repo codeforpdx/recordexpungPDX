@@ -1,9 +1,9 @@
 import React from 'react';
 import Case from '../Case';
-import { CaseProp } from '../SearchResults/types';
+import { CaseType } from '../SearchResults/types';
 
 interface Props {
-  cases: CaseProp[];
+  cases: CaseType[];
 }
 
 export default class Cases extends React.Component<Props> {
