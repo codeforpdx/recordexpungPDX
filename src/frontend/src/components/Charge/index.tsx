@@ -1,6 +1,6 @@
 import React from 'react';
 import Eligibility from '../Eligibility';
-import Time from '../Time';
+import RecordTime from '../RecordTime';
 import Type from '../Type';
 import { ChargeType } from '../SearchResults/types';
 
