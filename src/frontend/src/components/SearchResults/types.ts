@@ -8,7 +8,7 @@ export interface ChargeType {
   };
 }
 
-export interface CaseProp {
+export interface CaseType {
   balance_due: number;
   birth_year: number;
   case_detail_link: string;
