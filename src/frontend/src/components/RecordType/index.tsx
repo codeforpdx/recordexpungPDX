@@ -5,7 +5,7 @@ interface Props {
   expungement_result: ExpungementResultType;
 }
 
-export default class Type extends React.Component<Props> {
+export default class RecordType extends React.Component<Props> {
   render() {
     const {
       type_eligibility,

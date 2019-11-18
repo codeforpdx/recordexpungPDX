@@ -1,7 +1,7 @@
 import React from 'react';
 import Eligibility from '../Eligibility';
 import RecordTime from '../RecordTime';
-import Type from '../Type';
+import RecordType from '../RecordType';
 import { ChargeType } from '../SearchResults/types';
 
 interface Props {
@@ -23,7 +23,7 @@ export default class Charge extends React.Component<Props> {
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-30-l pr3">
             <RecordTime expungement_result={expungement_result} />
-            <Type expungement_result={expungement_result} />
+            <RecordType expungement_result={expungement_result} />
           </div>
           <div className="w-100 w-70-l pr3">
             <ul className="list">
