@@ -47,18 +47,14 @@ export default class Type extends React.Component<Props> {
       </div>
     );
 
-    const type = () => {
-      if (type_eligibility === true) {
-        return eligible;
-      } else if (type_eligibility === 'None') {
-        return review;
-      } else if (type_eligibility === false) {
-        return ineligible;
-      } else {
-        return;
-      }
-    };
-
-    return type();
+    if (type_eligibility === true) {
+      return eligible;
+    } else if (type_eligibility === 'None') {
+      return review;
+    } else if (type_eligibility === false) {
+      return ineligible;
+    } else {
+      return;
+    }
   }
 }
