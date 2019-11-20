@@ -112,7 +112,7 @@ describe('API SERVICE TEST', () => {
                       type_eligibility_reason: 'Eligible under 137.225(1)(b)',
                       time_eligibility: null,
                       time_eligibility_reason: '',
-                      date_of_eligibility: null
+                      date_of_eligibility: '2/11/2020'
                     }
                   },
                   {
@@ -129,7 +129,7 @@ describe('API SERVICE TEST', () => {
                       type_eligibility_reason: 'Eligible under 137.225(1)(b)',
                       time_eligibility: null,
                       time_eligibility_reason: '',
-                      date_of_eligibility: null
+                      date_of_eligibility: '2/11/2020'
                     }
                   }
                 ],
