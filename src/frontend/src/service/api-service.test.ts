@@ -52,8 +52,11 @@ describe('API SERVICE TEST', () => {
     };
     apiService(mockStore.dispatch, request).then((response: any) => {
       expect(response).toEqual({
-        data: fakeRecord,
-        errors: []
+        data: {
+          data: {
+            record: fakeRecord
+          }
+        }
       });
       done();
     });
@@ -63,6 +66,7 @@ describe('API SERVICE TEST', () => {
 const fakeRecord = {
   record: {
     total_balance_due: 199.99,
+    errors: [],
     cases: [
       {
         name: 'Doe, John',
