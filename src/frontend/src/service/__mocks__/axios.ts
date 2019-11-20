@@ -1,46 +1,56 @@
+import { AxiosRequestConfig } from 'axios';
+
 export default {
-  request: jest.fn(request => {
-    if (
-      request.url === 'http://localhost:5000/api/hello' &&
-      request.method === 'get'
-    ) {
-      return Promise.resolve({
-        data: 'Hello, world!'
-      });
-    } else if (
-      request.url === 'http://localhost:5000/api/search' &&
-      request.method === 'post'
-    ) {
-      return Promise.resolve({
-        data: fakeRecord,
-        errors: []
-      });
-    } else if (
-      request.url.includes('http://localhost:5000/api/') &&
-      request.method === 'get'
-    ) {
-      return Promise.reject({
-        error: new Error('Request failed with status code 404')
-      });
-    } else if (!request.url.includes('http://localhost:5000/api/')) {
-      return Promise.reject({
-        error: new Error(
-          'bad base url, it should be: http://localhost:5000/api/'
-        )
-      });
-    } else {
-      return Promise.reject({
-        error: new Error(
-          `mock API doesn't recognize the request.  Please check your code, or update the mock API`
-        )
-      });
-    }
-  })
+  request: requestMock
 };
+
+function requestMock<T>(request: AxiosRequestConfig): Promise<any> {
+  if (
+    request.url === 'http://localhost:5000/api/hello' &&
+    request.method === 'get'
+  ) {
+    return Promise.resolve({
+      data: 'Hello, world!'
+    });
+  } else if (
+    request.url === 'http://localhost:5000/api/search' &&
+    request.method === 'post'
+  ) {
+    return Promise.resolve({
+      data: {
+        data: {
+          record: fakeRecord
+        }
+      }
+    });
+  } else if (
+    request.url &&
+    request.url.includes('http://localhost:5000/api/') &&
+    request.method === 'get'
+  ) {
+    return Promise.reject({
+      error: new Error('Request failed with status code 404')
+    });
+  } else if (
+    request.url &&
+    !request.url.includes('http://localhost:5000/api/')
+  ) {
+    return Promise.reject({
+      error: new Error('bad base url, it should be: http://localhost:5000/api/')
+    });
+  } else {
+    return Promise.reject({
+      error: new Error(
+        `mock API doesn't recognize the request.  Please check your code, or update the mock API`
+      )
+    });
+  }
+}
 
 const fakeRecord = {
   record: {
     total_balance_due: 199.99,
+    errors: [],
     cases: [
       {
         name: 'Doe, John',
