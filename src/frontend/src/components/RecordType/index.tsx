@@ -49,12 +49,12 @@ export default class RecordType extends React.Component<Props> {
 
     if (type_eligibility === true) {
       return eligible;
-    } else if (type_eligibility === 'None') {
+    } else if (type_eligibility === null) {
       return review;
     } else if (type_eligibility === false) {
       return ineligible;
     } else {
-      return;
+      return 'Unknown type eligibility';
     }
   }
 }
