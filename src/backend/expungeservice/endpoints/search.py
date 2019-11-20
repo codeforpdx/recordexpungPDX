@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask import request, current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
@@ -8,6 +8,7 @@ from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
+from expungeservice.stats import save_result
 
 
 class Search(MethodView):
@@ -45,6 +46,8 @@ class Search(MethodView):
 
         expunger = Expunger(record)
         expunger.run()
+
+        save_result(current_user.user_id, request_data, record)
 
         response_data = {
             "data": {

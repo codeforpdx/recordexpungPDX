@@ -4,6 +4,7 @@ from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.serializer import ExpungeModelEncoder
+from expungeservice import stats
 
 
 class TestSearch(EndpointShared):
@@ -14,6 +15,7 @@ class TestSearch(EndpointShared):
         """ Save these actual function refs to reinstate after we're done mocking them."""
         self.crawler_login = search.Crawler.login
         self.search = search.Crawler.search
+        self.save_result = search.save_result
 
         self.crawler = CrawlerFactory.setup()
         self.crawler.logged_in = True
@@ -25,6 +27,8 @@ class TestSearch(EndpointShared):
     def tearDown(self):
         search.Crawler.login = self.crawler_login
         search.Crawler.search = self.search
+        search.save_result = self.save_result
+
 
     def mock_login(self, return_value):
         return lambda s, username, password, close_session=False: return_value
@@ -37,6 +41,7 @@ class TestSearch(EndpointShared):
 
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
+        search.save_result = lambda request_data, record : None
 
         """
         as a more unit-y unit test, we could make the encrypted cookie
