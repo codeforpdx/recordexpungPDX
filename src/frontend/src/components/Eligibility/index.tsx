@@ -40,12 +40,14 @@ export default class Eligibility extends React.Component<Props> {
     const eligibility = () => {
       if (type_eligibility === true && time_eligibility === true) {
         return eligibleNow;
-      } else if (type_eligibility === true && date_of_eligibility !== 'None') {
+      } else if (type_eligibility === true && date_of_eligibility !== null) {
         return eligibleOn(date_of_eligibility);
-      } else if (type_eligibility === 'None') {
+      } else if (type_eligibility === null) {
         return eligibleWithReview(date_of_eligibility);
       } else if (type_eligibility === false) {
         return ineligible;
+      } else {
+        return 'Unknown type or time eligibility';
       }
     };
 
