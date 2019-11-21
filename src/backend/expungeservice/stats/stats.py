@@ -1,5 +1,6 @@
 from flask import g
 import uuid
+import hashlib
 
 from expungeservice.database.db_util import rollback_errors
 from expungeservice.models.expungement_result import EligibilityStatus
@@ -7,12 +8,14 @@ from expungeservice.models.expungement_result import EligibilityStatus
 
 def save_result(user_id, request_data, record):
 
-    hashed_search_params = hash(
+    search_param_string = (
         user_id +
         request_data["first_name"] +
         request_data["last_name"] +
         request_data["middle_name"] +
         request_data["birth_date"])
+
+    hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
 
     num_charges = len(record.charges)
 
@@ -32,3 +35,4 @@ def _db_insert_result(database, user_id, hashed_search_params, num_charges, num_
         VALUES ( uuid_generate_v4(), %(user_id)s, %(params)s, %(num_charges)s, %(num_eligible_charges)s);
         """, {'user_id': uuid.UUID(user_id).hex, 'params': hashed_search_params, 'num_charges': num_charges,
               'num_eligible_charges': num_eligible_charges})
+
