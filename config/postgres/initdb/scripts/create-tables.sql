@@ -36,7 +36,7 @@ CREATE TABLE rules (
 CREATE TABLE search_results (
     search_result_id      UUID NOT NULL,
     date_searched         TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    hashed_search_params  INTEGER NOT NULL,
+    hashed_search_params  BIGINT NOT NULL,
     num_charges           INTEGER,
     num_eligible_charges  INTEGER,
     PRIMARY KEY (search_result_id)
