@@ -1,24 +1,29 @@
 import weakref
+from dataclasses import dataclass, InitVar, field
 
-from datetime import datetime
-from datetime import date as date_class
+from datetime import date as date_class, datetime
+from typing import Optional
+
 from dateutil.relativedelta import relativedelta
+
+from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
 
-
+@dataclass
 class Charge:
+    name: str
+    statute: str
+    level: str
+    date: date_class
+    disposition: Optional[Disposition]
+    expungement_result: ExpungementResult = field(init=False)
+    _chapter: Optional[str]
+    _section: str
+    _case: weakref.ref
 
-    def __init__(self, case, name, statute, level, date, chapter, section, disposition=None):
-        self.name = name
-        self.statute = statute
-        self.level = level
-        self.date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
-        self.disposition = disposition
+    def __post_init__(self):
         type_eligibility = self._default_type_eligibility()
         self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
-        self._chapter = chapter
-        self._section = section
-        self._case = weakref.ref(case)
 
     def _default_type_eligibility(self):
         raise NotImplementedError
@@ -34,7 +39,7 @@ class Charge:
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        if self.convicted():
+        if self.convicted() and self.disposition:
             return self.disposition.date > ten_years_ago
         else:
             return False
