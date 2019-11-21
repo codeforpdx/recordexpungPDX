@@ -18,7 +18,7 @@ class TestStats(EndpointShared):
         with expungeservice.create_app("development").app_context():
 
             expungeservice.request.before()
-            database = get_database()
+
             request_data = {
                 "first_name":"John",
                 "last_name":"Doe",
@@ -40,21 +40,21 @@ class TestStats(EndpointShared):
                 request_data["middle_name"] +
                 request_data["birth_date"])
 
-            database.cursor.execute(
+            g.database.cursor.execute(
                     """
                     SELECT * FROM SEARCH_RESULTS
                     WHERE cast(hashed_search_params as bigint) = %(hashed_search_params)s
                     ;
                     """,{'hashed_search_params': hashed_search_params})
 
-            result = database.cursor.fetchone()._asdict()
+            result = g.database.cursor.fetchone()._asdict()
             assert result["num_eligible_charges"] == 6
             assert result["num_charges"] == 9
 
-            database.cursor.execute(
+            g.database.cursor.execute(
                     """
                     DELETE FROM SEARCH_RESULTS
                     WHERE cast(hashed_search_params as bigint) = %(hashed_search_params)s
                     ;
                     """,{'hashed_search_params': hashed_search_params})
-            database.connection.commit()
+            g.database.connection.commit()
