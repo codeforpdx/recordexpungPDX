@@ -1,4 +1,8 @@
 import re
+import weakref
+from datetime import datetime
+
+from dacite import from_dict
 
 from expungeservice.models.charge_classifier import ChargeClassifier
 
@@ -12,10 +16,12 @@ class ChargeCreator:
         chapter = ChargeCreator._set_chapter(kwargs['statute'])
         section = ChargeCreator.__set_section(statute)
         classification = ChargeClassifier(case.violation_type, statute, level, chapter, section).classify()
-        kwargs['chapter'] = chapter
-        kwargs['section'] = section
+        kwargs['date'] = datetime.date(datetime.strptime(kwargs['date'], '%m/%d/%Y'))
+        kwargs['_case'] = weakref.ref(case)
+        kwargs['_chapter'] = chapter
+        kwargs['_section'] = section
         kwargs['statute'] = statute
-        return classification(**kwargs)
+        return from_dict(data_class=classification, data=kwargs)
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
