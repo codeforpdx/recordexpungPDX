@@ -42,9 +42,7 @@ class UserList extends React.Component<Props> {
               <tr>
                 <th className="fw6 bb b--black-20 tl pb3 ph3 bg-white">Name</th>
                 <th className="fw6 bb b--black-20 tl pb3 ph3 bg-white">Role</th>
-                <th className="fw6 bb b--black-20 tl pb3 ph3 bg-white">
-                  Group
-                </th>
+                <th className="fw6 bb b--black-20 tl pb3 ph3 bg-white">Group</th>
               </tr>
             </thead>
             {this.props.users
