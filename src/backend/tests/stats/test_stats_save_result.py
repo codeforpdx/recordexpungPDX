@@ -8,20 +8,22 @@ from expungeservice.database import get_database
 from tests.endpoints.endpoint_util import EndpointShared
 
 
-class TestStats():
+class TestStats(EndpointShared):
+
 
     def test_save_result(self):
+
+        user_id = self.user_data["user1"]["user_id"]
 
         with expungeservice.create_app("development").app_context():
 
             expungeservice.request.before()
             database = get_database()
-            user_id = "user_id"
             request_data = {
-                "first_name":"first_name",
-                "last_name":"last_name",
-                "middle_name":"middle_name",
-                "birth_date":"birth_date",
+                "first_name":"John",
+                "last_name":"Doe",
+                "middle_name":"Test",
+                "birth_date":"01/01/1980",
             }
 
 
@@ -33,10 +35,11 @@ class TestStats():
 
             hashed_search_params = hash(
                 user_id +
-                "first_name" +
-                "last_name" +
-                "middle_name" +
-                "birth_date")
+                request_data["first_name"] +
+                request_data["last_name"] +
+                request_data["middle_name"] +
+                request_data["birth_date"])
+
             database.cursor.execute(
                     """
                     SELECT * FROM SEARCH_RESULTS

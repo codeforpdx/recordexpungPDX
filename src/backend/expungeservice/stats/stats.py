@@ -1,4 +1,5 @@
 from flask import g
+import uuid
 
 from expungeservice.database.db_util import rollback_errors
 from expungeservice.models.expungement_result import EligibilityStatus
@@ -19,15 +20,15 @@ def save_result(user_id, request_data, record):
         c.expungement_result.type_eligibility.status == EligibilityStatus.ELIGIBLE])
 
     insert_result = db_insert_result(
-        g.database, hashed_search_params, num_charges, num_eligible_charges)
+        g.database, user_id, hashed_search_params, num_charges, num_eligible_charges)
 
 
 @rollback_errors
-def db_insert_result(database, hashed_search_params, num_charges, num_eligible_charges):
+def db_insert_result(database, user_id, hashed_search_params, num_charges, num_eligible_charges):
 
     result= database.cursor.execute(
         """
-        INSERT INTO  SEARCH_RESULTS(search_result_id, hashed_search_params, num_charges, num_eligible_charges )
-        VALUES ( uuid_generate_v4(), %(params)s, %(num_charges)s, %(num_eligible_charges)s);
-        """, {'params': hashed_search_params, 'num_charges': num_charges,
+        INSERT INTO  SEARCH_RESULTS(search_result_id, user_id, hashed_search_params, num_charges, num_eligible_charges )
+        VALUES ( uuid_generate_v4(), %(user_id)s, %(params)s, %(num_charges)s, %(num_eligible_charges)s);
+        """, {'user_id': uuid.UUID(user_id).hex, 'params': hashed_search_params, 'num_charges': num_charges,
               'num_eligible_charges': num_eligible_charges})
