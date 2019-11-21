@@ -12,7 +12,7 @@ class TestSearch(EndpointShared):
         EndpointShared.setUp(self)
 
         """ Save these actual function refs to reinstate after we're done mocking them."""
-        self.login = search.Crawler.login
+        self.crawler_login = search.Crawler.login
         self.search = search.Crawler.search
 
         self.crawler = CrawlerFactory.setup()
@@ -23,7 +23,7 @@ class TestSearch(EndpointShared):
 
 
     def tearDown(self):
-        search.Crawler.login = self.login
+        search.Crawler.login = self.crawler_login
         search.Crawler.search = self.search
 
     def mock_login(self, return_value):
@@ -33,6 +33,7 @@ class TestSearch(EndpointShared):
         return lambda s, first_name, last_name, middle_name, birth_date: self.mock_record[mocked_record_name]
 
     def test_search(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
 
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
@@ -44,7 +45,7 @@ class TestSearch(EndpointShared):
         """
 
         self.client.post(
-            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
+            "/api/oeci_login",
             json={"oeci_username": "correctusername",
                   "oeci_password": "correctpassword"})
 
@@ -52,7 +53,7 @@ class TestSearch(EndpointShared):
             "localhost.local"]["/"]["oeci_token"]
 
 
-        response = self.client.post("/api/search", headers=self.user_data["user1"]["auth_header"],
+        response = self.client.post("/api/search",
             json={"first_name": "John",
                   "last_name": "Doe",
                   "middle_name": "",

@@ -1,9 +1,10 @@
 import unittest
 import pytest
-import os
 import psycopg2
-from expungeservice.database import Database, user, get_database
+from expungeservice.database import get_database
+from expungeservice.user import user_db_util as user
 from tests.endpoints.endpoint_util import EndpointShared
+
 
 class TestDatabaseOperations(unittest.TestCase):
 

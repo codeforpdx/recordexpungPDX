@@ -3,14 +3,14 @@ import re
 from expungeservice.models.charge_classifier import ChargeClassifier
 
 
-class Charge:
+class ChargeCreator:
     @staticmethod
     def create(**kwargs):
         case = kwargs['case']
-        statute = Charge.__strip_non_alphanumeric_chars(kwargs['statute'])
+        statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs['statute'])
         level = kwargs['level']
-        chapter = Charge._set_chapter(kwargs['statute'])
-        section = Charge.__set_section(statute)
+        chapter = ChargeCreator._set_chapter(kwargs['statute'])
+        section = ChargeCreator.__set_section(statute)
         classification = ChargeClassifier(case.violation_type, statute, level, chapter, section).classify()
         kwargs['chapter'] = chapter
         kwargs['section'] = section

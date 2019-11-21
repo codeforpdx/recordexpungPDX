@@ -14,9 +14,10 @@ Deployment Commands:
 ---------
 In the terminal, use `heroku` commands to build docker images locally and then push to the heroku image registry for deployment.
 
-First, use the project login credentials to access heroku admin:
+First, use the project login credentials to access the heroku and docker admin accounts, respectively:
 ```
 heroku login
+heroku container:login
 ```
 
 The heroku projects for the frontend and backend need to be already created and associated with this login account.

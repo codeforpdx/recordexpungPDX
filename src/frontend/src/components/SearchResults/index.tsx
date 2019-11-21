@@ -1,6 +1,6 @@
 import React from 'react';
 import Cases from '../Cases';
-import { Record } from '../../redux/records/types';
+import { Record } from './types';
 
 interface Props {
   records: Record;

@@ -40,32 +40,37 @@ class RecordSearch extends React.Component<Props, State> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.validateForm();
-    if (
-      this.state.missingInputs === false &&
-      this.state.invalidDate === false
-    ) {
-      // Dispatch an action.
-      this.props.fetchRecords();
-    }
+    this.validateForm().then(() => {
+      if (
+        this.state.missingInputs === false &&
+        this.state.invalidDate === false
+      ) {
+        // Dispatch an action.
+        let state = this.state;
+        let firstName = state.firstName;
+        let lastName = state.lastName;
+        let dateOfBirth = state.dateOfBirth;
+        this.props.fetchRecords(firstName, lastName, dateOfBirth);
+      }
+    });
   };
 
   validateForm = () => {
-    this.setState({
-      firstNameHasInput: this.state.firstName.trim().length === 0
-    });
-    this.setState({
-      lastNameHasInput: this.state.lastName.trim().length === 0
-    });
-    this.setState({
-      missingInputs:
-        this.state.firstName.trim().length === 0 ||
-        this.state.lastName.trim().length === 0 ||
-        this.state.dateOfBirth.trim().length === 0
-    });
-    this.setState({
-      invalidDate:
-        moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() === false
+    return new Promise(resolve => {
+      this.setState(
+        {
+          firstNameHasInput: this.state.firstName.trim().length === 0,
+          lastNameHasInput: this.state.lastName.trim().length === 0,
+          missingInputs:
+            this.state.firstName.trim().length === 0 ||
+            this.state.lastName.trim().length === 0 ||
+            this.state.dateOfBirth.trim().length === 0,
+          invalidDate:
+            moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() ===
+            false
+        },
+        resolve
+      );
     });
   };
 

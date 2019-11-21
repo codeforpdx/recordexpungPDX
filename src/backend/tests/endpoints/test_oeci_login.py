@@ -1,6 +1,3 @@
-import base64
-import cryptography
-import json
 from flask import current_app
 
 from expungeservice.endpoints import oeci_login
@@ -12,24 +9,25 @@ class TestOeciLogin(EndpointShared):
 
     def setUp(self):
         EndpointShared.setUp(self)
-        self.login = oeci_login.Crawler.login
+        self.crawler_login = oeci_login.Crawler.login
         with self.app.app_context():
 
             self.cipher = DataCipher(
-                key=current_app.config.get("JWT_SECRET_KEY"))
+                key=current_app.config.get("SECRET_KEY"))
 
     def tearDown(self):
-        oeci_login.Crawler.login = self.login
+        oeci_login.Crawler.login = self.crawler_login
 
     def mock_login(self, value):
         return lambda s, username, password, close_session: value
 
     def test_oeci_login_success(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
 
         oeci_login.Crawler.login = self.mock_login(True)
 
         self.client.post(
-            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
+            "/api/oeci_login",
             json={"oeci_username": "correctname",
                   "oeci_password": "correctpwd"})
 
@@ -42,11 +40,12 @@ class TestOeciLogin(EndpointShared):
         assert creds["oeci_password"] == "correctpwd"
 
     def test_oeci_login_invalid_credentials(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
 
         oeci_login.Crawler.login = self.mock_login(False)
 
         response = self.client.post(
-            "/api/oeci_login", headers=self.user_data["user1"]["auth_header"],
+            "/api/oeci_login",
             json={"oeci_username": "wrongname",
                   "oeci_password": "wrongpwd"})
 

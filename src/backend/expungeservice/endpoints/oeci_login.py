@@ -1,9 +1,11 @@
 from flask.views import MethodView
 from flask import request, make_response, current_app
 import time
+import os
+
+from flask_login import login_required
 
 from expungeservice.crawler.crawler import Crawler
-from expungeservice.endpoints.auth import user_auth_required
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crypto import DataCipher
@@ -11,7 +13,7 @@ from expungeservice.crypto import DataCipher
 
 class OeciLogin(MethodView):
 
-    @user_auth_required
+    @login_required
     def post(self):
         """
         Attempts to log in to the OECI web site using the provided username
@@ -38,18 +40,19 @@ class OeciLogin(MethodView):
             error(401, "Invalid OECI username or password.")
 
         cipher = DataCipher(
-            key=current_app.config.get("JWT_SECRET_KEY"))
+            key=current_app.config.get("SECRET_KEY"))
 
         encrypted_credentials = cipher.encrypt(credentials)
 
         response = make_response()
 
+        # TODO: We will need an OECILogout endpoint to remove httponly=true cookies from frontend
         response.set_cookie(
             "oeci_token",
-            secure=True,
-            httponly=True,
+            secure=os.getenv("TIER") == "production",
+            httponly=False,
             samesite="strict",
-            expires=time.time() + 15 * 60,  # 15 minutes
+            expires=time.time() + 15 * 60, # type: ignore # 15 minutes
             value=encrypted_credentials)
 
         return response, 201

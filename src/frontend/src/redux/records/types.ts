@@ -13,14 +13,23 @@
 // Case: ZA0061902
 // Case Balance: None
 
+export interface RecordWrapper {
+  record: Record;
+}
+export interface SearchResponse {
+  data: RecordWrapper;
+}
+
 export interface Record {
   total_balance_Due?: number;
   cases?: any[];
+  errors?: any;
 }
 
 // These constants are used as the 'type' field in Redux actions.
 export const LOAD_SEARCH_RECORDS = 'LOAD_SEARCH_RECORDS';
 export const LOAD_SEARCH_RECORDS_LOADING = 'LOAD_SEARCH_RECORDS_LOADING';
+export const CLEAR_SEARCH_RECORDS = 'CLEAR_SEARCH_RECORDS';
 
 export interface SearchRecordState {
   loading: boolean;
@@ -28,7 +37,10 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordsAction {
-  type: typeof LOAD_SEARCH_RECORDS | typeof LOAD_SEARCH_RECORDS_LOADING;
+  type:
+    | typeof LOAD_SEARCH_RECORDS
+    | typeof LOAD_SEARCH_RECORDS_LOADING
+    | typeof CLEAR_SEARCH_RECORDS;
   search_records: Record;
 }
 
@@ -42,5 +54,6 @@ export type CaseProps = {
     case_number: string;
     birth_year: number;
     balance_due: number;
+    charges: any[];
   };
 };
