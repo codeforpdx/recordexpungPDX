@@ -2,7 +2,7 @@ export interface ChargeType {
   statute: string;
   expungement_result: any;
   name: string;
-  disposition: {
+  disposition?: {
     ruling: string;
     date: string;
   };
