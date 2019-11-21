@@ -41,7 +41,7 @@ class TestSearch(EndpointShared):
 
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
-        search.save_result = lambda request_data, record : None
+        search.save_result = lambda user_id, request_data, record : None
 
         """
         as a more unit-y unit test, we could make the encrypted cookie
