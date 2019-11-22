@@ -19,7 +19,7 @@ class TestStats(EndpointShared):
 
         with expungeservice.create_app("development").app_context():
 
-            expungeservice.request.before()
+            expungeservice.request.before() #Opens a db connection at g.database
 
             request_data = {
                 "first_name":"John",
@@ -28,12 +28,11 @@ class TestStats(EndpointShared):
                 "birth_date":"01/01/1980",
             }
 
-
             record = CrawlerFactory.create(CrawlerFactory.setup())
 
             save_result(user_id, request_data, record)
 
-            expungeservice.request.after(None)
+            g.database.connection.commit()
 
             search_param_string = (
                 user_id +
