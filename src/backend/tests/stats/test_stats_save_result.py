@@ -1,5 +1,4 @@
 from flask import g
-import hashlib
 
 import expungeservice
 from expungeservice.database.db_util import rollback_errors
@@ -34,30 +33,7 @@ class TestStats(EndpointShared):
 
             g.database.connection.commit()
 
-            search_param_string = (
-                user_id +
-                request_data["first_name"] +
-                request_data["last_name"] +
-                request_data["middle_name"] +
-                request_data["birth_date"])
+            self.check_search_result_saved(
+                self.user_data["user1"]["user_id"], request_data,
+                num_eligible_charges=6, num_charges=9)
 
-            hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
-
-            g.database.cursor.execute(
-                    """
-                    SELECT * FROM SEARCH_RESULTS
-                    WHERE hashed_search_params  = %(hashed_search_params)s
-                    ;
-                    """,{'hashed_search_params': hashed_search_params})
-
-            result = g.database.cursor.fetchone()._asdict()
-            assert result["num_eligible_charges"] == 6
-            assert result["num_charges"] == 9
-
-            g.database.cursor.execute(
-                    """
-                    DELETE FROM SEARCH_RESULTS
-                    WHERE hashed_search_params = %(hashed_search_params)s
-                    ;
-                    """,{'hashed_search_params': hashed_search_params})
-            g.database.connection.commit()
