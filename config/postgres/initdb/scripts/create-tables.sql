@@ -35,7 +35,7 @@ CREATE TABLE rules (
 
 CREATE TABLE search_results (
     search_result_id      UUID NOT NULL,
-    user_id               UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    user_id               UUID REFERENCES users(user_id),
     date_searched         TIMESTAMP WITH TIME ZONE DEFAULT now(),
     hashed_search_params  TEXT NOT NULL,
     num_charges           INTEGER,
