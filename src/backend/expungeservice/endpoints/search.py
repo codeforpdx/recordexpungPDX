@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask import request, current_app
-from flask_login import login_required, current_user
+from flask_login import login_required
 import logging
 
 from expungeservice.request import check_data_fields
@@ -49,7 +49,7 @@ class Search(MethodView):
         expunger.run()
 
         try:
-            save_result(current_user.user_id, request_data, record)
+            save_result(request_data, record)
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex , stack_info = True)
 

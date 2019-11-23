@@ -4,9 +4,12 @@ import hashlib
 
 from expungeservice.database.db_util import rollback_errors
 from expungeservice.models.expungement_result import EligibilityStatus
+from flask_login import current_user
 
 
-def save_result(user_id, request_data, record):
+def save_result(request_data, record):
+
+    user_id = current_user.user_id
 
     search_param_string = (
         user_id +
