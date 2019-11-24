@@ -4,6 +4,7 @@ from flask import g, request
 import expungeservice
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.endpoints.endpoint_util import EndpointShared
+from expungeservice.database import get_database
 
 
 class TestStats(EndpointShared):
@@ -25,9 +26,10 @@ class TestStats(EndpointShared):
 
             self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
 
-            expungeservice.request.before()
+            g.database = get_database()
 
             expungeservice.stats.save_result(request_data, record)
+
             g.database.connection.commit()
 
         self.check_search_result_saved(
