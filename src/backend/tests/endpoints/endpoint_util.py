@@ -4,6 +4,7 @@ from flask.views import MethodView
 from flask_login import login_required
 from werkzeug.security import generate_password_hash
 from flask import g
+import hashlib
 
 import expungeservice
 from expungeservice.user import user_db_util
@@ -107,6 +108,50 @@ class EndpointShared(unittest.TestCase):
 
     def db_cleanup(self):
 
+        search_result_cleanup_query = """
+            DELETE FROM search_results
+            where user_id in
+                (SELECT user_id FROM users
+                where email like %(pattern)s);"""
+        g.database.cursor.execute(search_result_cleanup_query, {"pattern": "%pytest%"})
+
         cleanup_query = """DELETE FROM users where email like %(pattern)s;"""
         g.database.cursor.execute(cleanup_query, {"pattern": "%pytest%"})
         g.database.connection.commit()
+
+    '''
+    These functions are used for testing the search endpoint and stats-recording.
+    '''
+
+    def hash_search_params(self, user_id, request_data):
+        search_param_string = (
+            user_id +
+            request_data["first_name"] +
+            request_data["last_name"] +
+            request_data["middle_name"] +
+            request_data["birth_date"])
+
+        hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
+        return hashed_search_params
+
+
+    def check_search_result_saved(self, user_id, request_data,
+            num_eligible_charges, num_charges):
+
+        with self.app.app_context():
+            expungeservice.request.before()
+
+            hashed_search_params = self.hash_search_params(
+                user_id, request_data)
+
+            g.database.cursor.execute(
+                """
+                SELECT * FROM SEARCH_RESULTS
+                WHERE hashed_search_params  = %(hashed_search_params)s
+                ;
+                """,{'hashed_search_params': hashed_search_params})
+
+            result = g.database.cursor.fetchone()._asdict()
+
+            assert result["num_eligible_charges"] == num_eligible_charges
+            assert result["num_charges"] == num_charges
