@@ -1,15 +1,30 @@
+import pytest
+
+from expungeservice.expunger.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 from tests.factories.crawler_factory import CrawlerFactory
 
 import unittest
 import json
 
-class TestRecordObjectSerializer(unittest.TestCase):
+from tests.functional_tests.test_crawler_expunger import record_with_open_case, \
+    empty_record, partial_dispos_record, record_without_dispos, \
+    record_with_various_categories, record_with_specific_dates, crawler
 
-    def test_it_creates_json(self):
 
-        crawler = CrawlerFactory.setup()
-        record = CrawlerFactory.create(crawler)
+@pytest.fixture(params=[
+    pytest.lazy_fixture('record_with_open_case'),
+    pytest.lazy_fixture('empty_record'),
+    pytest.lazy_fixture('partial_dispos_record'),
+    pytest.lazy_fixture('record_without_dispos'),
+    pytest.lazy_fixture('record_with_various_categories'),
+    pytest.lazy_fixture('record_with_specific_dates')
+])
+def _record(request):
+    return request.param
 
-        jsonified_dictionary = json.loads(json.dumps(record, cls=ExpungeModelEncoder))
-        assert type(jsonified_dictionary) == dict
+def test_round_trip_various_records(_record):
+    expunger = Expunger(_record)
+    expunger.run()
+    json.loads(json.dumps(_record, cls=ExpungeModelEncoder))
+
