@@ -3,11 +3,12 @@ export interface UserState {
 }
 
 export interface User {
+  admin: boolean;
   email: string;
   group: string;
   id: number;
   name: string;
-  role: string;
+  timestamp: Date;
 }
 
 export const LOAD_USERS = 'LOAD_USERS';
