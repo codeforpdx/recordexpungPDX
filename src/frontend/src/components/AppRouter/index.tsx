@@ -3,6 +3,8 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import history from '../../service/history';
 
 import LogIn from '../LogIn';
+import AddUser from '../AddUser';
+import EditUser from '../EditUser';
 import AllRecords from '../../containers/AllRecords';
 import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
@@ -27,6 +29,8 @@ class AppRouter extends React.Component {
           <AuthenticatedRoute path="/account" component={InterimPage} />
 
           <PublicRoute exact={true} path="/" component={LogIn} />
+          <PublicRoute path="/add-user" component={AddUser} />
+          <PublicRoute path="/edit-user" component={EditUser} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
 

@@ -166,6 +166,24 @@ class LogIn extends React.Component<Props, State> {
                 Forgot your password?
               </Link>
             </div>
+            <div className="tc">
+              <Link
+                to="/add-user"
+                className="link underline hover-blue"
+                href="/"
+              >
+                Go to Add User Component
+              </Link>
+            </div>
+            <div className="tc">
+              <Link
+                to="/edit-user"
+                className="link underline hover-blue"
+                href="/"
+              >
+                Go to Edit User Component
+              </Link>
+            </div>
           </form>
         </section>
       </main>
