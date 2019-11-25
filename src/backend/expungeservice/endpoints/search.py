@@ -1,6 +1,7 @@
 from flask.views import MethodView
 from flask import request, current_app
 from flask_login import login_required
+import logging
 
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
@@ -8,6 +9,7 @@ from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
+from expungeservice.stats import save_result
 
 
 class Search(MethodView):
@@ -45,6 +47,11 @@ class Search(MethodView):
 
         expunger = Expunger(record)
         expunger.run()
+
+        try:
+            save_result(request_data, record)
+        except Exception as ex:
+            logging.error("Saving search result failed with exception: %s" % ex , stack_info = True)
 
         response_data = {
             "data": {
