@@ -1,3 +1,5 @@
+import history from '../service/history';
+
 interface Cookie {
   [key: string]: string;
 }
@@ -28,4 +30,11 @@ export function removeCookie() {
 
 export function hasOeciToken() {
   return decodeCookie().oeci_token ? true : false;
+}
+
+export function checkOeciRedirect() {
+  if (!hasOeciToken()) {
+    history.push('/oeci');
+    alert('You must sign into the OECI database before performing a search.');
+  }
 }
