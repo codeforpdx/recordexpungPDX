@@ -45,6 +45,10 @@ class TestCaseClosedMethod(unittest.TestCase):
         self.case.current_status = 'Purgable' 
         assert self.case.closed() is True
 
+    def test_it_returns_true_for_a_bankeruptcy_case(self):
+        self.case.current_status = 'Bankruptcy Pending'
+        assert self.case.closed() is True
+
 class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
 
     def setUp(self):
