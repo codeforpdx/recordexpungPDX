@@ -69,4 +69,4 @@ class Case:
         return 'violation' in self.violation_type.lower() or 'municipal parking' == self.violation_type.lower()
 
     def _closed(self):
-        return self.current_status == 'Closed' or self.current_status == 'Inactive' or self.current_status == 'Purgable'
+        return self.current_status == 'Closed' or self.current_status == 'Inactive' or self.current_status == 'Purgable' or self.current_status == 'Bankruptcy Pending'
