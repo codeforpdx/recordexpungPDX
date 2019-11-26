@@ -49,7 +49,6 @@ class RecordSearch extends React.Component<Props, State> {
         let state = this.state;
         let firstName = state.firstName;
         let lastName = state.lastName;
-        // If no date of birth is set
         let dateOfBirth = state.dateOfBirth.length > 0 ? state.dateOfBirth : '';
         this.props.fetchRecords(firstName, lastName, dateOfBirth);
       }
