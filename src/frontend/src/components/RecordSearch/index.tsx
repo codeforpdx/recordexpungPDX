@@ -49,7 +49,8 @@ class RecordSearch extends React.Component<Props, State> {
         let state = this.state;
         let firstName = state.firstName;
         let lastName = state.lastName;
-        let dateOfBirth = state.dateOfBirth;
+        // If no date of birth is set
+        let dateOfBirth = state.dateOfBirth.length > 0 ? state.dateOfBirth : '';
         this.props.fetchRecords(firstName, lastName, dateOfBirth);
       }
     });
@@ -63,11 +64,10 @@ class RecordSearch extends React.Component<Props, State> {
           lastNameHasInput: this.state.lastName.trim().length === 0,
           missingInputs:
             this.state.firstName.trim().length === 0 ||
-            this.state.lastName.trim().length === 0 ||
-            this.state.dateOfBirth.trim().length === 0,
+            this.state.lastName.trim().length === 0,
           invalidDate:
             moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() ===
-            false
+              false && this.state.dateOfBirth.length !== 0
         },
         resolve
       );
