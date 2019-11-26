@@ -34,16 +34,16 @@ class UserList extends React.Component<Props> {
   }
 
   displayNoUsers = () => {
-    return this.state.errorType === 'none' ? (
-      <LoadingSpinner inputString={'Users'} />
-    ) : this.state.errorType === 'unauthorized' ? (
-      <NotAuthorized />
-    ) : (
-      <TechnicalDifficulties />
-    );
+    if (this.state.errorType === 'none') {
+      return <LoadingSpinner inputString={'Users'} />;
+    } else if (this.state.errorType === 'unauthorized') {
+      return <NotAuthorized />;
+    } else {
+      return <TechnicalDifficulties />;
+    }
   };
 
-  displayUsers = () => {
+  displayUserList = () => {
     const returnList = this.props.users.userList.map(user => {
       return <User key={user.id} user={user} />;
     });
@@ -51,33 +51,35 @@ class UserList extends React.Component<Props> {
     return returnList;
   };
 
+  displayUsers = () => (
+    <section className="cf bg-white shadow br3 mb5">
+      <div className="pv4 ph3">
+        <h1 className="f3 fw6 dib">Users</h1>
+        <button className="bg-navy white bg-animate hover-bg-dark-blue fw6 br2 pv2 ph3 fr">
+          New User
+        </button>
+      </div>
+
+      <div className="overflow-auto">
+        <table className="f6 w-100 mw8 center collapse">
+          <thead className="bb b--black-20">
+            <tr>
+              <th className="fw6 tl pb3 ph3 bg-white">Name</th>
+              <th className="fw6 tl pb3 ph3 bg-white">Role</th>
+              <th className="fw6 tl pb3 ph3 bg-white">Group</th>
+            </tr>
+          </thead>
+
+          <tbody className="lh-copy">{this.displayUserList()}</tbody>
+        </table>
+      </div>
+    </section>
+  );
+
   render() {
-    return this.props.users.userList.length > 0 ? (
-      <section className="cf bg-white shadow br3 mb5">
-        <div className="pv4 ph3">
-          <h1 className="f3 fw6 dib">Users</h1>
-          <button className="bg-navy white bg-animate hover-bg-dark-blue fw6 br2 pv2 ph3 fr">
-            New User
-          </button>
-        </div>
-
-        <div className="overflow-auto">
-          <table className="f6 w-100 mw8 center collapse">
-            <thead className="bb b--black-20">
-              <tr>
-                <th className="fw6 tl pb3 ph3 bg-white">Name</th>
-                <th className="fw6 tl pb3 ph3 bg-white">Role</th>
-                <th className="fw6 tl pb3 ph3 bg-white">Group</th>
-              </tr>
-            </thead>
-
-            <tbody className="lh-copy">{this.displayUsers()}</tbody>
-          </table>
-        </div>
-      </section>
-    ) : (
-      this.displayNoUsers()
-    );
+    return this.props.users.userList.length > 0
+      ? this.displayUsers()
+      : this.displayNoUsers();
   }
 }
 
