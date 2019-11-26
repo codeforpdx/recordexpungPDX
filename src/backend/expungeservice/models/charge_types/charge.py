@@ -34,13 +34,13 @@ class Charge:
     def acquitted(self):
         return self.disposition and self.disposition.ruling[0:9].lower() != 'convicted'
 
-    def convicted(self):
-        return self.disposition and not self.acquitted()
+    def __convicted(self):
+        return not self.acquitted()
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        if self.convicted() and self.disposition:
-            return self.disposition.date > ten_years_ago
+        if self.__convicted():
+            return self.disposition.date > ten_years_ago # type: ignore
         else:
             return False
 
