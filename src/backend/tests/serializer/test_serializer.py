@@ -2,9 +2,7 @@ import pytest
 
 from expungeservice.expunger.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
-from tests.factories.crawler_factory import CrawlerFactory
 
-import unittest
 import json
 
 from tests.functional_tests.test_crawler_expunger import record_with_open_case, \
