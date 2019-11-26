@@ -37,27 +37,28 @@ export default class Eligibility extends React.Component<Props> {
     );
 
     const eligibility = () => {
-      if (
-        type_eligibility.status === 'Eligible' &&
-        time_eligibility &&
-        time_eligibility.status === 'Eligible'
-      ) {
-        return eligibleNow;
-      } else if (
-        type_eligibility.status === 'Eligible' &&
-        time_eligibility &&
-        time_eligibility.date_of_eligibility !== null
-      ) {
-        return eligibleOn(time_eligibility.date_of_eligibility);
-      } else if (
-        type_eligibility.status === 'Needs more analysis' &&
-        time_eligibility
-      ) {
-        return eligibleWithReview(time_eligibility.date_of_eligibility);
-      } else if (type_eligibility.status === 'Ineligible') {
-        return ineligible;
-      } else {
-        return 'Unknown type or time eligibility';
+      switch (type_eligibility.status) {
+        case 'Eligible':
+          if (time_eligibility && time_eligibility.status === 'Eligible') {
+            return eligibleNow;
+          } else if (
+            time_eligibility &&
+            time_eligibility.date_of_eligibility !== null
+          ) {
+            return eligibleOn(time_eligibility.date_of_eligibility);
+          } else {
+            return 'Eligible but no time eligibility (Please report)';
+          }
+        case 'Needs more analysis':
+          if (time_eligibility) {
+            return eligibleWithReview(time_eligibility.date_of_eligibility);
+          } else {
+            return 'Possibly eligible but no time eligibility (Please report)';
+          }
+        case 'Ineligible':
+          return ineligible;
+        default:
+          return 'Unknown type eligibility (Please report)';
       }
     };
 
