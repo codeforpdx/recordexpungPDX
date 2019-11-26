@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { loadUsers } from '../../redux/users/actions';
+import { loadUsers, clearUsers } from '../../redux/users/actions';
 import { UserState } from '../../redux/users/types';
 import User from '../User';
 import LoadingSpinner from '../LoadingSpinner';
@@ -11,6 +11,7 @@ import TechnicalDifficulties from '../TechnicalDifficulties';
 interface Props {
   users: UserState;
   loadUsers: () => Promise<void>;
+  clearUsers: Function;
 }
 
 interface State {
@@ -31,6 +32,10 @@ class UserList extends React.Component<Props> {
         this.setState({ errorType: 'technical' });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.props.clearUsers();
   }
 
   displayNoUsers = () => {
@@ -89,5 +94,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { loadUsers }
+  { loadUsers, clearUsers }
 )(UserList);

@@ -2,7 +2,6 @@ import apiService from '../../service/api-service';
 import { removeCookie, hasOeciToken } from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
-import { CLEAR_USERS } from '../users/types';
 import { Dispatch } from 'redux';
 import { AxiosError } from 'axios';
 
@@ -29,7 +28,6 @@ export function logOut(): any {
     })
       .then((response: any) => {
         removeCookie();
-        dispatch({ type: CLEAR_USERS, users: [] });
         dispatch({ type: LOG_OUT });
       })
       .catch((error: AxiosError) => {
