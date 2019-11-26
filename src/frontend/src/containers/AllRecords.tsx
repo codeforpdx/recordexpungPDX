@@ -33,7 +33,9 @@ class AllRecords extends Component<Props> {
     return (
       <main className="mw8 center ph2">
         <RecordSearch fetchRecords={this.props.fetchRecords} />
-        {this.props.records ? (
+        {this.props.records &&
+        this.props.records.cases &&
+        this.props.records.cases.length > 0 ? (
           <SearchResults records={this.props.records} />
         ) : (
           <AllStatus />
