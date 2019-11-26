@@ -1,6 +1,4 @@
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
-from datetime import date as date_class
-from dateutil.relativedelta import relativedelta
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
