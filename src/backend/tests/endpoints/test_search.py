@@ -87,6 +87,15 @@ class TestSearch(EndpointShared):
             self.mock_record["john_doe"], cls = ExpungeModelEncoder))
 
 
+    def test_search_fails_without_oeci_token(self):
+        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+
+        response = self.client.post("/api/search",
+            json=self.search_request_data)
+
+        assert(response.status_code == 401)
+
+
     def test_search_creates_save_results(self):
         """
         This is the same test as above except it includes the save-results step. Less unit-y,
