@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from flask.views import MethodView
 from flask import request, jsonify
-from flask_login import login_required, current_user, fresh_login_required
+from flask_login import current_user, fresh_login_required
 from werkzeug.security import generate_password_hash
 
 from flask import g

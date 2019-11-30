@@ -17,6 +17,29 @@ export default class Charge extends React.Component<Props> {
       expungement_result
     } = this.props.charge;
 
+    const knownDisposition = (disposition: any) => (
+      <>
+        <li className="mb2">
+          <span className="fw7">Disposition: </span> {disposition.ruling}
+        </li>
+        <li className="mb2">
+          <span className="fw7">Convicted: </span> {disposition.date}
+        </li>
+      </>
+    );
+
+    const dispositionRender = (disposition: any) => {
+      if (disposition === null) {
+        return (
+          <li className="mb2">
+            <span className="fw7">Disposition: </span> Unknown
+          </li>
+        );
+      } else {
+        return knownDisposition(disposition);
+      }
+    };
+
     return (
       <div className="br3 ma2 bg-white">
         <Eligibility expungement_result={expungement_result} />
@@ -31,12 +54,7 @@ export default class Charge extends React.Component<Props> {
                 <span className="fw7">Charge: </span>
                 {`${statute}-${name}`}
               </li>
-              <li className="mb2">
-                <span className="fw7">Disposition: </span> {disposition.ruling}
-              </li>
-              <li className="mb2">
-                <span className="fw7">Convicted: </span> {disposition.date}
-              </li>
+              {dispositionRender(disposition)}
             </ul>
           </div>
         </div>
