@@ -44,7 +44,10 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  fetchRecords: loadSearchRecords,
-  clearRecords: clearSearchRecords
-})(AllRecords);
+export default connect(
+  mapStateToProps,
+  {
+    fetchRecords: loadSearchRecords,
+    clearRecords: clearSearchRecords
+  }
+)(AllRecords);

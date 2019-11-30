@@ -11,12 +11,12 @@ export const loadGroups = () => (dispatch: Dispatch) => {
           type: LOAD_GROUPS,
           groups
         })
-      )
-
+      );
     }, 1000);
   });
 };
 
+const date = () => new Date();
 // Data for loadGroups action to populate the store with group data
 const placeholderGroupData: Group[] = [
   {
@@ -28,21 +28,24 @@ const placeholderGroupData: Group[] = [
         group: 'Metropolitan Public Defender',
         id: 1,
         name: 'Jane Dolby',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'michael@email.com',
         group: 'Metropolitan Public Defender',
         id: 2,
         name: 'Michael Zhang',
-        role: 'Admin'
+        admin: true,
+        timestamp: date()
       },
       {
         email: 'melissa@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 3,
         name: 'Melissa Jennings',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       }
     ]
   },
@@ -55,42 +58,48 @@ const placeholderGroupData: Group[] = [
         group: 'Metropolitan Public Defender',
         id: 1,
         name: 'Jane Dolby',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'michael@email.com',
         group: 'Metropolitan Public Defender',
         id: 2,
         name: 'Michael Zhang',
-        role: 'Admin'
+        admin: true,
+        timestamp: date()
       },
       {
         email: 'melissa@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 3,
         name: 'Melissa Jennings',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'michael@email.com',
         group: 'Metropolitan Public Defender',
         id: 2,
         name: 'Michael Zhang',
-        role: 'Admin'
+        admin: true,
+        timestamp: date()
       },
       {
         email: 'melissa@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 3,
         name: 'Melissa Jennings',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'terri@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 4,
         name: 'Terri Royce',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       }
     ]
   },
@@ -103,28 +112,32 @@ const placeholderGroupData: Group[] = [
         group: 'Metropolitan Public Defender',
         id: 1,
         name: 'Jane Dolby',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'michael@email.com',
         group: 'Metropolitan Public Defender',
         id: 2,
         name: 'Michael Zhang',
-        role: 'Admin'
+        admin: true,
+        timestamp: date()
       },
       {
         email: 'melissa@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 3,
         name: 'Melissa Jennings',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'terri@email.com',
         group: 'Royce, Jennings & Coldwater',
         id: 4,
         name: 'Terri Royce',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       }
     ]
   },
@@ -137,16 +150,17 @@ const placeholderGroupData: Group[] = [
         group: 'Metropolitan Public Defender',
         id: 1,
         name: 'Jane Dolby',
-        role: 'Search'
+        admin: false,
+        timestamp: date()
       },
       {
         email: 'michael@email.com',
         group: 'Metropolitan Public Defender',
         id: 2,
         name: 'Michael Zhang',
-        role: 'Admin'
+        admin: true,
+        timestamp: date()
       }
     ]
   }
-
 ];

@@ -113,8 +113,8 @@ class TestUsers(EndpointShared):
         assert data["users"][0]["admin"] in [True, False]
         assert data["users"][0]["timestamp"]
         assert data["users"][0]["name"]
-        assert data["users"][0]["group_name"]
-        assert data["users"][0]["user_id"]
+        assert data["users"][0]["group"]
+        assert data["users"][0]["id"]
 
     def test_get_users_not_admin(self):
         self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])

@@ -1,4 +1,4 @@
-import { LOAD_USERS, UserActionTypes, UserState } from './types';
+import { CLEAR_USERS, LOAD_USERS, UserActionTypes, UserState } from './types';
 
 const initialState: UserState = {
   userList: []
@@ -12,6 +12,10 @@ export function usersReducer(
     case LOAD_USERS:
       return {
         userList: action.users
+      };
+    case CLEAR_USERS:
+      return {
+        userList: []
       };
     default:
       return state;
