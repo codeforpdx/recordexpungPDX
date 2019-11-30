@@ -153,7 +153,7 @@ class LogIn extends React.Component<Props, State> {
               ) : null}
               {this.state.invalidResponse === true ? (
                 <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                  Technical difficulties try again later.
+                  Technical difficulties, please contact system administrator.
                 </p>
               ) : null}
             </div>

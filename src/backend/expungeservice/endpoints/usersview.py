@@ -107,10 +107,10 @@ class UsersView(MethodView):
             response_data: Dict[str, List[Dict[str, str]]] = {"users": []}
             for user_entry in user_db_data:
                 response_data["users"].append({
-                    "user_id": user_entry["user_id"],
+                    "id": user_entry["user_id"],
                     "email": user_entry["email"],
                     "name": user_entry["name"],
-                    "group_name": user_entry["group_name"],
+                    "group": user_entry["group_name"],
                     "admin": user_entry["admin"],
                     "timestamp": user_entry["date_created"]
                     })
