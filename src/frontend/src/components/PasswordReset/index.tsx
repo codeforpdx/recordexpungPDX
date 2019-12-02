@@ -61,7 +61,9 @@ class PasswordReset extends React.Component<Props, State> {
     return (
       <main className="mw8 center ph2">
         <section className="mw6 center cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
-          <Logo />
+          <div className="logo--login">
+            <Logo />
+          </div>
           <form
             onSubmit={this.handleSubmit}
             noValidate
