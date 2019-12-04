@@ -28,7 +28,6 @@ class Expunger:
         """
         self.record = record
         self.charges = record.charges
-        self.errors = []
         self._skipped_charges = []
         self.most_recent_dismissal = None
         self.most_recent_conviction = None
@@ -46,7 +45,7 @@ class Expunger:
         :return: True if there are no open cases; otherwise False
         """
         if self._open_cases():
-            self.errors.append('Open cases exist')
+            self.record.errors.append('Open cases exist')
             return False
 
         self._tag_skipped_charges()
