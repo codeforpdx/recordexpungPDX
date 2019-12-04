@@ -16,8 +16,6 @@ interface State {
   name: string;
   group: string;
   role: string;
-  admin: boolean;
-  user: boolean;
   invalidCredentials: boolean;
   invalidResponse: boolean;
   invalidEmail: boolean;
@@ -30,9 +28,7 @@ class AddUser extends React.Component<Props, State> {
     password: '',
     name: '',
     group: '',
-    role: 'admin',
-    admin: false,
-    user: false,
+    role: '',
     invalidCredentials: false,
     invalidResponse: false,
     invalidEmail: false,
