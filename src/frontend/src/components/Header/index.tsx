@@ -12,33 +12,33 @@ interface Props {
 class Header extends React.Component<Props> {
   public render() {
     return this.props.isAuthenticated ? (
-      <nav className="center pt4 ph2 bg-white shadow">
+      <nav className="center pt3 ph2 bg-white shadow">
         <div className="mw8 center flex-l justify-between">
-          <div className="mb4">
+          <div className="logo">
             <Logo />
           </div>
-          <div className="dib mb4">
+          <div className="dib mb3">
             <button
               onClick={() => history.push('/record-search')}
-              className="link hover-blue f6 f5-ns dib pa3"
+              className="link mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Search
             </button>
             <button
               onClick={() => history.push('/stats')}
-              className="link hover-blue f6 f5-ns dib pa3"
+              className="link mid-gray mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Stats
             </button>
             <button
               onClick={() => history.push('/admin')}
-              className="link hover-blue f6 f5-ns dib pa3"
+              className="link mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Admin
             </button>
             <button
               onClick={() => history.push('/account')}
-              className="link hover-blue f6 f5-ns dib pa3"
+              className="link mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Account
             </button>
@@ -49,7 +49,7 @@ class Header extends React.Component<Props> {
               */}
               <button
                 onClick={() => history.push('/')}
-                className="link hover-blue f6 f5-ns dib pa3"
+                className="link mid-gray hover-blue f6 f5-ns dib pa3"
               >
                 Log Out
               </button>

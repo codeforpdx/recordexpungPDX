@@ -83,7 +83,9 @@ class LogIn extends React.Component<Props, State> {
     return (
       <main className="mw6 ph2 center">
         <section className="cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
-          <Logo />
+          <div className="logo--login">
+            <Logo />
+          </div>
           <form onSubmit={this.handleSubmit} noValidate={true}>
             <legend className="visually-hidden">Log in</legend>
             <label htmlFor="email" className="db mt4 mb1 fw6">
