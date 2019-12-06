@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
 
-@dataclass
+@dataclass(eq=False)
 class Charge:
     name: str
     statute: str
