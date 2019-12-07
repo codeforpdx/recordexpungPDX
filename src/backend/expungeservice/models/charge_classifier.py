@@ -84,10 +84,11 @@ class ChargeClassifier:
     @staticmethod
     def _traffic_crime(statute):
 
-        if statute[:3].isdigit():
+        chapter = statute[:3]
+        if chapter.isdigit():
             statute_range = range(801, 826)
 
-            chapter_num = int(statute[:3])
+            chapter_num = int(chapter)
 
             if chapter_num == 813:
                 return Duii

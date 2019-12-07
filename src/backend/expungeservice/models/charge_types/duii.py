@@ -9,7 +9,7 @@ class Duii(Charge):
         if not self.disposition:
             return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Further Analysis Needed - No disposition')
 
-        elif self.disposition.ruling[0:8].lower() == 'diverted':
+        elif 'diverted' in self.disposition.ruling.lower():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason='Ineligible under 137.225(8)(b)')
 
         elif self.acquitted():
