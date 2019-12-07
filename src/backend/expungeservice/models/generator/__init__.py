@@ -2,6 +2,7 @@ from _weakref import ref
 
 from hypothesis._strategies import none, composite
 
+from expungeservice.expunger.expunger import Expunger
 from expungeservice.models.case import Case
 from expungeservice.models.record import Record
 from hypothesis.strategies import builds, just, lists, one_of
@@ -34,3 +35,11 @@ def _build_case_strategy(draw, min_charges_size=0):
 def build_record_strategy(min_cases_size=0, min_charges_size=0):
     case_strategy = _build_case_strategy(min_charges_size)
     return builds(Record, cases=lists(case_strategy, min_cases_size))
+
+
+def build_record():
+    record_strategy = build_record_strategy(min_cases_size=10, min_charges_size=1)
+    record = record_strategy.example()
+    expunger = Expunger(record)
+    expunger.run()
+    return record
