@@ -5,6 +5,7 @@ from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
+from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.list_b import ListB
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
@@ -79,11 +80,23 @@ class ChargeClassifier:
         if section.isdigit() and any(int(section) in statute_range for statute_range in statute_ranges):
             return PersonCrime
 
+
     @staticmethod
     def _traffic_crime(statute):
-        statute_range = range(801, 826)
-        if statute[0:3].isdigit() and int(statute[0:3]) in statute_range:
-            return Level800TrafficCrime
+
+        chapter = statute[:3]
+        if chapter.isdigit():
+            statute_range = range(801, 826)
+
+            chapter_num = int(chapter)
+
+            if chapter_num == 813:
+                return Duii
+
+            elif chapter_num in statute_range:
+                return Level800TrafficCrime
+
+
 
     @staticmethod
     def _parking_ticket(statute, chapter):
