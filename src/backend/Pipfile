@@ -22,6 +22,7 @@ flask-login = "==0.4.1"
 dacite = "==1.0.2"
 mypy = "==0.740"
 pytest-lazy-fixture = "==0.6.2"
+hypothesis = "==4.50.8"
 
 [dev-packages]
 
