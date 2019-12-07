@@ -1,13 +1,14 @@
+from dataclasses import dataclass, field
 from typing import List
 
+from expungeservice.models.case import Case
 from expungeservice.models.charge_types.charge import Charge
 
 
+@dataclass
 class Record:
-
-    def __init__(self, list_cases):
-        self.cases = list_cases
-        self.errors = []
+    cases: List[Case]
+    errors: List[str] = field(default_factory=list)
 
     @property
     def charges(self):
