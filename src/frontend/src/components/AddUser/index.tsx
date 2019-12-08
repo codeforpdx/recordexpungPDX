@@ -59,15 +59,6 @@ class AddUser extends React.Component<Props, State> {
     );
   };
 
-  public handleRadioChange = (e: React.BaseSyntheticEvent) => {
-    // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
-    // using the "any" type.
-    alert(`You chose ${this.state.role}`)
-    this.setState<any>({
-      role: e.target.value
-    });
-  };
-
 
   public render() {
     return (
