@@ -27,10 +27,10 @@ class AppRouter extends React.Component {
           <AuthenticatedRoute path="/stats" component={InterimPage} />
           <AuthenticatedRoute path="/admin" component={Admin} />
           <AuthenticatedRoute path="/account" component={InterimPage} />
+          <AuthenticatedRoute path="/add-user" component={AddUser} />
+          <AuthenticatedRoute path="/edit-user" component={EditUser} />
 
           <PublicRoute exact={true} path="/" component={LogIn} />
-          <PublicRoute path="/add-user" component={AddUser} />
-          <PublicRoute path="/edit-user" component={EditUser} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
 
