@@ -38,16 +38,13 @@ class EditUser extends React.Component<Props, State> {
   public handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
     // using the "any" type.
-    console.log(e);
     this.setState<any>({
       [e.target.id]: e.target.value
     });
-    console.log(this.state);
   };
 
   public handleSubmit = (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
-    event.stopPropagation();
 
     // Standardize email-lowerCase and trim both form inputs
     this.setState(
@@ -56,20 +53,10 @@ class EditUser extends React.Component<Props, State> {
         password: this.state.password.trim()
       },
       () => {
+        // TODO: Pre-populate form fields with user to be edited
         return
       }
     );
-  };
-
-  public handleRadioChange = (e: React.BaseSyntheticEvent) => {
-    // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
-    // using the "any" type.
-    alert(`You chose ${this.state.role}`)
-    console.log(e);
-    this.setState<any>({
-      role: e.target.value
-    });
-    console.log(this.state);
   };
 
   public render() {
