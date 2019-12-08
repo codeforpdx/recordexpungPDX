@@ -1,6 +1,7 @@
 import flask
 import expungeservice
 from expungeservice.models.expungement_result import EligibilityStatus
+from datetime import date
 
 
 class ExpungeModelEncoder(flask.json.JSONEncoder):
@@ -84,6 +85,9 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def default(self, o):
         if isinstance(o, expungeservice.models.record.Record):
             return self.record_to_json(o)
+
+        elif isinstance(o, date):
+            return o.strftime("%b %-d, %Y")
 
         else:
             return flask.json.JSONEncoder.default(self, o)
