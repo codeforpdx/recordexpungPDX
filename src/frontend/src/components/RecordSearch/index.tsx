@@ -65,7 +65,7 @@ class RecordSearch extends React.Component<Props, State> {
             this.state.firstName.trim().length === 0 ||
             this.state.lastName.trim().length === 0,
           invalidDate:
-            moment(this.state.dateOfBirth, 'MM/DD/YYYY', true).isValid() ===
+            moment(this.state.dateOfBirth, 'M/D/YYYY', true).isValid() ===
               false && this.state.dateOfBirth.length !== 0
         },
         resolve
