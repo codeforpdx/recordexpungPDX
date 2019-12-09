@@ -25,7 +25,7 @@ export function recordsReducer(
       // When an API call is made for records, loading state is toggled to true.
       // while loading state is true, a spinner is rendered on the screen. If loading
       // state is false, and no records were fetched, no search results found will be displayed.
-      return { ...state, loading: true };
+      return { ...state, records: {}, loading: true };
     case CLEAR_SEARCH_RECORDS:
       return { ...state, records: {}, loading: false };
     default:
