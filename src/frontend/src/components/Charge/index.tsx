@@ -11,6 +11,7 @@ interface Props {
 export default class Charge extends React.Component<Props> {
   render() {
     const {
+      date,
       disposition,
       statute,
       name,
@@ -23,7 +24,7 @@ export default class Charge extends React.Component<Props> {
           <span className="fw7">Disposition: </span> {disposition.ruling}
         </li>
         <li className="mb2">
-          <span className="fw7">Convicted: </span> {disposition.date}
+          <span className="fw7">Arrested: </span> {date}
         </li>
       </>
     );
