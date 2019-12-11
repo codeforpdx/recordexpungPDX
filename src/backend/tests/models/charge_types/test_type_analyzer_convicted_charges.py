@@ -379,6 +379,16 @@ class TestSingleChargeConvictions(unittest.TestCase):
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
 
+    def test_pcs_475992(self):
+        self.single_charge['name'] = 'Poss Controlled Sub 2'
+        self.single_charge['statute'] = '4759924B'
+        self.single_charge['level'] = 'Felony Class C'
+        pcs_charge = self.create_recent_charge()
+        self.charges.append(pcs_charge)
+
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(5)(C)'
+
     # Eligible misdemeanor and class C felony tests
 
     def test_misdemeanor_164043(self):
