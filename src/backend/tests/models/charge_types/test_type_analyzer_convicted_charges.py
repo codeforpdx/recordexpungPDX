@@ -457,7 +457,7 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.charges.append(charge)
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-        assert charge.expungement_result.type_eligibility.reason == 'Examine'
+        assert charge.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
     # Test non-traffic violation
 

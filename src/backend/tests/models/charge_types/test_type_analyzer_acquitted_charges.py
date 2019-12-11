@@ -51,6 +51,16 @@ class TestSingleChargeDismissals(unittest.TestCase):
         assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert felony_class_a_dismissed.expungement_result.type_eligibility.reason == 'Eligible under 137.225(1)(b)'
 
+    def test_unclassified_charge(self):
+        self.single_charge['name'] = 'Assault in the ninth degree'
+        self.single_charge['statute'] = '333.333'
+        self.single_charge['level'] = 'Felony Class F'
+        unclassified_dismissed = self.create_recent_charge()
+        self.charges.append(unclassified_dismissed)
+
+        assert unclassified_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert unclassified_dismissed.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
+
 
 class TestSingleChargeNoComplaint(unittest.TestCase):
 
