@@ -109,7 +109,7 @@ class ChargeClassifier:
 
     @staticmethod
     def _schedule_1_pcs(section):
-        if section in ['475854', '475874', '475884', '475894']:
+        if section in ['475854', '475874', '475884', '475894', '475992']:
             return Schedule1PCS
 
     @staticmethod
