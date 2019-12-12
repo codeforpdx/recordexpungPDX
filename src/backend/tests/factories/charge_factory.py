@@ -1,5 +1,5 @@
 from datetime import date as date_class
-from expungeservice.models.charge_creator import ChargeCreator
+from expungeservice.models.helpers.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from tests.factories.case_factory import CaseFactory
 

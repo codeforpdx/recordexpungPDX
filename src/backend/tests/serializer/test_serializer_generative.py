@@ -3,7 +3,7 @@ import json
 from hypothesis import given
 
 from expungeservice.expunger.expunger import Expunger
-from expungeservice.models.generator import build_record_strategy
+from expungeservice.models.helpers.generator import build_record_strategy
 from expungeservice.serializer import ExpungeModelEncoder
 
 @given(build_record_strategy())

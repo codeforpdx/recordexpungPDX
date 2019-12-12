@@ -4,7 +4,7 @@ from datetime import datetime
 
 from dacite import from_dict
 
-from expungeservice.models.charge_classifier import ChargeClassifier
+from expungeservice.models.helpers.charge_classifier import ChargeClassifier
 
 
 class ChargeCreator:
