@@ -1,5 +1,28 @@
 Changelog
 
+v1.0.0
+
+## Features
+
+- Add search page and search endpoint (#341, #434, #439, #446, #533, #564, #570, #572)
+- Add group component (only w/ mock data) (#445)
+- Add /api/users PUT (update user) (#459)
+- Add mocked oeci endpoints (#484, #526)
+- Update case parser to check if probation revoked (#490)
+- Add logout endpoint (#521, #529)
+- Save anonymized search results to database (#576)
+- Integrate user component with /api/users GET endpoint (#583)
+
+## Fixes
+
+- Ensure HTTP cookies are secure=True on production (#563)
+- Fix case where disposition is not set (#579)
+- Handle case status "Bankruptcy Pending" as closed (#585)
+- Redirect to OECI login from search page (#587)
+- Allow empty birth date upon search form submission (#589)
+- Check for oeci_token before attempting search (#590)
+- Add new DUII charge class (#607)
+
 v0.3.3
 
 ## Bug Fixes
