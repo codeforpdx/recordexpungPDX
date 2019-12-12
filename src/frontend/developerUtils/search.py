@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import request, current_app
 from flask_login import login_required
 
-from expungeservice.models.generator import build_record
+from expungeservice.models.helpers.generator import build_record
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.serializer import ExpungeModelEncoder

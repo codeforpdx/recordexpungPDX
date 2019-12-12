@@ -2,7 +2,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 
 import requests
 
-from expungeservice.models.charge_creator import ChargeCreator
+from expungeservice.models.helpers.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.record import Record
 from expungeservice.crawler.parsers.param_parser import ParamParser
