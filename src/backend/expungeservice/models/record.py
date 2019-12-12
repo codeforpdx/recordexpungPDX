@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import List
 
 from expungeservice.models.case import Case
-from expungeservice.models.charge_types.charge import Charge
+from expungeservice.models.charge import Charge
 
 
 @dataclass
