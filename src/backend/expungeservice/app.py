@@ -35,8 +35,7 @@ def create_app(env_name):
     return app
 
 def __register_endpoints(app):
-    prefix = "expungeservice.endpoints."
     for _, module_name, _ in pkgutil.iter_modules(endpoints.__path__): # type: ignore  # mypy issue #1422
-        module = import_module(prefix + module_name)
+        module = import_module(f"{endpoints.__name__}.{module_name}")
         register_fn = getattr(module, "register")
         register_fn(app)
