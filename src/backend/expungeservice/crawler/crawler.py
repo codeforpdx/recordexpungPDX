@@ -1,3 +1,5 @@
+from concurrent.futures.thread import ThreadPoolExecutor
+
 import requests
 
 from expungeservice.models.charge_creator import ChargeCreator
@@ -38,17 +40,20 @@ class Crawler:
         self.result.feed(response.text)
 
         # Parse search results (case detail pages)
-        for case in self.result.cases:
-            case_parser = self.__parse_case(case)
-            case.set_probation_revoked(case_parser.probation_revoked)
-            case.set_balance_due(case_parser.balance_due)
-            for charge_id, charge in case_parser.hashed_charge_data.items():
-                charge['case'] = case
-                new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
-                case.charges.append(new_charge)
+        with ThreadPoolExecutor(max_workers=50) as executor:
+            executor.map(self.__build_case, self.result.cases)
 
         self.session.close()
         return Record(self.result.cases)
+
+    def __build_case(self, case):
+        case_parser = self.__parse_case(case)
+        case.set_probation_revoked(case_parser.probation_revoked)
+        case.set_balance_due(case_parser.balance_due)
+        for charge_id, charge in case_parser.hashed_charge_data.items():
+            charge['case'] = case
+            new_charge = Crawler.__build_charge(charge_id, charge, case_parser)
+            case.charges.append(new_charge)
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
