@@ -66,6 +66,22 @@ $washed-red: #f0e0e8;
     1px 1px 2px 0 rgba(59, 86, 73, 0.1);
 }
 
+.logo {
+  width: 110px;
+  height: auto;
+  margin-left: 1rem;
+
+  @media screen and (min-width: 30em) {
+    width: 140px;
+  }
+}
+
+.logo--login {
+  width: 180px;
+  height: auto;
+  margin: 1.25rem auto 3rem auto;
+}
+
 .btn--search {
   height: 54px;
 }

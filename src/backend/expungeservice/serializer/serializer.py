@@ -1,6 +1,7 @@
 import flask
 import expungeservice
 from expungeservice.models.expungement_result import EligibilityStatus
+from datetime import date
 
 
 class ExpungeModelEncoder(flask.json.JSONEncoder):
@@ -30,12 +31,13 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
         }
 
     def charge_to_json(self, charge):
+        disposition = self.disposition_to_json(charge.disposition) if charge.disposition else None
         return {
             "name": charge.name,
             "statute": charge.statute,
             "level": charge.level,
             "date": charge.date,
-            "disposition": self.disposition_to_json(charge.disposition),
+            "disposition": disposition,
             "expungement_result": self.expungement_result_to_json(charge.expungement_result)
         }
 
@@ -83,6 +85,9 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def default(self, o):
         if isinstance(o, expungeservice.models.record.Record):
             return self.record_to_json(o)
+
+        elif isinstance(o, date):
+            return o.strftime("%b %-d, %Y")
 
         else:
             return flask.json.JSONEncoder.default(self, o)

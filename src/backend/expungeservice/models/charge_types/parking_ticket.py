@@ -1,4 +1,4 @@
-from expungeservice.models.charge_types.charge import Charge
+from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 

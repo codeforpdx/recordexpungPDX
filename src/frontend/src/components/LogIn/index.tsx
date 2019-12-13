@@ -83,7 +83,9 @@ class LogIn extends React.Component<Props, State> {
     return (
       <main className="mw6 ph2 center">
         <section className="cf mt4 mb3 pa4 pa5-ns pt4-ns bg-white shadow br3">
-          <Logo />
+          <div className="logo--login">
+            <Logo />
+          </div>
           <form onSubmit={this.handleSubmit} noValidate={true}>
             <legend className="visually-hidden">Log in</legend>
             <label htmlFor="email" className="db mt4 mb1 fw6">
@@ -153,7 +155,7 @@ class LogIn extends React.Component<Props, State> {
               ) : null}
               {this.state.invalidResponse === true ? (
                 <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                  Technical difficulties try again later.
+                  Technical difficulties, please contact system administrator.
                 </p>
               ) : null}
             </div>

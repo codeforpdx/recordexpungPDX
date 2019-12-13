@@ -11,11 +11,44 @@ interface Props {
 export default class Charge extends React.Component<Props> {
   render() {
     const {
+      date,
       disposition,
       statute,
       name,
       expungement_result
     } = this.props.charge;
+
+
+    const knownDisposition = (disposition: any, date: any) => {
+      let dispositionEvent;
+      if (disposition.ruling.toLowerCase().includes("convicted")) {
+        dispositionEvent = "Convicted: " ;
+        date = disposition.date;
+      } else {
+        dispositionEvent = "Arrested: " ;
+      }
+
+      return <>
+        <li className="mb2">
+          <span className="fw7">Disposition: </span> {disposition.ruling}
+        </li>
+        <li className="mb2">
+          <span className="fw7">{dispositionEvent} </span> {date}
+        </li>
+      </>
+    };
+
+    const dispositionRender = (disposition: any, date: any) => {
+      if (disposition === null) {
+        return (
+          <li className="mb2">
+            <span className="fw7">Disposition: </span> Unknown
+          </li>
+        );
+      } else {
+        return knownDisposition(disposition, date);
+      }
+    };
 
     return (
       <div className="br3 ma2 bg-white">
@@ -31,12 +64,7 @@ export default class Charge extends React.Component<Props> {
                 <span className="fw7">Charge: </span>
                 {`${statute}-${name}`}
               </li>
-              <li className="mb2">
-                <span className="fw7">Disposition: </span> {disposition.ruling}
-              </li>
-              <li className="mb2">
-                <span className="fw7">Convicted: </span> {disposition.date}
-              </li>
+              {dispositionRender(disposition, date)}
             </ul>
           </div>
         </div>

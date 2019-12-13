@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime, date
 from typing import List, Optional
 
-from expungeservice.models.charge_types.charge import Charge
+from expungeservice.models.charge import Charge
 
 
 @dataclass
@@ -69,4 +69,5 @@ class Case:
         return 'violation' in self.violation_type.lower() or 'municipal parking' == self.violation_type.lower()
 
     def _closed(self):
-        return self.current_status == 'Closed' or self.current_status == 'Inactive' or self.current_status == 'Purgable'
+        CLOSED_STATUS = ['Closed', 'Inactive', 'Purgable', 'Bankruptcy Pending']
+        return self.current_status in CLOSED_STATUS

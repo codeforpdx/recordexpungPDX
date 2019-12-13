@@ -46,6 +46,12 @@ class TestLevel800Charges(unittest.TestCase):
 
         assert charge.__class__.__name__ == 'Level800TrafficCrime'
 
+    def test_duii(self):
+        self.single_charge['statute'] = '813.010'
+        charge = self.create_recent_charge()
+
+        assert charge.__class__.__name__ == 'Duii'
+
 
 class TestLevel800MisdemeanorFelonyEligibility(unittest.TestCase):
     """
@@ -58,13 +64,13 @@ class TestLevel800MisdemeanorFelonyEligibility(unittest.TestCase):
         self.dismissed= ['Dismissed', last_week]
 
     def test_misdemeanor_conviction_is_not_eligible(self):
-        charge = ChargeFactory.create(statute='813.010(4)', level='Misdemeanor Class A', disposition=self.convicted)
+        charge = ChargeFactory.create(statute='814.010(4)', level='Misdemeanor Class A', disposition=self.convicted)
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(5)'
 
     def test_misdemeanor_dismissal_is_eligible(self):
-        charge = ChargeFactory.create(statute='813.010(4)', level='Misdemeanor Class A', disposition=self.dismissed)
+        charge = ChargeFactory.create(statute='814.010(4)', level='Misdemeanor Class A', disposition=self.dismissed)
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == 'Eligible under 137.225(1)(b)'
@@ -125,9 +131,10 @@ class TestViolationsInfractionsSkipAnalysis(unittest.TestCase):
         assert charge.skip_analysis() is True
 
     def test_level_800_infractions_skip_analysis(self):
-        charge = ChargeFactory.create(statute='811135', level='Infraction Class B', disposition=self.convicted)
+        charge = ChargeFactory.create(statute='811.135', level='Infraction Class B', disposition=self.convicted)
 
         assert charge.skip_analysis() is True
+
 
 
 class TestMisdemeanorFeloniesDoNotSkipAnalysis(unittest.TestCase):
@@ -138,13 +145,11 @@ class TestMisdemeanorFeloniesDoNotSkipAnalysis(unittest.TestCase):
         self.dismissed= ['Dismissed', last_week]
 
     def test_misdemeanor_dismissal_does_not_skip_analysis(self):
-        charge = ChargeFactory.create(statute='813.010(4)', level='Misdemeanor Class A', disposition=self.dismissed)
-
+        charge = ChargeFactory.create(statute='812.123', level='Misdemeanor Class A', disposition=self.dismissed)
         assert charge.skip_analysis() is False
 
     def test_misdemeanor_conviction_does_not_skip_analysis(self):
-        charge = ChargeFactory.create(statute='813.010(4)', level='Misdemeanor Class A', disposition=self.convicted)
-
+        charge = ChargeFactory.create(statute='812.123', level='Misdemeanor Class A', disposition=self.convicted)
         assert charge.skip_analysis() is False
 
     def test_felony_dismissal_does_not_skip_analysis(self):

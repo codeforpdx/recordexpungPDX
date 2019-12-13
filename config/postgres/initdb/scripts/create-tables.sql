@@ -32,3 +32,14 @@ CREATE TABLE rules (
     text    TEXT UNIQUE NOT NULL,
     PRIMARY KEY (rule_id)
 );
+
+CREATE TABLE search_results (
+    search_result_id      UUID NOT NULL,
+    user_id               UUID REFERENCES users(user_id),
+    date_searched         TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    hashed_search_params  TEXT NOT NULL,
+    num_charges           INTEGER,
+    num_eligible_charges  INTEGER,
+    PRIMARY KEY (search_result_id)
+);
+

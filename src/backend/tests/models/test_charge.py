@@ -77,6 +77,13 @@ class TestChargeClass(unittest.TestCase):
 
         assert charge.recent_acquittal() is False
 
+    def test_same_charge_is_not_equal(self):
+        case = CaseFactory.create(case_number="C0000")
+        mrc_charge = ChargeFactory.create(case=case)
+        second_mrc_charge = ChargeFactory.create(case=case)
+
+        assert mrc_charge != second_mrc_charge
+
 
 class TestChargeStatuteSectionAssignment(unittest.TestCase):
 
