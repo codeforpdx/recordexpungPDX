@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Optional
 from enum import Enum
@@ -41,7 +41,7 @@ class Disposition:
         if any([rule in ruling for rule in conviction_rulings]):
             return DispositionStatus.CONVICTED
 
-        elif any([rule in ruling for rule in [ dismissal_rulings]]):
+        elif any([rule in ruling for rule in dismissal_rulings]):
             return  DispositionStatus.DISMISSED
 
         elif "diverted" in ruling:

@@ -31,10 +31,10 @@ class Duii(Charge):
                     reason="137.225(8)(b) - Diverted DUII charges are ineligible")
 
             cases = {
-                DispositionStatus.CONVICTED: convicted_type_eligibility
-                DispositionStatus.DISMISSED: dismissed_type_eligibility
-                DispositionStatus.NO_COMPLAINT: dismissed_type_eligibility
-                DispositionStatus.DIVERTED: diverted_type_eligibility
+                DispositionStatus.CONVICTED: convicted_type_eligibility,
+                DispositionStatus.DISMISSED: dismissed_type_eligibility,
+                DispositionStatus.NO_COMPLAINT: dismissed_type_eligibility,
+                DispositionStatus.DIVERTED: diverted_type_eligibility,
                 DispositionStatus.UNKNOWN: unknown_type_eligibility
             }
             assert len(cases) == len(DispositionStatus)
