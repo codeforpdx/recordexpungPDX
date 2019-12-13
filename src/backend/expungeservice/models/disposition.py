@@ -20,6 +20,7 @@ class Disposition:
     def __init__(self, date: Optional[str] = None, ruling: str = ""):
         self.date = self.__set_date(date)
         self.ruling = ruling
+        self.__post_init__()
 
     def __post_init__(self):
         self.status = self.__set_status()
