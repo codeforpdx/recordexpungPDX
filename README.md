@@ -22,7 +22,6 @@ More documentation:
 - [Running Components](#running-the-docker-stack)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [Project Layout](#project-layout)
 - [License](#license)
 
 ## Tech Overview
@@ -125,21 +124,6 @@ To specify and run a subset of the test cases.
 ## Contributing
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## Project Layout
-
-`Makefile`: GNU Makefile controlling installing dependencies and running the application
-
-`Pipfile`: `Pipenv` file listing project dependencies
-
-`config`: Project configuration files
-
-`doc`: Developer-generated documentation
-
-`src`: Source dir
-
-`src/backend/expungeservice/app.py`: Flask application
-
 
 ## License
 
