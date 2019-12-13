@@ -7,21 +7,42 @@ class Duii(Charge):
 
     def _default_type_eligibility(self):
 
-        if not self.disposition:
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Further Analysis Needed - No disposition')
 
-        elif self.disposition.status == DispositionStatus.DIVERTED:
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason='137.225(8)(b) - Diverted DUII charges are ineligible')
-
-        elif self.convicted():
-
+        if self.disposition:
             """
-            TODO: reason can be expanded to "137.225(7)(a) - Traffic offenses are ineligible"
+            DUII charges can be diverted, and in some cases the Disposition will
+            reflect this and in others it will say Dismissed.  We need to handle
+            both possibilities.
             """
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason='137.225(7)(a) - Traffic offenses are ineligible')
+            dismissed_type_eligibility = TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Further Analysis Needed - Dismissed charge may have been Diverted")
 
-        elif self.acquitted():
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Further Analysis Needed - Dismissed charge may have been Diverted')
+            unknown_type_eligibility = TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Further Analysis Needed - Unrecognized ruling")
+
+            convicted_type_eligibility = TypeEligibility(
+                    EligibilityStatus.INELIGIBLE,
+                    reason="137.225(7)(a) - Traffic offenses are ineligible")
+
+            diverted_type_eligibility = TypeEligibility(
+                    EligibilityStatus.INELIGIBLE,
+                    reason="137.225(8)(b) - Diverted DUII charges are ineligible")
+
+            cases = {
+                DispositionStatus.CONVICTED: convicted_type_eligibility
+                DispositionStatus.DISMISSED: dismissed_type_eligibility
+                DispositionStatus.NO_COMPLAINT: dismissed_type_eligibility
+                DispositionStatus.DIVERTED: diverted_type_eligibility
+                DispositionStatus.UNKNOWN: unknown_type_eligibility
+            }
+            assert len(cases) == len(DispositionStatus)
+            # So that if someone adds something to DispositionStatus,
+            # it won't automatically go to the Unknown case.
+            return cases.get(self.disposition.status, unknown_type_eligibility)
 
         else:
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason='Further Analysis Needed - Unrecognized ruling')
+            return TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Further Analysis Needed - No disposition")
