@@ -44,7 +44,8 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def disposition_to_json(self, disposition):
         return {
             "date": disposition.date ,
-            "ruling": disposition.ruling
+            "ruling": disposition.ruling,
+            "status": disposition.status
         }
 
     def expungement_result_to_json(self, expungement_result):

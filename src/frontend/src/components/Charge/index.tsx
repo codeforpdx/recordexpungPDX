@@ -21,7 +21,7 @@ export default class Charge extends React.Component<Props> {
 
     const knownDisposition = (disposition: any, date: any) => {
       let dispositionEvent;
-      if (disposition.ruling.toLowerCase().includes("convicted")) {
+      if (disposition.status == "Convicted") {
         dispositionEvent = "Convicted: " ;
         date = disposition.date;
       } else {
