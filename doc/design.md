@@ -32,18 +32,30 @@ The app stack is deployed as three services in a Docker stack:
 Project Layout
 --------------
 
-`Makefile`: GNU Makefile controlling installing dependencies and running the application
-
-`Pipfile`: `Pipenv` file listing project dependencies
-
-`config`: Project configuration files
-
-`doc`: Developer-generated documentation
-
-`src`: Source dir
-
-`src/backend/expungeservice/app.py`: Flask application
-
+This is a high-level [tree](https://linux.die.net/man/1/tree) of the project only listing "notable" folders/files.
+```
+.
+├── Makefile : GNU Makefile controlling installing dependencies and running the application
+├── config : Project configuration files
+│   ├── expungeservice
+│   ├── nginx
+│   └── postgres
+├── deployment
+├── doc : Developer-generated documentation folder
+├── docker-compose.dev.yml : Docker file that `make dev_up` invokes
+└── src : Source directory
+    ├── backend
+    │   ├── Dockerfile.dev
+    │   ├── Dockerfile.web
+    │   ├── Pipfile : Pipenv file listing backend project dependencies
+    │   ├── Pipfile.lock
+    │   ├── expungeservice
+    │   │   └── app.py : Flask application start
+    │   ├── mypy.ini : Configuration file to the mypy type checker 
+    │   ├── setup.py
+    │   └── tests
+    └── frontend
+```
 
 User Flow
 ---------
