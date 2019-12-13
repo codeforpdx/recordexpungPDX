@@ -20,7 +20,7 @@ def test_duii_acquitted():
     duii_acquitted = build_charge(statute = "813.010", disposition_ruling = "Acquitted")
 
     assert duii_acquitted.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert duii_acquitted.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
+    assert duii_acquitted.expungement_result.type_eligibility.reason == 'Further Analysis Needed - Dismissed charge may have been Diverted'
 
 
 def test_duii_diverted():
@@ -28,7 +28,7 @@ def test_duii_diverted():
     duii_diverted = build_charge(statute = "813.011", disposition_ruling = "Diverted")
 
     assert duii_diverted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert duii_diverted.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(8)(b)'
+    assert duii_diverted.expungement_result.type_eligibility.reason == '137.225(8)(b) - Diverted DUII charges are ineligible'
 
 
 def test_duii_convicted():
@@ -36,4 +36,4 @@ def test_duii_convicted():
     duii_convicted = build_charge(statute = "813.123", disposition_ruling = "Convicted")
 
     assert duii_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert duii_convicted.expungement_result.type_eligibility.reason == 'Ineligible under 137.225(7)(a)'
+    assert duii_convicted.expungement_result.type_eligibility.reason == '137.225(7)(a) - Traffic offenses are ineligible'
