@@ -8,11 +8,6 @@ Please read our [code of conduct](http://www.codeforpdx.org/about/conduct)
 If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/) You can also request an invite to join our [Slack channel](https://codeforpdx.slack.com/#record_expung) by contacting our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 
 
-More documentation:
- - Project technical design: [doc/design.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/design.md)
- - Additional frontend docs, mostly design patterns: [src/frontend/README.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/src/frontend/README.md).
- - Some support docs for doing development:
-   - [doc/development.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/development.md)
 
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
@@ -22,6 +17,7 @@ More documentation:
 - [Running Components](#running-the-docker-stack)
 - [Testing](#testing)
 - [Contributing](#contributing)
+- [Technical Documentation](#technical-documentation)
 - [License](#license)
 
 ## Tech Overview
@@ -124,6 +120,13 @@ To specify and run a subset of the test cases.
 ## Contributing
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Technical Documentation
+
+ - Project technical design: [doc/design.md](doc/design.md)
+ - Additional frontend docs, mostly design patterns: [src/frontend/README.md](src/frontend/README.md).
+ - Some support docs for doing development:
+   - [doc/development.md](doc/development.md)
 
 ## License
 
