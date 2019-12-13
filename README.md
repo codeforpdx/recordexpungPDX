@@ -62,7 +62,7 @@ You can get your dev environment up and running with installing only Docker and 
 
 3. Install [docker-compose](https://docs.docker.com/compose/install/)
 
-### Running the docker stack
+## Running the docker stack
 
 In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
 
