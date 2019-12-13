@@ -7,6 +7,7 @@ Some thoughts on the Record Expunge System.
 Table of Contents
 -----------------
 - [Project Stack](#project-stack)
+- [Project Layout](#project-layout)
 - [User Flow](#user-flow)
 - [Frontend Routes](#frontend-routes)
 - [Backend Endpoints](#backend-endpoints)
@@ -26,6 +27,22 @@ The app stack is deployed as three services in a Docker stack:
 [ Backend API ] -- Python, Flask, Psycopg
 
 [ Database ] -- PostgreSQL
+
+
+Project Layout
+--------------
+
+`Makefile`: GNU Makefile controlling installing dependencies and running the application
+
+`Pipfile`: `Pipenv` file listing project dependencies
+
+`config`: Project configuration files
+
+`doc`: Developer-generated documentation
+
+`src`: Source dir
+
+`src/backend/expungeservice/app.py`: Flask application
 
 
 User Flow
