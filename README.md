@@ -1,13 +1,11 @@
 # recordexpungPDX
+[![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
+
 A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
 Please read our [code of conduct](http://www.codeforpdx.org/about/conduct).
 
 If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/) You can also request an invite to join our [Slack channel](https://codeforpdx.slack.com/#record_expung) by contacting our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
-
-
-
-[![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 ## Table of Contents
 - [Tech Overview](#tech-overview)
