@@ -30,7 +30,6 @@ class Expunger:
         """
         self.record = record
         self.charges = record.charges
-        self._skipped_charges = []
         self.most_recent_dismissal = None
         self.most_recent_conviction = None
         self.second_most_recent_conviction = None
@@ -49,8 +48,7 @@ class Expunger:
             self.record.errors.append('Open cases exist')
             return False
 
-        self._tag_skipped_charges()
-        self._remove_skipped_charges()
+        self.charges = Expunger._without_skippable_charges(self.charges)
         self.acquittals, self.convictions = Expunger._categorize_charges(self.charges)
         recent_convictions = Expunger._get_recent_convictions(self.convictions)
         self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
@@ -66,21 +64,21 @@ class Expunger:
                 return True
         return False
 
-    def _tag_skipped_charges(self):
-        for charge in self.charges:
-            if Expunger._dispositionless(charge) or charge.skip_analysis():
-                self._skipped_charges.append(charge)
-
     # TODO: Rename as this method has side-effects
     @staticmethod
     def _dispositionless(charge):
         if charge.disposition is None:
             charge.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not found. Needs further analysis"))
             return True
+        else:
+            return False
 
-    def _remove_skipped_charges(self):
-        for charge in self._skipped_charges:
-            self.charges.remove(charge)
+    @staticmethod
+    def _without_skippable_charges(charges):
+        def skippable(charge):
+            return Expunger._dispositionless(charge) or charge.skip_analysis()
+
+        return [charge for charge in charges if not skippable(charge)]
 
     @staticmethod
     def _categorize_charges(charges):
