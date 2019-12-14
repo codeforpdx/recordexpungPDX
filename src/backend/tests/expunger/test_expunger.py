@@ -75,7 +75,6 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
 
         assert expunger.run()
-        assert expunger._skipped_charges[0] == juvenile_charge
         assert expunger.charges == []
 
 
