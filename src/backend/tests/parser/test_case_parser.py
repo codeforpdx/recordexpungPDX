@@ -1,4 +1,3 @@
-import datetime
 import unittest
 
 from expungeservice.crawler.parsers.case_parser.case_parser import CaseParser
@@ -482,6 +481,7 @@ class TestFelicia(unittest.TestCase):
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
 
+
 class TestRevokedProbation(unittest.TestCase):
 
     def setUp(self):
@@ -525,3 +525,11 @@ class TestRevokedProbation(unittest.TestCase):
         assert self.parser.probation_revoked
 
 
+class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = CaseParser()
+        self.parser.feed(CaseDetails.CHARGE_INFO_WITH_EMPTY_DATA_CELLS)
+
+    def test_it_parses_all_charge_rows(self):
+        assert len(self.parser.charge_table_data) == 50
