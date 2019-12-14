@@ -37,7 +37,6 @@ class Expunger:
         self.most_recent_charge = None
         self.acquittals = []
         self.convictions = []
-        self._recent_convictions = []
         self.class_b_felonies = []
 
     def run(self):
@@ -52,12 +51,12 @@ class Expunger:
 
         self._tag_skipped_charges()
         self._remove_skipped_charges()
-        self.acquittals, self.convictions = self._categorize_charges()
-        self._recent_convictions = self._get_recent_convictions()
-        self.most_recent_dismissal = self._most_recent_dismissal()
-        self.most_recent_conviction, self.second_most_recent_conviction = self._most_recent_convictions()
-        self.most_recent_charge = self._most_recent_charge()
-        self.class_b_felonies = self._class_b_felonies()
+        self.acquittals, self.convictions = Expunger._categorize_charges(self.charges)
+        recent_convictions = Expunger._get_recent_convictions(self.convictions)
+        self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
+        self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
+        self.most_recent_charge = Expunger._most_recent_charge(self.charges)
+        self.class_b_felonies = Expunger._class_b_felonies(self.charges)
         TimeAnalyzer.evaluate(self)
         return True
 
@@ -83,32 +82,36 @@ class Expunger:
         for charge in self._skipped_charges:
             self.charges.remove(charge)
 
-    def _categorize_charges(self):
+    @staticmethod
+    def _categorize_charges(charges):
         acquittals, convictions = [], []
-        for charge in self.charges:
+        for charge in charges:
             if charge.acquitted():
                 acquittals.append(charge)
             else:
                 convictions.append(charge)
         return acquittals, convictions
 
-    def _get_recent_convictions(self):
+    @staticmethod
+    def _get_recent_convictions(convictions):
         recent_convictions = []
-        for charge in self.convictions:
+        for charge in convictions:
             if charge.recent_conviction():
                 recent_convictions.append(charge)
         return recent_convictions
 
-    def _most_recent_dismissal(self):
-        self.acquittals.sort(key=lambda charge: charge.date)
-        if self.acquittals and self.acquittals[-1].recent_acquittal():
-            return self.acquittals[-1]
+    @staticmethod
+    def _most_recent_dismissal(acquittals):
+        acquittals.sort(key=lambda charge: charge.date)
+        if acquittals and acquittals[-1].recent_acquittal():
+            return acquittals[-1]
         else:
             return None
 
-    def _most_recent_convictions(self):
-        self._recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
-        first, second, third = take(3, padnone(self._recent_convictions))
+    @staticmethod
+    def _most_recent_convictions(recent_convictions):
+        recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        first, second, third = take(3, padnone(recent_convictions))
         if first and first.level == "Violation":
             return second, third
         elif second and second.level == "Violation":
@@ -116,16 +119,18 @@ class Expunger:
         else:
             return first, second
 
-    def _most_recent_charge(self):
-        self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
-        if self.charges:
-            return self.charges[0]
+    @staticmethod
+    def _most_recent_charge(charges):
+        charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        if charges:
+            return charges[0]
         else:
             return None
 
-    def _class_b_felonies(self):
+    @staticmethod
+    def _class_b_felonies(charges):
         class_b_felonies = []
-        for charge in self.charges:
+        for charge in charges:
             if charge.__class__.__name__ == "FelonyClassB":
                 class_b_felonies.append(charge)
         return class_b_felonies
