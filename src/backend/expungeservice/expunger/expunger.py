@@ -1,6 +1,7 @@
 from more_itertools import padnone, take
 
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
@@ -129,6 +130,6 @@ class Expunger:
     def _class_b_felonies(charges):
         class_b_felonies = []
         for charge in charges:
-            if charge.__class__.__name__ == "FelonyClassB":
+            if isinstance(charge, FelonyClassB):
                 class_b_felonies.append(charge)
         return class_b_felonies
