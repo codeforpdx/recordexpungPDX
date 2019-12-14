@@ -1,3 +1,5 @@
+from more_itertools import padnone, take
+
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
@@ -53,8 +55,7 @@ class Expunger:
         self._categorize_charges()
         self._extract_most_recent_convictions()
         self._set_most_recent_dismissal()
-        self._set_recent_conviction()
-        self._set_second_most_recent_conviction()
+        self._set_recent_convictions()
         self._assign_most_recent_charge()
         self._assign_class_b_felonies()
         TimeAnalyzer.evaluate(self)
@@ -99,27 +100,18 @@ class Expunger:
         if self.acquittals and self.acquittals[-1].recent_acquittal():
             self.most_recent_dismissal = self.acquittals[-1]
 
-    def _set_recent_conviction(self, set_mrc=True):
-        self._recent_convictions.sort(key=lambda charge: charge.disposition.date)
-        if len(self._recent_convictions) > 0:
-            if self._recent_convictions[-1].level != "Violation":
-                if set_mrc:
-                    self.most_recent_conviction = self._recent_convictions[-1]
-                else:
-                    self.second_most_recent_conviction = self._recent_convictions[-1]
-            elif len(self._recent_convictions) > 1:
-                if set_mrc:
-                    self.most_recent_conviction = self._recent_convictions[-2]
-                else:
-                    self.second_most_recent_conviction = self._recent_convictions[-2]
-
-    def _set_second_most_recent_conviction(self):
-        self._remove_mrc_from_recent_convictions()
-        self._set_recent_conviction(set_mrc=False)
-
-    def _remove_mrc_from_recent_convictions(self):
-        if self.most_recent_conviction:
-            self._recent_convictions.remove(self.most_recent_conviction)
+    def _set_recent_convictions(self):
+        self._recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        first, second, third = take(3, padnone(self._recent_convictions))
+        if first and first.level == "Violation":
+            self.most_recent_conviction = second
+            self.second_most_recent_conviction = third
+        elif second and second.level == "Violation":
+            self.most_recent_conviction = first
+            self.second_most_recent_conviction = third
+        else:
+            self.most_recent_conviction = first
+            self.second_most_recent_conviction = second
 
     def _assign_most_recent_charge(self):
         self.charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
