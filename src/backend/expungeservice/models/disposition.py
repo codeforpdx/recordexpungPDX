@@ -33,7 +33,7 @@ class Disposition:
     def __set_status(self):
         ruling = self.ruling.lower()
         conviction_rulings = [
-            "convicted", "conviction",
+            "convicted", "conviction", "reduced",
             "finding - guilty","conversion", "converted"]
         dismissal_rulings = [
             "acquitted", "acquittal", "dismissed",
