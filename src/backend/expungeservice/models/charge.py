@@ -6,7 +6,7 @@ from typing import Optional
 
 from dateutil.relativedelta import relativedelta
 
-from expungeservice.models.disposition import Disposition
+from expungeservice.models.disposition import Disposition, DispositionStatus
 from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
 
 @dataclass(eq=False)
@@ -32,10 +32,12 @@ class Charge:
         return self._case
 
     def acquitted(self):
-        return self.disposition and self.disposition.ruling[0:9].lower() != 'convicted'
+        #TODO: rename this method and related variables to "dismissed" or similar
+        acquittal_statuses = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED]
+        return self.disposition and self.disposition.status in acquittal_statuses
 
     def __convicted(self):
-        return not self.acquitted()
+        return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
