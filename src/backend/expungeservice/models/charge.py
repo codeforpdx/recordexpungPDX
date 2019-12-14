@@ -36,12 +36,13 @@ class Charge:
         acquittal_statuses = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED]
         return self.disposition and self.disposition.status in acquittal_statuses
 
-    def __convicted(self):
-        return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
+    def convicted(self):
+        conviction_statuses = [DispositionStatus.CONVICTED, DispositionStatus.DIVERTED]
+        return self.disposition and self.disposition.status in conviction_statuses
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        if self.__convicted():
+        if self.convicted():
             return self.disposition.date > ten_years_ago # type: ignore
         else:
             return False
