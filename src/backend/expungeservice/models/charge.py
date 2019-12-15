@@ -33,12 +33,14 @@ class Charge:
 
     def acquitted(self):
         #TODO: rename this method and related variables to "dismissed" or similar
-        acquittal_statuses = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED]
+        acquittal_statuses = [
+            DispositionStatus.NO_COMPLAINT,
+            DispositionStatus.DISMISSED,
+            DispositionStatus.DIVERTED]
         return self.disposition and self.disposition.status in acquittal_statuses
 
     def convicted(self):
-        conviction_statuses = [DispositionStatus.CONVICTED, DispositionStatus.DIVERTED]
-        return self.disposition and self.disposition.status in conviction_statuses
+        return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))

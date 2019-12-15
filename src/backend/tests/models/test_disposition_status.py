@@ -38,12 +38,12 @@ def test_all_disposition_statuses_are_either_convicted_or_acquitted():
         if status == DispositionStatus.UNKNOWN:
             assert not charge.convicted()
             assert not charge.acquitted()
-            continue
 
-        #Make sure that every DispositionStatus value is covered by this approach.
-        assert charge.disposition.status == status
+        else:
+            #Make sure that every DispositionStatus value is covered by this approach.
+            assert charge.disposition.status == status
 
-        assert charge.convicted() or charge.acquitted()
+            assert charge.convicted() or charge.acquitted()
 
 def test_dispositionless_charge_is_not_convicted_nor_acquitted():
 
