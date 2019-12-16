@@ -62,23 +62,20 @@ class TimeAnalyzer:
 
     @staticmethod
     def _evaluate_class_b_felonies(expunger):
-        for b_felony in expunger.class_b_felonies:
-
-            # if the B felony is acquitted, it is affected the other time eligibility rules,
+        for class_b_felony in expunger.class_b_felonies:
+            # If the B felony is acquitted, it is affected the other time eligibility rules,
             # so leave it untouched here.
-            # if it's convicted, this restriction overrides any of those rules.
-            if not b_felony.acquitted():
+            # If it's convicted, this restriction overrides any of those rules.
+            if not class_b_felony.acquitted():
                 has_subsequent_charge = False
                 for other_charge in expunger.charges:
 
-                    #if it's an aquittal, the arrest date is what matters
                     if other_charge.acquitted():
                         date_of_charge = other_charge.date
-                    #if it's a conviction, the conviction date is what matters
                     else:
                         date_of_charge = other_charge.disposition.date
 
-                    if date_of_charge > b_felony.disposition.date:
+                    if date_of_charge > class_b_felony.disposition.date:
                         has_subsequent_charge = True
                         break
 
@@ -86,12 +83,12 @@ class TimeAnalyzer:
                     type_eligibility = TypeEligibility(
                         EligibilityStatus.INELIGIBLE,
                         reason='137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions')
-                    b_felony.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
+                    class_b_felony.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
 
                 else:
-                    if b_felony.disposition.date > TimeAnalyzer.TWENTY_YEARS_AGO:
-                        b_felony.set_time_ineligible('137.225(5)(a)(A)(i) - Twenty years from class B felony conviction',
-                                                       b_felony.disposition.date + relativedelta(
+                    if class_b_felony.disposition.date > TimeAnalyzer.TWENTY_YEARS_AGO:
+                        class_b_felony.set_time_ineligible('137.225(5)(a)(A)(i) - Twenty years from class B felony conviction',
+                                                       class_b_felony.disposition.date + relativedelta(
                                                            years=TimeAnalyzer.TWENTY_YEARS))
 
     @staticmethod

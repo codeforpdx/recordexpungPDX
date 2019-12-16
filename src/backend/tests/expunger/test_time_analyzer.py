@@ -174,7 +174,6 @@ class TestClassBFelony(unittest.TestCase):
     def test_acquitted_felony_class_b_with_subsequent_conviction(self):
 
         b_felony_charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO, 'Dismissed')
-
         subsequent_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
 
         self.expunger.charges = [b_felony_charge, subsequent_charge]
