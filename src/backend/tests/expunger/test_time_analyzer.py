@@ -151,6 +151,10 @@ class TestClassBFelony(unittest.TestCase):
         assert b_felony_charge.expungement_result.type_eligibility.reason == (
             "137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions")
 
+        #The Class B felony does not affect eligibility of another otherwise eligible charge
+        assert subsequent_charge.expungement_result.time_eligibility.status is True
+        assert subsequent_charge.expungement_result.type_eligibility.status == EligibilityStatus.ELIGIBLE
+
     def test_felony_class_b_with_prior_conviction(self):
 
         b_felony_charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
@@ -258,7 +262,6 @@ class TestDismissalBlock(unittest.TestCase):
         assert convicted_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert convicted_charge.expungement_result.time_eligibility.reason == ''
         assert convicted_charge.expungement_result.time_eligibility.date_will_be_eligible is None
-
 
 class TestSecondMRCLogic(unittest.TestCase):
 
