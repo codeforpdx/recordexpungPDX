@@ -63,7 +63,7 @@ class TimeAnalyzer:
     @staticmethod
     def _evaluate_class_b_felonies(expunger):
         for class_b_felony in expunger.class_b_felonies:
-            # If the B felony is acquitted, it is affected the other time eligibility rules,
+            # If the B felony is acquitted, it is affected by the other time eligibility rules,
             # so leave it untouched here.
             # If it's convicted, this restriction overrides any of those rules.
             if not class_b_felony.acquitted():
