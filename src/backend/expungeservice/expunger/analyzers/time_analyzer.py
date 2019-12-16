@@ -85,7 +85,7 @@ class TimeAnalyzer:
                 if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony.disposition.date, other_charges):
                     type_eligibility = TypeEligibility(
                         EligibilityStatus.INELIGIBLE,
-                        reason='137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions')
+                        reason='137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions')
                     class_b_felony.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
 
                 else:

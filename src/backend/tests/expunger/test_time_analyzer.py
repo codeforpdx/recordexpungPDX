@@ -149,7 +149,7 @@ class TestClassBFelony(unittest.TestCase):
         assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert b_felony_charge.expungement_result.time_eligibility == None
         assert b_felony_charge.expungement_result.type_eligibility.reason == (
-            "137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions")
+            "137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions")
 
         #The Class B felony does not affect eligibility of another otherwise eligible charge
         assert subsequent_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
