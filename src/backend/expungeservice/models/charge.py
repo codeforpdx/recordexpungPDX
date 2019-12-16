@@ -57,9 +57,9 @@ class Charge:
             date_will_be_eligible = date_of_eligibility
         else:
             date_will_be_eligible = None
-        time_eligibility = TimeEligibility(status = EligibilityStatus.INELIGIBLE, reason = reason, date_will_be_eligible = date_will_be_eligible)
+        time_eligibility = TimeEligibility(status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible)
         self.expungement_result.time_eligibility = time_eligibility
 
     def set_time_eligible(self, reason=''):
-        time_eligibility = TimeEligibility(status = EligibilityStatus.ELIGIBLE, reason = reason, date_will_be_eligible = None)
+        time_eligibility = TimeEligibility(status=EligibilityStatus.ELIGIBLE, reason=reason, date_will_be_eligible=None)
         self.expungement_result.time_eligibility = time_eligibility
