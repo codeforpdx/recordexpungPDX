@@ -4,8 +4,8 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 from expungeservice.expunger.expunger import Expunger
-from expungeservice.models.record import Record
 from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
@@ -92,7 +92,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.expunger.charges = [charge]
         TimeAnalyzer.evaluate(self.expunger)
 
-        assert charge.expungement_result.time_eligibility.status is False
+        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
         assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
 
@@ -152,8 +152,8 @@ class TestClassBFelony(unittest.TestCase):
             "137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions")
 
         #The Class B felony does not affect eligibility of another otherwise eligible charge
-        assert subsequent_charge.expungement_result.time_eligibility.status is True
-        assert subsequent_charge.expungement_result.type_eligibility.status == EligibilityStatus.ELIGIBLE
+        assert subsequent_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert subsequent_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
 
     def test_felony_class_b_with_prior_conviction(self):
 

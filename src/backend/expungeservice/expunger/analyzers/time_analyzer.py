@@ -61,15 +61,15 @@ class TimeAnalyzer:
             charge.set_time_ineligible('Recommend sequential expungement', eligibility_date)
 
     @staticmethod
-    def _calculate_has_subsequent_charge(date, charges) -> bool:
+    def _calculate_has_subsequent_charge(date, charges):
 
         for charge in charges:
-            if other_charge.acquitted():
-                date_of_charge = other_charge.date
+            if charge.acquitted():
+                date_of_charge = charge.date
             else:
-                date_of_charge = other_charge.disposition.date
+                date_of_charge = charge.disposition.date
 
-            if date_of_charge > class_b_felony.disposition.date:
+            if date_of_charge > date:
                 return True
         return False
 
@@ -82,7 +82,7 @@ class TimeAnalyzer:
             # If it's convicted, this restriction overrides any of those rules.
             if not class_b_felony.acquitted():
                 other_charges = [ charge for charge in expunger.charges if charge != class_b_felony]
-                if _calculate_has_subsequent_charge(class_b_felony.disposition.date, other_charges):
+                if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony.disposition.date, other_charges):
                     type_eligibility = TypeEligibility(
                         EligibilityStatus.INELIGIBLE,
                         reason='137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions')
