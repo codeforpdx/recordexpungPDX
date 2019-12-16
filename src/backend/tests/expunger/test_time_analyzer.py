@@ -4,8 +4,8 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 from expungeservice.expunger.expunger import Expunger
-from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
+from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
@@ -81,40 +81,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
         assert charge.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(days=+1)
 
-    def test_felony_class_b_greater_than_20yrs(self):
-        charge = ChargeFactory.create(name='Aggravated theft in the first degree',
-                                      statute='164.057',
-                                      level='Felony Class B',
-                                      date=Time.TWENTY_YEARS_AGO,
-                                      disposition=['Convicted', Time.TWENTY_YEARS_AGO])
-
-        self.expunger.class_b_felonies = [charge]
-        self.expunger.most_recent_charge = charge
-
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert charge.expungement_result.time_eligibility.reason == ''
-        assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
-
-    def test_felony_class_b_less_than_20yrs(self):
-        charge = ChargeFactory.create(name='Aggravated theft in the first degree',
-                                      statute='164.057',
-                                      level='Felony Class B',
-                                      date=Time.LESS_THAN_TWENTY_YEARS_AGO,
-                                      disposition=['Convicted', Time.LESS_THAN_TWENTY_YEARS_AGO])
-
-        self.expunger.class_b_felonies = [charge]
-        self.expunger.most_recent_charge = charge
-
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
-
-        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert charge.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(5)(a)(A)(i)'
-        assert charge.expungement_result.time_eligibility.date_will_be_eligible == Time.TOMORROW
-
     def test_time_eligibility_date_is_none_when_type_ineligible(self):
         charge = ChargeFactory.create(name='Assault in the first degree',
                                       statute='163.185',
@@ -126,9 +92,112 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.expunger.charges = [charge]
         TimeAnalyzer.evaluate(self.expunger)
 
-        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert charge.expungement_result.time_eligibility.status is False
         assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
         assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
+
+
+class TestClassBFelony(unittest.TestCase):
+
+    def create_class_b_felony_charge(self, date, ruling='Convicted'):
+
+        return ChargeFactory.create(name='Aggravated theft in the first degree',
+                                      statute='164.057',
+                                      level='Felony Class B',
+                                      date=date,
+                                      disposition=[ruling, date])
+    def setUp(self):
+        self.expunger = ExpungerFactory.create()
+
+    def test_felony_class_b_greater_than_20yrs(self):
+
+        charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
+        self.expunger.most_recent_charge = charge
+        self.expunger.charges = [charge]
+        self.expunger._assign_class_b_felonies()
+
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert charge.expungement_result.time_eligibility.reason == ''
+        assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
+
+    def test_felony_class_b_less_than_20yrs(self):
+
+        charge = self.create_class_b_felony_charge(Time.LESS_THAN_TWENTY_YEARS_AGO)
+        self.expunger.most_recent_charge = charge
+        self.expunger.charges = [charge]
+        self.expunger._assign_class_b_felonies()
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert charge.expungement_result.time_eligibility.reason == '137.225(5)(a)(A)(i) - Twenty years from class B felony conviction'
+        assert charge.expungement_result.time_eligibility.date_will_be_eligible == Time.TOMORROW
+
+    def test_felony_class_b_with_subsequent_conviction(self):
+
+        b_felony_charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
+        subsequent_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
+
+        self.expunger.charges = [b_felony_charge, subsequent_charge]
+        self.expunger._assign_class_b_felonies()
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert b_felony_charge.expungement_result.time_eligibility == None
+        assert b_felony_charge.expungement_result.type_eligibility.reason == (
+            "137.225(5)(a)(A)(ii) - Class B felony can have no subsquent arrests or convictions")
+
+    def test_felony_class_b_with_prior_conviction(self):
+
+        b_felony_charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
+        prior_charge = ChargeFactory.create(disposition=['Convicted', Time.OVER_TWENTY_YEARS_AGO])
+
+        self.expunger.charges = [b_felony_charge, prior_charge]
+        self.expunger._assign_class_b_felonies()
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+        assert b_felony_charge.expungement_result.type_eligibility.reason == 'Further Analysis Needed'
+        assert b_felony_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert b_felony_charge.expungement_result.time_eligibility.reason == ''
+
+
+    def test_acquitted_felony_class_b_with_subsequent_conviction(self):
+
+        b_felony_charge = self.create_class_b_felony_charge(Time.TWENTY_YEARS_AGO, 'Dismissed')
+
+        subsequent_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
+
+        self.expunger.charges = [b_felony_charge, subsequent_charge]
+        self.expunger._assign_class_b_felonies()
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert b_felony_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+
+    def test_doubly_eligible_b_felony_gets_normal_eligibility_rule(self):
+        #This charge is both List B and also a class B felony. List B classification takes precedence.
+        list_b_charge = ChargeFactory.create(name='Assault in the second degree',
+                                      statute='163.175',
+                                      level='Felony Class B',
+                                      date=Time.LESS_THAN_TWENTY_YEARS_AGO,
+                                      disposition=['Convicted', Time.LESS_THAN_TWENTY_YEARS_AGO])
+
+        subsequent_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
+
+        self.expunger.charges = [list_b_charge, subsequent_charge]
+        self.expunger._assign_class_b_felonies()
+
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert list_b_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
 
 
 class TestDismissalBlock(unittest.TestCase):
