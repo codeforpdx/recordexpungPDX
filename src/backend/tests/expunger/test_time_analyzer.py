@@ -238,3 +238,80 @@ class TestSecondMRCLogic(unittest.TestCase):
         self.run_expunger(one_year_old_conviction, nine_year_old_conviction)
 
         assert one_year_old_conviction.expungement_result.time_eligibility.date_will_be_eligible == eligibility_date
+
+
+class TestViolations(unittest.TestCase):
+
+    def setUp(self):
+        self.expunger = ExpungerFactory.create()
+
+    @staticmethod
+    def violation(disposition):
+        return ChargeFactory.create(
+            name='Failure to Send Child to or Maintain Child in School',
+            statute='339.020',
+            level='Violation Class C',
+            disposition=disposition)
+
+    @staticmethod
+    def traffic_violation(disposition):
+        return ChargeFactory.create(
+            name='Made-up traffic violation',
+            statute='825.999',
+            level='Class C traffic violation',
+            disposition=disposition)
+
+    def test_one_recent_violation_does_not_block_eligibility(self):
+        violation_two_years_ago = TestViolations.violation(['Convicted', Time.TWO_YEARS_AGO])
+        misdemeanor_four_years_ago = ChargeFactory.create(disposition=['Convicted', Time.FOUR_YEARS_AGO])
+
+        self.expunger.charges = [violation_two_years_ago, misdemeanor_four_years_ago]
+        self.expunger.run()
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert misdemeanor_four_years_ago.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+
+    def test_one_prior_violation_does_not_block_eligibility(self):
+        violation_seven_years_ago = TestViolations.violation(['Convicted', Time.SEVEN_YEARS_AGO])
+        misdemeanor_four_years_ago = ChargeFactory.create(disposition=['Convicted', Time.FOUR_YEARS_AGO])
+
+        self.expunger.charges = [misdemeanor_four_years_ago, violation_seven_years_ago]
+        self.expunger.run()
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert misdemeanor_four_years_ago.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+
+    def test_two_violations_block_eligibility(self):
+        violation_seven_years_ago = TestViolations.violation(['Convicted', Time.SEVEN_YEARS_AGO])
+        violation_less_than_ten_years_ago = TestViolations.violation(['Convicted', Time.LESS_THAN_TEN_YEARS_AGO])
+        misdemeanor_four_years_ago = ChargeFactory.create(disposition=['Convicted', Time.FOUR_YEARS_AGO])
+
+        self.expunger.charges = [misdemeanor_four_years_ago, violation_seven_years_ago, violation_less_than_ten_years_ago]
+        self.expunger.run()
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert misdemeanor_four_years_ago.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+
+    def test_two_traffic_violations_do_not_block_eligibility(self):
+
+
+        traffic_violation_two_years_ago  = TestViolations.traffic_violation(['Convicted', Time.TWO_YEARS_AGO])
+        traffic_violation_seven_years_ago = TestViolations.traffic_violation(['Convicted', Time.SEVEN_YEARS_AGO])
+        misdemeanor_four_years_ago = ChargeFactory.create(disposition=['Convicted', Time.FOUR_YEARS_AGO])
+
+        self.expunger.charges = [traffic_violation_two_years_ago, misdemeanor_four_years_ago, traffic_violation_seven_years_ago]
+        self.expunger.run()
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert misdemeanor_four_years_ago.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+
+    def test_two_acquitted_violations_do_not_block_eligibility(self):
+        violation_four_years_ago = TestViolations.violation(['Dismissed', Time.FOUR_YEARS_AGO])
+        violation_seven_years_ago = TestViolations.violation(['Dismissed', Time.SEVEN_YEARS_AGO])
+
+        misdemeanor_four_years_ago = ChargeFactory.create(disposition=['Convicted', Time.FOUR_YEARS_AGO])
+
+        self.expunger.charges = [misdemeanor_four_years_ago, violation_four_years_ago, violation_seven_years_ago]
+        TimeAnalyzer.evaluate(self.expunger)
+
+        assert misdemeanor_four_years_ago.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
