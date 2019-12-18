@@ -7,7 +7,7 @@ class ChargeTableData:
         if self.data_tag and data != '\xa0':
             case_parser.charge_table_data.append(data)
 
-    def check_tag(self, tag):
+    def check_tag(self, tag, attrs):
         if tag == 'td':
             self.data_tag = True
         else:

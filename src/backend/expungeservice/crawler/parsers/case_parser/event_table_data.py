@@ -15,6 +15,6 @@ class EventTableData:
         else:
             case_parser.event_table_data[self._event_row].append(data)
 
-    def check_tag(self, tag):
-        if self._header_tag == tag:
+    def check_tag(self, tag, attrs):
+        if self._header_tag == tag and dict(attrs).get('class') in ['ssTableHeaderLabel', 'ssEventsAndOrdersSubTitle']:
             self._dispo_header = True
