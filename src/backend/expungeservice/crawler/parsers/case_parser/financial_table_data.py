@@ -9,6 +9,6 @@ class FinancialTableData:
             case_parser.balance_due = data
             self._parse_balance = False
 
-    def check_tag(self,tag):
+    def check_tag(self, tag, attrs):
         if tag == self._balance_due_tag:
             self._parse_balance = True
