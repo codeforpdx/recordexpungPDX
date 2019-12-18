@@ -111,7 +111,7 @@ const fakeRecord = {
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_of_eligibility: '2/11/2020'
+                date_will_be_eligible: '2/11/2020'
               }
             }
           },
@@ -132,7 +132,7 @@ const fakeRecord = {
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_of_eligibility: '2/11/2020'
+                date_will_be_eligible: '2/11/2020'
               }
             }
           }
