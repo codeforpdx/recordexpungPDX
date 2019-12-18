@@ -36,7 +36,7 @@ class CaseParser(HTMLParser):
             self.within_table_header = True
             self.current_parser_state = DefaultState()
 
-        self.current_parser_state.check_tag(tag)
+        self.current_parser_state.check_tag(tag, attrs)
 
     def handle_endtag(self, tag):
         charge_table = 'Charge Information'

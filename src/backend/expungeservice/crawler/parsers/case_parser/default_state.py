@@ -8,5 +8,5 @@ class DefaultState:
             case_parser.table_title = data
             self.read_table_title = False
 
-    def check_tag(self, tag):
+    def check_tag(self, tag, attrs):
         pass
