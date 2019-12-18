@@ -40,8 +40,8 @@ export default class Eligibility extends React.Component<Props> {
       if (time_eligibility) {
         if (time_eligibility.status === 'Eligible') {
           return eligibleNow;
-        } else if (time_eligibility.date_of_eligibility !== null) {
-          return eligibleOn(time_eligibility.date_of_eligibility);
+        } else if (time_eligibility.date_will_be_eligible !== null) {
+          return eligibleOn(time_eligibility.date_will_be_eligible);
         } else {
           return 'Eligible but no date on time analysis (Please report)';
         }
@@ -56,7 +56,7 @@ export default class Eligibility extends React.Component<Props> {
           return handleWhenTypeEligibile();
         case 'Needs more analysis':
           if (time_eligibility) {
-            return eligibleWithReview(time_eligibility.date_of_eligibility);
+            return eligibleWithReview(time_eligibility.date_will_be_eligible);
           } else {
             return 'Possibly eligible but no time analysis (Please report)';
           }

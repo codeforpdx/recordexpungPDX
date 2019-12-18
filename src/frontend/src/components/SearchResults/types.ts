@@ -41,5 +41,5 @@ export interface TypeEligibility {
 export interface TimeEligibility {
   status: string;
   reason: string;
-  date_of_eligibility: string;
+  date_will_be_eligible: string;
 }
