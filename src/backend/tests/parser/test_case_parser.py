@@ -1,6 +1,6 @@
 import unittest
 
-from expungeservice.crawler.parsers.case_parser.case_parser import CaseParser
+from expungeservice.crawler.parsers.case_parser import CaseParser
 from tests.fixtures.case_details import CaseDetails
 
 
@@ -355,7 +355,7 @@ class TestParkingViolationCase(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 1
+        assert len(self.parser.event_table_data) == 2
 
     def test_it_collects_the_disposition_row(self):
         dispo_count = 0
