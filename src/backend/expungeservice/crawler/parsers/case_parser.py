@@ -1,4 +1,5 @@
 import re
+from typing import List
 
 from bs4 import BeautifulSoup
 
@@ -60,7 +61,7 @@ class CaseParser:
     # While this function can be taken care with `__parse_string_list`,
     # the named variables will become useful in the future.
     @staticmethod
-    def __parse_event_table(event):
+    def __parse_event_table(event) -> List[str]:
         event_parts = event.contents
         assert len(event_parts) == 4
         date, empty_one, empty_two, event_table_wrapper = event_parts
@@ -86,7 +87,7 @@ class CaseParser:
         return [date.string, empty_one.string, empty_two.string, *event_parse]
 
     @staticmethod
-    def __parse_string_list(content):
+    def __parse_string_list(content) -> List[str]:
         if content:
             if isinstance(content, str):
                 return [content]
@@ -107,24 +108,24 @@ class CaseParser:
 
             while start_index < len(dispo_row) - 1:
                 if CaseParser._valid_data(dispo_row[start_index].split(".\xa0")):
-                    charge_id, charge = dispo_row[start_index].split(".\xa0")
+                    charge_id_string, charge = dispo_row[start_index].split(".\xa0")
                 else:
                     start_index += 2
                     continue
-                charge_id = int(charge_id)
+                charge_id = int(charge_id_string)
                 self.hashed_dispo_data[charge_id] = {}
                 self.hashed_dispo_data[charge_id]["date"] = dispo_row[0]
                 self.hashed_dispo_data[charge_id]["charge"] = charge
                 self.hashed_dispo_data[charge_id]["ruling"] = dispo_row[start_index + 1]
                 start_index += 2
 
-    def __filter_dispo_events(self):
-        dispo_list = []
+    def __filter_dispo_events(self) -> List[List[str]]:
+        dispo_list: List[str] = []
         for event_row in self.event_table_data:
             if len(event_row) > 3 and event_row[3] == "Disposition":
                 dispo_list.append(event_row)
 
-        result = []
+        result: List[List[str]] = []
         index = 0
         for dispo_row in dispo_list:
             result.append([])
@@ -138,15 +139,17 @@ class CaseParser:
     def __create_charge_hash(self):
         index = 0
         while index < len(self.charge_table_data):
-            charge_id = int(
-                re.compile("\d*").match(self.charge_table_data[index]).group()
-            )
-            self.hashed_charge_data[charge_id] = {}
-            self.hashed_charge_data[charge_id]["name"] = self.charge_table_data[index + 1]
-            self.hashed_charge_data[charge_id]["statute"] = self.charge_table_data[index + 2]
-            self.hashed_charge_data[charge_id]["level"] = self.charge_table_data[index + 3]
-            self.hashed_charge_data[charge_id]["date"] = self.charge_table_data[index + 4]
-            index += 5
+            charge_id_match = re.compile("\d*").match(self.charge_table_data[index])
+            if charge_id_match:
+                charge_id = int(charge_id_match.group())
+                self.hashed_charge_data[charge_id] = {}
+                self.hashed_charge_data[charge_id]["name"] = self.charge_table_data[index + 1]
+                self.hashed_charge_data[charge_id]["statute"] = self.charge_table_data[index + 2]
+                self.hashed_charge_data[charge_id]["level"] = self.charge_table_data[index + 3]
+                self.hashed_charge_data[charge_id]["date"] = self.charge_table_data[index + 4]
+                index += 5
+            else:
+                raise ValueError(f"Could not find charge id at {index} of charge table data.")
 
     @staticmethod
     def _valid_data(disposition):
