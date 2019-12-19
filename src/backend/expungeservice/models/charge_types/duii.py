@@ -34,7 +34,7 @@ class Duii(Charge):
             DispositionStatus.DIVERTED: diverted_type_eligibility,
             DispositionStatus.UNKNOWN: unknown_type_eligibility
         }
-        assert len(cases) == len(DispositionStatus)
-        # So that if someone adds something to DispositionStatus,
+        # This that if someone adds something to DispositionStatus,
         # it won't automatically go to the Unknown case.
+        assert len(cases) == len(DispositionStatus)
         return cases.get(self.disposition.status, unknown_type_eligibility) # type: ignore

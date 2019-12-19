@@ -31,9 +31,8 @@ def test_all_disposition_statuses_are_either_convicted_or_acquitted():
     today = date.today().strftime('%m/%d/%Y')
 
     for status in DispositionStatus:
-
-        #Use the status.value to create the disposition,
-        #which happens to always be a valid string for that dispo status.
+        # Use the status.value to create the disposition,
+        # which happens to always be a valid string for that dispo status.
         charge.disposition = Disposition(today, status.value)
 
         if status == DispositionStatus.UNKNOWN:
@@ -41,9 +40,8 @@ def test_all_disposition_statuses_are_either_convicted_or_acquitted():
             assert not charge.acquitted()
 
         else:
-            #Make sure that every DispositionStatus value is covered by this approach.
+            # Make sure that every DispositionStatus value is covered by this approach.
             assert charge.disposition.status == status
-
             assert charge.convicted() or charge.acquitted()
 
 def test_dispositionless_charge_is_not_convicted_nor_acquitted():
