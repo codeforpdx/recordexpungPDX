@@ -6,8 +6,8 @@ from typing import Optional
 
 from dateutil.relativedelta import relativedelta
 
-from expungeservice.models.disposition import Disposition
-from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, EligibilityStatus
+from expungeservice.models.disposition import Disposition, DispositionStatus
+from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, TypeEligibility, EligibilityStatus
 
 @dataclass(eq=False)
 class Charge:
@@ -22,8 +22,16 @@ class Charge:
     _case: weakref.ref
 
     def __post_init__(self):
-        type_eligibility = self._default_type_eligibility()
+        type_eligibility = self._build_type_eligibility()
         self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
+
+    def _build_type_eligibility(self):
+        if self.disposition is None:
+            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not found. Needs further analysis")
+        elif self.disposition.status == DispositionStatus.UNKNOWN:
+            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not recognized. Needs further analysis")
+        else:
+            return self._default_type_eligibility()
 
     def _default_type_eligibility(self):
         raise NotImplementedError
@@ -32,14 +40,19 @@ class Charge:
         return self._case
 
     def acquitted(self):
-        return self.disposition and self.disposition.ruling[0:9].lower() != 'convicted'
+        #TODO: rename this method and related variables to "dismissed" or similar
+        acquittal_statuses = [
+            DispositionStatus.NO_COMPLAINT,
+            DispositionStatus.DISMISSED,
+            DispositionStatus.DIVERTED]
+        return self.disposition and self.disposition.status in acquittal_statuses
 
-    def __convicted(self):
-        return not self.acquitted()
+    def convicted(self):
+        return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
 
     def recent_conviction(self):
         ten_years_ago = (date_class.today() + relativedelta(years=-10))
-        if self.__convicted():
+        if self.convicted():
             return self.disposition.date > ten_years_ago # type: ignore
         else:
             return False
