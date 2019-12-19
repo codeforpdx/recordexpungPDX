@@ -62,7 +62,6 @@ class TimeAnalyzer:
 
     @staticmethod
     def _calculate_has_subsequent_charge(class_b_felony, charges):
-
         other_charges = [charge for charge in charges if charge != class_b_felony]
         for other_charge in other_charges:
             if other_charge.acquitted():
@@ -73,7 +72,6 @@ class TimeAnalyzer:
             if date_of_other_charge > class_b_felony.disposition.date:
                 return True
         return False
-
 
     @staticmethod
     def _evaluate_class_b_felonies(expunger):
