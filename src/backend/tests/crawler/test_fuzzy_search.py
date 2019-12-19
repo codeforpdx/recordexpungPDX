@@ -1,8 +1,7 @@
 import unittest
 
 from expungeservice.crawler.fuzzy_search import FuzzySearch
-from expungeservice.crawler.parsers.case_parser.case_parser import \
-    PROBATION_REVOKED_SEARCH_TERMS
+from expungeservice.crawler.parsers.case_parser import PROBATION_REVOKED_SEARCH_TERMS
 
 from tests.fixtures.case_details import CaseDetails
 
