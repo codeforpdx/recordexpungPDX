@@ -61,15 +61,16 @@ class TimeAnalyzer:
             charge.set_time_ineligible('Recommend sequential expungement', eligibility_date)
 
     @staticmethod
-    def _calculate_has_subsequent_charge(date, charges):
+    def _calculate_has_subsequent_charge(class_b_felony, charges):
 
-        for charge in charges:
-            if charge.acquitted():
-                date_of_charge = charge.date
+        other_charges = [charge for charge in charges if charge != class_b_felony]
+        for other_charge in other_charges:
+            if other_charge.acquitted():
+                date_of_other_charge = other_charge.date
             else:
-                date_of_charge = charge.disposition.date
+                date_of_other_charge = other_charge.disposition.date
 
-            if date_of_charge > date:
+            if date_of_other_charge > class_b_felony.disposition.date:
                 return True
         return False
 
@@ -77,12 +78,11 @@ class TimeAnalyzer:
     @staticmethod
     def _evaluate_class_b_felonies(expunger):
         for class_b_felony in expunger.class_b_felonies:
-            # If the B felony is acquitted, it is affected by the other time eligibility rules,
-            # so leave it untouched here.
+            # If the class B felony is acquitted, then we have already handled its time eligibility.
             # If it's convicted, this restriction overrides any of those rules.
             if not class_b_felony.acquitted():
-                other_charges = [ charge for charge in expunger.charges if charge != class_b_felony]
-                if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony.disposition.date, other_charges):
+                if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony, expunger.charges):
+                    # TODO: Express this with TimeEligibility with no eligibility date.
                     type_eligibility = TypeEligibility(
                         EligibilityStatus.INELIGIBLE,
                         reason='137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions')
