@@ -50,7 +50,7 @@ class Expunger:
             return False
 
         self.charges = Expunger._without_skippable_charges(self.charges)
-        self.acquittals, self.convictions = Expunger._categorize_charges(self.charges)
+        self.acquittals, self.convictions, _ = Expunger._categorize_charges(self.charges)
         recent_convictions = Expunger._get_recent_convictions(self.convictions)
         self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
         self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
@@ -65,31 +65,22 @@ class Expunger:
                 return True
         return False
 
-    # TODO: Rename as this method has side-effects
-    @staticmethod
-    def _dispositionless(charge):
-        if charge.disposition is None:
-            charge.expungement_result.set_type_eligibility(TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not found. Needs further analysis"))
-            return True
-        else:
-            return False
 
     @staticmethod
     def _without_skippable_charges(charges):
-        def skippable(charge):
-            return Expunger._dispositionless(charge) or charge.skip_analysis()
-
-        return [charge for charge in charges if not skippable(charge)]
+        return [charge for charge in charges if not charge.skip_analysis() and charge.disposition]
 
     @staticmethod
     def _categorize_charges(charges):
-        acquittals, convictions = [], []
+        acquittals, convictions, unknown = [], [], []
         for charge in charges:
             if charge.acquitted():
                 acquittals.append(charge)
-            else:
+            elif charge.convicted():
                 convictions.append(charge)
-        return acquittals, convictions
+            else:
+                unknown.append(charge)
+        return acquittals, convictions, unknown
 
     @staticmethod
     def _get_recent_convictions(convictions):
