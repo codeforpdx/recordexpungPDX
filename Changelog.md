@@ -1,5 +1,25 @@
 Changelog
 
+v1.1.0
+
+## Frontend Changes
+
+- More flexible date format (leading zeros e.g. 01/01/2000 are no longer required) (#615)
+- Birth date field is optional for record search (#589)
+- Dismissed charge correctly shows arrest date rather than dismissal date (#622)
+- Arrest and eligbility dates no longer include time of day (#629)
+- OECI login expires after 2 hours (extended from 15 minutes) (#659)
+
+## Expungement Logic Fixes
+
+- Unclassified charge is always labeled with "needs more analysis" (#623)
+- "Diverted", "Finding - Guilty", and other irregular dispositions are identified correctly. (#648, #637)
+
+## Other Bug Fixes
+
+- Fix an OECI page parsing error for some records (#646)
+- App will not log out when the user enters wrong OECI credentials (#664)
+
 v1.0.0
 
 ## Features
