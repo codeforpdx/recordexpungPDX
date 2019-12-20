@@ -8,7 +8,9 @@ export default function apiService<T>(
 ): AxiosPromise {
   return axios.request<T>(request).catch(error => {
     if (error.response && error.response.status === 401 && error.response.message === "Invalid username or password") {
-      // To avoid catching the 401 error due to an OECI login failure
+      // This logs the app out if any endpoint request is denied app authorization
+      // The exact string comparison ensures that it catches only the errors thrown by
+      // app authorization, and not from an OECI login failure which also has a 401 code.
       removeCookie();
       dispatch({ type: LOG_OUT });
     }
