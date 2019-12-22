@@ -97,8 +97,8 @@ class TestMostRecentConviction(unittest.TestCase):
     def setUp(self):
         self.case = CaseFactory.create()
         self.mrc_charge = ChargeFactory.create()
-        self.viol_charge = ChargeFactory.create(level='Violation')
-        self.viol2_charge = ChargeFactory.create(level='Violation')
+        self.viol_charge = ChargeFactory.create(level='violation class C')
+        self.viol2_charge = ChargeFactory.create(level='class C violation')
 
     def run_expunger(self, cases):
         record = Record(cases)
