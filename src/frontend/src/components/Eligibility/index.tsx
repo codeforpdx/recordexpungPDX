@@ -43,10 +43,10 @@ export default class Eligibility extends React.Component<Props> {
         } else if (time_eligibility.date_will_be_eligible !== null) {
           return eligibleOn(time_eligibility.date_will_be_eligible);
         } else {
-          return 'Eligible but no date on time analysis (Please report)';
+          return  <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">Eligible but no date on time analysis - please report</h2>;
         }
       } else {
-        return 'Eligible but no time analysis (Please report)';
+        return <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">Eligible but no time analysis - please report</h2>;
       }
     };
 
@@ -58,12 +58,12 @@ export default class Eligibility extends React.Component<Props> {
           if (time_eligibility) {
             return eligibleWithReview(time_eligibility.date_will_be_eligible);
           } else {
-            return 'Possibly eligible but no time analysis (Please report)';
+            return <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">Possibly eligible but no time analysis - please report</h2>;
           }
         case 'Ineligible':
           return ineligible;
         default:
-          return 'Unknown type eligibility (Please report)';
+          return <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">Unknown type eligibility - please report</h2>;
       }
     };
 

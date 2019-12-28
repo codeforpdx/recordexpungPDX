@@ -16,7 +16,7 @@ export default class Cases extends React.Component<Props> {
       charges
     } = this.props.case;
     return (
-      <>
+      <div className="mb3">
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <span className="fw7">Case </span>
@@ -38,7 +38,7 @@ export default class Cases extends React.Component<Props> {
           </div>
         </div>
         <Charges charges={charges} />
-      </>
+      </div>
     );
   }
 }
