@@ -1,4 +1,5 @@
 $gray-blue: #fafafe;
+$gray-blue-2: #f1f3f7;
 $green: #007b4b;
 $washed-green: #e5f1ed;
 $blue: #2b74d2;
@@ -58,6 +59,14 @@ $washed-red: #f0e0e8;
 
 .bg-gray-blue {
   background-color: $gray-blue;
+}
+
+.bg-gray-blue-2 {
+  background-color: $gray-blue-2;
+}
+
+.shadow-case {
+  box-shadow: 0 -2px 3px 0 rgba(59, 86, 73, 0.1);
 }
 
 // stock shadow too dark
@@ -124,21 +133,6 @@ $washed-red: #f0e0e8;
     -webkit-transform: rotate(360deg);
     tranform: rotate(360deg);
   }
-}
-
-// Search results
-
-.record--eligible {
-  box-shadow: inset 10px 0 0 $washed-green;
-}
-.record--future {
-  box-shadow: inset 10px 0 0 $washed-blue;
-}
-.record--review {
-  box-shadow: inset 10px 0 0 $washed-purple;
-}
-.record--ineligible {
-  box-shadow: inset 10px 0 0 $washed-red;
 }
 
 // Below is not in github yet
