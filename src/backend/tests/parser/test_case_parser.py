@@ -10,22 +10,6 @@ class TestCaseWithDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_X1)
 
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 13
-
-    def test_it_collects_the_disposition_row(self):
-        assert self.parser.event_table_data[1][0] == '06/12/2017'
-        assert self.parser.event_table_data[1][3] == 'Disposition'
-        assert self.parser.event_table_data[1][4] == ' (Judicial Officer: Office, Judicial M)'
-        assert self.parser.event_table_data[1][5] == '1.\xa0Driving Uninsured'
-        assert self.parser.event_table_data[1][6] == 'Convicted - Failure to Appear'
-        assert self.parser.event_table_data[1][7] == '2. Violation Driving While Suspended or Revoked'
-        assert self.parser.event_table_data[1][8] == 'Dismissed'
-        assert self.parser.event_table_data[1][9] == '3. Failure to Obey Traffic Control Device'
-        assert self.parser.event_table_data[1][10] == 'Dismissed'
-        assert self.parser.event_table_data[1][11] == '\n        Created: 06/12/2017 2:57 PM'
-
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '1,516.80'
@@ -74,18 +58,6 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
 
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 12
-
-    def test_it_collects_the_disposition_row(self):
-        assert self.parser.event_table_data[0][0] == '04/30/1992'
-        assert self.parser.event_table_data[0][3] == 'Disposition'
-        assert self.parser.event_table_data[0][4] == ' (Judicial Officer: Unassigned, Judge)'
-        assert self.parser.event_table_data[0][5] == '1. Poss Controlled Sub 2'
-        assert self.parser.event_table_data[0][6] == 'Dismissed'
-        assert self.parser.event_table_data[0][7] == '\n        Created: 05/01/1992 12:00 AM'
-
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
@@ -114,17 +86,6 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITH_PARTIAL_DISPOS)
-
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 16
-
-    def test_it_collects_the_disposition_row(self):
-        assert self.parser.event_table_data[0][0] == '03/06/2018'
-        assert self.parser.event_table_data[0][3] == 'Disposition'
-        assert self.parser.event_table_data[0][4] == '999.\xa0Driving Under the Influence of Intoxicants'
-        assert self.parser.event_table_data[0][5] == 'No Complaint'
-        assert self.parser.event_table_data[0][6] == '\n        Created: 03/06/2018 1:07 PM'
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -170,17 +131,6 @@ class TestCaseWithoutDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
 
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 15
-
-    def test_it_collects_the_disposition_row(self):
-        dispo_count = 0
-        for data in self.parser.event_table_data:
-            if len(data) > 3 and data[3] == 'Disposition':
-                dispo_count += 1
-        assert dispo_count == 0
-
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0'
@@ -218,17 +168,6 @@ class TestParkingViolationCase(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_PARKING_VIOLATION)
 
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 1
-
-    def test_it_collects_the_disposition_row(self):
-        dispo_count = 0
-        for data in self.parser.event_table_data:
-            if len(data) > 3 and data[3] == 'Disposition':
-                dispo_count += 1
-        assert dispo_count == 0
-
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '65.00'
@@ -254,17 +193,6 @@ class TestCaseWithRelatedCases(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASEJD74)
-
-    # Tests disposition data is collected from the events table
-    def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 11
-
-    def test_it_collects_the_disposition_row(self):
-        dispo_count = 0
-        for data in self.parser.event_table_data:
-            if len(data) > 3 and data[3] == 'Disposition':
-                dispo_count += 1
-        assert dispo_count == 1
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
