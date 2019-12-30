@@ -42,10 +42,7 @@ class CaseParser:
     def __build_event_table_data(self, soup):
         events = soup.find("div", class_=SECTION_TITLE_CLASS, string="Events & Orders of the Court")
         for event in events.parent.next_siblings:
-            # TODO: Remove this first case; I inserted this in to preserve legacy behavior.
-            if event.text.replace("\xa0", "") == "OTHER EVENTS AND HEARINGS":
-                self.event_table_data.append(["OTHER EVENTS AND HEARINGS"])
-            elif CaseParser.__valid_event_table(event):
+            if CaseParser.__valid_event_table(event):
                 event_parse = CaseParser.__parse_event_table(event)
                 self.event_table_data.append(event_parse)
 
