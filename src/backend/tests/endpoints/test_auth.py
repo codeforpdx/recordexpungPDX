@@ -12,19 +12,20 @@ from expungeservice.endpoints.auth import *
 from tests.endpoints.endpoint_util import EndpointShared
 
 
-class TestAuth(EndpointShared):
+class TestAuth:
     @pytest.fixture(autouse=True)
-    def setUp(self):
-        EndpointShared.setUp(self)
+    def setup(self):
+        self.service = EndpointShared()
+        self.service.setup()
         yield
-        EndpointShared.tearDown(self)
+        self.service.teardown()
 
     def test_auth_token_valid_credentials(self):
-        response = self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        response = self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
         assert(response.status_code == 200)
         assert(response.headers.get("Content-type") == "application/json")
-        cookie = self.client.cookie_jar._cookies["localhost.local"]["/"]["session"]
+        cookie = self.service.client.cookie_jar._cookies["localhost.local"]["/"]["session"]
         assert(cookie.version == 0)
         assert(cookie.name == "session")
         assert(cookie.path == "/")
@@ -34,21 +35,21 @@ class TestAuth(EndpointShared):
         assert(not cookie.domain_initial_dot)
 
     def test_auth_token_invalid_username(self):
-        response = self.login(
+        response = self.service.login(
             'wrong_user@test.com', 'test_password')
         assert(response.status_code == 401)
 
     def test_login_invalid_pasword(self):
-        response = self.login(self.user_data["user1"]["email"], "wrong_password")
+        response = self.service.login(self.service.user_data["user1"]["email"], "wrong_password")
         assert(response.status_code == 401)
 
     def test_access_valid_auth_token(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
-        response = self.client.get('/api/test/user_protected')
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 200)
 
     def test_access_no_auth_token(self):
-        response = self.client.get('/api/test/user_protected')
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
     def test_access_invalid_auth_token(self):
@@ -71,8 +72,8 @@ class TestAuth(EndpointShared):
                comment_url=None,
                rest={'HttpOnly': None},
                rfc2109=False)
-        self.client.cookie_jar.set_cookie(cookie)
-        response = self.client.get('/api/test/user_protected')
+        self.service.client.cookie_jar.set_cookie(cookie)
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
     # We are testing the scenario in which the user's browser session has ended
@@ -81,22 +82,22 @@ class TestAuth(EndpointShared):
     # (e.g. user quits browser) and has otherwise no other expiration date.
     def test_access_expired_auth_token(self):
         self.__login_user_with_custom_duration(duration = datetime.timedelta(microseconds=1))
-        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+        self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
         time.sleep(1)
-        response = self.client.get('/api/test/user_protected')
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
         self.__login_user_with_custom_duration(duration = datetime.timedelta(days=1))
-        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+        self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
         time.sleep(1)
-        response = self.client.get('/api/test/user_protected')
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 200)
 
     def __login_user_with_custom_duration(self, duration):
-        self.login_user_wrapper = User.login_user
+        self.service.login_user_wrapper = User.login_user
         User.login_user = self.__mock_login_user(duration = duration)
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
-        User.login_user = self.login_user_wrapper
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        User.login_user = self.service.login_user_wrapper
 
     def __mock_login_user(self, duration):
         def new_login_user(user):
@@ -104,21 +105,21 @@ class TestAuth(EndpointShared):
         return new_login_user
 
     def test_is_admin_auth_token(self):
-        self.login(self.user_data["admin"]["email"], self.user_data["admin"]["password"])
-        response = self.client.get('/api/test/admin_protected')
+        self.service.login(self.service.user_data["admin"]["email"], self.service.user_data["admin"]["password"])
+        response = self.service.client.get('/api/test/admin_protected')
         assert(response.status_code == 200)
 
     def test_is_not_admin_auth_token(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
-        response = self.client.get('/api/test/admin_protected')
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        response = self.service.client.get('/api/test/admin_protected')
         assert(response.status_code == 403)
 
     def test_user_protected_is_unauthorized_after_logout(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
-        response = self.client.post('/api/logout')
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        response = self.service.client.post('/api/logout')
         assert(response.status_code == 200)
 
-        response = self.client.get('/api/test/user_protected')
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
     # The flask-login library doesn't invalidate the "remember_token" after
@@ -126,24 +127,24 @@ class TestAuth(EndpointShared):
     # it only is an issue if an attacker has somehow obtained the remember_token
     # before the user manages to logout and clear all cookies.
     def test_cookie_is_invalid_after_logout(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
-        cookie = self.client.cookie_jar._cookies["localhost.local"]["/"]["remember_token"]
-        response = self.client.post('/api/logout')
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        cookie = self.service.client.cookie_jar._cookies["localhost.local"]["/"]["remember_token"]
+        response = self.service.client.post('/api/logout')
         assert(response.status_code == 200)
-        assert(not self.client.cookie_jar._cookies["localhost.local"]["/"].get("remember_token"))
+        assert(not self.service.client.cookie_jar._cookies["localhost.local"]["/"].get("remember_token"))
 
-        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
-        self.client.cookie_jar.set_cookie(cookie)
+        self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+        self.service.client.cookie_jar.set_cookie(cookie)
 
-        response = self.client.get('/api/test/user_protected')
+        response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 200) # TODO: Ideally this should be 401
 
     def test_cookie_cannot_be_used_for_fresh_login(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        self.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
+        self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
 
-        response = self.client.put(
-            "/api/users/%s" % self.user_data["user1"]["user_id"],
+        response = self.service.client.put(
+            "/api/users/%s" % self.service.user_data["user1"]["user_id"],
             json={"password":"new_password"})
         assert(response.status_code == 401)

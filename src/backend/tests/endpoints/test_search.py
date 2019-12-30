@@ -6,15 +6,14 @@ from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.serializer import ExpungeModelEncoder
-import expungeservice
-from expungeservice import stats
 
 
-class TestSearch(EndpointShared):
+class TestSearch:
 
     @pytest.fixture(autouse=True)
-    def setUp(self):
-        EndpointShared.setUp(self)
+    def setup(self):
+        self.service = EndpointShared()
+        self.service.setup()
 
         """ Save these actual function refs to reinstate after we're done mocking them."""
         self.crawler_login = search.Crawler.login
@@ -36,7 +35,7 @@ class TestSearch(EndpointShared):
         search.Crawler.search = self.search
         search.save_result = self.save_result
 
-        EndpointShared.tearDown(self)
+        self.service.teardown()
 
 
     def mock_login(self, return_value):
@@ -49,7 +48,7 @@ class TestSearch(EndpointShared):
         raise Exception("Exception to test failing save_result")
 
     def test_search(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
@@ -66,16 +65,16 @@ class TestSearch(EndpointShared):
         But attaching a cookie client-side isn't really a thing. So, use the oeci endpoint.
         """
 
-        self.client.post(
+        self.service.client.post(
             "/api/oeci_login",
             json={"oeci_username": "correctusername",
                   "oeci_password": "correctpassword"})
 
-        assert self.client.cookie_jar._cookies[
+        assert self.service.client.cookie_jar._cookies[
             "localhost.local"]["/"]["oeci_token"]
 
 
-        response = self.client.post("/api/search",
+        response = self.service.client.post("/api/search",
             json=self.search_request_data)
 
         assert(response.status_code == 200)
@@ -91,9 +90,9 @@ class TestSearch(EndpointShared):
 
 
     def test_search_fails_without_oeci_token(self):
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        response = self.client.post("/api/search",
+        response = self.service.client.post("/api/search",
             json=self.search_request_data)
 
         assert(response.status_code == 401)
@@ -105,20 +104,20 @@ class TestSearch(EndpointShared):
         more of a vertical test.
         """
 
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
 
-        self.client.post(
+        self.service.client.post(
             "/api/oeci_login",
             json={"oeci_username": "correctusername",
                   "oeci_password": "correctpassword"})
 
-        assert self.client.cookie_jar._cookies[
+        assert self.service.client.cookie_jar._cookies[
             "localhost.local"]["/"]["oeci_token"]
 
-        response = self.client.post("/api/search",
+        response = self.service.client.post("/api/search",
             json=self.search_request_data)
 
         assert(response.status_code == 200)
@@ -134,8 +133,8 @@ class TestSearch(EndpointShared):
             self.mock_record["john_doe"], cls = ExpungeModelEncoder))
 
 
-        self.check_search_result_saved(
-            self.user_data["user1"]["user_id"], self.search_request_data,
+        self.service.check_search_result_saved(
+            self.service.user_data["user1"]["user_id"], self.search_request_data,
             num_eligible_charges = 6, num_charges = 9)
 
 
@@ -145,21 +144,21 @@ class TestSearch(EndpointShared):
 
         """
 
-        self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+        self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
         search.Crawler.login = self.mock_login(True)
         search.Crawler.search = self.mock_search("john_doe")
         search.save_result = self. mock_save_result_fail
 
-        self.client.post(
+        self.service.client.post(
             "/api/oeci_login",
             json={"oeci_username": "correctusername",
                   "oeci_password": "correctpassword"})
 
-        assert self.client.cookie_jar._cookies[
+        assert self.service.client.cookie_jar._cookies[
             "localhost.local"]["/"]["oeci_token"]
 
 
-        response = self.client.post("/api/search",
+        response = self.service.client.post("/api/search",
             json=self.search_request_data)
 
         assert(response.status_code == 200)
