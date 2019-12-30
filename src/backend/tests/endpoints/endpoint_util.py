@@ -26,6 +26,9 @@ class UserProtectedView(MethodView):
 
 
 class EndpointShared:
+    def __init__(self):
+        self.app = expungeservice.create_app("development")
+        self.client = self.app.test_client()
 
     user_data = {
         "user1":
@@ -56,8 +59,7 @@ class EndpointShared:
         }
     }
 
-    def create_test_user(self, user_key):
-
+    def __create_test_user(self, user_key):
         create_result = user_db_util.create(
             g.database,
             self.user_data[user_key]["email"],
@@ -74,11 +76,7 @@ class EndpointShared:
             "password": password,
         })
 
-    def setUp(self):
-
-        self.app = expungeservice.create_app("development")
-        self.client = self.app.test_client()
-
+    def setup(self):
         self.app.add_url_rule(
             "/api/test/user_protected", view_func=UserProtectedView.as_view(
                 "user_protected"))
@@ -88,23 +86,23 @@ class EndpointShared:
 
         with self.app.app_context():
             expungeservice.request.before()
-            self.db_cleanup()
+            self.__db_cleanup()
 
-            self.create_test_user("user1")
-            self.create_test_user("user2")
-            self.create_test_user("admin")
+            self.__create_test_user("user1")
+            self.__create_test_user("user2")
+            self.__create_test_user("admin")
             g.database.connection.commit()
 
             expungeservice.request.teardown(None)
 
-    def tearDown(self):
+    def teardown(self):
         with self.app.app_context():
             expungeservice.request.before()
 
-            self.db_cleanup()
+            self.__db_cleanup()
             expungeservice.request.teardown(None)
 
-    def db_cleanup(self):
+    def __db_cleanup(self):
 
         search_result_cleanup_query = """
             DELETE FROM search_results
@@ -121,7 +119,7 @@ class EndpointShared:
     These functions are used for testing the search endpoint and stats-recording.
     '''
 
-    def hash_search_params(self, user_id, request_data):
+    def __hash_search_params(self, user_id, request_data):
         search_param_string = (
             user_id +
             request_data["first_name"] +
@@ -133,13 +131,11 @@ class EndpointShared:
         return hashed_search_params
 
 
-    def check_search_result_saved(self, user_id, request_data,
-            num_eligible_charges, num_charges):
-
+    def check_search_result_saved(self, user_id, request_data, num_eligible_charges, num_charges):
         with self.app.app_context():
             expungeservice.request.before()
 
-            hashed_search_params = self.hash_search_params(
+            hashed_search_params = self.__hash_search_params(
                 user_id, request_data)
 
             g.database.cursor.execute(

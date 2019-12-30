@@ -1,25 +1,22 @@
 import pytest
 from flask import g, request
 
-
-import expungeservice
-from tests.factories.crawler_factory import CrawlerFactory
+from expungeservice.stats import stats
 from tests.endpoints.endpoint_util import EndpointShared
+from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.database import get_database
 
 
-class TestStats(EndpointShared):
+class TestStats:
     @pytest.fixture(autouse=True)
-    def setUp(self):
-        EndpointShared.setUp(self)
+    def setup(self):
+        self.service = EndpointShared()
+        self.service.setup()
         yield
-        EndpointShared.tearDown(self)
+        self.service.teardown()
 
     def test_save_result(self):
-
-        with self.client:
-            user_id = self.user_data["user1"]["user_id"]
-
+        with self.service.client:
             request_data = {
                 "first_name":"John",
                 "last_name":"Doe",
@@ -29,14 +26,14 @@ class TestStats(EndpointShared):
 
             record = CrawlerFactory.create(CrawlerFactory.setup())
 
-            self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])
+            self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
             g.database = get_database()
 
-            expungeservice.stats.save_result(request_data, record)
+            stats.save_result(request_data, record)
 
             g.database.connection.commit()
 
-        self.check_search_result_saved(
-                self.user_data["user1"]["user_id"], request_data,
+        self.service.check_search_result_saved(
+                self.service.user_data["user1"]["user_id"], request_data,
                 num_eligible_charges=6, num_charges=9)
