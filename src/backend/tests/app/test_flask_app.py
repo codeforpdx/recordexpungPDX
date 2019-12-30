@@ -2,6 +2,8 @@ import unittest
 import expungeservice
 from flask import g
 
+from expungeservice.database import get_database
+
 
 class TestFlaskApp(unittest.TestCase):
 
@@ -14,7 +16,7 @@ class TestFlaskApp(unittest.TestCase):
 
         with self.app.app_context():
 
-            expungeservice.request.before()
+            g.database = get_database()
 
             assert g.database
 
@@ -23,5 +25,5 @@ class TestFlaskApp(unittest.TestCase):
             rows = g.database.cursor.fetchall()
             assert rows or rows == []
 
-            expungeservice.request.teardown(None)
+            g.database.close_connection()
             assert g.database.cursor.closed

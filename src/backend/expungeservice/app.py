@@ -1,16 +1,22 @@
 import pkgutil
 from importlib import import_module
 
-from flask import Flask
+from flask import Flask, g
 
+from expungeservice.database import get_database
 from .config import app_config
 
 from . import endpoints
-from .request import before, after, teardown
 import logging
 
 from .loggers import attach_logger
 
+def before():
+    g.database = get_database()
+
+def after(response):
+    g.database.connection.commit()
+    return response
 
 def create_app(env_name):
     """
@@ -28,7 +34,7 @@ def create_app(env_name):
 
     app.before_request(before)
     app.after_request(after)
-    app.teardown_request(teardown)
+    app.teardown_request(lambda exception: g.database.close_connection())
 
     app.logger.debug("Flask app created!")
 
