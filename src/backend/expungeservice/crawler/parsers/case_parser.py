@@ -2,13 +2,14 @@ import re
 from typing import List, Dict
 
 from bs4 import BeautifulSoup
+from more_itertools import split_at
 
 from expungeservice.crawler.fuzzy_search import FuzzySearch
 
 SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
 
 PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked"]
-EVENTS_TO_EXCLUDE = ["", "dispositions", "other events and hearings".replace(" ", "")]
+EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
 class CaseParser:
     def __init__(self):
@@ -49,11 +50,24 @@ class CaseParser:
         return hashed_charge_data
 
     def __build_event_table_data(self, soup):
-        events = soup.find("div", class_=SECTION_TITLE_CLASS, string="Events & Orders of the Court")
-        for event in events.parent.next_siblings:
+        disposition_events = CaseParser.__parse_disposition_events(soup)
+        for event in disposition_events:
             if CaseParser.__valid_event_table(event):
                 event_parse = CaseParser.__parse_event_table(event)
                 self.event_table_data.append(event_parse)
+
+    @staticmethod
+    def __parse_disposition_events(soup):
+        events_title = soup.find("div", class_=SECTION_TITLE_CLASS, string="Events & Orders of the Court")
+        events = list(events_title.parent.next_siblings)
+        split_events = list(split_at(events, CaseParser.__is_other_events_and_hearings))
+        assert len(split_events) == 2
+        disposition_events, other_events = split_events
+        return disposition_events
+
+    @staticmethod
+    def __is_other_events_and_hearings(event):
+        return CaseParser.__normalize_text(event.text) == "other events and hearings".replace(" ", "")
 
     def __build_balance_due(self, soup):
         financial_information = soup.find("div", class_=SECTION_TITLE_CLASS, string="Financial Information")
@@ -61,8 +75,12 @@ class CaseParser:
             self.balance_due = financial_information.parent.parent.find("b").text
 
     @staticmethod
+    def __normalize_text(text):
+        return text.replace("\xa0", "").replace(" ", "").lower()
+
+    @staticmethod
     def __valid_event_table(event):
-        return not event.text.replace("\xa0", "").replace(" ", "").lower() in EVENTS_TO_EXCLUDE
+        return not CaseParser.__normalize_text(event.text) in EVENTS_TO_EXCLUDE
 
     # While this function can be taken care with `__parse_string_list`,
     # the named variables will become useful in the future.
