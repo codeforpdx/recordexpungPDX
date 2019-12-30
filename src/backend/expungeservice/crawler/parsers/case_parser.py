@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Dict
 
 from bs4 import BeautifulSoup
 
@@ -12,7 +12,6 @@ EVENTS_TO_EXCLUDE = ["", "dispositions", "other events and hearings".replace(" "
 
 class CaseParser:
     def __init__(self):
-        self.charge_table_data = []
         self.event_table_data = []
 
         self.balance_due = "0"
@@ -23,21 +22,31 @@ class CaseParser:
 
     def feed(self, data):
         soup = BeautifulSoup(data, "html.parser")
-        self.__build_charge_table_data(soup)
+        self.hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         self.__build_event_table_data(soup)
         self.__build_balance_due(soup)
 
         self.__format_dispo_data()
-        self.__create_charge_hash()
 
         self.probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
 
-    def __build_charge_table_data(self, soup):
+    @staticmethod
+    def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
+        hashed_charge_data = {}
         charge_information = soup.find("div", class_=SECTION_TITLE_CLASS, string="Charge Information")
-        for row in charge_information.parent.next_siblings:
-            for cell in row.findAll("td"):
-                if len(cell.text.replace("\xa0", "")) != 0:
-                    self.charge_table_data.append(cell.text)
+        for charge_row in charge_information.parent.next_siblings:
+            charge_row_tds = charge_row.findAll("td")
+            cells = [cell.text for cell in charge_row_tds if len(cell.text.replace("\xa0", "")) != 0]
+            if len(cells) > 0:
+                charge_id_string = cells[0]
+                charge_id_match = re.compile("\d*").match(charge_id_string)
+                if charge_id_match:
+                    charge_id = int(charge_id_match.group())
+                    charge_data = {"name": cells[1], "statute": cells[2], "level": cells[3], "date": cells[4]}
+                    hashed_charge_data[charge_id] = charge_data
+                else:
+                    raise ValueError(f"Could not parse charge id from {charge_id_string}.")
+        return hashed_charge_data
 
     def __build_event_table_data(self, soup):
         events = soup.find("div", class_=SECTION_TITLE_CLASS, string="Events & Orders of the Court")
@@ -132,21 +141,6 @@ class CaseParser:
             index += 1
 
         return result
-
-    def __create_charge_hash(self):
-        index = 0
-        while index < len(self.charge_table_data):
-            charge_id_match = re.compile("\d*").match(self.charge_table_data[index])
-            if charge_id_match:
-                charge_id = int(charge_id_match.group())
-                self.hashed_charge_data[charge_id] = {}
-                self.hashed_charge_data[charge_id]["name"] = self.charge_table_data[index + 1]
-                self.hashed_charge_data[charge_id]["statute"] = self.charge_table_data[index + 2]
-                self.hashed_charge_data[charge_id]["level"] = self.charge_table_data[index + 3]
-                self.hashed_charge_data[charge_id]["date"] = self.charge_table_data[index + 4]
-                index += 5
-            else:
-                raise ValueError(f"Could not find charge id at {index} of charge table data.")
 
     @staticmethod
     def _valid_data(disposition):
