@@ -124,7 +124,7 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
 
     assert expunger.most_recent_conviction is None
     assert expunger.second_most_recent_conviction is None
-    assert expunger.most_recent_dismissal.disposition.ruling == 'No Complaint'
+    assert expunger.most_recent_dismissal and expunger.most_recent_dismissal.disposition.ruling == 'No Complaint'
     assert len(expunger.acquittals) == 8
 
     assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE

@@ -70,7 +70,7 @@ class TestAuth:
                discard=True,
                comment=None,
                comment_url=None,
-               rest={'HttpOnly': None},
+               rest={'HttpOnly': None}, # type: ignore # TODO: Clean up; this shouldn't require an ignore in theory
                rfc2109=False)
         self.service.client.cookie_jar.set_cookie(cookie)
         response = self.service.client.get('/api/test/user_protected')
@@ -83,13 +83,13 @@ class TestAuth:
     def test_access_expired_auth_token(self, monkeypatch):
         self.__login_user_with_custom_duration(monkeypatch, duration = datetime.timedelta(microseconds=1))
         self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
-        time.sleep(1)
+        time.sleep(1) # type: ignore
         response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
         self.__login_user_with_custom_duration(monkeypatch, duration = datetime.timedelta(days=1))
         self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
-        time.sleep(1)
+        time.sleep(1) # type: ignore
         response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 200)
 
