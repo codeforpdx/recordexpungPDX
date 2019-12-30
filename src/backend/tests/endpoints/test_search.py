@@ -15,11 +15,6 @@ class TestSearch:
         self.service = EndpointShared()
         self.service.setup()
 
-        """ Save these actual function refs to reinstate after we're done mocking them."""
-        self.crawler_login = search.Crawler.login
-        self.search = search.Crawler.search
-        self.save_result = search.save_result
-
         self.crawler = CrawlerFactory.setup()
         self.crawler.logged_in = True
         self.mock_record = {
@@ -31,10 +26,6 @@ class TestSearch:
             "middle_name": "",
             "birth_date": "02/02/1990"}
         yield
-        search.Crawler.login = self.crawler_login
-        search.Crawler.search = self.search
-        search.save_result = self.save_result
-
         self.service.teardown()
 
 
@@ -47,17 +38,17 @@ class TestSearch:
     def mock_save_result_fail(self, user_id, request_data, record):
         raise Exception("Exception to test failing save_result")
 
-    def test_search(self):
+    def test_search(self, monkeypatch):
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        search.Crawler.login = self.mock_login(True)
-        search.Crawler.search = self.mock_search("john_doe")
+        monkeypatch.setattr(search.Crawler, "login", self.mock_login(True))
+        monkeypatch.setattr(search.Crawler, "search", self.mock_search("john_doe"))
 
         """
         A separate test, below, verifies that the save-result step
         also works. Here, we mock the function to reduce the scope of the test.
         """
-        search.save_result = lambda user_id, request_data, record : None
+        monkeypatch.setattr(search, "save_result", lambda user_id, request_data, record : None)
 
         """
         as a more unit-y unit test, we could make the encrypted cookie
@@ -98,7 +89,7 @@ class TestSearch:
         assert(response.status_code == 401)
 
 
-    def test_search_creates_save_results(self):
+    def test_search_creates_save_results(self, monkeypatch):
         """
         This is the same test as above except it includes the save-results step. Less unit-y,
         more of a vertical test.
@@ -106,8 +97,8 @@ class TestSearch:
 
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        search.Crawler.login = self.mock_login(True)
-        search.Crawler.search = self.mock_search("john_doe")
+        monkeypatch.setattr(search.Crawler, "login", self.mock_login(True))
+        monkeypatch.setattr(search.Crawler, "search", self.mock_search("john_doe"))
 
         self.service.client.post(
             "/api/oeci_login",
@@ -138,16 +129,16 @@ class TestSearch:
             num_eligible_charges = 6, num_charges = 9)
 
 
-    def test_search_with_failing_save_results(self):
+    def test_search_with_failing_save_results(self, monkeypatch):
         """
         The search endpoint should succeed even if something goes wrong with the save-result step.
 
         """
 
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
-        search.Crawler.login = self.mock_login(True)
-        search.Crawler.search = self.mock_search("john_doe")
-        search.save_result = self. mock_save_result_fail
+        monkeypatch.setattr(search.Crawler, "login", self.mock_login(True))
+        monkeypatch.setattr(search.Crawler, "search", self.mock_search("john_doe"))
+        monkeypatch.setattr(search, "save_result", self.mock_save_result_fail)
 
         self.service.client.post(
             "/api/oeci_login",
