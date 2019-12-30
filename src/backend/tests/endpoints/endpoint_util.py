@@ -1,5 +1,3 @@
-import unittest
-
 from flask.views import MethodView
 from flask_login import login_required
 from werkzeug.security import generate_password_hash
@@ -27,7 +25,7 @@ class UserProtectedView(MethodView):
                 return "User-level Protected View"
 
 
-class EndpointShared(unittest.TestCase):
+class EndpointShared:
 
     user_data = {
         "user1":

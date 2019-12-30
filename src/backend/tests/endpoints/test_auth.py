@@ -2,6 +2,8 @@ from http.cookiejar import Cookie
 
 import time
 import datetime
+
+import pytest
 from flask_login import login_user
 
 from expungeservice.endpoints.auth import *
@@ -11,10 +13,11 @@ from tests.endpoints.endpoint_util import EndpointShared
 
 
 class TestAuth(EndpointShared):
-
+    @pytest.fixture(autouse=True)
     def setUp(self):
-
         EndpointShared.setUp(self)
+        yield
+        EndpointShared.tearDown(self)
 
     def test_auth_token_valid_credentials(self):
         response = self.login(self.user_data["user1"]["email"], self.user_data["user1"]["password"])

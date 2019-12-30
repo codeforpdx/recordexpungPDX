@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
@@ -10,6 +12,7 @@ from expungeservice import stats
 
 class TestSearch(EndpointShared):
 
+    @pytest.fixture(autouse=True)
     def setUp(self):
         EndpointShared.setUp(self)
 
@@ -28,12 +31,12 @@ class TestSearch(EndpointShared):
             "last_name": "Doe",
             "middle_name": "",
             "birth_date": "02/02/1990"}
-
-
-    def tearDown(self):
+        yield
         search.Crawler.login = self.crawler_login
         search.Crawler.search = self.search
         search.save_result = self.save_result
+
+        EndpointShared.tearDown(self)
 
 
     def mock_login(self, return_value):
