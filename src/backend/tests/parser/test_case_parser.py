@@ -10,36 +10,6 @@ class TestCaseWithDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_X1)
 
-    # Tests charge data is collected for each row and column in the charge table
-    # and is appended to the charge_table_data list grouped by rows.
-    def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 15
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
-        assert self.parser.charge_table_data[10] == '3.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Driving Uninsured'
-        assert self.parser.charge_table_data[6] == 'Violation Driving While Suspended or Revoked'
-        assert self.parser.charge_table_data[11] == 'Failure to Obey Traffic Control Device'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '806.010'
-        assert self.parser.charge_table_data[7] == '811.175'
-        assert self.parser.charge_table_data[12] == '811.265'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Violation Class B'
-        assert self.parser.charge_table_data[8] == 'Violation Class A'
-        assert self.parser.charge_table_data[13] == 'Violation Class C'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '03/12/2017'
-        assert self.parser.charge_table_data[9] == '04/01/2016'
-        assert self.parser.charge_table_data[14] == '05/22/2015'
-
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
         assert len(self.parser.event_table_data) == 13
@@ -104,26 +74,6 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
 
-    # Tests charge data is collected for each row and column in the charge table
-    # and is appended to the charge_table_data list grouped by rows.
-    def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 5
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Poss Controlled Sub 2'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '4759924B'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Felony Class C'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '04/12/1992'
-
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
         assert len(self.parser.event_table_data) == 12
@@ -164,41 +114,6 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITH_PARTIAL_DISPOS)
-
-    # Tests charge data is collected for each row and column in the charge table
-    # and is appended to the charge_table_data list grouped by rows.
-    def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 20
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
-        assert self.parser.charge_table_data[10] == '3.\n            \xa0'
-        assert self.parser.charge_table_data[15] == '999.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Reckless Driving'
-        assert self.parser.charge_table_data[6] == 'Resisting Arrest'
-        assert self.parser.charge_table_data[11] == 'Interfering w/ Peace/Parole and Probation Officer'
-        assert self.parser.charge_table_data[16] == 'Driving Under the Influence of Intoxicants'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '811.140'
-        assert self.parser.charge_table_data[7] == '162.315'
-        assert self.parser.charge_table_data[12] == '162.247'
-        assert self.parser.charge_table_data[17] == '813.010(4)'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Misdemeanor Class A'
-        assert self.parser.charge_table_data[8] == 'Misdemeanor Class A'
-        assert self.parser.charge_table_data[13] == 'Misdemeanor Class A'
-        assert self.parser.charge_table_data[18] == 'Misdemeanor Class A'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '03/06/2018'
-        assert self.parser.charge_table_data[9] == '03/06/2018'
-        assert self.parser.charge_table_data[14] == '03/06/2018'
-        assert self.parser.charge_table_data[19] == '03/06/2018'
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
@@ -255,36 +170,6 @@ class TestCaseWithoutDisposition(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
 
-    # Tests charge data is collected for each row and column in the charge table
-    # and is appended to the charge_table_data list grouped by rows.
-    def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 15
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
-        assert self.parser.charge_table_data[10] == '3.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Reckless Driving'
-        assert self.parser.charge_table_data[6] == 'Resisting Arrest'
-        assert self.parser.charge_table_data[11] == 'Interfering w/ Peace/Parole and Probation Officer'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '811.140'
-        assert self.parser.charge_table_data[7] == '162.315'
-        assert self.parser.charge_table_data[12] == '162.247'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Misdemeanor Class A'
-        assert self.parser.charge_table_data[8] == 'Misdemeanor Class A'
-        assert self.parser.charge_table_data[13] == 'Misdemeanor Class A'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '03/06/2018'
-        assert self.parser.charge_table_data[9] == '03/06/2018'
-        assert self.parser.charge_table_data[14] == '03/06/2018'
-
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
         assert len(self.parser.event_table_data) == 15
@@ -333,26 +218,6 @@ class TestParkingViolationCase(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_PARKING_VIOLATION)
 
-    # Tests charge data is collected for each row and column in the charge table
-    # and is appended to the charge_table_data list grouped by rows.
-    def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 5
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'No Meter Receipt'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '16.20.430-A'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Violation Unclassified'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '12/01/2018'
-
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
         assert len(self.parser.event_table_data) == 1
@@ -389,21 +254,6 @@ class TestCaseWithRelatedCases(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASEJD74)
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Poss Controlled Sub 2'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '4759924B'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Felony Class C'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '03/19/2000'
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
@@ -445,26 +295,6 @@ class TestFelicia(unittest.TestCase):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS)
 
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Unauthorized Use of a Vehicle'
-        assert self.parser.charge_table_data[6] == 'Possession of a Stolen Vehicle'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '164.135'
-        assert self.parser.charge_table_data[7] == '819.300'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Felony Class C'
-        assert self.parser.charge_table_data[8] == 'Felony Class C'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '05/13/2005'
-        assert self.parser.charge_table_data[9] == '05/13/2005'
-
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0.00'
 
@@ -478,6 +308,19 @@ class TestFelicia(unittest.TestCase):
         assert self.parser.hashed_dispo_data[2]['ruling'] == 'Dismissed'
         assert self.parser.hashed_dispo_data[2]['date'] == '07/19/2005'
 
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 2
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Unauthorized Use of a Vehicle'
+        assert self.parser.hashed_charge_data[1]['statute'] == '164.135'
+        assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[1]['date'] == '05/13/2005'
+
+        assert self.parser.hashed_charge_data[2]['name'] == 'Possession of a Stolen Vehicle'
+        assert self.parser.hashed_charge_data[2]['statute'] == '819.300'
+        assert self.parser.hashed_charge_data[2]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[2]['date'] == '05/13/2005'
+
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
 
@@ -487,26 +330,6 @@ class TestRevokedProbation(unittest.TestCase):
     def setUp(self):
         self.parser = CaseParser()
         self.parser.feed(CaseDetails.CASE_WITH_REVOKED_PROBATION)
-
-    def test_ids_are_collected(self):
-        assert self.parser.charge_table_data[0] == '1.\n            \xa0'
-        assert self.parser.charge_table_data[5] == '2.\n            \xa0'
-
-    def test_charge_names_are_collected(self):
-        assert self.parser.charge_table_data[1] == 'Possession of Cocaine'
-        assert self.parser.charge_table_data[6] == 'Possession of Cocaine'
-
-    def test_statutes_are_collected(self):
-        assert self.parser.charge_table_data[2] == '475.884'
-        assert self.parser.charge_table_data[7] == '475.884'
-
-    def test_charge_levels_are_collected(self):
-        assert self.parser.charge_table_data[3] == 'Felony Class C'
-        assert self.parser.charge_table_data[8] == 'Felony Class C'
-
-    def test_charge_dates_are_collected(self):
-        assert self.parser.charge_table_data[4] == '06/13/2009'
-        assert self.parser.charge_table_data[9] == '02/17/2009'
 
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '529.08'
@@ -521,6 +344,19 @@ class TestRevokedProbation(unittest.TestCase):
         assert self.parser.hashed_dispo_data[2]['ruling'] == 'Removed From Charging Instrument'
         assert self.parser.hashed_dispo_data[2]['date'] == '06/22/2009'
 
+    def test_charge_data_is_formatted(self):
+        assert len(self.parser.hashed_charge_data) == 2
+
+        assert self.parser.hashed_charge_data[1]['name'] == 'Possession of Cocaine'
+        assert self.parser.hashed_charge_data[1]['statute'] == '475.884'
+        assert self.parser.hashed_charge_data[1]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[1]['date'] == '06/13/2009'
+
+        assert self.parser.hashed_charge_data[2]['name'] == 'Possession of Cocaine'
+        assert self.parser.hashed_charge_data[2]['statute'] == '475.884'
+        assert self.parser.hashed_charge_data[2]['level'] == 'Felony Class C'
+        assert self.parser.hashed_charge_data[2]['date'] == '02/17/2009'
+
     def test_probation_revoked_is_parsed(self):
         assert self.parser.probation_revoked
 
@@ -532,4 +368,4 @@ class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
         self.parser.feed(CaseDetails.CHARGE_INFO_WITH_EMPTY_DATA_CELLS)
 
     def test_it_parses_all_charge_rows(self):
-        assert len(self.parser.charge_table_data) == 50
+        assert len(self.parser.hashed_charge_data) == 10
