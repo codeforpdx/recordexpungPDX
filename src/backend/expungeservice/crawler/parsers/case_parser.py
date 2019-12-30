@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+from typing import List, Dict, Tuple, Optional
 
 from bs4 import BeautifulSoup
 from more_itertools import split_at
@@ -13,8 +13,6 @@ EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
 class CaseParser:
     def __init__(self):
-        self.event_table_data = []
-
         self.balance_due = "0"
         self.hashed_dispo_data = {}
         self.hashed_charge_data = {}
@@ -24,10 +22,8 @@ class CaseParser:
     def feed(self, data):
         soup = BeautifulSoup(data, "html.parser")
         self.hashed_charge_data = CaseParser.__build_charge_table_data(soup)
-        self.__build_event_table_data(soup)
+        self.hashed_dispo_data = CaseParser.__build_hashed_dispo_data(soup)
         self.__build_balance_due(soup)
-
-        self.__format_dispo_data()
 
         self.probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
 
@@ -49,12 +45,18 @@ class CaseParser:
                     raise ValueError(f"Could not parse charge id from {charge_id_string}.")
         return hashed_charge_data
 
-    def __build_event_table_data(self, soup):
+    # Note that one disposition event may have rulings for one or more charges
+    # and thus the accumulator pattern.
+    @staticmethod
+    def __build_hashed_dispo_data(soup):
         disposition_events = CaseParser.__parse_disposition_events(soup)
+        acc: Dict[int, Dict[str, str]] = {}
         for event in disposition_events:
             if CaseParser.__valid_event_table(event):
-                event_parse = CaseParser.__parse_event_table(event)
-                self.event_table_data.append(event_parse)
+                disposition_data = CaseParser.__parse_event_table(event)
+                if disposition_data:
+                    acc = {**acc, **disposition_data}
+        return acc
 
     @staticmethod
     def __parse_disposition_events(soup):
@@ -82,10 +84,8 @@ class CaseParser:
     def __valid_event_table(event):
         return not CaseParser.__normalize_text(event.text) in EVENTS_TO_EXCLUDE
 
-    # While this function can be taken care with `__parse_string_list`,
-    # the named variables will become useful in the future.
     @staticmethod
-    def __parse_event_table(event) -> List[str]:
+    def __parse_event_table(event) -> Optional[Dict[int, Dict[str, str]]]:
         event_parts = event.contents
         assert len(event_parts) == 4
         date, empty_one, empty_two, event_table_wrapper = event_parts
@@ -95,16 +95,24 @@ class CaseParser:
             if len(event_table_contents) == 5:
                 event_type, officer, _, event_inner_table_div, created = event_table_contents
                 event_inner_table_parse = CaseParser.__parse_string_list(event_inner_table_div)
-                event_parse = [event_type.string, officer.string, *event_inner_table_parse, created.string,]
             elif len(event_table_contents) == 4:
                 event_type, _, event_inner_table_div, created = event_table_contents
                 event_inner_table_parse = CaseParser.__parse_string_list(event_inner_table_div)
-                event_parse = [event_type.string, *event_inner_table_parse, created.string,]
             else:
                 raise ValueError("len(event_table_contents) should always be 4 or 5.")
+
+            if CaseParser.__normalize_text(event_type.text) == "disposition":
+                disposition_data = {}
+                for row, next_row in zip(event_inner_table_parse, event_inner_table_parse[1:]):
+                    if CaseParser._valid_data(row.split(".\xa0")):
+                        charge_id_string, charge = row.split(".\xa0")
+                        charge_id = int(charge_id_string)
+                        disposition_data[charge_id] = {"date": date.text, "charge": charge, "ruling": next_row}
+                return disposition_data
+            else:
+                return None
         else:
             raise ValueError("event_table should never be empty.")
-        return [date.string, empty_one.string, empty_two.string, *event_parse]
 
     @staticmethod
     def __parse_string_list(content) -> List[str]:
@@ -118,43 +126,6 @@ class CaseParser:
                 return string_list
         else:
             return []
-
-    def __format_dispo_data(self):
-        dispo_data = self.__filter_dispo_events()
-        for dispo_row in dispo_data:
-            start_index = 2
-            if len(dispo_row[3].split(".\xa0")) == 2:
-                start_index = 3
-
-            while start_index < len(dispo_row) - 1:
-                if CaseParser._valid_data(dispo_row[start_index].split(".\xa0")):
-                    charge_id_string, charge = dispo_row[start_index].split(".\xa0")
-                else:
-                    start_index += 2
-                    continue
-                charge_id = int(charge_id_string)
-                self.hashed_dispo_data[charge_id] = {}
-                self.hashed_dispo_data[charge_id]["date"] = dispo_row[0]
-                self.hashed_dispo_data[charge_id]["charge"] = charge
-                self.hashed_dispo_data[charge_id]["ruling"] = dispo_row[start_index + 1]
-                start_index += 2
-
-    def __filter_dispo_events(self) -> List[List[str]]:
-        dispo_list: List[str] = []
-        for event_row in self.event_table_data:
-            if len(event_row) > 3 and event_row[3] == "Disposition":
-                dispo_list.append(event_row)
-
-        result: List[List[str]] = []
-        index = 0
-        for dispo_row in dispo_list:
-            result.append([])
-            for data in dispo_row:
-                if data != "\xa0":
-                    result[index].append(data)
-            index += 1
-
-        return result
 
     @staticmethod
     def _valid_data(disposition):
