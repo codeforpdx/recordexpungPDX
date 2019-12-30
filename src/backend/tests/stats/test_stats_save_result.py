@@ -1,5 +1,5 @@
 import pytest
-from flask import g, request
+from flask import g
 
 from expungeservice.stats import stats
 from tests.endpoints.endpoint_util import EndpointShared
@@ -7,33 +7,35 @@ from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.database import get_database
 
 
-class TestStats:
-    @pytest.fixture(autouse=True)
-    def setup_and_teardown(self):
-        self.service = EndpointShared()
-        self.service.setup()
-        yield
-        self.service.teardown()
+@pytest.fixture
+def service():
+    return EndpointShared()
 
-    def test_save_result(self):
-        with self.service.client:
-            request_data = {
-                "first_name":"John",
-                "last_name":"Doe",
-                "middle_name":"Test",
-                "birth_date":"01/01/1980",
-            }
+@pytest.fixture(autouse=True)
+def setup_and_teardown(service):
+    service.setup()
+    yield
+    service.teardown()
 
-            record = CrawlerFactory.create(CrawlerFactory.setup())
+def test_save_result(service):
+    with service.client:
+        request_data = {
+            "first_name":"John",
+            "last_name":"Doe",
+            "middle_name":"Test",
+            "birth_date":"01/01/1980",
+        }
 
-            self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
+        record = CrawlerFactory.create(CrawlerFactory.setup())
 
-            g.database = get_database()
+        service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
 
-            stats.save_result(request_data, record)
+        g.database = get_database()
 
-            g.database.connection.commit()
+        stats.save_result(request_data, record)
 
-        self.service.check_search_result_saved(
-                self.service.user_data["user1"]["user_id"], request_data,
-                num_eligible_charges=6, num_charges=9)
+        g.database.connection.commit()
+
+    service.check_search_result_saved(
+            service.user_data["user1"]["user_id"], request_data,
+            num_eligible_charges=6, num_charges=9)
