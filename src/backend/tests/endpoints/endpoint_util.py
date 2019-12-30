@@ -5,6 +5,7 @@ from flask import g
 import hashlib
 
 import expungeservice
+from expungeservice.database import get_database
 from expungeservice.user import user_db_util
 from expungeservice.user.user import admin_login_required
 
@@ -85,7 +86,7 @@ class EndpointShared:
                 "admin_protected"))
 
         with self.app.app_context():
-            expungeservice.request.before()
+            g.database = get_database()
             self.__db_cleanup()
 
             self.__create_test_user("user1")
@@ -93,14 +94,14 @@ class EndpointShared:
             self.__create_test_user("admin")
             g.database.connection.commit()
 
-            expungeservice.request.teardown(None)
+            g.database.close_connection()
 
     def teardown(self):
         with self.app.app_context():
-            expungeservice.request.before()
+            g.database = get_database()
 
             self.__db_cleanup()
-            expungeservice.request.teardown(None)
+            g.database.close_connection()
 
     def __db_cleanup(self):
 
@@ -133,7 +134,7 @@ class EndpointShared:
 
     def check_search_result_saved(self, user_id, request_data, num_eligible_charges, num_charges):
         with self.app.app_context():
-            expungeservice.request.before()
+            g.database = get_database()
 
             hashed_search_params = self.__hash_search_params(
                 user_id, request_data)
