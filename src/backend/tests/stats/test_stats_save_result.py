@@ -1,3 +1,4 @@
+import pytest
 from flask import g, request
 
 
@@ -8,7 +9,11 @@ from expungeservice.database import get_database
 
 
 class TestStats(EndpointShared):
-
+    @pytest.fixture(autouse=True)
+    def setUp(self):
+        EndpointShared.setUp(self)
+        yield
+        EndpointShared.tearDown(self)
 
     def test_save_result(self):
 

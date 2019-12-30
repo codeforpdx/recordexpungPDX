@@ -1,3 +1,4 @@
+import pytest
 from flask import current_app
 
 from expungeservice.endpoints import oeci_login
@@ -6,7 +7,7 @@ from expungeservice.crypto import DataCipher
 
 
 class TestOeciLogin(EndpointShared):
-
+    @pytest.fixture(autouse=True)
     def setUp(self):
         EndpointShared.setUp(self)
         self.crawler_login = oeci_login.Crawler.login
@@ -14,9 +15,9 @@ class TestOeciLogin(EndpointShared):
 
             self.cipher = DataCipher(
                 key=current_app.config.get("SECRET_KEY"))
-
-    def tearDown(self):
+        yield
         oeci_login.Crawler.login = self.crawler_login
+        EndpointShared.tearDown(self)
 
     def mock_login(self, value):
         return lambda s, username, password, close_session: value

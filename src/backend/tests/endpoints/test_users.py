@@ -1,11 +1,13 @@
 import copy
 
+import pytest
 from werkzeug.security import generate_password_hash
 
 from tests.endpoints.endpoint_util import EndpointShared
 
 class TestUsers(EndpointShared):
 
+    @pytest.fixture(autouse=True)
     def setUp(self):
         EndpointShared.setUp(self)
 
@@ -17,6 +19,8 @@ class TestUsers(EndpointShared):
             "group_name": "new group name",
             "admin": False
         }
+        yield
+        EndpointShared.tearDown(self)
 
     def check_user_data_match(self, created_user, reference_user):
         assert created_user["email"] == reference_user["email"]
