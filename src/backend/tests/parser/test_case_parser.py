@@ -42,7 +42,7 @@ class TestCaseWithDisposition(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 14
+        assert len(self.parser.event_table_data) == 13
 
     def test_it_collects_the_disposition_row(self):
         assert self.parser.event_table_data[1][0] == '06/12/2017'
@@ -126,7 +126,7 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 13
+        assert len(self.parser.event_table_data) == 12
 
     def test_it_collects_the_disposition_row(self):
         assert self.parser.event_table_data[0][0] == '04/30/1992'
@@ -202,7 +202,7 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 17
+        assert len(self.parser.event_table_data) == 16
 
     def test_it_collects_the_disposition_row(self):
         assert self.parser.event_table_data[0][0] == '03/06/2018'
@@ -287,7 +287,7 @@ class TestCaseWithoutDisposition(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 16
+        assert len(self.parser.event_table_data) == 15
 
     def test_it_collects_the_disposition_row(self):
         dispo_count = 0
@@ -355,7 +355,7 @@ class TestParkingViolationCase(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 2
+        assert len(self.parser.event_table_data) == 1
 
     def test_it_collects_the_disposition_row(self):
         dispo_count = 0
@@ -407,7 +407,7 @@ class TestCaseWithRelatedCases(unittest.TestCase):
 
     # Tests disposition data is collected from the events table
     def test_it_parses_every_row_of_the_events_table(self):
-        assert len(self.parser.event_table_data) == 12
+        assert len(self.parser.event_table_data) == 11
 
     def test_it_collects_the_disposition_row(self):
         dispo_count = 0
