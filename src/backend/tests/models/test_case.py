@@ -17,9 +17,6 @@ class TestCaseBalanceDue(unittest.TestCase):
         self.case.set_balance_due("2,345.67")
         assert self.case.get_balance_due() == 2345.67
         
-        self.case.set_balance_due(12345.67)
-        assert self.case.get_balance_due() == 12345.67
-
         self.case.set_balance_due("0")
         assert self.case.get_balance_due() == 0  
 
