@@ -90,11 +90,7 @@ class CaseParser:
         assert len(event_parts) == 4
         date, empty_one, empty_two, event_table_wrapper = event_parts
         event_table = event_table_wrapper.contents
-        if len(event_table) > 1:
-            # With link
-            event_parse = CaseParser.__parse_string_list(event_table_wrapper)
-        elif len(event_table) == 1:
-            # Without link
+        if len(event_table) == 1:
             event_table_contents = event_table[0].contents
             if len(event_table_contents) == 5:
                 event_type, officer, _, event_inner_table_div, created = event_table_contents
