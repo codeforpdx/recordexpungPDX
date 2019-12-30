@@ -9,7 +9,7 @@ from expungeservice.database import get_database
 
 class TestStats:
     @pytest.fixture(autouse=True)
-    def setup(self):
+    def setup_and_teardown(self):
         self.service = EndpointShared()
         self.service.setup()
         yield

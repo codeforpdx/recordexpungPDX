@@ -11,7 +11,7 @@ from expungeservice.serializer import ExpungeModelEncoder
 class TestSearch:
 
     @pytest.fixture(autouse=True)
-    def setup(self):
+    def setup_and_teardown(self):
         self.service = EndpointShared()
         self.service.setup()
 

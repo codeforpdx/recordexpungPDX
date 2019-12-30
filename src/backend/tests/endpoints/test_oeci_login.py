@@ -8,7 +8,7 @@ from expungeservice.crypto import DataCipher
 
 class TestOeciLogin:
     @pytest.fixture(autouse=True)
-    def setup(self):
+    def setup_and_teardown(self):
         self.service = EndpointShared()
         self.service.setup()
         self.crawler_login = oeci_login.Crawler.login
