@@ -7,8 +7,7 @@ from tests.fixtures.case_details import CaseDetails
 class TestCaseWithDisposition(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_X1)
+        self.parser = CaseParser.feed(CaseDetails.CASE_X1)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -55,8 +54,7 @@ class TestCaseWithDisposition(unittest.TestCase):
 class TestCaseWithoutFinancialTable(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
+        self.parser = CaseParser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -84,8 +82,7 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
 class TestCaseWithPartialDisposition(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_WITH_PARTIAL_DISPOS)
+        self.parser = CaseParser.feed(CaseDetails.CASE_WITH_PARTIAL_DISPOS)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -128,8 +125,7 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
 class TestCaseWithoutDisposition(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
+        self.parser = CaseParser.feed(CaseDetails.CASE_WITHOUT_DISPOS)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -165,8 +161,7 @@ class TestCaseWithoutDisposition(unittest.TestCase):
 class TestParkingViolationCase(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_PARKING_VIOLATION)
+        self.parser = CaseParser.feed(CaseDetails.CASE_PARKING_VIOLATION)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -191,8 +186,7 @@ class TestParkingViolationCase(unittest.TestCase):
 class TestCaseWithRelatedCases(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASEJD74)
+        self.parser = CaseParser.feed(CaseDetails.CASEJD74)
 
     # Test relevant financial data is collected
     def test_financial_data_is_parsed(self):
@@ -220,8 +214,7 @@ class TestCaseWithRelatedCases(unittest.TestCase):
 class TestFelicia(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS)
+        self.parser = CaseParser.feed(CaseDetails.COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS)
 
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '0.00'
@@ -256,8 +249,7 @@ class TestFelicia(unittest.TestCase):
 class TestRevokedProbation(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CASE_WITH_REVOKED_PROBATION)
+        self.parser = CaseParser.feed(CaseDetails.CASE_WITH_REVOKED_PROBATION)
 
     def test_financial_data_is_parsed(self):
         assert self.parser.balance_due == '529.08'
@@ -292,8 +284,7 @@ class TestRevokedProbation(unittest.TestCase):
 class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CaseParser()
-        self.parser.feed(CaseDetails.CHARGE_INFO_WITH_EMPTY_DATA_CELLS)
+        self.parser = CaseParser.feed(CaseDetails.CHARGE_INFO_WITH_EMPTY_DATA_CELLS)
 
     def test_it_parses_all_charge_rows(self):
         assert len(self.parser.hashed_charge_data) == 10

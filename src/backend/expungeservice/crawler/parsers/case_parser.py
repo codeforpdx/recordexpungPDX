@@ -1,4 +1,5 @@
 import re
+from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional
 
 from bs4 import BeautifulSoup
@@ -11,21 +12,24 @@ SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
 PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked"]
 EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
+
+@dataclass
+class CaseParserData:
+    hashed_charge_data: Dict[int, Dict[str, str]]
+    hashed_dispo_data: Dict[int, Dict[str, str]]
+    balance_due: str
+    probation_revoked: bool
+
+
 class CaseParser:
-    def __init__(self):
-        self.balance_due = "0"
-        self.hashed_dispo_data = {}
-        self.hashed_charge_data = {}
-
-        self.probation_revoked = False
-
-    def feed(self, data):
+    @staticmethod
+    def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
-        self.hashed_charge_data = CaseParser.__build_charge_table_data(soup)
-        self.hashed_dispo_data = CaseParser.__build_hashed_dispo_data(soup)
-        self.__build_balance_due(soup)
-
-        self.probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
+        hashed_charge_data = CaseParser.__build_charge_table_data(soup)
+        hashed_dispo_data = CaseParser.__build_hashed_dispo_data(soup)
+        balance_due = CaseParser.__build_balance_due(soup)
+        probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
+        return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
 
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
@@ -48,7 +52,7 @@ class CaseParser:
     # Note that one disposition event may have rulings for one or more charges
     # and thus the accumulator pattern.
     @staticmethod
-    def __build_hashed_dispo_data(soup):
+    def __build_hashed_dispo_data(soup) -> Dict[int, Dict[str, str]]:
         disposition_events = CaseParser.__parse_disposition_events(soup)
         acc: Dict[int, Dict[str, str]] = {}
         for event in disposition_events:
@@ -71,10 +75,13 @@ class CaseParser:
     def __is_other_events_and_hearings(event):
         return CaseParser.__normalize_text(event.text) == "other events and hearings".replace(" ", "")
 
-    def __build_balance_due(self, soup):
+    @staticmethod
+    def __build_balance_due(soup) -> str:
         financial_information = soup.find("div", class_=SECTION_TITLE_CLASS, string="Financial Information")
         if financial_information:
-            self.balance_due = financial_information.parent.parent.find("b").text
+            return financial_information.parent.parent.find("b").text
+        else:
+            return '0'
 
     @staticmethod
     def __normalize_text(text):
