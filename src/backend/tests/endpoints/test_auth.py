@@ -80,24 +80,22 @@ class TestAuth:
     # and the "remember_token" cookie has expired.
     # Note the "session" cookie lasts the entire session
     # (e.g. user quits browser) and has otherwise no other expiration date.
-    def test_access_expired_auth_token(self):
-        self.__login_user_with_custom_duration(duration = datetime.timedelta(microseconds=1))
+    def test_access_expired_auth_token(self, monkeypatch):
+        self.__login_user_with_custom_duration(monkeypatch, duration = datetime.timedelta(microseconds=1))
         self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
         time.sleep(1)
         response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 401)
 
-        self.__login_user_with_custom_duration(duration = datetime.timedelta(days=1))
+        self.__login_user_with_custom_duration(monkeypatch, duration = datetime.timedelta(days=1))
         self.service.client.cookie_jar.clear(domain="localhost.local", path="/", name="session")
         time.sleep(1)
         response = self.service.client.get('/api/test/user_protected')
         assert(response.status_code == 200)
 
-    def __login_user_with_custom_duration(self, duration):
-        self.service.login_user_wrapper = User.login_user
-        User.login_user = self.__mock_login_user(duration = duration)
+    def __login_user_with_custom_duration(self, monkeypatch, duration):
+        monkeypatch.setattr(User, "login_user", self.__mock_login_user(duration = duration))
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
-        User.login_user = self.service.login_user_wrapper
 
     def __mock_login_user(self, duration):
         def new_login_user(user):

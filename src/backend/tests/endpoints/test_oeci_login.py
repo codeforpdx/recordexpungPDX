@@ -11,22 +11,20 @@ class TestOeciLogin:
     def setup_and_teardown(self):
         self.service = EndpointShared()
         self.service.setup()
-        self.crawler_login = oeci_login.Crawler.login
         with self.service.app.app_context():
 
             self.cipher = DataCipher(
                 key=current_app.config.get("SECRET_KEY"))
         yield
-        oeci_login.Crawler.login = self.crawler_login
         self.service.teardown()
 
     def mock_login(self, value):
         return lambda s, username, password, close_session: value
 
-    def test_oeci_login_success(self):
+    def test_oeci_login_success(self, monkeypatch):
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        oeci_login.Crawler.login = self.mock_login(True)
+        monkeypatch.setattr(oeci_login.Crawler, "login", self.mock_login(True))
 
         self.service.client.post(
             "/api/oeci_login",
@@ -41,10 +39,10 @@ class TestOeciLogin:
         assert creds["oeci_username"] == "correctname"
         assert creds["oeci_password"] == "correctpwd"
 
-    def test_oeci_login_invalid_credentials(self):
+    def test_oeci_login_invalid_credentials(self, monkeypatch):
         self.service.login(self.service.user_data["user1"]["email"], self.service.user_data["user1"]["password"])
 
-        oeci_login.Crawler.login = self.mock_login(False)
+        monkeypatch.setattr(oeci_login.Crawler, "login", self.mock_login(False))
 
         response = self.service.client.post(
             "/api/oeci_login",
