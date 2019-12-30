@@ -41,10 +41,9 @@ class Case:
     def set_probation_revoked(self, probation_revoked: bool):
         self.__probation_revoked = probation_revoked
 
-    def set_balance_due(self, balance_due_dollar_amount):
-        if type(balance_due_dollar_amount) == str:
-            balance_due_dollar_amount = float(balance_due_dollar_amount.replace(',',''))
-        self.__balance_due_in_cents = int(balance_due_dollar_amount * 100)
+    def set_balance_due(self, balance_due_dollar_amount: str):
+        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(',', ''))
+        self.__balance_due_in_cents = int(balance_due_dollar_amount_float * 100)
 
     def get_balance_due(self):
         return self.__balance_due_in_cents / 100
