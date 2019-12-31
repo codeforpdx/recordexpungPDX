@@ -102,9 +102,9 @@ class Expunger:
     def _most_recent_convictions(recent_convictions):
         recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
         first, second, third = take(3, padnone(recent_convictions))
-        if first and first.level == "Violation":
+        if first and "violation" in first.level.lower():
             return second, third
-        elif second and second.level == "Violation":
+        elif second and "violation" in second.level.lower():
             return first, third
         else:
             return first, second
