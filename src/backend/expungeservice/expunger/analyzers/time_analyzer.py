@@ -80,12 +80,6 @@ class TimeAnalyzer:
             # If its disposition is unknown, we don't apply any time analysis.
             if class_b_felony.convicted():
                 if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony, expunger.charges):
-                    # type_eligibility = TypeEligibility(EligibilityStatus.INELIGIBLE, reason = '137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions')
-                    # class_b_felony.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
-                    # TODO:
-                    # Apply time ineligibility here instead of type eligibility.
-                    # The current logic here is just to make the frontend display correctly until we fix it there.
-                    # The new logic here will be:
                     class_b_felony.set_time_ineligible('137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions', None)
                 else:
                     eligibility_date = class_b_felony.disposition.date + relativedelta(years=+TimeAnalyzer.TWENTY_YEARS)
