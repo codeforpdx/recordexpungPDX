@@ -21,7 +21,29 @@ class TimeAnalyzer:
             TimeAnalyzer._mark_as_time_eligible(expunger.most_recent_dismissal.case()().charges)
             TimeAnalyzer._mark_as_time_eligible(expunger.convictions)
         else:
-            TimeAnalyzer._mark_as_time_eligible(expunger.charges)
+            # There is no MRC and no MRD. But the record might still have a single recent violation conviction,
+            # Which is subject to the three-year single conviction rule.
+            recent_violation_convictions = [
+                charge for charge in expunger.charges if charge not in
+                    expunger.unknowns +
+                    expunger.old_convictions +
+                    expunger.acquittals
+                    ]
+
+            if len(recent_violation_convictions) == 0:
+                pass
+            elif len(recent_violation_convictions) == 1:
+                recent_violation_conviction = recent_violation_convictions[0]
+                three_years_ago = date.today() + relativedelta(years=-3)
+                older_than_three_years = recent_violation_conviction.disposition.date <= three_years_ago
+                if older_than_three_years:
+                    recent_violation_conviction.set_time_eligible()
+                else:
+                    date_eligible = recent_violation_conviction.disposition.date + relativedelta(years=+3)
+                    recent_violation_conviction.set_time_ineligible("Time-ineligible under 137.225(1)(a)", date_eligible)
+            else:
+                raise ValueError("There is no MRC and no MRD, so the recent known charges should only contain a single violation or nothing.")
+            TimeAnalyzer._mark_as_time_eligible(expunger.old_convictions + expunger.acquittals)
 
         TimeAnalyzer._evaluate_class_b_felonies(expunger)
 
