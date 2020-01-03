@@ -1,10 +1,11 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
+from expungeservice.models.expungement_result import TypeEligibility, ExpungementResult, EligibilityStatus
+
 
 class TimeAnalyzer:
 
-    TWENTY_YEARS_AGO = date.today() + relativedelta(years=-20)
     TWENTY_YEARS = 20
     TEN_YEARS = 10
     THREE_YEARS = 3
@@ -59,12 +60,32 @@ class TimeAnalyzer:
             charge.set_time_ineligible('Recommend sequential expungement', eligibility_date)
 
     @staticmethod
+    def _calculate_has_subsequent_charge(class_b_felony, charges):
+        other_charges = [charge for charge in charges if charge != class_b_felony]
+        for other_charge in other_charges:
+            if other_charge.acquitted():
+                date_of_other_charge = other_charge.date
+            else:
+                date_of_other_charge = other_charge.disposition.date
+
+            if date_of_other_charge > class_b_felony.disposition.date:
+                return True
+        return False
+
+    @staticmethod
     def _evaluate_class_b_felonies(expunger):
-        if expunger.most_recent_charge and expunger.most_recent_charge.disposition.date > TimeAnalyzer.TWENTY_YEARS_AGO:
-            for charge in expunger.class_b_felonies:
-                charge.set_time_ineligible('Time-ineligible under 137.225(5)(a)(A)(i)',
-                                           expunger.most_recent_charge.disposition.date + relativedelta(
-                                               years=TimeAnalyzer.TWENTY_YEARS))
+        for class_b_felony in expunger.class_b_felonies:
+            # If the class B felony is acquitted, then we have already handled its time eligibility.
+            # If it's convicted, it is subject to these additional rules.
+            # If its disposition is unknown, we don't apply any time analysis.
+            if class_b_felony.convicted():
+                if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony, expunger.charges):
+                    class_b_felony.set_time_ineligible('137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions', None)
+                else:
+                    eligibility_date = class_b_felony.disposition.date + relativedelta(years=+TimeAnalyzer.TWENTY_YEARS)
+                    if eligibility_date > date.today():
+                        class_b_felony.set_time_ineligible('137.225(5)(a)(A)(i) - Twenty years from class B felony conviction', eligibility_date)
+                    # else do nothing, because the charge has already been set as time eligible by the TimeAnalyzer.
 
     @staticmethod
     def _mark_as_time_ineligible(charges, reason, eligibility_date):

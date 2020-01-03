@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 
 class Time:
 
+    MORE_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=-1)).strftime('%m/%d/%Y')
     TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20)).strftime('%m/%d/%Y')
     LESS_THAN_TWENTY_YEARS_AGO = (date.today() + relativedelta(years=-20, days=+1)).strftime('%m/%d/%Y')
     TEN_YEARS_AGO = (date.today() + relativedelta(years=-10)).strftime('%m/%d/%Y')
