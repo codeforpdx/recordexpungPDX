@@ -46,7 +46,7 @@ class Expunger:
         :return: True if there are no open cases; otherwise False
         """
         if self._open_cases():
-            self.record.errors.append('Open cases exist')
+            self.record.errors.append('All charges are ineligible because there is one or more open case.')
             return False
 
         self.charges = Expunger._without_skippable_charges(self.charges)
