@@ -26,6 +26,7 @@ export interface CaseType {
 export interface Record {
   total_balance_Due?: number;
   cases?: any[];
+  errors?: string[];
 }
 
 export interface ExpungementResultType {
