@@ -56,7 +56,6 @@ def test_partial_dispos(partial_dispos_record):
     expunger = Expunger(partial_dispos_record)
     assert expunger.run()
 
-
 @pytest.fixture
 def record_without_dispos(crawler):
     return CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD,
@@ -66,6 +65,50 @@ def record_without_dispos(crawler):
 def test_case_without_dispos(record_without_dispos):
     expunger = Expunger(record_without_dispos)
     assert expunger.run()
+    assert record_without_dispos.errors[0] == (
+f"""Case {record_without_dispos.cases[0].case_number} has a charge with a missing disposition.
+This is likely an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges.""")
+
+
+@pytest.fixture
+def record_with_unrecognized_dispo(crawler):
+    return CrawlerFactory.create(crawler,
+                                 cases={'X0001': CaseDetails.case_x(
+                                         dispo_ruling_1='Something unrecognized')})
+
+def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
+    expunger = Expunger(record_with_unrecognized_dispo)
+    assert expunger.run()
+    assert record_with_unrecognized_dispo.errors[0] == (
+f"""Case {record_with_unrecognized_dispo.cases[0].case_number} has a charge with an unrecognized disposition.
+This is likely an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges.""")
+
+
+@pytest.fixture
+def record_with_multiple_disposition_errors(crawler):
+    return CrawlerFactory.create(crawler,
+                                 cases={'X0001': CaseDetails.case_x(
+                                          dispo_ruling_1='Something unrecognized'),
+                                        'X0002': CaseDetails.case_x(
+                                          dispo_ruling_1='Something unrecognized'),
+                                        'X0003': CaseDetails.CASE_WITHOUT_DISPOS,
+                                        })
+
+def test_case_with_mulitple_disposition_errors(record_with_multiple_disposition_errors):
+    expunger = Expunger(record_with_multiple_disposition_errors)
+    assert expunger.run()
+    unrecognized_error_message = (
+f"""The following cases have charges with an unrecognized disposition.
+This is likely an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
+Case numbers: """)
+    cases_order_1 ="X0001, X0002"
+    cases_order_2 ="X0002, X0001"
+    assert (unrecognized_error_message + cases_order_1 in record_with_multiple_disposition_errors.errors or
+               unrecognized_error_message + cases_order_2 in record_with_multiple_disposition_errors.errors)
+    missing_error_message = (
+f"""Case X0003 has a charge with a missing disposition.
+This is likely an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges.""")
+    assert (missing_error_message in record_with_multiple_disposition_errors.errors)
 
 
 @pytest.fixture
