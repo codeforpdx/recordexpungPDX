@@ -30,7 +30,7 @@ def test_expunger_with_open_case(record_with_open_case):
     expunger = Expunger(record_with_open_case)
 
     assert not expunger.run()
-    assert record_with_open_case.errors == ['All charges are ineligible because there is one or more open case.']
+    assert "All charges are ineligible because there is one or more open case." in record_with_open_case.errors
 
 
 @pytest.fixture

@@ -1,9 +1,8 @@
-from more_itertools import padnone, take
 from typing import Set
+from more_itertools import padnone, take, flatten
 
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 
 
@@ -32,7 +31,7 @@ class Expunger:
         :param record: A Record object
         """
         self.record = record
-        self.charges = record.charges
+        self.charges = []
         self.most_recent_dismissal = None
         self.most_recent_conviction = None
         self.second_most_recent_conviction = None
@@ -49,12 +48,12 @@ class Expunger:
 
         :return: True if there are no open cases; otherwise False
         """
-        if self._open_cases():
-            self.record.errors.append('All charges are ineligible because there is one or more open case.')
-            return False
-        self.record.errors += self._build_disposition_errors(self.charges)
+        all_closed, closed_charges = Expunger.get_closed_charges(self.record)
+        if not all_closed:
+            self.record.errors += ["All charges are ineligible because there is one or more open case."]
+        self.record.errors += self._build_disposition_errors(self.record.charges)
 
-        self.charges = Expunger._without_skippable_charges(self.charges)
+        self.charges = Expunger._without_skippable_charges(closed_charges)
         self.acquittals, self.convictions, self.unknowns = Expunger._categorize_charges(self.charges)
         recent_convictions, self.old_convictions = Expunger._categorize_convictions_by_recency(self.convictions)
         self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
@@ -63,14 +62,16 @@ class Expunger:
         self.most_recent_charge = Expunger._most_recent_charge(self.charges)
         self.class_b_felonies = Expunger._class_b_felonies(self.charges)
         TimeAnalyzer.evaluate(self)
-        return True
+        return all_closed
 
-    def _open_cases(self):
-        for case in self.record.cases:
-            if not case.closed():
-                return True
-        return False
-
+    @staticmethod
+    def get_closed_charges(record):
+        closed_cases = [case for case in record.cases if case.closed()]
+        closed_charges = flatten([case.charges for case in closed_cases])
+        if len(record.cases) == len(closed_cases):
+            return True, closed_charges
+        else:
+            return False, closed_charges
 
     @staticmethod
     def _without_skippable_charges(charges):
