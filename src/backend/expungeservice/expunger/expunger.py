@@ -31,16 +31,14 @@ class Expunger:
         :param record: A Record object
         """
         self.record = record
-        self.charges = []
-        self.most_recent_dismissal = None
-        self.most_recent_conviction = None
-        self.second_most_recent_conviction = None
-        self.most_recent_charge = None
-        self.acquittals = []
-        self.convictions = []
-        self.old_convictions = []
-        self.unknowns = []
-        self.class_b_felonies = []
+        self.all_closed, closed_charges = Expunger.get_closed_charges(self.record)
+        self.charges = Expunger._without_skippable_charges(closed_charges)
+        self.acquittals, self.convictions, self.unknowns = Expunger._categorize_charges(self.charges)
+        recent_convictions, self.old_convictions = Expunger._categorize_convictions_by_recency(self.convictions)
+        self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
+        self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
+        self.most_recent_charge = Expunger._most_recent_charge(self.charges)
+        self.class_b_felonies = Expunger._class_b_felonies(self.charges)
 
     def run(self):
         """
@@ -48,21 +46,11 @@ class Expunger:
 
         :return: True if there are no open cases; otherwise False
         """
-        all_closed, closed_charges = Expunger.get_closed_charges(self.record)
-        if not all_closed:
+        if not self.all_closed:
             self.record.errors += ["All charges are ineligible because there is one or more open case."]
         self.record.errors += self._build_disposition_errors(self.record.charges)
-
-        self.charges = Expunger._without_skippable_charges(closed_charges)
-        self.acquittals, self.convictions, self.unknowns = Expunger._categorize_charges(self.charges)
-        recent_convictions, self.old_convictions = Expunger._categorize_convictions_by_recency(self.convictions)
-        self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
-
-        self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
-        self.most_recent_charge = Expunger._most_recent_charge(self.charges)
-        self.class_b_felonies = Expunger._class_b_felonies(self.charges)
         TimeAnalyzer.evaluate(self)
-        return all_closed
+        return self.all_closed
 
     @staticmethod
     def get_closed_charges(record):
