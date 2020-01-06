@@ -39,6 +39,8 @@ class Expunger:
         self.most_recent_charge = None
         self.acquittals = []
         self.convictions = []
+        self.old_convictions = []
+        self.unknowns = []
         self.class_b_felonies = []
 
     def run(self):
@@ -53,9 +55,10 @@ class Expunger:
         self.record.errors += self._build_disposition_errors(self.charges)
 
         self.charges = Expunger._without_skippable_charges(self.charges)
-        self.acquittals, self.convictions, _ = Expunger._categorize_charges(self.charges)
-        recent_convictions = Expunger._get_recent_convictions(self.convictions)
+        self.acquittals, self.convictions, self.unknowns = Expunger._categorize_charges(self.charges)
+        recent_convictions, self.old_convictions = Expunger._categorize_convictions_by_recency(self.convictions)
         self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
+
         self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
         self.most_recent_charge = Expunger._most_recent_charge(self.charges)
         self.class_b_felonies = Expunger._class_b_felonies(self.charges)
@@ -75,23 +78,26 @@ class Expunger:
 
     @staticmethod
     def _categorize_charges(charges):
-        acquittals, convictions, unknown = [], [], []
+        acquittals, convictions, unknowns = [], [], []
         for charge in charges:
             if charge.acquitted():
                 acquittals.append(charge)
             elif charge.convicted():
                 convictions.append(charge)
             else:
-                unknown.append(charge)
-        return acquittals, convictions, unknown
+                unknowns.append(charge)
+        return acquittals, convictions, unknowns
 
     @staticmethod
-    def _get_recent_convictions(convictions):
+    def _categorize_convictions_by_recency(convictions):
         recent_convictions = []
+        old_convictions = []
         for charge in convictions:
             if charge.recent_conviction():
                 recent_convictions.append(charge)
-        return recent_convictions
+            else:
+                old_convictions.append(charge)
+        return recent_convictions, old_convictions
 
     @staticmethod
     def _most_recent_dismissal(acquittals):

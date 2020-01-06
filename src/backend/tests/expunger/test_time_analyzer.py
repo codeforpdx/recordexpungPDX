@@ -302,3 +302,19 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
 
     assert list_b_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
     assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+
+def test_single_violation_is_time_restricted():
+    # A single violation doesn't block other records, but it is still subject to the 3 year rule.
+    violation_charge = ChargeFactory.create(
+                                  level='Class A Violation',
+                                  date=Time.TEN_YEARS_AGO,
+                                  disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
+
+    case = CaseFactory.create()
+    case.charges=[violation_charge]
+    expunger = Expunger(Record([case]))
+    expunger.run()
+
+    assert violation_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
+    assert violation_charge.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(days=+1)
