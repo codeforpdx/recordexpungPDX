@@ -2,7 +2,8 @@ import unittest
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
+from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer, \
+    ChargesWithSummary
 from expungeservice.expunger.expunger import Expunger
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
@@ -20,8 +21,8 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_more_than_ten_year_old_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
 
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges = [charge])
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert charge.expungement_result.time_eligibility.reason == ''
@@ -31,9 +32,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         ten_yr_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
         three_yr_mrc = ChargeFactory.create(disposition=['Convicted', Time.THREE_YEARS_AGO])
 
-        self.expunger.most_recent_conviction = three_yr_mrc
-        self.expunger.charges = [ten_yr_charge, three_yr_mrc]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges = [ten_yr_charge, three_yr_mrc]
+        charges_with_summary = ChargesWithSummary(charges=charges, most_recent_conviction=three_yr_mrc)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert ten_yr_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert ten_yr_charge.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(7)(b)'
@@ -47,9 +48,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         ten_yr_charge = ChargeFactory.create(disposition=['Convicted', Time.TEN_YEARS_AGO])
         less_than_three_yr_mrc = ChargeFactory.create(disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
 
-        self.expunger.most_recent_conviction = less_than_three_yr_mrc
-        self.expunger.charges = [ten_yr_charge, less_than_three_yr_mrc]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges=[ten_yr_charge, less_than_three_yr_mrc],
+                                                  most_recent_conviction=less_than_three_yr_mrc)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert ten_yr_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert ten_yr_charge.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(7)(b)'
@@ -62,9 +63,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_more_than_three_year_rule_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', Time.THREE_YEARS_AGO])
 
-        self.expunger.most_recent_conviction = charge
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges=[charge],
+                                                  most_recent_conviction=charge)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert charge.expungement_result.time_eligibility.reason == ''
@@ -73,9 +74,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_less_than_three_year_rule_conviction(self):
         charge = ChargeFactory.create(disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
 
-        self.expunger.most_recent_conviction = charge
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges=[charge],
+                                                  most_recent_conviction=charge)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
@@ -88,9 +89,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
                                       date=Time.ONE_YEAR_AGO,
                                       disposition=['Convicted', Time.ONE_YEAR_AGO])
 
-        self.expunger.most_recent_conviction = charge
-        self.expunger.charges = [charge]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges=[charge],
+                                                  most_recent_conviction=charge)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
@@ -162,10 +163,10 @@ class TestSecondMRCLogic(unittest.TestCase):
         self.expunger = ExpungerFactory.create()
 
     def run_expunger(self, mrc, second_mrc):
-        self.expunger.most_recent_conviction = mrc
-        self.expunger.second_most_recent_conviction = second_mrc
-        self.expunger.charges = [mrc, second_mrc]
-        TimeAnalyzer.evaluate(self.expunger)
+        charges_with_summary = ChargesWithSummary(charges=[mrc, second_mrc],
+                                                  most_recent_conviction=mrc,
+                                                  second_most_recent_conviction=second_mrc)
+        TimeAnalyzer.evaluate(charges_with_summary)
 
     def test_3_yr_old_conviction_2_yr_old_mrc(self):
         three_years_ago_charge = ChargeFactory.create(disposition=['Convicted', Time.THREE_YEARS_AGO])

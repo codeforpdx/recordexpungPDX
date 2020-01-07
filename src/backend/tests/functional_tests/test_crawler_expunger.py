@@ -42,8 +42,8 @@ def test_expunger_with_an_empty_record(empty_record):
     expunger = Expunger(empty_record)
 
     assert expunger.run()
-    assert expunger.most_recent_dismissal is None
-    assert expunger.most_recent_conviction is None
+    assert expunger.charges_with_summary.most_recent_dismissal is None
+    assert expunger.charges_with_summary.most_recent_conviction is None
 
 
 @pytest.fixture
@@ -132,8 +132,8 @@ def test_expunger_categorizes_charges(record_with_various_categories):
     expunger = Expunger(record_with_various_categories)
 
     assert expunger.run()
-    assert len(expunger.acquittals) == 5
-    assert len(expunger.convictions) == 4
+    assert len(expunger.charges_with_summary.acquittals) == 5
+    assert len(expunger.charges_with_summary.convictions) == 4
 
 @pytest.fixture
 def record_with_specific_dates(crawler):
@@ -162,13 +162,16 @@ def record_with_specific_dates(crawler):
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
     record = record_with_specific_dates
     expunger = Expunger(record)
+    charges_with_summary = expunger.charges_with_summary
 
     assert expunger.run()
 
-    assert expunger.most_recent_conviction is None
-    assert expunger.second_most_recent_conviction is None
-    assert expunger.most_recent_dismissal and expunger.most_recent_dismissal.disposition.ruling == 'No Complaint'
-    assert len(expunger.acquittals) == 8
+    assert charges_with_summary.most_recent_conviction is None
+    assert charges_with_summary.second_most_recent_conviction is None
+    assert charges_with_summary.most_recent_dismissal and \
+           charges_with_summary.most_recent_dismissal.disposition and \
+           charges_with_summary.most_recent_dismissal.disposition.ruling == 'No Complaint'
+    assert len(charges_with_summary.acquittals) == 8
 
     assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
