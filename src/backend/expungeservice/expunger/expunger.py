@@ -1,46 +1,28 @@
-from typing import Set
-from more_itertools import padnone, take, flatten
+from typing import Set, List, Iterator
+
+from more_itertools import flatten
 
 from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
-from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.expunger.charges_summarizer import ChargesSummarizer
+from expungeservice.models.charge import Charge
 from expungeservice.models.disposition import DispositionStatus
+from expungeservice.models.record import Record
 
 
 class Expunger:
     """
-    This is more or less a wrapper for the time_analyzer.
-    After running this method the results can be extracted from the cases
-    attribute. The errors attribute will list the reasons why the run
-    method failed to evaluate in which case the run method will return
-    False; otherwise there were no errors and it returns True.
-
-    Most of the algorithms in this class can be replaced with database
-    query's if/when we start persisting the model objects to the db.
+    The TimeAnalyzer is probably the last major chunk of non-functional code.
+    We mutate the charges in the record directly to add time eligibility information.
+    Hence, for example, it is unsafe to deepcopy any elements in the "chain" stemming from record
+    including closed_charges, charges, self.charges_with_summary.
     """
-
-    def __init__(self, record):
-        """
-        Constructor
-        most_recent_conviction: Most recent conviction if one exists from within the last ten years
-        second_most_recent_conviction: Second most recent conviction if one exists from within the last ten years
-        most_recent_dismissal: Most recent dismissal if one exists from within the last three years
-        num_acquittals: Number of acquittals within the last three years
-        class_b_felonies: A list of class B felonies; excluding person crimes or firearm crimes
-        most_recent_charge: The most recent charge within the last 20yrs; excluding traffic violations
-
-        :param record: A Record object
-        """
+    def __init__(self, record: Record):
         self.record = record
-        self.all_closed, closed_charges = Expunger.get_closed_charges(self.record)
-        self.charges = Expunger._without_skippable_charges(closed_charges)
-        self.acquittals, self.convictions, self.unknowns = Expunger._categorize_charges(self.charges)
-        recent_convictions, self.old_convictions = Expunger._categorize_convictions_by_recency(self.convictions)
-        self.most_recent_dismissal = Expunger._most_recent_dismissal(self.acquittals)
-        self.most_recent_conviction, self.second_most_recent_conviction = Expunger._most_recent_convictions(recent_convictions)
-        self.most_recent_charge = Expunger._most_recent_charge(self.charges)
-        self.class_b_felonies = Expunger._class_b_felonies(self.charges)
+        self.all_closed, closed_charges = Expunger._get_closed_charges(self.record)
+        charges = Expunger._without_skippable_charges(closed_charges)
+        self.charges_with_summary = ChargesSummarizer.summarize(charges)
 
-    def run(self):
+    def run(self) -> bool:
         """
         Evaluates the expungement eligibility of a record.
 
@@ -49,11 +31,11 @@ class Expunger:
         if not self.all_closed:
             self.record.errors += ["All charges are ineligible because there is one or more open case."]
         self.record.errors += self._build_disposition_errors(self.record.charges)
-        TimeAnalyzer.evaluate(self)
+        TimeAnalyzer.evaluate(self.charges_with_summary)
         return self.all_closed
 
     @staticmethod
-    def get_closed_charges(record):
+    def _get_closed_charges(record: Record):
         closed_cases = [case for case in record.cases if case.closed()]
         closed_charges = flatten([case.charges for case in closed_cases])
         if len(record.cases) == len(closed_cases):
@@ -62,69 +44,11 @@ class Expunger:
             return False, closed_charges
 
     @staticmethod
-    def _without_skippable_charges(charges):
+    def _without_skippable_charges(charges: Iterator[Charge]):
         return [charge for charge in charges if not charge.skip_analysis() and charge.disposition]
 
     @staticmethod
-    def _categorize_charges(charges):
-        acquittals, convictions, unknowns = [], [], []
-        for charge in charges:
-            if charge.acquitted():
-                acquittals.append(charge)
-            elif charge.convicted():
-                convictions.append(charge)
-            else:
-                unknowns.append(charge)
-        return acquittals, convictions, unknowns
-
-    @staticmethod
-    def _categorize_convictions_by_recency(convictions):
-        recent_convictions = []
-        old_convictions = []
-        for charge in convictions:
-            if charge.recent_conviction():
-                recent_convictions.append(charge)
-            else:
-                old_convictions.append(charge)
-        return recent_convictions, old_convictions
-
-    @staticmethod
-    def _most_recent_dismissal(acquittals):
-        acquittals.sort(key=lambda charge: charge.date)
-        if acquittals and acquittals[-1].recent_acquittal():
-            return acquittals[-1]
-        else:
-            return None
-
-    @staticmethod
-    def _most_recent_convictions(recent_convictions):
-        recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
-        first, second, third = take(3, padnone(recent_convictions))
-        if first and "violation" in first.level.lower():
-            return second, third
-        elif second and "violation" in second.level.lower():
-            return first, third
-        else:
-            return first, second
-
-    @staticmethod
-    def _most_recent_charge(charges):
-        charges.sort(key=lambda charge: charge.disposition.date, reverse=True)
-        if charges:
-            return charges[0]
-        else:
-            return None
-
-    @staticmethod
-    def _class_b_felonies(charges):
-        class_b_felonies = []
-        for charge in charges:
-            if isinstance(charge, FelonyClassB):
-                class_b_felonies.append(charge)
-        return class_b_felonies
-
-    @staticmethod
-    def _build_disposition_errors(charges):
+    def _build_disposition_errors(charges: List[Charge]):
         record_errors = []
         cases_with_missing_disposition, cases_with_unknown_disposition = Expunger._filter_cases_with_errors(charges)
         if cases_with_missing_disposition:
@@ -136,7 +60,7 @@ class Expunger:
         return record_errors
 
     @staticmethod
-    def _filter_cases_with_errors(charges):
+    def _filter_cases_with_errors(charges: List[Charge]):
         cases_with_missing_disposition : Set[str] = set()
         cases_with_unknown_disposition : Set[str] = set()
         for charge in charges:
@@ -149,7 +73,7 @@ class Expunger:
         return cases_with_missing_disposition, cases_with_unknown_disposition
 
     @staticmethod
-    def _build_disposition_error_message(error_cases, disposition_error_name):
+    def _build_disposition_error_message(error_cases: Set[str], disposition_error_name: str):
         if len(error_cases) == 1:
                 error_message = (
 f"""Case {error_cases.pop()} has a charge with {disposition_error_name} disposition.

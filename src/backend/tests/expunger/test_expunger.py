@@ -1,6 +1,6 @@
 import unittest
 
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger.expunger import Expunger, ChargesSummarizer
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
@@ -16,10 +16,8 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case.charges = [mrd_charge]
         record = Record([case])
 
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.most_recent_dismissal is mrd_charge
+        charges = ChargesSummarizer.summarize(record.charges)
+        assert charges.most_recent_dismissal is mrd_charge
 
     def test_expunger_does_not_set_most_recent_dismissal_when_case_is_older_than_3yrs(self):
         case = CaseFactory.create()
@@ -28,10 +26,8 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case.charges = [charge_1, charge_2]
         record = Record([case])
 
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.most_recent_dismissal is None
+        charges = ChargesSummarizer.summarize(record.charges)
+        assert charges.most_recent_dismissal is None
 
     def test_expunger_sets_mrd_when_mrd_is_in_middle_of_list(self):
         case = CaseFactory.create()
@@ -40,10 +36,8 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case.charges = [charge, charge, mrd_charge, charge, charge]
         record = Record([case])
 
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.most_recent_dismissal is mrd_charge
+        charges = ChargesSummarizer.summarize(record.charges)
+        assert charges.most_recent_dismissal is mrd_charge
 
     def test_expunger_sets_mrd_when_mrd_is_at_end_of_list(self):
         case = CaseFactory.create()
@@ -52,10 +46,8 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case.charges = [charge, charge, mrd_charge]
         record = Record([case])
 
-        expunger = Expunger(record)
-        expunger.run()
-
-        assert expunger.most_recent_dismissal is mrd_charge
+        charges = ChargesSummarizer.summarize(record.charges)
+        assert charges.most_recent_dismissal is mrd_charge
 
     def test_it_skips_closed_cases_without_dispositions(self):
         case = CaseFactory.create()
@@ -63,7 +55,6 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         case.charges = [charge_without_dispo]
         record = Record([case])
         expunger = Expunger(record)
-
         assert expunger.run()
 
     def test_it_skips_juvenile_charges(self):
@@ -75,7 +66,7 @@ class TestExpungementAnalyzerUnitTests(unittest.TestCase):
         expunger = Expunger(record)
 
         assert expunger.run()
-        assert expunger.charges == []
+        assert expunger.charges_with_summary.charges == []
 
 
 class TestDispositionlessCharge(unittest.TestCase):
@@ -102,22 +93,22 @@ class TestMostRecentConviction(unittest.TestCase):
 
     def run_expunger(self, cases):
         record = Record(cases)
-        self.expunger = Expunger(record)
-        self.expunger.run()
+        expunger = Expunger(record)
+        self.charges_with_summary = expunger.charges_with_summary
 
     def test_it_sets_most_recent_conviction_from_the_last_10yrs(self):
         self.mrc_charge.disposition = Disposition(Time.LESS_THAN_TEN_YEARS_AGO, 'Convicted')
         self.case.charges = [self.mrc_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.most_recent_conviction is self.mrc_charge
 
     def test_it_does_not_set_mrc_when_greater_than_10yrs(self):
         self.mrc_charge.disposition = Disposition(Time.TEN_YEARS_AGO, 'Convicted')
         self.case.charges = [self.mrc_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_conviction is None
+        assert self.charges_with_summary.most_recent_conviction is None
 
     def test_mrc_grouped_within_other_charges(self):
         self.mrc_charge.disposition = Disposition(Time.TWO_YEARS_AGO, 'Convicted')
@@ -126,7 +117,7 @@ class TestMostRecentConviction(unittest.TestCase):
         self.case.charges = [charge, charge, self.mrc_charge, charge, charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.most_recent_conviction is self.mrc_charge
 
     def test_most_recent_charge(self):
         one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
@@ -137,7 +128,7 @@ class TestMostRecentConviction(unittest.TestCase):
         self.case.charges = [one_year_traffic_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_charge is None
+        assert self.charges_with_summary.most_recent_charge is None
 
     def test_most_recent_charge_with_non_traffic_violations(self):
         one_year_traffic_charge = ChargeFactory.create(name='Traffic Violation',
@@ -154,7 +145,7 @@ class TestMostRecentConviction(unittest.TestCase):
         self.case.charges = [one_year_traffic_charge, two_year_ago_dismissal, three_year_ago_dismissal, four_year_traffic_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_charge == two_year_ago_dismissal
+        assert self.charges_with_summary.most_recent_charge == two_year_ago_dismissal
 
     def test_parking_ticket_is_not_recent_charge(self):
         parking_ticket = ChargeFactory.create(statute='40',
@@ -163,7 +154,7 @@ class TestMostRecentConviction(unittest.TestCase):
         self.case.charges = [parking_ticket]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_charge is None
+        assert self.charges_with_summary.most_recent_charge is None
 
     def test_violation_is_not_most_recent(self):
         mrc_charge = ChargeFactory.create(level='Violation')
@@ -171,7 +162,7 @@ class TestMostRecentConviction(unittest.TestCase):
         self.case.charges = [mrc_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_conviction is None
+        assert self.charges_with_summary.most_recent_conviction is None
 
     def test_violation_and_misdemeanor_most_recent(self):
         viol_case = CaseFactory.create()
@@ -184,7 +175,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([viol_case, self.case])
 
-        assert self.expunger.most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.most_recent_conviction is self.mrc_charge
 
     def test_recent_violation_and_nonrecent_misdemeanor(self):
         viol_case = CaseFactory.create()
@@ -200,7 +191,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([viol_case, misd_case])
 
-        assert self.expunger.most_recent_conviction is None
+        assert self.charges_with_summary.most_recent_conviction is None
 
     def test_two_most_recent_are_violations(self):
         self.viol_charge.disposition = Disposition(Time.ONE_YEAR_AGO, 'Convicted')
@@ -210,7 +201,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case])
 
-        assert self.expunger.most_recent_conviction is self.viol2_charge
+        assert self.charges_with_summary.most_recent_conviction is self.viol2_charge
 
     def test_mrc_with_two_violations(self):
         self.viol_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -226,7 +217,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.most_recent_conviction is self.mrc_charge
 
     def test_second_violation_is_mrc(self):
         self.viol_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -242,7 +233,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.most_recent_conviction is self.viol2_charge
+        assert self.charges_with_summary.most_recent_conviction is self.viol2_charge
 
     def test_misdemeanor_is_mrc_with_two_violations_dispod_after(self):
         self.mrc_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -258,7 +249,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.most_recent_conviction is self.mrc_charge
 
     def test_three_violations_second_violation_is_mrc(self):
         first_violation = ChargeFactory.create(level='Violation')
@@ -275,7 +266,7 @@ class TestMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.most_recent_conviction is self.viol_charge
+        assert self.charges_with_summary.most_recent_conviction is self.viol_charge
 
 
 class TestSecondMostRecentConviction(unittest.TestCase):
@@ -288,8 +279,8 @@ class TestSecondMostRecentConviction(unittest.TestCase):
 
     def run_expunger(self, cases):
         record = Record(cases)
-        self.expunger = Expunger(record)
-        self.expunger.run()
+        expunger = Expunger(record)
+        self.charges_with_summary = expunger.charges_with_summary
 
     def test_it_does_not_set_2nd_mrc_when_greater_than_10yrs(self):
 
@@ -299,7 +290,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
         self.case.charges = [self.mrc_charge, second_mrc_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.second_most_recent_conviction is None
+        assert self.charges_with_summary.second_most_recent_conviction is None
 
     def test_it_sets_the_second_most_recent_conviction_within_the_last_10yrs(self):
         self.mrc_charge.disposition = Disposition(Time.TWO_YEARS_AGO, 'Convicted')
@@ -309,7 +300,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
         self.case.charges = [second_mrc_charge, self.mrc_charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.second_most_recent_conviction is second_mrc_charge
+        assert self.charges_with_summary.second_most_recent_conviction is second_mrc_charge
 
     def test_second_mrc_with_other_charges(self):
         self.mrc_charge.disposition = Disposition(Time.TWO_YEARS_AGO, 'Convicted')
@@ -320,7 +311,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
         self.case.charges = [charge, charge, second_mrc_charge, self.mrc_charge, charge, charge]
         self.run_expunger([self.case])
 
-        assert self.expunger.second_most_recent_conviction is second_mrc_charge
+        assert self.charges_with_summary.second_most_recent_conviction is second_mrc_charge
 
     def test_second_mrc_with_two_violations(self):
         self.viol_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -336,7 +327,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.second_most_recent_conviction is self.viol2_charge
+        assert self.charges_with_summary.second_most_recent_conviction is self.viol2_charge
 
     def test_misdemeanor_is_second_mrc(self):
         self.viol_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -352,7 +343,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.second_most_recent_conviction is self.mrc_charge
+        assert self.charges_with_summary.second_most_recent_conviction is self.mrc_charge
 
     def test_violation_is_2mrc(self):
         self.mrc_charge.disposition = Disposition(Time.YESTERDAY, 'Convicted')
@@ -368,7 +359,7 @@ class TestSecondMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.second_most_recent_conviction is self.viol2_charge
+        assert self.charges_with_summary.second_most_recent_conviction is self.viol2_charge
 
     def test_three_violations_with_oldest_violation_is_2mrc(self):
         first_violation = ChargeFactory.create(level='Violation')
@@ -385,4 +376,4 @@ class TestSecondMostRecentConviction(unittest.TestCase):
 
         self.run_expunger([self.case, case_two, case_three])
 
-        assert self.expunger.second_most_recent_conviction is first_violation
+        assert self.charges_with_summary.second_most_recent_conviction is first_violation
