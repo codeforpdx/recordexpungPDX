@@ -7,11 +7,11 @@ from flask_login import login_user, UserMixin, current_user
 
 @dataclass
 class User:
-    user_id : str
-    email : str
-    name : str
-    group_name : str
-    admin : bool
+    user_id: str
+    email: str
+    name: str
+    group_name: str
+    admin: bool
 
     @staticmethod
     def login_user(user):
@@ -36,6 +36,7 @@ class User:
     def get_id(self):
         return self.user_id
 
+
 def admin_login_required(func):
     @functools.wraps(func)
     def decorated_view(*args, **kwargs):
@@ -45,4 +46,5 @@ def admin_login_required(func):
             abort(403)
         else:
             return current_app.login_manager.unauthorized()
+
     return decorated_view

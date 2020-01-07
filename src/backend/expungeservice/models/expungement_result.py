@@ -9,16 +9,19 @@ class EligibilityStatus(str, Enum):
     NEEDS_MORE_ANALYSIS = "Needs more analysis"
     INELIGIBLE = "Ineligible"
 
+
 @dataclass
 class TypeEligibility:
     status: EligibilityStatus
     reason: str
+
 
 @dataclass
 class TimeEligibility:
     status: EligibilityStatus
     reason: str
     date_will_be_eligible: Optional[date]
+
 
 @dataclass
 class ExpungementResult:

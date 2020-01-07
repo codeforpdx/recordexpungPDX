@@ -7,7 +7,13 @@ from typing import Optional
 from dateutil.relativedelta import relativedelta
 
 from expungeservice.models.disposition import Disposition, DispositionStatus
-from expungeservice.models.expungement_result import ExpungementResult, TimeEligibility, TypeEligibility, EligibilityStatus
+from expungeservice.models.expungement_result import (
+    ExpungementResult,
+    TimeEligibility,
+    TypeEligibility,
+    EligibilityStatus,
+)
+
 
 @dataclass(eq=False)
 class Charge:
@@ -27,9 +33,13 @@ class Charge:
 
     def _build_type_eligibility(self):
         if self.disposition is None:
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not found. Needs further analysis")
+            return TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not found. Needs further analysis"
+            )
         elif self.disposition.status == DispositionStatus.UNKNOWN:
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason = "Disposition not recognized. Needs further analysis")
+            return TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not recognized. Needs further analysis"
+            )
         else:
             return self._default_type_eligibility()
 
@@ -40,25 +50,22 @@ class Charge:
         return self._case
 
     def acquitted(self):
-        #TODO: rename this method and related variables to "dismissed" or similar
-        acquittal_statuses = [
-            DispositionStatus.NO_COMPLAINT,
-            DispositionStatus.DISMISSED,
-            DispositionStatus.DIVERTED]
+        # TODO: rename this method and related variables to "dismissed" or similar
+        acquittal_statuses = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]
         return self.disposition and self.disposition.status in acquittal_statuses
 
     def convicted(self):
         return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
 
     def recent_conviction(self):
-        ten_years_ago = (date_class.today() + relativedelta(years=-10))
+        ten_years_ago = date_class.today() + relativedelta(years=-10)
         if self.convicted():
-            return self.disposition.date > ten_years_ago # type: ignore
+            return self.disposition.date > ten_years_ago  # type: ignore
         else:
             return False
 
     def recent_acquittal(self):
-        three_years_ago = (date_class.today() + relativedelta(years=-3))
+        three_years_ago = date_class.today() + relativedelta(years=-3)
         return self.acquitted() and self.date > three_years_ago
 
     def skip_analysis(self):
@@ -70,9 +77,11 @@ class Charge:
             date_will_be_eligible = date_of_eligibility
         else:
             date_will_be_eligible = None
-        time_eligibility = TimeEligibility(status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible)
+        time_eligibility = TimeEligibility(
+            status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
+        )
         self.expungement_result.time_eligibility = time_eligibility
 
-    def set_time_eligible(self, reason=''):
+    def set_time_eligible(self, reason=""):
         time_eligibility = TimeEligibility(status=EligibilityStatus.ELIGIBLE, reason=reason, date_will_be_eligible=None)
         self.expungement_result.time_eligibility = time_eligibility

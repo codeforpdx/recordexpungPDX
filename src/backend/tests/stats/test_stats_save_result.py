@@ -11,19 +11,21 @@ from expungeservice.database import get_database
 def service():
     return EndpointShared()
 
+
 @pytest.fixture(autouse=True)
 def setup_and_teardown(service):
     service.setup()
     yield
     service.teardown()
 
+
 def test_save_result(service):
     with service.client:
         request_data = {
-            "first_name":"John",
-            "last_name":"Doe",
-            "middle_name":"Test",
-            "birth_date":"01/01/1980",
+            "first_name": "John",
+            "last_name": "Doe",
+            "middle_name": "Test",
+            "birth_date": "01/01/1980",
         }
 
         record = CrawlerFactory.create(CrawlerFactory.setup())
@@ -37,5 +39,5 @@ def test_save_result(service):
         g.database.connection.commit()
 
     service.check_search_result_saved(
-            service.user_data["user1"]["user_id"], request_data,
-            num_eligible_charges=6, num_charges=9)
+        service.user_data["user1"]["user_id"], request_data, num_eligible_charges=6, num_charges=9
+    )

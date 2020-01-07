@@ -6,7 +6,6 @@ from expungeservice.crawler.parsers.record_parser import RecordParser
 
 
 class TestRecordParser(unittest.TestCase):
-
     def setUp(self):
         self.parser = RecordParser()
         self.parser.feed(JohnDoe.RECORD)
@@ -66,7 +65,6 @@ class TestRecordParser(unittest.TestCase):
 
 
 class TestEmptyRecord(unittest.TestCase):
-
     def test_empty_record(self):
         """Tests it can parse a blank record."""
         parser = RecordParser()
@@ -76,7 +74,6 @@ class TestEmptyRecord(unittest.TestCase):
 
 
 class TestRecordWithoutBirthYear(unittest.TestCase):
-
     def test_it_assigns_birth_year(self):
         parser = RecordParser()
         parser.feed(JohnDoe.RECORD_WITH_MISSING_BIRTH_YEAR)

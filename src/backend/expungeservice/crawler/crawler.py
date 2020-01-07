@@ -13,7 +13,6 @@ from expungeservice.crawler.request import *
 
 
 class Crawler:
-
     def __init__(self):
         self.session = requests.Session()
         self.response = requests.Response()
@@ -30,8 +29,8 @@ class Crawler:
 
         return Crawler.__login_validation(self.response, url)
 
-    def search(self, first_name, last_name, middle_name='', birth_date=''):
-        url = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100'
+    def search(self, first_name, last_name, middle_name="", birth_date=""):
+        url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
 
@@ -51,14 +50,14 @@ class Crawler:
         case.set_probation_revoked(case_parser_data.probation_revoked)
         case.set_balance_due(case_parser_data.balance_due)
         for charge_id, charge in case_parser_data.hashed_charge_data.items():
-            charge['case'] = case
+            charge["case"] = case
             new_charge = Crawler.__build_charge(charge_id, charge, case_parser_data)
             case.charges.append(new_charge)
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
         node_parser.feed(self.response.text)
-        payload = {'NodeID': node_parser.node_id, 'NodeDesc': 'All+Locations'}
+        payload = {"NodeID": node_parser.node_id, "NodeDesc": "All+Locations"}
         return self.session.post(url, data=payload)
 
     def __parse_case(self, case):
@@ -78,6 +77,8 @@ class Crawler:
     @staticmethod
     def __build_charge(charge_id, charge, case_parser_data):
         if case_parser_data.hashed_dispo_data.get(charge_id):
-            charge['disposition'] = Disposition(case_parser_data.hashed_dispo_data[charge_id].get('date'),
-                                                case_parser_data.hashed_dispo_data[charge_id].get('ruling'))
+            charge["disposition"] = Disposition(
+                case_parser_data.hashed_dispo_data[charge_id].get("date"),
+                case_parser_data.hashed_dispo_data[charge_id].get("ruling"),
+            )
         return ChargeCreator.create(**charge)

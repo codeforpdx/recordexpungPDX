@@ -15,6 +15,7 @@ class ChargesWithSummary:
     class_b_felonies: A list of class B felonies; excluding person crimes or firearm crimes
     most_recent_charge: The most recent charge within the last 20yrs; excluding traffic violations # (NB Kent): Why within the last 20yrs?
     """
+
     charges: List[Charge]
     acquittals: List[Charge] = field(default_factory=list)
     convictions: List[Charge] = field(default_factory=list)
@@ -33,10 +34,23 @@ class ChargesSummarizer:
         acquittals, convictions, unknowns = ChargesSummarizer._categorize_charges(charges)
         recent_convictions, old_convictions = ChargesSummarizer._categorize_convictions_by_recency(convictions)
         most_recent_dismissal = ChargesSummarizer._most_recent_dismissal(acquittals)
-        most_recent_conviction, second_most_recent_conviction = ChargesSummarizer._most_recent_convictions(recent_convictions)
+        most_recent_conviction, second_most_recent_conviction = ChargesSummarizer._most_recent_convictions(
+            recent_convictions
+        )
         most_recent_charge = ChargesSummarizer._most_recent_charge(charges)
         class_b_felonies = ChargesSummarizer._class_b_felonies(charges)
-        return ChargesWithSummary(charges, acquittals, convictions, unknowns, old_convictions, most_recent_dismissal, most_recent_conviction, second_most_recent_conviction, most_recent_charge, class_b_felonies)
+        return ChargesWithSummary(
+            charges,
+            acquittals,
+            convictions,
+            unknowns,
+            old_convictions,
+            most_recent_dismissal,
+            most_recent_conviction,
+            second_most_recent_conviction,
+            most_recent_charge,
+            class_b_felonies,
+        )
 
     @staticmethod
     def _categorize_charges(charges):

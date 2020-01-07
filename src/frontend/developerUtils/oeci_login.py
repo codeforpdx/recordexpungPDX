@@ -12,7 +12,6 @@ from expungeservice.crypto import DataCipher
 
 
 class OeciLogin(MethodView):
-
     @login_required
     def post(self):
         """
@@ -28,17 +27,14 @@ class OeciLogin(MethodView):
 
         check_data_fields(data, ["oeci_username", "oeci_password"])
 
-        credentials = {"oeci_username": data["oeci_username"],
-                       "oeci_password": data["oeci_password"]}
+        credentials = {"oeci_username": data["oeci_username"], "oeci_password": data["oeci_password"]}
 
-        login_result = (data["oeci_username"] == "username" and
-                       data["oeci_password"] == "password")
+        login_result = data["oeci_username"] == "username" and data["oeci_password"] == "password"
 
         if not login_result:
             error(401, "Invalid OECI username or password.")
 
-        cipher = DataCipher(
-            key=current_app.config.get("SECRET_KEY"))
+        cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
 
         encrypted_credentials = cipher.encrypt(credentials)
 
@@ -51,11 +47,11 @@ class OeciLogin(MethodView):
             httponly=False,
             samesite="strict",
             expires=time.time() + 15 * 60,  # 15 minutes
-            value=encrypted_credentials)
+            value=encrypted_credentials,
+        )
 
         return response, 201
 
 
 def register(app):
-    app.add_url_rule('/api/oeci_login',
-                     view_func=OeciLogin.as_view('oeci_login'))
+    app.add_url_rule("/api/oeci_login", view_func=OeciLogin.as_view("oeci_login"))

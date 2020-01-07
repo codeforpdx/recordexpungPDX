@@ -1,7 +1,6 @@
 import logging
 
 
-
 class DetailedFormatter(logging.Formatter):
 
     formatstr = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
@@ -25,7 +24,7 @@ class ColoredFormatter(DetailedFormatter):
         logging.INFO: yellow + DetailedFormatter.formatstr + reset,
         logging.WARNING: yellow + DetailedFormatter.formatstr + reset,
         logging.ERROR: red + DetailedFormatter.formatstr + reset,
-        logging.CRITICAL: bold_red + DetailedFormatter.formatstr + reset
+        logging.CRITICAL: bold_red + DetailedFormatter.formatstr + reset,
     }
 
     def format(self, record):

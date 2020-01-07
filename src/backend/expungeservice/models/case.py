@@ -21,17 +21,25 @@ class Case:
     __probation_revoked: bool = False
 
     @staticmethod
-    def create(info, case_number, citation_number, date_location, type_status,
-               charges, case_detail_link, balance="0"):
+    def create(info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance="0"):
         name = info[0]
         birth_year = Case._parse_birth_year(info)
         citation_number = citation_number[0] if citation_number else ""
         date, location = date_location
-        date = datetime.date(datetime.strptime(date, '%m/%d/%Y'))
+        date = datetime.date(datetime.strptime(date, "%m/%d/%Y"))
         violation_type, current_status = type_status
-        case = Case(name, birth_year, case_number, citation_number, location,
-                    date, violation_type, current_status, charges,
-                    case_detail_link)
+        case = Case(
+            name,
+            birth_year,
+            case_number,
+            citation_number,
+            location,
+            date,
+            violation_type,
+            current_status,
+            charges,
+            case_detail_link,
+        )
         case.set_balance_due(balance)
         return case
 
@@ -42,7 +50,7 @@ class Case:
         self.__probation_revoked = probation_revoked
 
     def set_balance_due(self, balance_due_dollar_amount: str):
-        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(',', ''))
+        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(",", ""))
         self.__balance_due_in_cents = int(balance_due_dollar_amount_float * 100)
 
     def get_balance_due(self):
@@ -60,13 +68,13 @@ class Case:
     @staticmethod
     def _parse_birth_year(info) -> Optional[int]:
         if len(info) > 1:
-            return int(info[1].split('/')[-1])
+            return int(info[1].split("/")[-1])
         else:
             return None
 
     def _ignore_open_case(self):
-        return 'violation' in self.violation_type.lower() or 'municipal parking' == self.violation_type.lower()
+        return "violation" in self.violation_type.lower() or "municipal parking" == self.violation_type.lower()
 
     def _closed(self):
-        CLOSED_STATUS = ['Closed', 'Inactive', 'Purgable', 'Bankruptcy Pending']
+        CLOSED_STATUS = ["Closed", "Inactive", "Purgable", "Bankruptcy Pending"]
         return self.current_status in CLOSED_STATUS

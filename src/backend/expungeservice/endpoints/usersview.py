@@ -20,8 +20,7 @@ def get_from_user_id(user_id):
         error(404, "User id not recognized")
 
     if not current_user.is_admin and current_user.user_id != user_id:
-        error(403,
-              "Logged in user not admin and doesn't match requested user id.")
+        error(403, "Logged in user not admin and doesn't match requested user id.")
 
     response_data = {
         "user_id": user_db_data["user_id"],
@@ -29,7 +28,8 @@ def get_from_user_id(user_id):
         "name": user_db_data["name"],
         "group_name": user_db_data["group_name"],
         "admin": user_db_data["admin"],
-        "timestamp": user_db_data["date_created"]}
+        "timestamp": user_db_data["date_created"],
+    }
     return jsonify(response_data), 201
 
 
@@ -39,21 +39,21 @@ def put_from_user_id(user_id):
         error(404, "User id not recognized.")
 
     if not current_user.is_admin and current_user.user_id != user_id:
-        error(403,
-              "Logged in user not admin and doesn't match requested user id.")
+        error(403, "Logged in user not admin and doesn't match requested user id.")
 
     data = request.get_json()
 
     if data is None:
         error(400, "No json data in request body")
 
-    if not any([key in data.keys() for key in ["email", "name", "group_name",
-                                               "password", "admin"]]):
-        error(400, "Json data must define one or more of: \
-    email, name, group_name, password, admin")
+    if not any([key in data.keys() for key in ["email", "name", "group_name", "password", "admin"]]):
+        error(
+            400,
+            "Json data must define one or more of: \
+    email, name, group_name, password, admin",
+        )
 
-    if ("admin" in data.keys()) and (data["admin"] is True) and (
-    not current_user.is_admin):
+    if ("admin" in data.keys()) and (data["admin"] is True) and (not current_user.is_admin):
         error(403, "Logged in user can not grant self admin privileges.")
 
     if "password" in data.keys():
@@ -62,10 +62,7 @@ def put_from_user_id(user_id):
         data["hashed_password"] = generate_password_hash(data["password"])
 
     try:
-        update_user_result = user_db_util.update(
-            g.database,
-            user_id,
-            data)
+        update_user_result = user_db_util.update(g.database, user_id, data)
 
     except UniqueViolation:
         error(422, "User with that email address already exists")
@@ -81,7 +78,7 @@ def put_from_user_id(user_id):
         "admin": update_user_result["admin"],
         "name": update_user_result["name"],
         "group_name": update_user_result["group_name"],
-        "timestamp": update_user_result["date_modified"]
+        "timestamp": update_user_result["date_modified"],
     }
     return jsonify(response_data), 200
 
@@ -106,14 +103,16 @@ class UsersView(MethodView):
 
             response_data: Dict[str, List[Dict[str, str]]] = {"users": []}
             for user_entry in user_db_data:
-                response_data["users"].append({
-                    "id": user_entry["user_id"],
-                    "email": user_entry["email"],
-                    "name": user_entry["name"],
-                    "group": user_entry["group_name"],
-                    "admin": user_entry["admin"],
-                    "timestamp": user_entry["date_created"]
-                    })
+                response_data["users"].append(
+                    {
+                        "id": user_entry["user_id"],
+                        "email": user_entry["email"],
+                        "name": user_entry["name"],
+                        "group": user_entry["group_name"],
+                        "admin": user_entry["admin"],
+                        "timestamp": user_entry["date_created"],
+                    }
+                )
 
             return jsonify(response_data), 201
 
@@ -134,8 +133,7 @@ class UsersView(MethodView):
         if data is None:
             error(400, "No json data in request body")
 
-        check_data_fields(data, ["email", "name", "group_name",
-                                 "password", "admin"])
+        check_data_fields(data, ["email", "name", "group_name", "password", "admin"])
 
         if len(data["password"]) < 8:
             error(422, "New password is less than 8 characters long!")
@@ -149,7 +147,8 @@ class UsersView(MethodView):
                 name=data["name"],
                 group_name=data["group_name"],
                 password_hash=password_hash,
-                admin=data["admin"])
+                admin=data["admin"],
+            )
 
         except UniqueViolation:
             error(422, "User with that email address already exists")
@@ -160,7 +159,7 @@ class UsersView(MethodView):
             "admin": create_user_result["admin"],
             "name": create_user_result["name"],
             "group_name": create_user_result["group_name"],
-            "timestamp": create_user_result["date_created"]
+            "timestamp": create_user_result["date_created"],
         }
 
         return jsonify(response_data), 201
@@ -187,18 +186,11 @@ class UserView(MethodView):
 
 
 def register(app):
-    user_view = UsersView.as_view('users')
-    app.add_url_rule('/api/users', defaults={'user_id': None},
-                     view_func=user_view,
-                     methods=['GET'])
+    user_view = UsersView.as_view("users")
+    app.add_url_rule("/api/users", defaults={"user_id": None}, view_func=user_view, methods=["GET"])
 
-    app.add_url_rule('/api/users', view_func=user_view, methods=['POST'])
-    app.add_url_rule('/api/users/<user_id>',
-                     view_func=user_view,
-                     methods=['GET', 'PUT'])
+    app.add_url_rule("/api/users", view_func=user_view, methods=["POST"])
+    app.add_url_rule("/api/users/<user_id>", view_func=user_view, methods=["GET", "PUT"])
 
-    my_user_view = UserView.as_view('user')
-    app.add_url_rule('/api/user',
-                     view_func=my_user_view,
-                     methods=['GET','PUT'])
-
+    my_user_view = UserView.as_view("user")
+    app.add_url_rule("/api/user", view_func=my_user_view, methods=["GET", "PUT"])
