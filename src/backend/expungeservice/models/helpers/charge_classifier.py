@@ -19,10 +19,10 @@ from expungeservice.models.charge_types.unclassified_charge import UnclassifiedC
 @dataclass
 class ChargeClassifier:
     violation_type: str
-    statute : str
-    level : str
-    chapter : str
-    section : str
+    statute: str
+    level: str
+    chapter: str
+    section: str
 
     def classify(self):
         def classification_found(c):
@@ -41,7 +41,7 @@ class ChargeClassifier:
 
     @staticmethod
     def _juvenile_charge(violation_type):
-        if 'juvenile' in violation_type.lower():
+        if "juvenile" in violation_type.lower():
             return JuvenileCharge
 
     @staticmethod
@@ -63,14 +63,28 @@ class ChargeClassifier:
 
     @staticmethod
     def _marijuana_ineligible(statute, section):
-        ineligible_statutes = ['475B359', '475B367', '475B371', '167262']
-        if statute == '475B3493C' or section in ineligible_statutes:
+        ineligible_statutes = ["475B359", "475B367", "475B371", "167262"]
+        if statute == "475B3493C" or section in ineligible_statutes:
             return MarijuanaIneligible
 
     @staticmethod
     def _list_b(section):
-        ineligible_statutes = ['163200', '163205', '163575', '163535', '163175', '163275', '162165', '163525', '164405',
-                               '164395', '162185', '166220', '163225', '163165']
+        ineligible_statutes = [
+            "163200",
+            "163205",
+            "163575",
+            "163535",
+            "163175",
+            "163275",
+            "162165",
+            "163525",
+            "164405",
+            "164395",
+            "162185",
+            "166220",
+            "163225",
+            "163165",
+        ]
         if section in ineligible_statutes:
             return ListB
 
@@ -79,7 +93,6 @@ class ChargeClassifier:
         statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
         if section.isdigit() and any(int(section) in statute_range for statute_range in statute_ranges):
             return PersonCrime
-
 
     @staticmethod
     def _traffic_crime(statute):
@@ -96,8 +109,6 @@ class ChargeClassifier:
             elif chapter_num in statute_range:
                 return Level800TrafficCrime
 
-
-
     @staticmethod
     def _parking_ticket(statute, chapter):
         statute_range = range(1, 100)
@@ -109,35 +120,35 @@ class ChargeClassifier:
 
     @staticmethod
     def _schedule_1_pcs(section):
-        if section in ['475854', '475874', '475884', '475894', '475992']:
+        if section in ["475854", "475874", "475884", "475894", "475992"]:
             return Schedule1PCS
 
     @staticmethod
     def _municipal_parking(violation_type):
-        if 'parking' in violation_type.lower():
+        if "parking" in violation_type.lower():
             return ParkingTicket
 
     @staticmethod
     def _non_traffic_violation(level):
-        if 'Violation' in level:
+        if "Violation" in level:
             return NonTrafficViolation
 
     @staticmethod
     def _misdemeanor(level):
-        if 'Misdemeanor' in level:
+        if "Misdemeanor" in level:
             return Misdemeanor
 
     @staticmethod
     def _felony_class_c(level):
-        if level == 'Felony Class C':
+        if level == "Felony Class C":
             return FelonyClassC
 
     @staticmethod
     def _felony_class_b(level):
-        if level == 'Felony Class B':
+        if level == "Felony Class B":
             return FelonyClassB
 
     @staticmethod
     def _felony_class_a(level):
-        if level == 'Felony Class A':
+        if level == "Felony Class A":
             return FelonyClassA

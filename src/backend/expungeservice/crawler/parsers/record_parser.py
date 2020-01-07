@@ -4,7 +4,7 @@ from expungeservice.models.case import Case
 
 
 class RecordParser(HTMLParser):
-    BASE_URI = 'https://publicaccess.courts.oregon.gov/PublicAccessLogin/'
+    BASE_URI = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/"
 
     def __init__(self):
         HTMLParser.__init__(self)
@@ -13,13 +13,13 @@ class RecordParser(HTMLParser):
         self.within_tr_tag = False
         self.within_nested_tr = False
         self.collect_data = False
-        self.case_number = ''      # column 1
+        self.case_number = ""  # column 1
         self.citation_number = []  # column 2
-        self.info = []             # column 3
-        self.date_location = []    # column 4
-        self.type_status = []      # column 5
-        self.charges = []          # column 6+
-        self.case_detail_link = ''
+        self.info = []  # column 3
+        self.date_location = []  # column 4
+        self.type_status = []  # column 5
+        self.charges = []  # column 6+
+        self.case_detail_link = ""
 
     def handle_starttag(self, tag, attrs):
         self.__increase_column_count(tag)
@@ -47,7 +47,7 @@ class RecordParser(HTMLParser):
             }
             switcher.get(self.column, self._set_charges)(data)
 
-        elif 'Charge(s)' == data:
+        elif "Charge(s)" == data:
             self.collect_data = True
 
     # TODO: Add error response.
@@ -73,17 +73,26 @@ class RecordParser(HTMLParser):
         self.charges.append(data)
 
     def __record_case(self):
-        self.cases.append(Case.create(self.info, self.case_number, self.citation_number, self.date_location,
-                                    self.type_status, [], self.case_detail_link))
+        self.cases.append(
+            Case.create(
+                self.info,
+                self.case_number,
+                self.citation_number,
+                self.date_location,
+                self.type_status,
+                [],
+                self.case_detail_link,
+            )
+        )
 
     def __reset_case(self):
-        self.case_number = ''      # column 1
+        self.case_number = ""  # column 1
         self.citation_number = []  # column 2
-        self.info = []             # column 3
-        self.date_location = []    # column 4
-        self.type_status = []      # column 5
-        self.charges = []          # column 6+
-        self.case_detail_link = ''
+        self.info = []  # column 3
+        self.date_location = []  # column 4
+        self.type_status = []  # column 5
+        self.charges = []  # column 6+
+        self.case_detail_link = ""
 
     def __valid_row(self):
         valid_length = 1
@@ -94,15 +103,15 @@ class RecordParser(HTMLParser):
         self.within_tr_tag = False
 
     def __increase_column_count(self, tag):
-        if tag == 'td':
+        if tag == "td":
             self.column += 1
 
     def __case_column(self):
         return self.column == 1
 
     def __assign_case_link(self, tag, attrs):
-        if tag == 'a' and self.collect_data:
-            self.case_detail_link = self.BASE_URI + dict(attrs)['href']
+        if tag == "a" and self.collect_data:
+            self.case_detail_link = self.BASE_URI + dict(attrs)["href"]
 
     def __set_flags(self, tag):
         if self.__nested_table_row(tag):
@@ -111,13 +120,13 @@ class RecordParser(HTMLParser):
             self.within_tr_tag = True
 
     def __collect_tr_data(self, tag):
-        return tag == 'tr' and self.collect_data
+        return tag == "tr" and self.collect_data
 
     def __nested_table_row(self, tag):
-        return tag == 'tr' and self.within_tr_tag
+        return tag == "tr" and self.within_tr_tag
 
     def __exiting_nested_table(self, tag):
-        return tag == 'tr' and self.within_nested_tr
+        return tag == "tr" and self.within_nested_tr
 
     def __within_valid_table_row(self):
         return self.within_tr_tag and self.collect_data

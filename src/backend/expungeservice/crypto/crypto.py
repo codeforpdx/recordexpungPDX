@@ -33,7 +33,7 @@ class DataCipher:
             length=32,
             salt=salt_string.encode(),
             iterations=100000,
-            backend=default_backend()
+            backend=default_backend(),
         )
         hashed_key = kdf.derive(key_as_bytes)
         key_bytes = base64.encodebytes(hashed_key)

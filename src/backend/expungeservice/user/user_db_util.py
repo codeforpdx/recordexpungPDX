@@ -8,16 +8,15 @@ from psycopg2 import sql
 
 
 @rollback_errors
-def create(database, email, name,
-           group_name, password_hash, admin):
+def create(database, email, name, group_name, password_hash, admin):
 
     database.cursor.execute(
         """
         SELECT * FROM USERS_CREATE( %(em)s, %(pass)s, %(name)s, %(group_name)s,
          %(adm)s );
-        """, {'em': email, 'pass': password_hash, 'name': name,
-              'group_name': group_name,
-              'adm': admin})
+        """,
+        {"em": email, "pass": password_hash, "name": name, "group_name": group_name, "adm": admin},
+    )
 
     result = database.cursor.fetchone()
     return result._asdict()
@@ -28,11 +27,13 @@ def identify_by_email(database, email):
         """
         SELECT user_id::text
         FROM USERS where email = %(email)s
-        ;""", {"email": email})
+        ;""",
+        {"email": email},
+    )
 
     res = database.cursor.fetchone()
     if res:
-        return res._asdict()['user_id']
+        return res._asdict()["user_id"]
     else:
         return None
 
@@ -40,10 +41,11 @@ def identify_by_email(database, email):
 def read(database, user_id):
 
     database.cursor.execute(
-
         """
         SELECT * FROM USERS_READ( %(user_id)s );
-        """, {'user_id': user_id})
+        """,
+        {"user_id": user_id},
+    )
 
     res = database.cursor.fetchone()
 
@@ -58,7 +60,10 @@ def fetchall(database):
     database.cursor.execute(
         sql.SQL(
             """SELECT * FROM USERS_FETCHALL();
-            """), {})
+            """
+        ),
+        {},
+    )
 
     res = database.cursor.fetchall()
     if res:
@@ -83,7 +88,8 @@ def update(database, user_id, new_values):
         """SELECT * FROM USERS_UPDATE(
             %(user_id)s, %(email)s,  %(name)s, %(group_name)s,
             %(admin)s, %(hashed_password)s )""",
-        user_data)
+        user_data,
+    )
 
     res = database.cursor.fetchone()
 

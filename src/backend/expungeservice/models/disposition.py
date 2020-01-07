@@ -11,6 +11,7 @@ class DispositionStatus(str, Enum):
     DIVERTED = "Diverted"
     UNKNOWN = "Unknown"
 
+
 @dataclass(eq=False)
 class Disposition:
     date: Optional[date]
@@ -27,29 +28,25 @@ class Disposition:
 
     def __set_date(self, date):
         if date:
-            return datetime.date(datetime.strptime(date, '%m/%d/%Y'))
+            return datetime.date(datetime.strptime(date, "%m/%d/%Y"))
         return None
 
     def __set_status(self):
         ruling = self.ruling.lower()
-        conviction_rulings = [
-            "convicted", "conviction", "reduced",
-            "finding - guilty","conversion", "converted"]
-        dismissal_rulings = [
-            "acquitted", "acquittal", "dismissed",
-            "dismissal", "finding - not guilty"]
+        conviction_rulings = ["convicted", "conviction", "reduced", "finding - guilty", "conversion", "converted"]
+        dismissal_rulings = ["acquitted", "acquittal", "dismissed", "dismissal", "finding - not guilty"]
 
         if any([rule in ruling for rule in conviction_rulings]):
             return DispositionStatus.CONVICTED
 
         elif any([rule in ruling for rule in dismissal_rulings]):
-            return  DispositionStatus.DISMISSED
+            return DispositionStatus.DISMISSED
 
         elif "diverted" in ruling:
-            return  DispositionStatus.DIVERTED
+            return DispositionStatus.DIVERTED
 
         elif "no complaint" in ruling:
-            return  DispositionStatus.NO_COMPLAINT
+            return DispositionStatus.NO_COMPLAINT
 
         else:
-            return  DispositionStatus.UNKNOWN
+            return DispositionStatus.UNKNOWN

@@ -42,13 +42,9 @@ print(rows)
         self._cursor = None
 
         try:
-            self._conn = psycopg2.connect(
-                host=host, port=port, dbname=name,
-                user=username, password=password)
-            self._cursor = self._conn.cursor(
-                cursor_factory=psycopg2.extras.NamedTupleCursor)
-            self._cursor.execute(
-                """SET search_path TO {},public""".format(self._name))
+            self._conn = psycopg2.connect(host=host, port=port, dbname=name, user=username, password=password)
+            self._cursor = self._conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+            self._cursor.execute("""SET search_path TO {},public""".format(self._name))
         except psycopg2.OperationalError as e:
             logging.error(e)
             raise e
@@ -97,20 +93,22 @@ print(rows)
         s = """Host: {}
 Port: {}
 Name: {}
-Username: {}""".format(self.host, self.port, self.name, self.username)
+Username: {}""".format(
+            self.host, self.port, self.name, self.username
+        )
         return s
 
 
 def get_database():
 
-    '''
+    """
     Acquiring db access creds depending on the environment variables present.
     DATABASE_URL is defined in the Heroku container and provides
     database connection info.
-    '''
-    if os.environ.get('DATABASE_URL'):
-        print("using database url: ", os.environ.get('DATABASE_URL'))
-        infostr = os.environ['DATABASE_URL'].split('postgres://')[1]
+    """
+    if os.environ.get("DATABASE_URL"):
+        print("using database url: ", os.environ.get("DATABASE_URL"))
+        infostr = os.environ["DATABASE_URL"].split("postgres://")[1]
         creds, hostdat = infostr.split("@")
         # An example heroku db url:
         # postgres://kkpshuqenz:dc7393549121483a18c5b77b47af7f536567d31acb952128ce0bb@ec2-50-16-225-96.compute-1.amazonaws.com:5432/d98vao1s9j9t18
@@ -122,18 +120,13 @@ def get_database():
         name = hostdat.split("/")[1]
 
     else:
-        '''
+        """
         In the dev environment, we use a set of env vars for the db conn:
-        '''
-        host = os.environ['PGHOST']
-        port = int(os.environ['PGPORT'])
-        name = os.environ['PGDATABASE']
-        username = os.environ['POSTGRES_USERNAME']
-        password = os.environ['POSTGRES_PASSWORD']
+        """
+        host = os.environ["PGHOST"]
+        port = int(os.environ["PGPORT"])
+        name = os.environ["PGDATABASE"]
+        username = os.environ["POSTGRES_USERNAME"]
+        password = os.environ["POSTGRES_PASSWORD"]
 
-    return Database(
-        host=host,
-        port=port,
-        name=name,
-        username=username,
-        password=password)
+    return Database(host=host, port=port, name=name, username=username, password=password)

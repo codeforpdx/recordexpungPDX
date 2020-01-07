@@ -11,12 +11,15 @@ import logging
 
 from .loggers import attach_logger
 
+
 def before():
     g.database = get_database()
+
 
 def after(response):
     g.database.connection.commit()
     return response
+
 
 def create_app(env_name):
     """
@@ -40,8 +43,9 @@ def create_app(env_name):
 
     return app
 
+
 def __register_endpoints(app):
-    for _, module_name, _ in pkgutil.iter_modules(endpoints.__path__): # type: ignore  # mypy issue #1422
+    for _, module_name, _ in pkgutil.iter_modules(endpoints.__path__):  # type: ignore  # mypy issue #1422
         module = import_module(f"{endpoints.__name__}.{module_name}")
         register_fn = getattr(module, "register")
         register_fn(app)

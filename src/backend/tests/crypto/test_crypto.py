@@ -5,7 +5,6 @@ from expungeservice.crypto import DataCipher
 
 
 class TestEncryption(unittest.TestCase):
-
     def setUp(self):
 
         secret_key = os.urandom(32)
