@@ -81,7 +81,7 @@ class CaseParser:
         if financial_information:
             return financial_information.parent.parent.find("b").text
         else:
-            return '0'
+            return "0"
 
     @staticmethod
     def __normalize_text(text):

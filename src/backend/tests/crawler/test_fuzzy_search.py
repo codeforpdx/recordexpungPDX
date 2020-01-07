@@ -5,8 +5,8 @@ from expungeservice.crawler.parsers.case_parser import PROBATION_REVOKED_SEARCH_
 
 from tests.fixtures.case_details import CaseDetails
 
-class TestFuzzySearch(unittest.TestCase):
 
+class TestFuzzySearch(unittest.TestCase):
     def test_simple_searches(self):
         text = "The quick brown fox jumps over the lazy dog."
         assert FuzzySearch.search(text, ["fox"])

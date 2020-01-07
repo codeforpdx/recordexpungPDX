@@ -1,5 +1,5 @@
 class SearchPageResponse:
-    RESPONSE = '''
+    RESPONSE = """
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="#>
@@ -22,4 +22,4 @@ class SearchPageResponse:
     <input type="hidden" name="NodeID" value="a lot of nodes" />
     <input type='checkbox' id='chkExactName'  name='ExactName' checked='checked' LabelName='Exact Name:'/>
 </html>
-  '''
+  """

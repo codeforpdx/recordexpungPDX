@@ -1,6 +1,6 @@
 class CaseDetails:
 
-    CASE_X1 = '''
+    CASE_X1 = """
 <html>
   <head>
   </head>
@@ -72,7 +72,7 @@ John D Doe</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
 
   </body>
 </html>
-    '''
+    """
 
     CASE_WITHOUT_FINANCIAL_SECTION = """
 <html>
@@ -339,7 +339,7 @@ BP55555555</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
 </html>
     """
 
-    CASEJD1 = '''
+    CASEJD1 = """
 <html>
   <head>
   </head>
@@ -387,9 +387,9 @@ Defendant: JOHN DOE
 
   </body>
 </html>
-    '''
+    """
 
-    CASEJD74 = '''
+    CASEJD74 = """
 <html>
   <head>
   </head>
@@ -481,9 +481,9 @@ Judge: Judge
 
   </body>
 </html>
-    '''
+    """
 
-    CASE_X3 = '''
+    CASE_X3 = """
 <html>
   <head>
   </head>
@@ -555,15 +555,23 @@ John D Doe</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
 
   </body>
 </html>
-    '''
+    """
 
     @staticmethod
-    def case_x(arrest_date='03/12/2017', charge1_name='Driving Uninsured', charge1_statute='806.010',
-               charge1_level='Class B Felony', dispo_date='06/12/2017', dispo_ruling_1='Convicted - Failure to Appear',
-               charge2_level='Class B Felony', dispo_ruling_2='Dismissed',
-               charge3_level='Class B Felony', dispo_ruling_3='Dismissed'):
+    def case_x(
+        arrest_date="03/12/2017",
+        charge1_name="Driving Uninsured",
+        charge1_statute="806.010",
+        charge1_level="Class B Felony",
+        dispo_date="06/12/2017",
+        dispo_ruling_1="Convicted - Failure to Appear",
+        charge2_level="Class B Felony",
+        dispo_ruling_2="Dismissed",
+        charge3_level="Class B Felony",
+        dispo_ruling_3="Dismissed",
+    ):
 
-        return f'''
+        return f"""
 <html>
   <head>
   </head>
@@ -635,9 +643,9 @@ John D Doe</b></td><td>&sect;<br />&sect;<br />&sect;<br />&sect;<br />&sect;<br
 
   </body>
 </html>
-        '''
+        """
 
-    CASE_WITH_REVOKED_PROBATION = '''
+    CASE_WITH_REVOKED_PROBATION = """
 <html>
   <head>
   </head>
@@ -1037,9 +1045,9 @@ Event Status: Set-Over Court; Event Status Date: 11/04/2010;</i></div><table></t
 
   </body>
 </html>
-    '''
+    """
 
-    COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS = '''
+    COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS = """
 <html>
   <head>
   </head>
@@ -1268,9 +1276,9 @@ Judge: Judge;
    
   </body>
 </html>
-    '''
+    """
 
-    CHARGE_INFO_WITH_EMPTY_DATA_CELLS = '''
+    CHARGE_INFO_WITH_EMPTY_DATA_CELLS = """
 <html>
   <head>
   </head>
@@ -1499,4 +1507,4 @@ Court Action: Signed; Court Action Date: 09/29/1989;
 
   </body>
 </html>
-    '''
+    """
