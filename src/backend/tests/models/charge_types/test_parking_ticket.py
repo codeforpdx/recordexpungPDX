@@ -16,6 +16,7 @@ class TestParkingTicket(unittest.TestCase):
 
         assert self.parking_ticket.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert self.parking_ticket.expungement_result.type_eligibility.reason == "Ineligible under 137.225(5)"
+        assert self.parking_ticket.type_name == "Parking Ticket"
 
     def test_parking_tickets_skip_analysis(self):
         self.build()

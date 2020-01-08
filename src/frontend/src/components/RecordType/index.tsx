@@ -3,6 +3,7 @@ import { TypeEligibility } from '../SearchResults/types';
 
 interface Props {
   type_eligibility: TypeEligibility;
+  type_name: string;
 }
 
 export default class RecordType extends React.Component<Props> {
@@ -16,7 +17,7 @@ export default class RecordType extends React.Component<Props> {
           className="absolute fas fa-check-circle green"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> Eligible{' '}
+          <span className="fw7">Type:</span> {this.props.type_name + ' '}
           <span className="nowrap">({reason})</span>
         </div>
       </div>
@@ -29,7 +30,7 @@ export default class RecordType extends React.Component<Props> {
           className="absolute fas fa-question-circle purple"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> List B
+          <span className="fw7">Type:</span> {this.props.type_name + ' '}
         </div>
       </div>
     );
@@ -38,7 +39,7 @@ export default class RecordType extends React.Component<Props> {
       <div className="relative mb3">
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> Ineligible{' '}
+          <span className="fw7">Type:</span> {this.props.type_name + ' '}
           <span className="nowrap">({reason})</span>
         </div>
       </div>
