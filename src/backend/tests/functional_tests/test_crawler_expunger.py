@@ -35,7 +35,7 @@ def test_expunger_with_open_case(record_with_open_case):
     expunger = Expunger(record_with_open_case)
 
     assert not expunger.run()
-    assert "All charges are ineligible because there is one or more open case." in record_with_open_case.errors
+    assert "All charges are ineligible because there is one or more open case" in record_with_open_case.errors[0]
 
 
 @pytest.fixture
@@ -84,7 +84,7 @@ def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
     expunger = Expunger(record_with_unrecognized_dispo)
     assert expunger.run()
     assert record_with_unrecognized_dispo.errors[0] == (
-        f"""Case {record_with_unrecognized_dispo.cases[0].case_number} has a charge with an unrecognized disposition.
+        f"""Case {record_with_unrecognized_dispo.cases[0].case_number}: Something unrecognized has a charge with an unrecognized disposition.
 This is likely an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
     )
 
@@ -107,8 +107,8 @@ def test_case_with_mulitple_disposition_errors(record_with_multiple_disposition_
     unrecognized_error_message = f"""The following cases have charges with an unrecognized disposition.
 This is likely an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: """
-    cases_order_1 = "X0001, X0002"
-    cases_order_2 = "X0002, X0001"
+    cases_order_1 = "X0001: Something unrecognized, X0002: Something unrecognized"
+    cases_order_2 = "X0002: Something unrecognized, X0001: Something unrecognized"
     assert (
         unrecognized_error_message + cases_order_1 in record_with_multiple_disposition_errors.errors
         or unrecognized_error_message + cases_order_2 in record_with_multiple_disposition_errors.errors
