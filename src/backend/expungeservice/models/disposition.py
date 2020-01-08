@@ -14,22 +14,12 @@ class DispositionStatus(str, Enum):
 
 @dataclass(eq=False)
 class Disposition:
-    date: Optional[date]
+    date: date
     ruling: str
     status: DispositionStatus = field(init=False)
 
-    def __init__(self, date: Optional[str] = None, ruling: str = ""):
-        self.date = self.__set_date(date)
-        self.ruling = ruling
-        self.__post_init__()
-
     def __post_init__(self):
         self.status = self.__set_status()
-
-    def __set_date(self, date):
-        if date:
-            return datetime.date(datetime.strptime(date, "%m/%d/%Y"))
-        return None
 
     def __set_status(self):
         ruling = self.ruling.lower()

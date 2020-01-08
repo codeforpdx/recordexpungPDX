@@ -1,5 +1,6 @@
 import unittest
 
+from datetime import date
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
@@ -8,7 +9,7 @@ from tests.factories.charge_factory import ChargeFactory
 class TestParkingTicket(unittest.TestCase):
     def build(self, ruling="Convicted"):
         self.parking_ticket = ChargeFactory.create(
-            name="Loading Zone", statute="29", level="Violation Unclassified", disposition=[ruling, "5/5/1999"]
+            name="Loading Zone", statute="29", level="Violation Unclassified", disposition=[ruling, date(1999, 5, 5)]
         )
 
     def test_parking_violation(self):

@@ -1,5 +1,7 @@
 import unittest
 
+from datetime import date
+
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.disposition import Disposition
 
@@ -10,7 +12,7 @@ from tests.factories.charge_factory import ChargeFactory
 class TestJuvenileCharge(unittest.TestCase):
     def test_juvenile_charge(self):
         case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-        juvenile_charge = ChargeFactory.create(case=case, disposition=("Acquitted", "1/1/0001"))
+        juvenile_charge = ChargeFactory.create(case=case, disposition=("Acquitted", date(2001, 1, 1)))
 
         assert juvenile_charge.__class__.__name__ == "JuvenileCharge"
         assert juvenile_charge.type_name == "Juvenile"

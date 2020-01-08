@@ -26,7 +26,7 @@ class ChargeFactory:
         name="Theft of services",
         statute="164.125",
         level="Misdemeanor Class A",
-        date="1/1/0001",
+        date=date_class(1901, 1, 1),
         disposition=None,
     ):
         if disposition:
@@ -37,7 +37,7 @@ class ChargeFactory:
             "name": name,
             "statute": statute,
             "level": level,
-            "date": date,
+            "date": date.strftime("%m/%d/%Y"),
             "disposition": disposition,
         }
 
@@ -49,15 +49,15 @@ class ChargeFactory:
         name="Theft of services",
         statute="164.125",
         level="Misdemeanor Class A",
-        date="1/1/0001",
+        date=date_class(1901, 1, 1),
     ):
-        disposition = Disposition(date=date_class.today().strftime("%m/%d/%Y"), ruling="Dismissed")
+        disposition = Disposition(date=date_class.today(), ruling="Dismissed")
         kwargs = {
             "case": case,
             "name": name,
             "statute": statute,
             "level": level,
-            "date": date,
+            "date": date.strftime("%m/%d/%Y"),
             "disposition": disposition,
         }
 

@@ -7,7 +7,7 @@ from tests.factories.charge_factory import ChargeFactory
 
 
 def test_disposition_status_values():
-    today = date.today().strftime("%m/%d/%Y")
+    today = date.today()
 
     assert Disposition(today, "Dismissed").status == DispositionStatus.DISMISSED
     assert Disposition(today, "Dismissal").status == DispositionStatus.DISMISSED
@@ -28,7 +28,7 @@ def test_disposition_status_values():
 def test_all_disposition_statuses_are_either_convicted_or_acquitted():
 
     charge = ChargeFactory.create()
-    today = date.today().strftime("%m/%d/%Y")
+    today = date.today()
 
     for status in DispositionStatus:
         # Use the status.value to create the disposition,
@@ -54,7 +54,7 @@ def test_dispositionless_charge_is_not_convicted_nor_acquitted():
 
 
 def test_charge_with_unknown_disposition_eligibility():
-    charge = ChargeFactory.create(disposition=["What am I", "1/1/0001"])
+    charge = ChargeFactory.create(disposition=["What am I", date(2001, 1, 1)])
     assert not charge.convicted()
     assert not charge.acquitted()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS

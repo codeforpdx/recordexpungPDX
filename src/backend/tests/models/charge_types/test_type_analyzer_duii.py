@@ -7,7 +7,7 @@ from expungeservice.models.disposition import Disposition
 
 
 def build_charge(statute, disposition_ruling):
-    last_week = (datetime.today() - timedelta(days=7)).strftime("%m/%d/%Y")
+    last_week = datetime.today() - timedelta(days=7)
     charge = ChargeFactory.build()
     charge["statute"] = statute
     charge["disposition"] = Disposition(ruling=disposition_ruling, date=last_week)
