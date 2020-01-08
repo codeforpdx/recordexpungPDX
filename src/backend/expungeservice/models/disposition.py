@@ -34,7 +34,15 @@ class Disposition:
     def __set_status(self):
         ruling = self.ruling.lower()
         conviction_rulings = ["convicted", "conviction", "reduced", "finding - guilty", "conversion", "converted"]
-        dismissal_rulings = ["acquitted", "acquittal", "dismissed", "dismissal", "finding - not guilty"]
+        dismissal_rulings = [
+            "acquitted",
+            "acquittal",
+            "dismissed",
+            "dismissal",
+            "finding - not guilty",
+            "accusatory instrument filed",
+            "removed from charging instrument",
+        ]
 
         if any([rule in ruling for rule in conviction_rulings]):
             return DispositionStatus.CONVICTED
