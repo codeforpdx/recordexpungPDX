@@ -15,6 +15,7 @@ export default class Charge extends React.Component<Props> {
       disposition,
       statute,
       name,
+      type_name,
       expungement_result
     } = this.props.charge;
 
@@ -60,6 +61,7 @@ export default class Charge extends React.Component<Props> {
             {recordTimeRender()}
             <RecordType
               type_eligibility={expungement_result.type_eligibility}
+              type_name={type_name}
             />
           </div>
           <div className="w-100 w-70-l pr3">

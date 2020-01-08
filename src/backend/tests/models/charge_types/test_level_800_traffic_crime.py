@@ -37,6 +37,7 @@ class TestLevel800Charges(unittest.TestCase):
         self.charges.append(charge)
 
         assert charge.__class__.__name__ == "Level800TrafficCrime"
+        assert charge.type_name == "Level 800 Traffic Crime"
 
     def test_traffic_violation_max_statute(self):
         self.single_charge["statute"] = "825.999"
@@ -50,6 +51,7 @@ class TestLevel800Charges(unittest.TestCase):
         charge = self.create_recent_charge()
 
         assert charge.__class__.__name__ == "Duii"
+        assert charge.type_name == "DUII"
 
 
 class TestLevel800MisdemeanorFelonyEligibility(unittest.TestCase):
