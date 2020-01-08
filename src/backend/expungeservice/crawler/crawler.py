@@ -1,6 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 
 import requests
+from datetime import datetime
 
 from expungeservice.models.helpers.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
@@ -77,8 +78,10 @@ class Crawler:
     @staticmethod
     def __build_charge(charge_id, charge, case_parser_data):
         if case_parser_data.hashed_dispo_data.get(charge_id):
-            charge["disposition"] = Disposition(
-                case_parser_data.hashed_dispo_data[charge_id].get("date"),
-                case_parser_data.hashed_dispo_data[charge_id].get("ruling"),
-            )
+            disposition_data = case_parser_data.hashed_dispo_data[charge_id]
+            date = datetime.date(
+                datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
+            )  # TODO: Log error if format is not correct
+            ruling = disposition_data.get("ruling")
+            charge["disposition"] = Disposition(date, ruling)
         return ChargeCreator.create(**charge)

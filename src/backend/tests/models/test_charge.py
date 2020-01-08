@@ -9,10 +9,10 @@ from tests.factories.case_factory import CaseFactory
 
 class TestChargeClass(unittest.TestCase):
 
-    TEN_YEARS_AGO = (date.today() + relativedelta(years=-10)).strftime("%m/%d/%Y")
-    LESS_THAN_TEN_YEARS_AGO = (date.today() + relativedelta(years=-10, days=+1)).strftime("%m/%d/%Y")
-    LESS_THAN_THREE_YEARS_AGO = (date.today() + relativedelta(years=-3, days=+1)).strftime("%m/%d/%Y")
-    THREE_YEARS_AGO = (date.today() + relativedelta(years=-3)).strftime("%m/%d/%Y")
+    TEN_YEARS_AGO = date.today() + relativedelta(years=-10)
+    LESS_THAN_TEN_YEARS_AGO = date.today() + relativedelta(years=-10, days=+1)
+    LESS_THAN_THREE_YEARS_AGO = date.today() + relativedelta(years=-3, days=+1)
+    THREE_YEARS_AGO = date.today() + relativedelta(years=-3)
 
     def setUp(self):
         self.charge = ChargeFactory.build()
@@ -61,19 +61,19 @@ class TestChargeClass(unittest.TestCase):
 
     def test_most_recent_acquittal_happy_path(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
-        charge.disposition = Disposition(ruling="Dismissed")
+        charge.disposition = Disposition(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Dismissed")
 
         assert charge.recent_acquittal() is True
 
     def test_most_recent_acquittal_sad_path(self):
         charge = ChargeFactory.create(date=self.THREE_YEARS_AGO)
-        charge.disposition = Disposition(ruling="Dismissed")
+        charge.disposition = Disposition(date=self.THREE_YEARS_AGO, ruling="Dismissed")
 
         assert charge.recent_acquittal() is False
 
     def test_convicted_charge_is_not_a_recent_acquittal(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
-        charge.disposition = Disposition(ruling="Convicted")
+        charge.disposition = Disposition(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Convicted")
 
         assert charge.recent_acquittal() is False
 

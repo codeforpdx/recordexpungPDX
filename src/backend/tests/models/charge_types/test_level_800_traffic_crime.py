@@ -11,7 +11,7 @@ Rules for 800 Level charges are as follows:
 
 import unittest
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from expungeservice.models.expungement_result import EligibilityStatus
 
@@ -21,14 +21,13 @@ from expungeservice.models.disposition import Disposition
 
 class TestLevel800Charges(unittest.TestCase):
     def setUp(self):
-        last_week = (datetime.today() - timedelta(days=7)).strftime("%m/%d/%Y")
         self.single_charge = ChargeFactory.build()
-        self.convicted_disposition = {"ruling": "Convicted", "date": last_week}
         self.charges = []
 
     def create_recent_charge(self):
         charge = ChargeFactory.save(self.single_charge)
-        charge.disposition = Disposition(**self.convicted_disposition)
+        last_week = datetime.today() - timedelta(days=7)
+        charge.disposition = Disposition(ruling="Convicted", date=last_week)
         return charge
 
     def test_traffic_violation_min_statute(self):
@@ -60,7 +59,7 @@ class TestLevel800MisdemeanorFelonyEligibility(unittest.TestCase):
     """
 
     def setUp(self):
-        last_week = (datetime.today() - timedelta(days=7)).strftime("%m/%d/%Y")
+        last_week = datetime.today() - timedelta(days=7)
         self.convicted = ["Convicted", last_week]
         self.dismissed = ["Dismissed", last_week]
 
@@ -91,7 +90,7 @@ class TestLevel800MisdemeanorFelonyEligibility(unittest.TestCase):
 
 class TestLevel800ViolationsInfractionsAreNotTypeEligible(unittest.TestCase):
     def setUp(self):
-        last_week = (datetime.today() - timedelta(days=7)).strftime("%m/%d/%Y")
+        last_week = datetime.today() - timedelta(days=7)
         self.convicted = ["Convicted", last_week]
         self.dismissed = ["Dismissed", last_week]
 
@@ -122,7 +121,7 @@ class TestLevel800ViolationsInfractionsAreNotTypeEligible(unittest.TestCase):
 
 class TestViolationsInfractionsSkipAnalysis(unittest.TestCase):
     def setUp(self):
-        self.convicted = ["Convicted", "05/05/2018"]
+        self.convicted = ["Convicted", date(2018, 5, 5)]
 
     def test_violation_level_charge_skips_analysis(self):
         charge = ChargeFactory.create(statute="801.000", level="Class C Traffic Violation", disposition=self.convicted)
@@ -137,7 +136,7 @@ class TestViolationsInfractionsSkipAnalysis(unittest.TestCase):
 
 class TestMisdemeanorFeloniesDoNotSkipAnalysis(unittest.TestCase):
     def setUp(self):
-        last_week = (datetime.today() - timedelta(days=7)).strftime("%m/%d/%Y")
+        last_week = datetime.today() - timedelta(days=7)
         self.convicted = ["Convicted", last_week]
         self.dismissed = ["Dismissed", last_week]
 
