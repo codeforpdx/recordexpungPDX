@@ -19,10 +19,8 @@ class Expunger:
 
     def __init__(self, record: Record):
         self.record = record
-        self.open_cases, closed_cases = Expunger._categorize_cases_by_status(self.record)
-        closed_charges = flatten([case.charges for case in closed_cases])
-        charges = Expunger._without_skippable_charges(closed_charges)
-        self.charges_with_summary = ChargesSummarizer.summarize(charges)
+        analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
+        self.charges_with_summary = ChargesSummarizer.summarize(analyzable_charges)
 
     def run(self) -> bool:
         """
@@ -30,25 +28,15 @@ class Expunger:
 
         :return: True if there are no open cases; otherwise False
         """
-        if len(self.open_cases) > 0:
-            case_numbers = ",".join([case.case_number for case in self.open_cases])
+        open_cases = [case for case in self.record.cases if not case.closed()]
+        if len(open_cases) > 0:
+            case_numbers = ",".join([case.case_number for case in open_cases])
             self.record.errors += [
-                f"All charges are ineligible because there is one or more open case: {case_numbers}."
+                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis."
             ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
         TimeAnalyzer.evaluate(self.charges_with_summary)
-        return len(self.open_cases) == 0
-
-    @staticmethod
-    def _categorize_cases_by_status(record: Record):
-        open_cases = []
-        closed_cases = []
-        for case in record.cases:
-            if case.closed():
-                closed_cases.append(case)
-            else:
-                open_cases.append(case)
-        return open_cases, closed_cases
+        return len(open_cases) == 0
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
