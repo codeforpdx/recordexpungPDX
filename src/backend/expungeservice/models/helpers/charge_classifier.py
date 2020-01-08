@@ -6,7 +6,7 @@ from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
 from expungeservice.models.charge_types.duii import Duii
-from expungeservice.models.charge_types.list_b import ListB
+from expungeservice.models.charge_types.subsection_12 import Subsection12
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
@@ -47,7 +47,7 @@ class ChargeClassifier:
     @staticmethod
     def _classification_by_statute(statute, chapter, section):
         yield ChargeClassifier._marijuana_ineligible(statute, section)
-        yield ChargeClassifier._list_b(section)
+        yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._crime_against_person(section)
         yield ChargeClassifier._traffic_crime(statute)
         yield ChargeClassifier._parking_ticket(statute, chapter)
@@ -68,7 +68,7 @@ class ChargeClassifier:
             return MarijuanaIneligible
 
     @staticmethod
-    def _list_b(section):
+    def _subsection_12(section):
         ineligible_statutes = [
             "163200",
             "163205",
@@ -86,7 +86,7 @@ class ChargeClassifier:
             "163165",
         ]
         if section in ineligible_statutes:
-            return ListB
+            return Subsection12
 
     @staticmethod
     def _crime_against_person(section):

@@ -1,10 +1,15 @@
+from dataclasses import dataclass
+
 from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
+@dataclass(eq=False)
 class JuvenileCharge(Charge):
+    type_name: str = "Juvenile"
+
     def _default_type_eligibility(self):
-        return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Juvenile Charge : Needs further analysis")
+        return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Potentially eligible under 419A.262")
 
     def skip_analysis(self):
         return True

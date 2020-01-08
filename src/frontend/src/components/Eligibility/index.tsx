@@ -26,7 +26,7 @@ export default class Eligibility extends React.Component<Props> {
 
     const eligibleWithReview = (date: string) => (
       <h2 className="fw6 purple bg-washed-purple pv2 ph3 ma2 mb3 dib br3">
-        Eligible {date} (review)
+        Possibly Eligible {date} (review)
       </h2>
     );
 

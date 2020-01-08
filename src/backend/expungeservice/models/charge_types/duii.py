@@ -1,9 +1,14 @@
+from dataclasses import dataclass
+
 from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 
 
+@dataclass(eq=False)
 class Duii(Charge):
+    type_name: str = "DUII"
+
     def _default_type_eligibility(self):
         """
         DUII charges can be diverted, and in some cases the Disposition will

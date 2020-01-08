@@ -36,6 +36,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "name": charge.name,
             "statute": charge.statute,
             "level": charge.level,
+            "type_name": charge.type_name,
             "date": charge.date,
             "disposition": disposition,
             "expungement_result": dataclasses.asdict(charge.expungement_result),

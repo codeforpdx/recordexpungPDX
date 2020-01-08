@@ -26,6 +26,7 @@ class Charge:
     _chapter: Optional[str]
     _section: str
     _case: weakref.ref
+    type_name: str = "Unknown"
 
     def __post_init__(self):
         type_eligibility = self._build_type_eligibility()
