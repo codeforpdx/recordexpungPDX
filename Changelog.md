@@ -1,5 +1,23 @@
 Changelog
 
+v1.2.0
+
+## Frontend Changes
+
+- Display error message in the results if the record has open cases or missing/unrecognized dispositions (#685, #686)
+- Show the arrest date for both dismissals and convictions (#683)
+- Show the time analysis even if there is an error due to open cases (open cases are ignored in the analysis) (#649)
+- Show the "type" of charge as it is understood for the purposes expungement logic (#698)
+- Minor display format fixes (#669)
+
+## Expungement Logic Fixes
+
+- Make violation charge identification more robust (#668)
+- Class B Felony convictions are ineligible if there are any subsequent charges (#653)
+- Class B Felony convictions follow the usual rules for affecting other charges' time eligibility (#653)
+- Fixed the time eligibility for a single non-traffic violation conviction (3 years) (#682)
+- The dispositions "accusatory instrument filed" and "removed from charging instrument" are both interpreted as dismissals (#696)
+
 v1.1.0
 
 ## Frontend Changes
@@ -7,7 +25,7 @@ v1.1.0
 - More flexible date format (leading zeros e.g. 01/01/2000 are no longer required) (#615)
 - Birth date field is optional for record search (#589)
 - Dismissed charge correctly shows arrest date rather than dismissal date (#622)
-- Arrest and eligbility dates no longer include time of day (#629)
+- Arrest and eligibility dates no longer include time of day (#629)
 - OECI login expires after 2 hours (extended from 15 minutes) (#659)
 
 ## Expungement Logic Fixes
@@ -19,6 +37,10 @@ v1.1.0
 
 - Fix an OECI page parsing error for some records (#646)
 - App will not log out when the user enters wrong OECI credentials (#664)
+
+## Enhancement
+
+- Read OECI pages in parallel, speeding search (#632)
 
 v1.0.0
 
