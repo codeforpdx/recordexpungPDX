@@ -19,7 +19,8 @@ class Expunger:
 
     def __init__(self, record: Record):
         self.record = record
-        self.all_closed, closed_charges = Expunger._get_closed_charges(self.record)
+        self.open_cases, closed_cases = Expunger._categorize_cases_by_status(self.record)
+        closed_charges = flatten([case.charges for case in closed_cases])
         charges = Expunger._without_skippable_charges(closed_charges)
         self.charges_with_summary = ChargesSummarizer.summarize(charges)
 
@@ -29,20 +30,25 @@ class Expunger:
 
         :return: True if there are no open cases; otherwise False
         """
-        if not self.all_closed:
-            self.record.errors += ["All charges are ineligible because there is one or more open case."]
+        if len(self.open_cases) > 0:
+            case_numbers = ",".join([case.case_number for case in self.open_cases])
+            self.record.errors += [
+                f"All charges are ineligible because there is one or more open case: {case_numbers}."
+            ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
         TimeAnalyzer.evaluate(self.charges_with_summary)
-        return self.all_closed
+        return len(self.open_cases) == 0
 
     @staticmethod
-    def _get_closed_charges(record: Record):
-        closed_cases = [case for case in record.cases if case.closed()]
-        closed_charges = flatten([case.charges for case in closed_cases])
-        if len(record.cases) == len(closed_cases):
-            return True, closed_charges
-        else:
-            return False, closed_charges
+    def _categorize_cases_by_status(record: Record):
+        open_cases = []
+        closed_cases = []
+        for case in record.cases:
+            if case.closed():
+                closed_cases.append(case)
+            else:
+                open_cases.append(case)
+        return open_cases, closed_cases
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
@@ -70,7 +76,7 @@ class Expunger:
                 if not charge.disposition:
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition.status == DispositionStatus.UNKNOWN:
-                    cases_with_unknown_disposition.add(case_number)
+                    cases_with_unknown_disposition.add(f"{case_number}: {charge.disposition.ruling}")
         return cases_with_missing_disposition, cases_with_unknown_disposition
 
     @staticmethod
