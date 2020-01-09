@@ -37,7 +37,7 @@ class Charge:
             return TypeEligibility(
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not found. Needs further analysis"
             )
-        elif self.disposition.status == DispositionStatus.UNKNOWN:
+        elif self.disposition.status == DispositionStatus.UNRECOGNIZED:
             return TypeEligibility(
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not recognized. Needs further analysis"
             )

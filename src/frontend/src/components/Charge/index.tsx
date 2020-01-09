@@ -21,8 +21,12 @@ export default class Charge extends React.Component<Props> {
 
 
     const knownDisposition = (disposition: any, date: any) => {
-      let dispositionDateInfo = (disposition.status == "Convicted" ? " - " + disposition.date : "");
-      let dispositionEvent = disposition.status + dispositionDateInfo;
+      let dispositionEvent = disposition.status;
+      if (disposition.status === "Convicted") {
+        dispositionEvent += " - " + disposition.date;
+      } else if (disposition.status === "Unrecognized") {
+        dispositionEvent += " (\"" + disposition.ruling + "\")";
+      }
       return <>
         <li className="mb2">
           <span className="fw7">Disposition:</span> {dispositionEvent}

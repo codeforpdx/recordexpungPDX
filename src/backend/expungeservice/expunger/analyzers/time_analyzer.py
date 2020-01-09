@@ -34,7 +34,7 @@ class TimeAnalyzer:
                 charge
                 for charge in charges_with_summary.charges
                 if charge
-                not in charges_with_summary.unknowns
+                not in charges_with_summary.unrecognized
                 + charges_with_summary.old_convictions
                 + charges_with_summary.acquittals
             ]
@@ -114,7 +114,7 @@ class TimeAnalyzer:
         for class_b_felony in charges_with_summary.class_b_felonies:
             # If the class B felony is acquitted, then we have already handled its time eligibility.
             # If it's convicted, it is subject to these additional rules.
-            # If its disposition is unknown, we don't apply any time analysis.
+            # If its disposition is unrecognized, we don't apply any time analysis.
             if class_b_felony.convicted():
                 if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony, charges_with_summary.charges):
                     class_b_felony.set_time_ineligible(
