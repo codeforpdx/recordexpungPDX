@@ -41,7 +41,7 @@ export default class Charge extends React.Component<Props> {
       if (disposition === null) {
         return (
           <li className="mb2">
-            <span className="fw7">Disposition: </span> Unknown
+            <span className="fw7">Disposition: </span> Missing
           </li>
         );
       } else {
@@ -61,14 +61,14 @@ export default class Charge extends React.Component<Props> {
       <div className="br3 ma2 bg-white">
         <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
-          <div className="w-100 w-30-l pr3">
+          <div className="w-100 w-40-l pr3">
             {recordTimeRender()}
             <RecordType
               type_eligibility={expungement_result.type_eligibility}
               type_name={type_name}
             />
           </div>
-          <div className="w-100 w-70-l pr3">
+          <div className="w-100 w-60-l pr3">
             <ul className="list">
               <li className="mb2">
                 <span className="fw7">Charge: </span>
