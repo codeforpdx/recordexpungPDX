@@ -19,7 +19,7 @@ class ChargesWithSummary:
     charges: List[Charge]
     acquittals: List[Charge] = field(default_factory=list)
     convictions: List[Charge] = field(default_factory=list)
-    unknowns: List[Charge] = field(default_factory=list)
+    unrecognized: List[Charge] = field(default_factory=list)
     old_convictions: List[Charge] = field(default_factory=list)
     most_recent_dismissal: Optional[Charge] = None
     most_recent_conviction: Optional[Charge] = None
@@ -31,7 +31,7 @@ class ChargesWithSummary:
 class ChargesSummarizer:
     @staticmethod
     def summarize(charges: List[Charge]) -> ChargesWithSummary:
-        acquittals, convictions, unknowns = ChargesSummarizer._categorize_charges(charges)
+        acquittals, convictions, unrecognized = ChargesSummarizer._categorize_charges(charges)
         recent_convictions, old_convictions = ChargesSummarizer._categorize_convictions_by_recency(convictions)
         most_recent_dismissal = ChargesSummarizer._most_recent_dismissal(acquittals)
         most_recent_conviction, second_most_recent_conviction = ChargesSummarizer._most_recent_convictions(
@@ -43,7 +43,7 @@ class ChargesSummarizer:
             charges,
             acquittals,
             convictions,
-            unknowns,
+            unrecognized,
             old_convictions,
             most_recent_dismissal,
             most_recent_conviction,
@@ -54,15 +54,15 @@ class ChargesSummarizer:
 
     @staticmethod
     def _categorize_charges(charges):
-        acquittals, convictions, unknowns = [], [], []
+        acquittals, convictions, unrecognized = [], [], []
         for charge in charges:
             if charge.acquitted():
                 acquittals.append(charge)
             elif charge.convicted():
                 convictions.append(charge)
             else:
-                unknowns.append(charge)
-        return acquittals, convictions, unknowns
+                unrecognized.append(charge)
+        return acquittals, convictions, unrecognized
 
     @staticmethod
     def _categorize_convictions_by_recency(convictions):

@@ -9,7 +9,7 @@ class DispositionStatus(str, Enum):
     DISMISSED = "Dismissed"
     NO_COMPLAINT = "No Complaint"
     DIVERTED = "Diverted"
-    UNKNOWN = "Unknown"
+    UNRECOGNIZED = "Unrecognized"
 
 
 @dataclass(eq=False)
@@ -47,4 +47,4 @@ class Disposition:
             return DispositionStatus.NO_COMPLAINT
 
         else:
-            return DispositionStatus.UNKNOWN
+            return DispositionStatus.UNRECOGNIZED

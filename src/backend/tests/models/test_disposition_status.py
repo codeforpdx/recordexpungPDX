@@ -22,7 +22,7 @@ def test_disposition_status_values():
 
     assert Disposition(today, "No complaint").status == DispositionStatus.NO_COMPLAINT
 
-    assert Disposition(today, "What is this?").status == DispositionStatus.UNKNOWN
+    assert Disposition(today, "What is this?").status == DispositionStatus.UNRECOGNIZED
 
 
 def test_all_disposition_statuses_are_either_convicted_or_acquitted():
@@ -35,7 +35,7 @@ def test_all_disposition_statuses_are_either_convicted_or_acquitted():
         # which happens to always be a valid string for that dispo status.
         charge.disposition = Disposition(today, status.value)
 
-        if status == DispositionStatus.UNKNOWN:
+        if status == DispositionStatus.UNRECOGNIZED:
             assert not charge.convicted()
             assert not charge.acquitted()
 
@@ -53,7 +53,7 @@ def test_dispositionless_charge_is_not_convicted_nor_acquitted():
     assert charge.expungement_result.type_eligibility.reason == "Disposition not found. Needs further analysis"
 
 
-def test_charge_with_unknown_disposition_eligibility():
+def test_charge_with_unrecognized_disposition_eligibility():
     charge = ChargeFactory.create(disposition=["What am I", date(2001, 1, 1)])
     assert not charge.convicted()
     assert not charge.acquitted()

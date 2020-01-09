@@ -45,27 +45,29 @@ class Expunger:
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
         record_errors = []
-        cases_with_missing_disposition, cases_with_unknown_disposition = Expunger._filter_cases_with_errors(charges)
+        cases_with_missing_disposition, cases_with_unrecognized_disposition = Expunger._filter_cases_with_errors(
+            charges
+        )
         if cases_with_missing_disposition:
             record_errors.append(Expunger._build_disposition_error_message(cases_with_missing_disposition, "a missing"))
-        if cases_with_unknown_disposition:
+        if cases_with_unrecognized_disposition:
             record_errors.append(
-                Expunger._build_disposition_error_message(cases_with_unknown_disposition, "an unrecognized")
+                Expunger._build_disposition_error_message(cases_with_unrecognized_disposition, "an unrecognized")
             )
         return record_errors
 
     @staticmethod
     def _filter_cases_with_errors(charges: List[Charge]):
         cases_with_missing_disposition: Set[str] = set()
-        cases_with_unknown_disposition: Set[str] = set()
+        cases_with_unrecognized_disposition: Set[str] = set()
         for charge in charges:
             if not charge.skip_analysis():
                 case_number = charge.case()().case_number
                 if not charge.disposition:
                     cases_with_missing_disposition.add(case_number)
-                elif charge.disposition.status == DispositionStatus.UNKNOWN:
-                    cases_with_unknown_disposition.add(f"{case_number}: {charge.disposition.ruling}")
-        return cases_with_missing_disposition, cases_with_unknown_disposition
+                elif charge.disposition.status == DispositionStatus.UNRECOGNIZED:
+                    cases_with_unrecognized_disposition.add(f"{case_number}: {charge.disposition.ruling}")
+        return cases_with_missing_disposition, cases_with_unrecognized_disposition
 
     @staticmethod
     def _build_disposition_error_message(error_cases: Set[str], disposition_error_name: str):
