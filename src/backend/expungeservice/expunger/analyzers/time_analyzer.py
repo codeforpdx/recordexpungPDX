@@ -141,8 +141,7 @@ class TimeAnalyzer:
         # AND all other charges in the same case are arrests
         # Then make all other charges in the case time eligible
         mrc = charges_with_summary.most_recent_conviction
-        if charges_with_summary.most_recent_conviction.expungement_result.time_eligibility.status \
-            is EligibilityStatus.ELIGIBLE:
+        if not mrc is None and not mrc.expungement_result.time_eligibility is None and mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE:
             if charges_with_summary.second_most_recent_conviction:
                 pass
             else:
@@ -150,14 +149,15 @@ class TimeAnalyzer:
                     if charge.acquitted():
                         charge.set_time_eligible()
         else:
-            if charges_with_summary.second_most_recent_conviction:
+            if charges_with_summary.second_most_recent_conviction and not mrc is None:
                 for charge in mrc.case()().charges:
-                    if charge.acquitted():
-                        charge.set_time_ineligible(
-                            'Multiple convictions within last ten years',
-                            charges_with_summary.second_most_recent_conviction.disposition.date\
-                            + relativedelta(years=+TimeAnalyzer.TEN_YEARS)
-                            )
+                    if not charges_with_summary.second_most_recent_conviction.disposition is None:
+                        if charge.acquitted():
+                            charge.set_time_ineligible(
+                                'Multiple convictions within last ten years',
+                                charges_with_summary.second_most_recent_conviction.disposition.date
+                                + relativedelta(years=+TimeAnalyzer.TEN_YEARS)
+                                )
 
     @staticmethod
     def _mark_as_time_eligible(charges: List[Charge]):

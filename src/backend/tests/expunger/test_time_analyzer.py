@@ -28,11 +28,10 @@ class TestSingleChargeAcquittals(unittest.TestCase):
             disposition=['Dismissed', Time.THREE_YEARS_AGO])
 
         case.charges = [three_yr_mrc, arrest]
+        record = Record([case])
+        expunger = Expunger(record)
 
-        self.expunger.most_recent_conviction = three_yr_mrc
-        self.expunger.charges = [three_yr_mrc, arrest]
-
-        TimeAnalyzer.evaluate(self.expunger)
+        expunger.run()
         assert arrest.expungement_result.time_eligibility.status is \
             EligibilityStatus.ELIGIBLE
         assert three_yr_mrc.expungement_result.time_eligibility.status is \
@@ -137,17 +136,13 @@ class TestSingleChargeAcquittals(unittest.TestCase):
             disposition=['Dismissed', Time.LESS_THAN_THREE_YEARS_AGO])
 
         case.charges = [mrc, arrest]
+        record = Record([case])
+        expunger = Expunger(record)
 
-        self.expunger.most_recent_conviction = mrc
-        self.expunger.charges = [mrc, arrest]
-
-        TimeAnalyzer.evaluate(self.expunger)
-        assert arrest.expungement_result.time_eligibility.status is \
-            EligibilityStatus.INELIGIBLE
-        assert mrc.expungement_result.time_eligibility.status is \
-            EligibilityStatus.INELIGIBLE
-        assert mrc.expungement_result.time_eligibility.reason == \
-            'Most recent conviction is less than three years old'
+        expunger.run()
+        assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert mrc.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert mrc.expungement_result.time_eligibility.reason == 'Most recent conviction is less than three years old'
         assert mrc.expungement_result.time_eligibility\
             .date_will_be_eligible == date.today() + relativedelta(days=+1)
 
