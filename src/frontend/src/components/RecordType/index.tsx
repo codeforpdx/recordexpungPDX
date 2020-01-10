@@ -18,7 +18,7 @@ export default class RecordType extends React.Component<Props> {
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> {this.props.type_name + ' '}
-          <span className="nowrap">({reason})</span>
+          <div>({reason})</div>
         </div>
       </div>
     );
@@ -31,6 +31,8 @@ export default class RecordType extends React.Component<Props> {
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> {this.props.type_name + ' '}
+          <div>({reason})</div>
+
         </div>
       </div>
     );
@@ -40,7 +42,7 @@ export default class RecordType extends React.Component<Props> {
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> {this.props.type_name + ' '}
-          <span className="nowrap">({reason})</span>
+          <div>({reason})</div>
         </div>
       </div>
     );
