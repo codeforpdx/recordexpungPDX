@@ -51,6 +51,12 @@ export default class Eligibility extends React.Component<Props> {
     };
 
     const eligibility = () => {
+
+      // Time ineligibility without a date (meaning "never eligible") beats all other rules for eligibility
+      if (time_eligibility && time_eligibility.status === 'Ineligible' && time_eligibility.date_will_be_eligible == null) {
+        return ineligible;
+      }
+
       switch (type_eligibility.status) {
         case 'Eligible':
           return handleWhenTypeEligibile();
