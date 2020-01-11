@@ -32,7 +32,7 @@ class Expunger:
         if len(open_cases) > 0:
             case_numbers = ",".join([case.case_number for case in open_cases])
             self.record.errors += [
-                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis."
+                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
         TimeAnalyzer.evaluate(self.charges_with_summary)
@@ -63,9 +63,9 @@ class Expunger:
         for charge in charges:
             if not charge.skip_analysis():
                 case_number = charge.case()().case_number
-                if not charge.disposition:
+                if not charge.disposition and charge.case()().closed():
                     cases_with_missing_disposition.add(case_number)
-                elif charge.disposition.status == DispositionStatus.UNRECOGNIZED:
+                elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add(f"{case_number}: {charge.disposition.ruling}")
         return cases_with_missing_disposition, cases_with_unrecognized_disposition
 
@@ -73,10 +73,10 @@ class Expunger:
     def _build_disposition_error_message(error_cases: Set[str], disposition_error_name: str):
         if len(error_cases) == 1:
             error_message = f"""Case {error_cases.pop()} has a charge with {disposition_error_name} disposition.
-This is likely an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
+This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
         else:
             cases_list_string = ", ".join(error_cases)
             error_message = f"""The following cases have charges with {disposition_error_name} disposition.
-This is likely an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
+This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: {cases_list_string}"""
         return error_message
