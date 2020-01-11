@@ -118,7 +118,8 @@ class TimeAnalyzer:
             if class_b_felony.convicted():
                 if TimeAnalyzer._calculate_has_subsequent_charge(class_b_felony, charges_with_summary.charges):
                     class_b_felony.set_time_ineligible(
-                        "137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions", None
+                        "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))",
+                        None,
                     )
                 else:
                     eligibility_date = class_b_felony.disposition.date + relativedelta(years=+TimeAnalyzer.TWENTY_YEARS)  # type: ignore
