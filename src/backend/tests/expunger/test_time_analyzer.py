@@ -291,7 +291,7 @@ def test_felony_class_b_with_subsequent_conviction():
     assert b_felony_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         b_felony_charge.expungement_result.time_eligibility.reason
-        == "137.225(5)(a)(A)(ii) - Class B felony can have no subsequent arrests or convictions"
+        == "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"
     )
     assert b_felony_charge.expungement_result.time_eligibility.date_will_be_eligible == None
 
