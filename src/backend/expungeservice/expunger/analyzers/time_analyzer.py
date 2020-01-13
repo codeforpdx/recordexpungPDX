@@ -141,18 +141,16 @@ class TimeAnalyzer:
         # AND all other charges in the same case are arrests
         # Then make all other charges in the case time eligible
         mrc = charges_with_summary.most_recent_conviction
-        if not mrc is None and not mrc.expungement_result.time_eligibility is None and mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE:
-            if charges_with_summary.second_most_recent_conviction:
-                pass
-            else:
+        second_mrc = charges_with_summary.second_most_recent_conviction
+        if mrc and mrc.expungement_result.time_eligibility and mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE:
+            if not second_mrc:
                 for charge in mrc.case()().charges:
                     if charge.acquitted():
                         charge.set_time_eligible()
         else:
             if charges_with_summary.second_most_recent_conviction and not mrc is None:
                 for charge in mrc.case()().charges:
-                    if not charges_with_summary.second_most_recent_conviction.disposition is None:
-                        if charge.acquitted():
+                    if second_mrc.disposition and charge.acquitted():
                             charge.set_time_ineligible(
                                 'Multiple convictions within last ten years',
                                 charges_with_summary.second_most_recent_conviction.disposition.date

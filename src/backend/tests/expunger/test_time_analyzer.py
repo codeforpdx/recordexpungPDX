@@ -100,12 +100,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert arrest.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7)
 
-        # assert violation.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        # assert violation.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7)
-        #
-        # assert violation_2.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        # assert violation_2.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7)
-
     def test_ineligible_mrc_with_arrest_on_single_case(self):
         case = CaseFactory.create()
 
