@@ -33,6 +33,7 @@ export interface Record {
 export interface ExpungementResultType {
   type_eligibility: TypeEligibility;
   time_eligibility?: TimeEligibility;
+  charge_eligibility: ChargeEligibility;
 }
 
 export interface TypeEligibility {
@@ -44,4 +45,9 @@ export interface TimeEligibility {
   status: string;
   reason: string;
   date_will_be_eligible: string;
+}
+
+export interface ChargeEligibility {
+  status: string;
+  label: string;
 }
