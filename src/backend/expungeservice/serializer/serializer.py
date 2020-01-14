@@ -39,11 +39,18 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "type_name": charge.type_name,
             "date": charge.date,
             "disposition": disposition,
-            "expungement_result": dataclasses.asdict(charge.expungement_result),
+            "expungement_result": self.expungement_result_to_json(charge.expungement_result),
         }
 
     def disposition_to_json(self, disposition):
         return {"date": disposition.date, "ruling": disposition.ruling, "status": disposition.status}
+
+    def expungement_result_to_json(self, expungement_result):
+        return {
+            "type_eligibility": expungement_result.type_eligibility,
+            "time_eligibility": expungement_result.time_eligibility,
+            "charge_eligibility": expungement_result.charge_eligibility,
+        }
 
     def default(self, o):
         if isinstance(o, expungeservice.models.record.Record):
