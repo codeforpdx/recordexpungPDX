@@ -10,6 +10,7 @@ from expungeservice.expunger.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
+from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 
 
 class Search(MethodView):
@@ -53,7 +54,8 @@ class Search(MethodView):
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
 
-        response_data = {"data": {"record": record}}
+        summary = RecordSummarizer.summarize(record)
+        response_data = {"data": {"record": record, "summary": summary}}
 
         current_app.json_encoder = ExpungeModelEncoder
 
