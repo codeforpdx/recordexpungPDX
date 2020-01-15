@@ -11,7 +11,9 @@ class User extends React.Component<Props> {
       <tr className="bt b--black-20">
         <td className="pa3">
           <a href="/admin" className="underline">
-            {this.props.user.name}
+            <button onClick={() => history.push('edit-user')}>
+              {this.props.user.name}
+            </button>
           </a>
         </td>
         <td className="pa3">{this.props.user.admin ? 'Admin' : 'Search'}</td>
