@@ -1,5 +1,6 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
+from typing import Dict
 
 
 class RecordSummarizer:
@@ -11,7 +12,7 @@ class RecordSummarizer:
         partially_eligible_cases = []
         other_cases = []
 
-        county_balances = {}
+        county_balances: Dict[str, float] = {}
         for case in record.cases:
             if not case.location in county_balances.keys():
                 county_balances[case.location] = case.get_balance_due()
