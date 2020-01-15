@@ -48,6 +48,8 @@ class RecordSummarizer:
             "partially_eligible": partially_eligible_cases,
             "other": other_cases,
         }
+        for county in county_balances.keys():
+            county_balances[county] = round(county_balances[county], 2)
         total_charges = len(record.charges)
         eligible_charges = [
             c.name
