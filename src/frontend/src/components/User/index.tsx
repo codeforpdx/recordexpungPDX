@@ -1,5 +1,6 @@
 import React from 'react';
 import { User as UserTypes } from '../../redux/users/types';
+import history from '../../service/history';
 
 interface Props {
   user: UserTypes;
