@@ -6,6 +6,7 @@ from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.serializer import ExpungeModelEncoder
+from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 
 
 @pytest.fixture
@@ -74,9 +75,12 @@ def test_search(service, monkeypatch):
     """
     Check that the resulting "record" field in the response matches what we gave to the
     mock search function.
-    (use this json encode-decode approach because it turns a Record into a dict.)
+    (use this json encode-decode approach because it turns a Record or RecordSummary into a dict.)
     """
     assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
+    assert data["summary"] == json.loads(
+        json.dumps(RecordSummarizer.summarize(service.mock_record["john_doe"]), cls=ExpungeModelEncoder)
+    )
 
 
 def test_search_fails_without_oeci_token(service):
