@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
+<<<<<<< HEAD
+=======
+import Logo from '../Logo';
+>>>>>>> Add AddUser component.
 
 interface Props {
   users: UserState;
@@ -12,6 +16,7 @@ interface Props {
 interface State {
   email: string;
   password: string;
+<<<<<<< HEAD
   confirmPassword: string;
   name: string;
   group: string;
@@ -22,12 +27,22 @@ interface State {
   missingPassword: boolean;
   invalidPassword: boolean;
   mismatchPasswords: boolean;
+=======
+  name: string;
+  group: string;
+  role: string;
+  invalidCredentials: boolean;
+  invalidResponse: boolean;
+  invalidEmail: boolean;
+  missingPassword: boolean;
+>>>>>>> Add AddUser component.
 }
 
 class AddUser extends React.Component<Props, State> {
   public state: State = {
     email: '',
     password: '',
+<<<<<<< HEAD
     confirmPassword: '',
     name: '',
     group: '',
@@ -38,6 +53,15 @@ class AddUser extends React.Component<Props, State> {
     missingPassword: false,
     invalidPassword: false,
     mismatchPasswords: false,
+=======
+    name: '',
+    group: '',
+    role: '',
+    invalidCredentials: false,
+    invalidResponse: false,
+    invalidEmail: false,
+    missingPassword: false
+>>>>>>> Add AddUser component.
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
