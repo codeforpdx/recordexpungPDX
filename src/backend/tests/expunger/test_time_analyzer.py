@@ -58,7 +58,6 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger = Expunger(record)
 
         expunger.run()
-        # import pdb; pdb.set_trace()
         assert three_yr_mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
         assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None

@@ -147,13 +147,12 @@ class TimeAnalyzer:
                 for charge in mrc.case()().charges:
                     if charge.acquitted():
                         charge.set_time_eligible()
-        else:
-            if charges_with_summary.second_most_recent_conviction and not mrc is None:
+        elif mrc and second_mrc:
                 for charge in mrc.case()().charges:
-                    if second_mrc.disposition and charge.acquitted():
+                    if second_mrc.disposition.date and charge.acquitted(): # type: ignore
                             charge.set_time_ineligible(
                                 'Multiple convictions within last ten years',
-                                charges_with_summary.second_most_recent_conviction.disposition.date
+                                charges_with_summary.second_most_recent_conviction.disposition.date # type: ignore
                                 + relativedelta(years=+TimeAnalyzer.TEN_YEARS)
                                 )
 
