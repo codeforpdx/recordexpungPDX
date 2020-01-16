@@ -5,8 +5,7 @@ from typing import Dict
 
 class RecordSummarizer:
     @staticmethod
-    def summarize(record):
-
+    def summarize(record) -> RecordSummary:
         fully_eligible_cases = []
         fully_ineligible_cases = []
         partially_eligible_cases = []
@@ -49,8 +48,8 @@ class RecordSummarizer:
             "partially_eligible": partially_eligible_cases,
             "other": other_cases,
         }
-        for county in county_balances.keys():
-            county_balances[county] = round(county_balances[county], 2)
+        for county, balance in county_balances.items():
+            county_balances[county] = round(balance, 2)
         total_charges = len(record.charges)
         eligible_charges = [
             c.name
