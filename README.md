@@ -62,7 +62,7 @@ After running `make dev_up`, you can navigate to `localhost` in the browser and 
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
-If you run `docker ps`, you can see the frontend app running on `localhost:3000`, however if you try logging into to this instance instead of the frontend at `localhost`, you will get a 500 server error.
+If you run `docker ps`, you can see the frontend app running on `localhost:3000`, however if you try logging into this instance instead of the frontend at `localhost`, you will get a 500 server error.
 
 Whenever a dependency is added to the frontend or backend, you will need to rebuild the docker images or you will get errors when trying to run the stack. To do so, take down the stack, rebuild, and restart stack with:
 ```
