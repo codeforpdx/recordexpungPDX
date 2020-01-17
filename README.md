@@ -62,7 +62,7 @@ After running `make dev_up`, you can navigate to `localhost` in the browser and 
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
-If you run docker ps, you can see a front end running on `localhost:3000`, however if you try logging while not on just `localhost`, you will get a 500 server error.
+If you run `docker ps`, you can see a front end running on `localhost:3000`, however if you try logging while not on just `localhost`, you will get a 500 server error.
 
 If you need to rebuild the project (for example if you add new dependencies to the frontend or backend services), you can run the `make dev_build` command.
 
