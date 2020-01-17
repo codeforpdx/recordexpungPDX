@@ -30,8 +30,8 @@ Our latest dev version (this repo's latest release) is publicly viewable! See ht
 
 You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code changes propagate on the local servers right away. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)!
 
-1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)**,
-  and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** the repo.
+1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)** the repo to create a copy for your own github account,
+  and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** your own copy.
 
 
 2. Install docker
@@ -62,9 +62,14 @@ After running `make dev_up`, you can navigate to `localhost` in the browser and 
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
-If you run `docker ps`, you can see a front end running on `localhost:3000`, however if you try logging while not on just `localhost`, you will get a 500 server error.
+If you run `docker ps`, you can see the frontend app running on `localhost:3000`, however if you try logging into this instance instead of the frontend at `localhost`, you will get a 500 server error.
 
-If you need to rebuild the project (for example if you add new dependencies to the frontend or backend services), you can run the `make dev_build` command.
+Whenever a dependency is added to the frontend or backend, you will need to rebuild the docker images or you will get errors when trying to run the stack. To do so, take down the stack, rebuild, and restart stack with:
+```
+make dev_down
+make dev_build
+make dev_up
+```
 
 For more project documentation on Docker, some troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
