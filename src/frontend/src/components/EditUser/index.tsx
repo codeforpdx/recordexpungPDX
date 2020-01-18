@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
-import Logo from '../Logo';
 
 interface Props {
   users: UserState;
@@ -81,6 +80,32 @@ class EditUser extends React.Component<Props, State> {
             </div>
 
             <div className="mb4">
+              <label htmlFor="group" className="db mb2 fw6">
+                Group
+              </label>
+              <input
+                id="group"
+                name="group"
+                type="text"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.invalidCredentials
+                    ? 'no_match_msg'
+                    : this.state.missingPassword
+                    ? 'input_msg'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.invalidCredentials || this.state.missingPassword
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
+            </div>
+
+            <div className="mb4">
               <label htmlFor="role" className="db mb2 fw6">
                 Role
               </label>
@@ -116,26 +141,6 @@ class EditUser extends React.Component<Props, State> {
                     <li className="mb1">&bull;&nbsp;Can search records</li>
                     <li className="mb1">&bull;&nbsp;Can manage users and groups</li>
                   </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb4">
-              <label htmlFor="group" className="db mb2 fw6">
-                Group
-              </label>
-              <div className="relative">
-                <select
-                  id="group"
-                  className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white black-60"
-                >
-                  <option value="">Please select a group</option>
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </select>
-                <div className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none">
-                  <i aria-hidden="true" className="fas fa-angle-down"></i>
                 </div>
               </div>
             </div>
