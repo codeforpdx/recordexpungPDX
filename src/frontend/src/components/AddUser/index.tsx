@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
-import Logo from '../Logo';
 
 interface Props {
   users: UserState;
@@ -64,7 +63,6 @@ class AddUser extends React.Component<Props, State> {
     return (
       <main className="mw6 ph2 center">
         <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
-          <Logo />
           <h1 className="mb4 f4 fw6">Add User</h1>
           <form onSubmit={this.handleSubmit} noValidate={true}>
             <legend className="visually-hidden">Sign Up</legend>
@@ -126,6 +124,31 @@ class AddUser extends React.Component<Props, State> {
                 id="password"
                 name="password"
                 type="password"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.invalidCredentials
+                    ? 'no_match_msg'
+                    : this.state.missingPassword
+                    ? 'input_msg'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.invalidCredentials || this.state.missingPassword
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="mb4">
+              <label htmlFor="confirm-password" className="db mb2 fw6">
+                Confirm Password
+              </label>
+              <input
+                id="confirm-password"
+                name="confirm-password"
+                type="confirm-password"
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
