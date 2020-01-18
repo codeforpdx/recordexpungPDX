@@ -6,8 +6,7 @@ import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
 <<<<<<< HEAD
 =======
-import Logo from '../Logo';
->>>>>>> Add AddUser component.
+>>>>>>> Add confirm password input in AddUser component.
 
 interface Props {
   users: UserState;
@@ -16,7 +15,6 @@ interface Props {
 interface State {
   email: string;
   password: string;
-<<<<<<< HEAD
   confirmPassword: string;
   name: string;
   group: string;
@@ -27,22 +25,12 @@ interface State {
   missingPassword: boolean;
   invalidPassword: boolean;
   mismatchPasswords: boolean;
-=======
-  name: string;
-  group: string;
-  role: string;
-  invalidCredentials: boolean;
-  invalidResponse: boolean;
-  invalidEmail: boolean;
-  missingPassword: boolean;
->>>>>>> Add AddUser component.
 }
 
 class AddUser extends React.Component<Props, State> {
   public state: State = {
     email: '',
     password: '',
-<<<<<<< HEAD
     confirmPassword: '',
     name: '',
     group: '',
@@ -53,15 +41,6 @@ class AddUser extends React.Component<Props, State> {
     missingPassword: false,
     invalidPassword: false,
     mismatchPasswords: false,
-=======
-    name: '',
-    group: '',
-    role: '',
-    invalidCredentials: false,
-    invalidResponse: false,
-    invalidEmail: false,
-    missingPassword: false
->>>>>>> Add AddUser component.
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
@@ -188,6 +167,31 @@ class AddUser extends React.Component<Props, State> {
                     : undefined
                 }
                 aria-invalid={this.state.mismatchPasswords}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="mb4">
+              <label htmlFor="confirm-password" className="db mb2 fw6">
+                Confirm Password
+              </label>
+              <input
+                id="confirm-password"
+                name="confirm-password"
+                type="confirm-password"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.invalidCredentials
+                    ? 'no_match_msg'
+                    : this.state.missingPassword
+                    ? 'input_msg'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.invalidCredentials || this.state.missingPassword
+                    ? true
+                    : false
+                }
                 onChange={this.handleChange}
               />
             </div>
