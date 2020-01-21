@@ -110,7 +110,7 @@ or
 
 ---
 
-## General tips on how to work with GitHub:
+#### General tips on how to work with GitHub:
 
 ##### Creating a new branch
 
