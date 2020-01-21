@@ -8,10 +8,10 @@ import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
 import Admin from '../Admin';
-
 import AuthenticatedRoute from '../AuthenticatedRoute';
 import PublicRoute from '../PublicRoute';
 import InterimPage from '../InterimPage';
+import Landing from '../Landing';
 
 class AppRouter extends React.Component {
   public redirect = () => <Redirect to="/" />;
@@ -26,7 +26,8 @@ class AppRouter extends React.Component {
           <AuthenticatedRoute path="/admin" component={Admin} />
           <AuthenticatedRoute path="/account" component={InterimPage} />
 
-          <PublicRoute exact={true} path="/" component={LogIn} />
+          <PublicRoute exact={true} path="/" component={Landing} />
+          <PublicRoute path="/login" component={LogIn} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
 
