@@ -52,6 +52,16 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "charge_eligibility": expungement_result.charge_eligibility,
         }
 
+    def record_summary_to_json(self, record_summary):
+        return {
+            "total_charges": record_summary.total_charges,
+            "cases_sorted": record_summary.cases_sorted,
+            "eligible_charges": record_summary.eligible_charges,
+            "county_balances": record_summary.county_balances,
+            "total_balance_due": record_summary.total_balance_due,
+            "total_cases": record_summary.total_cases,
+        }
+
     def default(self, o):
         if isinstance(o, expungeservice.models.record.Record):
             return self.record_to_json(o)

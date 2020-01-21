@@ -1,6 +1,20 @@
 Changelog
 
-v1.2.0
+v1.3.0 (1-17-20)
+
+## Frontend Changes
+
+- "Arrested" date field is renamed to "Charged" because parking tickets etc. don't involve an arrest (#730)
+- A missing disposition is not reported as an error if the case is open (#715)
+- A missing disposition is reported as "Missing", not "Unknown" (#713)
+
+## Expungement Logic Fixes
+
+- If a case has a single conviction and it's eligibile, all arrests on that case are also eligible (#716)
+- A charge that's time-ineligible forever (e.g. certain Class B felony convictions) properly display the "Ineligible" label (#714, #720)
+- If an open case still has charges with valid dispositions, run analysis on those charges (#707)
+
+v1.2.0 (1-8-20)
 
 ## Frontend Changes
 
@@ -18,7 +32,7 @@ v1.2.0
 - Fixed the time eligibility for a single non-traffic violation conviction (3 years) (#682)
 - The dispositions "accusatory instrument filed" and "removed from charging instrument" are both interpreted as dismissals (#696)
 
-v1.1.0
+v1.1.0 (12-19-19)
 
 ## Frontend Changes
 
