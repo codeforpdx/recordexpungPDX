@@ -20,13 +20,9 @@ class TestSingleChargeAcquittals(unittest.TestCase):
     def test_eligible_mrc_with_single_arrest(self):
         case = CaseFactory.create()
 
-        three_yr_mrc = ChargeFactory.create(
-                        case=case,
-                        disposition=['Convicted', Time.THREE_YEARS_AGO])
+        three_yr_mrc = ChargeFactory.create(case=case, disposition=["Convicted", Time.THREE_YEARS_AGO])
 
-        arrest = ChargeFactory.create(
-            case=case,
-            disposition=['Dismissed', Time.THREE_YEARS_AGO])
+        arrest = ChargeFactory.create(case=case, disposition=["Dismissed", Time.THREE_YEARS_AGO])
 
         case.charges = [three_yr_mrc, arrest]
         record = Record([case])
@@ -35,25 +31,18 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger.run()
         assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert three_yr_mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
+        assert three_yr_mrc.expungement_result.time_eligibility.reason == ""
         assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None
 
     @pytest.mark.skip(reason="Line 66 should be ineligible. TODO: Confirm this is the case")
     def test_eligible_mrc_with_violation(self):
         case = CaseFactory.create()
 
-        three_yr_mrc = ChargeFactory.create(
-                        case=case,
-                        disposition=['Convicted', Time.THREE_YEARS_AGO])
+        three_yr_mrc = ChargeFactory.create(case=case, disposition=["Convicted", Time.THREE_YEARS_AGO])
 
-        arrest = ChargeFactory.create(
-            case=case,
-            disposition=['Dismissed', Time.THREE_YEARS_AGO])
+        arrest = ChargeFactory.create(case=case, disposition=["Dismissed", Time.THREE_YEARS_AGO])
 
-        violation = ChargeFactory.create(
-            level='Violation',
-            case=case,
-            disposition=['Convicted', Time.THREE_YEARS_AGO])
+        violation = ChargeFactory.create(level="Violation", case=case, disposition=["Convicted", Time.THREE_YEARS_AGO])
 
         case.charges = [three_yr_mrc, arrest, violation]
         record = Record([case])
@@ -61,33 +50,29 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         expunger.run()
         assert three_yr_mrc.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert three_yr_mrc.expungement_result.time_eligibility.reason == ''
+        assert three_yr_mrc.expungement_result.time_eligibility.reason == ""
         assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None
         assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
         assert violation.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert violation.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7)
-        assert violation.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(7)(b)'
+        assert violation.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(
+            years=7
+        )
+        assert violation.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
 
     def test_eligible_arrests_eligibility_based_on_second_mrc(self):
         case = CaseFactory.create()
 
-        three_yr_conviction = ChargeFactory.create(
-                        case=case,
-                        disposition=['Convicted', Time.THREE_YEARS_AGO])
+        three_yr_conviction = ChargeFactory.create(case=case, disposition=["Convicted", Time.THREE_YEARS_AGO])
 
-        arrest = ChargeFactory.create(
-            case=case,
-            disposition=['Dismissed', Time.THREE_YEARS_AGO])
+        arrest = ChargeFactory.create(case=case, disposition=["Dismissed", Time.THREE_YEARS_AGO])
 
         violation = ChargeFactory.create(
-            level='Violation',
-            case=case,
-            disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
+            level="Violation", case=case, disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO]
+        )
 
         violation_2 = ChargeFactory.create(
-            level='Violation',
-            case=case,
-            disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
+            level="Violation", case=case, disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO]
+        )
 
         case.charges = [three_yr_conviction, arrest, violation, violation_2]
         record = Record([case])
@@ -95,22 +80,22 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         expunger.run()
         assert three_yr_conviction.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert three_yr_conviction.expungement_result.time_eligibility.reason == 'Time-ineligible under 137.225(7)(b)'
-        assert three_yr_conviction.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7, days=1)
+        assert three_yr_conviction.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
+        assert three_yr_conviction.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(
+            years=7, days=1
+        )
 
         assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert arrest.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7, days=1)
+        assert arrest.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(
+            years=7, days=1
+        )
 
     def test_ineligible_mrc_with_arrest_on_single_case(self):
         case = CaseFactory.create()
 
-        mrc = ChargeFactory.create(
-                        case=case,
-                        disposition=['Convicted', Time.LESS_THAN_THREE_YEARS_AGO])
+        mrc = ChargeFactory.create(case=case, disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO])
 
-        arrest = ChargeFactory.create(
-            case=case,
-            disposition=['Dismissed', Time.LESS_THAN_THREE_YEARS_AGO])
+        arrest = ChargeFactory.create(case=case, disposition=["Dismissed", Time.LESS_THAN_THREE_YEARS_AGO])
 
         case.charges = [mrc, arrest]
         record = Record([case])
@@ -175,8 +160,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 
         assert less_than_three_yr_mrc.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
         assert (
-            less_than_three_yr_mrc.expungement_result.time_eligibility.reason
-            == "Time-ineligible under 137.225(1)(a)"
+            less_than_three_yr_mrc.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
         )
         assert less_than_three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(
             days=+1
@@ -205,9 +189,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger.run()
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert (
-            charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
-        )
+        assert charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
         assert charge.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(days=+1)
 
     def test_time_eligibility_date_is_none_when_type_ineligible(self):
@@ -226,9 +208,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger.run()
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert (
-            charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
-        )
+        assert charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
         assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
 
 
@@ -320,10 +300,7 @@ class TestSecondMRCLogic(unittest.TestCase):
         )
 
         assert two_years_ago_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert (
-            two_years_ago_charge.expungement_result.time_eligibility.reason
-            == "Time-ineligible under 137.225(7)(b)"
-        )
+        assert two_years_ago_charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
         assert (
             two_years_ago_charge.expungement_result.time_eligibility.date_will_be_eligible
             == three_years_ago_charge.disposition.date + Time.TEN_YEARS
@@ -343,10 +320,7 @@ class TestSecondMRCLogic(unittest.TestCase):
         )
 
         assert five_year_ago_charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert (
-            five_year_ago_charge.expungement_result.time_eligibility.reason
-            == "Time-ineligible under 137.225(7)(b)"
-        )
+        assert five_year_ago_charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
         assert (
             five_year_ago_charge.expungement_result.time_eligibility.date_will_be_eligible
             == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
@@ -495,8 +469,71 @@ def test_single_violation_is_time_restricted():
     )
 
 
-# TODO:
-# Test 3 violations
-# Test 2 violations
-# Test parking
-# Test when mrc is in various positions in list
+def test_2_violations_are_time_restricted():
+    violation_charge_1 = ChargeFactory.create(
+        level="Class A Violation",
+        date=Time.LESS_THAN_THREE_YEARS_AGO,
+        disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO],
+    )
+    violation_charge_2 = ChargeFactory.create(
+        level="Class A Violation", date=Time.TWO_YEARS_AGO, disposition=["Convicted", Time.TWO_YEARS_AGO]
+    )
+
+    case = CaseFactory.create()
+    case.charges = [violation_charge_1, violation_charge_2]
+    expunger = Expunger(Record([case]))
+    expunger.run()
+
+    assert violation_charge_1.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge_1.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
+    assert (
+        violation_charge_1.expungement_result.time_eligibility.date_will_be_eligible
+        == violation_charge_1.disposition.date + Time.THREE_YEARS
+    )
+
+    assert violation_charge_2.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge_2.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
+    assert (
+        violation_charge_2.expungement_result.time_eligibility.date_will_be_eligible
+        == violation_charge_2.disposition.date + Time.THREE_YEARS
+    )
+
+    
+def test_3_violations_are_time_restricted():
+    violation_charge_1 = ChargeFactory.create(
+        level="Class A Violation",
+        date=Time.LESS_THAN_THREE_YEARS_AGO,
+        disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO],
+    )
+    violation_charge_2 = ChargeFactory.create(
+        level="Class A Violation", date=Time.TWO_YEARS_AGO, disposition=["Convicted", Time.TWO_YEARS_AGO]
+    )
+    violation_charge_3 = ChargeFactory.create(
+        level="Class A Violation", date=Time.ONE_YEAR_AGO, disposition=["Convicted", Time.ONE_YEAR_AGO]
+    )
+
+    case = CaseFactory.create()
+    case.charges = [violation_charge_3, violation_charge_2, violation_charge_1]
+    expunger = Expunger(Record([case]))
+    expunger.run()
+
+    assert violation_charge_1.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge_1.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
+    assert (
+        violation_charge_1.expungement_result.time_eligibility.date_will_be_eligible
+        == violation_charge_2.disposition.date + Time.TEN_YEARS
+    )
+
+    assert violation_charge_2.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge_2.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
+    assert (
+        violation_charge_2.expungement_result.time_eligibility.date_will_be_eligible
+        == violation_charge_1.disposition.date + Time.TEN_YEARS
+    )
+
+    assert violation_charge_3.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert violation_charge_3.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
+    assert (
+        violation_charge_3.expungement_result.time_eligibility.date_will_be_eligible
+        == violation_charge_1.disposition.date + Time.TEN_YEARS
+    )
