@@ -1,10 +1,11 @@
-from typing import Set, List, Iterator
+from datetime import date
+from typing import Set, List, Iterator, Tuple
 
-from more_itertools import flatten
+from dateutil.relativedelta import relativedelta
+from more_itertools import flatten, padnone, take
 
-from expungeservice.expunger.analyzers.time_analyzer import TimeAnalyzer
-from expungeservice.expunger.charges_summarizer import ChargesSummarizer
 from expungeservice.models.charge import Charge
+from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.record import Record
 
@@ -19,8 +20,7 @@ class Expunger:
 
     def __init__(self, record: Record):
         self.record = record
-        analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
-        self.charges_with_summary = ChargesSummarizer.summarize(analyzable_charges)
+        self.analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
 
     def run(self) -> bool:
         """
@@ -35,12 +35,91 @@ class Expunger:
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
-        TimeAnalyzer.evaluate(self.charges_with_summary)
+        for charge in self.analyzable_charges:
+            eligibility_dates: List[Tuple[date, str]] = []
+            other_charges = [c for c in self.analyzable_charges if c != charge]
+            dismissals, convictions = Expunger._categorize_charges(other_charges)
+            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
+            most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
+
+            if charge.convicted():
+                eligibility_dates.append((charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)"))
+
+            if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
+                eligibility_dates.append((charge.disposition.date + relativedelta(years=1), "Time-ineligible under 137.225(1)(b)"))
+
+            if most_recent_blocking_conviction:
+                eligibility_dates.append((most_recent_blocking_conviction.disposition.date + relativedelta(years=10), "Time-ineligible under 137.225(7)(b)"))
+
+            if charge.acquitted() and most_recent_blocking_dismissal:
+                eligibility_dates.append((most_recent_blocking_dismissal.date + relativedelta(years=3), "Recommend sequential expungement"))
+
+            if charge.convicted() and isinstance(charge, FelonyClassB):
+                if Expunger._calculate_has_subsequent_charge(charge, other_charges):
+                    eligibility_dates.append((date.max, "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"))
+                else:
+                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "137.225(5)(a)(A)(i) - Twenty years from class B felony conviction")) # type: ignore
+
+            if eligibility_dates:
+                eligibility_date, reason = max(eligibility_dates)
+                if date.today() >= eligibility_date:
+                    charge.set_time_eligible()
+                else:
+                    charge.set_time_ineligible(reason, eligibility_date)
+            else:
+                charge.set_time_eligible()
+        for case in self.record.cases:
+            convictions_in_case = [charge for charge in case.charges if charge.convicted()]
+            if len(convictions_in_case) == 1:
+                for charge in case.charges:
+                    charge.expungement_result.time_eligibility = convictions_in_case[0].expungement_result.time_eligibility # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
     @staticmethod
+    def _categorize_charges(charges):
+        acquittals, convictions = [], []
+        for charge in charges:
+            if charge.acquitted():
+                acquittals.append(charge)
+            elif charge.convicted():
+                convictions.append(charge)
+            else:
+                raise ValueError("Charge should always convicted or acquitted at this point.")
+        return acquittals, convictions
+
+    @staticmethod
+    def _most_recent_different_case_dismissal(charge, acquittals):
+        different_case_acquittals = [c for c in acquittals if c.case()() != charge.case()()]
+        different_case_acquittals.sort(key=lambda charge: charge.date)
+        if different_case_acquittals and different_case_acquittals[-1].recent_acquittal():
+            return different_case_acquittals[-1]
+        else:
+            return None
+
+    @staticmethod
+    def _most_recent_convictions(recent_convictions):
+        recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
+        first, second = take(2, padnone(recent_convictions))
+        if first and "violation" in first.level.lower():
+            return second
+        else:
+            return first
+
+    @staticmethod
+    def _calculate_has_subsequent_charge(class_b_felony: Charge, other_charges: List[Charge]) -> bool:
+        for other_charge in other_charges:
+            if other_charge.acquitted():
+                date_of_other_charge = other_charge.date
+            else:
+                date_of_other_charge = other_charge.disposition.date  # type: ignore
+
+            if date_of_other_charge > class_b_felony.disposition.date:  # type: ignore
+                return True
+        return False
+
+    @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [charge for charge in charges if not charge.skip_analysis() and charge.disposition]
+        return [charge for charge in charges if not charge.skip_analysis() and charge.disposition and (charge.convicted() or charge.acquitted())]
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
