@@ -43,22 +43,38 @@ class Expunger:
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
 
             if charge.convicted():
-                eligibility_dates.append((charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)"))
+                eligibility_dates.append(
+                    (charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)")
+                )
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
-                eligibility_dates.append((charge.disposition.date + relativedelta(years=1), "Time-ineligible under 137.225(1)(b)"))
+                eligibility_dates.append(
+                    (charge.disposition.date + relativedelta(years=1), "Time-ineligible under 137.225(1)(b)")
+                )
 
             if most_recent_blocking_conviction:
-                eligibility_dates.append((most_recent_blocking_conviction.disposition.date + relativedelta(years=10), "Time-ineligible under 137.225(7)(b)"))
+                eligibility_dates.append(
+                    (
+                        most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
+                        "Time-ineligible under 137.225(7)(b)",
+                    )
+                )
 
             if charge.acquitted() and most_recent_blocking_dismissal:
-                eligibility_dates.append((most_recent_blocking_dismissal.date + relativedelta(years=3), "Recommend sequential expungement"))
+                eligibility_dates.append(
+                    (most_recent_blocking_dismissal.date + relativedelta(years=3), "Recommend sequential expungement")
+                )
 
             if charge.convicted() and isinstance(charge, FelonyClassB):
                 if Expunger._calculate_has_subsequent_charge(charge, other_charges):
-                    eligibility_dates.append((date.max, "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"))
+                    eligibility_dates.append(
+                        (
+                            date.max,
+                            "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))",
+                        )
+                    )
                 else:
-                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "137.225(5)(a)(A)(i) - Twenty years from class B felony conviction")) # type: ignore
+                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "137.225(5)(a)(A)(i) - Twenty years from class B felony conviction"))  # type: ignore
 
             if eligibility_dates:
                 eligibility_date, reason = max(eligibility_dates)
@@ -72,7 +88,9 @@ class Expunger:
             convictions_in_case = [charge for charge in case.charges if charge.convicted()]
             if len(convictions_in_case) == 1:
                 for charge in case.charges:
-                    charge.expungement_result.time_eligibility = convictions_in_case[0].expungement_result.time_eligibility # TODO: Feels dangerous; clean up
+                    charge.expungement_result.time_eligibility = convictions_in_case[
+                        0
+                    ].expungement_result.time_eligibility  # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
     @staticmethod
@@ -99,11 +117,11 @@ class Expunger:
     @staticmethod
     def _most_recent_convictions(recent_convictions):
         recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
-        first, second = take(2, padnone(recent_convictions))
-        if first and "violation" in first.level.lower():
-            return second
+        newer, older = take(2, padnone(recent_convictions))
+        if newer and "violation" in newer.level.lower():
+            return older
         else:
-            return first
+            return newer
 
     @staticmethod
     def _calculate_has_subsequent_charge(class_b_felony: Charge, other_charges: List[Charge]) -> bool:
@@ -119,7 +137,11 @@ class Expunger:
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [charge for charge in charges if not charge.skip_analysis() and charge.disposition and (charge.convicted() or charge.acquitted())]
+        return [
+            charge
+            for charge in charges
+            if not charge.skip_analysis() and charge.disposition and (charge.convicted() or charge.acquitted())
+        ]
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
