@@ -3,12 +3,14 @@ from typing import List
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
+from expungeservice.models.record_summary import RecordSummary
 
 
 @dataclass
 class Record:
     cases: List[Case]
     errors: List[str] = field(default_factory=list)
+    summary: RecordSummary = None
 
     @property
     def charges(self):
