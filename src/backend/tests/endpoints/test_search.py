@@ -78,7 +78,7 @@ def test_search(service, monkeypatch):
     (use this json encode-decode approach because it turns a Record or RecordSummary into a dict.)
     """
     assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
-    assert data["summary"] == json.loads(
+    assert data["record"]["summary"] == json.loads(
         json.dumps(RecordSummarizer.summarize(service.mock_record["john_doe"]), cls=ExpungeModelEncoder)
     )
 

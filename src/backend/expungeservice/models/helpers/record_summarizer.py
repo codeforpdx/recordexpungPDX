@@ -1,6 +1,6 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
-from typing import Dict
+from typing import Dict, List
 
 
 class RecordSummarizer:
