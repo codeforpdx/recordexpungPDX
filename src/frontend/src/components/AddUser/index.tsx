@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
-<<<<<<< HEAD
-=======
->>>>>>> Add confirm password input in AddUser component.
 
 interface Props {
   users: UserState;
@@ -175,20 +172,22 @@ class AddUser extends React.Component<Props, State> {
                 Confirm Password
               </label>
               <input
-                id="confirm-password"
+                id="confirmPassword"
                 name="confirm-password"
-                type="confirm-password"
+                type="password"
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
-                  this.state.invalidCredentials
-                    ? 'no_match_msg'
-                    : this.state.missingPassword
-                    ? 'input_msg'
+                  this.state.missingConfirmPassword
+                    ? 'all_input_msg'
+                    : this.state.mismatchPasswords
+                    ? 'mismatch_msg'
                     : undefined
                 }
                 aria-invalid={
-                  this.state.invalidCredentials || this.state.missingPassword
+                  this.state.missingConfirmPassword
+                    ? true
+                    : this.state.mismatchPasswords
                     ? true
                     : false
                 }
