@@ -16,6 +16,7 @@ class DispositionStatus(str, Enum):
 class Disposition:
     date: date
     ruling: str
+    amended: bool = False
     status: DispositionStatus = field(init=False)
 
     def __post_init__(self):
