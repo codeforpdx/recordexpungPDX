@@ -1,6 +1,6 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
-from expungeservice.models.record_summary import RecordSummary
-from typing import Dict
+from expungeservice.models.record_summary import RecordSummary, CountyBalance
+from typing import Dict, List
 
 
 class RecordSummarizer:
@@ -48,8 +48,9 @@ class RecordSummarizer:
             "partially_eligible": partially_eligible_cases,
             "other": other_cases,
         }
+        county_balances_list : List[CountyBalance] = []
         for county, balance in county_balances.items():
-            county_balances[county] = round(balance, 2)
+            county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
         eligible_charges = [
             c.name
@@ -60,5 +61,5 @@ class RecordSummarizer:
             cases_sorted=cases_sorted,
             eligible_charges=eligible_charges,
             total_charges=total_charges,
-            county_balances=county_balances,
+            county_balances=county_balances_list,
         )

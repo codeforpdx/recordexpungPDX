@@ -54,13 +54,12 @@ class Search(MethodView):
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
 
-        summary = RecordSummarizer.summarize(record)
-        response_data = {"data": {"record": record, "summary": summary}}
+        record.summary = RecordSummarizer.summarize(record)
+        response_data = {"data": {"record": record}}
 
         current_app.json_encoder = ExpungeModelEncoder
 
         return response_data  # Json-encoding happens automatically here
-
 
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
