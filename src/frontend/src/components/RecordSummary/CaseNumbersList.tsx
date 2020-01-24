@@ -10,10 +10,10 @@ interface Props {
 export default class CaseNumbersList extends React.Component<Props> {
   render() {
     const listItems = this.props.cases.map(((caseNumber:string, index:number) => {
-      let id = "summary_li_" + caseNumber;
+      const id = "summary_li_" + caseNumber;
       return (
         <li className="mb2" id={id}>
-          <a href="#" className="underline">{caseNumber}</a>
+          <a href={"#" + caseNumber} className="underline">{caseNumber}</a>
         </li>
         )
     }));

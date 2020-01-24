@@ -19,7 +19,7 @@ class RecordSummary:
 
     @property
     def total_balance_due(self):
-        return sum([county.balance for county in self.county_balances])
+        return round(sum([county.balance for county in self.county_balances]), 2)
 
     @property
     def total_cases(self):

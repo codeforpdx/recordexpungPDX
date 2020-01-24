@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { RecordSummaryType, CountyBalanceType } from '../SearchResults/types';
 import CaseNumbersList from './CaseNumbersList'
 
 interface Props {

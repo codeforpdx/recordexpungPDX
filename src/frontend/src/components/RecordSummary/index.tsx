@@ -10,7 +10,7 @@ interface Props {
 
 export default class RecordSummary extends React.Component<Props> {
   render() {
-    let {
+    const {
       total_charges,
       cases_sorted,
       eligible_charges,
@@ -25,7 +25,7 @@ export default class RecordSummary extends React.Component<Props> {
         <div className="flex-ns">
           <CasesSummary casesSorted={cases_sorted} totalCases={total_cases}/>
           <ChargesList eligibleCharges={eligible_charges} totalCharges={total_charges}/>
-          <CountyBalances balances={county_balances}/>
+          <CountyBalances totalBalance = {total_balance_due} balances={county_balances}/>
         </div>
       </div>
     );
