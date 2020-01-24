@@ -108,13 +108,13 @@ class CaseParser:
             else:
                 raise ValueError("len(event_table_contents) should always be 4 or 5.")
 
-            if CaseParser.__normalize_text(event_type.text) == "disposition":
+            if CaseParser.__normalize_text(event_type.text) in ["disposition", "amendeddisposition"]:
                 disposition_data = {}
                 for row, next_row in zip(event_inner_table_parse, event_inner_table_parse[1:]):
                     if CaseParser._valid_data(row.split(".\xa0")):
                         charge_id_string, charge = row.split(".\xa0")
                         charge_id = int(charge_id_string)
-                        disposition_data[charge_id] = {"date": date.text, "charge": charge, "ruling": next_row}
+                        disposition_data[charge_id] = {"date": date.text, "charge": charge, "ruling": next_row, "event": event_type.text}
                 return disposition_data
             else:
                 return None
