@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RecordSummaryType, CountyBalanceType } from '../SearchResults/types';
+import { CountyBalanceType } from '../SearchResults/types';
 
 interface Props {
   balances: CountyBalanceType[];
