@@ -13,6 +13,8 @@
 // Case: ZA0061902
 // Case Balance: None
 
+import {RecordSummaryType} from '../../components/SearchResults/types'
+
 export interface RecordWrapper {
   record: Record;
 }
@@ -24,6 +26,7 @@ export interface Record {
   total_balance_Due?: number;
   cases?: any[];
   errors?: string[];
+  summary?: RecordSummaryType;
 }
 
 // These constants are used as the 'type' field in Redux actions.

@@ -291,3 +291,60 @@ footer {
 .nowrap {
   white-space: nowrap;
 }
+
+// New CSS as of Landing addition
+
+$lightest-blue1: #f3f8ff;
+$lightest-blue2: #e8f2ff;
+.bg-lightest-blue1 {
+  background-color: $lightest-blue1;
+}
+.bg-lightest-blue2 {
+  background-color: $lightest-blue2;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.logo--landing-page {
+  width: 140px;
+  height: auto;
+
+  @media screen and (min-width: 30em) {
+    width: 174px;
+  }
+}
+
+.key--bkg {
+  position: absolute;
+  top: -804px;
+  left: 44%;
+  z-index: -1;
+  width: 4800px;
+  height: auto;
+}
+.keyholes {
+  max-width: 500px;
+  height: auto;
+}
+.key--bkg-sm {
+  position: absolute;
+  display: block;
+  top: -50px;
+  left: 47.5%;
+  width: 40px;
+  height: auto;
+}
+.ui-sample {
+  max-width: 100%;
+  width: 400px;
+  height: auto;
+}
+.code-for-pdx--logo-icon {
+  width: 48px;
+  height: auto;
+  padding: 0 4px 0 8px;
+  position: relative;
+  top: 4px;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import history from '../../service/history';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { loadUsers, clearUsers } from '../../redux/users/actions';
@@ -60,7 +61,9 @@ class UserList extends React.Component<Props> {
     <section className="cf bg-white shadow br3 mb5">
       <div className="pv4 ph3">
         <h1 className="f3 fw6 dib">Users</h1>
-        <button className="bg-navy white bg-animate hover-bg-dark-blue fw6 br2 pv2 ph3 fr">
+        <button
+          onClick={() => history.push('add-user')}
+          className="bg-navy white bg-animate hover-bg-dark-blue fw6 br2 pv2 ph3 fr">
           New User
         </button>
       </div>

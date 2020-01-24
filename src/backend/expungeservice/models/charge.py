@@ -74,7 +74,7 @@ class Charge:
 
     def set_time_ineligible(self, reason, date_of_eligibility):
         status = self.expungement_result.type_eligibility.status
-        if status == EligibilityStatus.ELIGIBLE or status == EligibilityStatus.NEEDS_MORE_ANALYSIS:
+        if status == EligibilityStatus.ELIGIBLE or status == EligibilityStatus.NEEDS_MORE_ANALYSIS and date_of_eligibility != date_class.max:
             date_will_be_eligible = date_of_eligibility
         else:
             date_will_be_eligible = None

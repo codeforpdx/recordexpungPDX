@@ -27,12 +27,15 @@ export default class Charge extends React.Component<Props> {
       } else if (disposition.status === "Unrecognized") {
         dispositionEvent += " (\"" + disposition.ruling + "\")";
       }
+      if (disposition.amended) {
+        dispositionEvent += " (Amended)"
+      }
       return <>
         <li className="mb2">
           <span className="fw7">Disposition:</span> {dispositionEvent}
         </li>
         <li className="mb2">
-          <span className="fw7">Arrested: </span> {date}
+          <span className="fw7">Charged: </span> {date}
         </li>
       </>
     };
