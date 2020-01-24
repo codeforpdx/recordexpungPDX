@@ -28,6 +28,21 @@ export interface Record {
   total_balance_Due?: number;
   cases?: any[];
   errors?: string[];
+  summary?: RecordSummaryType;
+}
+
+export interface RecordSummaryType {
+  total_charges: number;
+  cases_sorted: any;
+  eligible_charges: any[];
+  county_balances: CountyBalanceType[];
+  total_balance_due: number;
+  total_cases: number;
+}
+
+export interface CountyBalanceType {
+  county_name: string;
+  balance: number;
 }
 
 export interface ExpungementResultType {

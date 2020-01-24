@@ -14,7 +14,7 @@ import { checkOeciRedirect } from '../service/cookie-service';
 type Props = {
   fetchRecords: Function;
   clearRecords: Function;
-  records?: Record;
+  record?: Record;
 };
 
 class AllRecords extends Component<Props> {
@@ -31,10 +31,10 @@ class AllRecords extends Component<Props> {
     return (
       <main className="mw8 center ph2">
         <RecordSearch fetchRecords={this.props.fetchRecords} />
-        {this.props.records &&
-        this.props.records.cases &&
-        this.props.records.cases.length > 0 ? (
-          <SearchResults records={this.props.records} />
+        {this.props.record &&
+        this.props.record.cases &&
+        this.props.record.cases.length > 0 ? (
+          <SearchResults record={this.props.record} />
         ) : (
           <AllStatus />
         )}
@@ -45,7 +45,7 @@ class AllRecords extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    records: state.records.records
+    record: state.records.records
   };
 };
 

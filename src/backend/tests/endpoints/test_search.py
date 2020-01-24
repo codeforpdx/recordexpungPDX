@@ -53,7 +53,7 @@ def test_search(service, monkeypatch):
     A separate test, below, verifies that the save-result step
     also works. Here, we mock the function to reduce the scope of the test.
     """
-    monkeypatch.setattr(search, "save_result", lambda user_id, request_data, record: None)
+    monkeypatch.setattr(search, "save_result", lambda request_data, record: None)
 
     """
     as a more unit-y unit test, we could make the encrypted cookie
@@ -78,10 +78,6 @@ def test_search(service, monkeypatch):
     (use this json encode-decode approach because it turns a Record or RecordSummary into a dict.)
     """
     assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
-    assert data["summary"] == json.loads(
-        json.dumps(RecordSummarizer.summarize(service.mock_record["john_doe"]), cls=ExpungeModelEncoder)
-    )
-
 
 def test_search_fails_without_oeci_token(service):
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
