@@ -150,34 +150,47 @@ class Expunger:
             charges
         )
         if cases_with_missing_disposition:
-            record_errors.append(Expunger._build_disposition_error_message(cases_with_missing_disposition, "a missing"))
+            record_errors.append(Expunger._build_missing_disposition_error_message(cases_with_missing_disposition))
         if cases_with_unrecognized_disposition:
             record_errors.append(
-                Expunger._build_disposition_error_message(cases_with_unrecognized_disposition, "an unrecognized")
+                Expunger._build_unrecognized_disposition_error_message(cases_with_unrecognized_disposition)
             )
         return record_errors
 
     @staticmethod
     def _filter_cases_with_errors(charges: List[Charge]):
         cases_with_missing_disposition: Set[str] = set()
-        cases_with_unrecognized_disposition: Set[str] = set()
+        cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
             if not charge.skip_analysis():
                 case_number = charge.case()().case_number
                 if not charge.disposition and charge.case()().closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
-                    cases_with_unrecognized_disposition.add(f"{case_number}: {charge.disposition.ruling}")
+                    cases_with_unrecognized_disposition.add((case_number,charge.disposition.ruling))
         return cases_with_missing_disposition, cases_with_unrecognized_disposition
 
+
     @staticmethod
-    def _build_disposition_error_message(error_cases: Set[str], disposition_error_name: str):
+    def _build_missing_disposition_error_message(error_cases: Set[str]):
         if len(error_cases) == 1:
-            error_message = f"""Case {error_cases.pop()} has a charge with {disposition_error_name} disposition.
+            error_message = f"""Case {error_cases.pop()} has a charge with a missing disposition.
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
         else:
             cases_list_string = ", ".join(error_cases)
-            error_message = f"""The following cases have charges with {disposition_error_name} disposition.
+            error_message = f"""The following cases have charges with a missing disposition.
+This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
+Case numbers: {cases_list_string}"""
+        return error_message
+
+    @staticmethod
+    def _build_unrecognized_disposition_error_message(error_cases_with_rulings: Set[Tuple[str, str]]):
+        if len(error_cases_with_rulings) == 1:
+            error_message = f"""Case {next(iter(error_cases_with_rulings))[0]} has a charge with an unrecognized disposition ({next(iter(error_cases_with_rulings))[1]}).
+This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
+        else:
+            cases_list_string = ", ".join([pair[0] + " (" + pair[1]+ ")" for pair in error_cases_with_rulings])
+            error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: {cases_list_string}"""
         return error_message
