@@ -194,5 +194,3 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: {cases_list_string}"""
         return error_message
-
-        cases_with_unrecognized_disposition
