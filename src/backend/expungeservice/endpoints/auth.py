@@ -27,7 +27,8 @@ class AuthToken(MethodView):
 
         user = from_dict(data_class=User, data=user_db_result)
         User.login_user(user)
-        return jsonify({})
+
+        return jsonify({"is_admin": user.admin})
 
 
 class Logout(MethodView):
