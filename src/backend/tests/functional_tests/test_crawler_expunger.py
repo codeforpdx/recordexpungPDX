@@ -82,7 +82,7 @@ def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
     expunger = Expunger(record_with_unrecognized_dispo)
     assert expunger.run()
     assert record_with_unrecognized_dispo.errors[0] == (
-        f"""Case {record_with_unrecognized_dispo.cases[0].case_number}: Something unrecognized has a charge with an unrecognized disposition.
+        f"""Case {record_with_unrecognized_dispo.cases[0].case_number} has a charge with an unrecognized disposition (Something unrecognized).
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
     )
 
@@ -93,7 +93,7 @@ def record_with_multiple_disposition_errors(crawler):
         crawler,
         cases={
             "X0001": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
-            "X0002": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+            "X0002": CaseDetails.case_x(dispo_ruling_1="Something else unrecognized"),
             "X0003": CaseDetails.CASE_WITHOUT_DISPOS,
         },
     )
@@ -105,8 +105,8 @@ def test_case_with_mulitple_disposition_errors(record_with_multiple_disposition_
     unrecognized_error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: """
-    cases_order_1 = "X0001: Something unrecognized, X0002: Something unrecognized"
-    cases_order_2 = "X0002: Something unrecognized, X0001: Something unrecognized"
+    cases_order_1 = "X0001 (Something unrecognized), X0002 (Something else unrecognized)"
+    cases_order_2 = "X0002 (Something else unrecognized), X0001 (Something unrecognized)"
     assert (
         unrecognized_error_message + cases_order_1 in record_with_multiple_disposition_errors.errors
         or unrecognized_error_message + cases_order_2 in record_with_multiple_disposition_errors.errors
