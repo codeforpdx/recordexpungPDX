@@ -1,5 +1,24 @@
 Changelog
 
+v1.4.0 (1-24-20)
+
+## Frontend Changes
+
+- Result Summary Panel added to search results. Each case number is an in-page link to that case's details (#756)
+- Adjusted Case header format to match prototype, and include the County (#766)
+- Website landing page added with a link to app login (#744)
+- Add User and Edit User components added, but are not yet functional (#729)
+- Minor tweak to the error banner for an unrecognized ruling (#759)
+
+## Expungement Logic Fixes
+
+- Amended Disposition gets parsed as an additional disposition event. The last disposition event for each charge determines that charge's final ruling (#758)
+- Rewrite of time analysis logic that correctly handles a pair of non-blocking violations, in addition to preventing other potential bugs  (#742)
+
+## Other Bug Fixes
+
+- Navigating to the app on Http will redirect silently to Https (preventing a possible login error) (#740)
+
 v1.3.0 (1-17-20)
 
 ## Frontend Changes
