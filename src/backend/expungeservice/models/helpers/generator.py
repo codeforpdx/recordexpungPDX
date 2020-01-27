@@ -6,7 +6,7 @@ from hypothesis._strategies import none, composite
 from hypothesis.strategies import builds, just, lists, one_of
 from hypothesis.searchstrategy import SearchStrategy
 
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from expungeservice.models.case import Case
 from expungeservice.models.record import Record
 

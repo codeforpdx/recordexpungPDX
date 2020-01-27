@@ -1,13 +1,9 @@
-import unittest
-import json
-
 from expungeservice.models.helpers.record_summarizer import RecordSummarizer
-from expungeservice.serializer import ExpungeModelEncoder
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.record_factory import RecordFactory
-from tests.utilities.time import Time
+from tests.time import Time
 
 
 def test_record_summarizer_multiple_cases():
@@ -67,12 +63,13 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.cases_sorted["partially_eligible"] == ["0001"]
     assert record_summary.cases_sorted["other"] == ["0002"]
 
-    '''
+    """
     assert record_summary.county_balances["Baker"] == 700.00
     assert record_summary.county_balances["Multnomah"] == 100.00
     assert record_summary.county_balances["Clackamas"] == 200.00
     assert record_summary.eligible_charges == ["Theft of dignity", "Theft of services"]
-    '''
+    """
+
 
 def test_record_summarizer_no_cases():
     record = RecordFactory.create([])

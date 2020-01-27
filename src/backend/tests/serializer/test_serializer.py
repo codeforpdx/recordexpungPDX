@@ -1,11 +1,9 @@
 import pytest
 
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 
-import json
-
-from tests.functional_tests.test_crawler_expunger import (
+from tests.test_crawler_expunger import (
     record_with_open_case,
     empty_record,
     partial_dispos_record,
@@ -14,6 +12,8 @@ from tests.functional_tests.test_crawler_expunger import (
     record_with_specific_dates,
     crawler,
 )
+
+import json
 
 
 @pytest.fixture(
