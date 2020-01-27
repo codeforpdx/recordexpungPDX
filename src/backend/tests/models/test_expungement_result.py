@@ -54,7 +54,7 @@ def test_ineligible():
 
 def test_type_eligible_never_becomes_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
-    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", None)
+    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max)
     expungement_result = ExpungementResult(type_eligibility, time_eligibility)
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
@@ -63,7 +63,7 @@ def test_type_eligible_never_becomes_eligible():
 
 def test_type_possibly_eligible_never_becomes_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
-    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", None)
+    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max)
     expungement_result = ExpungementResult(type_eligibility, time_eligibility)
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
