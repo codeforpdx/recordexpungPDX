@@ -2,7 +2,7 @@ from datetime import date as date_class
 
 import pytest
 from dateutil.relativedelta import relativedelta
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
@@ -167,6 +167,7 @@ def record_with_specific_dates(crawler):
             ),
         },
     )
+
 
 @pytest.mark.skip(reason="Line 178 should be ELIGIBLE. TODO: Confirm this is the case")
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
