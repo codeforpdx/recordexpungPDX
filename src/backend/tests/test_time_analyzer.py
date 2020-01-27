@@ -540,3 +540,24 @@ def test_3_violations_are_time_restricted():
         violation_charge_3.expungement_result.time_eligibility.date_will_be_eligible
         == violation_charge_1.disposition.date + Time.TEN_YEARS
     )
+
+
+def test_parking_ticket_is_not_skipped_and_does_not_block():
+    parking_ticket = ChargeFactory.create(statute="40", disposition=["Convicted", Time.ONE_YEAR_AGO])
+    violation_charge = ChargeFactory.create(
+        level="Class A Violation", date=Time.TEN_YEARS_AGO, disposition=["Convicted", Time.TEN_YEARS_AGO]
+    )
+
+    case = CaseFactory.create()
+    case.charges = [parking_ticket, violation_charge]
+    expunger = Expunger(Record([case]))
+    expunger.run()
+
+    assert parking_ticket.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert (
+        parking_ticket.expungement_result.time_eligibility.reason
+        == "Never. Type ineligible charges are always time ineligible."
+    )
+    assert parking_ticket.expungement_result.time_eligibility.date_will_be_eligible == date.max
+
+    assert violation_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
