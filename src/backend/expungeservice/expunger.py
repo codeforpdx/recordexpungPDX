@@ -86,12 +86,22 @@ class Expunger:
 
             charge.set_time_eligibility(eligibility_dates)
         for case in self.record.cases:
-            convictions_in_case = [charge for charge in case.charges if charge.convicted()]
-            if len(convictions_in_case) == 1:
+            non_violation_convictions_in_case = []
+            violations_in_case = []
+            for charge in case.charges:
+                if charge.convicted():
+                    if "violation" in charge.level.lower():
+                        violations_in_case.append(charge)
+                    else:
+                        non_violation_convictions_in_case.append(charge)
+            violations_in_case.sort(key=lambda charge: charge.disposition.date, reverse=True)
+            convictions = non_violation_convictions_in_case + violations_in_case
+            if len(convictions) >= 1 and len(non_violation_convictions_in_case) <= 1 and len(convictions) <= 2:
                 for charge in case.charges:
-                    charge.expungement_result.time_eligibility = convictions_in_case[
-                        0
-                    ].expungement_result.time_eligibility  # TODO: Feels dangerous; clean up
+                    if charge.acquitted():
+                        charge.expungement_result.time_eligibility = convictions[
+                            0
+                        ].expungement_result.time_eligibility  # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
     @staticmethod
