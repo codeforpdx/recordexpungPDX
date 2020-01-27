@@ -34,7 +34,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         assert three_yr_mrc.expungement_result.time_eligibility.reason == ""
         assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible is None
 
-    @pytest.mark.skip(reason="Line 66 should be ineligible. TODO: Confirm this is the case")
+    @pytest.mark.skip(reason="We still need to implement the friendly rule extension.")
     def test_eligible_mrc_with_violation(self):
         case = CaseFactory.create()
 
