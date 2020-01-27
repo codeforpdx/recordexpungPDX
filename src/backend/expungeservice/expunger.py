@@ -167,9 +167,8 @@ class Expunger:
                 if not charge.disposition and charge.case()().closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
-                    cases_with_unrecognized_disposition.add((case_number,charge.disposition.ruling))
+                    cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))
         return cases_with_missing_disposition, cases_with_unrecognized_disposition
-
 
     @staticmethod
     def _build_missing_disposition_error_message(error_cases: Set[str]):
@@ -189,7 +188,7 @@ Case numbers: {cases_list_string}"""
             error_message = f"""Case {next(iter(error_cases_with_rulings))[0]} has a charge with an unrecognized disposition ({next(iter(error_cases_with_rulings))[1]}).
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
         else:
-            cases_list_string = ", ".join([pair[0] + " (" + pair[1]+ ")" for pair in error_cases_with_rulings])
+            cases_list_string = ", ".join([pair[0] + " (" + pair[1] + ")" for pair in error_cases_with_rulings])
             error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: {cases_list_string}"""

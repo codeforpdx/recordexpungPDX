@@ -4,13 +4,13 @@ from datetime import date
 
 import pytest
 from dateutil.relativedelta import relativedelta
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
-from tests.utilities.time import Time
+from tests.time import Time
 
 
 class TestSingleChargeAcquittals(unittest.TestCase):
@@ -498,7 +498,7 @@ def test_2_violations_are_time_restricted():
         == violation_charge_2.disposition.date + Time.THREE_YEARS
     )
 
-    
+
 def test_3_violations_are_time_restricted():
     violation_charge_1 = ChargeFactory.create(
         level="Class A Violation",

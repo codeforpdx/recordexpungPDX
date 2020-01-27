@@ -1,7 +1,7 @@
 import pytest
 from flask import g
 
-from expungeservice.stats import stats
+from expungeservice import stats
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.database import get_database

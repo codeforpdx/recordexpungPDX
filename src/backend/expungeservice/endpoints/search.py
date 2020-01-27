@@ -6,7 +6,7 @@ import logging
 from expungeservice.request import check_data_fields
 from expungeservice.request.error import error
 from expungeservice.crawler.crawler import Crawler
-from expungeservice.expunger.expunger import Expunger
+from expungeservice.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
@@ -60,6 +60,7 @@ class Search(MethodView):
         current_app.json_encoder = ExpungeModelEncoder
 
         return response_data  # Json-encoding happens automatically here
+
 
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
