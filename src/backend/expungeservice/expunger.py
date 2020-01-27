@@ -38,7 +38,7 @@ class Expunger:
         self.record.errors += self._build_disposition_errors(self.record.charges)
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in self.analyzable_charges if c != charge]
+            other_charges = [c for c in self.analyzable_charges if c != charge and not c.skip_analysis()]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
@@ -138,11 +138,7 @@ class Expunger:
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [
-            charge
-            for charge in charges
-            if not charge.skip_analysis() and charge.disposition and (charge.convicted() or charge.acquitted())
-        ]
+        return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.acquitted())]
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
