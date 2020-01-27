@@ -4,7 +4,7 @@ from flask_login import login_required
 import logging
 
 from expungeservice.request import check_data_fields
-from expungeservice.request.error import error
+from expungeservice.request import error
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import Expunger
 from expungeservice.serializer import ExpungeModelEncoder
