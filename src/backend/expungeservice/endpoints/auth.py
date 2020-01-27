@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from dacite import from_dict
 
 from expungeservice.request import check_data_fields
-from expungeservice.request.error import error
+from expungeservice.request import error
 from expungeservice.user import user_db_util
 from expungeservice.user.user import User
 

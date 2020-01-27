@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash
 from flask import g
 from expungeservice.request import check_data_fields
 from psycopg2.errors import UniqueViolation
-from expungeservice.request.error import error
+from expungeservice.request import error
 from expungeservice.user import user_db_util
 from expungeservice.user.user import admin_login_required
 
