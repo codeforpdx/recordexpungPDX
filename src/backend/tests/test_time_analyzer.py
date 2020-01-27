@@ -208,8 +208,11 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger.run()
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
-        assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert (
+            charge.expungement_result.time_eligibility.reason
+            == "Never. Type ineligible charges are always time ineligible."
+        )
+        assert charge.expungement_result.time_eligibility.date_will_be_eligible is date.max
 
 
 class TestDismissalBlock(unittest.TestCase):
@@ -389,7 +392,7 @@ def test_felony_class_b_with_subsequent_conviction():
         b_felony_charge.expungement_result.time_eligibility.reason
         == "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"
     )
-    assert b_felony_charge.expungement_result.time_eligibility.date_will_be_eligible == None
+    assert b_felony_charge.expungement_result.time_eligibility.date_will_be_eligible == date.max
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
     assert subsequent_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
