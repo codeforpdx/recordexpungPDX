@@ -4,7 +4,7 @@ from flask_login import login_required
 
 from expungeservice.models.helpers.generator import build_record
 from expungeservice.request import check_data_fields
-from expungeservice.request.error import error
+from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 

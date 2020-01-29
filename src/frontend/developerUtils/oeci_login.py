@@ -5,9 +5,8 @@ import os
 
 from flask_login import login_required
 
-from expungeservice.crawler.crawler import Crawler
 from expungeservice.request import check_data_fields
-from expungeservice.request.error import error
+from expungeservice.request import error
 from expungeservice.crypto import DataCipher
 
 
