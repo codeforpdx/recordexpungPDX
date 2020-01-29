@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime, date
+from datetime import datetime, date as date_class
 from typing import List, Optional
 
 from expungeservice.models.charge import Charge
@@ -12,13 +12,13 @@ class Case:
     case_number: str
     citation_number: str
     location: str
-    date: date
+    date: date_class
     violation_type: str
     current_status: str
     charges: List[Charge]
     case_detail_link: str
     __balance_due_in_cents: int = 0
-    __probation_revoked: bool = False
+    __probation_revoked: Optional[date_class] = None
 
     @staticmethod
     def create(info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance="0"):
@@ -43,10 +43,10 @@ class Case:
         case.set_balance_due(balance)
         return case
 
-    def get_probation_revoked(self) -> bool:
+    def get_probation_revoked(self) -> Optional[date_class]:
         return self.__probation_revoked
 
-    def set_probation_revoked(self, probation_revoked: bool):
+    def set_probation_revoked(self, probation_revoked: Optional[date_class]):
         self.__probation_revoked = probation_revoked
 
     def set_balance_due(self, balance_due_dollar_amount: str):
