@@ -1,18 +1,32 @@
-import dataclasses
-
 import flask
-import expungeservice
-from expungeservice.models.expungement_result import EligibilityStatus
 from datetime import date
+
+from expungeservice.models.case import Case
+from expungeservice.models.record import Record
+from expungeservice.models.record_summary import RecordSummary
 
 
 class ExpungeModelEncoder(flask.json.JSONEncoder):
+    def record_summary_to_json(self, record_summary):
+        return {
+            **self.record_to_json(record_summary.record),
+            **{
+                "summary": {
+                    "total_charges": record_summary.total_charges,
+                    "cases_sorted": record_summary.cases_sorted,
+                    "eligible_charges": record_summary.eligible_charges,
+                    "county_balances": record_summary.county_balances,
+                    "total_balance_due": record_summary.total_balance_due,
+                    "total_cases": record_summary.total_cases,
+                }
+            },
+        }
+
     def record_to_json(self, record):
         return {
             "total_balance_due": record.total_balance_due,
             "cases": [self.case_to_json(case) for case in record.cases],
             "errors": record.errors,
-            "summary": self.record_summary_to_json(record.summary),
         }
 
     def case_to_json(self, case):
@@ -58,22 +72,12 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "charge_eligibility": expungement_result.charge_eligibility,
         }
 
-    def record_summary_to_json(self, record_summary):
-        return {
-            "total_charges": record_summary.total_charges,
-            "cases_sorted": record_summary.cases_sorted,
-            "eligible_charges": record_summary.eligible_charges,
-            "county_balances": record_summary.county_balances,
-            "total_balance_due": record_summary.total_balance_due,
-            "total_cases": record_summary.total_cases,
-        }
-
     def default(self, o):
-        if isinstance(o, expungeservice.models.record.Record):
+        if isinstance(o, RecordSummary):
+            return self.record_summary_to_json(o)
+        elif isinstance(o, Record):
             return self.record_to_json(o)
-
         elif isinstance(o, date):
             return o.strftime("%b %-d, %Y")
-
         else:
             return flask.json.JSONEncoder.default(self, o)
