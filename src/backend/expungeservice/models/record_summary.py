@@ -3,6 +3,7 @@ from typing import List, Dict
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
+from expungeservice.models.record import Record
 
 
 @dataclass
@@ -10,8 +11,10 @@ class CountyBalance:
     county_name: str
     balance: float
 
+
 @dataclass
 class RecordSummary:
+    record: Record
     total_charges: int
     cases_sorted: Dict[str, List[str]]
     eligible_charges: List[str]
