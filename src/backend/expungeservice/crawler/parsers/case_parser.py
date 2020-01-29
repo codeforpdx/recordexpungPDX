@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+from datetime import datetime, date
 from typing import List, Dict, Optional, Tuple
 
 from bs4 import BeautifulSoup
@@ -18,7 +19,7 @@ class CaseParserData:
     hashed_charge_data: Dict[int, Dict[str, str]]
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
-    probation_revoked: bool
+    probation_revoked: Optional[date]
 
 
 class CaseParser:
@@ -28,10 +29,13 @@ class CaseParser:
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         (
             hashed_dispo_data,
-            latest_probation_revoked_date_string,
+            probation_revoked_date_string,
         ) = CaseParser.__build_hashed_dispo_data_and_probation_revoked(soup)
         balance_due = CaseParser.__build_balance_due(soup)
-        probation_revoked = True if latest_probation_revoked_date_string else False  # TODO: Pass through date
+        if probation_revoked_date_string:
+            probation_revoked = datetime.date(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
+        else:
+            probation_revoked = None  # type: ignore
         return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
 
     @staticmethod
