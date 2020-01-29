@@ -1,8 +1,13 @@
+from itertools import groupby
+from typing import List
+
 from flask.views import MethodView
 from flask import request, current_app
 from flask_login import login_required
 import logging
 
+from expungeservice.models.case import Case
+from expungeservice.models.record import Record
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.crawler.crawler import Crawler
@@ -18,10 +23,11 @@ class Search(MethodView):
     def post(self):
         request_data = request.get_json()
 
-        if request_data is None:
+        if request_data is None or not request_data.get("names"):
             error(400, "No json data in request body")
 
-        check_data_fields(request_data, ["first_name", "last_name", "middle_name", "birth_date"])
+        for alias in request_data["names"]:
+            check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
 
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
 
@@ -39,12 +45,13 @@ class Search(MethodView):
         if login_result is False:
             error(401, "Attempted login to OECI failed")
 
-        record = crawler.search(
-            request_data["first_name"],
-            request_data["last_name"],
-            request_data["middle_name"],
-            request_data["birth_date"],
-        )
+        cases: List[Case] = []
+        for alias in request_data["names"]:
+            cases += crawler.search(
+                alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
+            ).cases
+        cases_with_unique_case_number = [list(group)[0] for key, group in groupby(cases, lambda case: case.case_number)]
+        record = Record(cases_with_unique_case_number)
 
         expunger = Expunger(record)
         expunger.run()
