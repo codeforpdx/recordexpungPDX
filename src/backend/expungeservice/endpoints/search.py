@@ -54,8 +54,8 @@ class Search(MethodView):
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
 
-        record.summary = RecordSummarizer.summarize(record)
-        response_data = {"data": {"record": record}}
+        record_summary = RecordSummarizer.summarize(record)
+        response_data = {"data": {"record": record_summary}}
 
         current_app.json_encoder = ExpungeModelEncoder
 

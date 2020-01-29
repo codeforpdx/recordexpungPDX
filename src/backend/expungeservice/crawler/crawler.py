@@ -19,7 +19,7 @@ class Crawler:
         self.response = requests.Response()
         self.result = RecordParser()
 
-    def login(self, username, password, close_session=False):
+    def login(self, username, password, close_session=False) -> bool:
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
 
@@ -30,7 +30,7 @@ class Crawler:
 
         return Crawler.__login_validation(self.response, url)
 
-    def search(self, first_name, last_name, middle_name="", birth_date=""):
+    def search(self, first_name, last_name, middle_name="", birth_date="") -> Record:
         url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)

@@ -1,12 +1,10 @@
-import json
+import copy
 
 import pytest
 
 from expungeservice.endpoints import search
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
-from expungeservice.serializer import ExpungeModelEncoder
-from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 
 
 @pytest.fixture
@@ -35,12 +33,20 @@ def mock_login(return_value):
     return lambda s, username, password, close_session=False: return_value
 
 
+# The copy here is required because we mutate the resulting Record object in search
 def mock_search(service, mocked_record_name):
-    return lambda s, first_name, last_name, middle_name, birth_date: service.mock_record[mocked_record_name]
+    return lambda s, first_name, last_name, middle_name, birth_date: copy.copy(service.mock_record[mocked_record_name])
 
 
-def mock_save_result_fail(user_id, request_data, record):
+def mock_save_result_fail(request_data, record):
     raise Exception("Exception to test failing save_result")
+
+
+def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
+    assert record_dict["total_balance_due"] == mock_record.total_balance_due
+    case_numbers = [case["case_number"] for case in record_dict["cases"]]
+    mocked_case_numbers = [case.case_number for case in mock_record.cases]
+    assert case_numbers == mocked_case_numbers
 
 
 def test_search(service, monkeypatch):
@@ -72,12 +78,8 @@ def test_search(service, monkeypatch):
     assert response.status_code == 200
     data = response.get_json()["data"]
 
-    """
-    Check that the resulting "record" field in the response matches what we gave to the
-    mock search function.
-    (use this json encode-decode approach because it turns a Record or RecordSummary into a dict.)
-    """
-    assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
+    check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
+
 
 def test_search_fails_without_oeci_token(service):
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
@@ -109,13 +111,7 @@ def test_search_creates_save_results(service, monkeypatch):
     assert response.status_code == 200
     data = response.get_json()["data"]
 
-    """
-    Check that the resulting "record" field in the response matches
-    what we gave to the mock search function.
-
-    (use this json encode-decode approach because it turns a Record into a dict.)
-    """
-    assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
+    check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
     service.check_search_result_saved(
         service.user_data["user1"]["user_id"], service.search_request_data, num_eligible_charges=6, num_charges=9
@@ -144,9 +140,4 @@ def test_search_with_failing_save_results(service, monkeypatch):
     assert response.status_code == 200
     data = response.get_json()["data"]
 
-    """
-    Check that the resulting "record" field in the response matches what we gave to the
-    mock search function.
-    (use this json encode-decode approach because it turns a Record into a dict.)
-    """
-    assert data["record"] == json.loads(json.dumps(service.mock_record["john_doe"], cls=ExpungeModelEncoder))
+    check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
