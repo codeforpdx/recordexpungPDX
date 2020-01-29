@@ -22,10 +22,7 @@ def setup_and_teardown(service):
 def test_save_result(service):
     with service.client:
         request_data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "middle_name": "Test",
-            "birth_date": "01/01/1980",
+            "names": [{"first_name": "John", "last_name": "Doe", "middle_name": "Test", "birth_date": "01/01/1980",}]
         }
 
         record = CrawlerFactory.create(CrawlerFactory.setup())

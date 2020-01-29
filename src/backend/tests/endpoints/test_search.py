@@ -20,10 +20,7 @@ def setup_and_teardown(service):
     service.crawler.logged_in = True
     service.mock_record = {"john_doe": CrawlerFactory.create(service.crawler)}
     service.search_request_data = {
-        "first_name": "John",
-        "last_name": "Doe",
-        "middle_name": "",
-        "birth_date": "02/02/1990",
+        "names": [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": "02/02/1990"}]
     }
     yield
     service.teardown()
