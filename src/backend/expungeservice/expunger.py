@@ -12,13 +12,6 @@ from expungeservice.models.record import Record
 
 
 class Expunger:
-    """
-    The TimeAnalyzer is probably the last major chunk of non-functional code.
-    We mutate the charges in the record directly to add time eligibility information.
-    Hence, for example, it is unsafe to deepcopy any elements in the "chain" stemming from record
-    including closed_charges, charges, self.charges_with_summary.
-    """
-
     def __init__(self, record: Record):
         self.record = record
         self.analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
@@ -26,6 +19,13 @@ class Expunger:
     def run(self) -> bool:
         """
         Evaluates the expungement eligibility of a record.
+
+        Assuming that convictions within the same case are processed around the same time,
+        if we just assume that the probation revoked applies to all convictions,
+        then the eligibility date of all charges are roughly the same as when
+        the probation revoked only applied to a single conviction:
+        because of the 10 year blocking rule for multiple convictions,
+        the eligibility date of some charges will only be off by the difference in processing times.
 
         :return: True if there are no open cases; otherwise False
         """
@@ -58,6 +58,14 @@ class Expunger:
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
                     (charge.disposition.date + relativedelta(years=1), "Time-ineligible under 137.225(1)(b)")
+                )
+
+            if charge.convicted() and charge.case()().get_probation_revoked():
+                eligibility_dates.append(
+                    (
+                        charge.disposition.date + relativedelta(years=10),
+                        "Time-ineligible under 137.225(1)(c). See comments for when there are multiple convictions in a case.",
+                    )
                 )
 
             if most_recent_blocking_conviction:
