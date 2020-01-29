@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Optional, Tuple
 
 from bs4 import BeautifulSoup
 from more_itertools import split_at
@@ -26,9 +26,12 @@ class CaseParser:
     def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
-        hashed_dispo_data = CaseParser.__build_hashed_dispo_data(soup)
+        (
+            hashed_dispo_data,
+            latest_probation_revoked_date_string,
+        ) = CaseParser.__build_hashed_dispo_data_and_probation_revoked(soup)
         balance_due = CaseParser.__build_balance_due(soup)
-        probation_revoked = FuzzySearch.search(data, PROBATION_REVOKED_SEARCH_TERMS)
+        probation_revoked = True if latest_probation_revoked_date_string else False  # TODO: Pass through date
         return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
 
     @staticmethod
@@ -52,24 +55,37 @@ class CaseParser:
     # Note that one disposition event may have rulings for one or more charges
     # and thus the accumulator pattern.
     @staticmethod
-    def __build_hashed_dispo_data(soup) -> Dict[int, Dict[str, str]]:
-        disposition_events = CaseParser.__parse_disposition_events(soup)
+    def __build_hashed_dispo_data_and_probation_revoked(soup) -> Tuple[Dict[int, Dict[str, str]], Optional[str]]:
+        disposition_events, other_events = CaseParser.__parse_events(soup)
         acc: Dict[int, Dict[str, str]] = {}
         for event in disposition_events:
             if CaseParser.__valid_event_table(event):
                 disposition_data = CaseParser.__parse_event_table(event)
                 if disposition_data:
                     acc = {**acc, **disposition_data}
-        return acc
+        latest_probation_revoked_date = None
+        for event in other_events:
+            if CaseParser.__valid_event_table(event):
+                probation_revoked_date = CaseParser.__parse_probation_revoked(event)
+                if probation_revoked_date:
+                    latest_probation_revoked_date = probation_revoked_date
+        return acc, latest_probation_revoked_date
 
     @staticmethod
-    def __parse_disposition_events(soup):
+    def __parse_probation_revoked(event):
+        event_parts = event.contents
+        assert len(event_parts) == 4
+        date, empty_one, empty_two, event_table_wrapper = event_parts
+        if FuzzySearch.search(event_table_wrapper.text, PROBATION_REVOKED_SEARCH_TERMS):
+            return date.text
+
+    @staticmethod
+    def __parse_events(soup):
         events_title = soup.find("div", class_=SECTION_TITLE_CLASS, string="Events & Orders of the Court")
         events = list(events_title.parent.next_siblings)
         split_events = list(split_at(events, CaseParser.__is_other_events_and_hearings))
         assert len(split_events) == 2
-        disposition_events, other_events = split_events
-        return disposition_events
+        return split_events
 
     @staticmethod
     def __is_other_events_and_hearings(event):
@@ -114,7 +130,12 @@ class CaseParser:
                     if CaseParser._valid_data(row.split(".\xa0")):
                         charge_id_string, charge = row.split(".\xa0")
                         charge_id = int(charge_id_string)
-                        disposition_data[charge_id] = {"date": date.text, "charge": charge, "ruling": next_row, "event": event_type.text}
+                        disposition_data[charge_id] = {
+                            "date": date.text,
+                            "charge": charge,
+                            "ruling": next_row,
+                            "event": event_type.text,
+                        }
                 return disposition_data
             else:
                 return None
