@@ -58,7 +58,7 @@ class TestRecordParser(unittest.TestCase):
         assert self.parser.cases[2].violation_type == "Offense Misdemeanor"
         assert self.parser.cases[2].current_status == "Open"
 
-    def test_it_assigns_charges(self):
+    def test_it_does_not_assign_charges(self):
         assert len(self.parser.cases[0].charges) == 0
         assert len(self.parser.cases[1].charges) == 0
         assert len(self.parser.cases[2].charges) == 0
