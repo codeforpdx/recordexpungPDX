@@ -18,8 +18,7 @@ export function systemReducer(
     }
     case LOG_OUT: {
       return {
-        loggedIn: false,
-        isAdmin: false
+        loggedIn: false
       };
     }
     default:

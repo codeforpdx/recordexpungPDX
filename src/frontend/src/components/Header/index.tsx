@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 interface Props {
   isAuthenticated: boolean;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
 
 class Header extends React.Component<Props> {

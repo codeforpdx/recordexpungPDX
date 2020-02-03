@@ -1,6 +1,6 @@
 export interface SystemState {
   loggedIn: boolean;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
 
 export const LOG_IN = 'LOG_IN';
