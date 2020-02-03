@@ -11,7 +11,7 @@ class Landing extends React.Component {
           <title>Record Expunge Oregon</title>
         </div>
 
-        <div className="f5 f4-ns navy">
+        <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
             <svg
               className="key--bkg"
