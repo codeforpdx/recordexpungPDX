@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 
 interface Props {
   isAuthenticated: boolean;
-  isAdmin: boolean; // Added 'isAdmin' for conditional rendering to work (line 35/36)
+  isAdmin: boolean;
 }
 
 class Header extends React.Component<Props> {
   public render() {
-    console.log(this.props);
     return this.props.isAuthenticated ? (
       <nav className="center pt3 ph2 bg-white shadow">
         <div className="mw8 center flex-l justify-between">
@@ -32,7 +31,6 @@ class Header extends React.Component<Props> {
             >
               Stats
             </button>
-            {/* Conditionally render the admin button based on isAdmin from the props */}
             {this.props.isAdmin ? (
               <button
                 onClick={() => history.push('/admin')}
@@ -69,7 +67,6 @@ class Header extends React.Component<Props> {
 const mapStateToProps = (state: AppState) => ({
   isAuthenticated: state.system.loggedIn,
   isAdmin: state.system.isAdmin
-  //Do the same as above but with 'isAdmin'
 });
 
 export default connect(mapStateToProps)(Header);

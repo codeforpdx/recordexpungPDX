@@ -9,7 +9,6 @@ export function systemReducer(
   state = initialState,
   action: SystemActionTypes
 ): SystemState {
-  console.log('action', action);
   switch (action.type) {
     case LOG_IN: {
       return {
