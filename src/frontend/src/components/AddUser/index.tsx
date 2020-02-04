@@ -19,11 +19,9 @@ interface State {
   invalidCredentials: boolean;
   invalidResponse: boolean;
   missingName: boolean;
-  missingEmail:boolean;
   invalidEmail: boolean;
   missingPassword: boolean;
   invalidPassword: boolean;
-  missingConfirmPassword: boolean;
   mismatchPasswords: boolean;
 }
 
@@ -38,11 +36,9 @@ class AddUser extends React.Component<Props, State> {
     invalidCredentials: false,
     invalidResponse: false,
     missingName: false,
-    missingEmail: false,
     invalidEmail: false,
     missingPassword: false,
     invalidPassword: false,
-    missingConfirmPassword: false,
     mismatchPasswords: false,
   };
 
@@ -77,12 +73,10 @@ class AddUser extends React.Component<Props, State> {
     this.setState(
       {
         missingName: this.state.name.length === 0,
-        missingEmail: this.state.email.length === 0,
         invalidEmail: !validateEmail(this.state.email),
         missingPassword: this.state.password.length === 0,
         invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
-        missingConfirmPassword: this.state.confirmPassword.length === 0,
-        mismatchPasswords: this.state.password != this.state.confirmPassword
+        mismatchPasswords: this.state.password !== this.state.confirmPassword
       }
     );
   }
@@ -106,7 +100,7 @@ class AddUser extends React.Component<Props, State> {
                 required={true}
                 aria-describedby={
                   this.state.missingName
-                    ? 'all_input_msg'
+                    ? 'name_input_msg'
                     : this.state.invalidCredentials
                     ? 'no_match_msg'
                     : undefined
@@ -130,9 +124,7 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
-                  this.state.missingEmail
-                    ? 'all_input_msg'
-                    : this.state.invalidEmail
+                  this.state.invalidEmail
                     ? 'email_msg'
                     : this.state.invalidCredentials
                     ? 'no_match_msg'
@@ -158,15 +150,17 @@ class AddUser extends React.Component<Props, State> {
                 required={true}
                 aria-describedby={
                   this.state.missingPassword
-                    ? 'all_input_msg'
+                    ? 'passwd_input_msg'
                     : this.state.invalidPassword
                     ? 'passwd_msg'
+                    : this.state.invalidCredentials
+                    ? 'no_match_msg'
                     : undefined
                 }
                 aria-invalid={
                   this.state.missingPassword
-                    ? true
-                    : this.state.invalidPassword
+                  || this.state.invalidPassword
+                  || this.state.invalidCredentials
                     ? true
                     : false
                 }
@@ -184,16 +178,16 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
-                  this.state.missingConfirmPassword
-                    ? 'all_input_msg'
-                    : this.state.mismatchPasswords
+                  this.state.mismatchPasswords
                     ? 'mismatch_msg'
+                    : this.state.invalidCredentials
+                    ? 'no_match_msg'
                     : undefined
                 }
                 aria-invalid={
-                  this.state.missingConfirmPassword
+                  this.state.mismatchPasswords
                     ? true
-                    : this.state.mismatchPasswords
+                    : this.state.invalidCredentials
                     ? true
                     : false
                 }
@@ -266,15 +260,19 @@ class AddUser extends React.Component<Props, State> {
               Sign Up
             </button>
             <div role="alert" className="w-100">
-            {this.state.missingName || this.state.missingEmail || this.state.missingPassword || this.state.missingConfirmPassword ? (
-                <p id="all_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
-                  Name, Email, Password, and Confirm Password fields are required.
+              {this.state.missingName === true ? (
+                <p id="name_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Name is required.
                 </p>
               ) : null}
-
               {this.state.invalidEmail === true ? (
                 <p id="email_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Invalid email address.
+                </p>
+              ) : null}
+              {this.state.missingPassword === true ? (
+                <p id="passwd_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Password is required.
                 </p>
               ) : null}
               {this.state.invalidPassword === true ? (
