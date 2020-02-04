@@ -13,7 +13,8 @@ export function logIn(email: string, password: string): any {
       method: 'post'
     }).then((response: any) => {
       dispatch({
-        type: LOG_IN
+        type: LOG_IN,
+        isAdmin: response.data.is_admin
       });
       history.push('/oeci');
     });
