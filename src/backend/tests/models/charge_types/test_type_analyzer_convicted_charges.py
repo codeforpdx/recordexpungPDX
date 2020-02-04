@@ -546,7 +546,7 @@ class TestMultipleCharges(unittest.TestCase):
         assert self.charges[0].expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
         assert self.charges[1].expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert self.charges[1].expungement_result.type_eligibility.reason == "Ineligible under 137.225(5)"
+        assert self.charges[1].expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
     def test_multiple_class_b_felonies_are_added_to_b_felony_list(self):
         # first charge
