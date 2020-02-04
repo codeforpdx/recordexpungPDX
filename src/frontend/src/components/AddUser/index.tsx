@@ -18,13 +18,24 @@ interface State {
   role: string;
   invalidCredentials: boolean;
   invalidResponse: boolean;
+<<<<<<< HEAD
   missingName: boolean;
   missingEmail:boolean;
+||||||| merged common ancestors
+=======
+  missingName: boolean;
+>>>>>>> add_user_form_validation
   invalidEmail: boolean;
   missingPassword: boolean;
+<<<<<<< HEAD
   invalidPassword: boolean;
   missingConfirmPassword: boolean;
   mismatchPasswords: boolean;
+||||||| merged common ancestors
+=======
+  invalidPassword: boolean;
+  mismatchPasswords: boolean;
+>>>>>>> add_user_form_validation
 }
 
 class AddUser extends React.Component<Props, State> {
@@ -37,13 +48,26 @@ class AddUser extends React.Component<Props, State> {
     role: '',
     invalidCredentials: false,
     invalidResponse: false,
+<<<<<<< HEAD
     missingName: false,
     missingEmail: false,
+||||||| merged common ancestors
+=======
+    missingName: false,
+>>>>>>> add_user_form_validation
     invalidEmail: false,
+<<<<<<< HEAD
     missingPassword: false,
     invalidPassword: false,
     missingConfirmPassword: false,
     mismatchPasswords: false,
+||||||| merged common ancestors
+    missingPassword: false
+=======
+    missingPassword: false,
+    invalidPassword: false,
+    mismatchPasswords: false,
+>>>>>>> add_user_form_validation
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
@@ -68,12 +92,19 @@ class AddUser extends React.Component<Props, State> {
       },
       () => {
         // TODO: Submit to backend
+<<<<<<< HEAD
         console.log(this.state)
         this.validateFormFields();
+||||||| merged common ancestors
+        return
+=======
+        this.validateFormFields();
+>>>>>>> add_user_form_validation
       }
     );
   };
 
+<<<<<<< HEAD
   public validateFormFields() {
     this.setState(
       {
@@ -87,6 +118,20 @@ class AddUser extends React.Component<Props, State> {
       }
     );
   }
+||||||| merged common ancestors
+=======
+  public validateFormFields() {
+    this.setState(
+      {
+        missingName: this.state.name.length === 0,
+        invalidEmail: !validateEmail(this.state.email),
+        missingPassword: this.state.password.length === 0,
+        invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
+        mismatchPasswords: this.state.password !== this.state.confirmPassword
+      }
+    );
+  }
+>>>>>>> add_user_form_validation
 
   public render() {
     return (
@@ -106,9 +151,17 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
+<<<<<<< HEAD
                   this.state.missingName
                     ? 'all_input_msg'
                     : this.state.invalidCredentials
+||||||| merged common ancestors
+                  this.state.invalidCredentials
+=======
+                  this.state.missingName
+                    ? 'name_input_msg'
+                    : this.state.invalidCredentials
+>>>>>>> add_user_form_validation
                     ? 'no_match_msg'
                     : undefined
                 }
@@ -158,16 +211,38 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
+<<<<<<< HEAD
                   this.state.missingPassword
                     ? 'all_input_msg'
                     : this.state.invalidPassword
                     ? 'passwd_msg'
+||||||| merged common ancestors
+                  this.state.invalidCredentials
+                    ? 'no_match_msg'
+                    : this.state.missingPassword
+                    ? 'input_msg'
+=======
+                  this.state.missingPassword
+                    ? 'passwd_input_msg'
+                    : this.state.invalidPassword
+                    ? 'passwd_msg'
+                    : this.state.invalidCredentials
+                    ? 'no_match_msg'
+>>>>>>> add_user_form_validation
                     : undefined
                 }
                 aria-invalid={
+<<<<<<< HEAD
                   this.state.missingPassword
                     ? true
                     : this.state.invalidPassword
+||||||| merged common ancestors
+                  this.state.invalidCredentials || this.state.missingPassword
+=======
+                  this.state.missingPassword
+                  || this.state.invalidPassword
+                  || this.state.invalidCredentials
+>>>>>>> add_user_form_validation
                     ? true
                     : false
                 }
@@ -185,16 +260,36 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
+<<<<<<< HEAD
                   this.state.missingConfirmPassword
                     ? 'all_input_msg'
                     : this.state.mismatchPasswords
                     ? 'mismatch_msg'
+||||||| merged common ancestors
+                  this.state.invalidCredentials
+                    ? 'no_match_msg'
+                    : this.state.missingPassword
+                    ? 'input_msg'
+=======
+                  this.state.mismatchPasswords
+                    ? 'mismatch_msg'
+                    : this.state.invalidCredentials
+                    ? 'no_match_msg'
+>>>>>>> add_user_form_validation
                     : undefined
                 }
                 aria-invalid={
+<<<<<<< HEAD
                   this.state.missingConfirmPassword
                     ? true
                     : this.state.mismatchPasswords
+||||||| merged common ancestors
+                  this.state.invalidCredentials || this.state.missingPassword
+=======
+                  this.state.mismatchPasswords
+                    ? true
+                    : this.state.invalidCredentials
+>>>>>>> add_user_form_validation
                     ? true
                     : false
                 }
@@ -267,15 +362,43 @@ class AddUser extends React.Component<Props, State> {
               Sign Up
             </button>
             <div role="alert" className="w-100">
+<<<<<<< HEAD
             {this.state.missingName || this.state.missingEmail || this.state.missingPassword || this.state.missingConfirmPassword ? (
                 <p id="all_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Name, Email, Password, and Confirm Password fields are required.
                 </p>
               ) : null}
 
+||||||| merged common ancestors
+=======
+              {this.state.missingName === true ? (
+                <p id="name_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Name is required.
+                </p>
+              ) : null}
+>>>>>>> add_user_form_validation
               {this.state.invalidEmail === true ? (
                 <p id="email_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Invalid email address.
+                </p>
+              ) : null}
+<<<<<<< HEAD
+              {this.state.invalidPassword === true ? (
+                <p id="passwd_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Passwords must be at least 8 characters.
+                </p>
+              ) : null}
+              {this.state.mismatchPasswords === true ? (
+                <p id="mismatch_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Passwords do not match.
+||||||| merged common ancestors
+              {this.state.missingPassword === true ? (
+                <p id="input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Both fields are required.
+=======
+              {this.state.missingPassword === true ? (
+                <p id="passwd_input_msg" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Password is required.
                 </p>
               ) : null}
               {this.state.invalidPassword === true ? (
@@ -286,6 +409,7 @@ class AddUser extends React.Component<Props, State> {
               {this.state.mismatchPasswords === true ? (
                 <p id="mismatch_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Passwords do not match.
+>>>>>>> add_user_form_validation
                 </p>
               ) : null}
               {this.state.invalidCredentials === true ? (
