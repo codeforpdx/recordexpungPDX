@@ -72,17 +72,12 @@ class Charge:
     def skip_analysis(self):
         return False
 
-    def set_time_ineligible(self, reason, date_of_eligibility):
-        status = self.expungement_result.type_eligibility.status
-        if status == EligibilityStatus.ELIGIBLE or status == EligibilityStatus.NEEDS_MORE_ANALYSIS and date_of_eligibility != date_class.max:
-            date_will_be_eligible = date_of_eligibility
+    def set_time_eligibility(self, eligibility_dates):
+        date_will_be_eligible, reason = max(eligibility_dates)
+        if date_will_be_eligible and date_class.today() >= date_will_be_eligible:
+            time_eligibility = TimeEligibility(status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=None)
         else:
-            date_will_be_eligible = None
-        time_eligibility = TimeEligibility(
-            status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
-        )
-        self.expungement_result.time_eligibility = time_eligibility
-
-    def set_time_eligible(self, reason=""):
-        time_eligibility = TimeEligibility(status=EligibilityStatus.ELIGIBLE, reason=reason, date_will_be_eligible=None)
+            time_eligibility = TimeEligibility(
+                status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
+            )
         self.expungement_result.time_eligibility = time_eligibility
