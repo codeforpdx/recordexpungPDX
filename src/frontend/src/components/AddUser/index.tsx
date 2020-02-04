@@ -178,16 +178,16 @@ class AddUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
-                  this.state.missingConfirmPassword
-                    ? 'all_input_msg'
-                    : this.state.mismatchPasswords
+                  this.state.mismatchPasswords
                     ? 'mismatch_msg'
+                    : this.state.invalidCredentials
+                    ? 'no_match_msg'
                     : undefined
                 }
                 aria-invalid={
-                  this.state.missingConfirmPassword
+                  this.state.mismatchPasswords
                     ? true
-                    : this.state.mismatchPasswords
+                    : this.state.invalidCredentials
                     ? true
                     : false
                 }
