@@ -48,7 +48,7 @@ class RecordSummarizer:
             "partially_eligible": partially_eligible_cases,
             "other": other_cases,
         }
-        county_balances_list : List[CountyBalance] = []
+        county_balances_list: List[CountyBalance] = []
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
@@ -58,6 +58,7 @@ class RecordSummarizer:
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
         ]
         return RecordSummary(
+            record=record,
             cases_sorted=cases_sorted,
             eligible_charges=eligible_charges,
             total_charges=total_charges,

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 interface Props {
   isAuthenticated: boolean;
+  isAdmin?: boolean;
 }
 
 class Header extends React.Component<Props> {
@@ -30,12 +31,14 @@ class Header extends React.Component<Props> {
             >
               Stats
             </button>
-            <button
-              onClick={() => history.push('/admin')}
-              className="link mid-gray hover-blue f6 f5-ns dib pa3"
-            >
-              Admin
-            </button>
+            {this.props.isAdmin ? (
+              <button
+                onClick={() => history.push('/admin')}
+                className="link mid-gray hover-blue f6 f5-ns dib pa3"
+              >
+                Admin
+              </button>
+            ) : null}
             <button
               onClick={() => history.push('/account')}
               className="link mid-gray hover-blue f6 f5-ns dib pa3"
@@ -62,7 +65,8 @@ class Header extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isAuthenticated: state.system.loggedIn
+  isAuthenticated: state.system.loggedIn,
+  isAdmin: state.system.isAdmin
 });
 
 export default connect(mapStateToProps)(Header);
