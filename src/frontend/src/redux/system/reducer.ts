@@ -1,7 +1,8 @@
 import { LOG_IN, LOG_OUT, SystemState, SystemActionTypes } from './types';
 
 const initialState: SystemState = {
-  loggedIn: false
+  loggedIn: false,
+  isAdmin: false
 };
 
 export function systemReducer(
@@ -11,7 +12,8 @@ export function systemReducer(
   switch (action.type) {
     case LOG_IN: {
       return {
-        loggedIn: true
+        loggedIn: true,
+        isAdmin: action.isAdmin
       };
     }
     case LOG_OUT: {
