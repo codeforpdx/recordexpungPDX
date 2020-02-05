@@ -4,7 +4,8 @@ from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
+from expungeservice.models.charge_types.traffic_violation import TrafficViolation
+from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
 from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.subsection_12 import Subsection12
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
@@ -34,6 +35,7 @@ class ChargeClassifier:
 
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
+        yield ChargeClassifier._traffic_crime(self.statute, self.level)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
         yield ChargeClassifier._municipal_parking(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level)
@@ -49,7 +51,6 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._crime_against_person(section)
-        yield ChargeClassifier._traffic_crime(statute)
         yield ChargeClassifier._parking_ticket(statute, chapter)
         yield ChargeClassifier._schedule_1_pcs(section)
 
@@ -95,7 +96,7 @@ class ChargeClassifier:
             return PersonCrime
 
     @staticmethod
-    def _traffic_crime(statute):
+    def _traffic_crime(statute, level):
 
         chapter = statute[:3]
         if chapter.isdigit():
@@ -107,7 +108,11 @@ class ChargeClassifier:
                 return Duii
 
             elif chapter_num in statute_range:
-                return Level800TrafficCrime
+                level_str = level.lower()
+                if "felony" in level_str or "misdemeanor" in level_str:
+                    return TrafficNonViolation
+                else:
+                    return TrafficViolation
 
     @staticmethod
     def _parking_ticket(statute, chapter):
