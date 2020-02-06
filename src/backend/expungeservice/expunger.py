@@ -20,13 +20,6 @@ class Expunger:
         """
         Evaluates the expungement eligibility of a record.
 
-        Assuming that convictions within the same case are processed around the same time,
-        if we just assume that the probation revoked applies to all convictions,
-        then the eligibility date of all charges are roughly the same as when
-        the probation revoked only applied to a single conviction:
-        because of the 10 year blocking rule for multiple convictions,
-        the eligibility date of some charges will only be off by the difference in processing times.
-
         :return: True if there are no open cases; otherwise False
         """
         open_cases = [case for case in self.record.cases if not case.closed()]
