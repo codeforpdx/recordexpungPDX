@@ -12,7 +12,6 @@ class ChargeCreator:
     def create(**kwargs):
         case = kwargs["case"]
         name = kwargs["name"]
-
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
         chapter = ChargeCreator._set_chapter(kwargs["statute"])

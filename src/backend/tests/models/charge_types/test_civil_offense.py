@@ -1,16 +1,4 @@
-"""
-Rules for 800 Level charges are as follows:
-
-800 level misdemeanors and felonies are eligible Only If the case was dismissed
-800 level cases of any kind that are convicted are not eligible
-800 level infractions do not block other cases
-800 level misdemeanor and felony convictions do block
-800 level misdemeanor and felony arrests block like other arrests
-800 level convictions of any kind are not type eligible
-"""
-
 import unittest
-
 from datetime import date, datetime, timedelta
 
 from expungeservice.models.expungement_result import EligibilityStatus
