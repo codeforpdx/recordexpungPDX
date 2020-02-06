@@ -159,15 +159,17 @@ class LogIn extends React.Component<Props, State> {
                 </p>
               ) : null}
             </div>
-            <div className="tc">
-              <Link
-                to="/forgot-password"
-                className="link underline hover-blue"
-                href="/"
-              >
-                Forgot your password?
-              </Link>
-            </div>
+            {
+            // <div className="tc">
+              // <Link
+              //   to="/forgot-password"
+              //   className="link underline hover-blue"
+              //   href="/"
+              // >
+              //   Forgot your password?
+              // </Link>
+            // </div>
+          }
           </form>
         </section>
       </main>
