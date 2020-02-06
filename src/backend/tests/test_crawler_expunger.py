@@ -195,7 +195,6 @@ def record_with_revoked_probation(crawler):
 def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
     record = record_with_revoked_probation
     expunger = Expunger(record)
-    assert expunger.run()
-    print(record.cases[0].charges[0].expungement_result.time_eligibility.date_will_be_eligible)
 
+    assert expunger.run()
     assert record.cases[0].charges[0].expungement_result.time_eligibility.date_will_be_eligible == date_class(2020,11,9)
