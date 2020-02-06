@@ -1,7 +1,8 @@
 import unittest
-
 from datetime import datetime, timedelta
+
 from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
@@ -22,17 +23,17 @@ class TestParkingTicket(unittest.TestCase):
         self.charge_dict["disposition"]=self.convicted
         charge = ChargeFactory.create(**self.charge_dict)
 
-        assert charge.__class__.__name__ == "ParkingTicket"
-        assert charge.skip_analysis() is True
+        assert isinstance(charge, ParkingTicket)
+        assert charge.skip_analysis()
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
-
 
     def test_parking_ticket_dismissal(self):
         self.charge_dict["disposition"]=self.dismissed
         charge = ChargeFactory.create(**self.charge_dict)
 
-        assert charge.__class__.__name__ == "ParkingTicket"
+        assert isinstance(charge, ParkingTicket)
+        assert charge.skip_analysis()
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
 

@@ -17,5 +17,6 @@ class ParkingTicket(Charge):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         elif self.acquitted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
+
     def skip_analysis(self):
         return True
