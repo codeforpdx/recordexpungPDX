@@ -542,22 +542,29 @@ def test_3_violations_are_time_restricted():
     )
 
 
-def test_parking_ticket_is_not_skipped_and_does_not_block():
-    parking_ticket = ChargeFactory.create(statute="40", disposition=["Convicted", Time.ONE_YEAR_AGO])
+def test_nonblocking_charge_is_not_skipped_and_does_not_block():
+    civil_offense = ChargeFactory.create(
+        level="N/A",
+        statute="1.000",
+        disposition=["Convicted", Time.ONE_YEAR_AGO]
+    )
+
     violation_charge = ChargeFactory.create(
-        level="Class A Violation", date=Time.TEN_YEARS_AGO, disposition=["Convicted", Time.TEN_YEARS_AGO]
+        level="Class A Violation",
+        date=Time.TEN_YEARS_AGO,
+        disposition=["Convicted", Time.TEN_YEARS_AGO]
     )
 
     case = CaseFactory.create()
-    case.charges = [parking_ticket, violation_charge]
+    case.charges = [civil_offense, violation_charge]
     expunger = Expunger(Record([case]))
     expunger.run()
 
-    assert parking_ticket.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert civil_offense.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
-        parking_ticket.expungement_result.time_eligibility.reason
+        civil_offense.expungement_result.time_eligibility.reason
         == "Never. Type ineligible charges are always time ineligible."
     )
-    assert parking_ticket.expungement_result.time_eligibility.date_will_be_eligible == date.max
+    assert civil_offense.expungement_result.time_eligibility.date_will_be_eligible == date.max
 
     assert violation_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE

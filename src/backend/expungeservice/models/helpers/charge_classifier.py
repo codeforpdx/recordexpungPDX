@@ -14,12 +14,14 @@ from expungeservice.models.charge_types.non_traffic_violation import NonTrafficV
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_crime import PersonCrime
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
+from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
 
 @dataclass
 class ChargeClassifier:
     violation_type: str
+    name: str
     statute: str
     level: str
     chapter: str
@@ -37,8 +39,10 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
-        yield ChargeClassifier._municipal_parking(self.violation_type)
+        yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level)
+        yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
+
         yield UnclassifiedCharge
 
     @staticmethod
@@ -51,7 +55,6 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._crime_against_person(section)
-        yield ChargeClassifier._parking_ticket(statute, chapter)
         yield ChargeClassifier._schedule_1_pcs(section)
 
     @staticmethod
@@ -115,13 +118,15 @@ class ChargeClassifier:
                     return TrafficViolation
 
     @staticmethod
-    def _parking_ticket(statute, chapter):
+    def _civil_offense(statute, chapter, name):
         statute_range = range(1, 100)
         if chapter:
             if chapter.isdigit() and int(chapter) in statute_range:
-                return ParkingTicket
+                return CivilOffense
         elif statute.isdigit() and int(statute) in statute_range:
-            return ParkingTicket
+            return CivilOffense
+        elif "fugitive complaint" in name.lower():
+            return CivilOffense
 
     @staticmethod
     def _schedule_1_pcs(section):
@@ -129,7 +134,7 @@ class ChargeClassifier:
             return Schedule1PCS
 
     @staticmethod
-    def _municipal_parking(violation_type):
+    def _parking_ticket(violation_type):
         if "parking" in violation_type.lower():
             return ParkingTicket
 
