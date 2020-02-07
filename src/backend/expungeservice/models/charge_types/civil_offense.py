@@ -11,5 +11,5 @@ class CivilOffense(Charge):
     def _default_type_eligibility(self):
         return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
 
-    def skip_analysis(self):
-        return True
+    def blocks_other_charges(self):
+        return False

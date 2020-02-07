@@ -14,5 +14,5 @@ class TrafficViolation(Charge):
         else:
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
 
-    def skip_analysis(self):
-            return True
+    def blocks_other_charges(self):
+        return False
