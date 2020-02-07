@@ -82,7 +82,7 @@ class RecordSearch extends React.Component<Props, State> {
         <h1 className="mb4 f4 fw6">Record Search</h1>
         <form onSubmit={this.handleSubmit} noValidate>
           <div className="flex flex-wrap items-end">
-            <div className="w-100 w-25-ns mb3 pr2-ns">
+            <div className="w-100 w-50-m w-25-ns mb3 pr2-ns">
               <label htmlFor="firstName" className="db mb1 fw6">
                 First Name
               </label>
@@ -98,7 +98,7 @@ class RecordSearch extends React.Component<Props, State> {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="w-100 w-25-ns mb3 pr2-ns">
+            <div className="w-100 w-50-m w-25-ns mb3 pr2-ns">
               <label htmlFor="middleName" className="db mb1 ">
                 <span className= "fw6"> Middle Name </span> <span className= "fw1">(Optional) </span>
               </label>
@@ -110,7 +110,7 @@ class RecordSearch extends React.Component<Props, State> {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="w-100 w-25-ns mb3 pr2-ns">
+            <div className="w-100 w-50-m w-25-ns mb3 pr2-ns">
               <label htmlFor="lastName" className="db mb1 fw6">
                 Last Name
               </label>
@@ -126,7 +126,7 @@ class RecordSearch extends React.Component<Props, State> {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="w-100 w-25-ns mb3 pr2-ns">
+            <div className="w-100 w-50-m w-25-ns mb3 pr2-ns">
               <label htmlFor="dateOfBirth" className="db mb1 fw6">
                 Date of Birth <span className="fw2 f6">MM/DD/YYYY</span>
               </label>
