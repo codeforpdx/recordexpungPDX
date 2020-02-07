@@ -169,21 +169,19 @@ def record_with_specific_dates(crawler):
     )
 
 
-@pytest.mark.skip(reason="Line 178 should be ELIGIBLE. TODO: Confirm this is the case")
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
     record = record_with_specific_dates
     expunger = Expunger(record)
     assert expunger.run()
 
-    print(record.cases[0].charges[0])
     assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[0].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
 
     assert record.cases[1].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[1].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[1].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
 
-    assert record.cases[2].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert record.cases[2].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert record.cases[2].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert record.cases[2].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert record.cases[2].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert record.cases[2].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE

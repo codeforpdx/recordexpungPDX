@@ -53,7 +53,13 @@ export default class Charge extends React.Component<Props> {
     };
 
     const recordTimeRender = () => {
-      if (expungement_result.time_eligibility) {
+      if (
+           (
+             expungement_result.type_eligibility.status === "Eligible" ||
+             expungement_result.type_eligibility.status === "Needs more analysis"
+           )
+           &&
+           expungement_result.time_eligibility) {
         return (
           <RecordTime time_eligibility={expungement_result.time_eligibility} />
         );

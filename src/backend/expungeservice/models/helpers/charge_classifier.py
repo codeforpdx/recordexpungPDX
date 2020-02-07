@@ -4,7 +4,8 @@ from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.charge_types.level_800_traffic_crime import Level800TrafficCrime
+from expungeservice.models.charge_types.traffic_violation import TrafficViolation
+from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
 from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.subsection_12 import Subsection12
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
@@ -13,12 +14,14 @@ from expungeservice.models.charge_types.non_traffic_violation import NonTrafficV
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_crime import PersonCrime
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
+from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
 
 @dataclass
 class ChargeClassifier:
     violation_type: str
+    name: str
     statute: str
     level: str
     chapter: str
@@ -34,9 +37,12 @@ class ChargeClassifier:
 
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
+        yield ChargeClassifier._traffic_crime(self.statute, self.level)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
-        yield ChargeClassifier._municipal_parking(self.violation_type)
+        yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level)
+        yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
+
         yield UnclassifiedCharge
 
     @staticmethod
@@ -49,8 +55,6 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._crime_against_person(section)
-        yield ChargeClassifier._traffic_crime(statute)
-        yield ChargeClassifier._parking_ticket(statute, chapter)
         yield ChargeClassifier._schedule_1_pcs(section)
 
     @staticmethod
@@ -95,7 +99,7 @@ class ChargeClassifier:
             return PersonCrime
 
     @staticmethod
-    def _traffic_crime(statute):
+    def _traffic_crime(statute, level):
 
         chapter = statute[:3]
         if chapter.isdigit():
@@ -107,16 +111,22 @@ class ChargeClassifier:
                 return Duii
 
             elif chapter_num in statute_range:
-                return Level800TrafficCrime
+                level_str = level.lower()
+                if "felony" in level_str or "misdemeanor" in level_str:
+                    return TrafficNonViolation
+                else:
+                    return TrafficViolation
 
     @staticmethod
-    def _parking_ticket(statute, chapter):
+    def _civil_offense(statute, chapter, name):
         statute_range = range(1, 100)
         if chapter:
             if chapter.isdigit() and int(chapter) in statute_range:
-                return ParkingTicket
+                return CivilOffense
         elif statute.isdigit() and int(statute) in statute_range:
-            return ParkingTicket
+            return CivilOffense
+        elif "fugitive complaint" in name.lower():
+            return CivilOffense
 
     @staticmethod
     def _schedule_1_pcs(section):
@@ -124,7 +134,7 @@ class ChargeClassifier:
             return Schedule1PCS
 
     @staticmethod
-    def _municipal_parking(violation_type):
+    def _parking_ticket(violation_type):
         if "parking" in violation_type.lower():
             return ParkingTicket
 

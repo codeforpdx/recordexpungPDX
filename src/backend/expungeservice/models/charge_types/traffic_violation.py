@@ -5,18 +5,14 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 
 @dataclass(eq=False)
-class ParkingTicket(Charge):
-    """
-    This is a civil offense, and it is also a traffic offense.
-    """
-
-    type_name: str = "Parking Ticket"
+class TrafficViolation(Charge):
+    type_name: str = "Traffic Violation"
 
     def _default_type_eligibility(self):
-        if self.convicted():
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
-        elif self.acquitted():
+        if self.acquitted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
+        else:
+            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
 
     def skip_analysis(self):
-        return True
+            return True

@@ -208,8 +208,11 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         expunger.run()
 
         assert charge.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert charge.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(1)(a)"
-        assert charge.expungement_result.time_eligibility.date_will_be_eligible is None
+        assert (
+            charge.expungement_result.time_eligibility.reason
+            == "Never. Type ineligible charges are always time ineligible."
+        )
+        assert charge.expungement_result.time_eligibility.date_will_be_eligible is date.max
 
 
 class TestDismissalBlock(unittest.TestCase):
@@ -389,7 +392,7 @@ def test_felony_class_b_with_subsequent_conviction():
         b_felony_charge.expungement_result.time_eligibility.reason
         == "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"
     )
-    assert b_felony_charge.expungement_result.time_eligibility.date_will_be_eligible == None
+    assert b_felony_charge.expungement_result.time_eligibility.date_will_be_eligible == date.max
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
     assert subsequent_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -537,3 +540,31 @@ def test_3_violations_are_time_restricted():
         violation_charge_3.expungement_result.time_eligibility.date_will_be_eligible
         == violation_charge_1.disposition.date + Time.TEN_YEARS
     )
+
+
+def test_nonblocking_charge_is_not_skipped_and_does_not_block():
+    civil_offense = ChargeFactory.create(
+        level="N/A",
+        statute="1.000",
+        disposition=["Convicted", Time.ONE_YEAR_AGO]
+    )
+
+    violation_charge = ChargeFactory.create(
+        level="Class A Violation",
+        date=Time.TEN_YEARS_AGO,
+        disposition=["Convicted", Time.TEN_YEARS_AGO]
+    )
+
+    case = CaseFactory.create()
+    case.charges = [civil_offense, violation_charge]
+    expunger = Expunger(Record([case]))
+    expunger.run()
+
+    assert civil_offense.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert (
+        civil_offense.expungement_result.time_eligibility.reason
+        == "Never. Type ineligible charges are always time ineligible."
+    )
+    assert civil_offense.expungement_result.time_eligibility.date_will_be_eligible == date.max
+
+    assert violation_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE

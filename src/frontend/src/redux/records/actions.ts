@@ -24,10 +24,9 @@ export function loadSearchRecords(
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
       data: {
-        first_name: firstName,
-        middle_name: '',
-        last_name: lastName,
-        birth_date: birthday
+        names: [
+          {first_name: firstName, middle_name: '', last_name: lastName, birth_date: birthday}
+        ]
       },
       method: 'post',
       withCredentials: true

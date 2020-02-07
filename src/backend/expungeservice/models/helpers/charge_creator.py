@@ -11,11 +11,12 @@ class ChargeCreator:
     @staticmethod
     def create(**kwargs):
         case = kwargs["case"]
+        name = kwargs["name"]
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
         chapter = ChargeCreator._set_chapter(kwargs["statute"])
         section = ChargeCreator.__set_section(statute)
-        classification = ChargeClassifier(case.violation_type, statute, level, chapter, section).classify()
+        classification = ChargeClassifier(case.violation_type, name, statute, level, chapter, section).classify()
         kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
         kwargs["_case"] = weakref.ref(case)
         kwargs["_chapter"] = chapter

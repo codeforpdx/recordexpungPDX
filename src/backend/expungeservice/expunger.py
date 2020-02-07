@@ -7,6 +7,7 @@ from more_itertools import flatten, padnone, take
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.disposition import DispositionStatus
+from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
 
 
@@ -37,7 +38,7 @@ class Expunger:
         self.record.errors += self._build_disposition_errors(self.record.charges)
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in self.analyzable_charges if c != charge]
+            other_charges = [c for c in self.analyzable_charges if c != charge and not c.skip_analysis()]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
@@ -46,6 +47,13 @@ class Expunger:
                 eligibility_dates.append(
                     (charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)")
                 )
+            elif charge.acquitted():
+                eligibility_dates.append((charge.disposition.date, "Time eligible under 137.225(1)(b)"))
+            else:
+                raise ValueError("Charge should always convicted or acquitted at this point.")
+
+            if charge.expungement_result.type_eligibility.status == EligibilityStatus.INELIGIBLE:
+                eligibility_dates.append((date.max, "Never. Type ineligible charges are always time ineligible."))
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
@@ -76,14 +84,7 @@ class Expunger:
                 else:
                     eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "137.225(5)(a)(A)(i) - Twenty years from class B felony conviction"))  # type: ignore
 
-            if eligibility_dates:
-                eligibility_date, reason = max(eligibility_dates)
-                if date.today() >= eligibility_date:
-                    charge.set_time_eligible()
-                else:
-                    charge.set_time_ineligible(reason, eligibility_date)
-            else:
-                charge.set_time_eligible()
+            charge.set_time_eligibility(eligibility_dates)
         for case in self.record.cases:
             convictions_in_case = [charge for charge in case.charges if charge.convicted()]
             if len(convictions_in_case) == 1:
@@ -137,11 +138,7 @@ class Expunger:
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [
-            charge
-            for charge in charges
-            if not charge.skip_analysis() and charge.disposition and (charge.convicted() or charge.acquitted())
-        ]
+        return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.acquitted())]
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
