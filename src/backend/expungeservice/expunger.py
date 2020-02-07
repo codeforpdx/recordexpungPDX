@@ -6,6 +6,7 @@ from more_itertools import flatten, padnone, take
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
@@ -95,13 +96,29 @@ class Expunger:
                     else:
                         non_violation_convictions_in_case.append(charge)
             violations_in_case.sort(key=lambda charge: charge.disposition.date, reverse=True)
-            convictions = non_violation_convictions_in_case + violations_in_case
-            if len(convictions) >= 1 and len(non_violation_convictions_in_case) <= 1 and len(convictions) <= 2:
+            if len(non_violation_convictions_in_case) == 1:
+                attractor = non_violation_convictions_in_case[0]
+            elif len(violations_in_case) == 1:
+                attractor = violations_in_case[0]
+            elif len(violations_in_case) in [2, 3]:
+                attractor = violations_in_case[1]
+            else:
+                attractor = None
+
+            if attractor:
                 for charge in case.charges:
-                    if charge.acquitted():
-                        charge.expungement_result.time_eligibility = convictions[
-                            0
-                        ].expungement_result.time_eligibility  # TODO: Feels dangerous; clean up
+                    if (
+                        charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
+                        and charge.acquitted()
+                        and (
+                            not attractor.expungement_result.time_eligibility.date_will_be_eligible
+                            or charge.expungement_result.time_eligibility.date_will_be_eligible
+                            >= attractor.expungement_result.time_eligibility.date_will_be_eligible
+                        )
+                    ):
+                        charge.expungement_result.time_eligibility = (
+                            attractor.expungement_result.time_eligibility
+                        )  # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
     @staticmethod
