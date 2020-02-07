@@ -69,8 +69,8 @@ class Charge:
         three_years_ago = date_class.today() + relativedelta(years=-3)
         return self.acquitted() and self.date > three_years_ago
 
-    def skip_analysis(self):
-        return False
+    def blocks_other_charges(self):
+        return True
 
     def set_time_eligibility(self, eligibility_dates):
         date_will_be_eligible, reason = max(eligibility_dates)
