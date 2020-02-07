@@ -20,21 +20,19 @@ class TestParkingTicket(unittest.TestCase):
         self.dismissed = ["Dismissed", last_week]
 
     def test_parking_ticket_conviction(self):
-        self.charge_dict["disposition"]=self.convicted
+        self.charge_dict["disposition"] = self.convicted
         charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, ParkingTicket)
-        assert charge.skip_analysis()
+        assert not charge.blocks_other_charges()
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
     def test_parking_ticket_dismissal(self):
-        self.charge_dict["disposition"]=self.dismissed
+        self.charge_dict["disposition"] = self.dismissed
         charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, ParkingTicket)
-        assert charge.skip_analysis()
+        assert not charge.blocks_other_charges()
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
-
-

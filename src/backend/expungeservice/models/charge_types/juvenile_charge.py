@@ -11,5 +11,5 @@ class JuvenileCharge(Charge):
     def _default_type_eligibility(self):
         return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Potentially eligible under 419A.262")
 
-    def skip_analysis(self):
-        return True
+    def blocks_other_charges(self):
+        return False
