@@ -10,6 +10,7 @@ from . import non_traffic_violation
 from . import parking_ticket
 from . import person_crime
 from . import schedule_1_p_c_s
+from . import subsection_6
 from . import subsection_12
 from . import traffic_non_violation
 from . import traffic_violation

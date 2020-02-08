@@ -432,8 +432,8 @@ def test_acquitted_felony_class_b_with_subsequent_conviction():
 
 
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
-    # This charge is both List B and also a class B felony. List B classification takes precedence.
-    list_b_charge = ChargeFactory.create(
+    # This charge is both Subsection 12 and also a class B felony. List B classification takes precedence.
+    subsection_12_charge = ChargeFactory.create(
         name="Assault in the second degree",
         statute="163.175",
         level="Felony Class B",
@@ -442,7 +442,7 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     )
 
     case_1 = CaseFactory.create()
-    case_1.charges = [list_b_charge]
+    case_1.charges = [subsection_12_charge]
     subsequent_charge = ChargeFactory.create(disposition=["Convicted", Time.TEN_YEARS_AGO])
     case_2 = CaseFactory.create()
     case_2.charges = [subsequent_charge]
@@ -450,8 +450,8 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     expunger = Expunger(Record([case_1, case_2]))
     expunger.run()
 
-    assert list_b_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert list_b_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert subsection_12_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
 
 
 def test_single_violation_is_time_restricted():
@@ -543,16 +543,10 @@ def test_3_violations_are_time_restricted():
 
 
 def test_nonblocking_charge_is_not_skipped_and_does_not_block():
-    civil_offense = ChargeFactory.create(
-        level="N/A",
-        statute="1.000",
-        disposition=["Convicted", Time.ONE_YEAR_AGO]
-    )
+    civil_offense = ChargeFactory.create(level="N/A", statute="1.000", disposition=["Convicted", Time.ONE_YEAR_AGO])
 
     violation_charge = ChargeFactory.create(
-        level="Class A Violation",
-        date=Time.TEN_YEARS_AGO,
-        disposition=["Convicted", Time.TEN_YEARS_AGO]
+        level="Class A Violation", date=Time.TEN_YEARS_AGO, disposition=["Convicted", Time.TEN_YEARS_AGO]
     )
 
     case = CaseFactory.create()
