@@ -82,7 +82,7 @@ class RecordSearch extends React.Component<Props, State> {
       <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
         <h1 className="f4 fw6 tc mv4">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
-          <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
+          <form className="mw7 center" onSubmit={this.handleSubmit}>
             <div className="flex flex-wrap items-end">
 
               <div className="w-100 w-third-ns w-25-l mb3">
@@ -96,7 +96,6 @@ class RecordSearch extends React.Component<Props, State> {
                   id="firstName"
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
-                  required
                   aria-describedby={
                     this.state.firstNameHasInput ? 'name_msg' : undefined
                   }
@@ -112,7 +111,6 @@ class RecordSearch extends React.Component<Props, State> {
                   id="middleName"
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
-                  required
                   onChange={this.handleChange}
                 />
               </div>
@@ -124,7 +122,6 @@ class RecordSearch extends React.Component<Props, State> {
                   id="lastName"
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
-                  required
                   aria-describedby={
                     this.state.lastNameHasInput ? 'name_msg' : undefined
                   }
@@ -140,7 +137,6 @@ class RecordSearch extends React.Component<Props, State> {
                   id="dateOfBirth"
                   type="text"
                   className="w-100 pa3 br2 b--black-20"
-                  required
                   aria-describedby={
                     this.state.invalidDate ? 'dob_msg' : undefined
                   }
