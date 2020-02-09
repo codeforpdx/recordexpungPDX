@@ -78,7 +78,6 @@ class RecordSearch extends React.Component<Props, State> {
 
   public render() {
     return (
-      // TODO: verify Tachyon differences btwn this section tag and <main> in prototype
       <div>
         <h1 className="f4 fw6 tc mv4">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
@@ -148,8 +147,8 @@ class RecordSearch extends React.Component<Props, State> {
               </div>
 
 
-              <div className="flex items-center pb1 mb3 ml3-ns ml0-l">
-              { // TODO: keep the #-Results label and Remove buttons as "visually-hidden"
+              <div className="visually-hidden flex items-center pb1 mb3 ml3-ns ml0-l">
+              { // TODO: The #-Results label and Remove buttons are "visually-hidden"
                 // until Aliases feature is complete.
               }
                 <span className="fw5 bl bw2 b--blue bg-gray-blue-2 pa2 pr3 mr2 mb2">1 Result</span>
@@ -167,7 +166,7 @@ class RecordSearch extends React.Component<Props, State> {
               <div className="flex">
               {  // Row containing The +Alias and search buttons.
               }
-                <button className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2">
+                <button className="visually-hidden w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2">
                 {  // TODO: keep Alias button as "visually-hidden" until Aliases feature is complete.
                 }
                   <i aria-hidden={"true"} className="fas fa-plus-circle pr1"></i>Alias
