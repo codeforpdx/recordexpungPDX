@@ -7,6 +7,7 @@ from expungeservice.models.helpers.generator import build_record
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
+from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 
 
 class Search(MethodView):
@@ -21,7 +22,8 @@ class Search(MethodView):
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
 
         record = build_record()
-        response_data = {"data": {"record": record}}
+        record_summary = RecordSummarizer.summarize(record)
+        response_data = {"data": {"record": record_summary}}
 
         current_app.json_encoder = ExpungeModelEncoder
 
