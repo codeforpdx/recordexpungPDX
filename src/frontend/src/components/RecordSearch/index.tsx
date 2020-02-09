@@ -79,7 +79,7 @@ class RecordSearch extends React.Component<Props, State> {
   public render() {
     return (
       // TODO: verify Tachyon differences btwn this section tag and <main> in prototype
-      <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
+      <div>
         <h1 className="f4 fw6 tc mv4">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
           <form className="mw7 center" onSubmit={this.handleSubmit}>
@@ -95,7 +95,7 @@ class RecordSearch extends React.Component<Props, State> {
                 <input
                   id="firstName"
                   type="text"
-                  className="w-100 pa3 br2 b--black-20"
+                  className="w-100 b--black-20 br2 br-0-ns br--left-ns pa3"
                   aria-describedby={
                     this.state.firstNameHasInput ? 'name_msg' : undefined
                   }
@@ -105,12 +105,12 @@ class RecordSearch extends React.Component<Props, State> {
               </div>
               <div className="w-100 w-third-ns w-25-l mb3">
                 <label htmlFor="middleName" className="db mb1 fw6">
-                  Middle Name<span className= "fw2 f6">(Optional) </span>
+                  Middle Name <span className= "fw2 f6">Optional</span>
                 </label>
                 <input
                   id="middleName"
                   type="text"
-                  className="w-100 pa3 br2 b--black-20"
+                  className="w-100 br2 br0-ns b--black-20 pa3"
                   onChange={this.handleChange}
                 />
               </div>
@@ -121,7 +121,7 @@ class RecordSearch extends React.Component<Props, State> {
                 <input
                   id="lastName"
                   type="text"
-                  className="w-100 pa3 br2 b--black-20"
+                  className="w-100 b--black-20 br2 bl-0-ns br--right-ns pa3"
                   aria-describedby={
                     this.state.lastNameHasInput ? 'name_msg' : undefined
                   }
@@ -191,7 +191,7 @@ class RecordSearch extends React.Component<Props, State> {
             </div>
           </form>
         </section>
-      </section>
+      </div>
     );
   }
 }
