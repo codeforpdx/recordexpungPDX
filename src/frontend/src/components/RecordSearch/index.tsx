@@ -82,7 +82,7 @@ class RecordSearch extends React.Component<Props, State> {
       <div>
         <h1 className="f4 fw6 tc mv4">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
-          <form className="mw7 center" onSubmit={this.handleSubmit}>
+          <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
             <div className="flex flex-wrap items-end">
 
               <div className="w-100 w-third-ns w-25-l mb3">
@@ -96,6 +96,7 @@ class RecordSearch extends React.Component<Props, State> {
                   id="firstName"
                   type="text"
                   className="w-100 b--black-20 br2 br-0-ns br--left-ns pa3"
+                  required
                   aria-describedby={
                     this.state.firstNameHasInput ? 'name_msg' : undefined
                   }
@@ -122,6 +123,7 @@ class RecordSearch extends React.Component<Props, State> {
                   id="lastName"
                   type="text"
                   className="w-100 b--black-20 br2 bl-0-ns br--right-ns pa3"
+                  required
                   aria-describedby={
                     this.state.lastNameHasInput ? 'name_msg' : undefined
                   }
