@@ -28,11 +28,6 @@ class OeciLogin(MethodView):
 
         credentials = {"oeci_username": data["oeci_username"], "oeci_password": data["oeci_password"]}
 
-        login_result = data["oeci_username"] == "username" and data["oeci_password"] == "password"
-
-        if not login_result:
-            error(401, "Invalid OECI username or password.")
-
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
 
         encrypted_credentials = cipher.encrypt(credentials)
