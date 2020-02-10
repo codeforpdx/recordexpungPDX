@@ -14,6 +14,7 @@ function validateResponseData(data: SearchResponse): boolean {
 
 export function loadSearchRecords(
   firstName: string,
+  middleName: string,
   lastName: string,
   birthday: string
 ): any {
@@ -25,7 +26,7 @@ export function loadSearchRecords(
       url: '/api/search',
       data: {
         names: [
-          {first_name: firstName, middle_name: '', last_name: lastName, birth_date: birthday}
+          {first_name: firstName, middle_name: middleName, last_name: lastName, birth_date: birthday}
         ]
       },
       method: 'post',
