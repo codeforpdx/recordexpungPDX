@@ -96,7 +96,7 @@ class Expunger:
                     else:
                         non_violation_convictions_in_case.append(charge)
             violations_in_case.sort(key=lambda charge: charge.disposition.date, reverse=True)
-            if len(non_violation_convictions_in_case) == 1:
+            if len(non_violation_convictions_in_case) == 1 and len(violations_in_case) <= 1:
                 attractor = non_violation_convictions_in_case[0]
             elif len(violations_in_case) == 1:
                 attractor = violations_in_case[0]
