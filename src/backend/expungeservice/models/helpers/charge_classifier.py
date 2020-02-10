@@ -8,6 +8,7 @@ from expungeservice.models.charge_types.traffic_violation import TrafficViolatio
 from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
 from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.subsection_12 import Subsection12
+from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
@@ -54,6 +55,7 @@ class ChargeClassifier:
     def _classification_by_statute(statute, chapter, section):
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
+        yield ChargeClassifier._subsection_6(section)
         yield ChargeClassifier._crime_against_person(section)
         yield ChargeClassifier._schedule_1_pcs(section)
 
@@ -72,24 +74,40 @@ class ChargeClassifier:
             return MarijuanaIneligible
 
     @staticmethod
-    def _subsection_12(section):
-        ineligible_statutes = [
-            "163200",
-            "163205",
-            "163575",
-            "163535",
-            "163175",
-            "163275",
-            "162165",
-            "163525",
-            "164405",
-            "164395",
-            "162185",
-            "166220",
-            "163225",
-            "163165",
+    def _subsection_6(section):
+        conditionally_ineligible_statutes = [
+            "163200",  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
+            # 163205, # overridden by subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+            "163575",  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+            "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
+            # 163.165(1)(h) # overridden by subsection 12.(Assault in the third degree)
         ]
-        if section in ineligible_statutes:
+        if section in conditionally_ineligible_statutes:
+            return Subsection6
+
+    @staticmethod
+    def _subsection_12(section):
+
+        eligible_statutes = [
+            # In order listed in the subsection
+            "163535",  # added; (Abandonment of a child)
+            "163175",  # (Assault in the second degree)
+            "163165",  # (Assault in the third degree)
+            "163275",  # (Coercion)
+            "163205",  # (Criminal mistreatment in the first degree)
+            "162165",  # (Attempted escape in the first degree)
+            # 163525 (Incest), see below
+            "166165",  # (added; Intimidation in the first degree)
+            "163225",  # (Attempted Kidnapping in the second degree)
+            "164405",  # (Robbery in the second degree)
+            "164395",  # (Robbery in the third degree)
+            "162185",  # (Supplying contraband)
+            "166220",  # (Unlawful use of weapon)
+        ]
+        conditionally_eligible_statutes = [
+            "163525"  # (Incest), conditional that the victim was at least 18 years of age.
+        ]
+        if section in conditionally_eligible_statutes + eligible_statutes:
             return Subsection12
 
     @staticmethod
