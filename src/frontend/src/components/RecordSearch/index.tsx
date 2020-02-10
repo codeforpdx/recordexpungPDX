@@ -53,7 +53,14 @@ class RecordSearch extends React.Component<Props, State> {
         let middleName = state.middleName;
         let lastName = state.lastName;
         let dateOfBirth = state.dateOfBirth.length > 0 ? state.dateOfBirth : '';
-        this.props.fetchRecords(firstName, middleName, lastName, dateOfBirth);
+        this.props.fetchRecords(
+          [{
+            first_name: firstName,
+            middle_name: middleName,
+            last_name: lastName,
+            birth_date: dateOfBirth
+          }]
+            );
       }
     });
   };
