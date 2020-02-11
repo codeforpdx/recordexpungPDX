@@ -6,6 +6,7 @@ from more_itertools import flatten, padnone, take
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
@@ -86,13 +87,56 @@ class Expunger:
 
             charge.set_time_eligibility(eligibility_dates)
         for case in self.record.cases:
-            convictions_in_case = [charge for charge in case.charges if charge.convicted()]
-            if len(convictions_in_case) == 1:
+            non_violation_convictions_in_case = []
+            violations_in_case = []
+            for charge in case.charges:
+                if charge.convicted():
+                    if "violation" in charge.level.lower():
+                        violations_in_case.append(charge)
+                    else:
+                        non_violation_convictions_in_case.append(charge)
+            violations_in_case.sort(key=lambda charge: charge.disposition.date, reverse=True)
+            if len(non_violation_convictions_in_case) == 1 and len(violations_in_case) <= 1:
+                attractor = non_violation_convictions_in_case[0]
+            elif len(violations_in_case) == 1:
+                attractor = violations_in_case[0]
+            elif len(violations_in_case) in [2, 3]:
+                attractor = violations_in_case[1]
+            else:
+                attractor = None
+
+            if attractor:
                 for charge in case.charges:
-                    charge.expungement_result.time_eligibility = convictions_in_case[
-                        0
-                    ].expungement_result.time_eligibility  # TODO: Feels dangerous; clean up
+                    if (
+                        charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
+                        and charge.acquitted()
+                        and (
+                            Expunger._is_newer(
+                                charge.expungement_result.time_eligibility.date_will_be_eligible,
+                                attractor.expungement_result.time_eligibility.date_will_be_eligible,
+                            )
+                        )
+                    ):
+                        charge.expungement_result.time_eligibility.status = (
+                            attractor.expungement_result.time_eligibility.status
+                        )
+                        charge.expungement_result.time_eligibility.date_will_be_eligible = (
+                            attractor.expungement_result.time_eligibility.date_will_be_eligible
+                        )
+                        charge.expungement_result.time_eligibility.reason = "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+                        # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
+
+    @staticmethod
+    def _is_newer(date, other_date):
+        if date and other_date:
+            return date >= other_date
+        elif date:
+            return True
+        elif other_date:
+            return False
+        else:
+            return False
 
     @staticmethod
     def _categorize_charges(charges):
