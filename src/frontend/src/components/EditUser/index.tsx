@@ -12,26 +12,32 @@ interface Props {
 interface State {
   email: string;
   password: string;
+  confirmPassword: string;
   name: string;
   group: string;
   role: string;
-  invalidCredentials: boolean;
   invalidResponse: boolean;
+  missingName: boolean;
   invalidEmail: boolean;
   missingPassword: boolean;
+  invalidPassword: boolean;
+  mismatchPasswords: boolean;
 }
 
 class EditUser extends React.Component<Props, State> {
   public state: State = {
     email: '',
     password: '',
+    confirmPassword: '',
     name: '',
     group: '',
     role: '',
-    invalidCredentials: false,
     invalidResponse: false,
+    missingName: false,
     invalidEmail: false,
-    missingPassword: false
+    missingPassword: false,
+    invalidPassword: false,
+    mismatchPasswords: false,
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
@@ -48,37 +54,131 @@ class EditUser extends React.Component<Props, State> {
     // Standardize email-lowerCase and trim both form inputs
     this.setState(
       {
+        name: this.state.name.trim(),
         email: this.state.email.toLowerCase().trim(),
-        password: this.state.password.trim()
+        password: this.state.password.trim(),
+        confirmPassword: this.state.confirmPassword.trim()
       },
       () => {
         // TODO: Pre-populate form fields with user to be edited
-        return
+        this.validateFormFields();
       }
     );
   };
+
+  public validateFormFields() {
+    this.setState(
+      {
+        missingName: this.state.name.length === 0,
+        invalidEmail: !validateEmail(this.state.email),
+        missingPassword: this.state.password.length === 0,
+        invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
+        mismatchPasswords: this.state.password !== this.state.confirmPassword
+      }
+    );
+  }
 
   public render() {
     return (
       <main className="mw6 center ph2">
 
         <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
-          <h1 className="mb4 f4 fw6">Account: Jaire Alexander</h1>
-          <form>
+          <h1 className="mb4 f4 fw6">Account: </h1>
+          <form onSubmit={this.handleSubmit} noValidate={true}>
             <div className="mb4">
               <label htmlFor="name" className="db mb2 fw6">
                 Name *
               </label>
-              <input id="name" required type="text" value="Jaire Alexander" className="w-100 pa3 br2 b--black-20" />
+              <input
+                id="name"
+                name="name"
+                type="text"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.missingName
+                    ? 'name_input_message'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.missingName
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
             </div>
-
             <div className="mb4">
               <label htmlFor="email" className="db mb2 fw6">
                 Email *
               </label>
-              <input id="email" required type="email" value="jalexander@example.com" className="w-100 pa3 br2 b--black-20" />
+              <input
+                id="email"
+                name="email"
+                type="email"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.invalidEmail
+                    ? 'email_message'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.invalidEmail
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
             </div>
-
+            <div className="mb4">
+              <label htmlFor="password" className="db mb2 fw6">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.missingPassword
+                    ? 'password_input_message'
+                    : this.state.invalidPassword
+                    ? 'password_message'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.missingPassword || this.state.invalidPassword
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="mb4">
+              <label htmlFor="confirm-password" className="db mb2 fw6">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirm-password"
+                type="password"
+                className="w-100 pa3 br2 b--black-20"
+                required={true}
+                aria-describedby={
+                  this.state.mismatchPasswords
+                    ? 'mismatch_message'
+                    : undefined
+                }
+                aria-invalid={
+                  this.state.mismatchPasswords
+                    ? true
+                    : false
+                }
+                onChange={this.handleChange}
+              />
+            </div>
             <div className="mb4">
               <label htmlFor="group" className="db mb2 fw6">
                 Group
@@ -90,21 +190,18 @@ class EditUser extends React.Component<Props, State> {
                 className="w-100 pa3 br2 b--black-20"
                 required={true}
                 aria-describedby={
-                  this.state.invalidCredentials
-                    ? 'no_match_msg'
-                    : this.state.missingPassword
+                  this.state.missingPassword
                     ? 'input_msg'
                     : undefined
                 }
                 aria-invalid={
-                  this.state.invalidCredentials || this.state.missingPassword
+                  this.state.missingPassword
                     ? true
                     : false
                 }
                 onChange={this.handleChange}
               />
             </div>
-
             <div className="mb4">
               <label htmlFor="role" className="db mb2 fw6">
                 Role
@@ -144,11 +241,43 @@ class EditUser extends React.Component<Props, State> {
                 </div>
               </div>
             </div>
-
             <div className="mb5">
               <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 db w-100 tc">
                 Update Account
               </button>
+            </div>
+
+            <div role="alert" className="w-100">
+              {this.state.missingName === true ? (
+                <p id="name_input_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Name is required.
+                </p>
+              ) : null}
+              {this.state.invalidEmail === true ? (
+                <p id="email_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Invalid email address.
+                </p>
+              ) : null}
+              {this.state.missingPassword === true ? (
+                <p id="password_input_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Password is required.
+                </p>
+              ) : null}
+              {this.state.invalidPassword === true ? (
+                <p id="password_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Passwords must be at least 8 characters.
+                </p>
+              ) : null}
+              {this.state.mismatchPasswords === true ? (
+                <p id="mismatch_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Passwords do not match.
+                </p>
+              ) : null}
+              {this.state.invalidResponse === true ? (
+                <p id="no_match_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  Technical difficulties try again later.
+                </p>
+              ) : null}
             </div>
 
             <div className="bt b--black-20 pt5 mb5">
