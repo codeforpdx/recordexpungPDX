@@ -145,3 +145,4 @@ config/postgres/data
 #VS Code Files
 .vscode
 src/backend/logs
+config/expungeservice/expungeservice.production.env
