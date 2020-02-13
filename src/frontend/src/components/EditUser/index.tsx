@@ -7,6 +7,7 @@ import validateEmail from '../../service/email-validation';
 
 interface Props {
   users: UserState;
+  isAdmin?: boolean;
 }
 
 interface State {
@@ -94,17 +95,12 @@ class EditUser extends React.Component<Props, State> {
                 name="name"
                 type="text"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.missingName
                     ? 'name_input_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.missingName
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.missingName}
                 onChange={this.handleChange}
               />
             </div>
@@ -117,17 +113,12 @@ class EditUser extends React.Component<Props, State> {
                 name="email"
                 type="email"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.invalidEmail
                     ? 'email_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.invalidEmail
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.invalidEmail}
                 onChange={this.handleChange}
               />
             </div>
@@ -140,7 +131,6 @@ class EditUser extends React.Component<Props, State> {
                 name="password"
                 type="password"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.missingPassword
                     ? 'password_input_message'
@@ -148,11 +138,7 @@ class EditUser extends React.Component<Props, State> {
                     ? 'password_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.missingPassword || this.state.invalidPassword
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.missingPassword || this.state.invalidPassword}
                 onChange={this.handleChange}
               />
             </div>
@@ -165,17 +151,12 @@ class EditUser extends React.Component<Props, State> {
                 name="confirm-password"
                 type="password"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.mismatchPasswords
                     ? 'mismatch_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.mismatchPasswords
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.mismatchPasswords}
                 onChange={this.handleChange}
               />
             </div>
@@ -188,59 +169,49 @@ class EditUser extends React.Component<Props, State> {
                 name="group"
                 type="text"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
-                aria-describedby={
-                  this.state.missingPassword
-                    ? 'input_msg'
-                    : undefined
-                }
-                aria-invalid={
-                  this.state.missingPassword
-                    ? true
-                    : false
-                }
                 onChange={this.handleChange}
               />
             </div>
-            <div className="mb4">
-              <label htmlFor="role" className="db mb2 fw6">
-                Role
-              </label>
-              <div className="pl0 ml0 center ba bw1 b--black-20 br2">
-                <div className="ph3 bb bw1 b--black-20">
-                  <div className="radio">
-                    <input
-                      type="radio"
-                      id="search"
-                      name="role"
-                      value="search"
-                      className="v-top"
-                      checked
-                    />
-                    <label htmlFor="search" className="fw6">Search</label>
+            {this.props.isAdmin ? (
+              <div className="mb4">
+                <label htmlFor="role" className="db mb2 fw6">
+                  Role
+                </label>
+                <div className="pl0 ml0 center ba bw1 b--black-20 br2">
+                  <div className="ph3 bb bw1 b--black-20">
+                    <div className="radio">
+                      <input
+                        type="radio"
+                        id="search"
+                        name="role"
+                        value="search"
+                        className="v-top"
+                        checked
+                      />
+                      <label htmlFor="search" className="fw6">Search</label>
+                    </div>
+                    <div className="radio">
+                      <p className="mt3 ml4 mb4">&bull;&nbsp;Can search records</p>
+                    </div>
                   </div>
-                  <div className="radio">
-                    <p className="mt3 ml4 mb4">&bull;&nbsp;Can search records</p>
+                  <div className="ph3">
+                    <div className="radio">
+                      <input
+                        type="radio"
+                        id="admin"
+                        name="role"
+                        value="admin"
+                        className="v-top"
+                      />
+                      <label htmlFor="admin" className="fw6">Admin</label>
+                    </div>
+                    <ul className="list mt3 ml4 mb4">
+                      <li className="mb1">&bull;&nbsp;Can search records</li>
+                      <li className="mb1">&bull;&nbsp;Can manage users and groups</li>
+                    </ul>
                   </div>
                 </div>
-                <div className="ph3">
-                  <div className="radio">
-                    <input
-                      type="radio"
-                      id="admin"
-                      name="role"
-                      value="admin"
-                      className="v-top"
-                    />
-                    <label htmlFor="admin" className="fw6">Admin</label>
-                  </div>
-                  <ul className="list mt3 ml4 mb4">
-                    <li className="mb1">&bull;&nbsp;Can search records</li>
-                    <li className="mb1">&bull;&nbsp;Can manage users and groups</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              </div>) : null}
             <div className="mb5">
               <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 db w-100 tc">
                 Update Account
@@ -280,7 +251,7 @@ class EditUser extends React.Component<Props, State> {
               ) : null}
             </div>
 
-            <div className="bt b--black-20 pt5 mb5">
+            <div className="visually-hidden bt b--black-20 pt5 mb5">
               <div className="mb2 fw7">Forgot your password or want to change it?</div>
               <button
                 className="bg-navy white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 tc w-100">
@@ -301,7 +272,8 @@ class EditUser extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  users: state.users
+  users: state.users,
+  isAdmin: state.system.isAdmin
 });
 
 export default connect(
