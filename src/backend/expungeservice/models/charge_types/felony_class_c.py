@@ -9,13 +9,17 @@ class FelonyClassC(Charge):
     type_name: str = "Felony Class C"
     expungement_rules: str = (
         """
-Applicable subsections: 137.225(5)(b) for convictions; 137.225(1)(b) for dismissals.
+Class C felony convictions are almost always eligible under 137.225(5)(b).
 Class C felony dismissals are always eligible under 137.225(1)(b)
-Class C felony convictions are generally eligible.
 
-The possible extra restrictions are:
- * Criminally negligent homicide.
- * Sex crimes.
+Class C felonies are lower in our hierarchy of type classifications, so many Class C
+felonies are superseded by their designations as other types. For example, if a Class C
+felony is a sex crime, its eligibility is first and foremost determined by its sex crime.
+
+Possible edge-case restrictions:
+ * Criminally negligent homicide is not eligible if it is classified as a Class C felony, under 137.225(6)(d). This is an edge-case because criminally negligent homicide will almost always be a Class B felony.
+
+Applicable subsections: 137.225(5)(b) for convictions; 137.225(1)(b) for dismissals.
 """
     )
 
