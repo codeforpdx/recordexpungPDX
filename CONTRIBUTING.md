@@ -125,7 +125,8 @@ At this point you should now be in your new branch and can begin working on the 
 * Commit the changes: `$ git commit` consult articles about how to write a  good commit message here is one by freeCodeCamp: https://www.freecodecamp.org/news/writing-good-commit-messages-a-practical-guide/
 * Push the changes to *your* remote repository: `$ git push origin name-of-new-branch`
 * Open a Pull Request on the `codeforpdx/recordExpungPDX` repository referencing the issue that this PR addresses
-
+* Please do not push direcly to a branch on the shared repo.
+* Avoid making a local merge or update in your master branch. Your local changes should only be reflected in your master branch after they have merged on the github repo, and then pulled down again to sync to your local repo. 
 
 ![image](https://user-images.githubusercontent.com/42503418/72772548-09f10380-3bb9-11ea-9564-ec40669f39fe.png)
 
