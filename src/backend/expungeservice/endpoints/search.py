@@ -36,17 +36,17 @@ class Search(MethodView):
 
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
-        crawler = Crawler()
-
-        login_result = crawler.login(
-            decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
-        )
-
-        if login_result is False:
-            error(401, "Attempted login to OECI failed")
-
         cases: List[Case] = []
         for alias in request_data["aliases"]:
+            crawler = Crawler()
+
+            login_result = crawler.login(
+                decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
+            )
+
+            if login_result is False:
+                error(401, "Attempted login to OECI failed")
+
             cases += crawler.search(
                 alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
             ).cases
