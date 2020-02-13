@@ -1,9 +1,9 @@
 .PHONY: clean
 
-clean:
-	rm -rf src/backend/*.egg-info &
-	find . -type f -name \*~ | xargs rm &
-	find . -type f -name \*pyc | xargs rm
+OSFLAG 				:=
+ifeq ($(OS),Windows_NT)
+	OSFLAG = WIN32
+endif
 
 STACK_NAME := recordexpungpdx
 PGDATABASE := record_expunge
@@ -11,6 +11,16 @@ DB_CONTAINER_NAME := db
 BACKEND_CONTAINER_NAME := expungeservice
 FRONTEND_CONTAINER_NAME := webserver
 REQUIREMENTS_TXT := src/backend/requirements.txt
+
+
+clean:
+    ifeq ($(OSFLAG), WIN32)
+		Get-ChildItem ./src/backend/* -Include *.egg-info -Recurse | Remove-Item
+    else
+		rm -rf src/backend/*.egg-info &
+		find . -type f -name \*~ | xargs rm &
+		find . -type f -name \*pyc | xargs rm
+    endif
 
 dev: dev_up
 
