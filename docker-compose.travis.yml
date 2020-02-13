@@ -14,7 +14,7 @@ services:
     expungeservice:
         image: recordexpungpdx:expungeservice
         env_file:
-            - config/expungeservice/expungeservice.env
+            - config/expungeservice/expungeservice.dev.env
         ports:
             - "5000:5000"
         depends_on:
