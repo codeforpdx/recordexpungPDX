@@ -10,4 +10,4 @@ WORKDIR /var/www
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-CMD uwsgi --http-socket 0.0.0.0:$PORT --module expungeservice.wsgi
+CMD uwsgi --socket 127.0.0.1:3031 --module expungeservice.wsgi
