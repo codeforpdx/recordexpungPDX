@@ -58,27 +58,6 @@ else
 	docker exec -it $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME)) /bin/bash
 endif
 
-database_image:
-	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
-
-expungeservice_image:
-	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/ -f src/backend/Dockerfile.dev
-
-
-# TODO - this doesn't work on Windows, and doesn't look like it works on Mac/Linux either
-# 	as the Dockerfile.dev is not present in the config/nginx folder
-webserver_image:
-ifeq ($(OSFLAG), WIN32)
-	if not exist .\config\nginx\frontend mkdir .\config\nginx\frontend
-	xcopy .\src\frontend\* .\config\nginx\frontend /s /e /h
-	docker build --no-cache -t $(STACK_NAME):webserver .\config\nginx -f .\config\nginx\Dockerfile.dev
-	del /s /q /f .\config\nginx\frontend
-else
-	cp -r src/frontend/ config/nginx/frontend
-	docker build --no-cache -t $(STACK_NAME):webserver config/nginx -f config/nginx/Dockerfile.dev
-	rm -rf config/nginx/frontend
-endif
-
 dblogs:
 ifeq ($(OSFLAG), WIN32)
 	docker logs --details -ft $(shell docker ps -qf name=$(DB_CONTAINER_NAME))
