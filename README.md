@@ -47,11 +47,11 @@ You can get your dev environment up and running with installing only Docker and 
         - First, follow: [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
+        
+        - Install [docker-compose](https://docs.docker.com/compose/install/)
 
    * **Windows**
         - Unfortunately, we don't have documentation to support development in Windows. If you use Windows, we'd love your contribution here!
-
-3. Install [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Running the docker stack
 
