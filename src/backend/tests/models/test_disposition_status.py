@@ -8,28 +8,21 @@ from tests.factories.charge_factory import ChargeFactory
 
 def test_disposition_status_values():
     today = date.today()
-
     assert Disposition(today, "Dismissed").status == DispositionStatus.DISMISSED
     assert Disposition(today, "Dismissal").status == DispositionStatus.DISMISSED
     assert Disposition(today, "Acquitted").status == DispositionStatus.DISMISSED
     assert Disposition(today, "Acquittal").status == DispositionStatus.DISMISSED
-
     assert Disposition(today, "Convicted").status == DispositionStatus.CONVICTED
     assert Disposition(today, "Reduced to a lesser charge").status == DispositionStatus.CONVICTED
     assert Disposition(today, "Conversion - Disposition Types").status == DispositionStatus.CONVICTED
-
     assert Disposition(today, "Diverted").status == DispositionStatus.DIVERTED
-
     assert Disposition(today, "No complaint").status == DispositionStatus.NO_COMPLAINT
-
     assert Disposition(today, "What is this?").status == DispositionStatus.UNRECOGNIZED
 
 
 def test_all_disposition_statuses_are_either_convicted_or_dismissed():
-
     charge = ChargeFactory.create()
     today = date.today()
-
     for status in DispositionStatus:
         # Use the status.value to create the disposition,
         # which happens to always be a valid string for that dispo status.
@@ -38,7 +31,6 @@ def test_all_disposition_statuses_are_either_convicted_or_dismissed():
         if status == DispositionStatus.UNRECOGNIZED:
             assert not charge.convicted()
             assert not charge.dismissed()
-
         else:
             # Make sure that every DispositionStatus value is covered by this approach.
             assert charge.disposition.status == status
@@ -46,7 +38,8 @@ def test_all_disposition_statuses_are_either_convicted_or_dismissed():
 
 
 def test_dispositionless_charge_is_not_convicted_nor_dismissed():
-    charge = ChargeFactory.create()
+    charge = ChargeFactory.create(level="Felony Class B")
+
     assert not charge.convicted()
     assert not charge.dismissed()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -54,7 +47,9 @@ def test_dispositionless_charge_is_not_convicted_nor_dismissed():
 
 
 def test_charge_with_unrecognized_disposition_eligibility():
-    charge = ChargeFactory.create(disposition=Disposition(ruling="What am I", date=date(2001, 1, 1)))
+    charge = ChargeFactory.create(
+        level="Felony Class B", disposition=Disposition(ruling="What am I", date=date(2001, 1, 1))
+    )
     assert not charge.convicted()
     assert not charge.dismissed()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS

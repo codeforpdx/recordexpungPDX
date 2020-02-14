@@ -7,92 +7,50 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
+from tests.models.test_charge import ChargeTypeTestsParent
 
 
-class TestSingleChargeConvictionsFelonyClassA(unittest.TestCase):
-    def setUp(self):
-        last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build(disposition=Disposition(ruling="Convicted", date=last_week))
-        self.charges = []
-
-    def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
-        return charge
-
+class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTestsParent):
     def test_felony_class_a_charge(self):
-        self.single_charge["name"] = "Assault in the first degree"
-        self.single_charge["statute"] = "163.185"
-        self.single_charge["level"] = "Felony Class A"
+        self.charge_dict["name"] = "Assault in the first degree"
+        self.charge_dict["statute"] = "163.185"
+        self.charge_dict["level"] = "Felony Class A"
+        self.charge_dict["disposition"] = self.convicted
         felony_class_a_convicted = self.create_recent_charge()
         self.charges.append(felony_class_a_convicted)
 
         assert isinstance(felony_class_a_convicted, FelonyClassA)
-        assert felony_class_a_convicted.type_name == "Felony Class A"
         assert felony_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert felony_class_a_convicted.expungement_result.type_eligibility.reason == "Ineligible under 137.225(5)"
+        assert (
+            felony_class_a_convicted.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+        )
 
-
-class TestSingleChargeAcquittalsFelonyClassA(unittest.TestCase):
-    def setUp(self):
-        last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.default_dict()
-        self.single_charge["disposition"] = Disposition(ruling="Acquitted", date=last_week)
-        self.charges = []
-
-    def create_recent_charge(self):
-        return ChargeFactory.create(**self.single_charge)
-
-    def test_felony_class_a_charge(self):
-        self.single_charge["name"] = "Assault in the first degree"
-        self.single_charge["statute"] = "163.185"
-        self.single_charge["level"] = "Felony Class A"
+    def test_felony_class_a_dismissed(self):
+        self.charge_dict["name"] = "Assault in the first degree"
+        self.charge_dict["statute"] = "163.185"
+        self.charge_dict["level"] = "Felony Class A"
+        self.charge_dict["disposition"] = self.dismissed
         felony_class_a_dismissed = self.create_recent_charge()
         self.charges.append(felony_class_a_dismissed)
 
         assert isinstance(felony_class_a_dismissed, FelonyClassA)
         assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert felony_class_a_dismissed.expungement_result.type_eligibility.reason == "Eligible under 137.225(1)(b)"
+        assert (
+            felony_class_a_dismissed.expungement_result.type_eligibility.reason
+            == "Dismissals are eligible under 137.225(1)(b)"
+        )
 
-
-class TestSingleChargeDismissalsFelonyClassA(unittest.TestCase):
-    def setUp(self):
-        last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.default_dict()
-        self.single_charge["disposition"] = Disposition(ruling="Dismissed", date=last_week)
-        self.charges = []
-
-    def create_recent_charge(self):
-        return ChargeFactory.create(**self.single_charge)
-
-    def test_felony_class_a_charge(self):
-        self.single_charge["name"] = "Assault in the first degree"
-        self.single_charge["statute"] = "163.185"
-        self.single_charge["level"] = "Felony Class A"
-        felony_class_a_dismissed = self.create_recent_charge()
-        self.charges.append(felony_class_a_dismissed)
-
-        assert isinstance(felony_class_a_dismissed, FelonyClassA)
-        assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert felony_class_a_dismissed.expungement_result.type_eligibility.reason == "Eligible under 137.225(1)(b)"
-
-
-class TestSingleChargeNoComplaint(unittest.TestCase):
-    def setUp(self):
-        last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.default_dict()
-        self.single_charge["disposition"] = Disposition(date=last_week, ruling="No Complaint")
-        self.charges = []
-
-    def create_recent_charge(self):
-        return ChargeFactory.create(**self.single_charge)
-
-    def test_felony_class_a_charge(self):
-        self.single_charge["name"] = "Assault in the first degree"
-        self.single_charge["statute"] = "163.185"
-        self.single_charge["level"] = "Felony Class A"
+    def test_felony_class_a_no_complaint(self):
+        self.charge_dict["disposition"] = self.no_complaint
+        self.charge_dict["name"] = "Assault in the first degree"
+        self.charge_dict["statute"] = "163.185"
+        self.charge_dict["level"] = "Felony Class A"
         felony_class_a_no_complaint = self.create_recent_charge()
         self.charges.append(felony_class_a_no_complaint)
 
         assert isinstance(felony_class_a_no_complaint, FelonyClassA)
         assert felony_class_a_no_complaint.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert felony_class_a_no_complaint.expungement_result.type_eligibility.reason == "Eligible under 137.225(1)(b)"
+        assert (
+            felony_class_a_no_complaint.expungement_result.type_eligibility.reason
+            == "Dismissals are eligible under 137.225(1)(b)"
+        )

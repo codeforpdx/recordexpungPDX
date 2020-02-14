@@ -8,7 +8,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class CivilOffense(Charge):
     type_name: str = "Civil Offense"
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
 
     def blocks_other_charges(self):
