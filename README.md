@@ -49,7 +49,19 @@ You can get your dev environment up and running with installing only Docker and 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
 
    * **Windows**
-        - Unfortunately, we don't have documentation to support development in Windows. If you use Windows, we'd love your contribution here!
+        - Windows (as always) is a bit more challenging. Docker CE on Windows requires Hyper-V support, which is only available on Windows 10 Pro, Enterprise, or Education.
+        If you have one of those versions, follow [Docker's documentation to install Docker Engine](https://docs.docker.com/docker-for-windows/install/).
+        - **If you have Hyper-V**:
+            - Install GNU Make for Windows using either [Chocolatey](https://chocolatey.org/) or by downloading the executable
+        [from sourceforge](http://gnuwin32.sourceforge.net/packages/make.htm), running the installer, and then putting the 
+        binary on your [Path Environment variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).
+        - **If you have Windows 10 Community, Home, or other versions**, [create a Linux VM using VirtualBox and run Docker Engine](https://www.sitepoint.com/docker-windows-10-home/) 
+        through there.  Alternately, you could partition your hard drive [and dual-boot Linux to use for development](https://opensource.com/article/18/5/dual-boot-linux).
+        ##### Important Note 
+        if your git config changes [Linux-style line endings into windows-style line endings](http://www.cs.toronto.edu/~krueger/csc209h/tut/line-endings.html)
+        using the `core.autocrlf` config flag, you'll need to disable that in order for the docker builds to work 
+        correctly.  You can disable this setting for just the `recordexpungPDX` repo by running `git config --local core.autocrlf false`
+        from the root directory of this repo.
 
 3. Install [docker-compose](https://docs.docker.com/compose/install/)
 
