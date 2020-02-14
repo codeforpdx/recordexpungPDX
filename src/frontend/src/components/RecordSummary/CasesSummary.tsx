@@ -12,7 +12,7 @@ export default class CasesSummary extends React.Component<Props> {
         <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Cases</span> {this.props.totalCases}</h3>
         <CaseNumbersList cases={this.props.casesSorted["fully_eligible"]} title={"Cases eligible now"} subheading={""} color = "green"/>
         <CaseNumbersList cases={this.props.casesSorted["partially_eligible"]} title={"Cases partially eligible"} subheading={""} color = "green"/>
-        <CaseNumbersList cases={this.props.casesSorted["fully_ineligible"]} title={"Cases ineligible"} subheading={"Excludes parking tickets"} color = "red"/>
+        <CaseNumbersList cases={this.props.casesSorted["fully_ineligible"]} title={"Cases ineligible"} subheading={"Excludes traffic violations, which are always ineligible"} color = "red"/>
       </div>
       )
     }
