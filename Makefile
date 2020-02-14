@@ -38,62 +38,35 @@ dev_logs:
 	docker-compose -f docker-compose.dev.yml logs -f
 
 dev_psql:
-ifeq ($(OSFLAG), WIN32)
 	docker exec -ti $(shell docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
-else
-	docker exec -ti $$(docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
-endif
 
 bash_backend:
-ifeq ($(OSFLAG), WIN32)
 	docker exec -it $(shell docker ps -qf name=$(BACKEND_CONTAINER_NAME)) /bin/bash
-else
-	docker exec -it $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) /bin/bash
-endif
 
 bash_frontend:
-ifeq ($(OSFLAG), WIN32)
 	docker exec -it $(shell docker ps -qf name=$(FRONTEND_CONTAINER_NAME)) /bin/bash
-else
-	docker exec -it $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME)) /bin/bash
-endif
+
+database_image:
+	docker build --no-cache -t $(STACK_NAME):database config/postgres -f config/postgres/Dockerfile.dev
+
+expungeservice_image:
+	docker build --no-cache -t $(STACK_NAME):expungeservice src/backend/ -f src/backend/Dockerfile.dev
 
 dblogs:
-ifeq ($(OSFLAG), WIN32)
 	docker logs --details -ft $(shell docker ps -qf name=$(DB_CONTAINER_NAME))
-else
-	docker logs --details -ft $$(docker ps -qf name=$(DB_CONTAINER_NAME))
-endif
 
 applogs:
-ifeq ($(OSFLAG), WIN32)
 	docker logs --details -ft $(shell docker ps -qf name=$(BACKEND_CONTAINER_NAME))
-else
-	docker logs --details -ft $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME))
-endif
 
 weblogs:
-ifeq ($(OSFLAG), WIN32)
 	docker logs --details -ft $(shell docker ps -qf name=$(FRONTEND_CONTAINER_NAME))
-else
-	docker logs --details -ft $$(docker ps -qf name=$(FRONTEND_CONTAINER_NAME))
-endif
 
 dev_test:
-ifeq ($(OSFLAG), WIN32)
 	docker exec -t $(shell docker ps -qf name=$(BACKEND_CONTAINER_NAME)) mypy
 	docker exec -t $(shell docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
-else
-	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) mypy
-	docker exec -t $$(docker ps -qf name=$(BACKEND_CONTAINER_NAME)) pytest
-endif
 
 dev_drop_database:
-ifeq ($(OSFLAG), WIN32)
 	docker volume rm $(shell docker volume ls -qf name=$(STACK_NAME))
-else
-	docker volume rm $$(docker volume ls -qf name=$(STACK_NAME))
-endif
 
 dev_mock_oeci_up:
 	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.mock-oeci.yml up -d
