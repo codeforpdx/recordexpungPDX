@@ -11,6 +11,8 @@ class ParkingTicket(Charge):
     """
 
     type_name: str = "Parking Ticket"
+    expungement_rules: str = (
+"""Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of traffic offenses. No other section specifically allows for parking offenses to be eligible.""")
 
     def _default_type_eligibility(self):
         if self.convicted():
