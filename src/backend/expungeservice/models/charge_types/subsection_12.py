@@ -15,7 +15,7 @@ Applicable subsections: 137.225(12) for convictions; 137.225(1)(b) for dismissal
     )
 
     def _default_type_eligibility(self):
-        if self.acquitted():
+        if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissal eligible under 137.225(1)(b)")
         else:
             if self.statute == "163525":
