@@ -19,7 +19,7 @@ class TestSubsection12(unittest.TestCase):
     def create_recent_charge(self):
         return ChargeFactory.save(self.charge_dict)
 
-    def test_subsection_12_acquitted(self):
+    def test_subsection_12_dismissed(self):
         self.charge_dict["name"] = "Abandonment of a child"
         self.charge_dict["statute"] = "163.535"
         self.charge_dict["level"] = "Felony Class C"

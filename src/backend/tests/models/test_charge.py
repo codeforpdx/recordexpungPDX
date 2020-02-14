@@ -59,23 +59,23 @@ class TestChargeClass(unittest.TestCase):
 
         assert charge.recent_conviction() is False
 
-    def test_most_recent_acquittal_happy_path(self):
+    def test_most_recent_dismissal_happy_path(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
         charge.disposition = Disposition(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Dismissed")
 
-        assert charge.recent_acquittal() is True
+        assert charge.recent_dismissal() is True
 
-    def test_most_recent_acquittal_sad_path(self):
+    def test_most_recent_dismissal_sad_path(self):
         charge = ChargeFactory.create(date=self.THREE_YEARS_AGO)
         charge.disposition = Disposition(date=self.THREE_YEARS_AGO, ruling="Dismissed")
 
-        assert charge.recent_acquittal() is False
+        assert charge.recent_dismissal() is False
 
-    def test_convicted_charge_is_not_a_recent_acquittal(self):
+    def test_convicted_charge_is_not_a_recent_dismissal(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
         charge.disposition = Disposition(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Convicted")
 
-        assert charge.recent_acquittal() is False
+        assert charge.recent_dismissal() is False
 
     def test_same_charge_is_not_equal(self):
         case = CaseFactory.create(case_number="C0000")

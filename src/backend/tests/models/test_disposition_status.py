@@ -25,7 +25,7 @@ def test_disposition_status_values():
     assert Disposition(today, "What is this?").status == DispositionStatus.UNRECOGNIZED
 
 
-def test_all_disposition_statuses_are_either_convicted_or_acquitted():
+def test_all_disposition_statuses_are_either_convicted_or_dismissed():
 
     charge = ChargeFactory.create()
     today = date.today()
@@ -37,18 +37,18 @@ def test_all_disposition_statuses_are_either_convicted_or_acquitted():
 
         if status == DispositionStatus.UNRECOGNIZED:
             assert not charge.convicted()
-            assert not charge.acquitted()
+            assert not charge.dismissed()
 
         else:
             # Make sure that every DispositionStatus value is covered by this approach.
             assert charge.disposition.status == status
-            assert charge.convicted() or charge.acquitted()
+            assert charge.convicted() or charge.dismissed()
 
 
-def test_dispositionless_charge_is_not_convicted_nor_acquitted():
+def test_dispositionless_charge_is_not_convicted_nor_dismissed():
     charge = ChargeFactory.create()
     assert not charge.convicted()
-    assert not charge.acquitted()
+    assert not charge.dismissed()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert charge.expungement_result.type_eligibility.reason == "Disposition not found. Needs further analysis"
 
@@ -56,6 +56,6 @@ def test_dispositionless_charge_is_not_convicted_nor_acquitted():
 def test_charge_with_unrecognized_disposition_eligibility():
     charge = ChargeFactory.create(disposition=["What am I", date(2001, 1, 1)])
     assert not charge.convicted()
-    assert not charge.acquitted()
+    assert not charge.dismissed()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert charge.expungement_result.type_eligibility.reason == "Disposition not recognized. Needs further analysis"
