@@ -37,7 +37,7 @@ Applicable subsections: 137.225(5)(a) for convictions; 137.225(5)(a) for dismiss
 \[rules documentation not added yet\]
 
 ## Parking Ticket
-\[rules documentation not added yet\]
+Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of traffic offenses. No other section specifically allows for parking offenses to be eligible.
 
 ## Person Crime
 \[rules documentation not added yet\]
