@@ -32,7 +32,7 @@ class EditUser extends React.Component<Props, State> {
     confirmPassword: '',
     name: '',
     group: '',
-    role: '',
+    role: 'search',
     invalidResponse: false,
     missingName: false,
     invalidEmail: false,
@@ -46,6 +46,12 @@ class EditUser extends React.Component<Props, State> {
     // using the "any" type.
     this.setState<any>({
       [e.target.id]: e.target.value
+    });
+  };
+
+  public handleRadioChange = (e: React.BaseSyntheticEvent) => {
+    this.setState<any>({
+      [e.target.name]: e.target.value
     });
   };
 
@@ -186,7 +192,9 @@ class EditUser extends React.Component<Props, State> {
                         name="role"
                         value="search"
                         className="v-top"
-                        checked
+                        checked={this.state.role === "search"}
+                        onChange={this.handleRadioChange}
+                      />
                       />
                       <label htmlFor="search" className="fw6">Search</label>
                     </div>
@@ -202,6 +210,8 @@ class EditUser extends React.Component<Props, State> {
                         name="role"
                         value="admin"
                         className="v-top"
+                        checked={this.state.role === 'admin'}
+                        onChange={this.handleRadioChange}
                       />
                       <label htmlFor="admin" className="fw6">Admin</label>
                     </div>
