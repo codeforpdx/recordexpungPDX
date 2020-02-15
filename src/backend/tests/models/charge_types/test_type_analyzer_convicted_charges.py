@@ -15,7 +15,7 @@ class TestSingleChargeConvictions(unittest.TestCase):
         self.charges = []
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
+        charge = ChargeFactory.create(**self.single_charge)
         return charge
 
     def test_felony_class_a_charge(self):
@@ -355,7 +355,7 @@ class TestMultipleCharges(unittest.TestCase):
         self.charges = []
 
     def create_charge(self):
-        charge = ChargeFactory.save(self.charge)
+        charge = ChargeFactory.create(**self.charge)
         return charge
 
     def test_two_charges(self):

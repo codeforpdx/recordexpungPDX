@@ -1,6 +1,7 @@
 import unittest
 from datetime import datetime, timedelta
 
+from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
@@ -16,8 +17,8 @@ class TestParkingTicket(unittest.TestCase):
         self.charge_dict["case"] = case
         self.charge_dict["level"] = "Violation Unclassified"
         last_week = datetime.today() - timedelta(days=7)
-        self.convicted = ["Convicted", last_week]
-        self.dismissed = ["Dismissed", last_week]
+        self.convicted = Disposition(ruling="Convicted", date=last_week)
+        self.dismissed = Disposition(ruling="Dismissed", date=last_week)
 
     def test_parking_ticket_conviction(self):
         self.charge_dict["disposition"] = self.convicted

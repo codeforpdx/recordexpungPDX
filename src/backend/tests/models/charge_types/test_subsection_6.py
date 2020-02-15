@@ -17,7 +17,7 @@ class TestSubsection6(unittest.TestCase):
         self.charge_dict["disposition"] = Disposition(ruling="Convicted", date=last_week)
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.charge_dict)
+        return ChargeFactory.create(**self.charge_dict)
 
     def test_subsection_6_dismissed(self):
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"

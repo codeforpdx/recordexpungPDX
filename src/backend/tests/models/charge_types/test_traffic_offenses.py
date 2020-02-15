@@ -24,11 +24,11 @@ class TestTrafficViolation(unittest.TestCase):
         self.single_charge = ChargeFactory.build()
         self.charges = []
         last_week = datetime.today() - timedelta(days=7)
-        self.convicted = ["Convicted", last_week]
-        self.dismissed = ["Dismissed", last_week]
+        self.convicted = Disposition(ruling="Convicted", date=last_week)
+        self.dismissed = Disposition(ruling="Dismissed", date=last_week)
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
+        charge = ChargeFactory.create(**self.single_charge)
         last_week = datetime.today() - timedelta(days=7)
         charge.disposition = Disposition(ruling="Convicted", date=last_week)
         return charge
@@ -94,8 +94,8 @@ class TestTrafficNonViolation(unittest.TestCase):
 
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.convicted = ["Convicted", last_week]
-        self.dismissed = ["Dismissed", last_week]
+        self.convicted = Disposition(ruling="Convicted", date=last_week)
+        self.dismissed = Disposition(ruling="Dismissed", date=last_week)
 
     def test_misdemeanor_conviction_is_not_eligible(self):
         charge = ChargeFactory.create(statute="814.010(4)", level="Misdemeanor Class A", disposition=self.convicted)

@@ -16,7 +16,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"
@@ -37,7 +37,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"
@@ -73,7 +73,7 @@ class TestSingleChargeNoComplaint(unittest.TestCase):
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"

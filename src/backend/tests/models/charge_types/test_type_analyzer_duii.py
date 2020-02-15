@@ -11,7 +11,7 @@ def build_charge(statute, disposition_ruling):
     charge = ChargeFactory.build()
     charge["statute"] = statute
     charge["disposition"] = Disposition(ruling=disposition_ruling, date=last_week)
-    return ChargeFactory.save(charge)
+    return ChargeFactory.create(**charge)
 
 
 def test_duii_dismissed():
