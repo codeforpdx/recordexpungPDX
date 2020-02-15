@@ -1,7 +1,6 @@
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 
 from tests.factories.charge_factory import ChargeFactory
