@@ -22,11 +22,11 @@ class TestSingleChargeAcquittals(unittest.TestCase):
         self.single_charge["name"] = "Assault in the first degree"
         self.single_charge["statute"] = "163.185"
         self.single_charge["level"] = "Felony Class A"
-        felony_class_a_acquitted = self.create_recent_charge()
-        self.charges.append(felony_class_a_acquitted)
+        felony_class_a_dismissed = self.create_recent_charge()
+        self.charges.append(felony_class_a_dismissed)
 
-        assert felony_class_a_acquitted.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-        assert felony_class_a_acquitted.expungement_result.type_eligibility.reason == "Eligible under 137.225(1)(b)"
+        assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+        assert felony_class_a_dismissed.expungement_result.type_eligibility.reason == "Eligible under 137.225(1)(b)"
 
 
 class TestSingleChargeDismissals(unittest.TestCase):

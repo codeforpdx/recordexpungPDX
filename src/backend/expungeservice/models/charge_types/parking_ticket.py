@@ -17,7 +17,7 @@ class ParkingTicket(Charge):
     def _default_type_eligibility(self):
         if self.convicted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
-        elif self.acquitted():
+        elif self.dismissed():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
 
     def blocks_other_charges(self):

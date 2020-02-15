@@ -14,12 +14,12 @@ def build_charge(statute, disposition_ruling):
     return ChargeFactory.save(charge)
 
 
-def test_duii_acquitted():
-    duii_acquitted = build_charge(statute="813.010", disposition_ruling="Acquitted")
+def test_duii_dismissed():
+    duii_dismissed = build_charge(statute="813.010", disposition_ruling="Acquitted")
 
-    assert duii_acquitted.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert duii_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
-        duii_acquitted.expungement_result.type_eligibility.reason
+        duii_dismissed.expungement_result.type_eligibility.reason
         == "Further Analysis Needed - Dismissed charge may have been Diverted"
     )
 

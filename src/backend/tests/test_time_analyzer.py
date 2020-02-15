@@ -13,7 +13,7 @@ from tests.factories.expunger_factory import ExpungerFactory
 from tests.time import Time
 
 
-class TestSingleChargeAcquittals(unittest.TestCase):
+class TestSingleChargeDismissals(unittest.TestCase):
     def setUp(self):
         self.expunger = ExpungerFactory.create()
 
@@ -381,7 +381,7 @@ def test_felony_class_b_with_prior_conviction():
     assert b_felony_charge.expungement_result.time_eligibility.reason == ""
 
 
-def test_acquitted_felony_class_b_with_subsequent_conviction():
+def test_dismissed_felony_class_b_with_subsequent_conviction():
     b_felony_charge = create_class_b_felony_charge(Time.LESS_THAN_TWENTY_YEARS_AGO, "Dismissed")
     case_1 = CaseFactory.create()
     case_1.charges = [b_felony_charge]
