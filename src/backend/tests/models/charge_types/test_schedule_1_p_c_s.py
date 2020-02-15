@@ -19,8 +19,6 @@ class TestSingleChargeConvictionsSchedule1PCS(unittest.TestCase):
         charge = ChargeFactory.save(self.single_charge)
         return charge
 
-    # Possession of controlled substance tests
-
     def test_pcs_475854(self):
         self.single_charge["name"] = "Unlawful possession of heroin"
         self.single_charge["statute"] = "475.854"

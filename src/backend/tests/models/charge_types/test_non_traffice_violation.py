@@ -19,8 +19,6 @@ class TestSingleChargeConvictionsNonTrafficViolation(unittest.TestCase):
         charge = ChargeFactory.save(self.single_charge)
         return charge
 
-    # Test non-traffic violation
-
     def test_non_traffic_violation(self):
         self.single_charge["name"] = "Viol Treatment"
         self.single_charge["statute"] = "1615662"
