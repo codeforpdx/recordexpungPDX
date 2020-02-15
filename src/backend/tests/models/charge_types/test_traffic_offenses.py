@@ -11,7 +11,7 @@ Rules for 800 Level charges are as follows:
 
 import unittest
 
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from expungeservice.models.expungement_result import EligibilityStatus
 

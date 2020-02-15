@@ -3,7 +3,6 @@ import unittest
 from datetime import date
 
 from expungeservice.models.expungement_result import EligibilityStatus
-from expungeservice.models.disposition import Disposition
 
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory

@@ -1,5 +1,5 @@
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
