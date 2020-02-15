@@ -48,10 +48,11 @@ class Expunger:
                 eligibility_dates.append(
                     (charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)")
                 )
-            elif charge.acquitted():
+
+            elif charge.dismissed():
                 eligibility_dates.append((charge.date, "Time eligible under 137.225(1)(b)"))
             else:
-                raise ValueError("Charge should always convicted or acquitted at this point.")
+                raise ValueError("Charge should always convicted or dismissed at this point.")
 
             if charge.expungement_result.type_eligibility.status == EligibilityStatus.INELIGIBLE:
                 eligibility_dates.append((date.max, "Never. Type ineligible charges are always time ineligible."))
@@ -69,7 +70,7 @@ class Expunger:
                     )
                 )
 
-            if charge.acquitted() and most_recent_blocking_dismissal:
+            if charge.dismissed() and most_recent_blocking_dismissal:
                 eligibility_dates.append(
                     (most_recent_blocking_dismissal.date + relativedelta(years=3), "Recommend sequential expungement")
                 )
@@ -109,7 +110,7 @@ class Expunger:
                 for charge in case.charges:
                     if (
                         charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
-                        and charge.acquitted()
+                        and charge.dismissed()
                         and charge.expungement_result.time_eligibility.date_will_be_eligible
                         >= attractor.expungement_result.time_eligibility.date_will_be_eligible
                     ):
@@ -125,22 +126,22 @@ class Expunger:
 
     @staticmethod
     def _categorize_charges(charges):
-        acquittals, convictions = [], []
+        dismissals, convictions = [], []
         for charge in charges:
-            if charge.acquitted():
-                acquittals.append(charge)
+            if charge.dismissed():
+                dismissals.append(charge)
             elif charge.convicted():
                 convictions.append(charge)
             else:
-                raise ValueError("Charge should always convicted or acquitted at this point.")
-        return acquittals, convictions
+                raise ValueError("Charge should always convicted or dismissed at this point.")
+        return dismissals, convictions
 
     @staticmethod
-    def _most_recent_different_case_dismissal(charge, acquittals):
-        different_case_acquittals = [c for c in acquittals if c.case()() != charge.case()()]
-        different_case_acquittals.sort(key=lambda charge: charge.date)
-        if different_case_acquittals and different_case_acquittals[-1].recent_acquittal():
-            return different_case_acquittals[-1]
+    def _most_recent_different_case_dismissal(charge, dismissals):
+        different_case_dismissals = [c for c in dismissals if c.case()() != charge.case()()]
+        different_case_dismissals.sort(key=lambda charge: charge.date)
+        if different_case_dismissals and different_case_dismissals[-1].recent_dismissal():
+            return different_case_dismissals[-1]
         else:
             return None
 
@@ -156,7 +157,7 @@ class Expunger:
     @staticmethod
     def _calculate_has_subsequent_charge(class_b_felony: Charge, other_charges: List[Charge]) -> bool:
         for other_charge in other_charges:
-            if other_charge.acquitted():
+            if other_charge.dismissed():
                 date_of_other_charge = other_charge.date
             else:
                 date_of_other_charge = other_charge.disposition.date  # type: ignore
@@ -167,7 +168,7 @@ class Expunger:
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.acquitted())]
+        return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.dismissed())]
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):

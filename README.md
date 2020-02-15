@@ -59,11 +59,11 @@ You can get your dev environment up and running with installing only Docker and 
         binary on your [Path Environment variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).
         - **If you have Windows 10 Community, Home, or other versions**, [create a Linux VM using VirtualBox and run Docker Engine](https://www.sitepoint.com/docker-windows-10-home/) 
         through there.  Alternately, you could partition your hard drive [and dual-boot Linux to use for development](https://opensource.com/article/18/5/dual-boot-linux).
-        ##### Important Note 
-        if your git config changes [Linux-style line endings into windows-style line endings](http://www.cs.toronto.edu/~krueger/csc209h/tut/line-endings.html)
-        using the `core.autocrlf` config flag, you'll need to disable that in order for the docker builds to work 
-        correctly.  You can disable this setting for just the `recordexpungPDX` repo by running `git config --local core.autocrlf false`
-        from the root directory of this repo.
+        -   ##### Important Windows Note 
+            if your git config changes [Linux-style line endings into windows-style line endings](http://www.cs.toronto.edu/~krueger/csc209h/tut/line-endings.html)
+            using the `core.autocrlf` config flag, you'll need to disable that in order for the docker builds to work 
+            correctly.  You can disable this setting for just the `recordexpungPDX` repo by running `git config --local core.autocrlf false`
+            from the root directory of this repo.
 
 ## Running the docker stack
 

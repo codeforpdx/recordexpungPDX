@@ -135,9 +135,9 @@ def record_with_various_categories(crawler):
 
 
 def test_expunger_categorizes_charges(record_with_various_categories):
-    acquittals, convictions = Expunger._categorize_charges(record_with_various_categories.charges)
+    dismissals, convictions = Expunger._categorize_charges(record_with_various_categories.charges)
 
-    assert len(acquittals) == 5
+    assert len(dismissals) == 5
     assert len(convictions) == 4
 
 
