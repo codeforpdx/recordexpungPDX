@@ -22,3 +22,6 @@ class ParkingTicket(Charge):
 
     def blocks_other_charges(self):
         return False
+
+    def hidden_in_record_summary(self):
+        return True

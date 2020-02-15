@@ -73,6 +73,9 @@ class Charge:
     def blocks_other_charges(self):
         return True
 
+    def hidden_in_record_summary(self):
+        return False
+
     def set_time_eligibility(self, eligibility_dates):
         date_will_be_eligible, reason = max(eligibility_dates)
         if date_will_be_eligible and date_class.today() >= date_will_be_eligible:
