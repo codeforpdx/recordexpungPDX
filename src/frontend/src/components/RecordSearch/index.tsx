@@ -97,7 +97,10 @@ class RecordSearch extends React.Component<Props, State> {
 
   public render() {
     const aliasComponents = this.state.aliases.map((alias: AliasType, i) => {
+      const separator = ( i > 0 ? <hr className="bb b--black-05 mt2 mt3-ns mb3 mb4-ns" /> : null );
       return (
+        <>
+        {separator}
         <Alias
           ind={i}
           aliasData={alias}
@@ -114,6 +117,7 @@ class RecordSearch extends React.Component<Props, State> {
           hideRemoveButton={this.state.aliases.length === 1}
           key={"alias" + i}
         />
+        </>
       );
     });
     return (

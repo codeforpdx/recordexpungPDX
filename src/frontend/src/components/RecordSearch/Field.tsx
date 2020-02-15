@@ -38,8 +38,10 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render() {
+    const sharedDivMarkup = "w-100 w-third-ns w-25-l mb3 ";
+    const sharedInputMarkup = "w-100 br2 b--black-20 pa3 ";
     return(
-      <div className={"w-100 w-third-ns w-25-l mb3 " + this.props.divMarkup}>
+      <div className={sharedDivMarkup + this.props.divMarkup}>
         <label htmlFor={this.props.name} className="db mb1 fw6">
           {this.props.label} <span className= "fw2 f6">{this.props.coda}</span>
         </label>
@@ -47,9 +49,9 @@ export default class Field extends React.Component<Props, State> {
           value={this.props.content}
           id={this.props.name}
           type="text"
-          className={"w-100 br2 b--black-20 pa3 " + this.props.inputMarkup}
-          required
-          aria-invalid={false} // this.state.firstNameHasInput}
+          className={sharedInputMarkup + this.props.inputMarkup}
+          required={this.props.required}
+          aria-invalid={this.state.hasInput}
           aria-describedby={
             this.props.required && this.state.hasInput ? this.props.errorMessage : undefined
           }

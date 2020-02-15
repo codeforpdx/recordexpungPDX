@@ -63,13 +63,13 @@ export default class Alias extends React.Component<Props, State> {
           content={this.props.aliasData.birth_date}
           coda="mm/dd/yyyy"
           onChange = {(fieldValue: string) => {this.handleFieldChange("birth_date", fieldValue)}}
-          required={true}
+          required={false}
           errorMessage="dob_msg"
           />
         <div className={(this.props.hideRemoveButton ? "visually-hidden " : "" ) +
         "flex items-center pb1 mb3 ml3-ns ml0-l"}>
-        { // TODO: The #-Results label and Remove buttons are "visually-hidden"
-          // until Aliases feature is complete.
+        { // TODO: The #-Results label is "visually-hidden" until we update the endpoint
+          // to support this feature.
         }
           <span className=" visually-hidden fw5 bl bw2 b--blue bg-gray-blue-2 pa2 pr3 mr2 mb2">1 Result</span>
           <button
@@ -85,8 +85,5 @@ export default class Alias extends React.Component<Props, State> {
         </div>
       </div>
       )
-        // TODO: insert this when rendering additional Alias components.
-        //<hr className="ba b--white mt0 mb3" />
-        // wrapping the <div> and <hr> may require <></>
   }
 }
