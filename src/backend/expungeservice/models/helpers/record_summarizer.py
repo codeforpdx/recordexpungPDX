@@ -35,6 +35,7 @@ class RecordSummarizer:
             elif all(
                 [
                     c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
+                    and not c.hidden_in_record_summary()
                     for c in case.charges
                 ]
             ):
