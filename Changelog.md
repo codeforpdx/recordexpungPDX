@@ -1,6 +1,27 @@
 Changelog
 
-v1.4.0 (1-24-20)
+v1.4.5 (2-10-20)
+
+## Frontend Changes
+
+- Middle name field added to record search (#802)
+- Navbar doesn't show "Admin" button if user is not admin (#783)
+- Time eligibility is hidden from results if the charge is type-ineligible (#798)
+- "Forgot password" link is removed until feature gets implemented (#799)
+
+## Expungement Logic Fixes
+
+- Time eligibility is "never" if the charge is type-ineligible (#771)
+- Non-blocking charge types (like Juvenile) still receive time analysis (#772)
+- Traffic offenses are distinguished between violation and non-violation types (#792)
+- Civil Offenses are identified by statute chapters 1-99 and are distinguished from Parking Tickets (#794)
+- Subsection 6 charge type created with the subsection's list of "needs more analysis" charges (#813)
+- Subsection 12 charge type fixed to only match the subsection's list (#813)
+
+## Other changes
+- User-readable documentation for Class B Felony, Subsection 12, and Subsection 6 charge types available in project docs folder (#814)
+
+v1.4.0 (never released)
 
 ## Frontend Changes
 
