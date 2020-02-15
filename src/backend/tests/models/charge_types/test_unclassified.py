@@ -46,8 +46,6 @@ class TestSingleChargeConvictionsUnclassified(unittest.TestCase):
         charge = ChargeFactory.save(self.single_charge)
         return charge
 
-    # Eligible misdemeanor and class C felony tests
-
     def test_charge_that_falls_through(self):
         self.single_charge["name"] = "Aggravated theft in the first degree"
         self.single_charge["statute"] = "164.057"
