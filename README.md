@@ -47,6 +47,8 @@ You can get your dev environment up and running with installing only Docker and 
         - First, follow: [Docker Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)
 
         - Configure your user to run docker without sudo: https://docs.docker.com/install/linux/linux-postinstall/
+        
+        - Install [docker-compose](https://docs.docker.com/compose/install/)
 
    * **Windows**
         - Windows (as always) is a bit more challenging. Docker CE on Windows requires Hyper-V support, which is only available on Windows 10 Pro, Enterprise, or Education.
@@ -62,8 +64,6 @@ You can get your dev environment up and running with installing only Docker and 
         using the `core.autocrlf` config flag, you'll need to disable that in order for the docker builds to work 
         correctly.  You can disable this setting for just the `recordexpungPDX` repo by running `git config --local core.autocrlf false`
         from the root directory of this repo.
-
-3. Install [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Running the docker stack
 
