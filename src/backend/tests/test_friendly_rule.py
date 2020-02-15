@@ -32,7 +32,7 @@ def test_eligible_mrc_with_single_arrest():
     assert three_yr_mrc.expungement_result.time_eligibility.date_will_be_eligible == date.today()
 
 
-def test_arrest_is_unaffected_if_conviction_is_older():
+def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
     violation_charge = ChargeFactory.create(
         level="Class A Violation", date=Time.TEN_YEARS_AGO, disposition=["Convicted", Time.LESS_THAN_THREE_YEARS_AGO]
     )
@@ -44,7 +44,7 @@ def test_arrest_is_unaffected_if_conviction_is_older():
     expunger.run()
 
     assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert arrest.expungement_result.time_eligibility.date_will_be_eligible == arrest.disposition.date
+    assert arrest.expungement_result.time_eligibility.date_will_be_eligible == arrest.date
     assert arrest.expungement_result.time_eligibility.reason == ""
 
 
