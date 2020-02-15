@@ -33,7 +33,7 @@ export default class Alias extends React.Component<Props, State> {
           name="firstName"
           label="First Name"
           content={this.props.aliasData.first_name}
-          coda=""
+          inputMarkup="br-0-ns br--left-ns"
           onChange = {(fieldValue: string) => {this.handleFieldChange("first_name", fieldValue)}}
           required={true}
           errorMessage="name_msg"
@@ -51,12 +51,13 @@ export default class Alias extends React.Component<Props, State> {
           name="lastName"
           label="Last Name"
           content={this.props.aliasData.last_name}
-          coda=""
+          inputMarkup="bl-0-ns br--right-ns "
           onChange = {(fieldValue: string) => {this.handleFieldChange("last_name", fieldValue)}}
           required={true}
           errorMessage="name_msg"
           />
         <Field
+          divMarkup="pl2-l"
           name="birthDate"
           label="Date of Birth"
           content={this.props.aliasData.birth_date}

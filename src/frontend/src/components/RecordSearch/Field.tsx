@@ -5,6 +5,8 @@ interface Props {
   label: string;
   content: string;
   coda: string;
+  divMarkup: string;
+  inputMarkup: string;
   onChange: Function; // arg: value
   errorMessage: string;
   required: boolean;
@@ -18,6 +20,11 @@ export default class Field extends React.Component<Props, State> {
   state: State = {
     hasInput: false
   }
+  public static defaultProps = {
+    coda: "",
+    divMarkup: "",
+    inputMarkup: ""
+    };
 
   handleInputChange = (e: React.BaseSyntheticEvent) => {
     let fieldContent : string = e.target.value
@@ -32,7 +39,7 @@ export default class Field extends React.Component<Props, State> {
 
   render() {
     return(
-      <div className="w-100 w-third-ns w-25-l mb3">
+      <div className={"w-100 w-third-ns w-25-l mb3 " + this.props.divMarkup}>
         <label htmlFor={this.props.name} className="db mb1 fw6">
           {this.props.label} <span className= "fw2 f6">{this.props.coda}</span>
         </label>
@@ -40,7 +47,7 @@ export default class Field extends React.Component<Props, State> {
           value={this.props.content}
           id={this.props.name}
           type="text"
-          className="w-100 b--black-20 br2 br-0-ns br--left-ns pa3"
+          className={"w-100 br2 b--black-20 pa3 " + this.props.inputMarkup}
           required
           aria-invalid={false} // this.state.firstNameHasInput}
           aria-describedby={
