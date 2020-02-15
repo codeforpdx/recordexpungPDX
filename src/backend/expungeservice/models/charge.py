@@ -79,7 +79,9 @@ class Charge:
     def set_time_eligibility(self, eligibility_dates):
         date_will_be_eligible, reason = max(eligibility_dates)
         if date_will_be_eligible and date_class.today() >= date_will_be_eligible:
-            time_eligibility = TimeEligibility(status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=None)
+            time_eligibility = TimeEligibility(
+                status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=date_will_be_eligible
+            )
         else:
             time_eligibility = TimeEligibility(
                 status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible

@@ -49,7 +49,7 @@ class Expunger:
                     (charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)")
                 )
             elif charge.acquitted():
-                eligibility_dates.append((charge.disposition.date, "Time eligible under 137.225(1)(b)"))
+                eligibility_dates.append((charge.date, "Time eligible under 137.225(1)(b)"))
             else:
                 raise ValueError("Charge should always convicted or acquitted at this point.")
 
@@ -110,12 +110,8 @@ class Expunger:
                     if (
                         charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
                         and charge.acquitted()
-                        and (
-                            Expunger._is_newer(
-                                charge.expungement_result.time_eligibility.date_will_be_eligible,
-                                attractor.expungement_result.time_eligibility.date_will_be_eligible,
-                            )
-                        )
+                        and charge.expungement_result.time_eligibility.date_will_be_eligible
+                        >= attractor.expungement_result.time_eligibility.date_will_be_eligible
                     ):
                         charge.expungement_result.time_eligibility.status = (
                             attractor.expungement_result.time_eligibility.status
@@ -126,17 +122,6 @@ class Expunger:
                         charge.expungement_result.time_eligibility.reason = "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
                         # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
-
-    @staticmethod
-    def _is_newer(date, other_date):
-        if date and other_date:
-            return date >= other_date
-        elif date:
-            return True
-        elif other_date:
-            return False
-        else:
-            return False
 
     @staticmethod
     def _categorize_charges(charges):
