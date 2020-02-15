@@ -11,7 +11,7 @@ from tests.factories.case_factory import CaseFactory
 
 class TestParkingTicket(unittest.TestCase):
     def setUp(self):
-        self.charge_dict = ChargeFactory.build()
+        self.charge_dict = ChargeFactory.default_dict()
         case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
         self.charge_dict["statute"] = "109"
         self.charge_dict["case"] = case

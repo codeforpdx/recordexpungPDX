@@ -13,7 +13,7 @@ class TestSubsection6(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
         self.dismissal = Disposition(ruling="Dismissed", date=last_week)
-        self.charge_dict = ChargeFactory.build()
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["disposition"] = Disposition(ruling="Convicted", date=last_week)
 
     def create_recent_charge(self):

@@ -11,7 +11,7 @@ from expungeservice.models.disposition import Disposition
 class TestSingleChargeAcquittals(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(ruling="Acquitted", date=last_week)
         self.charges = []
 
@@ -32,7 +32,7 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 class TestSingleChargeDismissals(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(ruling="Dismissed", date=last_week)
         self.charges = []
 
@@ -68,7 +68,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
 class TestSingleChargeNoComplaint(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(date=last_week, ruling="No Complaint")
         self.charges = []
 

@@ -15,7 +15,7 @@ class TestChargeClass(unittest.TestCase):
     THREE_YEARS_AGO = date.today() + relativedelta(years=-3)
 
     def setUp(self):
-        self.charge = ChargeFactory.build()
+        self.charge = ChargeFactory.default_dict()
 
     def test_it_initializes_simple_statute(self):
         self.charge["statute"] = "1231235B"

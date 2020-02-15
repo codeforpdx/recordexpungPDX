@@ -21,7 +21,7 @@ from expungeservice.models.disposition import Disposition
 
 class TestTrafficViolation(unittest.TestCase):
     def setUp(self):
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.charges = []
         last_week = datetime.today() - timedelta(days=7)
         self.convicted = Disposition(ruling="Convicted", date=last_week)

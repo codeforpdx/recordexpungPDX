@@ -6,7 +6,7 @@ from tests.factories.case_factory import CaseFactory
 
 class ChargeFactory:
     @staticmethod
-    def build(disposition=None):
+    def default_dict(disposition=None):
         return {
             "case": CaseFactory.create(),
             "name": "Theft of services",

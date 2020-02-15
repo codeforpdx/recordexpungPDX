@@ -11,7 +11,7 @@ from expungeservice.models.disposition import Disposition
 class TestSingleChargeConvictions(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build(disposition=Disposition(ruling="Convicted", date=last_week))
+        self.single_charge = ChargeFactory.default_dict(disposition=Disposition(ruling="Convicted", date=last_week))
         self.charges = []
 
     def create_recent_charge(self):
@@ -351,7 +351,7 @@ class TestMultipleCharges(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
         disposition = Disposition(ruling="Convicted", date=last_week)
-        self.charge = ChargeFactory.build(disposition=disposition)
+        self.charge = ChargeFactory.default_dict(disposition=disposition)
         self.charges = []
 
     def create_charge(self):
