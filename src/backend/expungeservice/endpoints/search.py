@@ -23,10 +23,10 @@ class Search(MethodView):
     def post(self):
         request_data = request.get_json()
 
-        if request_data is None or not request_data.get("names"):
+        if request_data is None or not request_data.get("aliases"):
             error(400, "No json data in request body")
-
-        for alias in request_data["names"]:
+        check_data_fields(request_data, ["aliases"])
+        for alias in request_data["aliases"]:
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
 
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
@@ -36,17 +36,17 @@ class Search(MethodView):
 
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
-        crawler = Crawler()
-
-        login_result = crawler.login(
-            decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
-        )
-
-        if login_result is False:
-            error(401, "Attempted login to OECI failed")
-
         cases: List[Case] = []
-        for alias in request_data["names"]:
+        for alias in request_data["aliases"]:
+            crawler = Crawler()
+
+            login_result = crawler.login(
+                decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
+            )
+
+            if login_result is False:
+                error(401, "Attempted login to OECI failed")
+
             cases += crawler.search(
                 alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
             ).cases

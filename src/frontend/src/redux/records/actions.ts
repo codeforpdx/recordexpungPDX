@@ -7,16 +7,14 @@ import {
   SearchResponse,
   CLEAR_SEARCH_RECORDS
 } from './types';
+import {AliasType} from '../../components/RecordSearch/types'
 
 function validateResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('data') && data.data.hasOwnProperty('record');
 }
 
 export function loadSearchRecords(
-  firstName: string,
-  middleName: string,
-  lastName: string,
-  birthday: string
+  aliases: AliasType[]
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -25,9 +23,7 @@ export function loadSearchRecords(
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
       data: {
-        names: [
-          {first_name: firstName, middle_name: middleName, last_name: lastName, birth_date: birthday}
-        ]
+        aliases: aliases
       },
       method: 'post',
       withCredentials: true

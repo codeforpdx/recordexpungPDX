@@ -114,7 +114,7 @@ class EndpointShared:
     """
 
     def __hash_search_params(self, user_id, request_data):
-        search_param_string = user_id + json.dumps(request_data["names"], sort_keys=True)
+        search_param_string = user_id + json.dumps(request_data["aliases"], sort_keys=True)
         hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
         return hashed_search_params
 
