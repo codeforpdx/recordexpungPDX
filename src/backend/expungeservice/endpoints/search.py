@@ -22,7 +22,6 @@ class Search(MethodView):
     @login_required
     def post(self):
         request_data = request.get_json()
-
         if request_data is None or not request_data.get("aliases"):
             error(400, "No json data in request body")
         check_data_fields(request_data, ["aliases"])
@@ -33,26 +32,24 @@ class Search(MethodView):
 
         if not "oeci_token" in request.cookies.keys():
             error(401, "Missing login credentials to OECI.")
-
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
         cases: List[Case] = []
         for alias in request_data["aliases"]:
             crawler = Crawler()
-
             login_result = crawler.login(
                 decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
             )
-
             if login_result is False:
                 error(401, "Attempted login to OECI failed")
-
             cases += crawler.search(
                 alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
             ).cases
-        cases_with_unique_case_number = [list(group)[0] for key, group in groupby(cases, lambda case: case.case_number)]
+        cases_with_unique_case_number = [
+            list(group)[0]
+            for key, group in groupby(sorted(cases, key=lambda case: case.case_number), lambda case: case.case_number)
+        ]
         record = Record(cases_with_unique_case_number)
-
         expunger = Expunger(record)
         expunger.run()
 
