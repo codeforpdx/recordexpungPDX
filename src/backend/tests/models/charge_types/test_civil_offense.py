@@ -1,6 +1,5 @@
 import unittest
 from datetime import datetime, timedelta
-
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.civil_offense import CivilOffense
