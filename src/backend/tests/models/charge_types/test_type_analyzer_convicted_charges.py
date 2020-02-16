@@ -11,11 +11,11 @@ from expungeservice.models.disposition import Disposition
 class TestSingleChargeConvictions(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build(disposition=Disposition(ruling="Convicted", date=last_week))
+        self.single_charge = ChargeFactory.default_dict(disposition=Disposition(ruling="Convicted", date=last_week))
         self.charges = []
 
     def create_recent_charge(self):
-        charge = ChargeFactory.save(self.single_charge)
+        charge = ChargeFactory.create(**self.single_charge)
         return charge
 
     def test_felony_class_a_charge(self):
@@ -351,11 +351,11 @@ class TestMultipleCharges(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
         disposition = Disposition(ruling="Convicted", date=last_week)
-        self.charge = ChargeFactory.build(disposition=disposition)
+        self.charge = ChargeFactory.default_dict(disposition=disposition)
         self.charges = []
 
     def create_charge(self):
-        charge = ChargeFactory.save(self.charge)
+        charge = ChargeFactory.create(**self.charge)
         return charge
 
     def test_two_charges(self):

@@ -11,12 +11,12 @@ from expungeservice.models.disposition import Disposition
 class TestSingleChargeAcquittals(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(ruling="Acquitted", date=last_week)
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"
@@ -32,12 +32,12 @@ class TestSingleChargeAcquittals(unittest.TestCase):
 class TestSingleChargeDismissals(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(ruling="Dismissed", date=last_week)
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"
@@ -68,12 +68,12 @@ class TestSingleChargeDismissals(unittest.TestCase):
 class TestSingleChargeNoComplaint(unittest.TestCase):
     def setUp(self):
         last_week = datetime.today() - timedelta(days=7)
-        self.single_charge = ChargeFactory.build()
+        self.single_charge = ChargeFactory.default_dict()
         self.single_charge["disposition"] = Disposition(date=last_week, ruling="No Complaint")
         self.charges = []
 
     def create_recent_charge(self):
-        return ChargeFactory.save(self.single_charge)
+        return ChargeFactory.create(**self.single_charge)
 
     def test_felony_class_a_charge(self):
         self.single_charge["name"] = "Assault in the first degree"

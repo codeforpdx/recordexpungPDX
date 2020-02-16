@@ -6,19 +6,15 @@ from tests.factories.case_factory import CaseFactory
 
 class ChargeFactory:
     @staticmethod
-    def build(disposition=None):
+    def default_dict(disposition=None):
         return {
             "case": CaseFactory.create(),
             "name": "Theft of services",
             "statute": "164.125",
             "level": "Misdemeanor Class A",
-            "date": "1/1/0001",
+            "date": date_class(1901, 1, 1),
             "disposition": disposition,
         }
-
-    @staticmethod
-    def save(charge):
-        return ChargeCreator.create(**charge)
 
     @staticmethod
     def create(
@@ -26,18 +22,22 @@ class ChargeFactory:
         name="Theft of services",
         statute="164.125",
         level="Misdemeanor Class A",
-        date=date_class(1901, 1, 1),
-        disposition=None,
+        date: date_class = None,
+        disposition: Disposition = None,
     ):
-        if disposition:
-            ruling, date = disposition
-            disposition = Disposition(date=date, ruling=ruling)
+        if disposition and not date:
+            date_string = disposition.date.strftime("%m/%d/%Y")
+        elif date:
+            date_string = date.strftime("%m/%d/%Y")
+        else:
+            date_string = "1/1/1901"
+
         kwargs = {
             "case": case,
             "name": name,
             "statute": statute,
             "level": level,
-            "date": date.strftime("%m/%d/%Y"),
+            "date": date_string,
             "disposition": disposition,
         }
 
