@@ -11,7 +11,7 @@ from flask_login import current_user
 
 def save_result(request_data, record):
     user_id = current_user.user_id
-    search_param_string = user_id + json.dumps(request_data["names"], sort_keys=True)
+    search_param_string = user_id + json.dumps(request_data["aliases"], sort_keys=True)
     hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
     num_charges = len(record.charges)
     num_eligible_charges = len(
