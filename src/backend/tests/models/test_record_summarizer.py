@@ -1,3 +1,4 @@
+from expungeservice.models.disposition import Disposition
 from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 from expungeservice.expunger import Expunger
 from tests.factories.case_factory import CaseFactory
@@ -12,7 +13,9 @@ def test_record_summarizer_multiple_cases():
     )
     case_all_eligible.charges = [
         ChargeFactory.create(
-            case=case_all_eligible, name="Theft of dignity", disposition=["Convicted", Time.TEN_YEARS_AGO]
+            case=case_all_eligible,
+            name="Theft of dignity",
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
@@ -20,9 +23,13 @@ def test_record_summarizer_multiple_cases():
         case_number="0001", balance="200.00", date_location=["1/1/1995", "Clackamas"]
     )
     case_partially_eligible.charges = [
-        ChargeFactory.create(case=case_partially_eligible, disposition=["Convicted", Time.TEN_YEARS_AGO]),
         ChargeFactory.create(
-            case=case_partially_eligible, level="Felony Class A", disposition=["Convicted", Time.TEN_YEARS_AGO]
+            case=case_partially_eligible, disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO)
+        ),
+        ChargeFactory.create(
+            case=case_partially_eligible,
+            level="Felony Class A",
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         ),
     ]
 
@@ -31,21 +38,27 @@ def test_record_summarizer_multiple_cases():
     )
     case_possibly_eligible.charges = [
         ChargeFactory.create(
-            case=case_possibly_eligible, level="Felony Class B", disposition=["Convicted", Time.TEN_YEARS_AGO]
+            case=case_possibly_eligible,
+            level="Felony Class B",
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
     case_all_ineligible = CaseFactory.create(case_number="0003", balance="400.00", date_location=["1/1/1995", "Baker"])
     case_all_ineligible.charges = [
         ChargeFactory.create(
-            case=case_all_ineligible, level="Felony Class A", disposition=["Convicted", Time.TEN_YEARS_AGO]
+            case=case_all_ineligible,
+            level="Felony Class A",
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
     case_all_ineligible_2 = CaseFactory.create(case_number="0004", date_location=["1/1/1995", "Baker"])
     case_all_ineligible_2.charges = [
         ChargeFactory.create(
-            case=case_all_ineligible_2, level="Felony Class A", disposition=["Convicted", Time.TEN_YEARS_AGO]
+            case=case_all_ineligible_2,
+            level="Felony Class A",
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
     record = RecordFactory.create(

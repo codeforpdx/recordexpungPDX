@@ -54,7 +54,7 @@ def test_dispositionless_charge_is_not_convicted_nor_dismissed():
 
 
 def test_charge_with_unrecognized_disposition_eligibility():
-    charge = ChargeFactory.create(disposition=["What am I", date(2001, 1, 1)])
+    charge = ChargeFactory.create(disposition=Disposition(ruling="What am I", date=date(2001, 1, 1)))
     assert not charge.convicted()
     assert not charge.dismissed()
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
