@@ -28,13 +28,21 @@ Applicable subsections: 137.225(5)(a) for convictions; 137.225(5)(a) for dismiss
 \[rules documentation not added yet\]
 
 ## Marijuana Ineligible
-\[rules documentation not added yet\]
+ORS 137.226 makes eligible additional marijuana-related charges - in particular, those crimes which are now considered minor felonies or below. However, there are certain marijuana-related crimes which are still considered major felonies. These are:
+
+475B.359 Arson incident to manufacture of cannabinoid extract in first degree
+475B.367 Causing another person to ingest marijuana
+475B.371 Administration to another person under 18 years of age
+167.262: Use of minor in controlled substance or marijuana item offense
 
 ## Misdemeanor
 \[rules documentation not added yet\]
 
 ## Non-traffic Violation
-\[rules documentation not added yet\]
+Violations are eligible under ORS 137.225(5)(d).
+Examples include Fare Violation, Minor in Possession of Alcohol, Failure to Send or Maintain a Child in School.
+However, traffic violations are ineligible under (7)(a).
+Moreover, certain matters are not eligible: Contempt of Court, Extradition
 
 ## Parking Ticket
 Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of traffic offenses. No other section specifically allows for parking offenses to be eligible.
@@ -65,7 +73,13 @@ Applicable subsections: 137.225(12) for convictions; 137.225(1)(b) for dismissal
 \[rules documentation not added yet\]
 
 ## Traffic Violation
-\[rules documentation not added yet\]
+Convictions for traffic-related offenses are not eligible for expungement under ORS 137.225(7)(a). This includes Violations, Misdemeanors, and Felonies. Traffic-related charges include Reckless Driving, Driving While Suspended, DUII, Failure to Perform Duties of a Driver, Giving False Information to a Police Officer (when in a car), Fleeing/Attempting to Elude a Police Officer, Possession of a Stolen Vehicle
+
+Notably, Unauthorized Use of a Vehicle is not considered a traffic offense.
+
+Dismissed traffic-related Violations are not eligible for expungement
+
+HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed Misdemeanors and Felonies, ARE eligible for expungement.
 
 ## Unclassified
 \[rules documentation not added yet\]
