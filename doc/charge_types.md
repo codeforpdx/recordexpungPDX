@@ -4,7 +4,11 @@ The expungement system defines this custom set of charge types, to compute their
 \[rules documentation not added yet\]
 
 ## DUII
-\[rules documentation not added yet\]
+A DUII conviction is not eligible for expungement, as it is considered a traffic violation.
+A DUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8)(b).
+HOWEVER, a DUII dismissal resulting from a Not Guilty verdict at trial, or is otherwise dismissed other than through diversion, is type-eligible like other dismissals.
+Therefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion.
+
 
 ## Felony Class A
 \[rules documentation not added yet\]
@@ -36,7 +40,10 @@ ORS 137.226 makes eligible additional marijuana-related charges - in particular,
 167.262: Use of minor in controlled substance or marijuana item offense
 
 ## Misdemeanor
-\[rules documentation not added yet\]
+Convictions for misdemeanors are generally eligible under ORS 137.225(5)(b).
+Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII
+
+Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion.
 
 ## Non-traffic Violation
 Violations are eligible under ORS 137.225(5)(d).
