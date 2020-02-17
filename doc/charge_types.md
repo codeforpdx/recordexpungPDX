@@ -4,17 +4,11 @@ The expungement system defines this custom set of charge types, to compute their
 \[rules documentation not added yet\]
 
 ## DUII
-DUII if resulting in conviction
-"
 A DUII conviction is not eligible for expungement, as it is considered a traffic violation.
-"
-
-DUII if resulting in dismissal and therefore "Needs Further Analysis"
-"
-A DUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8)(b)
+A DUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8)(b).
 HOWEVER, a DUII dismissal resulting from a Not Guilty verdict at trial, or is otherwise dismissed other than through diversion, is type-eligible like other dismissals.
-Therefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion
-" 
+Therefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion.
+
 
 ## Felony Class A
 \[rules documentation not added yet\]
