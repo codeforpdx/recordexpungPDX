@@ -28,7 +28,12 @@ Applicable subsections: 137.225(5)(a) for convictions; 137.225(5)(a) for dismiss
 \[rules documentation not added yet\]
 
 ## Marijuana Ineligible
-\[rules documentation not added yet\]
+ORS 137.226 makes eligible additional marijuana-related charges - in particular, those crimes which are now considered minor felonies or below. However, there are certain marijuana-related crimes which are still considered major felonies. These are:
+
+475B.359 Arson incident to manufacture of cannabinoid extract in first degree
+475B.367 Causing another person to ingest marijuana
+475B.371 Administration to another person under 18 years of age
+167.262: Use of minor in controlled substance or marijuana item offense
 
 ## Misdemeanor
 \[rules documentation not added yet\]
