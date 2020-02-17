@@ -46,7 +46,10 @@ ORS 137.226 makes eligible additional marijuana-related charges - in particular,
 167.262: Use of minor in controlled substance or marijuana item offense
 
 ## Misdemeanor
-\[rules documentation not added yet\]
+Convictions for misdemeanors are generally eligible under ORS 137.225(5)(b).
+Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII
+
+Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion.
 
 ## Non-traffic Violation
 Violations are eligible under ORS 137.225(5)(d).
