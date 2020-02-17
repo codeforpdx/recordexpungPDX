@@ -34,7 +34,10 @@ Applicable subsections: 137.225(5)(a) for convictions; 137.225(5)(a) for dismiss
 \[rules documentation not added yet\]
 
 ## Non-traffic Violation
-\[rules documentation not added yet\]
+Violations are eligible under ORS 137.225(5)(d).
+Examples include Fare Violation, Minor in Possession of Alcohol, Failure to Send or Maintain a Child in School.
+However, traffic violations are ineligible under (7)(a).
+Moreover, certain matters are not eligible: Contempt of Court, Extradition
 
 ## Parking Ticket
 Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of traffic offenses. No other section specifically allows for parking offenses to be eligible.
