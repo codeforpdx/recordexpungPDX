@@ -7,6 +7,10 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 @dataclass(eq=False)
 class Misdemeanor(Charge):
     type_name: str = "Misdemeanor"
+    expungement_rules: str = """Convictions for misdemeanors are generally eligible under ORS 137.225(5)(b).
+Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII
+
+Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion."""
 
     def _default_type_eligibility(self):
         if self.dismissed():
