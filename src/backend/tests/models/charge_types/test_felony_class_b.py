@@ -7,6 +7,7 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
     def test_class_b_felony_164057(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class B"
@@ -18,6 +19,7 @@ class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Further Analysis Needed"
 
     def test_class_felony_is_added_to_b_felony_attribute(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class B"

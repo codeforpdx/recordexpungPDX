@@ -5,11 +5,8 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
-    def setUp(self):
-        super().setUp()
-        self.charge_dict["disposition"] = Dispositions.CONVICTED
-
     def test_misdemeanor(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Criminal Trespass in the Second Degree"
         self.charge_dict["statute"] = "164.245"
         self.charge_dict["level"] = "Misdemeanor Class C"
@@ -25,6 +22,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         )
 
     def test_misdemeanor_164043(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Theft in the third degree"
         self.charge_dict["statute"] = "164.043"
         self.charge_dict["level"] = "Misdemeanor Class C"
@@ -35,6 +33,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
     def test_misdemeanor_164125(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Theft of services"
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
@@ -45,6 +44,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
     def test_drug_free_zone_variance_misdemeanor(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "	Drug Free Zone Variance"
         self.charge_dict["statute"] = "14B20060"
         self.charge_dict["level"] = "Misdemeanor Unclassified"

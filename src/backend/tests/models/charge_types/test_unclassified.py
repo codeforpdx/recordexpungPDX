@@ -5,11 +5,8 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeUnclassified(ChargeTypeTest):
-    def setUp(self):
-        super().setUp()
-        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.DISMISSED)
-
     def test_unclassified_charge(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.DISMISSED)
         self.charge_dict["name"] = "Assault in the ninth degree"
         self.charge_dict["statute"] = "333.333"
         self.charge_dict["level"] = "Felony Class F"
@@ -25,6 +22,7 @@ class TestSingleChargeUnclassified(ChargeTypeTest):
         )
 
     def test_charge_that_falls_through(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.DISMISSED)
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class F"

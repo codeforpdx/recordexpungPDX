@@ -7,6 +7,7 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
     def test_felony_class_a_charge(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
@@ -20,6 +21,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         )
 
     def test_felony_class_a_dismissed(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
@@ -34,6 +36,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         )
 
     def test_felony_class_a_no_complaint(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["disposition"] = Dispositions.NO_COMPLAINT
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
