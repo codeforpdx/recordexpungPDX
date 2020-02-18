@@ -9,7 +9,6 @@ class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
     def setUp(self):
         super().setUp()
         self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-        self.charges = []
 
     # TODO: what is this test name?
     def test_misdemeanor_164055(self):
@@ -17,7 +16,6 @@ class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
         self.charge_dict["statute"] = "164.055"
         self.charge_dict["level"] = "Felony Class C"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, FelonyClassC)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

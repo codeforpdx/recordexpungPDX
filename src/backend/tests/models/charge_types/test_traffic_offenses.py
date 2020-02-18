@@ -23,7 +23,6 @@ class TestTrafficViolation(ChargeTypeTest):
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Violation"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, TrafficViolation)
 
@@ -31,7 +30,6 @@ class TestTrafficViolation(ChargeTypeTest):
         self.charge_dict["statute"] = "825.999"
         self.charge_dict["level"] = "Violation"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, TrafficViolation)
 

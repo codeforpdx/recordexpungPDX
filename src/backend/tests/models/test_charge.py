@@ -18,7 +18,6 @@ class Dispositions:
 class ChargeTypeTest(unittest.TestCase):
     def setUp(self):
         self.charge_dict = ChargeFactory.default_dict()
-        self.charges = []
 
 
 class TestChargeClass(unittest.TestCase):
