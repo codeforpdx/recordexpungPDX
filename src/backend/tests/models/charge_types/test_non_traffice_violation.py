@@ -19,7 +19,7 @@ class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
         self.charge_dict["name"] = "Viol Treatment"
         self.charge_dict["statute"] = "1615662"
         self.charge_dict["level"] = "Violation Unclassified"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, NonTrafficViolation)

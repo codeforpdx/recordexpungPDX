@@ -18,9 +18,6 @@ class ChargeTypeTest(unittest.TestCase):
         self.unrecognized_disposition = Disposition(ruling="Something unrecognized", date=last_week)
         self.no_complaint = Disposition(ruling="No Complaint", date=last_week)
 
-    def create_recent_charge(self):
-        return ChargeFactory.create(**self.charge_dict)
-
 
 class TestChargeClass(unittest.TestCase):
 

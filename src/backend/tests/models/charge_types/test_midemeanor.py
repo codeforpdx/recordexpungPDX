@@ -21,7 +21,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class C"
         self.charge_dict["disposition"] = None
 
-        misdemeanor_charge = self.create_recent_charge()
+        misdemeanor_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(misdemeanor_charge)
 
         assert isinstance(misdemeanor_charge, Misdemeanor)
@@ -35,7 +35,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["name"] = "Theft in the third degree"
         self.charge_dict["statute"] = "164.043"
         self.charge_dict["level"] = "Misdemeanor Class C"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)
@@ -46,7 +46,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["name"] = "Theft of services"
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)
@@ -57,7 +57,7 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["name"] = "	Drug Free Zone Variance"
         self.charge_dict["statute"] = "14B20060"
         self.charge_dict["level"] = "Misdemeanor Unclassified"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)

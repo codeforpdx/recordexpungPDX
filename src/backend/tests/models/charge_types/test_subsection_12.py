@@ -23,7 +23,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["statute"] = "163.535"
         self.charge_dict["level"] = "Felony Class C"
         self.charge_dict["disposition"] = self.dismissal
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
         assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -35,7 +35,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Abandonment of a child"
         self.charge_dict["statute"] = "163.535"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
         assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -48,7 +48,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Assault in the second degree"
         self.charge_dict["statute"] = "163.175"
         self.charge_dict["level"] = "Felony Class B"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -56,7 +56,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Assault in the third degree"
         self.charge_dict["statute"] = "163.165"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -64,7 +64,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Coercion"
         self.charge_dict["statute"] = "163.275"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -72,7 +72,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Criminal mistreatment in the first degree"
         self.charge_dict["statute"] = "163.205"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -80,7 +80,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Escape in the first degree"
         self.charge_dict["statute"] = "162.165"
         self.charge_dict["level"] = "Felony Class B"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -88,7 +88,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Incest"
         self.charge_dict["statute"] = "163.525"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
         assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -101,7 +101,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Intimidation in the first degree"
         self.charge_dict["statute"] = "166.165"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -109,7 +109,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Kidnapping in the second degree"
         self.charge_dict["statute"] = "163.225"
         self.charge_dict["level"] = "Felony Class B"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -117,7 +117,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Robbery in the second degree"
         self.charge_dict["statute"] = "164.405"
         self.charge_dict["level"] = "Felony Class B"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -125,7 +125,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Robbery in the third degree"
         self.charge_dict["statute"] = "164.395"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -133,7 +133,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Supplying contraband"
         self.charge_dict["statute"] = "162.185"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -141,7 +141,7 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Unlawful use of weapon"
         self.charge_dict["statute"] = "166.220"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
 
@@ -150,6 +150,6 @@ class TestSubsection12(unittest.TestCase):
         self.charge_dict["name"] = "Unlawful use of weapon"
         self.charge_dict["statute"] = "166.220(1)(b)"
         self.charge_dict["level"] = "Felony Class C"
-        subsection_12_charge = self.create_recent_charge()
+        subsection_12_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_12_charge, Subsection12)
