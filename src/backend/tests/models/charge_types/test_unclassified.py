@@ -20,7 +20,7 @@ class TestSingleChargeUnclassified(ChargeTypeTest):
         self.charge_dict["name"] = "Assault in the ninth degree"
         self.charge_dict["statute"] = "333.333"
         self.charge_dict["level"] = "Felony Class F"
-        unclassified_dismissed = self.create_recent_charge()
+        unclassified_dismissed = ChargeFactory.create(**self.charge_dict)
         self.charges.append(unclassified_dismissed)
 
         assert isinstance(unclassified_dismissed, UnclassifiedCharge)
@@ -36,7 +36,7 @@ class TestSingleChargeUnclassified(ChargeTypeTest):
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class F"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, UnclassifiedCharge)

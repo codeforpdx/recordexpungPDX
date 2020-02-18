@@ -21,7 +21,7 @@ class TestMultipleCharges(ChargeTypeTest):
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.convicted
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         # second charge
@@ -29,7 +29,7 @@ class TestMultipleCharges(ChargeTypeTest):
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Class C Traffic Violation"
         self.charge_dict["disposition"] = self.convicted
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(self.charges[0], Misdemeanor)
@@ -45,21 +45,21 @@ class TestMultipleCharges(ChargeTypeTest):
         self.charge_dict["name"] = "Theft of services"
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         # B felony
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class B"
-        charge_1 = self.create_recent_charge()
+        charge_1 = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge_1)
 
         # Second B felony
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class B"
-        charge_2 = self.create_recent_charge()
+        charge_2 = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge_2)
 
         assert isinstance(self.charges[0], Misdemeanor)
