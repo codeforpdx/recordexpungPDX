@@ -10,16 +10,13 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
     def setUp(self):
         super().setUp()
-        last_week = datetime.today() - timedelta(days=7)
         self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-        self.charges = []
 
     def test_marijuana_ineligible_statute_475b3493c(self):
         self.charge_dict["name"] = "Unlawful Manufacture of Marijuana Item"
         self.charge_dict["statute"] = "475B.349(3)(C)"
         self.charge_dict["level"] = "Felony Class C"
         marijuana_felony_class_c = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_felony_class_c)
 
         assert isinstance(marijuana_felony_class_c, MarijuanaIneligible)
         assert marijuana_felony_class_c.type_name == "Marijuana Ineligible"
@@ -31,7 +28,6 @@ class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
         self.charge_dict["statute"] = "475b.359"
         self.charge_dict["level"] = "Felony Class A"
         marijuana_felony_class_a = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_felony_class_a)
 
         assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
         assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
@@ -43,7 +39,6 @@ class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
         self.charge_dict["statute"] = "475B.367"
         self.charge_dict["level"] = "Felony Class A"
         marijuana_felony_class_a = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_felony_class_a)
 
         assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
         assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
@@ -55,7 +50,6 @@ class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
         self.charge_dict["statute"] = "475B.371"
         self.charge_dict["level"] = "Felony Class A"
         marijuana_felony_class_a = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_felony_class_a)
 
         assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
         assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
@@ -67,7 +61,6 @@ class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
         self.charge_dict["statute"] = "167.262"
         self.charge_dict["level"] = "Misdemeanor Class A"
         marijuana_misdemeanor_class_a = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_misdemeanor_class_a)
 
         assert isinstance(marijuana_misdemeanor_class_a, MarijuanaIneligible)
         assert marijuana_misdemeanor_class_a.type_name == "Marijuana Ineligible"
@@ -79,7 +72,6 @@ class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
         self.charge_dict["statute"] = "475b.359(2)(a)"
         self.charge_dict["level"] = "Felony Class A"
         marijuana_felony_class_a = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(marijuana_felony_class_a)
 
         assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
         assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"

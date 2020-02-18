@@ -12,7 +12,6 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["level"] = "Felony Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         felony_class_a_convicted = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(felony_class_a_convicted)
 
         assert isinstance(felony_class_a_convicted, FelonyClassA)
         assert felony_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -26,7 +25,6 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["level"] = "Felony Class A"
         self.charge_dict["disposition"] = Dispositions.DISMISSED
         felony_class_a_dismissed = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(felony_class_a_dismissed)
 
         assert isinstance(felony_class_a_dismissed, FelonyClassA)
         assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -41,7 +39,6 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
         felony_class_a_no_complaint = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(felony_class_a_no_complaint)
 
         assert isinstance(felony_class_a_no_complaint, FelonyClassA)
         assert felony_class_a_no_complaint.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

@@ -15,7 +15,6 @@ class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
         self.charge_dict["statute"] = "1615662"
         self.charge_dict["level"] = "Violation Unclassified"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, NonTrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

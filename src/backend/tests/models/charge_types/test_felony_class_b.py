@@ -12,7 +12,6 @@ class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
         self.charge_dict["level"] = "Felony Class B"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, FelonyClassB)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
