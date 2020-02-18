@@ -12,7 +12,7 @@ from tests.models.test_charge import ChargeTypeTest
 
 class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTest.setUp(self)
+        super().setUp()
         last_week = datetime.today() - timedelta(days=7)
         self.charge_dict = ChargeFactory.default_dict(disposition=self.convicted)
         self.charges = []

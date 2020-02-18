@@ -11,7 +11,7 @@ from tests.models.test_charge import ChargeTypeTest
 
 class TestSubsection6(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTest.setUp(self)
+        super().setUp()
         self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["disposition"] = self.convicted
 
