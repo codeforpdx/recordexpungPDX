@@ -11,7 +11,9 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
 
 
 ## Felony Class A
-\[rules documentation not added yet\]
+Class A felony convictions generally are omitted from the statute, and are ineligible, unless that Class A Felony was related to the Manufacturing/Delivery/Possession of Marijuana.
+Class A felony dismissals are always eligible under 137.225(5)(a).
+
 
 ## Felony Class B
 Class B felony dismissals are always eligible under 137.225(5)(a).
@@ -21,12 +23,14 @@ The extra restrictions are:
  * The class B felony is ineligible if the person has been arrested or convicted for any crime, other than a traffic violation, following the date of the class B felony conviction.
  * If the charge is also classified as a [Person Crime](manual/charge-types#personcrime) it is ineligible.
 If a class B felony is eligible under any other subsection of the statute, that eligibility takes precedences and the extra restrictions here are ignored. The alternate positive criteria that can apply to B felonies are:
- * If the class B felony can be classified as [Subsection12](#Subsection12), or [Subsection6](#Subsection6).
- * or, If the Class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b).
-Applicable subsections: 137.225(5)(a) for convictions; 137.225(5)(a) for dismissals; 137.225(5)(b) provides an additional positive criterion for convictions.
+ * Some class B felonies fall under [Subsection6](#Subsection6) or [Subsection12](#Subsection12), which take precendence over 137.225(5)(a).
+ * or, If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b).
 
 ## Felony Class C
-\[rules documentation not added yet\]
+There are certain types of Class C felony which are generally ineligible, including sex crimes, child
+abuse, elder abuse, traffic crimes, and criminally negligent homicide. Other Class C felony convictions are almost
+always eligible under 137.225(5)(b).
+Class C felony dismissals are always eligible under 137.225(1)(b).
 
 ## Juvenile
 \[rules documentation not added yet\]
@@ -46,19 +50,26 @@ Exceptions include convictions related to sex, child and elder abuse, and drivin
 Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion.
 
 ## Non-traffic Violation
-Violations are eligible under ORS 137.225(5)(d).
+Violation convictions are eligible under ORS 137.225(5)(d).
 Examples include Fare Violation, Minor in Possession of Alcohol, Failure to Send or Maintain a Child in School.
 However, traffic violations are ineligible under (7)(a).
-Moreover, certain matters are not eligible: Contempt of Court, Extradition
+Moreover, certain civil matters are not considered violations and are thus not eligible: Contempt of Court, Extradition.
+Dismissed violations are ineligible because they are omitted from the expungement statute.
 
 ## Parking Ticket
-Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of traffic offenses. No other section specifically allows for parking offenses to be eligible.
+Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of convicted traffic offenses. No other section specifically allows for parking offenses to be eligible.
 
 ## Person Crime
 \[rules documentation not added yet\]
 
 ## Schedule 1 PCS
 \[rules documentation not added yet\]
+
+## Subsection 12
+Subsection (12) names 13 felony statutes that are interpreted as eligible (or conditionally eligible, in the case of 163.525, Incest).
+The subsection describes an irregular criterion for eligibility: Conviction of these charges is eligible unless the court or DA provide reason they should *not* be expunged. This is in contrast to most expungements, for which the person needs to "convince" the court that expungement is in the interest of justice.
+The subsection also says that the listed felonies need to otherwise meet eligibility under the other expungement rules. In practice, this actually is never considered and the listed felonies are considered all eligible. Overall, the subsection is confusing and seems a little nonsensical, but the State has generally settled on expunging any of these charges.
+Applicable subsections: 137.225(12) for convictions; 137.225(1)(b) for dismissals.
 
 ## Subsection 6
 Subsection (6) names five felony statutes that have specific circumstances of the case under which they are ineligible.
@@ -70,22 +81,13 @@ The three remaining specifications in the statute are:
  * 163.145 (Criminally negligent homicide) is ineligible when that offense was punishable as a Class C felony.
 Applicable subsections: 137.225(6) for convictions; 137.225(1)(b) for dismissals.
 
-## Subsection 12
-Subsection (12) names 13 felony statutes that are interpreted as eligible (or conditionally eligible, in the case of 163.525, Incest).
-The subsection describes an irregular criterion for eligibility: Conviction of these charges is eligible unless the court or DA provide reason they should *not* be expunged. This is in contrast to most expungements, for which the person needs to "convince" the court that expungement is in the interest of justice.
-The subsection also says that the listed felonies need to otherwise meet eligibility under the other expungement rules. In practice, this actually is never considered and the listed felonies are considered all eligible. Overall, the subsection is confusing and seems a little nonsensical, but the State has generally settled on expunging any of these charges.
-Applicable subsections: 137.225(12) for convictions; 137.225(1)(b) for dismissals.
-
 ## Traffic Non-Violation
 \[rules documentation not added yet\]
 
 ## Traffic Violation
 Convictions for traffic-related offenses are not eligible for expungement under ORS 137.225(7)(a). This includes Violations, Misdemeanors, and Felonies. Traffic-related charges include Reckless Driving, Driving While Suspended, DUII, Failure to Perform Duties of a Driver, Giving False Information to a Police Officer (when in a car), Fleeing/Attempting to Elude a Police Officer, Possession of a Stolen Vehicle
-
 Notably, Unauthorized Use of a Vehicle is not considered a traffic offense.
-
 Dismissed traffic-related Violations are not eligible for expungement
-
 HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed Misdemeanors and Felonies, ARE eligible for expungement.
 
 ## Unclassified

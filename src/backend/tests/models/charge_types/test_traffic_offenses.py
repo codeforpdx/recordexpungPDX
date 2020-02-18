@@ -54,7 +54,10 @@ def test_dismissed_violation_is_not_type_eligible():
 
     assert isinstance(charge, TrafficViolation)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert (
+        charge.expungement_result.type_eligibility.reason
+        == "Dismissed violations are ineligible by omission from statute"
+    )
     assert not charge.blocks_other_charges()
 
 
@@ -72,7 +75,10 @@ def test_dismissed_infraction_is_not_type_eligible():
 
     assert isinstance(charge, TrafficViolation)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert (
+        charge.expungement_result.type_eligibility.reason
+        == "Dismissed violations are ineligible by omission from statute"
+    )
     assert not charge.blocks_other_charges()
 
 
