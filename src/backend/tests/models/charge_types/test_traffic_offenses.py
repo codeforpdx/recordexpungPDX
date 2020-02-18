@@ -26,7 +26,7 @@ class TestTrafficViolation(ChargeTypeTest):
     def test_traffic_violation_min_statute(self):
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Violation"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, TrafficViolation)
@@ -34,7 +34,7 @@ class TestTrafficViolation(ChargeTypeTest):
     def test_traffic_violation_max_statute(self):
         self.charge_dict["statute"] = "825.999"
         self.charge_dict["level"] = "Violation"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, TrafficViolation)
@@ -120,6 +120,6 @@ class TestTrafficNonViolation(ChargeTypeTest):
 class TestDUII(ChargeTypeTest):
     def test_duii(self):
         self.charge_dict["statute"] = "813.010"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, Duii)

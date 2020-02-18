@@ -22,7 +22,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["statute"] = "475.854"
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.convicted
-        pcs_charge = self.create_recent_charge()
+        pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
@@ -34,7 +34,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["statute"] = "475.874"
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.convicted
-        pcs_charge = self.create_recent_charge()
+        pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
@@ -46,7 +46,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["statute"] = "475.884"
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.convicted
-        pcs_charge = self.create_recent_charge()
+        pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
@@ -58,7 +58,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["statute"] = "475.894"
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.convicted
-        pcs_charge = self.create_recent_charge()
+        pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
@@ -70,7 +70,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["statute"] = "4759924B"
         self.charge_dict["level"] = "Felony Class C"
         self.charge_dict["disposition"] = self.convicted
-        pcs_charge = self.create_recent_charge()
+        pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)

@@ -16,7 +16,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
         self.charge_dict["disposition"] = self.convicted
-        felony_class_a_convicted = self.create_recent_charge()
+        felony_class_a_convicted = ChargeFactory.create(**self.charge_dict)
         self.charges.append(felony_class_a_convicted)
 
         assert isinstance(felony_class_a_convicted, FelonyClassA)
@@ -30,7 +30,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
         self.charge_dict["disposition"] = self.dismissed
-        felony_class_a_dismissed = self.create_recent_charge()
+        felony_class_a_dismissed = ChargeFactory.create(**self.charge_dict)
         self.charges.append(felony_class_a_dismissed)
 
         assert isinstance(felony_class_a_dismissed, FelonyClassA)
@@ -45,7 +45,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
-        felony_class_a_no_complaint = self.create_recent_charge()
+        felony_class_a_no_complaint = ChargeFactory.create(**self.charge_dict)
         self.charges.append(felony_class_a_no_complaint)
 
         assert isinstance(felony_class_a_no_complaint, FelonyClassA)

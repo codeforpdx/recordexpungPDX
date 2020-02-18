@@ -21,7 +21,7 @@ class TestSubsection6(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = self.dismissed
 
-        subsection_6_charge = self.create_recent_charge()
+        subsection_6_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_6_charge, Subsection6)
         assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -34,7 +34,7 @@ class TestSubsection6(ChargeTypeTest):
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"
         self.charge_dict["statute"] = "163.200"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        subsection_6_charge = self.create_recent_charge()
+        subsection_6_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_6_charge, Subsection6)
         assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -47,7 +47,7 @@ class TestSubsection6(ChargeTypeTest):
         self.charge_dict["name"] = "Endangering the welfare of a minor"
         self.charge_dict["statute"] = "163.575"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        subsection_6_charge = self.create_recent_charge()
+        subsection_6_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_6_charge, Subsection6)
 
@@ -55,6 +55,6 @@ class TestSubsection6(ChargeTypeTest):
         self.charge_dict["name"] = "Criminally negligent homicide"
         self.charge_dict["statute"] = "163.145"
         self.charge_dict["level"] = "Felony Class B"
-        subsection_6_charge = self.create_recent_charge()
+        subsection_6_charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(subsection_6_charge, Subsection6)

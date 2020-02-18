@@ -21,7 +21,7 @@ class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
         self.charge_dict["name"] = "Theft in the first degree"
         self.charge_dict["statute"] = "164.055"
         self.charge_dict["level"] = "Felony Class C"
-        charge = self.create_recent_charge()
+        charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
         assert isinstance(charge, FelonyClassC)
