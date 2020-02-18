@@ -1,13 +1,11 @@
-import unittest
-from datetime import datetime, timedelta, date as date_class
+from datetime import date as date_class
 
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestParkingTicket(ChargeTypeTest):
@@ -20,7 +18,7 @@ class TestParkingTicket(ChargeTypeTest):
         self.charge_dict["level"] = "Violation Unclassified"
 
     def test_parking_ticket_conviction(self):
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, ParkingTicket)
@@ -29,7 +27,7 @@ class TestParkingTicket(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
     def test_parking_ticket_dismissal(self):
-        self.charge_dict["disposition"] = self.dismissed
+        self.charge_dict["disposition"] = Dispositions.DISMISSED
         charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, ParkingTicket)
@@ -51,7 +49,7 @@ class TestParkingTicket(ChargeTypeTest):
         )
 
     def test_parking_ticket_unrecognized_disposition(self):
-        self.charge_dict["disposition"] = self.unrecognized_disposition
+        self.charge_dict["disposition"] = Dispositions.UNRECOGNIZED_DISPOSITION
         charge = ChargeFactory.create(**self.charge_dict)
 
         assert isinstance(charge, ParkingTicket)

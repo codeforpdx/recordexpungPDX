@@ -7,16 +7,18 @@ from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
 
 
+class Dispositions:
+    LAST_WEEK = datetime.today() - timedelta(days=7)
+    CONVICTED = Disposition(ruling="Convicted", date=LAST_WEEK)
+    DISMISSED = Disposition(ruling="Dismissed", date=LAST_WEEK)
+    UNRECOGNIZED_DISPOSITION = Disposition(ruling="Something unrecognized", date=LAST_WEEK)
+    NO_COMPLAINT = Disposition(ruling="No Complaint", date=LAST_WEEK)
+
+
 class ChargeTypeTest(unittest.TestCase):
     def setUp(self):
         self.charge_dict = ChargeFactory.default_dict()
         self.charges = []
-        last_week = datetime.today() - timedelta(days=7)
-        self.convicted = Disposition(ruling="Convicted", date=last_week)
-        self.dismissed = Disposition(ruling="Dismissed", date=last_week)
-        self.diverted = Disposition(ruling="Diverted", date=last_week)
-        self.unrecognized_disposition = Disposition(ruling="Something unrecognized", date=last_week)
-        self.no_complaint = Disposition(ruling="No Complaint", date=last_week)
 
 
 class TestChargeClass(unittest.TestCase):

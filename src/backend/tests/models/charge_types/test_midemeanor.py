@@ -1,19 +1,15 @@
 import unittest
 
-from datetime import datetime, timedelta
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
-from expungeservice.models.disposition import Disposition
-
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
     def setUp(self):
         super().setUp()
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
 
     def test_misdemeanor(self):
         self.charge_dict["name"] = "Criminal Trespass in the Second Degree"

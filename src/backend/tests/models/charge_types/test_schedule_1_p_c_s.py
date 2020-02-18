@@ -1,27 +1,16 @@
-import unittest
-
-from datetime import datetime, timedelta
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 
 from tests.factories.charge_factory import ChargeFactory
-from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
-
-    """def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
-        # Shouldn't need this.
-    """
-
     def test_pcs_475854(self):
         self.charge_dict["name"] = "Unlawful possession of heroin"
         self.charge_dict["statute"] = "475.854"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
@@ -33,7 +22,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["name"] = "Unlawful possession of 3,4-methylenedioxymethamphetamine"
         self.charge_dict["statute"] = "475.874"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
@@ -45,7 +34,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["name"] = "Unlawful possession of cocaine"
         self.charge_dict["statute"] = "475.884"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
@@ -57,7 +46,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["name"] = "Unlawful possession of methamphetamine"
         self.charge_dict["statute"] = "475.894"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 
@@ -69,7 +58,7 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["name"] = "Poss Controlled Sub 2"
         self.charge_dict["statute"] = "4759924B"
         self.charge_dict["level"] = "Felony Class C"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(pcs_charge)
 

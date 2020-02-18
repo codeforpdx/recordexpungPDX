@@ -7,13 +7,13 @@ from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeUnclassified(ChargeTypeTest):
     def setUp(self):
         super().setUp()
-        self.charge_dict = ChargeFactory.default_dict(disposition=self.dismissed)
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.DISMISSED)
         self.charges = []
 
     def test_unclassified_charge(self):
