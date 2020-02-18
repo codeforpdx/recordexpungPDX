@@ -14,7 +14,7 @@ Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exce
 
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)")
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(b)")
         else:

@@ -16,7 +16,9 @@ HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed
 
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
+            return TypeEligibility(
+                EligibilityStatus.INELIGIBLE, reason="Dismissed violations are ineligible by omission from statute"
+            )
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         else:
