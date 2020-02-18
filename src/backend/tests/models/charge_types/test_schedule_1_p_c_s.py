@@ -7,10 +7,10 @@ from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
 
     """def setUp(self):
         ChargeTypeTestsParent.setUp(self)

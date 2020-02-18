@@ -9,10 +9,10 @@ from expungeservice.models.charge_types.traffic_violation import TrafficViolatio
 
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestMultipleCharges(ChargeTypeTestsParent):
+class TestMultipleCharges(ChargeTypeTest):
     # def setUp(self):
 
     def test_two_charges(self):

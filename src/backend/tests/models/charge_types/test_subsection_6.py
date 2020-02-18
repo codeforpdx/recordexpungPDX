@@ -6,12 +6,12 @@ from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSubsection6(ChargeTypeTestsParent):
+class TestSubsection6(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["disposition"] = self.convicted
 
