@@ -41,7 +41,7 @@ class ChargeClassifier:
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
         yield ChargeClassifier._parking_ticket(self.violation_type)
-        yield from ChargeClassifier._classification_by_level(self.level)
+        yield from ChargeClassifier._classification_by_level(self.level, self.section)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
 
         yield UnclassifiedCharge
@@ -56,15 +56,14 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._subsection_6(section)
-        yield ChargeClassifier._crime_against_person(section)
         yield ChargeClassifier._schedule_1_pcs(section)
 
     @staticmethod
-    def _classification_by_level(level):
+    def _classification_by_level(level, section):
         yield ChargeClassifier._non_traffic_violation(level)
         yield ChargeClassifier._misdemeanor(level)
         yield ChargeClassifier._felony_class_c(level)
-        yield ChargeClassifier._felony_class_b(level)
+        yield ChargeClassifier._felony_class_b(level, section)
         yield ChargeClassifier._felony_class_a(level)
 
     @staticmethod
@@ -152,9 +151,13 @@ class ChargeClassifier:
             return FelonyClassC
 
     @staticmethod
-    def _felony_class_b(level):
+    def _felony_class_b(level, section):
         if level == "Felony Class B":
-            return FelonyClassB
+            if ChargeClassifier._crime_against_person(section):
+                # rename PersonCrime -> ClassBPersonCrime
+                return PersonCrime
+            else:
+                return FelonyClassB
 
     @staticmethod
     def _felony_class_a(level):
