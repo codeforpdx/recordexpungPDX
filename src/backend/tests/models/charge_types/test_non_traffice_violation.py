@@ -7,12 +7,12 @@ from expungeservice.models.charge_types.non_traffic_violation import NonTrafficV
 
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         self.charge_dict["disposition"] = self.convicted
 
     def test_non_traffic_violation(self):

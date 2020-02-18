@@ -5,10 +5,10 @@ from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestCivilOffense(ChargeTypeTestsParent):
+class TestCivilOffense(ChargeTypeTest):
     def test_00_is_not_a_civil_offense(self):
         charge = ChargeFactory.create(statute="00", level="N/A", disposition=self.convicted)
 

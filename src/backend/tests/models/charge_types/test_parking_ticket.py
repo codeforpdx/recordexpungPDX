@@ -7,12 +7,12 @@ from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestParkingTicket(ChargeTypeTestsParent):
+class TestParkingTicket(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         self.charge_dict = ChargeFactory.default_dict()
         case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
         self.charge_dict["statute"] = "109"

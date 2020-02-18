@@ -7,12 +7,12 @@ from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIne
 from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         last_week = datetime.today() - timedelta(days=7)
         self.charge_dict = ChargeFactory.default_dict(disposition=self.convicted)
         self.charges = []

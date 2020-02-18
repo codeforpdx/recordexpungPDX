@@ -7,12 +7,12 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         self.charge_dict = ChargeFactory.default_dict(disposition=self.convicted)
         self.charges = []
 

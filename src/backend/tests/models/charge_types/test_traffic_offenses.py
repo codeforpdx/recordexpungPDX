@@ -19,10 +19,10 @@ from expungeservice.models.charge_types.traffic_violation import TrafficViolatio
 from expungeservice.models.charge_types.duii import Duii
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 # TODO: we can separate these three types to different test files too.
-class TestTrafficViolation(ChargeTypeTestsParent):
+class TestTrafficViolation(ChargeTypeTest):
     def test_traffic_violation_min_statute(self):
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Violation"
@@ -83,7 +83,7 @@ class TestTrafficViolation(ChargeTypeTestsParent):
         assert not charge.blocks_other_charges()
 
 
-class TestTrafficNonViolation(ChargeTypeTestsParent):
+class TestTrafficNonViolation(ChargeTypeTest):
     """
     800 level misdemeanors and felonies are eligible Only If the case was dismissed
     """
@@ -117,7 +117,7 @@ class TestTrafficNonViolation(ChargeTypeTestsParent):
         assert charge.blocks_other_charges()
 
 
-class TestDUII(ChargeTypeTestsParent):
+class TestDUII(ChargeTypeTest):
     def test_duii(self):
         self.charge_dict["statute"] = "813.010"
         charge = self.create_recent_charge()

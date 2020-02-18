@@ -7,7 +7,7 @@ from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
 
 
-class ChargeTypeTestsParent(unittest.TestCase):
+class ChargeTypeTest(unittest.TestCase):
     def setUp(self):
         self.charge_dict = ChargeFactory.default_dict()
         self.charges = []

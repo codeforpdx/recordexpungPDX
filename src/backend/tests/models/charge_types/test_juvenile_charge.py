@@ -6,10 +6,10 @@ from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestJuvenileCharge(ChargeTypeTestsParent):
+class TestJuvenileCharge(ChargeTypeTest):
     def test_juvenile_charge(self):
         case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
         juvenile_charge = ChargeFactory.create(case=case, disposition=self.dismissed)
