@@ -10,7 +10,7 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 class TestParkingTicket(ChargeTypeTest):
     def test_parking_ticket_conviction(self):
-        self.charge_dict = {
+        charge_dict = {
             "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
             "name": "Unknown",
             "statute": "109",
@@ -18,7 +18,7 @@ class TestParkingTicket(ChargeTypeTest):
             "date": date_class(1901, 1, 1),
             "disposition": Dispositions.CONVICTED,
         }
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, ParkingTicket)
         assert not charge.blocks_other_charges()
@@ -26,7 +26,7 @@ class TestParkingTicket(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
     def test_parking_ticket_dismissal(self):
-        self.charge_dict = {
+        charge_dict = {
             "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
             "name": "Unknown",
             "statute": "109",
@@ -34,7 +34,7 @@ class TestParkingTicket(ChargeTypeTest):
             "date": date_class(1901, 1, 1),
             "disposition": Dispositions.DISMISSED,
         }
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, ParkingTicket)
         assert not charge.blocks_other_charges()
@@ -42,7 +42,7 @@ class TestParkingTicket(ChargeTypeTest):
         assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
 
     def test_parking_ticket_no_disposition(self):
-        self.charge_dict = {
+        charge_dict = {
             "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
             "name": "Unknown",
             "statute": "109",
@@ -50,7 +50,7 @@ class TestParkingTicket(ChargeTypeTest):
             "date": date_class(1901, 1, 1),
             "disposition": None,
         }
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, ParkingTicket)
         assert not charge.blocks_other_charges()
@@ -61,7 +61,7 @@ class TestParkingTicket(ChargeTypeTest):
         )
 
     def test_parking_ticket_unrecognized_disposition(self):
-        self.charge_dict = {
+        charge_dict = {
             "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
             "name": "Unknown",
             "statute": "109",
@@ -69,7 +69,7 @@ class TestParkingTicket(ChargeTypeTest):
             "date": date_class(1901, 1, 1),
             "disposition": Dispositions.UNRECOGNIZED_DISPOSITION,
         }
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, ParkingTicket)
         assert not charge.blocks_other_charges()

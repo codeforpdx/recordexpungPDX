@@ -8,11 +8,11 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
     # TODO: what is this test name?
     def test_misdemeanor_164055(self):
-        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-        self.charge_dict["name"] = "Theft in the first degree"
-        self.charge_dict["statute"] = "164.055"
-        self.charge_dict["level"] = "Felony Class C"
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
+        charge_dict["name"] = "Theft in the first degree"
+        charge_dict["statute"] = "164.055"
+        charge_dict["level"] = "Felony Class C"
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, FelonyClassC)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

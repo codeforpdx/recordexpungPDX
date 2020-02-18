@@ -7,12 +7,12 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
     def test_felony_class_a_charge(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["name"] = "Assault in the first degree"
-        self.charge_dict["statute"] = "163.185"
-        self.charge_dict["level"] = "Felony Class A"
-        self.charge_dict["disposition"] = Dispositions.CONVICTED
-        felony_class_a_convicted = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["name"] = "Assault in the first degree"
+        charge_dict["statute"] = "163.185"
+        charge_dict["level"] = "Felony Class A"
+        charge_dict["disposition"] = Dispositions.CONVICTED
+        felony_class_a_convicted = ChargeFactory.create(**charge_dict)
 
         assert isinstance(felony_class_a_convicted, FelonyClassA)
         assert felony_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -21,12 +21,12 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         )
 
     def test_felony_class_a_dismissed(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["name"] = "Assault in the first degree"
-        self.charge_dict["statute"] = "163.185"
-        self.charge_dict["level"] = "Felony Class A"
-        self.charge_dict["disposition"] = Dispositions.DISMISSED
-        felony_class_a_dismissed = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["name"] = "Assault in the first degree"
+        charge_dict["statute"] = "163.185"
+        charge_dict["level"] = "Felony Class A"
+        charge_dict["disposition"] = Dispositions.DISMISSED
+        felony_class_a_dismissed = ChargeFactory.create(**charge_dict)
 
         assert isinstance(felony_class_a_dismissed, FelonyClassA)
         assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -36,12 +36,12 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         )
 
     def test_felony_class_a_no_complaint(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["disposition"] = Dispositions.NO_COMPLAINT
-        self.charge_dict["name"] = "Assault in the first degree"
-        self.charge_dict["statute"] = "163.185"
-        self.charge_dict["level"] = "Felony Class A"
-        felony_class_a_no_complaint = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["disposition"] = Dispositions.NO_COMPLAINT
+        charge_dict["name"] = "Assault in the first degree"
+        charge_dict["statute"] = "163.185"
+        charge_dict["level"] = "Felony Class A"
+        felony_class_a_no_complaint = ChargeFactory.create(**charge_dict)
 
         assert isinstance(felony_class_a_no_complaint, FelonyClassA)
         assert felony_class_a_no_complaint.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

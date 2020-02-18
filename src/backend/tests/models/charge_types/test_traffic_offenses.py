@@ -20,18 +20,18 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 # TODO: we can separate these three types to different test files too.
 class TestTrafficViolation(ChargeTypeTest):
     def test_traffic_violation_min_statute(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["statute"] = "801.000"
-        self.charge_dict["level"] = "Violation"
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["statute"] = "801.000"
+        charge_dict["level"] = "Violation"
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, TrafficViolation)
 
     def test_traffic_violation_max_statute(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["statute"] = "825.999"
-        self.charge_dict["level"] = "Violation"
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["statute"] = "825.999"
+        charge_dict["level"] = "Violation"
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, TrafficViolation)
 
@@ -122,8 +122,8 @@ class TestTrafficNonViolation(ChargeTypeTest):
 
 class TestDUII(ChargeTypeTest):
     def test_duii(self):
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["statute"] = "813.010"
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict()
+        charge_dict["statute"] = "813.010"
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, Duii)
