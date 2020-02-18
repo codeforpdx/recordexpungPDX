@@ -7,10 +7,10 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
     def test_class_b_felony_164057(self):
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"

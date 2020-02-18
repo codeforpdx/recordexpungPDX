@@ -8,12 +8,12 @@ from expungeservice.models.charge_types.person_crime import PersonCrime
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition
 
-from tests.models.test_charge import ChargeTypeTestsParent
+from tests.models.test_charge import ChargeTypeTest
 
 
-class TestSingleChargeConvictionsPersonCrime(ChargeTypeTestsParent):
+class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTestsParent.setUp(self)
+        ChargeTypeTest.setUp(self)
         self.charge_dict["disposition"] = self.convicted
 
     def test_misdemeanor_sex_crime(self):
