@@ -5,12 +5,8 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSubsection6(ChargeTypeTest):
-    def setUp(self):
-        super().setUp()
-        self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["disposition"] = Dispositions.CONVICTED
-
     def test_subsection_6_dismissed(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"
         self.charge_dict["statute"] = "163.200"
         self.charge_dict["level"] = "Misdemeanor Class A"
@@ -26,6 +22,7 @@ class TestSubsection6(ChargeTypeTest):
         )
 
     def test_subsection_6_163200(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"
         self.charge_dict["statute"] = "163.200"
         self.charge_dict["level"] = "Misdemeanor Class A"
@@ -39,6 +36,7 @@ class TestSubsection6(ChargeTypeTest):
         )
 
     def test_subsection_6_163575(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Endangering the welfare of a minor"
         self.charge_dict["statute"] = "163.575"
         self.charge_dict["level"] = "Misdemeanor Class A"
@@ -47,6 +45,7 @@ class TestSubsection6(ChargeTypeTest):
         assert isinstance(subsection_6_charge, Subsection6)
 
     def test_subsection_6_163145(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Criminally negligent homicide"
         self.charge_dict["statute"] = "163.145"
         self.charge_dict["level"] = "Felony Class B"

@@ -20,6 +20,7 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 # TODO: we can separate these three types to different test files too.
 class TestTrafficViolation(ChargeTypeTest):
     def test_traffic_violation_min_statute(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Violation"
         charge = ChargeFactory.create(**self.charge_dict)
@@ -27,6 +28,7 @@ class TestTrafficViolation(ChargeTypeTest):
         assert isinstance(charge, TrafficViolation)
 
     def test_traffic_violation_max_statute(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["statute"] = "825.999"
         self.charge_dict["level"] = "Violation"
         charge = ChargeFactory.create(**self.charge_dict)
@@ -71,7 +73,6 @@ class TestTrafficViolation(ChargeTypeTest):
 
     def test_no_dispo_violation_is_not_type_eligible(self):
         charge = ChargeFactory.create(statute="801.000", level="Class C Traffic Violation", disposition=None)
-        charge.disposition = None
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert (
@@ -121,6 +122,7 @@ class TestTrafficNonViolation(ChargeTypeTest):
 
 class TestDUII(ChargeTypeTest):
     def test_duii(self):
+        self.charge_dict = ChargeFactory.default_dict()
         self.charge_dict["statute"] = "813.010"
         charge = ChargeFactory.create(**self.charge_dict)
 
