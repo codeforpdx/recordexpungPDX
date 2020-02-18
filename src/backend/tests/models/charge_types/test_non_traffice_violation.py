@@ -7,11 +7,11 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
     def test_non_traffic_violation(self):
-        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-        self.charge_dict["name"] = "Viol Treatment"
-        self.charge_dict["statute"] = "1615662"
-        self.charge_dict["level"] = "Violation Unclassified"
-        charge = ChargeFactory.create(**self.charge_dict)
+        charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
+        charge_dict["name"] = "Viol Treatment"
+        charge_dict["statute"] = "1615662"
+        charge_dict["level"] = "Violation Unclassified"
+        charge = ChargeFactory.create(**charge_dict)
 
         assert isinstance(charge, NonTrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
