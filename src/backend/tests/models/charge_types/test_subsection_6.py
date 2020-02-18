@@ -6,31 +6,28 @@ from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
+from tests.models.test_charge import ChargeTypeTestsParent
 
 
-class TestSubsection6(unittest.TestCase):
+class TestSubsection6(ChargeTypeTestsParent):
     def setUp(self):
-        last_week = datetime.today() - timedelta(days=7)
-        self.dismissal = Disposition(ruling="Dismissed", date=last_week)
+        ChargeTypeTestsParent.setUp(self)
         self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["disposition"] = Disposition(ruling="Convicted", date=last_week)
-
-    def create_recent_charge(self):
-        return ChargeFactory.create(**self.charge_dict)
+        self.charge_dict["disposition"] = self.convicted
 
     def test_subsection_6_dismissed(self):
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"
         self.charge_dict["statute"] = "163.200"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.dismissal
+        self.charge_dict["disposition"] = self.dismissed
 
         subsection_6_charge = self.create_recent_charge()
 
         assert isinstance(subsection_6_charge, Subsection6)
         assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert (
-            subsection_6_charge.expungement_result.type_eligibility.reason == "Dismissal eligible under 137.225(1)(b)"
+            subsection_6_charge.expungement_result.type_eligibility.reason
+            == "Dismissals are eligible under 137.225(1)(b)"
         )
 
     def test_subsection_6_163200(self):

@@ -8,8 +8,9 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class Schedule1PCS(Charge):
     type_name: str = "Schedule 1 PCS"
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)")
-        else:
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(C)")
+            # TODO: Are violation dismissals for a PCS actually eligible? This does not appear to be the case.
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+        elif self.convicted():
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(c)")

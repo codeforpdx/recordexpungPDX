@@ -8,8 +8,8 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class PersonCrime(Charge):
     type_name: str = "Person Crime"
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)")
-        else:
+        elif self.convicted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(5)")
