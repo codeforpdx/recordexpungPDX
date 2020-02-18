@@ -9,17 +9,13 @@ Rules for 800 Level charges are as follows:
 800 level convictions of any kind are not type eligible
 """
 
-import unittest
-
-from datetime import datetime, timedelta, date
-
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.duii import Duii
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
+
 
 # TODO: we can separate these three types to different test files too.
 class TestTrafficViolation(ChargeTypeTest):
@@ -40,7 +36,9 @@ class TestTrafficViolation(ChargeTypeTest):
         assert isinstance(charge, TrafficViolation)
 
     def test_convicted_violation_is_not_type_eligible(self):
-        charge = ChargeFactory.create(statute="801.000", level="Class C Traffic Violation", disposition=self.convicted)
+        charge = ChargeFactory.create(
+            statute="801.000", level="Class C Traffic Violation", disposition=Dispositions.CONVICTED
+        )
 
         assert isinstance(charge, TrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -48,7 +46,9 @@ class TestTrafficViolation(ChargeTypeTest):
         assert not charge.blocks_other_charges()
 
     def test_dismissed_violation_is_not_type_eligible(self):
-        charge = ChargeFactory.create(statute="801.000", level="Class C Traffic Violation", disposition=self.dismissed)
+        charge = ChargeFactory.create(
+            statute="801.000", level="Class C Traffic Violation", disposition=Dispositions.DISMISSED
+        )
 
         assert isinstance(charge, TrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -56,7 +56,7 @@ class TestTrafficViolation(ChargeTypeTest):
         assert not charge.blocks_other_charges()
 
     def test_convicted_infraction_is_not_type_eligible(self):
-        charge = ChargeFactory.create(statute="811135", level="Infraction Class B", disposition=self.convicted)
+        charge = ChargeFactory.create(statute="811135", level="Infraction Class B", disposition=Dispositions.CONVICTED)
 
         assert isinstance(charge, TrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -64,7 +64,7 @@ class TestTrafficViolation(ChargeTypeTest):
         assert not charge.blocks_other_charges()
 
     def test_dismissed_infraction_is_not_type_eligible(self):
-        charge = ChargeFactory.create(statute="811135", level="Infraction Class B", disposition=self.dismissed)
+        charge = ChargeFactory.create(statute="811135", level="Infraction Class B", disposition=Dispositions.DISMISSED)
 
         assert isinstance(charge, TrafficViolation)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -89,28 +89,32 @@ class TestTrafficNonViolation(ChargeTypeTest):
     """
 
     def test_misdemeanor_conviction_is_not_eligible(self):
-        charge = ChargeFactory.create(statute="814.010(4)", level="Misdemeanor Class A", disposition=self.convicted)
+        charge = ChargeFactory.create(
+            statute="814.010(4)", level="Misdemeanor Class A", disposition=Dispositions.CONVICTED
+        )
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
         assert charge.blocks_other_charges()
 
     def test_misdemeanor_dismissal_is_eligible(self):
-        charge = ChargeFactory.create(statute="814.010(4)", level="Misdemeanor Class A", disposition=self.dismissed)
+        charge = ChargeFactory.create(
+            statute="814.010(4)", level="Misdemeanor Class A", disposition=Dispositions.DISMISSED
+        )
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
         assert charge.blocks_other_charges()
 
     def test_felony_conviction_is_not_eligible(self):
-        charge = ChargeFactory.create(statute="819.300", level="Felony Class C", disposition=self.convicted)
+        charge = ChargeFactory.create(statute="819.300", level="Felony Class C", disposition=Dispositions.CONVICTED)
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
         assert charge.blocks_other_charges()
 
     def test_felony_dismissal_is_eligible(self):
-        charge = ChargeFactory.create(statute="819.300", level="Felony Class C", disposition=self.dismissed)
+        charge = ChargeFactory.create(statute="819.300", level="Felony Class C", disposition=Dispositions.DISMISSED)
 
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
         assert charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"

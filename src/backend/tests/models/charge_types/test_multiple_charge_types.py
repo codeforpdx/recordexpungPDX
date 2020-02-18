@@ -1,15 +1,10 @@
-import unittest
-
-from datetime import datetime, timedelta
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 
 from tests.factories.charge_factory import ChargeFactory
-from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestMultipleCharges(ChargeTypeTest):
@@ -20,7 +15,7 @@ class TestMultipleCharges(ChargeTypeTest):
         self.charge_dict["name"] = "Theft of services"
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
@@ -28,7 +23,7 @@ class TestMultipleCharges(ChargeTypeTest):
         self.charge_dict["name"] = "Traffic Violation"
         self.charge_dict["statute"] = "801.000"
         self.charge_dict["level"] = "Class C Traffic Violation"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 

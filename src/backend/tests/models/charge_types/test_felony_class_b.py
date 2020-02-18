@@ -1,13 +1,8 @@
-import unittest
-
-from datetime import datetime, timedelta
-
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
@@ -15,7 +10,7 @@ class TestSingleChargeConvictionsFelonyClassB(ChargeTypeTest):
         self.charge_dict["name"] = "Aggravated theft in the first degree"
         self.charge_dict["statute"] = "164.057"
         self.charge_dict["level"] = "Felony Class B"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         charge = ChargeFactory.create(**self.charge_dict)
         self.charges.append(charge)
 
