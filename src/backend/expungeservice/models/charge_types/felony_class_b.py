@@ -16,7 +16,7 @@ The extra restrictions are:
  * If the charge is also classified as a [Person Crime](manual/charge-types#personcrime) it is ineligible.
 If a class B felony is eligible under any other subsection of the statute, that eligibility takes precedences and the extra restrictions here are ignored. The alternate positive criteria that can apply to B felonies are:
  * Some class B felonies fall under [Subsection6](#Subsection6) or [Subsection12](#Subsection12), which take precendence over 137.225(5)(a).
- * or, If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b)."""
+ * If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b)."""
     )
 
     def _type_eligibility(self):
