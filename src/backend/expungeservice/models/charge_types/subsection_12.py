@@ -14,7 +14,8 @@ The subsection also says that the listed felonies need to otherwise meet eligibi
 Applicable subsections: 137.225(12) for convictions; 137.225(1)(b) for dismissals."""
     )
 
-    def _default_type_eligibility(self):
+    # TODO: the elif convicted(): block needs to be added here pending the open issue for a Subsection 12 overhaul.
+    def _type_eligibility(self):
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissal eligible under 137.225(1)(b)")
         else:

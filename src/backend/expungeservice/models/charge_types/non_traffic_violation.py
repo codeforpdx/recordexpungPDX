@@ -7,13 +7,14 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 @dataclass(eq=False)
 class NonTrafficViolation(Charge):
     type_name: str = "Non-traffic Violation"
-    expungement_rules: str = """Violations are eligible under ORS 137.225(5)(d).
+    expungement_rules: str = """Violation convictions are eligible under ORS 137.225(5)(d).
 Examples include Fare Violation, Minor in Possession of Alcohol, Failure to Send or Maintain a Child in School.
 However, traffic violations are ineligible under (7)(a).
-Moreover, certain matters are not eligible: Contempt of Court, Extradition"""
+Moreover, certain matters are not eligible: Contempt of Court, Extradition.
+Dismissed violations are ineligible because they are omitted from the expungement statute."""
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)")
-        else:
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Ineligible by omission from statute")
+        elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(d)")

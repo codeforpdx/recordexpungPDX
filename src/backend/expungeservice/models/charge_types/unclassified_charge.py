@@ -8,7 +8,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class UnclassifiedCharge(Charge):
     type_name: str = "Unclassified"
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         return TypeEligibility(
             EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Unrecognized Charge : Further Analysis Needed"
         )

@@ -6,7 +6,6 @@ from expungeservice.models.charge_types.subsection_12 import Subsection12
 from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
 
 
 class TestSubsection12(unittest.TestCase):

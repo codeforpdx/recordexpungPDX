@@ -12,8 +12,13 @@ Exceptions include convictions related to sex, child and elder abuse, and drivin
 
 Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion."""
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)")
-        else:
+        elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(b)")
+        else:
+            return TypeEligibility(
+                EligibilityStatus.ELIGIBLE,
+                reason="Misdemeanors are always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals",
+            )
