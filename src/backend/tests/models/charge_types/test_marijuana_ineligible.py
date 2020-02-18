@@ -1,20 +1,17 @@
-import unittest
-
 from datetime import datetime, timedelta
 
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.disposition import Disposition
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsMarijuanaIneligible(ChargeTypeTest):
     def setUp(self):
         super().setUp()
         last_week = datetime.today() - timedelta(days=7)
-        self.charge_dict = ChargeFactory.default_dict(disposition=self.convicted)
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charges = []
 
     def test_marijuana_ineligible_statute_475b3493c(self):

@@ -1,18 +1,15 @@
-from datetime import date
-
 from expungeservice.models.expungement_result import EligibilityStatus
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestJuvenileCharge(ChargeTypeTest):
     def test_juvenile_charge(self):
         case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-        juvenile_charge = ChargeFactory.create(case=case, disposition=self.dismissed)
+        juvenile_charge = ChargeFactory.create(case=case, disposition=Dispositions.DISMISSED)
 
         assert isinstance(juvenile_charge, JuvenileCharge)
         assert juvenile_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS

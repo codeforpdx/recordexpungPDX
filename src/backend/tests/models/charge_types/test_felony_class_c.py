@@ -1,19 +1,14 @@
-import unittest
-
-from datetime import datetime
-
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsFelonyClassC(ChargeTypeTest):
     def setUp(self):
         super().setUp()
-        self.charge_dict = ChargeFactory.default_dict(disposition=self.convicted)
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charges = []
 
     # TODO: what is this test name?

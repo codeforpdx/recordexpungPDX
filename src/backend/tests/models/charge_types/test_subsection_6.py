@@ -1,25 +1,20 @@
-import unittest
-from datetime import datetime, timedelta
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.subsection_6 import Subsection6
-from expungeservice.models.disposition import Disposition
-
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSubsection6(ChargeTypeTest):
     def setUp(self):
         super().setUp()
         self.charge_dict = ChargeFactory.default_dict()
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
 
     def test_subsection_6_dismissed(self):
         self.charge_dict["name"] = "Criminal mistreatment in the second degree"
         self.charge_dict["statute"] = "163.200"
         self.charge_dict["level"] = "Misdemeanor Class A"
-        self.charge_dict["disposition"] = self.dismissed
+        self.charge_dict["disposition"] = Dispositions.DISMISSED
 
         subsection_6_charge = ChargeFactory.create(**self.charge_dict)
 

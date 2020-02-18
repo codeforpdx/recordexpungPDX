@@ -1,19 +1,14 @@
-import unittest
-
-from datetime import datetime, timedelta
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
 
 from tests.factories.charge_factory import ChargeFactory
-from expungeservice.models.disposition import Disposition
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
     def setUp(self):
         super().setUp()
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
 
     def test_non_traffic_violation(self):
         self.charge_dict["name"] = "Viol Treatment"

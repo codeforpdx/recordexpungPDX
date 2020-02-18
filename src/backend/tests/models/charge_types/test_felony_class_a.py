@@ -1,13 +1,8 @@
-import unittest
-
-from datetime import datetime, timedelta
-
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
-from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.models.test_charge import ChargeTypeTest
+from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
@@ -15,7 +10,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
-        self.charge_dict["disposition"] = self.convicted
+        self.charge_dict["disposition"] = Dispositions.CONVICTED
         felony_class_a_convicted = ChargeFactory.create(**self.charge_dict)
         self.charges.append(felony_class_a_convicted)
 
@@ -29,7 +24,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
-        self.charge_dict["disposition"] = self.dismissed
+        self.charge_dict["disposition"] = Dispositions.DISMISSED
         felony_class_a_dismissed = ChargeFactory.create(**self.charge_dict)
         self.charges.append(felony_class_a_dismissed)
 
@@ -41,7 +36,7 @@ class TestSingleChargeConvictionsFelonyClassA(ChargeTypeTest):
         )
 
     def test_felony_class_a_no_complaint(self):
-        self.charge_dict["disposition"] = self.no_complaint
+        self.charge_dict["disposition"] = Dispositions.NO_COMPLAINT
         self.charge_dict["name"] = "Assault in the first degree"
         self.charge_dict["statute"] = "163.185"
         self.charge_dict["level"] = "Felony Class A"
