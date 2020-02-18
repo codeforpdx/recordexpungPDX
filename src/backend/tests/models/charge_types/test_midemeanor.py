@@ -1,5 +1,3 @@
-import unittest
-
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from tests.factories.charge_factory import ChargeFactory
@@ -18,7 +16,6 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["disposition"] = None
 
         misdemeanor_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(misdemeanor_charge)
 
         assert isinstance(misdemeanor_charge, Misdemeanor)
         assert misdemeanor_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -32,7 +29,6 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["statute"] = "164.043"
         self.charge_dict["level"] = "Misdemeanor Class C"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -43,7 +39,6 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["statute"] = "164.125"
         self.charge_dict["level"] = "Misdemeanor Class A"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -54,7 +49,6 @@ class TestSingleChargeConvictionsMisdemeanor(ChargeTypeTest):
         self.charge_dict["statute"] = "14B20060"
         self.charge_dict["level"] = "Misdemeanor Unclassified"
         charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(charge)
 
         assert isinstance(charge, Misdemeanor)
         assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

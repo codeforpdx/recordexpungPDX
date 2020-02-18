@@ -15,7 +15,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         misdemeanor_class_a_convicted = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(misdemeanor_class_a_convicted)
 
         assert isinstance(misdemeanor_class_a_convicted, PersonCrime)
         assert misdemeanor_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -24,7 +23,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_min_statute_range_for_crimes_against_persons(self):
         self.charge_dict["statute"] = "163.305"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -33,7 +31,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_max_statute_range_for_crimes_against_persons(self):
         self.charge_dict["statute"] = "163.479"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -43,7 +40,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_min_statute_range_for_other_crimes_against_persons(self):
         self.charge_dict["statute"] = "163.670"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -53,7 +49,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_max_statute_range_for_other_crimes_against_persons(self):
         self.charge_dict["statute"] = "163.693"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -63,7 +58,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_min_statute_range_for_promoting_prostitution(self):
         self.charge_dict["statute"] = "167.008"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -73,7 +67,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_max_statute_range_for_promoting_prostitution(self):
         self.charge_dict["statute"] = "167.107"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -83,7 +76,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_min_statute_range_for_obscenity_and_minors(self):
         self.charge_dict["statute"] = "167.057"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -93,7 +85,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
     def test_max_statute_range_for_obscenity_and_minors(self):
         self.charge_dict["statute"] = "167.080"
         convicted_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(convicted_charge)
 
         assert isinstance(convicted_charge, PersonCrime)
         assert convicted_charge.type_name == "Person Crime"
@@ -105,7 +96,6 @@ class TestSingleChargeConvictionsPersonCrime(ChargeTypeTest):
         self.charge_dict["statute"] = "163.355"
         self.charge_dict["level"] = "Felony Class C"
         sex_crime_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(sex_crime_charge)
 
         assert isinstance(sex_crime_charge, PersonCrime)
         assert sex_crime_charge.type_name == "Person Crime"

@@ -12,7 +12,6 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -24,7 +23,6 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -36,7 +34,6 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -48,7 +45,6 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["level"] = "Misdemeanor Class A"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -60,7 +56,6 @@ class TestSingleChargeConvictionsSchedule1PCS(ChargeTypeTest):
         self.charge_dict["level"] = "Felony Class C"
         self.charge_dict["disposition"] = Dispositions.CONVICTED
         pcs_charge = ChargeFactory.create(**self.charge_dict)
-        self.charges.append(pcs_charge)
 
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
