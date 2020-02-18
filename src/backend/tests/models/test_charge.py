@@ -16,8 +16,7 @@ class Dispositions:
 
 
 class ChargeTypeTest(unittest.TestCase):
-    def setUp(self):
-        self.charge_dict = {}
+    pass
 
 
 class TestChargeClass(unittest.TestCase):
