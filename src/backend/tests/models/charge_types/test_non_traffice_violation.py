@@ -6,11 +6,8 @@ from tests.models.test_charge import ChargeTypeTest, Dispositions
 
 
 class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
-    def setUp(self):
-        super().setUp()
-        self.charge_dict["disposition"] = Dispositions.CONVICTED
-
     def test_non_traffic_violation(self):
+        self.charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
         self.charge_dict["name"] = "Viol Treatment"
         self.charge_dict["statute"] = "1615662"
         self.charge_dict["level"] = "Violation Unclassified"
