@@ -12,7 +12,7 @@ from tests.models.test_charge import ChargeTypeTest
 
 class TestParkingTicket(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTest.setUp(self)
+        super().setUp()
         self.charge_dict = ChargeFactory.default_dict()
         case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
         self.charge_dict["statute"] = "109"

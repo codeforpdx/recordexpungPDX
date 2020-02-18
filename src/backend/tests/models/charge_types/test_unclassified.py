@@ -12,7 +12,7 @@ from tests.models.test_charge import ChargeTypeTest
 
 class TestSingleChargeUnclassified(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTest.setUp(self)
+        super().setUp()
         self.charge_dict = ChargeFactory.default_dict(disposition=self.dismissed)
         self.charges = []
 
