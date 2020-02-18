@@ -12,7 +12,7 @@ from tests.models.test_charge import ChargeTypeTest
 
 class TestSingleChargeConvictionsNonTrafficViolation(ChargeTypeTest):
     def setUp(self):
-        ChargeTypeTest.setUp(self)
+        super().setUp()
         self.charge_dict["disposition"] = self.convicted
 
     def test_non_traffic_violation(self):
