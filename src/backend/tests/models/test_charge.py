@@ -15,10 +15,6 @@ class Dispositions:
     NO_COMPLAINT = Disposition(ruling="No Complaint", date=LAST_WEEK)
 
 
-class ChargeTypeTest(unittest.TestCase):
-    pass
-
-
 class TestChargeClass(unittest.TestCase):
 
     TEN_YEARS_AGO = date.today() + relativedelta(years=-10)
