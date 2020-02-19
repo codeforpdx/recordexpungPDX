@@ -21,6 +21,7 @@ class User extends React.Component<Props> {
         <td className="pa3">{this.props.user.group}</td>
         <td className="pa3 flex justify-end">
           <button
+            onClick={() => history.push('edit-user')}
             aria-label={`edit user: ${this.props.user.name}`}
             className="navy hover-dark-blue"
           >
