@@ -53,3 +53,14 @@ def test_subsection_6_163145():
     subsection_6_charge = ChargeFactory.create(**charge_dict)
 
     assert isinstance(subsection_6_charge, Subsection6)
+
+
+def test_subsection_6_163205():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Criminal mistreatment in the first degree"
+    charge_dict["statute"] = "163.205"
+    charge_dict["level"] = "Felony Class C"
+    charge_dict["disposition"] = Dispositions.CONVICTED
+    subsection_6_charge = ChargeFactory.create(**charge_dict)
+
+    assert isinstance(subsection_6_charge, Subsection6)
