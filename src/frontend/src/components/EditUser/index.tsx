@@ -198,7 +198,6 @@ class EditUser extends React.Component<Props, State> {
                         checked={this.state.role === "search"}
                         onChange={this.handleRadioChange}
                       />
-                      />
                       <label htmlFor="search" className="fw6">Search</label>
                     </div>
                     <div className="radio">
