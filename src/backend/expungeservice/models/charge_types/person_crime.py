@@ -5,8 +5,8 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 
 @dataclass(eq=False)
-class PersonCrime(Charge):
-    type_name: str = "Person Crime"
+class FelonyClassBPersonCrime(Charge):
+    type_name: str = "Felony Class BPerson Crime"
 
     def _type_eligibility(self):
         if self.dismissed():
