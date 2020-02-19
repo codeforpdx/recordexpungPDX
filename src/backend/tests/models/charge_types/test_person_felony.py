@@ -113,7 +113,7 @@ person_felony_statutes_with_subsection = [
     "8373652C",  # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System; class B felony
 ]
 
-person_felony_not_class_b_statutes = [
+person_felonies_with_other_charge_type = [
     "162165",  # Escape I;
     "162185",  # Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
     "163145",  # Negligent Homicide;
@@ -170,12 +170,23 @@ def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):
     )
 
 
-@pytest.mark.parametrize("person_not_b_felony_statute", person_felony_not_class_b_statutes)
-def test_felony_not_b_person_felony(person_not_b_felony_statute):
+@pytest.mark.parametrize("person_felony_statute_with_other_charge_type", person_felonies_with_other_charge_type)
+def test_felony_not_b_person_felony(person_felony_with_other_charge_type):
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Generic"
-    charge_dict["statute"] = person_not_b_felony_statute
+    charge_dict["statute"] = person_felony_statute_with_other_charge_type
     charge_dict["level"] = "Felony Class B"
+    charge_dict["disposition"] = Dispositions.CONVICTED
+    person_felony_with_other_charge_type_convicted = ChargeFactory.create(**charge_dict)
+    assert not isinstance(person_felony_with_other_charge_type_convicted, PersonFelonyClassB)
+
+
+@pytest.mark.parametrize("person_felony_statute_not_b_felony", person_felony_statutes[:5])
+def test_felony_not_b_person_felony(person_felony_statute_not_b_felony):
+    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
+    charge_dict["name"] = "Generic"
+    charge_dict["statute"] = person_felony_statute_not_b_felony
+    charge_dict["level"] = "Felony Class C"
     charge_dict["disposition"] = Dispositions.CONVICTED
     person_felony_not_class_b_convicted = ChargeFactory.create(**charge_dict)
     assert not isinstance(person_felony_not_class_b_convicted, PersonFelonyClassB)
