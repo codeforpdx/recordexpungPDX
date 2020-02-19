@@ -31,7 +31,6 @@ class ChargeFactory:
             date_string = date.strftime("%m/%d/%Y")
         else:
             date_string = "1/1/1901"
-
         kwargs = {
             "case": case,
             "name": name,

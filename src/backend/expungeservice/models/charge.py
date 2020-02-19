@@ -34,6 +34,13 @@ class Charge:
         self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
 
     def _build_type_eligibility(self):
+        type_eligibility = self._type_eligibility()
+        if type_eligibility:
+            return type_eligibility
+        else:
+            return self._default_type_eligibility()
+
+    def _default_type_eligibility(self):
         if self.disposition is None:
             return TypeEligibility(
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not found. Needs further analysis"
@@ -43,9 +50,15 @@ class Charge:
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not recognized. Needs further analysis"
             )
         else:
-            return self._default_type_eligibility()
+            # This block should never run, because we assume the charge disposition is always convicted, dismissed, unrecognized, or missing.
+            return TypeEligibility(
+                EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Type eligibility could not be determined"
+            )
 
-    def _default_type_eligibility(self):
+    def _type_eligibility(self):
+        """If the disposition is present and recognized, this should always return a TypeEligibility.
+It may also return the eligibility without a known disposition (this works for some types).
+If the type eligibility is unknown, the method can return None. """
         raise NotImplementedError
 
     def case(self):

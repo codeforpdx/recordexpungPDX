@@ -1,10 +1,18 @@
 import unittest
 
-from datetime import date
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from expungeservice.models.disposition import Disposition
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
+
+
+class Dispositions:
+    LAST_WEEK = datetime.today() - timedelta(days=7)
+    CONVICTED = Disposition(ruling="Convicted", date=LAST_WEEK)
+    DISMISSED = Disposition(ruling="Dismissed", date=LAST_WEEK)
+    UNRECOGNIZED_DISPOSITION = Disposition(ruling="Something unrecognized", date=LAST_WEEK)
+    NO_COMPLAINT = Disposition(ruling="No Complaint", date=LAST_WEEK)
 
 
 class TestChargeClass(unittest.TestCase):

@@ -20,17 +20,17 @@ def test_duii_dismissed():
     assert duii_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_dismissed.expungement_result.type_eligibility.reason
-        == "Further Analysis Needed - Dismissed charge may have been Diverted"
+        == "Further Analysis Needed - Dismissed charge may have been Diverted, making it ineligible under 137.225(8)(b)"
     )
 
 
 def test_duii_diverted():
     duii_diverted = build_charge(statute="813.011", disposition_ruling="Diverted")
 
-    assert duii_diverted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert duii_diverted.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_diverted.expungement_result.type_eligibility.reason
-        == "137.225(8)(b) - Diverted DUII charges are ineligible"
+        == "Further Analysis Needed - Dismissed charge may have been Diverted, making it ineligible under 137.225(8)(b)"
     )
 
 
