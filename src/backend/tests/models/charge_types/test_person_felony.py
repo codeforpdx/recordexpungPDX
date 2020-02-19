@@ -171,7 +171,7 @@ def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):
 
 
 @pytest.mark.parametrize("person_felony_statute_with_other_charge_type", person_felonies_with_other_charge_type)
-def test_felony_not_b_person_felony(person_felony_with_other_charge_type):
+def test_other_charge_type_true_negatives(person_felony_statute_with_other_charge_type):
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Generic"
     charge_dict["statute"] = person_felony_statute_with_other_charge_type
