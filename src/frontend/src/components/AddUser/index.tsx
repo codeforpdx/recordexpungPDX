@@ -98,6 +98,7 @@ class AddUser extends React.Component<Props, State> {
                 id="name"
                 name="name"
                 type="text"
+                required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.missingName
@@ -116,6 +117,7 @@ class AddUser extends React.Component<Props, State> {
                 id="email"
                 name="email"
                 type="email"
+                required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.invalidEmail
@@ -134,6 +136,7 @@ class AddUser extends React.Component<Props, State> {
                 id="password"
                 name="password"
                 type="password"
+                required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.missingPassword
