@@ -10,13 +10,7 @@ class User extends React.Component<Props> {
   public render() {
     return (
       <tr className="bt b--black-20">
-        <td className="pa3">
-          <a href="javascript:;" className="underline">
-            <button onClick={() => history.push('edit-user')}>
-              {this.props.user.name}
-            </button>
-          </a>
-        </td>
+        <td className="pa3">{this.props.user.name}</td>
         <td className="pa3">{this.props.user.admin ? 'Admin' : 'Search'}</td>
         <td className="pa3">{this.props.user.group}</td>
         <td className="pa3 flex justify-end">
