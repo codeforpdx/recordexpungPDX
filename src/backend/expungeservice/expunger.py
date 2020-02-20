@@ -69,11 +69,12 @@ class Expunger:
                 )
 
             if most_recent_blocking_conviction:
-                other = "other " if charge.convicted() else ""
+                conviction_string = "other conviction" if charge.convicted() else "conviction"
                 eligibility_dates.append(
                     (
+
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        f"Ten years from most recent {other}conviction (137.225(7)(b))",
+                        f"Ten years from most recent {conviction_string} (137.225(7)(b))",
                     )
                 )
 
