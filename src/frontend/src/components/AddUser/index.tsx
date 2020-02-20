@@ -31,7 +31,7 @@ class AddUser extends React.Component<Props, State> {
     confirmPassword: '',
     name: '',
     group: '',
-    role: '',
+    role: 'search',
     invalidResponse: false,
     missingName: false,
     invalidEmail: false,
@@ -45,6 +45,12 @@ class AddUser extends React.Component<Props, State> {
     // using the "any" type.
     this.setState<any>({
       [e.target.id]: e.target.value
+    });
+  };
+
+  public handleRadioChange = (e: React.BaseSyntheticEvent) => {
+    this.setState<any>({
+      [e.target.name]: e.target.value
     });
   };
 
@@ -92,18 +98,14 @@ class AddUser extends React.Component<Props, State> {
                 id="name"
                 name="name"
                 type="text"
-                className="w-100 pa3 br2 b--black-20"
                 required={true}
+                className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.missingName
                     ? 'name_input_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.missingName
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.missingName}
                 onChange={this.handleChange}
               />
             </div>
@@ -115,18 +117,14 @@ class AddUser extends React.Component<Props, State> {
                 id="email"
                 name="email"
                 type="email"
-                className="w-100 pa3 br2 b--black-20"
                 required={true}
+                className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.invalidEmail
                     ? 'email_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.invalidEmail
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.invalidEmail}
                 onChange={this.handleChange}
               />
             </div>
@@ -138,8 +136,8 @@ class AddUser extends React.Component<Props, State> {
                 id="password"
                 name="password"
                 type="password"
-                className="w-100 pa3 br2 b--black-20"
                 required={true}
+                className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
                   this.state.missingPassword
                     ? 'password_input_message'
@@ -147,11 +145,7 @@ class AddUser extends React.Component<Props, State> {
                     ? 'password_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.missingPassword || this.state.invalidPassword
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.missingPassword || this.state.invalidPassword}
                 onChange={this.handleChange}
               />
             </div>
@@ -164,17 +158,12 @@ class AddUser extends React.Component<Props, State> {
                 name="confirm-password"
                 type="password"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.mismatchPasswords
                     ? 'mismatch_message'
                     : undefined
                 }
-                aria-invalid={
-                  this.state.mismatchPasswords
-                    ? true
-                    : false
-                }
+                aria-invalid={this.state.mismatchPasswords}
                 onChange={this.handleChange}
               />
             </div>
@@ -187,7 +176,6 @@ class AddUser extends React.Component<Props, State> {
                 name="group"
                 type="text"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 onChange={this.handleChange}
               />
             </div>
@@ -204,7 +192,8 @@ class AddUser extends React.Component<Props, State> {
                       name="role"
                       value= "search"
                       className="v-top"
-                      checked
+                      checked={this.state.role === "search"}
+                      onChange={this.handleRadioChange}
                     />
                     <label htmlFor="search" className="fw6">Search</label>
                   </div>
@@ -220,6 +209,8 @@ class AddUser extends React.Component<Props, State> {
                       name="role"
                       value= "admin"
                       className="v-top"
+                      checked={this.state.role === "admin"}
+                      onChange={this.handleRadioChange}
                     />
                     <label htmlFor="admin" className="fw6">Admin</label>
                   </div>
