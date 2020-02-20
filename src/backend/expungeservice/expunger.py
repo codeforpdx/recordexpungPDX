@@ -94,7 +94,7 @@ class Expunger:
                         )
                     )
                 else:
-                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
+                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
             charge.set_time_eligibility(eligibility_dates)
         for case in self.record.cases:
