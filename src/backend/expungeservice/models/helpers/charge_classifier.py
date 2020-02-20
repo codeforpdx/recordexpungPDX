@@ -80,7 +80,7 @@ class ChargeClassifier:
             "163205",  # (overrides subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163575",  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
-            # 163.165(1)(h) # overridden by subsection 12.(Assault in the third degree)
+            "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
         if section in conditionally_ineligible_statutes:
             return Subsection6

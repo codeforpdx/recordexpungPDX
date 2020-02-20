@@ -53,22 +53,6 @@ def test_subsection_12_163175():
 """
 
 
-def test_subsection_12_163165():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the third degree"
-    charge_dict["statute"] = "163.165"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_12_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(subsection_12_charge, Subsection12)
-    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert (
-        subsection_12_charge.expungement_result.type_eligibility.reason
-        == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
-    )
-
-
 def test_subsection_12_163275():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Coercion"

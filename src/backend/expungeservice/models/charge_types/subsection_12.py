@@ -18,9 +18,9 @@ Dismissals are eligible under 137.225(1)(b)."""
         # Incest and "attempt" statutes are commented out; see below
         "163535",  # (Abandonment of a child)
         # "163175",  # (Attempted Assault II)
-        "163165",  # (Assault III) - supercedes section 6.
+        # "163165",  # (Assault III) -superceded by section 6, for the special case of assault of a minor.
         "163275",  # (Coercion)
-        # "163205",  # (superceded by section 6, Criminal mistreatment in the first degree)
+        # "163205",  # (Criminal mistreatment I) superceded by section 6, for the special case of mistreatment of a minor or a senior.
         # "162165",  # (Attempted escape in the first degree)
         # "163525", (Incest), see below
         "166165",  # (Intimidation in the first degree)

@@ -20,6 +20,22 @@ def test_subsection_6_dismissed():
     )
 
 
+def test_subsection_6_163165():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Assault in the third degree"
+    charge_dict["statute"] = "163.165"
+    charge_dict["level"] = "Felony Class C"
+    charge_dict["disposition"] = Dispositions.CONVICTED
+    subsection_6_charge = ChargeFactory.create(**charge_dict)
+
+    assert isinstance(subsection_6_charge, Subsection6)
+    assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert (
+        subsection_6_charge.expungement_result.type_eligibility.reason
+        == "Ineligible under 137.225(6) in certain circumstances."
+    )
+
+
 def test_subsection_6_163200():
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Criminal mistreatment in the second degree"
