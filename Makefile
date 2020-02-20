@@ -71,6 +71,9 @@ dev_drop_database:
 dev_mock_oeci_up:
 	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.mock-oeci.yml up -d
 
+dev_gen_docs:
+	cd ./src/backend && python ./util/generate_charge_types_doc.py
+
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
 	pipenv lock -r > $@
