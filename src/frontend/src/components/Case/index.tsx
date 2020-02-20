@@ -21,9 +21,7 @@ export default class Cases extends React.Component<Props> {
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-            <a className="underline" href="#">
               {case_number}
-            </a>
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">County </div>
