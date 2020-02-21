@@ -142,8 +142,12 @@ A person felony that is not a class B felony is not considered under this subsec
                 return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(5)(a)")
 
 
-"""The following sections are defined in (ORS)[https://www.oregonlaws.org/] as class B felonies. Some of these have only subsections which are a class B felony.
+"""The following sections are defined in (ORS)[https://www.oregonlaws.org/] as class B felonies.
 This list is not used directly to determine expungement eligibility because we instead use the charge level provided in the OECI record.
+However, it's included here as additional information about the expected expungement behavior.
+If the OECI data always matches the severity level in ORS, we would always see exactly these statutes tagged as a Person Felony Class B.
+Some of these are only subsections which are a class B felony, while the full section is not.
+
 "162165", # Escape I;
 "163125", # Manslaughter II;
 "163145", # Negligent Homicide;
