@@ -24,7 +24,7 @@ def test_eligible_mrc_with_single_arrest():
     assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         arrest.expungement_result.time_eligibility.reason
-        == "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
     assert arrest.expungement_result.time_eligibility.date_will_be_eligible == date.today()
 
@@ -76,13 +76,16 @@ def test_eligible_mrc_with_violation():
     assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         arrest.expungement_result.time_eligibility.reason
-        == "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
     assert arrest.expungement_result.time_eligibility.date_will_be_eligible == date.today()
 
     assert violation.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert violation.expungement_result.time_eligibility.date_will_be_eligible == date.today() + relativedelta(years=7)
-    assert violation.expungement_result.time_eligibility.reason == "Time-ineligible under 137.225(7)(b)"
+    assert (
+        violation.expungement_result.time_eligibility.reason
+        == "Ten years from most recent other conviction (137.225(7)(b))"
+    )
 
 
 def test_arrest_time_eligibility_is_set_to_older_violation():
@@ -106,7 +109,7 @@ def test_arrest_time_eligibility_is_set_to_older_violation():
     assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         arrest.expungement_result.time_eligibility.reason
-        == "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
     assert (
         arrest.expungement_result.time_eligibility.date_will_be_eligible
@@ -146,6 +149,6 @@ def test_3_violations_are_time_restricted():
     assert arrest.expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         arrest.expungement_result.time_eligibility.reason
-        == "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
     assert arrest.expungement_result.time_eligibility.date_will_be_eligible == earliest_date_eligible

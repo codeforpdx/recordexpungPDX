@@ -46,11 +46,14 @@ class Expunger:
 
             if charge.convicted():
                 eligibility_dates.append(
-                    (charge.disposition.date + relativedelta(years=3), "Time-ineligible under 137.225(1)(a)")
+                    (
+                        charge.disposition.date + relativedelta(years=3),
+                        "Three years from date of conviction (137.225(1)(a))",
+                    )
                 )
 
             elif charge.dismissed():
-                eligibility_dates.append((charge.date, "Time eligible under 137.225(1)(b)"))
+                eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(b))"))
             else:
                 raise ValueError("Charge should always convicted or dismissed at this point.")
 
@@ -59,20 +62,28 @@ class Expunger:
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
-                    (charge.disposition.date + relativedelta(years=1), "Time-ineligible under 137.225(1)(b)")
+                    (
+                        charge.disposition.date + relativedelta(years=1),
+                        "One year from date of no-complaint arrest (137.225(1)(b))",
+                    )
                 )
 
             if most_recent_blocking_conviction:
+                conviction_string = "other conviction" if charge.convicted() else "conviction"
                 eligibility_dates.append(
                     (
+
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        "Time-ineligible under 137.225(7)(b)",
+                        f"Ten years from most recent {conviction_string} (137.225(7)(b))",
                     )
                 )
 
             if charge.dismissed() and most_recent_blocking_dismissal:
                 eligibility_dates.append(
-                    (most_recent_blocking_dismissal.date + relativedelta(years=3), "Recommend sequential expungement")
+                    (
+                        most_recent_blocking_dismissal.date + relativedelta(years=3),
+                        "Three years from most recent other arrest (137.225(8)(a))",
+                    )
                 )
 
             if charge.convicted() and isinstance(charge, FelonyClassB):
@@ -84,7 +95,7 @@ class Expunger:
                         )
                     )
                 else:
-                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "137.225(5)(a)(A)(i) - Twenty years from class B felony conviction"))  # type: ignore
+                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
             charge.set_time_eligibility(eligibility_dates)
         for case in self.record.cases:
@@ -120,7 +131,9 @@ class Expunger:
                         charge.expungement_result.time_eligibility.date_will_be_eligible = (
                             attractor.expungement_result.time_eligibility.date_will_be_eligible
                         )
-                        charge.expungement_result.time_eligibility.reason = "The friendly rule: time eligibility of the arrest matches time eligibility of the conviction."
+                        charge.expungement_result.time_eligibility.reason = (
+                            'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
+                        )
                         # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
