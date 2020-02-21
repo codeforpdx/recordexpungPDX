@@ -30,14 +30,10 @@ export default class Charge extends React.Component<Props> {
       if (disposition.amended) {
         dispositionEvent += " (Amended)"
       }
-      return <>
+      return (
         <li className="mb2">
           <span className="fw7">Disposition:</span> {dispositionEvent}
-        </li>
-        <li className="mb2">
-          <span className="fw7">Charged: </span> {date}
-        </li>
-      </>
+        </li> )
     };
 
     const dispositionRender = (disposition: any, date: any) => {
@@ -84,6 +80,9 @@ export default class Charge extends React.Component<Props> {
                 {`${statute}-${name}`}
               </li>
               {dispositionRender(disposition, date)}
+              <li className="mb2">
+                <span className="fw7">Charged: </span> {date}
+              </li>
             </ul>
           </div>
         </div>
