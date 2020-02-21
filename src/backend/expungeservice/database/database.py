@@ -6,6 +6,8 @@ import psycopg2
 import psycopg2.extras
 import os
 
+from urllib.parse import urlparse
+
 
 class Database(object):
     """Database connection class.
@@ -107,17 +109,19 @@ def get_database():
     database connection info.
     """
     if os.environ.get("DATABASE_URL"):
-        print("using database url: ", os.environ.get("DATABASE_URL"))
-        infostr = os.environ["DATABASE_URL"].split("postgres://")[1]
-        creds, hostdat = infostr.split("@")
-        # An example heroku db url:
-        # postgres://kkpshuqenz:dc7393549121483a18c5b77b47af7f536567d31acb952128ce0bb@ec2-50-16-225-96.compute-1.amazonaws.com:5432/d98vao1s9j9t18
-
-        username = creds.split(":")[0]
-        password = creds.split(":")[1]
-        host = hostdat.split(":")[0]
-        port = 5432
-        name = hostdat.split("/")[1]
+        try:
+            # An example heroku db url:
+            # postgres://kkpshuqenz:dc7393549121483a18c5b77b47af7f536567d31acb952128ce0bb@ec2-50-16-225-96.compute-1.amazonaws.com:5432/d98vao1s9j9t18
+            url = urlparse(os.environ["DATABASE_URL"])
+            
+            host = url.netloc.split(':') # discard the port
+            port = url.port
+            name = url.path[1:] # skip the leading '/'
+            username = url.username
+            password = url.password
+        except Exception as e:
+            print('Failed parsing DATABASE_URL environment variable')
+            raise
 
     else:
         """
