@@ -20,32 +20,31 @@ export default class Charge extends React.Component<Props> {
     } = this.props.charge;
 
 
-    const knownDisposition = (disposition: any, date: any) => {
-      let dispositionEvent = disposition.status;
-      if (disposition.status === "Convicted") {
-        dispositionEvent += " - " + disposition.date;
-      } else if (disposition.status === "Unrecognized") {
-        dispositionEvent += " (\"" + disposition.ruling + "\")";
+    const dispositionEvent = (disposition: any, date: any) => {
+      let dispositionEvent;
+      if (disposition === null) {
+        dispositionEvent = "Missing";
+      }  else {
+        dispositionEvent = disposition.status;
+        if (disposition.status === "Convicted") {
+          dispositionEvent += " - " + disposition.date;
+        } else if (disposition.status === "Unrecognized") {
+          dispositionEvent += " (\"" + disposition.ruling + "\")";
+        }
+        if (disposition.amended) {
+          dispositionEvent += " (Amended)"
+        }
       }
-      if (disposition.amended) {
-        dispositionEvent += " (Amended)"
-      }
-      return (
-        <li className="mb2">
-          <span className="fw7">Disposition:</span> {dispositionEvent}
-        </li> )
+      return dispositionEvent;
     };
 
     const dispositionRender = (disposition: any, date: any) => {
-      if (disposition === null) {
-        return (
-          <li className="mb2">
-            <span className="fw7">Disposition: </span> Missing
-          </li>
-        );
-      } else {
-        return knownDisposition(disposition, date);
-      }
+      return (
+        <li className="mb2">
+          <span className="fw7">Disposition: </span> {dispositionEvent(disposition, date)}
+        </li>
+      );
+
     };
 
     const recordTimeRender = () => {
