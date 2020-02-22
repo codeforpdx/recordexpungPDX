@@ -1,7 +1,6 @@
 .PHONY: clean
 
 STACK_NAME := recordexpungpdx
-PGDATABASE := record_expunge
 DB_CONTAINER_NAME := db
 BACKEND_CONTAINER_NAME := expungeservice
 FRONTEND_CONTAINER_NAME := webserver
@@ -38,7 +37,7 @@ dev_logs:
 	docker-compose -f docker-compose.dev.yml logs -f
 
 dev_psql:
-	docker exec -ti $(shell docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d $(PGDATABASE)
+	docker exec -ti $(shell docker ps -qf name=$(DB_CONTAINER_NAME)) psql -U postgres -d record_expunge # TODO: Extract db name from config/expungeservice/expungeservice.env
 
 bash_backend:
 	docker exec -it $(shell docker ps -qf name=$(BACKEND_CONTAINER_NAME)) /bin/bash
