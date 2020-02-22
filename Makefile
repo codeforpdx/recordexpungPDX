@@ -70,6 +70,27 @@ dev_drop_database:
 dev_mock_oeci_up:
 	docker-compose -f docker-compose.dev.yml -f src/frontend/developerUtils/docker-compose.mock-oeci.yml up -d
 
+deploy: deploy_backend deploy_frontend
+
+.ONESHELL:
+deploy_update_repo:
+	cd ~/recordexpungPDX/
+	git reset --hard
+	git checkout master
+	git pull origin master
+
+.ONESHELL:
+deploy_backend: deploy_update_repo
+	cd ~/recordexpungPDX/src/backend/
+	killall uwsgi
+	$(shell tr '\n' ' ' < ~/recordexpungPDX/config/expungeservice/expungeservice.production.env) nohup pipenv run uwsgi --socket 127.0.0.1:3031 --module expungeservice.wsgi &
+
+.ONESHELL:
+deploy_frontend: deploy_update_repo
+	cd ~/recordexpungPDX/src/frontend/
+	npm run build
+	cp -r build/* /usr/share/nginx/html/
+
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
 	pipenv lock -r > $@
