@@ -1,7 +1,7 @@
 # recordexpungPDX
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
-A project to automate expunging qualifying criminal records.  This project is done in conjunction with the Multnomah County Public Defender's Office. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
+A project to automate expunging qualifying criminal records. This project is done in conjunction with Qiu-Qiu Law. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
 Please read our [code of conduct](http://www.codeforpdx.org/about/conduct).
 
@@ -19,10 +19,6 @@ If you're interested in learning more about our project and getting involved, pl
 ## Tech Overview
 
 This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/).
-
-The app is deployed on the webapp hosting service, [Heroku](https://www.heroku.com/).
-
-Our latest dev version (this repo's latest release) is publicly viewable! See https://recordexpungpdx.herokuapp.com/
 
 **Our dev environment** is entirely containerized with Docker, and no other dependencies need to be installed natively. We use Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies. We use [mypy](http://mypy-lang.org/) to type check any optional typings and [pytest](https://pytest.org/en/latest/) to test backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
 
