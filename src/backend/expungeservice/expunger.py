@@ -72,7 +72,6 @@ class Expunger:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"
                 eligibility_dates.append(
                     (
-
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
                         f"Ten years from most recent {conviction_string} (137.225(7)(b))",
                     )
@@ -125,15 +124,24 @@ class Expunger:
                         and charge.expungement_result.time_eligibility.date_will_be_eligible
                         >= attractor.expungement_result.time_eligibility.date_will_be_eligible
                     ):
-                        charge.expungement_result.time_eligibility.status = (
-                            attractor.expungement_result.time_eligibility.status
-                        )
+                        if (
+                            attractor.expungement_result.type_eligibility.status
+                            == EligibilityStatus.NEEDS_MORE_ANALYSIS
+                        ):
+                            # charge's time eligibility status and reason remains as before assuming worst case as friendly rule only improves time eligibility
+                            charge.expungement_result.time_eligibility.date_eligible_without_friendly_rule = (
+                                charge.expungement_result.time_eligibility.date_will_be_eligible
+                            )
+                        else:
+                            # date_eligible_without_friendly_rule remains None
+                            charge.expungement_result.time_eligibility.status = (
+                                attractor.expungement_result.time_eligibility.status
+                            )
+                            charge.expungement_result.time_eligibility.reason = 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
                         charge.expungement_result.time_eligibility.date_will_be_eligible = (
                             attractor.expungement_result.time_eligibility.date_will_be_eligible
                         )
-                        charge.expungement_result.time_eligibility.reason = (
-                            'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
-                        )
+
                         # TODO: Feels dangerous; clean up
         return len(open_cases) == 0
 
