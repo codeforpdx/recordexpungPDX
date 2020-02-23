@@ -8,7 +8,6 @@ def test_eligible():
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
     assert expungement_result.charge_eligibility.label == "Eligible"
-    assert expungement_result.charge_eligibility.date_will_be_eligible is None
 
 
 def test_will_be_eligible():
@@ -19,7 +18,6 @@ def test_will_be_eligible():
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
     assert expungement_result.charge_eligibility.label == f"Eligible {today.strftime('%b %-d, %Y')}"
-    assert expungement_result.charge_eligibility.date_will_be_eligible == today
 
 
 def test_possibly_eligible():
@@ -30,7 +28,6 @@ def test_possibly_eligible():
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
     assert expungement_result.charge_eligibility.label == "Possibly Eligible (review)"
-    assert expungement_result.charge_eligibility.date_will_be_eligible is None
 
 
 def test_possibly_will_be_eligible():
@@ -41,7 +38,6 @@ def test_possibly_will_be_eligible():
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE
     assert expungement_result.charge_eligibility.label == f"Possibly Eligible {today.strftime('%b %-d, %Y')} (review)"
-    assert expungement_result.charge_eligibility.date_will_be_eligible == today
 
 
 def test_ineligible():

@@ -36,7 +36,6 @@ class TimeEligibility:
 class ChargeEligibility:
     status: ChargeEligibilityStatus
     label: str
-    date_will_be_eligible: Optional[date]
 
 
 @dataclass
@@ -51,46 +50,42 @@ class ExpungementResult:
     def charge_eligibility(self):
         if self.type_eligibility.status == EligibilityStatus.ELIGIBLE:
             if self.time_eligibility and self.time_eligibility.status == EligibilityStatus.ELIGIBLE:
-                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible", None)
+                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible")
 
             elif self.time_eligibility and self.time_eligibility.status == EligibilityStatus.INELIGIBLE:
                 if self.time_eligibility.date_will_be_eligible == date.max:
                     # Currently, no charge types that are type-eligible can be disqualified due to a time-ineligibility date of max, meaning "never"
                     # So this else block has no applicable cases and never runs. But it will apply if a new charge type that qualifies gets added.
-                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible", None)
+                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
                 elif self.time_eligibility.date_will_be_eligible:
                     return ChargeEligibility(
                         ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
                         f"Eligible {self.time_eligibility.date_will_be_eligible.strftime('%b %-d, %Y')}",
-                        self.time_eligibility.date_will_be_eligible,
                     )
                 else:
                     raise ValueError("There was no date_will_be_eligible.")
             else:
-                return ChargeEligibility(
-                    ChargeEligibilityStatus.UNKNOWN, "Type-eligible but time analysis is missing", None
-                )
+                return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Type-eligible but time analysis is missing")
 
         elif self.type_eligibility.status == EligibilityStatus.NEEDS_MORE_ANALYSIS:
             if self.time_eligibility and self.time_eligibility.status == EligibilityStatus.ELIGIBLE:
-                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, "Possibly Eligible (review)", None)
+                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, "Possibly Eligible (review)")
 
             elif self.time_eligibility and self.time_eligibility.status == EligibilityStatus.INELIGIBLE:
                 if self.time_eligibility.date_will_be_eligible == date.max:
                     # Currently, this occurs with Class B Felonies only, which can be time ineligible with a date of max, meaning "never"
-                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible", None)
+                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
                 elif self.time_eligibility.date_will_be_eligible:
                     return ChargeEligibility(
                         ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
                         f"Possibly Eligible {self.time_eligibility.date_will_be_eligible.strftime('%b %-d, %Y')} (review)",
-                        self.time_eligibility.date_will_be_eligible,
                     )
                 else:
                     raise ValueError("There was no date_will_be_eligible.")
             else:
                 return ChargeEligibility(
-                    ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing", None
+                    ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing"
                 )
 
         elif self.type_eligibility.status == EligibilityStatus.INELIGIBLE:
-            return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible", None)
+            return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
