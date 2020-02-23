@@ -30,6 +30,7 @@ class TimeEligibility:
     status: EligibilityStatus
     reason: str
     date_will_be_eligible: Optional[date]
+    date_eligible_without_friendly_rule: Optional[date] = None
 
 
 @dataclass
@@ -57,6 +58,17 @@ class ExpungementResult:
                     # Currently, no charge types that are type-eligible can be disqualified due to a time-ineligibility date of max, meaning "never"
                     # So this else block has no applicable cases and never runs. But it will apply if a new charge type that qualifies gets added.
                     return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
+                elif (
+                    self.time_eligibility.date_will_be_eligible
+                    and self.time_eligibility.date_eligible_without_friendly_rule
+                ):
+                    label_date_eligible = (
+                        self.time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
+                        if self.time_eligibility.date_will_be_eligible > date.today()
+                        else "now"
+                    )
+                    label = f"Eligible {label_date_eligible} or {self.time_eligibility.date_eligible_without_friendly_rule.strftime('%b %-d, %Y')} w/o friendly rule (review)"
+                    return ChargeEligibility(ChargeEligibilityStatus.WILL_BE_ELIGIBLE, label)
                 elif self.time_eligibility.date_will_be_eligible:
                     return ChargeEligibility(
                         ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
@@ -75,6 +87,17 @@ class ExpungementResult:
                 if self.time_eligibility.date_will_be_eligible == date.max:
                     # Currently, this occurs with Class B Felonies only, which can be time ineligible with a date of max, meaning "never"
                     return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
+                elif (
+                    self.time_eligibility.date_will_be_eligible
+                    and self.time_eligibility.date_eligible_without_friendly_rule
+                ):
+                    label_date_eligible = (
+                        self.time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
+                        if self.time_eligibility.date_will_be_eligible > date.today()
+                        else "now"
+                    )
+                    label = f"Possibly Eligible {label_date_eligible} or {self.time_eligibility.date_eligible_without_friendly_rule.strftime('%b %-d, %Y')} w/o friendly rule (review)"
+                    return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE, label)
                 elif self.time_eligibility.date_will_be_eligible:
                     return ChargeEligibility(
                         ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
