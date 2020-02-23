@@ -1,4 +1,5 @@
 from expungeservice.models.expungement_result import *
+from tests.time import Time
 
 
 def test_eligible():
@@ -20,8 +21,22 @@ def test_will_be_eligible():
     assert expungement_result.charge_eligibility.label == f"Eligible {today.strftime('%b %-d, %Y')}"
 
 
-def test_possibly_eligible():
+def test_will_be_eligible_with_friendly_rule_special_case():
     today = date.today()
+    type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
+    time_eligibility = TimeEligibility(
+        EligibilityStatus.INELIGIBLE, "Ineligible under some statute", today, Time.ONE_YEARS_FROM_NOW
+    )
+    expungement_result = ExpungementResult(type_eligibility, time_eligibility)
+
+    assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+    assert (
+        expungement_result.charge_eligibility.label
+        == f"Eligible now or {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')} w/o friendly rule (review)"
+    )
+
+
+def test_possibly_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
     time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute", None)
     expungement_result = ExpungementResult(type_eligibility, time_eligibility)
@@ -38,6 +53,21 @@ def test_possibly_will_be_eligible():
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE
     assert expungement_result.charge_eligibility.label == f"Possibly Eligible {today.strftime('%b %-d, %Y')} (review)"
+
+
+def test_possibly_will_be_eligible_with_friendly_rule_special_case():
+    today = date.today()
+    type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
+    time_eligibility = TimeEligibility(
+        EligibilityStatus.INELIGIBLE, "Ineligible under some statute", today, Time.ONE_YEARS_FROM_NOW
+    )
+    expungement_result = ExpungementResult(type_eligibility, time_eligibility)
+
+    assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE
+    assert (
+        expungement_result.charge_eligibility.label
+        == f"Possibly Eligible now or {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')} w/o friendly rule (review)"
+    )
 
 
 def test_ineligible():
