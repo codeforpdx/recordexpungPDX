@@ -13,7 +13,7 @@ from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIne
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
-from expungeservice.models.charge_types.person_crime import PersonCrime
+from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
@@ -41,7 +41,7 @@ class ChargeClassifier:
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
         yield ChargeClassifier._parking_ticket(self.violation_type)
-        yield from ChargeClassifier._classification_by_level(self.level)
+        yield from ChargeClassifier._classification_by_level(self.level, self.statute)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
 
         yield UnclassifiedCharge
@@ -56,15 +56,14 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._subsection_6(section)
-        yield ChargeClassifier._crime_against_person(section)
         yield ChargeClassifier._schedule_1_pcs(section)
 
     @staticmethod
-    def _classification_by_level(level):
+    def _classification_by_level(level, statute):
         yield ChargeClassifier._non_traffic_violation(level)
         yield ChargeClassifier._misdemeanor(level)
         yield ChargeClassifier._felony_class_c(level)
-        yield ChargeClassifier._felony_class_b(level)
+        yield ChargeClassifier._felony_class_b(level, statute)
         yield ChargeClassifier._felony_class_a(level)
 
     @staticmethod
@@ -89,12 +88,6 @@ class ChargeClassifier:
     def _subsection_12(section):
         if section in (Subsection12.conditionally_eligible_sections + Subsection12.eligible_sections):
             return Subsection12
-
-    @staticmethod
-    def _crime_against_person(section):
-        statute_ranges = (range(163305, 163480), range(163670, 163694), range(167008, 167108), range(167057, 167081))
-        if section.isdigit() and any(int(section) in statute_range for statute_range in statute_ranges):
-            return PersonCrime
 
     @staticmethod
     def _traffic_crime(statute, level):
@@ -152,11 +145,28 @@ class ChargeClassifier:
             return FelonyClassC
 
     @staticmethod
-    def _felony_class_b(level):
+    def _felony_class_b(level, statute):
         if level == "Felony Class B":
-            return FelonyClassB
+            if ChargeClassifier._person_felony(statute):
+                return PersonFelonyClassB
+            else:
+                return FelonyClassB
 
     @staticmethod
     def _felony_class_a(level):
         if level == "Felony Class A":
             return FelonyClassA
+
+    @staticmethod
+    def _person_felony(statute):
+        """
+        The statutes listed here are specified in https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
+        The list includes statutes which are not named as class B felonies. However, because a statute can be charged as a different level of crime from that named in the statute, our expunger checks OECI directly for whether the charge was a class B felony, and then checks membership in this list.
+        """
+        if statute in PersonFelonyClassB.statutes + PersonFelonyClassB.statutes_with_subsection:
+            return True
+        elif statute in [full_statute[:6] for full_statute in PersonFelonyClassB.statutes_with_subsection]:
+            return True
+            # In this case the type eligibility needs more analysis. The condition is checked again in the charge object's type eligibility method.
+        else:
+            return False
