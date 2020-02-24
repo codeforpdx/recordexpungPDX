@@ -147,7 +147,7 @@ class ChargeClassifier:
     @staticmethod
     def _felony_class_b(level, statute):
         if level == "Felony Class B":
-            if ChargeClassifier._crime_against_person(statute):
+            if ChargeClassifier._person_felony(statute):
                 return PersonFelonyClassB
             else:
                 return FelonyClassB
@@ -158,7 +158,7 @@ class ChargeClassifier:
             return FelonyClassA
 
     @staticmethod
-    def _crime_against_person(statute):
+    def _person_felony(statute):
         """
         The statutes listed here are specified in https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
         The list includes statutes which are not named as class B felonies. However, because a statute can be charged as a different level of crime from that named in the statute, our expunger checks OECI directly for whether the charge was a class B felony, and then checks membership in this list.
