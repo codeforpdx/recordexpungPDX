@@ -36,6 +36,8 @@ Dismissals are eligible under 137.225(1)(b)."""
     The following statutes are eligible if tried as an Attempt charge.
     But if this is the case, the actual charge will be filed under a different statute number, meaning this set of statutes never provides additional information for eligibility.
 
+    TODO: We should figure out what the statutes for attempt are so that we can identify those charges and apply this subsection.
+
     eligible_attempt_sections = [
         "163175",
         "162165",
@@ -53,13 +55,6 @@ Dismissals are eligible under 137.225(1)(b)."""
                     EligibilityStatus.NEEDS_MORE_ANALYSIS,
                     reason="Incest is possibly eligible under 137.225(12), if the victim was at least 18 years of age.",
                 )
-                """
-            elif self._section in self.eligible_attempt_sections:
-                return TypeEligibility(
-                    EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                    reason="Criminal Attempt under this statute may be eligible under 137.225(12).",
-                )
-                """
             elif self._section in self.eligible_sections:
                 return TypeEligibility(
                     EligibilityStatus.ELIGIBLE,

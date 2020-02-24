@@ -18,7 +18,6 @@ def test_subsection_12_dismissed():
         subsection_12_charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
     )
 
-
 def test_subsection_12_163535():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Abandonment of a child"
@@ -33,25 +32,6 @@ def test_subsection_12_163535():
         subsection_12_charge.expungement_result.type_eligibility.reason
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
-
-
-"""
-def test_subsection_12_163175():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Attempted assault in the second degree"
-    charge_dict["statute"] = "163.175"
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_12_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(subsection_12_charge, Subsection12)
-    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_12_charge.expungement_result.type_eligibility.reason
-        == "Criminal Attempt under this statute may be eligible under 137.225(12)."
-    )
-"""
-
 
 def test_subsection_12_163275():
     charge_dict = ChargeFactory.default_dict()
@@ -74,25 +54,6 @@ def test_subsection_12_163275():
         subsection_12_charge.expungement_result.type_eligibility.reason
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
-
-
-"""
-def test_subsection_12_162165():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Attempted escape in the first degree"
-    charge_dict["statute"] = "162.165"
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_12_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(subsection_12_charge, Subsection12)
-    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_12_charge.expungement_result.type_eligibility.reason
-        == "Criminal Attempt under this statute may be eligible under 137.225(12)."
-    )
-"""
-
 
 def test_subsection_12_163525():
     charge_dict = ChargeFactory.default_dict()
@@ -125,40 +86,6 @@ def test_subsection_12_166165():
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
 
-
-"""
-def test_subsection_12_163225():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Attempted kidnapping in the second degree"
-    charge_dict["statute"] = "163.225"
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_12_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(subsection_12_charge, Subsection12)
-    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_12_charge.expungement_result.type_eligibility.reason
-        == "Criminal Attempt under this statute may be eligible under 137.225(12)."
-    )
-
-def test_subsection_12_164405():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Attempted robbery in the second degree"
-    charge_dict["statute"] = "164.405"
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_12_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(subsection_12_charge, Subsection12)
-    assert subsection_12_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_12_charge.expungement_result.type_eligibility.reason
-        == "Criminal Attempt under this statute may be eligible under 137.225(12)."
-    )
-"""
-
-
 def test_subsection_12_164395():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Robbery in the third degree"
@@ -173,7 +100,6 @@ def test_subsection_12_164395():
         subsection_12_charge.expungement_result.type_eligibility.reason
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
-
 
 def test_subsection_12_162185():
     charge_dict = ChargeFactory.default_dict()
@@ -190,7 +116,6 @@ def test_subsection_12_162185():
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
 
-
 def test_subsection_12_166220():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Unlawful use of weapon"
@@ -206,8 +131,7 @@ def test_subsection_12_166220():
         == "Eligible under 137.225(12). This subsection also describes more lenient expungement criteria than other subsections."
     )
 
-
-# Test sub-chapters are not compared when not necessary.
+# Test that sub-chapters are not compared when not necessary.
 def test_subsection_12_charge_that_includes_sub_chapter():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Unlawful use of weapon"
