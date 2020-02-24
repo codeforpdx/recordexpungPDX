@@ -6,8 +6,6 @@ import psycopg2
 import psycopg2.extras
 import os
 
-from urllib.parse import urlparse
-
 
 class Database(object):
     """Database connection class.
