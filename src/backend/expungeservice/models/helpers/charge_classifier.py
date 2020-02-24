@@ -163,9 +163,10 @@ class ChargeClassifier:
         The statutes listed here are specified in https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
         The list includes statutes which are not named as class B felonies. However, because a statute can be charged as a different level of crime from that named in the statute, our expunger checks OECI directly for whether the charge was a class B felony, and then checks membership in this list.
         """
-
         if statute in PersonFelonyClassB.statutes + PersonFelonyClassB.statutes_with_subsection:
             return True
         elif statute in [full_statute[:6] for full_statute in PersonFelonyClassB.statutes_with_subsection]:
             return True
             # In this case the type eligibility needs more analysis. The condition is checked again in the charge object's type eligibility method.
+        else:
+            return False

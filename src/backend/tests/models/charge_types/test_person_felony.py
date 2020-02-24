@@ -84,4 +84,3 @@ def test_felony_not_b_person_felony(person_felony_statute_not_b_felony):
     charge_dict["disposition"] = Dispositions.CONVICTED
     person_felony_not_class_b_convicted = ChargeFactory.create(**charge_dict)
     assert not isinstance(person_felony_not_class_b_convicted, PersonFelonyClassB)
-    print(type(person_felony_not_class_b_convicted))
