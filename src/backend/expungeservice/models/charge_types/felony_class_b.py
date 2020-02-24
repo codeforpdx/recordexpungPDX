@@ -15,7 +15,7 @@ The extra restrictions are:
  * The class B felony is ineligible if the person has been arrested or convicted for any crime, other than a traffic violation, following the date of the class B felony conviction.
  * If the charge is also classified as a [Person Crime](manual/charge-types#personcrime) it is ineligible.
 If a class B felony is eligible under any other subsection of the statute, that eligibility takes precedences and the extra restrictions here are ignored. The alternate positive criteria that can apply to B felonies are:
- * Some class B felonies fall under [Subsection6](#Subsection6) or [Subsection12](#Subsection12), which take precendence over 137.225(5)(a).
+ * Some class B felonies fall under [Subsection 6](#Subsection6) or [Subsection 12](#Subsection12), which take precendence over 137.225(5)(a).
  * If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b)."""
     )
 
