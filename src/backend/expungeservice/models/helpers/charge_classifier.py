@@ -77,37 +77,17 @@ class ChargeClassifier:
     def _subsection_6(section):
         conditionally_ineligible_statutes = [
             "163200",  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
-            # 163205, # overridden by subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+            "163205",  # (overrides subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163575",  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
-            # 163.165(1)(h) # overridden by subsection 12.(Assault in the third degree)
+            "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
         if section in conditionally_ineligible_statutes:
             return Subsection6
 
     @staticmethod
     def _subsection_12(section):
-
-        eligible_statutes = [
-            # In order listed in the subsection
-            "163535",  # added; (Abandonment of a child)
-            "163175",  # (Assault in the second degree)
-            "163165",  # (Assault in the third degree)
-            "163275",  # (Coercion)
-            "163205",  # (Criminal mistreatment in the first degree)
-            "162165",  # (Attempted escape in the first degree)
-            # 163525 (Incest), see below
-            "166165",  # (added; Intimidation in the first degree)
-            "163225",  # (Attempted Kidnapping in the second degree)
-            "164405",  # (Robbery in the second degree)
-            "164395",  # (Robbery in the third degree)
-            "162185",  # (Supplying contraband)
-            "166220",  # (Unlawful use of weapon)
-        ]
-        conditionally_eligible_statutes = [
-            "163525"  # (Incest), conditional that the victim was at least 18 years of age.
-        ]
-        if section in conditionally_eligible_statutes + eligible_statutes:
+        if section in (Subsection12.conditionally_eligible_sections + Subsection12.eligible_sections):
             return Subsection12
 
     @staticmethod
