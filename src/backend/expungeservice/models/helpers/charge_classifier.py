@@ -39,7 +39,7 @@ class ChargeClassifier:
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
-        yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section)
+        yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
@@ -52,10 +52,10 @@ class ChargeClassifier:
             return JuvenileCharge
 
     @staticmethod
-    def _classification_by_statute(statute, chapter, section):
+    def _classification_by_statute(statute, chapter, section, level):
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_12(section)
-        yield ChargeClassifier._subsection_6(section)
+        yield ChargeClassifier._subsection_6(section, level)
         yield ChargeClassifier._schedule_1_pcs(section)
 
     @staticmethod
@@ -73,7 +73,7 @@ class ChargeClassifier:
             return MarijuanaIneligible
 
     @staticmethod
-    def _subsection_6(section):
+    def _subsection_6(section, level):
         conditionally_ineligible_statutes = [
             "163200",  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
             "163205",  # (overrides subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
@@ -81,7 +81,7 @@ class ChargeClassifier:
             "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
             "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
-        if section in conditionally_ineligible_statutes:
+        if section in conditionally_ineligible_statutes and level not in ["Felony Class A", "Felony Class B"]:
             return Subsection6
 
     @staticmethod

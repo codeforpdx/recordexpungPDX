@@ -8,10 +8,7 @@ import pytest
 person_felonies_with_other_charge_type = [
     "162165",  # Escape I;
     "162185",  # Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
-    "163145",  # Negligent Homicide;
-    "163165",  # Assault III;
     "163175",  # Assault II;
-    "163205",  # Criminal Mistreatment I;
     "163225",  # Kidnapping II;
     "163275",  # Coercion as defined in Crime Category 7 (OAR 213-018-0035(1));
     "163525",  # Incest;
@@ -41,6 +38,7 @@ def test_person_felony_class_b(person_felony_statute):
     assert (
         person_felony_class_b_convicted.expungement_result.type_eligibility.reason == "Ineligible under 137.225(5)(a)"
     )
+
 
 @pytest.mark.parametrize("person_felony_statute", PersonFelonyClassB.statutes_with_subsection)
 def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):

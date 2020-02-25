@@ -1,5 +1,6 @@
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.subsection_6 import Subsection6
+from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 
@@ -61,14 +62,14 @@ def test_subsection_6_163575():
     assert isinstance(subsection_6_charge, Subsection6)
 
 
-def test_subsection_6_163145():
+def test_subsection_6_does_not_apply_when_felony_class_b():
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Criminally negligent homicide"
     charge_dict["statute"] = "163.145"
     charge_dict["level"] = "Felony Class B"
     subsection_6_charge = ChargeFactory.create(**charge_dict)
 
-    assert isinstance(subsection_6_charge, Subsection6)
+    assert isinstance(subsection_6_charge, PersonFelonyClassB)
 
 
 def test_subsection_6_163205():
