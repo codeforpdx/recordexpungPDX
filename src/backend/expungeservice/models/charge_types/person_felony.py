@@ -46,18 +46,15 @@ A person felony that is not a class B felony is not considered under this subsec
         "163115",  # Felony Murder;
         "163118",  # Manslaughter I;
         "163125",  # Manslaughter II;
-        "163145",  # Negligent Homicide; TODO: which of these two lines?
         # "163145",  # [Subsection 6] Negligent Homicide;
         "163149",  # Aggravated Vehicular Homicide;
         # "1631603", # [contains subsection] # Felony Assault;
-        "163165",  # Assault III; TODO: which of these two lines?
         # "163165",  # [Subsection 6] Assault III;
         # "163175",  # [Subsection 12] Assault II;
         "163185",  # Assault I;
         # "1631874", # [contains subsection] # Felony Strangulation;
         "163192",  # Endangering Person Protected by FAPA Order;
         "163196",  # Aggravated Driving While Suspended or Revoked;
-        "163205",  # Criminal Mistreatment I; TODO: Which of these?
         # "163205", # [Subsection 6]  Criminal Mistreatment I;
         "163207",  # Female Genital Mutilation;
         "163208",  # Assaulting a Public Safety Officer;
@@ -86,7 +83,7 @@ A person felony that is not a class B felony is not considered under this subsec
         "163472",  # Unlawful Dissemination of Intimate Image;
         "163479",  # Unlawful Contact with a Child;
         # "163525",  # [Subsection 12] Incest;
-        # "163535",  # [Subsection 6] Abandon Child;
+        # "163535",  # [Subsection 12] Abandon Child;
         "163537",  # Buying/Selling Custody of a Minor;
         "163547",  # Child Neglect I;
         "163670",  # Using Child In Display of Sexual Conduct;

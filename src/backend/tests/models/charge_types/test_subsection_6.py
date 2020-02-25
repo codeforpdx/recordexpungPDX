@@ -84,18 +84,22 @@ def test_subsection_6_163145():
     assert isinstance(subsection_6_charge, Subsection6)
 
 
-def test_163575_is_not_subsection_6_if_b_felony():
+def test_163575_has_same_reason_as_person_felony_if_b_felony():
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Endangering the welfare of a minor"
     charge_dict["statute"] = "163.575"
     charge_dict["level"] = "Felony Class B"
     subsection_6_charge = ChargeFactory.create(**charge_dict)
 
-    assert not isinstance(subsection_6_charge, Subsection6)
+    assert isinstance(subsection_6_charge, Subsection6)
+    assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert (
+        subsection_6_charge.expungement_result.type_eligibility.reason
+        == "Ineligible under 137.225(5)(a) in certain circumstances."
+    )
 
 
-@pytest.mark.skip(reason="TODO: this SHOULD remain Subsection6 even if it's a B felony. Pending change to Subsection6 internal logic.")
-def test_163200_is_not_subsection_6_if_b_felony():
+def test_163200_has_same_reason_as_person_felony_if_b_felony():
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Criminal mistreatment in the second degree"
     charge_dict["statute"] = "163.200"
@@ -106,5 +110,5 @@ def test_163200_is_not_subsection_6_if_b_felony():
     assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         subsection_6_charge.expungement_result.type_eligibility.reason
-        == "Ineligible under 137.225(6) in certain circumstances."
+        == "Ineligible under 137.225(5)(a) in certain circumstances."
     )

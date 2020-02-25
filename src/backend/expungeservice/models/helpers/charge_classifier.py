@@ -81,7 +81,7 @@ class ChargeClassifier:
             "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
             "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
-        if section in conditionally_ineligible_statutes and level not in ["Felony Class A", "Felony Class B"]:
+        if section in conditionally_ineligible_statutes:
             return Subsection6
 
     @staticmethod

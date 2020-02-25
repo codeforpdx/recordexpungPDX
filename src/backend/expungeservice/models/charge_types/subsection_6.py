@@ -24,6 +24,13 @@ Dismissals are eligible under 137.225(1)(b)."""
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
-            return TypeEligibility(
-                EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Ineligible under 137.225(6) in certain circumstances.",
-            )
+            if self.level in ["Felony Class A", "Felony Class B"]:
+                return TypeEligibility(
+                    EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                    reason="Ineligible under 137.225(5)(a) in certain circumstances.",
+                )
+            else:
+                return TypeEligibility(
+                    EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                    reason="Ineligible under 137.225(6) in certain circumstances.",
+                )
