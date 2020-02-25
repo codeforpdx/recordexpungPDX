@@ -94,6 +94,7 @@ def test_163575_is_not_subsection_6_if_b_felony():
     assert not isinstance(subsection_6_charge, Subsection6)
 
 
+@pytest.mark.skip(reason="TODO: this SHOULD remain Subsection6 even if it's a B felony. Pending change to Subsection6 internal logic.")
 def test_163200_is_not_subsection_6_if_b_felony():
     charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
     charge_dict["name"] = "Criminal mistreatment in the second degree"

@@ -16,8 +16,10 @@ Dismissal of a person felony is eligible as usual under 137.225(1)(b).
 A person felony that is not a class B felony is not considered under this subsection and lower levels of charge may still be eligible, with the exceptions named elsewhere such as in [Subsection 12](#Subsection12).
 """
     )
-
-    """Some statutes listed in the definition for person crime include a subsection which need special logic to handle potential OECI errors"""
+    """
+    Some statutes listed in the definition for person crime include a subsection.
+    These statutes which need special logic to handle the potential OECI error that the subsection was dropped.
+    Such a charge in OECI more analysis because the actual subsection that applies will determine eligibility. """
     statutes_with_subsection = [
         "1631874",  # [contains subsection] # Felony Strangulation; class C felony
         "1643772C",  # [contains subsection] # Computer Crime—Theft of an Intimate Image; class C misdemeanor
@@ -29,14 +31,6 @@ A person felony that is not a class B felony is not considered under this subsec
         "8304752",  # [contains subsection] # Hit and Run Boat; no level
         "8373652B",  # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System; class C felony
         "8373652C",  # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System; class B felony
-    ] + [
-        # These are listed as "Person Misdemeanors" in the webpage linked above
-        # But we considering all of them to be "person crimes" and a felony is a felony if it's charged as such (according to the data in OECI)
-
-        "8373742", # Unlawful Interference with Aircraft (if aircraft manned at time of offense);
-        "8373743", # same
-        "6099903a", # Maintaining Dangerous Dog
-        "1663852", # Misdemeanor Possession of a Hoax Destructive Device
     ]
     """
     This list is the exhaustive set of statutes named under the Person Felony definition https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
@@ -137,30 +131,6 @@ A person felony that is not a class B felony is not considered under this subsec
         # "8304752", # [contains subsection] # Hit and Run Boat;
         # "8373652B", # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System;
         # "8373652C", # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System;
-    ] + [
-    #These are misdemeanors according to the statute. But we care about OECI levels, not statute definition.
-
-        "162315", # Resisting Arrest
-        "163160", # Assault IV\n "163187 Strangulation
-        "163190", # Menacing
-        "163195", # Recklessly Endanger Another
-        # "163200", # [Subsection 6] Criminal Mistreatment II
-        "163212", # Use of Stun Gun, Tear Gas, Mace II
-        "163415", # Sexual Abuse III
-        "163454", # Custodial Sexual Misconduct in the Second Degree
-        "163465", # Public Indecency
-        "163467", # Private Indecency
-        "163472", # Unlawful Dissemination of Intimate Image
-        "163476", # Unlawfully Being in a Location Where Children Regularly Congregate
-        "163545", # Child Neglect II
-        # "163575", # [ Subsection 6 ] Endanger Welfare of Minor
-        "163687", # Encouraging Child Sex Abuse III
-        "163700", # Invasion of Personal Privacy II
-        "163709", # Unlawfully Directing a Laser Pointer
-        "165572", # Interfering with Making a Police Report
-        "165815", # Criminal Impersonation
-        "166155", # Bias Crime II
-        "167054", # Furnishing Sexually Explicit Material to a Child
     ]
 
     def _type_eligibility(self):
