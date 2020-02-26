@@ -15,6 +15,7 @@ class Schedule1PCS(Charge):
                     EligibilityStatus.INELIGIBLE,
                     reason="Dismissed violations are ineligible by omission from statute"
                 )
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            else:
+                return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(c)")

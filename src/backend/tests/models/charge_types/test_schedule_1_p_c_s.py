@@ -81,7 +81,14 @@ def test_pcs_dismissed_violation():
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
         assert pcs_charge.expungement_result.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+
+
+def test_pcs_dismissed_nonviolation():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Poss Controlled Sub 2"
+    charge_dict["statute"] = "4759924B"
     charge_dict["level"] = "Felony Class C"  # also test non-violation
+    charge_dict["disposition"] = Dispositions.DISMISSED
     pcs_charge = ChargeFactory.create(**charge_dict)
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
