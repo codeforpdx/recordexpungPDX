@@ -176,7 +176,6 @@ class AddUser extends React.Component<Props, State> {
                 name="confirm-password"
                 type="password"
                 className="w-100 pa3 br2 b--black-20"
-                required={true}
                 aria-describedby={
                   this.state.mismatchPasswords
                     ? 'mismatch_msg'
