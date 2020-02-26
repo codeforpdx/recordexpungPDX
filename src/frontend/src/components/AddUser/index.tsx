@@ -168,32 +168,6 @@ class AddUser extends React.Component<Props, State> {
               />
             </div>
             <div className="mb4">
-              <label htmlFor="confirm-password" className="db mb2 fw6">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirm-password"
-                type="password"
-                className="w-100 pa3 br2 b--black-20"
-                aria-describedby={
-                  this.state.mismatchPasswords
-                    ? 'mismatch_msg'
-                    : this.state.invalidCredentials
-                    ? 'no_match_msg'
-                    : undefined
-                }
-                aria-invalid={
-                  this.state.mismatchPasswords
-                    ? true
-                    : this.state.invalidCredentials
-                    ? true
-                    : false
-                }
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="mb4">
               <label htmlFor="group" className="db mb2 fw6">
                 Group
               </label>
