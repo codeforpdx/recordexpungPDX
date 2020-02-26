@@ -75,7 +75,8 @@ def test_pcs_dismissed_violation():
     charge_dict["name"] = "Poss Controlled Sub 2"
     charge_dict["statute"] = "4759924B"
     charge_dict["disposition"] = Dispositions.DISMISSED
-    for level in ("Felony Class viOlation C", "Felony Violation", "violation Felony", "some other Violation"):
+    for level in ("Class C Violation", "Class c violation", "Class B Violation",
+                  "Class B violation", "Class D Violation", "Class D violation"):
         charge_dict["level"] = level
         pcs_charge = ChargeFactory.create(**charge_dict)
         assert isinstance(pcs_charge, Schedule1PCS)
