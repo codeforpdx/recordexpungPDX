@@ -10,7 +10,12 @@ class Schedule1PCS(Charge):
 
     def _type_eligibility(self):
         if self.dismissed():
-            # TODO: Are violation dismissals for a PCS actually eligible? This does not appear to be the case.
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            if "violation" in self.level.lower():
+                return TypeEligibility(
+                    EligibilityStatus.INELIGIBLE,
+                    reason="Dismissed violations are ineligible by omission from statute"
+                )
+            else:
+                return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(c)")

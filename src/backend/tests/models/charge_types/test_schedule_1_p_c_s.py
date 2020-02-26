@@ -68,3 +68,29 @@ def test_pcs_475992():
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert pcs_charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(c)"
+
+
+def test_pcs_dismissed_violation():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Poss Controlled Sub 2"
+    charge_dict["statute"] = "4759924B"
+    charge_dict["disposition"] = Dispositions.DISMISSED
+    for level in ("Class C Violation", "Class c violation", "Class B Violation",
+                  "Class B violation", "Class D Violation", "Class D violation"):
+        charge_dict["level"] = level
+        pcs_charge = ChargeFactory.create(**charge_dict)
+        assert isinstance(pcs_charge, Schedule1PCS)
+        assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+        assert pcs_charge.expungement_result.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+
+
+def test_pcs_dismissed_nonviolation():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Poss Controlled Sub 2"
+    charge_dict["statute"] = "4759924B"
+    charge_dict["level"] = "Felony Class C"  # also test non-violation
+    charge_dict["disposition"] = Dispositions.DISMISSED
+    pcs_charge = ChargeFactory.create(**charge_dict)
+    assert isinstance(pcs_charge, Schedule1PCS)
+    assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert pcs_charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
