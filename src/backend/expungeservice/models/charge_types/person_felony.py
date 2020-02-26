@@ -16,10 +16,11 @@ Dismissal of a person felony is eligible as usual under 137.225(1)(b).
 A person felony that is not a class B felony is not considered under this subsection and lower levels of charge may still be eligible, with the exceptions named elsewhere such as in [Subsection 12](#Subsection12).
 """
     )
-
-    """Some statutes listed in the definition for person crime include a subsection which need special logic to handle potential OECI errors"""
+    """
+    Some statutes listed in the definition for person crime include a subsection.
+    These statutes which need special logic to handle the potential OECI error that the subsection was dropped.
+    Such a charge in OECI more analysis because the actual subsection that applies will determine eligibility. """
     statutes_with_subsection = [
-        "1631603",  # [contains subsection] # Felony Assault; class C felony
         "1631874",  # [contains subsection] # Felony Strangulation; class C felony
         "1643772C",  # [contains subsection] # Computer Crime—Theft of an Intimate Image; class C misdemeanor
         "1648863",  # [contains subsection] # Tree Spiking (Injury); class B felony
@@ -38,32 +39,32 @@ A person felony that is not a class B felony is not considered under this subsec
     statutes = [
         "97981",  # Purchase or Sale of a Body Part for Transplantation or Therapy;
         "97982",  # Alteration of a Document of Gift;
-        # "162165",  # Escape I;
-        # "162185",  # Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
+        # "162165",  # [Subsection 12] Escape I;
+        # "162185",  # [Subsection 12] Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
         "163095",  # Aggravated Murder;
         "163115",  # Murder II;
         "163115",  # Felony Murder;
         "163118",  # Manslaughter I;
         "163125",  # Manslaughter II;
-        "163145",  # Negligent Homicide;
+        # "163145",  # [Subsection 6] Negligent Homicide;
         "163149",  # Aggravated Vehicular Homicide;
         # "1631603", # [contains subsection] # Felony Assault;
-        "163165",  # Assault III;
-        # "163175",  # Assault II;
+        # "163165",  # [Subsection 6] Assault III;
+        # "163175",  # [Subsection 12] Assault II;
         "163185",  # Assault I;
         # "1631874", # [contains subsection] # Felony Strangulation;
         "163192",  # Endangering Person Protected by FAPA Order;
         "163196",  # Aggravated Driving While Suspended or Revoked;
-        "163205",  # Criminal Mistreatment I;
+        # "163205", # [Subsection 6]  Criminal Mistreatment I;
         "163207",  # Female Genital Mutilation;
         "163208",  # Assaulting a Public Safety Officer;
         "163213",  # Use of Stun Gun, Tear Gas, Mace I;
-        # "163225",  # Kidnapping II;
+        # "163225",  # [Subsection 12] Kidnapping II;
         "163235",  # Kidnapping I;
         "163263",  # Subjecting Another Person to Involuntary Servitude II;
         "163264",  # Subjecting Another Person to Involuntary Servitude I;
         "163266",  # Trafficking in Persons;
-        # "163275",  # Coercion as defined in Crime Category 7 (OAR 213-018-0035(1));
+        # "163275",  # [Subsection 12] Coercion as defined in Crime Category 7 (OAR 213-018-0035(1));
         "163355",  # Rape III;
         "163365",  # Rape II;
         "163375",  # Rape I;
@@ -81,8 +82,8 @@ A person felony that is not a class B felony is not considered under this subsec
         "163465",  # Felony Public Indecency;
         "163472",  # Unlawful Dissemination of Intimate Image;
         "163479",  # Unlawful Contact with a Child;
-        # "163525",  # Incest;
-        # "163535",  # Abandon Child;
+        # "163525",  # [Subsection 12] Incest;
+        # "163535",  # [Subsection 12] Abandon Child;
         "163537",  # Buying/Selling Custody of a Minor;
         "163547",  # Child Neglect I;
         "163670",  # Using Child In Display of Sexual Conduct;
@@ -98,8 +99,8 @@ A person felony that is not a class B felony is not considered under this subsec
         "164325",  # Arson I;
         "164342",  # Arson Incident to the Manufacture of a Controlled Substance I;
         # "1643772C", # [contains subsection] # Computer Crime—Theft of an Intimate Image;
-        # "164395",  # Robbery III;
-        # "164405",  # Robbery II;
+        # "164395",  # [Subsection 12] Robbery III;
+        # "164405",  # [Subsection 12] Robbery II;
         "164415",  # Robbery I;
         # "1648863", # [contains subsection] # Tree Spiking (Injury);
         "166070",  # Aggravated Harassment;
@@ -118,12 +119,12 @@ A person felony that is not a class B felony is not considered under this subsec
         # "4757526A", # [contains subsection] # Manufacturing or Delivering a Schedule IV Controlled Substance Thereby Causing Death to a Person;
         "475908",  # Causing Another to Ingest a Controlled Substance as defined in Crime Categories 8 and 9 (OAR 213-019-0007 and 0008);
         "475910",  # Unlawful Administration of a Controlled Substance as defined in Crime Categories 5, 8, and 9 (OAR 213-019-0007, -0008, and -0011);
-        # "475B359",  # Arson Incident to Manufacture of Cannabinoid Extract I;
-        # "475B367",  # Causing Another Person to Ingest Marijuana;
-        # "475B371",  # Administration to Another Person Under 18 Years of Age;
+        # "475B359",  # [Marijuana Ineligible] Arson Incident to Manufacture of Cannabinoid Extract I;
+        # "475B367",  # [Marijuana Ineligible] Causing Another Person to Ingest Marijuana;
+        # "475B371",  # [Marijuana Ineligible] Administration to Another Person Under 18 Years of Age;
         # "6099903B", # [contains subsection] # Maintaining Dangerous Dog;
-        # "811705",  # Hit and Run Vehicle (Injury);
-        # "8130105", # Felony Driving Under the Influence of Intoxicants (as provided in OAR 213-004-0009);
+        # "811705",  # [traffic offense] Hit and Run Vehicle (Injury);
+        # "8130105", # [traffic offense] Felony Driving Under the Influence of Intoxicants (as provided in OAR 213-004-0009);
         # "8304752", # [contains subsection] # Hit and Run Boat;
         # "8373652B", # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System;
         # "8373652C", # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System;
