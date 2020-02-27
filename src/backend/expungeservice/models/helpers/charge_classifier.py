@@ -17,6 +17,7 @@ from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import SexCrime
+from expungeservice.models.charge_types.manufacture_delivery import ManufactureDelivery
 
 
 @dataclass
@@ -39,6 +40,7 @@ class ChargeClassifier:
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
+        yield ChargeClassifier._manufacture_delivery(self.name)
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
@@ -71,6 +73,12 @@ class ChargeClassifier:
         ineligible_statutes = ["475B359", "475B367", "475B371", "167262"]
         if statute == "475B3493C" or section in ineligible_statutes:
             return MarijuanaIneligible
+
+    @staticmethod
+    def _manufacture_delivery(name):
+        name_lowercase = name.lower().strip()
+        if any([keyword in name_lowercase for keyword in ["delivery", "manu/del"]]):
+            return ManufactureDelivery
 
     @staticmethod
     def _subsection_6(section, level):
