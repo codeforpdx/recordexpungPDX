@@ -23,5 +23,5 @@ Class C felony dismissals are always eligible under 137.225(1)(b)."""
         elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
-                reason="Always eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",
+                reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",
             )

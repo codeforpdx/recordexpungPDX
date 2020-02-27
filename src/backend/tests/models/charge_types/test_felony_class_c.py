@@ -41,7 +41,7 @@ def test_felony_c_no_disposition():
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.expungement_result.type_eligibility.reason
-        == "Always eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
+        == "Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
     )
 
 
@@ -57,5 +57,5 @@ def test_felony_c_unrecognized_disposition():
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.expungement_result.type_eligibility.reason
-        == "Always eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
+        == "Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
     )
