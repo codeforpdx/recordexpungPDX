@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import history from '../../service/history';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
+import { addUser } from '../../redux/users/actions';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
 
 interface Props {
   users: UserState;
+  addUser: (name: string, email: string, password: string, group: string, admin: boolean) => Promise<void>;
 }
 
 interface State {
+  errorType: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -26,6 +30,7 @@ interface State {
 
 class AddUser extends React.Component<Props, State> {
   public state: State = {
+    errorType: 'none',
     email: '',
     password: '',
     confirmPassword: '',
@@ -69,6 +74,26 @@ class AddUser extends React.Component<Props, State> {
         this.validateFormFields();
       }
     );
+    var admin = false;
+    if (this.state.role === 'search') {
+      admin = false;
+    } else {
+      admin = true;
+    };
+    this.props.addUser(
+      this.state.name,
+      this.state.email,
+      this.state.password,
+      this.state.group,
+      admin
+    ).catch(error => {
+      if (error.response.status === 403) {
+        // error if user is not admin
+        this.setState({ errorType: 'unauthorized' });
+      } else {
+        this.setState({ errorType: 'technical' });
+      }
+    });
   };
 
   public validateFormFields() {
@@ -269,4 +294,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
+  { addUser }
 )(AddUser);
