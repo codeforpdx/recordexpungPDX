@@ -137,6 +137,10 @@ class OeciLogin extends React.Component<Props, State> {
                 </p>
               ) : null}
             </div>
+            We publish app updates Thursdays and Sundays between 8:00 PM - 12:00AM PST,
+            at which time the site might be unavailable.
+            <br/>
+            <br/>
             <a
               className="db tc link underline hover-blue"
               href="https://publicaccess.courts.oregon.gov/PublicAccessLogin/Login.aspx"
