@@ -54,16 +54,25 @@ class RecordSummarizer:
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
-        eligible_charges = [
+        eligible_charges_by_date = [["now",[
             c.name
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-        ]
+        ]]]
+        will_be_eligible_charges : Dict[date, List[str]] = {}
+        for charge in record.charges:
+            if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
+                date_eligible = c.expungement_result.time_eligibility.date_will_be_eligible
+                if date_eligible not in will_be_eligible_charges.keys():
+                    will_be_eligible_charges[date_eligible] = [c.name]
+                else:
+                    will_be_eligible_charges[date_eligible].append(c.name)
+        sorted(will_be_eligible_charges)
         return RecordSummary(
             record=record,
             questions=questions,
             cases_sorted=cases_sorted,
-            eligible_charges=eligible_charges,
+            eligible_charges_by_date=eligible_charges_by_date,
             total_charges=total_charges,
             county_balances=county_balances_list,
         )

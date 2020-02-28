@@ -16,7 +16,7 @@ class RecordSummary:
     questions: List[Question]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
-    eligible_charges: List[str]
+    eligible_charges_by_date: Dict[str, List[str]]
     county_balances: List[CountyBalance]
 
     @property
