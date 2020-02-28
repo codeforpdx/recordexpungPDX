@@ -8,13 +8,11 @@ import pytest
 person_felonies_with_other_charge_type = [
     "162165",  # Escape I;
     "162185",  # Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
-    "163175",  # Assault II;
     "163225",  # Kidnapping II;
     "163275",  # Coercion as defined in Crime Category 7 (OAR 213-018-0035(1));
     "163525",  # Incest;
     "163535",  # Abandon Child;
     "164395",  # Robbery III;
-    "164405",  # Robbery II;
     "166165",  # Bias Crime I;
     "166220",  # Unlawful Use of a Weapon;
     "475B359",  # Arson Incident to Manufacture of Cannabinoid Extract I;

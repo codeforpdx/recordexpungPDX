@@ -50,7 +50,7 @@ A person felony that is not a class B felony is not considered under this subsec
         "163149",  # Aggravated Vehicular Homicide;
         # "1631603", # [contains subsection] # Felony Assault;
         # "163165",  # [Subsection 6] Assault III;
-        # "163175",  # [Subsection 12] Assault II;
+        "163175",  # Assault II;
         "163185",  # Assault I;
         # "1631874", # [contains subsection] # Felony Strangulation;
         "163192",  # Endangering Person Protected by FAPA Order;
@@ -100,7 +100,7 @@ A person felony that is not a class B felony is not considered under this subsec
         "164342",  # Arson Incident to the Manufacture of a Controlled Substance I;
         # "1643772C", # [contains subsection] # Computer Crime—Theft of an Intimate Image;
         # "164395",  # [Subsection 12] Robbery III;
-        # "164405",  # [Subsection 12] Robbery II;
+        "164405",  # Robbery II;
         "164415",  # Robbery I;
         # "1648863", # [contains subsection] # Tree Spiking (Injury);
         "166070",  # Aggravated Harassment;
