@@ -137,10 +137,12 @@ class OeciLogin extends React.Component<Props, State> {
                 </p>
               ) : null}
             </div>
-            We publish app updates Thursdays and Sundays between 8:00 PM - 12:00AM PST,
+            We publish software updates Thursdays and Sundays between 8:00 PM - 12:00AM PST,
             at which time the site might be unavailable.
-            <br/>
-            <br/>
+            <br/><br/>
+            The eCourt site is offline during the 4th weekend of each month between
+            6:00 PM PST on Friday until noon on Sunday. During this time, record search will not function.
+            <br/><br/>
             <a
               className="db tc link underline hover-blue"
               href="https://publicaccess.courts.oregon.gov/PublicAccessLogin/Login.aspx"
