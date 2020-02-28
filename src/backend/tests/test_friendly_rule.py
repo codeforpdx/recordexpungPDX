@@ -99,7 +99,6 @@ def test_needs_more_analysis_mrc_with_single_arrest():
     charge_dict["level"] = "Felony Class C"
     charge_dict["disposition"] = Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
     three_yr_mrc = ChargeFactory.create(**charge_dict)
-    print(three_yr_mrc)
     arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()
