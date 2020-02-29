@@ -2,6 +2,7 @@ from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record import Record, Question
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
 from typing import Dict, List
+from datetime import date
 
 
 class RecordSummarizer:
@@ -54,20 +55,23 @@ class RecordSummarizer:
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
-        eligible_charges_by_date = [["now",[
+        eligible_charges_now = [
             c.name
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-        ]]]
+        ]
+        eligible_charges_by_date = [["now",eligible_charges_now]]
         will_be_eligible_charges : Dict[date, List[str]] = {}
         for charge in record.charges:
-            if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
-                date_eligible = c.expungement_result.time_eligibility.date_will_be_eligible
+            if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
+                date_eligible = charge.expungement_result.time_eligibility.date_will_be_eligible
+                charge_name = charge.name.split("(")[0]
                 if date_eligible not in will_be_eligible_charges.keys():
-                    will_be_eligible_charges[date_eligible] = [c.name]
+                    will_be_eligible_charges[date_eligible] = [charge_name]
                 else:
-                    will_be_eligible_charges[date_eligible].append(c.name)
-        sorted(will_be_eligible_charges)
+                    will_be_eligible_charges[date_eligible].append(charge_name)
+        for dateval in sorted(will_be_eligible_charges):
+            eligible_charges_by_date.append([dateval.strftime('%b %-d, %Y'), will_be_eligible_charges[dateval]])
         return RecordSummary(
             record=record,
             questions=questions,

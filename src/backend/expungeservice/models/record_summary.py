@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from expungeservice.models.record import Record, Question
 
@@ -16,7 +16,7 @@ class RecordSummary:
     questions: List[Question]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
-    eligible_charges_by_date: Dict[str, List[str]]
+    eligible_charges_by_date: List[List[Any]] # Each list element is a list of length 2: [str, List[str]]
     county_balances: List[CountyBalance]
 
     @property
