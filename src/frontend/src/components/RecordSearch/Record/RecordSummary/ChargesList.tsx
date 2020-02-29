@@ -10,21 +10,15 @@ export default class ChargesList extends React.Component<Props> {
     const summarizedCharges = this.props.eligibleChargesByDate.map(((chargeGroup:any, index:number) => {
       let eligibilityDate = chargeGroup[0];
       let chargesNames = chargeGroup[1];
-      let listItems = chargesNames.map(((chargeName: string, index:number) => {
-        return (
-          <>
-            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb1">{chargeName}</li>
-          </>
-        )
-      }));
+      let listItems = this.buildListItems(chargesNames);
       let labelColor = (eligibilityDate==="now" ? "green" : "dark-blue");
       return (
         <>
           <div key={index}>
-            <span className={"fw8 mb2 " + labelColor}> {"Eligible " + eligibilityDate} </span> <span className="fw8">{(listItems.length > 0 ? "(" + listItems.length + ")" : "" )}</span>
+            <span className={"fw8 mb2 " + labelColor}> {"Eligible " + eligibilityDate} </span> <span className="fw8">{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
           </div>
           <ul className="list mb3">
-           {(listItems.length > 0 ? listItems : "None")}
+           {listItems}
           </ul>
         </>
       )
@@ -36,5 +30,19 @@ export default class ChargesList extends React.Component<Props> {
         {summarizedCharges}
       </div>
     );
+  }
+
+  buildListItems(chargesNames: string[]) {
+    let listItems = chargesNames.map(((chargeName: string, index:number) => {
+        return (
+            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb1">{chargeName}</li>
+        )
+      }));
+    if (listItems.length === 0) {
+      return "None";
+    } else {
+      return listItems;
+    }
+
   }
 }
