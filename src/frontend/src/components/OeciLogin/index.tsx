@@ -163,8 +163,6 @@ class OeciLogin extends React.Component<Props, State> {
             6 PM PST on Friday until noon on Sunday. During this time, record search will not&nbsp;function.</p>
           </form>
         </section>
-        <p className="mt4 mw6 center lh-copy">We publish software updates Thursdays and Sundays 
-        between 8 PM – 12 AM PST, at which time the site might be unavailable.</p>
       </main>
     );
   }
