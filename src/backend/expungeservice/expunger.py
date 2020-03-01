@@ -24,7 +24,7 @@ class Expunger:
         """
         open_cases = [case for case in self.record.cases if not case.closed()]
         if len(open_cases) > 0:
-            case_numbers = ",".join([case.case_number for case in open_cases])
+            case_numbers = ",".join([f"[{case.case_number}]" for case in open_cases])
             self.record.errors += [
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
