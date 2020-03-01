@@ -41,7 +41,7 @@ class Crawler:
 
         # Parse search results (case detail pages)
         with ThreadPoolExecutor(max_workers=50) as executor:
-            executor.map(self.__build_case, self.result.cases)
+            list(executor.map(self.__build_case, self.result.cases))
 
         self.session.close()
         return Record(self.result.cases)
@@ -63,7 +63,10 @@ class Crawler:
 
     def __parse_case(self, case):
         response = self.session.get(case.case_detail_link)
-        return CaseParser.feed(response.text)
+        if response.status_code == 200 and response.text:
+            return CaseParser.feed(response.text)
+        else:
+            raise ValueError(f"Failed to fetch case detail page. Please rerun the search.")
 
     @staticmethod
     def __extract_payload(node_response, last_name, first_name, middle_name, birth_date):
