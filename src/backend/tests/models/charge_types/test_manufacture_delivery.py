@@ -50,28 +50,11 @@ def test_manufacture_delivery_manudel_felony_unclassified():
         manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible under 137.225(5)(a), if this is a Class B Felony. If so, time eligibility follows the 20-year B felony rule."
     )
 
-@pytest.mark.skip(reason="We don't look for 'manufactur' keyword which picks up false positives. But we need to classify this as Manu/Del")
 def test_manufacture_delivery_manufacturing_name_4759921a():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "MANUFACTURING CONTROLLED SUB"
     charge_dict["statute"] = "4759921A"
     charge_dict["level"] = "Felony Unclassified"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-
-    manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
-
-    assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
-    assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible under 137.225(5)(a), if this is a Class B Felony. If so, time eligibility follows the 20-year B felony rule."
-    )
-
-@pytest.mark.skip(reason="WIP")
-def test_manufacture_delivery_475860():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Delivery of Marijuana for Consideration"
-    charge_dict["statute"] = "4758602"
-    charge_dict["level"] = "Felony Class B"
     charge_dict["disposition"] = Dispositions.CONVICTED
 
     manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
