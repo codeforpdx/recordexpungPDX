@@ -1,7 +1,7 @@
 // These imports are all defaults from create-react-app.
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HttpsApp from './components/HttpsApp';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -13,7 +13,7 @@ import store from './redux/store';
 const rootElement = document.getElementById('root');
 ReactDOM.render(
   <Provider store={store}>
-    <HttpsApp />
+    <App />
   </Provider>,
   rootElement
 );
