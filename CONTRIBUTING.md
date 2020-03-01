@@ -35,6 +35,7 @@ At this point you should now be in your new branch and can begin working on the 
 * Run the backend unit tests and check that they all pass. In the main project directory, run `make dev_test`.
 * Add the changes: `$ git add .` There are many versions of this command, consult docs mentioned below for more details or run `$ git help add` to get help in the terminal.
 * Commit the changes: `$ git commit` This opens an editor to write your commit message. Consult articles about how to write a  good commit message; here is one by freeCodeCamp: https://www.freecodecamp.org/news/writing-good-commit-messages-a-practical-guide/
+* Update you local branch with the latest changes on the main repo: `git pull -r upstream master` (the `-r` flag makes this perform a rebase on `master`; see https://git-scm.com/docs/git-rebase)
 * Push the changes to *your* remote repository: `$ git push origin name-of-new-branch`
 * Open a Pull Request on the `codeforpdx/recordExpungPDX` repository referencing the issue that this PR addresses
 * Please do not push direcly to a branch on the shared repo.
