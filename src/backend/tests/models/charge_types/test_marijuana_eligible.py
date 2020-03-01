@@ -42,7 +42,7 @@ def test_marijuana_eligible_missing_dispo():
         marijuana_eligible_charge.expungement_result.type_eligibility.reason == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)"
     )
 
-def test_marijuana_eligible_missing_dispo():
+def test_marijuana_eligible_unrecognized_dispo():
     delivery_to_minor_charge_dict["disposition"] = Dispositions.UNRECOGNIZED_DISPOSITION
 
     marijuana_eligible_charge = ChargeFactory.create(**delivery_to_minor_charge_dict)
