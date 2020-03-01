@@ -35,6 +35,7 @@ class Search(MethodView):
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
         cases: List[Case] = []
+        errors = []
         for alias in request_data["aliases"]:
             crawler = Crawler()
             login_result = crawler.login(
@@ -42,14 +43,23 @@ class Search(MethodView):
             )
             if login_result is False:
                 error(401, "Attempted login to OECI failed")
-            cases += crawler.search(
-                alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
-            ).cases
-        cases_with_unique_case_number = [
-            list(group)[0]
-            for key, group in groupby(sorted(cases, key=lambda case: case.case_number), lambda case: case.case_number)
-        ]
-        record = Record(cases_with_unique_case_number)
+
+            try:
+                cases += crawler.search(
+                    alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
+                ).cases
+            except Exception as e:
+                errors.append(str(e))
+        if errors:
+            record = Record([], errors)
+        else:
+            cases_with_unique_case_number = [
+                list(group)[0]
+                for key, group in groupby(
+                    sorted(cases, key=lambda case: case.case_number), lambda case: case.case_number
+                )
+            ]
+            record = Record(cases_with_unique_case_number)
         expunger = Expunger(record)
         expunger.run()
 

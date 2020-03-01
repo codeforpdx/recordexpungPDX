@@ -75,15 +75,21 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 
 @pytest.fixture
 def record_with_unrecognized_dispo(crawler):
-    return CrawlerFactory.create(crawler, cases={"X0001": CaseDetails.case_x(dispo_ruling_1="Something unrecognized")})
+    return CrawlerFactory.create(
+        crawler,
+        cases={
+            "X0001": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+            "X0002": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+            "X0003": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+        },
+    )
 
 
 def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
     expunger = Expunger(record_with_unrecognized_dispo)
     assert expunger.run()
-    assert record_with_unrecognized_dispo.errors[0] == (
-        f"""Case [{record_with_unrecognized_dispo.cases[0].case_number}] has a charge with an unrecognized disposition (Something unrecognized).
-This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
+    assert (
+        "The following cases have charges with an unrecognized disposition" in record_with_unrecognized_dispo.errors[0]
     )
 
 
@@ -189,7 +195,14 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
 
 @pytest.fixture
 def record_with_revoked_probation(crawler):
-    return CrawlerFactory.create(crawler, cases={"X0001": CaseDetails.CASE_WITH_REVOKED_PROBATION})
+    return CrawlerFactory.create(
+        crawler,
+        cases={
+            "X0001": CaseDetails.CASE_WITH_REVOKED_PROBATION,
+            "X0002": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+            "X0003": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
+        },
+    )
 
 
 def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
