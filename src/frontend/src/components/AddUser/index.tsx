@@ -26,7 +26,6 @@ interface State {
   missingPassword: boolean;
   invalidPassword: boolean;
   mismatchPasswords: boolean;
-  validForm: boolean;
 }
 
 class AddUser extends React.Component<Props, State> {
@@ -44,7 +43,6 @@ class AddUser extends React.Component<Props, State> {
     missingPassword: false,
     invalidPassword: false,
     mismatchPasswords: false,
-    validForm: false,
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
@@ -70,8 +68,6 @@ class AddUser extends React.Component<Props, State> {
         confirmPassword: this.state.confirmPassword.trim()
     });
     this.validateFormFields();
-    console.log('LOGGING STATE BETWEEN VALIDATION FUNCTION AND ADDUSER FUNCTION', this.state);
-    this.dispatchAddUser();
   };
 
   public validateFormFields() {
@@ -81,38 +77,37 @@ class AddUser extends React.Component<Props, State> {
         missingPassword: this.state.password.length === 0,
         invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
         mismatchPasswords: this.state.password !== this.state.confirmPassword
-      });
-      console.log('LOGGING STATE INSIDE VALIDATION FUNCTION', this.state);
-      if (this.state.missingName
-        || this.state.invalidEmail
-        || this.state.missingPassword
-        || this.state.invalidPassword
-        || this.state.mismatchPasswords) {
-          this.setState({ validForm: false });
-        } else {
-          this.setState({ validForm: true });
-        }
+      },
+      () => {
+        if (this.state.missingName
+          || this.state.invalidEmail
+          || this.state.missingPassword
+          || this.state.invalidPassword
+          || this.state.mismatchPasswords) {
+            return
+          } else {
+            this.dispatchAddUser();
+          }
+      }
+    );
   }
 
   public dispatchAddUser() {
-    console.log('LOGGING STATE INSIDE ADDUSER FUNCTION', this.state);
-    if (this.state.validForm) {
-      var admin = (this.state.role === 'search') ? false : true;
-      this.props.addUser(
-        this.state.name,
-        this.state.email,
-        this.state.password,
-        this.state.group,
-        admin
-      ).catch(error => {
-        if (error.response.status === 403) {
-          // error if user is not admin
-          this.setState({ errorType: 'unauthorized' });
-        } else {
-          this.setState({ errorType: 'technical' });
-        }
-      })
-    }
+    var admin = (this.state.role === 'search') ? false : true;
+    this.props.addUser(
+      this.state.name,
+      this.state.email,
+      this.state.password,
+      this.state.group,
+      admin
+    ).catch(error => {
+      if (error.response.status === 403) {
+        // error if user is not admin
+        this.setState({ errorType: 'unauthorized' });
+      } else {
+        this.setState({ errorType: 'technical' });
+      }
+    })
   }
 
   public render() {
