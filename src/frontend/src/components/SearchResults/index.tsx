@@ -12,9 +12,18 @@ export default class SearchResults extends React.Component<Props> {
     const errors = ( this.props.record.errors ?
       this.props.record.errors.map(((errorMessage: string, errorIndex: number) => {
         const id= "record_error_" + errorIndex;
+        
+        var regexp = new RegExp(/:\s(.*)~/);
+        var foundCases = regexp.exec(errorMessage);
+        var foundCasesArray = [""];
+        if(foundCases != null) { foundCasesArray=foundCases[1].split(", "); }
+        errorMessage=errorMessage.replace(regexp, ": ");
+        
         return <p id={id} className="bg-washed-red mv4 pa3 br3 fw6">
-                  {errorMessage}
-               </p>
+          {errorMessage}
+          {foundCasesArray.map(function(foundCase, i){
+            return <a href={"#"+foundCase}>{foundCase} </a>;
+          })} </p>
         }
         )
       )

@@ -34,7 +34,7 @@ class Expunger:
         if len(open_cases) > 0:
             case_numbers = ",".join([case.case_number for case in open_cases])
             self.record.errors += [
-                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
+                f"All charges are ineligible because there is one or more open case. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges. Case(s): {case_numbers}~"
             ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
         for charge in self.analyzable_charges:
@@ -221,23 +221,23 @@ class Expunger:
     @staticmethod
     def _build_missing_disposition_error_message(error_cases: Set[str]):
         if len(error_cases) == 1:
-            error_message = f"""Case {error_cases.pop()} has a charge with a missing disposition.
-This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
+            error_message = f"""There is a charge with a missing disposition.
+This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges. Case: {error_cases.pop()}~ """
         else:
             cases_list_string = ", ".join(error_cases)
             error_message = f"""The following cases have charges with a missing disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
-Case numbers: {cases_list_string}"""
+Case numbers: {cases_list_string}~"""
         return error_message
 
     @staticmethod
     def _build_unrecognized_disposition_error_message(error_cases_with_rulings: Set[Tuple[str, str]]):
         if len(error_cases_with_rulings) == 1:
-            error_message = f"""Case {next(iter(error_cases_with_rulings))[0]} has a charge with an unrecognized disposition ({next(iter(error_cases_with_rulings))[1]}).
-This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
+            error_message = f"""There is a charge with an unrecognized disposition ({next(iter(error_cases_with_rulings))[1]}).
+This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges. Case: {next(iter(error_cases_with_rulings))[0]}~ """
         else:
             cases_list_string = ", ".join([pair[0] + " (" + pair[1] + ")" for pair in error_cases_with_rulings])
             error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
-Case numbers: {cases_list_string}"""
+Case numbers: {cases_list_string}~"""
         return error_message
