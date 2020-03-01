@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
+from expungeservice.models.disposition import DispositionStatus
 
 
 @dataclass(eq=False)
@@ -19,3 +20,8 @@ Class C felony dismissals are always eligible under 137.225(1)(b)."""
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(b)")
+        elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:
+            return TypeEligibility(
+                EligibilityStatus.ELIGIBLE,
+                reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",
+            )
