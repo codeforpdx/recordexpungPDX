@@ -25,12 +25,6 @@ class Header extends React.Component<Props> {
             >
               Search
             </button>
-            <button
-              onClick={() => history.push('/stats')}
-              className="link mid-gray mid-gray hover-blue f6 f5-ns dib pa3"
-            >
-              Stats
-            </button>
             {this.props.isAdmin ? (
               <button
                 onClick={() => history.push('/admin')}
