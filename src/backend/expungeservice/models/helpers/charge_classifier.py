@@ -10,7 +10,7 @@ from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
-from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
+from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
@@ -125,7 +125,7 @@ class ChargeClassifier:
     @staticmethod
     def _non_traffic_violation(level):
         if "Violation" in level:
-            return NonTrafficViolation
+            return Violation
 
     @staticmethod
     def _misdemeanor(level):
