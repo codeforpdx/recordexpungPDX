@@ -14,6 +14,7 @@ interface Props {
 
 interface State {
   errorType: string;
+  errorMessage: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -30,7 +31,8 @@ interface State {
 
 class AddUser extends React.Component<Props, State> {
   public state: State = {
-    errorType: 'none',
+    errorType: '',
+    errorMessage: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -44,6 +46,9 @@ class AddUser extends React.Component<Props, State> {
     invalidPassword: false,
     mismatchPasswords: false,
   };
+
+  componentDidMount() {
+  }
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
@@ -104,7 +109,13 @@ class AddUser extends React.Component<Props, State> {
       if (error.response.status === 403) {
         // error if user is not admin
         this.setState({ errorType: 'unauthorized' });
-      } else {
+      } else if (error.response.status === 422) {
+        this.setState({
+          errorType: 'duplicate email',
+          errorMessage: error.response.data.message
+        });
+      }
+      else {
         this.setState({ errorType: 'technical' });
       }
     })
@@ -280,6 +291,11 @@ class AddUser extends React.Component<Props, State> {
               {this.state.invalidResponse === true ? (
                 <p id="no_match_message" className="bg-washed-red mv4 pa3 br3 fw6">
                   Technical difficulties try again later.
+                </p>
+              ) : null}
+              {this.state.errorType === 'duplicate email' ? (
+                <p id="duplicate_email_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  {this.state.errorMessage}
                 </p>
               ) : null}
             </div>
