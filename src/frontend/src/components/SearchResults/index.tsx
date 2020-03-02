@@ -14,7 +14,6 @@ export default class SearchResults extends React.Component<Props> {
         const id= "record_error_" + errorIndex;
         
         const errorMessageArray = errorMessage.split(/(\[.*?\])/g); 
-        console.log("Message" + errorMessageArray);
         const errorMessageHTML = errorMessageArray.map(function (element) {
           if (element.match(/^\[.*\]$/)) {
               const caseNumber = element.slice(1, -1);

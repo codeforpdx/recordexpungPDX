@@ -213,7 +213,7 @@ class Expunger:
         cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
             if charge.blocks_other_charges():
-                case_number = f"[{charge.case()().case_number}]";
+                case_number = f"[{charge.case()().case_number}]"
                 if not charge.disposition and charge.case()().closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
