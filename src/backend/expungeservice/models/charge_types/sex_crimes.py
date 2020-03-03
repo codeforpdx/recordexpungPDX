@@ -5,37 +5,12 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 
 @dataclass(eq=False)
-class SexCrimes(Charge):
-    type_name: str = "Sex Crimes"
+class SexCrime(Charge):
+    type_name: str = "Sex Crime"
     expungement_rules: str = (
         """
         Sex Crimes are type-ineligible for expungement, other than a narrow exception for "Romeo and Juliet" cases.
-        According to 137.225(6)(a):
-        Notwithstanding subsection (5) of this section, the provisions of subsection (1)(a) of this section do not apply 
-        to a conviction for:
-            (...)
-            (f)Any sex crime, unless:
-                (A)The sex crime is listed in ORS 163A.140 (Relief from reporting obligation) (1)(a) and:
-                (i)The person has been relieved of the obligation to report as a sex offender pursuant to a court order 
-                entered under ORS 163A.145 (Procedure for relief under ORS 163A.140) or 163A.150 (Procedure for relief 
-                under ORS 163A.140); and
-                (ii)The person has not been convicted of, found guilty except for insanity of or found to be within the 
-                jurisdiction of the juvenile court based on a crime for which the court is prohibited from setting aside 
-                the conviction under this section; or
-                    (B)The sex crime constitutes a Class C felony and:
-                (i)The person was under 16 years of age at the time of the offense;
-                (ii)The person is:
-                    (I)Less than two years and 180 days older than the victim; or
-                    (II)At least two years and 180 days older, but less than three years and 180 days older, than the 
-                    victim and the court finds that setting aside the conviction is in the interests of justice and of 
-                    benefit to the person and the community;
-                (iii) The victim’s lack of consent was due solely to incapacity to consent by reason of being less than 
-                a specified age;
-                (iv)The victim was at least 12 years of age at the time of the offense;
-                (v)The person has not been convicted of, found guilty except for insanity of or found to be within the 
-                jurisdiction of the juvenile court based on a crime for which the court is prohibited from setting aside
-                the conviction under this section; and
-                (vi)Each conviction or finding described in this subparagraph involved the same victim.
+        For further detail, see 137.225(6)(a)
         """
     )
 
@@ -85,7 +60,7 @@ class SexCrimes(Charge):
             if self.statute in self.romeo_and_juliet_exceptions:
                 return TypeEligibility(
                     EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                    reason="Romeo and Juliet exception, needs other elligibility requirements. See 163A.140(1)",
+                    reason="Romeo and Juliet exception, needs other eligibility requirements. See 163A.140(1)",
                 )
             else:
                 return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")

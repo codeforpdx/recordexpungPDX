@@ -16,7 +16,7 @@ from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
-from expungeservice.models.charge_types.sex_crimes import SexCrimes
+from expungeservice.models.charge_types.sex_crimes import SexCrime
 
 
 @dataclass
@@ -168,5 +168,5 @@ class ChargeClassifier:
 
     @staticmethod
     def _sex_crime(statute):
-        if statute in SexCrimes.statutes or statute in SexCrimes.romeo_and_juliet_exceptions:
-            return SexCrimes
+        if statute in SexCrime.statutes + SexCrime.romeo_and_juliet_exceptions:
+            return SexCrime
