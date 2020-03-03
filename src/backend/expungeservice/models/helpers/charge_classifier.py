@@ -16,6 +16,7 @@ from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
+from expungeservice.models.charge_types.sex_crimes import SexCrime
 
 
 @dataclass
@@ -55,6 +56,7 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._subsection_6(section, level)
         yield ChargeClassifier._schedule_1_pcs(section)
+        yield ChargeClassifier._sex_crime(statute)
 
     @staticmethod
     def _classification_by_level(level, statute):
@@ -163,3 +165,8 @@ class ChargeClassifier:
             # In this case the type eligibility needs more analysis. The condition is checked again in the charge object's type eligibility method.
         else:
             return False
+
+    @staticmethod
+    def _sex_crime(statute):
+        if statute in SexCrime.statutes + SexCrime.romeo_and_juliet_exceptions:
+            return SexCrime
