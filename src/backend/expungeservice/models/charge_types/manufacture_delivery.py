@@ -24,6 +24,5 @@ A dismissed Manufacture/Delivery charge is eligible under 137.225(1)(b).
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="This may be eligible if it is a charge for marijuana, under 137.226. See additional legal details.")
-    @staticmethod
-    def match_by_name():
-
+        else:
+            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Possibly eligible. See additional legal details.")

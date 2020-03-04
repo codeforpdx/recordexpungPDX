@@ -20,6 +20,38 @@ def test_manufacture_delivery_dismissed():
         manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
     )
 
+def test_manufacture_delivery_missing_disposition():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Manufacture/Delivery"
+    charge_dict["statute"] = "4759922b"
+    charge_dict["level"] = "Felony Class A"
+    charge_dict["disposition"] = None
+
+    manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
+
+
+    assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
+    assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert (
+        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible. See additional legal details."
+    )
+
+def test_manufacture_delivery_unrecognized_disposition():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "Manufacture/Delivery"
+    charge_dict["statute"] = "4759922b"
+    charge_dict["level"] = "Felony Class A"
+    charge_dict["disposition"] = Dispositions.UNRECOGNIZED_DISPOSITION
+
+    manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
+
+
+    assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
+    assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert (
+        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible. See additional legal details."
+    )
+
 def test_manufacture_delivery_manudel():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Manu/Del Cntrld Sub-SC 2"
@@ -32,7 +64,7 @@ def test_manufacture_delivery_manudel():
     assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
     assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
-        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "If this is a marijuana conviction, it's eligible under 137.226. Otherwise it's ineligible by omission from statute."
+        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "This may be eligible if it is a charge for marijuana, under 137.226. See additional legal details."
     )
 
 def test_manufacture_delivery_manudel_felony_unclassified():
@@ -46,11 +78,8 @@ def test_manufacture_delivery_manudel_felony_unclassified():
 
     assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
     assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible under 137.225(5)(a), if this is a Class B Felony. If so, time eligibility follows the 20-year B felony rule."
-    )
 
-def test_manufacture_delivery_manufacturing_name_4759921a():
+def test_manufacture_delivery_manufacturing_name():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "MANUFACTURING CONTROLLED SUB"
     charge_dict["statute"] = "4759921A"
@@ -61,6 +90,14 @@ def test_manufacture_delivery_manufacturing_name_4759921a():
 
     assert isinstance(manufacture_delivery_charge, ManufactureDelivery)
     assert manufacture_delivery_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        manufacture_delivery_charge.expungement_result.type_eligibility.reason == "Possibly eligible under 137.225(5)(a), if this is a Class B Felony. If so, time eligibility follows the 20-year B felony rule."
-    )
+
+def test_manufacture_delivery_1():
+    charge_dict = ChargeFactory.default_dict()
+    charge_dict["name"] = "MANUFACTURING CONTROLLED SUB 1"
+    charge_dict["statute"] = "4759921A"
+    charge_dict["level"] = "Felony Unclassified"
+    charge_dict["disposition"] = Dispositions.CONVICTED
+
+    manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
+
+    assert not isinstance(manufacture_delivery_charge, ManufactureDelivery)
