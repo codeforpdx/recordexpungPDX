@@ -6,11 +6,9 @@ from tests.models.test_charge import Dispositions
 
 
 def test_violation():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Viol Treatment"
-    charge_dict["statute"] = "1615662"
-    charge_dict["level"] = "Violation Unclassified"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.CONVICTED
+    )
 
     assert isinstance(charge, Violation)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
