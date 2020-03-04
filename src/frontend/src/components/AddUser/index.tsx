@@ -47,9 +47,6 @@ class AddUser extends React.Component<Props, State> {
     mismatchPasswords: false,
   };
 
-  componentDidMount() {
-  }
-
   public handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
     // using the "any" type.
@@ -111,7 +108,7 @@ class AddUser extends React.Component<Props, State> {
         this.setState({ errorType: 'unauthorized' });
       } else if (error.response.status === 422) {
         this.setState({
-          errorType: 'duplicate email',
+          errorType: 'endpoint',
           errorMessage: error.response.data.message
         });
       }
@@ -293,8 +290,8 @@ class AddUser extends React.Component<Props, State> {
                   Technical difficulties try again later.
                 </p>
               ) : null}
-              {this.state.errorType === 'duplicate email' ? (
-                <p id="duplicate_email_message" className="bg-washed-red mv4 pa3 br3 fw6">
+              {this.state.errorType === 'endpoint' ? (
+                <p id="endpoint_error_message" className="bg-washed-red mv4 pa3 br3 fw6">
                   {this.state.errorMessage}
                 </p>
               ) : null}
