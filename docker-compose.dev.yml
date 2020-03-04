@@ -20,7 +20,7 @@ services:
             dockerfile: Dockerfile.dev
         container_name: expungeservice
         env_file:
-            - config/expungeservice/expungeservice.env
+            - config/expungeservice/expungeservice.dev.env
         volumes:
             - ./src/backend/logs:/var/www/logs
             - ./src/backend/expungeservice:/var/www/expungeservice
@@ -32,6 +32,7 @@ services:
     webserver:
         build:
             context: ./src/frontend
+            dockerfile: Dockerfile.dev
         container_name: webserver
         volumes:
             - ./src/frontend/src:/usr/src/app/src

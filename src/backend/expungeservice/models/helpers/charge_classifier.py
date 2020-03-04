@@ -7,16 +7,16 @@ from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
 from expungeservice.models.charge_types.duii import Duii
-from expungeservice.models.charge_types.subsection_12 import Subsection12
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
-from expungeservice.models.charge_types.non_traffic_violation import NonTrafficViolation
+from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
+from expungeservice.models.charge_types.sex_crimes import SexCrime
 
 
 @dataclass
@@ -54,9 +54,9 @@ class ChargeClassifier:
     @staticmethod
     def _classification_by_statute(statute, chapter, section, level):
         yield ChargeClassifier._marijuana_ineligible(statute, section)
-        yield ChargeClassifier._subsection_12(section)
         yield ChargeClassifier._subsection_6(section, level)
         yield ChargeClassifier._schedule_1_pcs(section)
+        yield ChargeClassifier._sex_crime(statute)
 
     @staticmethod
     def _classification_by_level(level, statute):
@@ -76,18 +76,13 @@ class ChargeClassifier:
     def _subsection_6(section, level):
         conditionally_ineligible_statutes = [
             "163200",  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
-            "163205",  # (overrides subsection 12.(Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+            "163205",  # (Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163575",  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
             "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
             "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
         if section in conditionally_ineligible_statutes:
             return Subsection6
-
-    @staticmethod
-    def _subsection_12(section):
-        if section in (Subsection12.conditionally_eligible_sections + Subsection12.eligible_sections):
-            return Subsection12
 
     @staticmethod
     def _traffic_crime(statute, level):
@@ -132,7 +127,7 @@ class ChargeClassifier:
     @staticmethod
     def _non_traffic_violation(level):
         if "Violation" in level:
-            return NonTrafficViolation
+            return Violation
 
     @staticmethod
     def _misdemeanor(level):
@@ -170,3 +165,8 @@ class ChargeClassifier:
             # In this case the type eligibility needs more analysis. The condition is checked again in the charge object's type eligibility method.
         else:
             return False
+
+    @staticmethod
+    def _sex_crime(statute):
+        if statute in SexCrime.statutes + SexCrime.romeo_and_juliet_exceptions:
+            return SexCrime

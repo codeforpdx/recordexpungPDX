@@ -6,20 +6,12 @@ from more_itertools import flatten, padnone, take
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.record import Record
 
 
 class Expunger:
-    """
-    The TimeAnalyzer is probably the last major chunk of non-functional code.
-    We mutate the charges in the record directly to add time eligibility information.
-    Hence, for example, it is unsafe to deepcopy any elements in the "chain" stemming from record
-    including closed_charges, charges, self.charges_with_summary.
-    """
-
     def __init__(self, record: Record):
         self.record = record
         self.analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
@@ -67,6 +59,16 @@ class Expunger:
                         "One year from date of no-complaint arrest (137.225(1)(b))",
                     )
                 )
+
+            if charge.convicted():
+                probation_revoked_date = charge.case()().get_probation_revoked()
+                if probation_revoked_date:
+                    eligibility_dates.append(
+                        (
+                            probation_revoked_date + relativedelta(years=10),
+                            "Time-ineligible under 137.225(1)(c). Inspect further if the case has multiple convictions on the case.",
+                        )
+                    )
 
             if most_recent_blocking_conviction:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"

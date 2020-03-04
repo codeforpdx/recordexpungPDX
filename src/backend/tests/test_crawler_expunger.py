@@ -185,3 +185,17 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
     assert record.cases[2].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[2].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[2].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+
+
+@pytest.fixture
+def record_with_revoked_probation(crawler):
+    return CrawlerFactory.create(crawler, cases={"X0001": CaseDetails.CASE_WITH_REVOKED_PROBATION})
+
+
+def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
+    record = record_with_revoked_probation
+    expunger = Expunger(record)
+    assert expunger.run()
+    assert record.cases[0].charges[0].expungement_result.time_eligibility.date_will_be_eligible == date_class(
+        2020, 11, 9
+    )

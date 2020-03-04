@@ -6,22 +6,14 @@ from tests.models.test_charge import Dispositions
 import pytest
 
 person_felonies_with_other_charge_type = [
-    "162165",  # Escape I;
-    "162185",  # Supplying Contraband as defined in Crime Categories 6 and 7 (OAR 213-018-0070(1) and (2));
-    "163175",  # Assault II;
-    "163225",  # Kidnapping II;
-    "163275",  # Coercion as defined in Crime Category 7 (OAR 213-018-0035(1));
-    "163525",  # Incest;
-    "163535",  # Abandon Child;
-    "164395",  # Robbery III;
-    "164405",  # Robbery II;
-    "166165",  # Bias Crime I;
-    "166220",  # Unlawful Use of a Weapon;
     "475B359",  # Arson Incident to Manufacture of Cannabinoid Extract I;
     "475B367",  # Causing Another Person to Ingest Marijuana;
     "475B371",  # Administration to Another Person Under 18 Years of Age;
     "811705",  # Hit and Run Vehicle (Injury);
     "8130105",  # Felony Driving Under the Influence of Intoxicants (as provided in OAR 213-004-0009);
+    "163145",  # [Subsection 6] Negligent Homicide;
+    "163165",  # [Subsection 6] Assault III;
+    "163205", # [Subsection 6]  Criminal Mistreatment I;
 ]
 
 
