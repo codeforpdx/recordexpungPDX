@@ -1,15 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import history from '../../service/history';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
+import { addUser } from '../../redux/users/actions';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
 
 interface Props {
   users: UserState;
+  addUser: (name: string, email: string, password: string, group: string, admin: boolean) => Promise<void>;
 }
 
 interface State {
+  errorType: string;
+  errorMessage: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -26,6 +31,8 @@ interface State {
 
 class AddUser extends React.Component<Props, State> {
   public state: State = {
+    errorType: '',
+    errorMessage: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -56,31 +63,59 @@ class AddUser extends React.Component<Props, State> {
 
   public handleSubmit = (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
-
-    this.setState(
-      {
+    this.setState({
         name: this.state.name.trim(),
         email: this.state.email.toLowerCase().trim(),
         password: this.state.password.trim(),
         confirmPassword: this.state.confirmPassword.trim()
-      },
-      () => {
-        // TODO: Submit to backend
-        this.validateFormFields();
-      }
-    );
+    });
+    this.validateFormFields();
   };
 
   public validateFormFields() {
-    this.setState(
-      {
+    this.setState({
         missingName: this.state.name.length === 0,
         invalidEmail: !validateEmail(this.state.email),
         missingPassword: this.state.password.length === 0,
         invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
         mismatchPasswords: this.state.password !== this.state.confirmPassword
+      },
+      () => {
+        if (this.state.missingName
+          || this.state.invalidEmail
+          || this.state.missingPassword
+          || this.state.invalidPassword
+          || this.state.mismatchPasswords) {
+            return
+          } else {
+            this.dispatchAddUser();
+          }
       }
     );
+  }
+
+  public dispatchAddUser() {
+    var admin = (this.state.role === 'search') ? false : true;
+    this.props.addUser(
+      this.state.name,
+      this.state.email,
+      this.state.password,
+      this.state.group,
+      admin
+    ).catch(error => {
+      if (error.response.status === 403) {
+        // error if user is not admin
+        this.setState({ errorType: 'unauthorized' });
+      } else if (error.response.status === 422) {
+        this.setState({
+          errorType: 'endpoint',
+          errorMessage: error.response.data.message
+        });
+      }
+      else {
+        this.setState({ errorType: 'technical' });
+      }
+    })
   }
 
   public render() {
@@ -255,6 +290,11 @@ class AddUser extends React.Component<Props, State> {
                   Technical difficulties try again later.
                 </p>
               ) : null}
+              {this.state.errorType === 'endpoint' ? (
+                <p id="endpoint_error_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  {this.state.errorMessage}
+                </p>
+              ) : null}
             </div>
           </form>
         </section>
@@ -269,4 +309,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
+  { addUser }
 )(AddUser);

@@ -17,12 +17,14 @@ interface Props {
 
 interface State {
   errorType: string;
+  addUser: boolean;
 }
 
 class UserList extends React.Component<Props> {
   state: State = {
-    errorType: 'none'
-  };
+    errorType: 'none',
+    addUser: false,
+    };
   componentDidMount() {
     // this will call the axios request to populate the component with userList
     this.props.loadUsers().catch(error => {
