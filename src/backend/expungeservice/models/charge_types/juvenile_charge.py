@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass(eq=False)
+@dataclass
 class JuvenileCharge(Charge):
     type_name: str = "Juvenile"
 

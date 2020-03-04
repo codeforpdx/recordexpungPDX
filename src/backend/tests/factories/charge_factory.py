@@ -5,8 +5,11 @@ from tests.factories.case_factory import CaseFactory
 
 
 class ChargeFactory:
-    @staticmethod
+    charge_count = 0  # Responsible for giving every Charge in tests an unique deterministic ID
+
+    @classmethod
     def create(
+        cls,
         case=CaseFactory.create(),
         name="Theft of services",
         statute="164.125",
@@ -14,6 +17,7 @@ class ChargeFactory:
         date: date_class = None,
         disposition: Disposition = None,
     ):
+        cls.charge_count += 1
         if disposition and not date:
             date_string = disposition.date.strftime("%m/%d/%Y")
         elif date:
@@ -29,16 +33,18 @@ class ChargeFactory:
             "disposition": disposition,
         }
 
-        return ChargeCreator.create(**kwargs)
+        return ChargeCreator.create(cls.charge_count, **kwargs)
 
-    @staticmethod
+    @classmethod
     def create_dismissed_charge(
+        cls,
         case=CaseFactory.create(),
         name="Theft of services",
         statute="164.125",
         level="Misdemeanor Class A",
         date=date_class(1901, 1, 1),
     ):
+        cls.charge_count += 1
         disposition = Disposition(date=date_class.today(), ruling="Dismissed")
         kwargs = {
             "case": case,
@@ -49,4 +55,4 @@ class ChargeFactory:
             "disposition": disposition,
         }
 
-        return ChargeCreator.create(**kwargs)
+        return ChargeCreator.create(cls.charge_count, **kwargs)
