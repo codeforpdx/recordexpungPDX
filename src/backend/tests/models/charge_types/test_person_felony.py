@@ -13,18 +13,15 @@ person_felonies_with_other_charge_type = [
     "8130105",  # Felony Driving Under the Influence of Intoxicants (as provided in OAR 213-004-0009);
     "163145",  # [Subsection 6] Negligent Homicide;
     "163165",  # [Subsection 6] Assault III;
-    "163205", # [Subsection 6]  Criminal Mistreatment I;
+    "163205",  # [Subsection 6]  Criminal Mistreatment I;
 ]
 
 
 @pytest.mark.parametrize("person_felony_statute", PersonFelonyClassB.statutes)
 def test_person_felony_class_b(person_felony_statute):
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Generic"
-    charge_dict["statute"] = person_felony_statute
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    person_felony_class_b_convicted = ChargeFactory.create(**charge_dict)
+    person_felony_class_b_convicted = ChargeFactory.create(
+        name="Generic", statute=person_felony_statute, level="Felony Class B", disposition=Dispositions.CONVICTED
+    )
     assert isinstance(person_felony_class_b_convicted, PersonFelonyClassB)
     assert person_felony_class_b_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
@@ -34,12 +31,9 @@ def test_person_felony_class_b(person_felony_statute):
 
 @pytest.mark.parametrize("person_felony_statute", PersonFelonyClassB.statutes_with_subsection)
 def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Generic"
-    charge_dict["statute"] = person_felony_statute[:6]
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    person_felony_class_b_convicted = ChargeFactory.create(**charge_dict)
+    person_felony_class_b_convicted = ChargeFactory.create(
+        name="Generic", statute=person_felony_statute[:6], level="Felony Class B", disposition=Dispositions.CONVICTED
+    )
     assert isinstance(person_felony_class_b_convicted, PersonFelonyClassB)
     assert (
         person_felony_class_b_convicted.expungement_result.type_eligibility.status
@@ -53,12 +47,12 @@ def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):
 
 @pytest.mark.parametrize("person_felony_statute_with_other_charge_type", person_felonies_with_other_charge_type)
 def test_other_charge_type_true_negatives(person_felony_statute_with_other_charge_type):
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Generic"
-    charge_dict["statute"] = person_felony_statute_with_other_charge_type
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    person_felony_with_other_charge_type_convicted = ChargeFactory.create(**charge_dict)
+    person_felony_with_other_charge_type_convicted = ChargeFactory.create(
+        name="Generic",
+        statute=person_felony_statute_with_other_charge_type,
+        level="Felony Class B",
+        disposition=Dispositions.CONVICTED,
+    )
     assert not isinstance(person_felony_with_other_charge_type_convicted, PersonFelonyClassB)
 
 
@@ -67,10 +61,10 @@ def test_felony_not_b_person_felony(person_felony_statute_not_b_felony):
     """
     Only test the first 5 statutes just to not spam another ~75 tests.
     """
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Generic"
-    charge_dict["statute"] = person_felony_statute_not_b_felony
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    person_felony_not_class_b_convicted = ChargeFactory.create(**charge_dict)
+    person_felony_not_class_b_convicted = ChargeFactory.create(
+        name="Generic",
+        statute=person_felony_statute_not_b_felony,
+        level="Felony Class C",
+        disposition=Dispositions.CONVICTED,
+    )
     assert not isinstance(person_felony_not_class_b_convicted, PersonFelonyClassB)
