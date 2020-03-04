@@ -60,18 +60,18 @@ class RecordSummarizer:
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
         ]
-        eligible_charges_by_date = [["now",eligible_charges_now]]
+        eligible_charges_by_date = [("now",eligible_charges_now)]
         will_be_eligible_charges : Dict[date, List[str]] = {}
         for charge in record.charges:
             if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
                 date_eligible = charge.expungement_result.time_eligibility.date_will_be_eligible
-                charge_name = charge.name.split("(")[0]
-                if date_eligible not in will_be_eligible_charges.keys():
-                    will_be_eligible_charges[date_eligible] = [charge_name]
+                charge_short_name = charge.name.split("(")[0]
+                if will_be_eligible_charges.get(date_eligible):
+                    will_be_eligible_charges[date_eligible].append(charge_short_name)
                 else:
-                    will_be_eligible_charges[date_eligible].append(charge_name)
-        for dateval in sorted(will_be_eligible_charges):
-            eligible_charges_by_date.append([dateval.strftime('%b %-d, %Y'), will_be_eligible_charges[dateval]])
+                    will_be_eligible_charges[date_eligible] = [charge_short_name]
+        for date_value in sorted(will_be_eligible_charges):
+            eligible_charges_by_date.append((date_value.strftime('%b %-d, %Y'), will_be_eligible_charges[date_value]))
         return RecordSummary(
             record=record,
             questions=questions,

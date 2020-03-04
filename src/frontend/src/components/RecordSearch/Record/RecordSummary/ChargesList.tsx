@@ -33,7 +33,7 @@ export default class ChargesList extends React.Component<Props> {
   }
 
   buildListItems(chargesNames: string[]) {
-    let listItems = chargesNames.map(((chargeName: string, index:number) => {
+    const listItems = chargesNames.map(((chargeName: string, index:number) => {
         return (
             <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb1">{chargeName}</li>
         )
