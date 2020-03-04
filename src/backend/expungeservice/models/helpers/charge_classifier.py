@@ -43,7 +43,7 @@ class ChargeClassifier:
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
-        yield ChargeClassifier._contempt_of_court(self.name)
+        yield ChargeClassifier._contempt_of_court(self.name, self.level)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
 
         yield UnclassifiedCharge
@@ -117,8 +117,12 @@ class ChargeClassifier:
             return CivilOffense
 
     @staticmethod
-    def _contempt_of_court(name):
-        if "contempt of court" in name.lower():
+    def _contempt_of_court(name, level="N/A"):
+        if level != "N/A":
+            if "misdemeanor" in level.lower() or "violation" in level.lower():
+                if "contempt of court" in name.lower():
+                    return ContemptOfCourt
+        elif "contempt of court" in name.lower():
             return ContemptOfCourt
 
     @staticmethod
