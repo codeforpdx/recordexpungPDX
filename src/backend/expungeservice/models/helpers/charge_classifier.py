@@ -17,6 +17,7 @@ from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import SexCrime
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 
 
 @dataclass
@@ -42,6 +43,7 @@ class ChargeClassifier:
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
+        yield ChargeClassifier._contempt_of_court(self.name)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
 
         yield UnclassifiedCharge
@@ -113,6 +115,11 @@ class ChargeClassifier:
             return CivilOffense
         elif "fugitive complaint" in name.lower():
             return CivilOffense
+
+    @staticmethod
+    def _contempt_of_court(name):
+        if "contempt of court" in name.lower():
+            return ContemptOfCourt
 
     @staticmethod
     def _schedule_1_pcs(section):
