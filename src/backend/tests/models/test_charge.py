@@ -22,24 +22,18 @@ class TestChargeClass(unittest.TestCase):
     LESS_THAN_THREE_YEARS_AGO = date.today() + relativedelta(years=-3, days=+1)
     THREE_YEARS_AGO = date.today() + relativedelta(years=-3)
 
-    def setUp(self):
-        self.charge = ChargeFactory.default_dict()
-
     def test_it_initializes_simple_statute(self):
-        self.charge["statute"] = "1231235B"
-        charge = ChargeFactory.create(**self.charge)
+        charge = ChargeFactory.create(statute="1231235B")
 
         assert charge.statute == "1231235B"
 
     def test_it_normalizes_statute(self):
-        self.charge["statute"] = "-123.123(5)()B"
-        charge = ChargeFactory.create(**self.charge)
+        charge = ChargeFactory.create(statute="-123.123(5)()B")
 
         assert charge.statute == "1231235B"
 
     def test_it_converts_statute_to_uppercase(self):
-        self.charge["statute"] = "-123.123(5)()b"
-        charge = ChargeFactory.create(**self.charge)
+        charge = ChargeFactory.create(statute="-123.123(5)()b")
 
         assert charge.statute == "1231235B"
 

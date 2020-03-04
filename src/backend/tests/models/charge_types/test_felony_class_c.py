@@ -6,11 +6,9 @@ from tests.models.test_charge import Dispositions
 
 
 def test_felony_c_conviction():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Theft in the first degree"
-    charge_dict["statute"] = "164.055"
-    charge_dict["level"] = "Felony Class C"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=Dispositions.CONVICTED
+    )
 
     assert isinstance(charge, FelonyClassC)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -18,11 +16,9 @@ def test_felony_c_conviction():
 
 
 def test_felony_c_dismissal():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.DISMISSED)
-    charge_dict["name"] = "Theft in the first degree"
-    charge_dict["statute"] = "164.055"
-    charge_dict["level"] = "Felony Class C"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=Dispositions.DISMISSED
+    )
 
     assert isinstance(charge, FelonyClassC)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -30,12 +26,9 @@ def test_felony_c_dismissal():
 
 
 def test_felony_c_no_disposition():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Theft in the first degree"
-    charge_dict["statute"] = "164.055"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = None
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=None
+    )
 
     assert isinstance(charge, FelonyClassC)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -46,12 +39,12 @@ def test_felony_c_no_disposition():
 
 
 def test_felony_c_unrecognized_disposition():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.UNRECOGNIZED_DISPOSITION)
-    charge_dict["name"] = "Theft in the first degree"
-    charge_dict["statute"] = "164.055"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = None
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Theft in the first degree",
+        statute="164.055",
+        level="Felony Class C",
+        disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+    )
 
     assert isinstance(charge, FelonyClassC)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
