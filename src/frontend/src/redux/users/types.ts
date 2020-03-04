@@ -1,5 +1,6 @@
 export interface UserState {
   userList: User[];
+  addUser?: boolean;
 }
 
 export interface User {
@@ -13,10 +14,16 @@ export interface User {
 
 export const LOAD_USERS = 'LOAD_USERS';
 export const CLEAR_USERS = 'CLEAR_USERS';
+export const ADD_USER ="ADD_USER";
 
 interface LoadUsersAction {
   type: typeof LOAD_USERS;
   users: User[];
+  addUser: boolean;
+}
+interface AddUserAction {
+  type: typeof ADD_USER;
+  addUser: boolean;
 }
 
 interface ClearUserAction {
@@ -24,4 +31,4 @@ interface ClearUserAction {
   users: User[];
 }
 
-export type UserActionTypes = LoadUsersAction | ClearUserAction;
+export type UserActionTypes = LoadUsersAction | ClearUserAction | AddUserAction;
