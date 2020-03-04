@@ -1,7 +1,7 @@
 import weakref
-from dataclasses import dataclass, InitVar, field
+from dataclasses import dataclass, field
 
-from datetime import date as date_class, datetime
+from datetime import date as date_class
 from typing import Optional
 
 from dateutil.relativedelta import relativedelta
@@ -15,8 +15,9 @@ from expungeservice.models.expungement_result import (
 )
 
 
-@dataclass(eq=False)
+@dataclass
 class Charge:
+    id: str
     name: str
     statute: str
     level: str

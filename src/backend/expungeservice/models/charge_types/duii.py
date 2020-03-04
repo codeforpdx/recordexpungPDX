@@ -5,7 +5,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 from expungeservice.models.disposition import DispositionStatus
 
 
-@dataclass(eq=False)
+@dataclass
 class Duii(Charge):
     type_name: str = "DUII"
     expungement_rules: str = (

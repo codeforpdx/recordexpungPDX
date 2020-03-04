@@ -84,4 +84,4 @@ class Crawler:
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
             charge["disposition"] = Disposition(date, ruling, "amended" in disposition_data["event"].lower())
-        return ChargeCreator.create(**charge)
+        return ChargeCreator.create(charge_id, **charge)
