@@ -90,10 +90,10 @@ class ChargeClassifier:
     @staticmethod
     def _manufacture_delivery(name):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
-            if "1" in name:
-                return None # This is schedule 1 and will get picked up by normal "Felony" eligibility rules.
+            if "2" in name:
+                return None # This is schedule 2 and will get picked up by normal "Felony" eligibility rules.
             else:
-                return ManufactureDelivery # The name contains either a "2" or no schedule number, and is possibly a marijuana charge.
+                return ManufactureDelivery # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
 
     @staticmethod
     def _subsection_6(section, level):

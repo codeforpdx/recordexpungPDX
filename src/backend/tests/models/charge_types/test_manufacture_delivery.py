@@ -40,7 +40,7 @@ def test_manufacture_delivery_unrecognized_disposition():
     charge_dict = ChargeFactory.default_dict()
     charge_dict["name"] = "Manufacture/Delivery"
     charge_dict["statute"] = "4759922b"
-    charge_dict["level"] = "Felony Class A"
+    charge_dict["level"] = "Felony Class B"
     charge_dict["disposition"] = Dispositions.UNRECOGNIZED_DISPOSITION
 
     manufacture_delivery_charge = ChargeFactory.create(**charge_dict)
@@ -54,7 +54,7 @@ def test_manufacture_delivery_unrecognized_disposition():
 
 def test_manufacture_delivery_manudel():
     charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Manu/Del Cntrld Sub-SC 2"
+    charge_dict["name"] = "Manu/Del Cntrld Sub-SC 1"
     charge_dict["statute"] = "4759921B"
     charge_dict["level"] = "Felony Class A"
     charge_dict["disposition"] = Dispositions.CONVICTED
@@ -69,7 +69,7 @@ def test_manufacture_delivery_manudel():
 
 def test_manufacture_delivery_manudel_felony_unclassified():
     charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Manu/Del Cntrld Sub-SC 2"
+    charge_dict["name"] = "Manu/Del Cntrld Sub-SC 1"
     charge_dict["statute"] = "4759921B"
     charge_dict["level"] = "Felony Unclassified"
     charge_dict["disposition"] = Dispositions.CONVICTED
@@ -93,7 +93,7 @@ def test_manufacture_delivery_manufacturing_name():
 
 def test_manufacture_delivery_1():
     charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "MANUFACTURING CONTROLLED SUB 1"
+    charge_dict["name"] = "MANUFACTURING CONTROLLED SUB 2"
     charge_dict["statute"] = "4759921A"
     charge_dict["level"] = "Felony Unclassified"
     charge_dict["disposition"] = Dispositions.CONVICTED

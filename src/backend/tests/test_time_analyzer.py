@@ -12,6 +12,7 @@ from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
 from tests.time import Time
+from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
@@ -461,17 +462,17 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
 
 
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
-    # This charge is both Schedule1PCS and also a class B felony. Schedule1PCS classification takes precedence and the B felony time rule does not apply.
-    pcs_charge = ChargeFactory.create(
-        name="Unlawful possession of methamphetamine",
-        statute="475894",
+    # This charge is both ManufactureDelivery and also a class B felony. ManufactureDelivery classification takes precedence and the B felony time rule does not apply.
+    manudel_charge = ChargeFactory.create(
+        name="Manufacture/Delivery 1",
+        statute="4759922b",
         level="Felony Class B",
         date=Time.LESS_THAN_TWENTY_YEARS_AGO,
         disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_TWENTY_YEARS_AGO),
     )
 
     case_1 = CaseFactory.create()
-    case_1.charges = [pcs_charge]
+    case_1.charges = [manudel_charge]
     subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
     case_2 = CaseFactory.create()
     case_2.charges = [subsequent_charge]
@@ -479,9 +480,9 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     expunger = Expunger(Record([case_1, case_2]))
     expunger.run()
 
-    assert pcs_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-
+    assert not isinstance(manudel_charge, FelonyClassB)
+    assert manudel_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert manudel_charge.expungement_result.time_eligibility.status is EligibilityStatus.ELIGIBLE
 
 def test_single_violation_is_time_restricted():
     # A single violation doesn't block other records, but it is still subject to the 3 year rule.
