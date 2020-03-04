@@ -14,7 +14,6 @@ from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
-from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import SexCrime
@@ -59,7 +58,6 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._marijuana_eligible(section, name)
         yield ChargeClassifier._manufacture_delivery(name)
-        yield ChargeClassifier._schedule_1_pcs(section)
         yield ChargeClassifier._sex_crime(statute)
 
     @staticmethod
@@ -135,11 +133,6 @@ class ChargeClassifier:
             return CivilOffense
         elif "fugitive complaint" in name:
             return CivilOffense
-
-    @staticmethod
-    def _schedule_1_pcs(section):
-        if section in ["475854", "475874", "475884", "475894"]:
-            return Schedule1PCS
 
     @staticmethod
     def _parking_ticket(violation_type):
