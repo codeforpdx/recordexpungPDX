@@ -9,12 +9,13 @@ class ManufactureDelivery(Charge):
     type_name: str = "Manufacture/Delivery"
 
     expungement_rules: str = (
-        """Manu/Delivery is Felony (may be Class A or B) with specific eligibility rules.
+        """Manufacture/Delivery is possibly eligible if it pertains to marijuana, under statute 137.226.
+Otherwise, it follows the normal eligibility rules for charge level and is typically a Class A or Class B Felony.
+It might be a marijuana charge if the charge is for schedule 1, or if the schedule is not specified in the charge name. If it's schedule 2, we can conclude that it's not a marijuana charge.
 The charge type is most easily idenfiable by name, so we check the presence of either of the following in the charge name (lowercase): "delivery", "manu/del".
-If the charge is convicted, and if the charge level is Felony Class B, it is type-eligible and follows the time eligibility rules of a Felony Class B (20 years, no subsequent arrests/convictions) 137.225(5)(a)(A)(1).
-If the level is Felony Class A, the charge may be a Marijuana charge which would be eligible, so the charge needs more analysis, is possibly eligible under the 10-year rule for convictions.
-If the level is Felony Unclassified, it needs more analysis because it may be a Felony Class B. Set the time eligibility to needs more analysis, with the 10 year rule.
-A dismissal is eligible under 137.225(1(b).
+If it's not a marijuana charge, This charge type may or may not have time eligibility under the Class B Felony rule. Because it's simpler to determine time eligibility for a B felony, we instruct the user to determine this information manually:
+A Class B Felony that meets no other eligibility criteria will become eligible only after 20 years, and only if the person has no subsequent charges, other than traffic violations.
+A dismissed Manufacture/Delivery charge is eligible under 137.225(1)(b).
 """
     )
 
@@ -22,13 +23,7 @@ A dismissal is eligible under 137.225(1(b).
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
-            if "Felony Class A" in self.level:
-                return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="If this is a marijuana conviction, it's eligible under 137.226. Otherwise it's ineligible by omission from statute.")
-            elif "Felony Class B" in self.level:
-                return TypeEligibility(
-                    EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(a) as a Class B Felony, and follows B felony time restrictions. If this is a marijuana-related charge, it is eligible under 137.226 and follows normal time eligibility rules. .",
-                )
-            else: # (this includes if "Felony Unclassified" in self.level)
-                return TypeEligibility(
-                    EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Possibly eligible under 137.225(5)(a), if this is a Class B Felony. If so, time eligibility follows the 20-year B felony rule.",
-                )
+            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="This may be eligible if it is a charge for marijuana, under 137.226. See additional legal details.")
+    @staticmethod
+    def match_by_name():
+
