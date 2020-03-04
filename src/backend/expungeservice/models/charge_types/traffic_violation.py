@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass(eq=False)
+@dataclass
 class TrafficViolation(Charge):
     type_name: str = "Traffic Violation"
     expungement_rules: str = (
