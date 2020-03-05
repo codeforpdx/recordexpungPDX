@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
 const pReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: pReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: false
   })
