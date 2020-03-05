@@ -39,7 +39,6 @@ def test_unrecognized_disposition():
         level="Felony Class F",
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
     )
-   
     assert isinstance(unclassified_dismissed, UnclassifiedCharge)
     assert unclassified_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dismissed.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
