@@ -1,7 +1,7 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record import Record, Question
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from datetime import date
 
 
@@ -60,7 +60,7 @@ class RecordSummarizer:
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
         ]
-        eligible_charges_by_date = [("now",eligible_charges_now)]
+        eligible_charges_by_date : List[Tuple[str, List[str]]] = [("now",eligible_charges_now)]
         will_be_eligible_charges : Dict[date, List[str]] = {}
         for charge in record.charges:
             if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
