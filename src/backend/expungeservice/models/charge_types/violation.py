@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass(eq=False)
+@dataclass
 class Violation(Charge):
     type_name: str = "Violation"
     expungement_rules: str = """Violation convictions are eligible under ORS 137.225(5)(d).

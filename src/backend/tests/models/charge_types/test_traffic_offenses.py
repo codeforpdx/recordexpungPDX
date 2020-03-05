@@ -19,19 +19,13 @@ from tests.models.test_charge import Dispositions
 
 # TODO: we can separate these three types to different test files too.
 def test_traffic_violation_min_statute():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["statute"] = "801.000"
-    charge_dict["level"] = "Violation"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(statute="801.000", level="Violation")
 
     assert isinstance(charge, TrafficViolation)
 
 
 def test_traffic_violation_max_statute():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["statute"] = "825.999"
-    charge_dict["level"] = "Violation"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(statute="825.999", level="Violation")
 
     assert isinstance(charge, TrafficViolation)
 
@@ -131,8 +125,6 @@ def test_felony_dismissal_is_eligible():
 
 
 def test_duii():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["statute"] = "813.010"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(statute="813.010")
 
     assert isinstance(charge, Duii)

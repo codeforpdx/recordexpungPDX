@@ -6,12 +6,12 @@ from tests.models.test_charge import Dispositions
 
 
 def test_pcs_475854():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Unlawful possession of heroin"
-    charge_dict["statute"] = "475.854"
-    charge_dict["level"] = "Misdemeanor Class A"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Unlawful possession of heroin",
+        statute="475.854",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -19,12 +19,12 @@ def test_pcs_475854():
 
 
 def test_pcs_475874():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Unlawful possession of 3,4-methylenedioxymethamphetamine"
-    charge_dict["statute"] = "475.874"
-    charge_dict["level"] = "Misdemeanor Class A"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Unlawful possession of 3,4-methylenedioxymethamphetamine",
+        statute="475.874",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -32,12 +32,12 @@ def test_pcs_475874():
 
 
 def test_pcs_475884():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Unlawful possession of cocaine"
-    charge_dict["statute"] = "475.884"
-    charge_dict["level"] = "Misdemeanor Class A"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Unlawful possession of cocaine",
+        statute="475.884",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -45,12 +45,12 @@ def test_pcs_475884():
 
 
 def test_pcs_475894():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Unlawful possession of methamphetamine"
-    charge_dict["statute"] = "475.894"
-    charge_dict["level"] = "Misdemeanor Class A"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Unlawful possession of methamphetamine",
+        statute="475.894",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -58,12 +58,9 @@ def test_pcs_475894():
 
 
 def test_pcs_475992():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Poss Controlled Sub 2"
-    charge_dict["statute"] = "4759924B"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Poss Controlled Sub 2", statute="4759924B", level="Felony Class C", disposition=Dispositions.CONVICTED
+    )
 
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -71,26 +68,29 @@ def test_pcs_475992():
 
 
 def test_pcs_dismissed_violation():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Poss Controlled Sub 2"
-    charge_dict["statute"] = "4759924B"
-    charge_dict["disposition"] = Dispositions.DISMISSED
-    for level in ("Class C Violation", "Class c violation", "Class B Violation",
-                  "Class B violation", "Class D Violation", "Class D violation"):
-        charge_dict["level"] = level
-        pcs_charge = ChargeFactory.create(**charge_dict)
+    for level in (
+        "Class C Violation",
+        "Class c violation",
+        "Class B Violation",
+        "Class B violation",
+        "Class D Violation",
+        "Class D violation",
+    ):
+        pcs_charge = ChargeFactory.create(
+            name="Poss Controlled Sub 2", statute="4759924B", disposition=Dispositions.DISMISSED, level=level
+        )
         assert isinstance(pcs_charge, Schedule1PCS)
         assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-        assert pcs_charge.expungement_result.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+        assert (
+            pcs_charge.expungement_result.type_eligibility.reason
+            == "Dismissed violations are ineligible by omission from statute"
+        )
 
 
 def test_pcs_dismissed_nonviolation():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Poss Controlled Sub 2"
-    charge_dict["statute"] = "4759924B"
-    charge_dict["level"] = "Felony Class C"  # also test non-violation
-    charge_dict["disposition"] = Dispositions.DISMISSED
-    pcs_charge = ChargeFactory.create(**charge_dict)
+    pcs_charge = ChargeFactory.create(
+        name="Poss Controlled Sub 2", statute="4759924B", level="Felony Class C", disposition=Dispositions.DISMISSED
+    )  # also test non-violation
     assert isinstance(pcs_charge, Schedule1PCS)
     assert pcs_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert pcs_charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"

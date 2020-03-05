@@ -9,7 +9,7 @@ from expungeservice.models.helpers.charge_classifier import ChargeClassifier
 
 class ChargeCreator:
     @staticmethod
-    def create(**kwargs):
+    def create(charge_id, **kwargs):
         case = kwargs["case"]
         name = kwargs["name"]
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
@@ -22,6 +22,7 @@ class ChargeCreator:
         kwargs["_chapter"] = chapter
         kwargs["_section"] = section
         kwargs["statute"] = statute
+        kwargs["id"] = f"{case.case_number}-{charge_id}"
         return from_dict(data_class=classification, data=kwargs)
 
     @staticmethod

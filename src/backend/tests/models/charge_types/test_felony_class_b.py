@@ -6,12 +6,12 @@ from tests.models.test_charge import Dispositions
 
 
 def test_class_b_felony_164057():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Aggravated theft in the first degree"
-    charge_dict["statute"] = "164.057"
-    charge_dict["level"] = "Felony Class B"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Aggravated theft in the first degree",
+        statute="164.057",
+        level="Felony Class B",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(charge, FelonyClassB)
     assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -19,10 +19,8 @@ def test_class_b_felony_164057():
 
 
 def test_class_felony_is_added_to_b_felony_attribute():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Aggravated theft in the first degree"
-    charge_dict["statute"] = "164.057"
-    charge_dict["level"] = "Felony Class B"
-    charge = ChargeFactory.create(**charge_dict)
+    charge = ChargeFactory.create(
+        name="Aggravated theft in the first degree", statute="164.057", level="Felony Class B"
+    )
 
     assert isinstance(charge, FelonyClassB)
