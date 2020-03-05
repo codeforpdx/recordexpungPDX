@@ -6,12 +6,12 @@ from tests.models.test_charge import Dispositions
 
 
 def test_felony_class_a_charge():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the first degree"
-    charge_dict["statute"] = "163.185"
-    charge_dict["level"] = "Felony Class A"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    felony_class_a_convicted = ChargeFactory.create(**charge_dict)
+    felony_class_a_convicted = ChargeFactory.create(
+        name="Assault in the first degree",
+        statute="163.185",
+        level="Felony Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(felony_class_a_convicted, FelonyClassA)
     assert felony_class_a_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -19,12 +19,12 @@ def test_felony_class_a_charge():
 
 
 def test_felony_class_a_dismissed():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the first degree"
-    charge_dict["statute"] = "163.185"
-    charge_dict["level"] = "Felony Class A"
-    charge_dict["disposition"] = Dispositions.DISMISSED
-    felony_class_a_dismissed = ChargeFactory.create(**charge_dict)
+    felony_class_a_dismissed = ChargeFactory.create(
+        name="Assault in the first degree",
+        statute="163.185",
+        level="Felony Class A",
+        disposition=Dispositions.DISMISSED,
+    )
 
     assert isinstance(felony_class_a_dismissed, FelonyClassA)
     assert felony_class_a_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -35,12 +35,12 @@ def test_felony_class_a_dismissed():
 
 
 def test_felony_class_a_no_complaint():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["disposition"] = Dispositions.NO_COMPLAINT
-    charge_dict["name"] = "Assault in the first degree"
-    charge_dict["statute"] = "163.185"
-    charge_dict["level"] = "Felony Class A"
-    felony_class_a_no_complaint = ChargeFactory.create(**charge_dict)
+    felony_class_a_no_complaint = ChargeFactory.create(
+        name="Assault in the first degree",
+        statute="163.185",
+        level="Felony Class A",
+        disposition=Dispositions.NO_COMPLAINT,
+    )
 
     assert isinstance(felony_class_a_no_complaint, FelonyClassA)
     assert felony_class_a_no_complaint.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE

@@ -8,10 +8,7 @@ from expungeservice.models.disposition import Disposition
 
 def build_charge(statute, disposition_ruling):
     last_week = datetime.today() - timedelta(days=7)
-    charge = ChargeFactory.default_dict()
-    charge["statute"] = statute
-    charge["disposition"] = Disposition(ruling=disposition_ruling, date=last_week)
-    return ChargeFactory.create(**charge)
+    return ChargeFactory.create(statute=statute, disposition=Disposition(ruling=disposition_ruling, date=last_week))
 
 
 def test_duii_dismissed():

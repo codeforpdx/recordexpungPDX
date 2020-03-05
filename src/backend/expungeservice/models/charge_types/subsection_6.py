@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass(eq=False)
+@dataclass
 class Subsection6(Charge):
     type_name: str = "Subsection 6"
 

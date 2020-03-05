@@ -93,12 +93,12 @@ def test_eligible_mrc_with_violation():
 
 
 def test_needs_more_analysis_mrc_with_single_arrest():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the third degree"
-    charge_dict["statute"] = "163.165"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
-    three_yr_mrc = ChargeFactory.create(**charge_dict)
+    three_yr_mrc = ChargeFactory.create(
+        name="Assault in the third degree",
+        statute="163.165",
+        level="Felony Class C",
+        disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO),
+    )
     arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()
@@ -127,12 +127,12 @@ def test_needs_more_analysis_mrc_with_single_arrest():
 
 
 def test_very_old_needs_more_analysis_mrc_with_single_arrest():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the third degree"
-    charge_dict["statute"] = "163.165"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Disposition(ruling="Convicted", date=Time.TWENTY_YEARS_AGO)
-    mrc = ChargeFactory.create(**charge_dict)
+    mrc = ChargeFactory.create(
+        name="Assault in the third degree",
+        statute="163.165",
+        level="Felony Class C",
+        disposition=Disposition(ruling="Convicted", date=Time.TWENTY_YEARS_AGO),
+    )
     arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()

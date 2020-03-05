@@ -1,19 +1,16 @@
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.subsection_6 import Subsection6
-from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
-import pytest
 
 
 def test_subsection_6_dismissed():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Criminal mistreatment in the second degree"
-    charge_dict["statute"] = "163.200"
-    charge_dict["level"] = "Misdemeanor Class A"
-    charge_dict["disposition"] = Dispositions.DISMISSED
-
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Criminal mistreatment in the second degree",
+        statute="163.200",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.DISMISSED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
     assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -23,12 +20,12 @@ def test_subsection_6_dismissed():
 
 
 def test_subsection_6_163165():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Assault in the third degree"
-    charge_dict["statute"] = "163.165"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Assault in the third degree",
+        statute="163.165",
+        level="Felony Class C",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
     assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -39,11 +36,12 @@ def test_subsection_6_163165():
 
 
 def test_subsection_6_163200():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Criminal mistreatment in the second degree"
-    charge_dict["statute"] = "163.200"
-    charge_dict["level"] = "Misdemeanor Class A"
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Criminal mistreatment in the second degree",
+        statute="163.200",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
     assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -54,51 +52,55 @@ def test_subsection_6_163200():
 
 
 def test_subsection_6_163575():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Endangering the welfare of a minor"
-    charge_dict["statute"] = "163.575"
-    charge_dict["level"] = "Misdemeanor Class A"
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Endangering the welfare of a minor",
+        statute="163.575",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
 
 
 def test_subsection_6_163205():
-    charge_dict = ChargeFactory.default_dict()
-    charge_dict["name"] = "Criminal mistreatment in the first degree"
-    charge_dict["statute"] = "163.205"
-    charge_dict["level"] = "Felony Class C"
-    charge_dict["disposition"] = Dispositions.CONVICTED
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Criminal mistreatment in the first degree",
+        statute="163.205",
+        level="Felony Class C",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
 
 
 def test_subsection_6_163145():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Criminally negligent homicide"
-    charge_dict["statute"] = "163.145"
-    charge_dict["level"] = "Misdemeanor Class A"
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Criminally negligent homicide",
+        statute="163.145",
+        level="Misdemeanor Class A",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
 
 
 def test_163575_is_still_subsection_6_if_b_felony():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Endangering the welfare of a minor"
-    charge_dict["statute"] = "163.575"
-    charge_dict["level"] = "Felony Class B"
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Endangering the welfare of a minor",
+        statute="163.575",
+        level="Felony Class B",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
 
 
 def test_163200_is_still_subsection_6_if_b_felony():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["name"] = "Criminal mistreatment in the second degree"
-    charge_dict["statute"] = "163.200"
-    charge_dict["level"] = "Felony Class B"
-    subsection_6_charge = ChargeFactory.create(**charge_dict)
+    subsection_6_charge = ChargeFactory.create(
+        name="Criminal mistreatment in the second degree",
+        statute="163.200",
+        level="Felony Class B",
+        disposition=Dispositions.CONVICTED,
+    )
 
     assert isinstance(subsection_6_charge, Subsection6)
