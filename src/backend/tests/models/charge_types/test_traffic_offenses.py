@@ -86,6 +86,15 @@ def test_no_dispo_violation_is_not_type_eligible():
     )
     assert not charge.blocks_other_charges()
 
+def test_unrecognized_violation_is_not_type_eligible():
+    charge = ChargeFactory.create(
+        statute="801.000", level="Class C Traffic Violation", disposition=Dispositions.UNRECOGNIZED_DISPOSITION
+    )
+
+    assert isinstance(charge, TrafficViolation)
+    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.expungement_result.type_eligibility.reason == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
+    assert not charge.blocks_other_charges()
 
 """
 800 level misdemeanors and felonies are eligible Only If the case was dismissed
