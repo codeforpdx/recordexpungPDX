@@ -10,7 +10,7 @@ def test_contempt_of_court_dismissed():
     charge_dict = {
         "case": CaseFactory.create(type_status=["Contempt of Court", "Closed"]),
         "name": "contempt of court",
-        "statute": "33",
+        "statute": "33065",
         "level": "N/A",
         "date": date_class(1901, 1, 1),
         "disposition": Dispositions.DISMISSED
