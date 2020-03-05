@@ -1,3 +1,4 @@
+import pytest
 from dateutil.relativedelta import relativedelta
 
 from expungeservice.expunger import Expunger
@@ -92,6 +93,7 @@ def test_eligible_mrc_with_violation():
     )
 
 
+@pytest.mark.skip()
 def test_needs_more_analysis_mrc_with_single_arrest():
     three_yr_mrc = ChargeFactory.create(
         name="Assault in the third degree",
@@ -126,6 +128,7 @@ def test_needs_more_analysis_mrc_with_single_arrest():
     assert three_yr_mrc.expungement_result.charge_eligibility.label == "Possibly Eligible (review)"
 
 
+@pytest.mark.skip()
 def test_very_old_needs_more_analysis_mrc_with_single_arrest():
     mrc = ChargeFactory.create(
         name="Assault in the third degree",

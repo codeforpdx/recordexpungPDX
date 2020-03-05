@@ -135,20 +135,12 @@ class Expunger:
                         and charge.expungement_result.time_eligibility.date_will_be_eligible
                         >= attractor.expungement_result.time_eligibility.date_will_be_eligible
                     ):
-                        if (
-                            attractor.expungement_result.type_eligibility.status
-                            == EligibilityStatus.NEEDS_MORE_ANALYSIS
-                        ):
-                            # charge's time eligibility status and reason remains as before assuming worst case as friendly rule only improves time eligibility
-                            charge.expungement_result.time_eligibility.date_eligible_without_friendly_rule = (
-                                charge.expungement_result.time_eligibility.date_will_be_eligible
-                            )
-                        else:
-                            # date_eligible_without_friendly_rule remains None
-                            charge.expungement_result.time_eligibility.status = (
-                                attractor.expungement_result.time_eligibility.status
-                            )
-                            charge.expungement_result.time_eligibility.reason = 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
+                        charge.expungement_result.time_eligibility.status = (
+                            attractor.expungement_result.time_eligibility.status
+                        )
+                        charge.expungement_result.time_eligibility.reason = (
+                            'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
+                        )
                         charge.expungement_result.time_eligibility.date_will_be_eligible = (
                             attractor.expungement_result.time_eligibility.date_will_be_eligible
                         )
