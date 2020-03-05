@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Set, List, Iterator, Tuple
+from typing import Set, List, Iterator, Tuple, Dict
 
 from dateutil.relativedelta import relativedelta
 from more_itertools import flatten, padnone, take
@@ -7,7 +7,7 @@ from more_itertools import flatten, padnone, take
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.disposition import DispositionStatus
-from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from expungeservice.models.record import Record
 
 
@@ -98,7 +98,16 @@ class Expunger:
                 else:
                     eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
-            charge.set_time_eligibility(eligibility_dates)
+            date_will_be_eligible, reason = max(eligibility_dates)
+            if date_will_be_eligible and date.today() >= date_will_be_eligible:
+                time_eligibility = TimeEligibility(
+                    status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=date_will_be_eligible
+                )
+            else:
+                time_eligibility = TimeEligibility(
+                    status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
+                )
+            charge.set_time_eligibility(time_eligibility)
         for case in self.record.cases:
             non_violation_convictions_in_case = []
             violations_in_case = []
