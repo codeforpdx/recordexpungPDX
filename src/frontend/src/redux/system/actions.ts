@@ -14,6 +14,7 @@ export function logIn(email: string, password: string): any {
     }).then((response: any) => {
       dispatch({
         type: LOG_IN,
+        loggedIn: response.data.loggedIn,
         isAdmin: response.data.is_admin
       });
       history.push('/oeci');
@@ -37,9 +38,19 @@ export function logOut(): any {
   };
 }
 
-export function refreshLocalAuth() {
-  return {
-    type: LOG_IN
+
+export function refreshLocalAuth(): any {
+  return (dispatch: Dispatch) => {
+    return apiService(dispatch, {
+      url: '/api/auth_token',
+      method: 'post'
+    }).then((response: any) => {
+      dispatch({
+        type: LOG_IN,
+        loggedIn: response.data.loggedIn
+      });
+      history.push('/oeci');
+    });
   };
 }
 
