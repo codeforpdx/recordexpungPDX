@@ -113,3 +113,22 @@ deploy_staging_frontend: #deploy_staging_update_repo
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
 	pipenv lock -r > $@
+
+.ONESHELL:
+deploy_staging_update_repo:
+	cd ~/recordexpungPDX/
+	git reset --hard
+	git checkout staging
+	git pull origin staging:staging
+
+.ONESHELL:
+deploy_staging_backend: deploy_staging_update_repo
+	cd ~/recordexpungPDX/src/backend/
+	kill $(ps -ef | grep -v grep | grep 127.0.0.1:3032 | awk '{print $2}')
+	$(shell tr '\n' ' ' < ~/recordexpungPDX/config/expungeservice/expungeservice.staging.env) nohup pipenv run uwsgi --socket 127.0.0.1:3032 --module expungeservice.wsgi &
+
+.ONESHELL:
+deploy_staging_frontend: deploy_staging_update_repo
+	cd ~/recordexpungPDX/src/frontend/
+	npm run build
+	cp -r build/* /var/www/dev.recordsponge.com/html/
