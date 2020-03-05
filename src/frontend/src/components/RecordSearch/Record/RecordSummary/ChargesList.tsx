@@ -8,10 +8,10 @@ interface Props {
 export default class ChargesList extends React.Component<Props> {
   render() {
     const summarizedCharges = this.props.eligibleChargesByDate.map(((chargeGroup:any, index:number) => {
-      let eligibilityDate = chargeGroup[0];
-      let chargesNames = chargeGroup[1];
-      let listItems = this.buildListItems(chargesNames);
-      let labelColor = (eligibilityDate==="now" ? "green" : "dark-blue");
+      const eligibilityDate = chargeGroup[0];
+      const chargesNames = chargeGroup[1];
+      const listItems = this.buildListItems(chargesNames);
+      const labelColor = (eligibilityDate==="now" ? "green" : "dark-blue");
       return (
         <>
           <div key={index}>
