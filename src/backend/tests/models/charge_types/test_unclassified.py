@@ -33,30 +33,36 @@ def test_charge_that_falls_through():
     assert charge.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
 def test_unrecognized_disposition():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.UNRECOGNIZED_DISPOSITION)
-    charge_dict["statute"] = "333.333"
-    charge_dict["level"] = "Felony Class F"
-    unclassified_dismissed = ChargeFactory.create(**charge_dict)
+    unclassified_dismissed = ChargeFactory.create(
+        name="Unknown",
+        statute="333.333",
+        level="Felony Class F",
+        disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+    )
    
     assert isinstance(unclassified_dismissed, UnclassifiedCharge)
     assert unclassified_dismissed.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dismissed.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
 def test_convicted_disposition():
-    charge_dict = ChargeFactory.default_dict(disposition=Dispositions.CONVICTED)
-    charge_dict["statute"] = "333.333"
-    charge_dict["level"] = "Felony Class F"
-    unclassified_convicted = ChargeFactory.create(**charge_dict)
+    unclassified_convicted = ChargeFactory.create(
+        name="Unknown",
+        statute="333.333",
+        level="Felony Class F",
+        disposition=Dispositions.CONVICTED,
+    )
    
     assert isinstance(unclassified_convicted, UnclassifiedCharge)
     assert unclassified_convicted.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_convicted.expungement_result.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
 def test_no_disposition():
-    charge_dict = ChargeFactory.default_dict(disposition=None)
-    charge_dict["statute"] = "333.333"
-    charge_dict["level"] = "Felony Class F"
-    unclassified_dispo_none = ChargeFactory.create(**charge_dict)
+    unclassified_dispo_none = ChargeFactory.create(
+        name="Unknown",
+        statute="333.333",
+        level="Felony Class F",
+        disposition=None,
+    )
    
     assert isinstance(unclassified_dispo_none, UnclassifiedCharge)
     assert unclassified_dispo_none.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
