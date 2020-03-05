@@ -89,14 +89,5 @@ If the type eligibility is unknown, the method can return None. """
     def hidden_in_record_summary(self):
         return False
 
-    def set_time_eligibility(self, eligibility_dates):
-        date_will_be_eligible, reason = max(eligibility_dates)
-        if date_will_be_eligible and date_class.today() >= date_will_be_eligible:
-            time_eligibility = TimeEligibility(
-                status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=date_will_be_eligible
-            )
-        else:
-            time_eligibility = TimeEligibility(
-                status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
-            )
+    def set_time_eligibility(self, time_eligibility):
         self.expungement_result.time_eligibility = time_eligibility
