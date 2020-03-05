@@ -34,7 +34,7 @@ def record_with_open_case(crawler):
 def test_expunger_with_open_case(record_with_open_case):
     expunger = Expunger(record_with_open_case)
 
-    assert not expunger.run()
+    assert len(expunger.run()) == 4
     assert "All charges are ineligible because there is one or more open case" in record_with_open_case.errors[0]
 
 
@@ -45,7 +45,7 @@ def empty_record(crawler):
 
 def test_expunger_with_an_empty_record(empty_record):
     expunger = Expunger(empty_record)
-    assert expunger.run()
+    assert expunger.run() == {}
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def partial_dispos_record(crawler):
 
 def test_partial_dispos(partial_dispos_record):
     expunger = Expunger(partial_dispos_record)
-    assert expunger.run()
+    assert len(expunger.run()) == 1
 
 
 @pytest.fixture
@@ -66,7 +66,7 @@ def record_without_dispos(crawler):
 def test_case_without_dispos(record_without_dispos):
     expunger = Expunger(record_without_dispos)
     assert record_without_dispos.cases[0].closed()
-    assert expunger.run()
+    assert expunger.run() == {}
     assert record_without_dispos.errors[0] == (
         f"""Case [{record_without_dispos.cases[0].case_number}] has a charge with a missing disposition.
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
@@ -87,7 +87,7 @@ def record_with_unrecognized_dispo(crawler):
 
 def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
     expunger = Expunger(record_with_unrecognized_dispo)
-    assert expunger.run()
+    assert len(expunger.run()) == 6
     assert (
         "The following cases have charges with an unrecognized disposition" in record_with_unrecognized_dispo.errors[0]
     )
@@ -107,7 +107,7 @@ def record_with_multiple_disposition_errors(crawler):
 
 def test_case_with_mulitple_disposition_errors(record_with_multiple_disposition_errors):
     expunger = Expunger(record_with_multiple_disposition_errors)
-    assert expunger.run()
+    assert len(expunger.run()) == 4
     unrecognized_error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: """
@@ -178,7 +178,7 @@ def record_with_specific_dates(crawler):
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
     record = record_with_specific_dates
     expunger = Expunger(record)
-    assert expunger.run()
+    assert len(expunger.run()) == 9
 
     assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
     assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -208,7 +208,7 @@ def record_with_revoked_probation(crawler):
 def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
     record = record_with_revoked_probation
     expunger = Expunger(record)
-    assert expunger.run()
+    assert len(expunger.run()) == 6
     assert record.cases[0].charges[0].expungement_result.time_eligibility.date_will_be_eligible == date_class(
         2020, 11, 9
     )
