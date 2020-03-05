@@ -16,11 +16,9 @@ class Expunger:
         self.record = record
         self.analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
 
-    def run(self) -> bool:
+    def run(self) -> Dict[str, TimeEligibility]:
         """
         Evaluates the expungement eligibility of a record.
-
-        :return: True if there are no open cases; otherwise False
         """
         open_cases = [case for case in self.record.cases if not case.closed()]
         if len(open_cases) > 0:
@@ -144,7 +142,7 @@ class Expunger:
                         )
                         charge_id_to_time_eligibility[charge.id] = time_eligibility
                         charge.set_time_eligibility(time_eligibility)
-        return len(open_cases) == 0
+        return charge_id_to_time_eligibility
 
     @staticmethod
     def _categorize_charges(charges):
