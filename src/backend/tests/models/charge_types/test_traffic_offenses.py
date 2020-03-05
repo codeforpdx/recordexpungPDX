@@ -86,7 +86,7 @@ def test_no_dispo_violation_is_not_type_eligible():
     )
     assert not charge.blocks_other_charges()
 
-def test_unreognized_violation_is_not_type_eligible():
+def test_unrecognized_violation_is_not_type_eligible():
     charge = ChargeFactory.create(
         statute="801.000", level="Class C Traffic Violation", disposition=Dispositions.UNRECOGNIZED_DISPOSITION
     )
