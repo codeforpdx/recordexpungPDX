@@ -29,6 +29,7 @@ class Expunger:
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
         self.record.errors += self._build_disposition_errors(self.record.charges)
+        charge_id_to_time_eligibility = {}
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
             other_charges = [c for c in self.analyzable_charges if c != charge and c.blocks_other_charges()]
@@ -107,6 +108,7 @@ class Expunger:
                 time_eligibility = TimeEligibility(
                     status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
                 )
+            charge_id_to_time_eligibility[charge.id] = time_eligibility
             charge.set_time_eligibility(time_eligibility)
         for case in self.record.cases:
             non_violation_convictions_in_case = []
@@ -135,17 +137,13 @@ class Expunger:
                         and charge.expungement_result.time_eligibility.date_will_be_eligible
                         >= attractor.expungement_result.time_eligibility.date_will_be_eligible
                     ):
-                        charge.expungement_result.time_eligibility.status = (
-                            attractor.expungement_result.time_eligibility.status
+                        time_eligibility = TimeEligibility(
+                            status=attractor.expungement_result.time_eligibility.status,
+                            reason='Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)',
+                            date_will_be_eligible=attractor.expungement_result.time_eligibility.date_will_be_eligible,
                         )
-                        charge.expungement_result.time_eligibility.reason = (
-                            'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
-                        )
-                        charge.expungement_result.time_eligibility.date_will_be_eligible = (
-                            attractor.expungement_result.time_eligibility.date_will_be_eligible
-                        )
-
-                        # TODO: Feels dangerous; clean up
+                        charge_id_to_time_eligibility[charge.id] = time_eligibility
+                        charge.set_time_eligibility(time_eligibility)
         return len(open_cases) == 0
 
     @staticmethod
