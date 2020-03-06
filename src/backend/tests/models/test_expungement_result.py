@@ -1,10 +1,9 @@
 from expungeservice.models.expungement_result import *
-from tests.time import Time
 
 
 def test_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
-    time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute", None)
+    time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute", date.today())
     expungement_result = ExpungementResult(type_eligibility, time_eligibility)
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
@@ -23,7 +22,7 @@ def test_will_be_eligible():
 
 def test_possibly_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
-    time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute", None)
+    time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute", date.today())
     expungement_result = ExpungementResult(type_eligibility, time_eligibility)
 
     assert expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE

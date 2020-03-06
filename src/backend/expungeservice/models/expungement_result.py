@@ -29,7 +29,7 @@ class TypeEligibility:
 class TimeEligibility:
     status: EligibilityStatus
     reason: str
-    date_will_be_eligible: Optional[date]
+    date_will_be_eligible: date
 
 
 @dataclass
