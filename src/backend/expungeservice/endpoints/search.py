@@ -6,8 +6,9 @@ from flask import request, current_app
 from flask_login import login_required
 import logging
 
+from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Record
-from expungeservice.models.ambiguous import AmbiguousCase
+from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.crawler.crawler import Crawler
@@ -55,7 +56,7 @@ class Search(MethodView):
         if errors:
             record = Record([], errors)
         else:
-            ambiguous_record = []
+            ambiguous_record: AmbiguousRecord = []
             for cases in product(*ambiguous_cases):
                 cases_with_unique_case_number = [
                     list(group)[0]
@@ -64,13 +65,14 @@ class Search(MethodView):
                     )
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
-            record = ambiguous_record[
-                0
-            ]  # TODO: Fix. We currently pretend we cannot get an ambiguous record/case/charge.
 
-        record.errors += ErrorChecker.check(record)
-        expunger = Expunger(record)
-        expunger.run()
+            charge_id_to_time_eligibilities = []
+            for record in ambiguous_record:
+                record.errors += ErrorChecker.check(record)
+                expunger = Expunger(record)
+                charge_id_to_time_eligibility = expunger.run()
+                charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
+            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
 
         try:
             save_result(request_data, record)
