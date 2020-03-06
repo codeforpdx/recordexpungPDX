@@ -1,5 +1,41 @@
 Changelog
 
+v1.5.0 (3-6-20)
+
+## Frontend Changes
+ - Always show the arrested date even if there is no disposition (#877)
+ - Hide the time eligibility if the charge is type-ineligible
+ - Link case IDs in error banners (#920)
+ - Show an error and force a reload if any case page fetches fail (#914)
+ - Add-User panel is operational (#889)
+
+## Expungement Logic Fixes
+
+- Remove Subsection 12 (#898)
+- New Marijuana Eligible type (#892)
+- Fixed Manufacture/Delivery type (#892)
+- Overhaul Person Felony (#870, #884)
+- Don't apply the friendly rule if conviction needs more analysis (#882)
+- Show type eligibility when missing/unrecognized disposition, if possible (#844)
+
+v1.4.8 (2-23-20)
+
+## Frontend Changes
+
+- Allow multiple aliases in search (#823, #852)
+- New logo (#855, #858)
+- Summary panel excludes parking tickets and traffic violations (#841)
+- Rewrite Time eligibility reasons ("X years from most recent _ ", etc.) (#872)
+
+## Expungement Logic Fixes
+
+- Fix the friendly rule: Compute correct date if the "conviction" is two violations; only change arrest date if it's an improvement (#773)
+
+## Other Changes
+
+- Add rules documentation for more charge types. (#843, #853, #856)
+
+
 v1.4.5 (2-10-20)
 
 ## Frontend Changes
