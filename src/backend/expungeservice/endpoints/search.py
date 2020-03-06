@@ -1,4 +1,4 @@
-from itertools import groupby
+from itertools import groupby, product
 from typing import List
 
 from flask.views import MethodView
@@ -6,8 +6,8 @@ from flask import request, current_app
 from flask_login import login_required
 import logging
 
-from expungeservice.models.case import Case
 from expungeservice.models.record import Record
+from expungeservice.models.ambiguous import AmbiguousCase
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.crawler.crawler import Crawler
@@ -34,7 +34,7 @@ class Search(MethodView):
             error(401, "Missing login credentials to OECI.")
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
 
-        cases: List[Case] = []
+        ambiguous_cases: List[AmbiguousCase] = []
         errors = []
         for alias in request_data["aliases"]:
             crawler = Crawler()
@@ -45,21 +45,29 @@ class Search(MethodView):
                 error(401, "Attempted login to OECI failed")
 
             try:
-                cases += crawler.search(
+                ambiguous_cases += crawler.search(
                     alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
-                ).cases
+                )
+
             except Exception as e:
                 errors.append(str(e))
+
         if errors:
             record = Record([], errors)
         else:
-            cases_with_unique_case_number = [
-                list(group)[0]
-                for key, group in groupby(
-                    sorted(cases, key=lambda case: case.case_number), lambda case: case.case_number
-                )
-            ]
-            record = Record(cases_with_unique_case_number)
+            ambiguous_record = []
+            for cases in product(*ambiguous_cases):
+                cases_with_unique_case_number = [
+                    list(group)[0]
+                    for key, group in groupby(
+                        sorted(list(cases), key=lambda case: case.case_number), lambda case: case.case_number
+                    )
+                ]
+                ambiguous_record.append(Record(cases_with_unique_case_number))
+            record = ambiguous_record[
+                0
+            ]  # TODO: Fix. We currently pretend we cannot get an ambiguous record/case/charge.
+
         expunger = Expunger(record)
         expunger.run()
 
