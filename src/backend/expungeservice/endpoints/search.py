@@ -11,7 +11,7 @@ from expungeservice.models.ambiguous import AmbiguousCase
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.crawler.crawler import Crawler
-from expungeservice.expunger import Expunger
+from expungeservice.expunger import Expunger, ErrorChecker
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
@@ -68,6 +68,7 @@ class Search(MethodView):
                 0
             ]  # TODO: Fix. We currently pretend we cannot get an ambiguous record/case/charge.
 
+        record.errors += ErrorChecker.check(record)
         expunger = Expunger(record)
         expunger.run()
 
