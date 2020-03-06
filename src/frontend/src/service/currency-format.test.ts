@@ -1,5 +1,5 @@
 import currencyFormat from './currency-format.ts';
-describe('API SERVICE TEST', () => {
+describe('CURRENCY FORMAT SERVICE TEST', () => {
   it('formats currency', () => {
     var str = currencyFormat(145);
     expect(str).toEqual('$145.00');
