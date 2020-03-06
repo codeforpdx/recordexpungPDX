@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus, ChargeEligibilityStatus
+from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
@@ -28,14 +29,23 @@ def test_eligible_mrc_with_single_arrest():
         == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
     assert expunger_result[arrest.id].date_will_be_eligible == date.today()
-    assert arrest.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-    assert arrest.expungement_result.charge_eligibility.label == "Eligible"
 
     assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[three_yr_mrc.id].reason == ""
     assert expunger_result[three_yr_mrc.id].date_will_be_eligible == date.today()
-    assert three_yr_mrc.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-    assert three_yr_mrc.expungement_result.charge_eligibility.label == "Eligible"
+
+    merged_record = RecordMerger.merge([record], [expunger_result])
+    assert (
+        merged_record.cases[0].charges[0].expungement_result.charge_eligibility.status
+        == ChargeEligibilityStatus.ELIGIBLE_NOW
+    )
+    assert merged_record.cases[0].charges[0].expungement_result.charge_eligibility.label == "Eligible"
+
+    assert (
+        merged_record.cases[0].charges[1].expungement_result.charge_eligibility.status
+        == ChargeEligibilityStatus.ELIGIBLE_NOW
+    )
+    assert merged_record.cases[0].charges[1].expungement_result.charge_eligibility.label == "Eligible"
 
 
 def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
