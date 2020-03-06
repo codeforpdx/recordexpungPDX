@@ -100,7 +100,6 @@ class Expunger:
                     status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
                 )
             charge_id_to_time_eligibility[charge.id] = time_eligibility
-            charge.set_time_eligibility(time_eligibility)
         for case in self.record.cases:
             non_violation_convictions_in_case = []
             violations_in_case = []
@@ -125,16 +124,15 @@ class Expunger:
                     if (
                         charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
                         and charge.dismissed()
-                        and charge.expungement_result.time_eligibility.date_will_be_eligible
-                        >= attractor.expungement_result.time_eligibility.date_will_be_eligible
+                        and charge_id_to_time_eligibility[charge.id].date_will_be_eligible
+                        >= charge_id_to_time_eligibility[attractor.id].date_will_be_eligible
                     ):
                         time_eligibility = TimeEligibility(
-                            status=attractor.expungement_result.time_eligibility.status,
+                            status=charge_id_to_time_eligibility[attractor.id].status,
                             reason='Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)',
-                            date_will_be_eligible=attractor.expungement_result.time_eligibility.date_will_be_eligible,
+                            date_will_be_eligible=charge_id_to_time_eligibility[attractor.id].date_will_be_eligible,
                         )
                         charge_id_to_time_eligibility[charge.id] = time_eligibility
-                        charge.set_time_eligibility(time_eligibility)
         return charge_id_to_time_eligibility
 
     @staticmethod
