@@ -7,11 +7,10 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 
 @dataclass(eq=False)
 class ContemptOfCourt(Charge):
-    """ This is a civil offense that is always ineligible regardless of level / conviction status"""
 
     type_name: str = "Contempt of Court"
     expungement_rules: str = (
-        """ Ineligible by ommission from statute. """
+        """ This is a civil offense that is always ineligible regardless of level / conviction status """
     )
 
     def _type_eligibility(self):
