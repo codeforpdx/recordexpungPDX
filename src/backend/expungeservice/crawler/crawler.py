@@ -1,16 +1,20 @@
 from concurrent.futures.thread import ThreadPoolExecutor
+from copy import copy
+from itertools import product
+from typing import List
 
 import requests
 from datetime import datetime
 
+from expungeservice.models.case import Case
 from expungeservice.models.helpers.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
-from expungeservice.models.record import Record
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
 from expungeservice.crawler.request import *
+from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase
 
 
 class Crawler:
@@ -30,7 +34,7 @@ class Crawler:
 
         return Crawler.__login_validation(self.response, url)
 
-    def search(self, first_name, last_name, middle_name="", birth_date="") -> Record:
+    def search(self, first_name, last_name, middle_name="", birth_date="") -> List[AmbiguousCase]:
         url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
@@ -41,19 +45,25 @@ class Crawler:
 
         # Parse search results (case detail pages)
         with ThreadPoolExecutor(max_workers=50) as executor:
-            list(executor.map(self.__build_case, self.result.cases))
-
+            ambiguous_cases = list(executor.map(self.__build_case, self.result.cases))
         self.session.close()
-        return Record(self.result.cases)
+        return ambiguous_cases
 
-    def __build_case(self, case):
+    def __build_case(self, case) -> AmbiguousCase:
         case_parser_data = self.__parse_case(case)
         case.set_probation_revoked(case_parser_data.probation_revoked)
         case.set_balance_due(case_parser_data.balance_due)
-        for charge_id, charge in case_parser_data.hashed_charge_data.items():
-            charge["case"] = case
-            new_charge = Crawler.__build_charge(charge_id, charge, case_parser_data)
-            case.charges.append(new_charge)
+        ambiguous_charges = []
+        for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
+            charge_dict["case"] = case
+            ambiguous_charge = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
+            ambiguous_charges.append(ambiguous_charge)
+        ambiguous_case = []
+        for charges in product(*ambiguous_charges):
+            possible_case: Case = copy(case)
+            possible_case.charges = list(charges)
+            ambiguous_case.append(possible_case)
+        return ambiguous_case
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
@@ -79,7 +89,7 @@ class Crawler:
         return response.url != login_url
 
     @staticmethod
-    def __build_charge(charge_id, charge, case_parser_data):
+    def __build_charge(charge_id, charge, case_parser_data) -> AmbiguousCharge:
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition_data = case_parser_data.hashed_dispo_data[charge_id]
             date = datetime.date(
@@ -87,4 +97,6 @@ class Crawler:
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
             charge["disposition"] = Disposition(date, ruling, "amended" in disposition_data["event"].lower())
-        return ChargeCreator.create(charge_id, **charge)
+        return [
+            ChargeCreator.create(charge_id, **charge)
+        ]  # TODO: Fix. Eventually we want the ChargeCreator to directly return an AmbiguousCharge
