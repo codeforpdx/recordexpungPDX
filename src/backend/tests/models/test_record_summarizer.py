@@ -65,7 +65,7 @@ def test_record_summarizer_multiple_cases():
         [case_all_eligible, case_partially_eligible, case_possibly_eligible, case_all_ineligible, case_all_ineligible_2]
     )
     expunger = Expunger(record)
-    expunger.run()
+    expunger_result = expunger.run()
     record_summary = RecordSummarizer.summarize(record)
 
     assert record_summary.total_balance_due == 1000.00

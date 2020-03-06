@@ -178,19 +178,20 @@ def record_with_specific_dates(crawler):
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
     record = record_with_specific_dates
     expunger = Expunger(record)
-    assert len(expunger.run()) == 9
+    expunger_result = expunger.run()
+    assert len(expunger_result) == 9
 
-    assert record.cases[0].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[0].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[0].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[0].charges[0].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[0].charges[1].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[0].charges[2].id].status is EligibilityStatus.INELIGIBLE
 
-    assert record.cases[1].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[1].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[1].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[1].charges[0].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[1].charges[1].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[1].charges[2].id].status is EligibilityStatus.INELIGIBLE
 
-    assert record.cases[2].charges[0].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[2].charges[1].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert record.cases[2].charges[2].expungement_result.time_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[0].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[1].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[2].id].status is EligibilityStatus.INELIGIBLE
 
 
 @pytest.fixture
@@ -208,7 +209,6 @@ def record_with_revoked_probation(crawler):
 def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
     record = record_with_revoked_probation
     expunger = Expunger(record)
-    assert len(expunger.run()) == 6
-    assert record.cases[0].charges[0].expungement_result.time_eligibility.date_will_be_eligible == date_class(
-        2020, 11, 9
-    )
+    expunger_result = expunger.run()
+    assert len(expunger_result) == 6
+    assert expunger_result[record.cases[0].charges[0].id].date_will_be_eligible == date_class(2020, 11, 9)
