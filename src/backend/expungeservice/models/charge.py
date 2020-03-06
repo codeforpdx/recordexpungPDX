@@ -88,6 +88,3 @@ If the type eligibility is unknown, the method can return None. """
 
     def hidden_in_record_summary(self):
         return False
-
-    def set_time_eligibility(self, time_eligibility):
-        self.expungement_result.time_eligibility = time_eligibility

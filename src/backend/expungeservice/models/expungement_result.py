@@ -19,13 +19,13 @@ class ChargeEligibilityStatus(str, Enum):
     INELIGIBLE = "Ineligible"
 
 
-@dataclass
+@dataclass(frozen=True)
 class TypeEligibility:
     status: EligibilityStatus
     reason: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class TimeEligibility:
     status: EligibilityStatus
     reason: str
