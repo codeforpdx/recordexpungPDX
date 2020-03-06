@@ -11,5 +11,5 @@ from expungeservice.serializer import ExpungeModelEncoder
 @given(build_record_strategy())
 def test_round_trip_various_records(record):
     expunger = Expunger(record)
-    expunger.run()
+    expunger_result = expunger.run()
     json.loads(json.dumps(record, cls=ExpungeModelEncoder))

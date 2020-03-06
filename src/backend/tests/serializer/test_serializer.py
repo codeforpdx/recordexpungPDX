@@ -32,5 +32,5 @@ def _record(request):
 
 def test_round_trip_various_records(_record):
     expunger = Expunger(_record)
-    expunger.run()
+    expunger_result = expunger.run()
     json.loads(json.dumps(_record, cls=ExpungeModelEncoder))
