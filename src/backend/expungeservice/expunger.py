@@ -20,13 +20,6 @@ class Expunger:
         """
         Evaluates the expungement eligibility of a record.
         """
-        open_cases = [case for case in self.record.cases if not case.closed()]
-        if len(open_cases) > 0:
-            case_numbers = ", ".join([f"[{case.case_number}]" for case in open_cases])
-            self.record.errors += [
-                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
-            ]
-        self.record.errors += self._build_disposition_errors(self.record.charges)
         charge_id_to_time_eligibility = {}
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
@@ -190,17 +183,31 @@ class Expunger:
     def _without_skippable_charges(charges: Iterator[Charge]):
         return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.dismissed())]
 
+
+class ErrorChecker:
+    @staticmethod
+    def check(record) -> List[str]:
+        errors: List[str] = []
+        open_cases = [case for case in record.cases if not case.closed()]
+        if len(open_cases) > 0:
+            case_numbers = ", ".join([f"[{case.case_number}]" for case in open_cases])
+            errors += [
+                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
+            ]
+        errors += ErrorChecker._build_disposition_errors(record.charges)
+        return errors
+
     @staticmethod
     def _build_disposition_errors(charges: List[Charge]):
         record_errors = []
-        cases_with_missing_disposition, cases_with_unrecognized_disposition = Expunger._filter_cases_with_errors(
+        cases_with_missing_disposition, cases_with_unrecognized_disposition = ErrorChecker._filter_cases_with_errors(
             charges
         )
         if cases_with_missing_disposition:
-            record_errors.append(Expunger._build_missing_disposition_error_message(cases_with_missing_disposition))
+            record_errors.append(ErrorChecker._build_missing_disposition_error_message(cases_with_missing_disposition))
         if cases_with_unrecognized_disposition:
             record_errors.append(
-                Expunger._build_unrecognized_disposition_error_message(cases_with_unrecognized_disposition)
+                ErrorChecker._build_unrecognized_disposition_error_message(cases_with_unrecognized_disposition)
             )
         return record_errors
 
