@@ -9,14 +9,15 @@ from expungeservice.models.charge_types.traffic_non_violation import TrafficNonV
 from expungeservice.models.charge_types.duii import Duii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
-from expungeservice.models.charge_types.schedule_1_p_c_s import Schedule1PCS
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import SexCrime
+from expungeservice.models.charge_types.manufacture_delivery import ManufactureDelivery
 
 
 @dataclass
@@ -39,10 +40,11 @@ class ChargeClassifier:
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
+        yield from ChargeClassifier._drug_crime(self.statute,  self.section, self.name.lower())
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
-        yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name)
+        yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name.lower())
 
         yield UnclassifiedCharge
 
@@ -52,11 +54,15 @@ class ChargeClassifier:
             return JuvenileCharge
 
     @staticmethod
-    def _classification_by_statute(statute, chapter, section, level):
+    def _drug_crime(statute, section, name):
         yield ChargeClassifier._marijuana_ineligible(statute, section)
-        yield ChargeClassifier._subsection_6(section, level)
-        yield ChargeClassifier._schedule_1_pcs(section)
+        yield ChargeClassifier._marijuana_eligible(section, name)
+        yield ChargeClassifier._manufacture_delivery(name)
         yield ChargeClassifier._sex_crime(statute)
+
+    @staticmethod
+    def _classification_by_statute(statute, chapter, section, level):
+        yield ChargeClassifier._subsection_6(section, level)
 
     @staticmethod
     def _classification_by_level(level, statute):
@@ -71,6 +77,23 @@ class ChargeClassifier:
         ineligible_statutes = ["475B359", "475B367", "475B371", "167262"]
         if statute == "475B3493C" or section in ineligible_statutes:
             return MarijuanaIneligible
+
+    @staticmethod
+    def _marijuana_eligible(section, name):
+        if (section == "475860" or
+            "marij" in name or
+            "mj" in name.split()
+            ):
+            return MarijuanaEligible
+
+
+    @staticmethod
+    def _manufacture_delivery(name):
+        if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
+            if "2" in name:
+                return None # This is schedule 2 and will get picked up by normal "Felony" eligibility rules.
+            else:
+                return ManufactureDelivery # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
 
     @staticmethod
     def _subsection_6(section, level):
@@ -111,13 +134,8 @@ class ChargeClassifier:
                 return CivilOffense
         elif statute.isdigit() and int(statute) in statute_range:
             return CivilOffense
-        elif "fugitive complaint" in name.lower():
+        elif "fugitive complaint" in name:
             return CivilOffense
-
-    @staticmethod
-    def _schedule_1_pcs(section):
-        if section in ["475854", "475874", "475884", "475894", "475992"]:
-            return Schedule1PCS
 
     @staticmethod
     def _parking_ticket(violation_type):
