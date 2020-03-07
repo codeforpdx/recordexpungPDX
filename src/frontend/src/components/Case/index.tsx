@@ -1,6 +1,7 @@
 import React from 'react';
 import { CaseType } from '../SearchResults/types';
 import Charges from '../Charges';
+import currencyFormat from '../../service/currency-format';
 
 interface Props {
   case: CaseType;
@@ -21,7 +22,7 @@ export default class Cases extends React.Component<Props> {
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-              {case_number}
+            {case_number}
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">County </div>
@@ -29,7 +30,7 @@ export default class Cases extends React.Component<Props> {
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">Balance </div>
-            {balance_due}
+            {currencyFormat(balance_due)}
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">Name </div>
