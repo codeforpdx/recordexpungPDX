@@ -9,6 +9,7 @@ import validateEmail from '../../service/email-validation';
 
 interface Props {
   users: UserState;
+  isAdmin?: boolean;
   addUser: (name: string, email: string, password: string, group: string, admin: boolean) => Promise<void>;
 }
 
@@ -117,6 +118,12 @@ class AddUser extends React.Component<Props, State> {
       }
     })
   }
+
+  public componentDidMount() {
+    if (!this.props.isAdmin) {
+      history.push('/oeci');
+  }
+}
 
   public render() {
     return (
