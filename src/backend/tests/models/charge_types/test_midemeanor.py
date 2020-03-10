@@ -10,9 +10,9 @@ def test_misdemeanor_missing_disposition():
     )
 
     assert isinstance(misdemeanor_charge, Misdemeanor)
-    assert misdemeanor_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert misdemeanor_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
-        misdemeanor_charge.expungement_result.type_eligibility.reason
+        misdemeanor_charge.type_eligibility.reason
         == "Misdemeanors are always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals"
     )
 
@@ -26,8 +26,8 @@ def test_misdemeanor_164043():
     )
 
     assert isinstance(charge, Misdemeanor)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
 
 def test_misdemeanor_164125():
@@ -36,8 +36,8 @@ def test_misdemeanor_164125():
     )
 
     assert isinstance(charge, Misdemeanor)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
 
 def test_drug_free_zone_variance_misdemeanor():
@@ -49,5 +49,5 @@ def test_drug_free_zone_variance_misdemeanor():
     )
 
     assert isinstance(charge, Misdemeanor)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"

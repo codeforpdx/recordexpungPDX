@@ -14,8 +14,8 @@ def test_class_b_felony_164057():
     )
 
     assert isinstance(charge, FelonyClassB)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert charge.expungement_result.type_eligibility.reason == "Further Analysis Needed"
+    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.reason == "Further Analysis Needed"
 
 
 def test_class_felony_is_added_to_b_felony_attribute():

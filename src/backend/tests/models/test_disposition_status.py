@@ -42,8 +42,8 @@ def test_dispositionless_charge_is_not_convicted_nor_dismissed():
 
     assert not charge.convicted()
     assert not charge.dismissed()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert charge.expungement_result.type_eligibility.reason == "Disposition not found. Needs further analysis"
+    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.reason == "Disposition not found. Needs further analysis"
 
 
 def test_charge_with_unrecognized_disposition_eligibility():
@@ -52,5 +52,5 @@ def test_charge_with_unrecognized_disposition_eligibility():
     )
     assert not charge.convicted()
     assert not charge.dismissed()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert charge.expungement_result.type_eligibility.reason == "Disposition not recognized. Needs further analysis"
+    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.reason == "Disposition not recognized. Needs further analysis"

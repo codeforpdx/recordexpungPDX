@@ -394,7 +394,7 @@ def test_felony_class_b_with_subsequent_conviction():
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
     assert expunger_result[subsequent_charge.id].status is EligibilityStatus.ELIGIBLE
-    assert subsequent_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert subsequent_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
 
 
 def test_felony_class_b_with_prior_conviction():
@@ -410,8 +410,8 @@ def test_felony_class_b_with_prior_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert b_felony_charge.expungement_result.type_eligibility.reason == "Further Analysis Needed"
+    assert b_felony_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert b_felony_charge.type_eligibility.reason == "Further Analysis Needed"
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[b_felony_charge.id].reason == ""
 
@@ -427,7 +427,7 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
 
 
@@ -451,8 +451,9 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     expunger_result = expunger.run()
 
     assert not isinstance(manudel_charge, FelonyClassB)
-    assert manudel_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert manudel_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert expunger_result[manudel_charge.id].status is EligibilityStatus.ELIGIBLE
+
 
 def test_single_violation_is_time_restricted():
     # A single violation doesn't block other records, but it is still subject to the 3 year rule.
