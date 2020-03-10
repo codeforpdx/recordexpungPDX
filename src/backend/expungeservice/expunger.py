@@ -41,7 +41,7 @@ class Expunger:
             else:
                 raise ValueError("Charge should always convicted or dismissed at this point.")
 
-            if charge.expungement_result.type_eligibility.status == EligibilityStatus.INELIGIBLE:
+            if charge.type_eligibility.status == EligibilityStatus.INELIGIBLE:
                 eligibility_dates.append((date.max, "Never. Type ineligible charges are always time ineligible."))
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
@@ -122,7 +122,7 @@ class Expunger:
             if attractor:
                 for charge in case.charges:
                     if (
-                        charge.expungement_result.type_eligibility.status != EligibilityStatus.INELIGIBLE
+                        charge.type_eligibility.status != EligibilityStatus.INELIGIBLE
                         and charge.dismissed()
                         and charge_id_to_time_eligibility[charge.id].date_will_be_eligible
                         >= charge_id_to_time_eligibility[attractor.id].date_will_be_eligible

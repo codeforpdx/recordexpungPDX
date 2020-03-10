@@ -14,9 +14,7 @@ def save_result(request_data, record):
     search_param_string = user_id + json.dumps(request_data["aliases"], sort_keys=True)
     hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
     num_charges = len(record.charges)
-    num_eligible_charges = len(
-        [c for c in record.charges if c.expungement_result.type_eligibility.status == EligibilityStatus.ELIGIBLE]
-    )
+    num_eligible_charges = len([c for c in record.charges if c.type_eligibility.status == EligibilityStatus.ELIGIBLE])
     _db_insert_result(g.database, user_id, hashed_search_params, num_charges, num_eligible_charges)
 
 

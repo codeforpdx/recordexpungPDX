@@ -68,7 +68,7 @@ class Search(MethodView):
 
             charge_id_to_time_eligibilities = []
             for record in ambiguous_record:
-                record.errors += ErrorChecker.check(record)
+                record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
                 expunger = Expunger(record)
                 charge_id_to_time_eligibility = expunger.run()
                 charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
