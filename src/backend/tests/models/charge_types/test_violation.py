@@ -11,5 +11,5 @@ def test_violation():
     )
 
     assert isinstance(charge, Violation)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Eligible under 137.225(5)(d)"
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"

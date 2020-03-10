@@ -11,5 +11,5 @@ def test_juvenile_charge():
     juvenile_charge = ChargeFactory.create(case=case, disposition=Dispositions.DISMISSED)
 
     assert isinstance(juvenile_charge, JuvenileCharge)
-    assert juvenile_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert juvenile_charge.expungement_result.type_eligibility.reason == "Potentially eligible under 419A.262"
+    assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"

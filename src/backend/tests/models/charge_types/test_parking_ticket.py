@@ -21,8 +21,8 @@ def test_parking_ticket_conviction():
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
 
 def test_parking_ticket_dismissal():
@@ -38,8 +38,8 @@ def test_parking_ticket_dismissal():
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
 
 def test_parking_ticket_no_disposition():
@@ -55,9 +55,9 @@ def test_parking_ticket_no_disposition():
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
-        charge.expungement_result.type_eligibility.reason
+        charge.type_eligibility.reason
         == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
 
@@ -75,8 +75,8 @@ def test_parking_ticket_unrecognized_disposition():
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
-        charge.expungement_result.type_eligibility.reason
+        charge.type_eligibility.reason
         == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )

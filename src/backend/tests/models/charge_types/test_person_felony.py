@@ -23,10 +23,8 @@ def test_person_felony_class_b(person_felony_statute):
         name="Generic", statute=person_felony_statute, level="Felony Class B", disposition=Dispositions.CONVICTED
     )
     assert isinstance(person_felony_class_b_convicted, PersonFelonyClassB)
-    assert person_felony_class_b_convicted.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert (
-        person_felony_class_b_convicted.expungement_result.type_eligibility.reason == "Ineligible under 137.225(5)(a)"
-    )
+    assert person_felony_class_b_convicted.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert person_felony_class_b_convicted.type_eligibility.reason == "Ineligible under 137.225(5)(a)"
 
 
 @pytest.mark.parametrize("person_felony_statute", PersonFelonyClassB.statutes_with_subsection)
@@ -35,12 +33,9 @@ def test_felony_b_person_felony_with_missing_subsection(person_felony_statute):
         name="Generic", statute=person_felony_statute[:6], level="Felony Class B", disposition=Dispositions.CONVICTED
     )
     assert isinstance(person_felony_class_b_convicted, PersonFelonyClassB)
+    assert person_felony_class_b_convicted.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
-        person_felony_class_b_convicted.expungement_result.type_eligibility.status
-        is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    )
-    assert (
-        person_felony_class_b_convicted.expungement_result.type_eligibility.reason
+        person_felony_class_b_convicted.type_eligibility.reason
         == "OECI may be missing a statute subsection which would make this charge a person crime, and thus ineligible under 137.225(5)(a)"
     )
 

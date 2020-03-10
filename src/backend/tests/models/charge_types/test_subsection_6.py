@@ -13,10 +13,8 @@ def test_subsection_6_dismissed():
     )
 
     assert isinstance(subsection_6_charge, Subsection6)
-    assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert (
-        subsection_6_charge.expungement_result.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
-    )
+    assert subsection_6_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert subsection_6_charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 
 
 def test_subsection_6_163165():
@@ -28,11 +26,8 @@ def test_subsection_6_163165():
     )
 
     assert isinstance(subsection_6_charge, Subsection6)
-    assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_6_charge.expungement_result.type_eligibility.reason
-        == "Ineligible under 137.225(6) in certain circumstances."
-    )
+    assert subsection_6_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert subsection_6_charge.type_eligibility.reason == "Ineligible under 137.225(6) in certain circumstances."
 
 
 def test_subsection_6_163200():
@@ -44,11 +39,8 @@ def test_subsection_6_163200():
     )
 
     assert isinstance(subsection_6_charge, Subsection6)
-    assert subsection_6_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        subsection_6_charge.expungement_result.type_eligibility.reason
-        == "Ineligible under 137.225(6) in certain circumstances."
-    )
+    assert subsection_6_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert subsection_6_charge.type_eligibility.reason == "Ineligible under 137.225(6) in certain circumstances."
 
 
 def test_subsection_6_163575():
