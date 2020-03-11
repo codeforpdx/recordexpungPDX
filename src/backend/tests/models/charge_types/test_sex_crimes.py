@@ -26,4 +26,4 @@ def test_sex_crimes_with_romeo_and_juliet_exception(sex_crimes_statute):
     assert isinstance(charges[0], RomeoAndJulietIneligibleSexCrime)
     assert isinstance(charges[1], Misdemeanor)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert type_eligibility.reason == "Eligible under 137.225(5)(b), Failure to meet requirements under 163A.140(1)"
+    assert type_eligibility.reason == "Failure to meet requirements under 163A.140(1) OR Eligible under 137.225(5)(b)"
