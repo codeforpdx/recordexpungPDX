@@ -36,7 +36,7 @@ def test_subsection_6_163165():
     assert isinstance(charges[0], Subsection6)
     assert isinstance(charges[1], FelonyClassC)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert type_eligibility.reason == "Eligible under 137.225(5)(b), Ineligible under 137.225(6)"
+    assert type_eligibility.reason == "Ineligible under 137.225(6) OR Eligible under 137.225(5)(b)"
 
 
 def test_subsection_6_163200():
@@ -51,7 +51,7 @@ def test_subsection_6_163200():
     assert isinstance(charges[0], Subsection6)
     assert isinstance(charges[1], Misdemeanor)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert type_eligibility.reason == "Eligible under 137.225(5)(b), Ineligible under 137.225(6)"
+    assert type_eligibility.reason == "Ineligible under 137.225(6) OR Eligible under 137.225(5)(b)"
 
 
 def test_subsection_6_163575():

@@ -2,7 +2,7 @@ from dataclasses import replace
 from datetime import date
 from typing import List, Dict, Set, Optional
 
-from more_itertools import flatten
+from more_itertools import flatten, unique_everseen
 
 from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.charge import Charge
@@ -45,7 +45,7 @@ class RecordMerger:
                     time_eligibility=merged_time_eligibility,
                     charge_eligibility=charge_eligibility,
                 )
-                merged_type_name = ", ".join(sorted(list(set([charge.type_name for charge in same_charges]))))
+                merged_type_name = " OR ".join(list(unique_everseen([charge.type_name for charge in same_charges])))
                 new_charge: Charge = replace(charge, type_name=merged_type_name, expungement_result=expungement_result)
                 new_charges.append(new_charge)
             new_case = replace(case, charges=new_charges)
@@ -56,7 +56,7 @@ class RecordMerger:
     def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:
         status = RecordMerger.compute_type_eligibility_status(same_charges)
         reasons = [charge.type_eligibility.reason for charge in same_charges]
-        reason = ", ".join(sorted(list(set(reasons))))
+        reason = " OR ".join(list(unique_everseen(reasons)))
         return TypeEligibility(status=status, reason=reason)
 
     @staticmethod
@@ -73,7 +73,7 @@ class RecordMerger:
         if time_eligibilities:
             status = RecordMerger.compute_time_eligibility_status(time_eligibilities)
             reasons = [time_eligibility.reason for time_eligibility in time_eligibilities]
-            reason = ", ".join(sorted(list(set(reasons))))
+            reason = " OR ".join(list(unique_everseen(reasons)))
             date_will_be_eligible = date.max  # TODO: Fix
             return TimeEligibility(status=status, reason=reason, date_will_be_eligible=date_will_be_eligible)
         else:
