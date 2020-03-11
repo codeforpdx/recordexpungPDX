@@ -311,7 +311,8 @@ class AddUser extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  users: state.users
+  users: state.users,
+  isAdmin: state.system.isAdmin
 });
 
 export default connect(

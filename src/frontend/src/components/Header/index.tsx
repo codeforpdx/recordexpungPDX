@@ -33,12 +33,14 @@ class Header extends React.Component<Props> {
                 Admin
               </button>
             ) : null}
-            <button
-              onClick={() => history.push('/account')}
-              className="link mid-gray hover-blue f6 f5-ns dib pa3"
-            >
-              Account
-            </button>
+            {this.props.isAdmin ? (
+              <button
+                onClick={() => history.push('/account')}
+                className="link mid-gray hover-blue f6 f5-ns dib pa3"
+              >
+                Account
+              </button>
+            ) : null}
             <LogOut>
               {/* Nesting the button within a <Link> tag here would
                 render but creates invalid HTML.

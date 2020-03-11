@@ -56,7 +56,7 @@ def put_from_user_id(user_id):
     if ("admin" in data.keys()) and (data["admin"] is True) and (not current_user.is_admin):
         error(403, "Logged in user can not grant self admin privileges.")
 
-    if "password" in data.keys():
+    if "password" in data.keys() and len(data["password"]) > 0:
         if len(data["password"]) < 8:
             error(422, "New password is less than 8 characters long.")
         data["hashed_password"] = generate_password_hash(data["password"])
