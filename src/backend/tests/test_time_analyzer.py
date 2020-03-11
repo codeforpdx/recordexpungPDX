@@ -410,8 +410,11 @@ def test_felony_class_b_with_prior_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert b_felony_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert b_felony_charge.type_eligibility.reason == "Further Analysis Needed"
+    assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert (
+        b_felony_charge.type_eligibility.reason
+        == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+    )
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[b_felony_charge.id].reason == ""
 
