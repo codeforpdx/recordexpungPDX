@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
+import { editUser } from '../../redux/users/actions';
 import validateEmail from '../../service/email-validation';
 
 interface Props {
   users: UserState;
   isAdmin?: boolean;
+  editUser: (id: number, name: string, email: string, password: string, group: string, admin: boolean) => Promise<void>;
+
 }
 
 interface State {
+  errorType: string;
+  errorMessage: string;
+  id: number;
   email: string;
   password: string;
   confirmPassword: string;
@@ -20,13 +26,15 @@ interface State {
   invalidResponse: boolean;
   missingName: boolean;
   invalidEmail: boolean;
-  missingPassword: boolean;
   invalidPassword: boolean;
   mismatchPasswords: boolean;
 }
 
 class EditUser extends React.Component<Props, State> {
   public state: State = {
+    errorType: '',
+    errorMessage: '',
+    id: 1,
     email: '',
     password: '',
     confirmPassword: '',
@@ -36,10 +44,20 @@ class EditUser extends React.Component<Props, State> {
     invalidResponse: false,
     missingName: false,
     invalidEmail: false,
-    missingPassword: false,
     invalidPassword: false,
     mismatchPasswords: false,
   };
+
+  componentDidMount() {
+    this.setState({
+      id: this.props.users.editID,
+      name: this.props.users.editName,
+      email: this.props.users.editEmail,
+      group: this.props.users.editGroup,
+      role: this.props.users.editAdmin === true ? 'admin' : 'search'
+
+    });
+  }
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
@@ -78,11 +96,45 @@ class EditUser extends React.Component<Props, State> {
       {
         missingName: this.state.name.length === 0,
         invalidEmail: !validateEmail(this.state.email),
-        missingPassword: this.state.password.length === 0,
         invalidPassword: this.state.password.length > 0 && this.state.password.length < 8,
         mismatchPasswords: this.state.password !== this.state.confirmPassword
+      },
+      () => {
+        if (
+          !(this.state.missingName
+          || this.state.invalidEmail
+          || this.state.invalidPassword
+          || this.state.mismatchPasswords)
+        ) {
+            this.dispatchEditUser();
+          }
       }
     );
+  }
+
+  public dispatchEditUser() {
+    var admin = (this.state.role === 'search') ? false : true;
+    this.props.editUser(
+      this.state.id,
+      this.state.name,
+      this.state.email,
+      this.state.password,
+      this.state.group,
+      admin
+    ).catch(error => {
+      if (error.response.status === 403) {
+        // error if user is not admin
+        this.setState({ errorType: 'unauthorized' });
+      } else if (error.response.status === 422) {
+        this.setState({
+          errorType: 'endpoint',
+          errorMessage: error.response.data.message
+        });
+      }
+      else {
+        this.setState({ errorType: 'technical' });
+      }
+    })
   }
 
   public render() {
@@ -100,6 +152,7 @@ class EditUser extends React.Component<Props, State> {
                 id="name"
                 name="name"
                 type="text"
+                placeholder={this.state.name}
                 required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
@@ -119,6 +172,7 @@ class EditUser extends React.Component<Props, State> {
                 id="email"
                 name="email"
                 type="email"
+                placeholder={this.state.email}
                 required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
@@ -141,13 +195,11 @@ class EditUser extends React.Component<Props, State> {
                 required={true}
                 className="w-100 pa3 br2 b--black-20"
                 aria-describedby={
-                  this.state.missingPassword
-                    ? 'password_input_message'
-                    : this.state.invalidPassword
+                  this.state.invalidPassword
                     ? 'password_message'
                     : undefined
                 }
-                aria-invalid={this.state.missingPassword || this.state.invalidPassword}
+                aria-invalid={this.state.invalidPassword}
                 onChange={this.handleChange}
               />
             </div>
@@ -177,6 +229,7 @@ class EditUser extends React.Component<Props, State> {
                 id="group"
                 name="group"
                 type="text"
+                placeholder={this.state.group}
                 className="w-100 pa3 br2 b--black-20"
                 onChange={this.handleChange}
               />
@@ -241,11 +294,6 @@ class EditUser extends React.Component<Props, State> {
                   Invalid email address.
                 </p>
               ) : null}
-              {this.state.missingPassword === true ? (
-                <p id="password_input_message" className="bg-washed-red mv4 pa3 br3 fw6">
-                  Password is required.
-                </p>
-              ) : null}
               {this.state.invalidPassword === true ? (
                 <p id="password_message" className="bg-washed-red mv4 pa3 br3 fw6">
                   Passwords must be at least 8 characters.
@@ -259,6 +307,11 @@ class EditUser extends React.Component<Props, State> {
               {this.state.invalidResponse === true ? (
                 <p id="no_match_message" className="bg-washed-red mv4 pa3 br3 fw6">
                   Technical difficulties try again later.
+                </p>
+              ) : null}
+              {this.state.errorType === 'endpoint' ? (
+                <p id="endpoint_error_message" className="bg-washed-red mv4 pa3 br3 fw6">
+                  {this.state.errorMessage}
                 </p>
               ) : null}
             </div>
@@ -278,7 +331,7 @@ class EditUser extends React.Component<Props, State> {
             </div>
           </form>
         </section>
-      </main>
+      </main> 
     );
   }
 }
@@ -290,4 +343,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
+  { editUser }
 )(EditUser);
