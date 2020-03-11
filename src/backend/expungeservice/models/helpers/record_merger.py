@@ -23,10 +23,11 @@ class RecordMerger:
     def merge(
         ambiguous_record: AmbiguousRecord, charge_id_to_time_eligibility_list: List[Dict[str, TimeEligibility]]
     ) -> Record:
-        charge_id_to_time_eligibilities: Dict[str, Set[TimeEligibility]] = collections.defaultdict(set)
+        charge_id_to_time_eligibilities: Dict[str, List[TimeEligibility]] = collections.defaultdict(list)
         for charge_id_to_time_eligibility in charge_id_to_time_eligibility_list:
             for k, v in charge_id_to_time_eligibility.items():
-                charge_id_to_time_eligibilities[k].add(v)
+                if v not in charge_id_to_time_eligibilities[k]:
+                    charge_id_to_time_eligibilities[k].append(v)
         charges = list(flatten([record.charges for record in ambiguous_record]))
         record = ambiguous_record[0]
         new_case_list = []
@@ -69,7 +70,7 @@ class RecordMerger:
             return EligibilityStatus.NEEDS_MORE_ANALYSIS
 
     @staticmethod
-    def merge_time_eligibilities(time_eligibilities: Optional[Set[TimeEligibility]]) -> Optional[TimeEligibility]:
+    def merge_time_eligibilities(time_eligibilities: Optional[List[TimeEligibility]]) -> Optional[TimeEligibility]:
         if time_eligibilities:
             status = RecordMerger.compute_time_eligibility_status(time_eligibilities)
             reasons = [time_eligibility.reason for time_eligibility in time_eligibilities]
@@ -80,7 +81,7 @@ class RecordMerger:
             return None
 
     @staticmethod
-    def compute_time_eligibility_status(time_eligibilities: Set[TimeEligibility]):
+    def compute_time_eligibility_status(time_eligibilities: List[TimeEligibility]):
         if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]):
             return EligibilityStatus.ELIGIBLE
         else:
@@ -89,7 +90,7 @@ class RecordMerger:
     # TODO: Think about if it is possible for a NEEDS_MORE_ANALYSIS type eligibility charge to have no disposition and handle.
     @staticmethod
     def compute_charge_eligibility(
-        type_eligibility: TypeEligibility, time_eligibilities: Optional[Set[TimeEligibility]]
+        type_eligibility: TypeEligibility, time_eligibilities: Optional[List[TimeEligibility]]
     ) -> ChargeEligibility:
         if type_eligibility.status == EligibilityStatus.INELIGIBLE:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
