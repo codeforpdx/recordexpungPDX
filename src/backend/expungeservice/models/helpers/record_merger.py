@@ -115,7 +115,7 @@ class RecordMerger:
                     for time_eligibility in at_least_will_be_eligibles
                 ]
             ):
-                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible (review)")
+                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible Now (review)")
             elif any(
                 [
                     time_eligibility.status == EligibilityStatus.ELIGIBLE
