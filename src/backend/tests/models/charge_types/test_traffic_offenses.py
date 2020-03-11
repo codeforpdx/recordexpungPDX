@@ -11,7 +11,7 @@ Rules for 800 Level charges are as follows:
 
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
-from expungeservice.models.charge_types.duii import Duii
+from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
@@ -133,6 +133,7 @@ def test_felony_dismissal_is_eligible():
 
 
 def test_duii():
-    charge = ChargeFactory.create(statute="813.010")
+    charges = ChargeFactory.create_ambiguous_charge(statute="813.010")
 
-    assert isinstance(charge, Duii)
+    assert isinstance(charges[0], Duii)
+    assert isinstance(charges[1], DivertedDuii)

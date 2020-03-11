@@ -9,7 +9,7 @@ class SexCrime(Charge):
     type_name: str = "Sex Crime"
     expungement_rules: str = (
         """
-        Sex Crimes are type-ineligible for expungement, other than a narrow exception for "Romeo and Juliet" cases.
+        Sex Crimes are type-ineligible for expungement other than a narrow exception for "Romeo and Juliet" cases.
         For further detail, see 137.225(6)(a)
         """
     )
@@ -56,10 +56,15 @@ class SexCrime(Charge):
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
-            if self.statute in self.romeo_and_juliet_exceptions:
-                return TypeEligibility(
-                    EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                    reason="Romeo and Juliet exception, needs other eligibility requirements. See 163A.140(1)",
-                )
-            else:
-                return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")
+            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")
+
+
+@dataclass
+class RomeoAndJulietIneligibleSexCrime(Charge):
+    def _type_eligibility(self):
+        if self.dismissed():
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+        elif self.convicted():
+            return TypeEligibility(
+                EligibilityStatus.INELIGIBLE, reason="Failure to meet requirements under 163A.140(1)"
+            )

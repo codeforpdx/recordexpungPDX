@@ -1,29 +1,31 @@
 import re
 import weakref
 from datetime import datetime
+from typing import List
 
 from dacite import from_dict
 
+from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.models.helpers.charge_classifier import ChargeClassifier
 
 
 class ChargeCreator:
     @staticmethod
-    def create(charge_id, **kwargs):
+    def create(charge_id, **kwargs) -> AmbiguousCharge:
         case = kwargs["case"]
         name = kwargs["name"]
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
         chapter = ChargeCreator._set_chapter(kwargs["statute"])
         section = ChargeCreator.__set_section(statute)
-        classification = ChargeClassifier(case.violation_type, name, statute, level, chapter, section).classify()
+        classifications = ChargeClassifier(case.violation_type, name, statute, level, chapter, section).classify()
         kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
         kwargs["_case"] = weakref.ref(case)
         kwargs["_chapter"] = chapter
         kwargs["_section"] = section
         kwargs["statute"] = statute
         kwargs["id"] = f"{case.case_number}-{charge_id}"
-        return from_dict(data_class=classification, data=kwargs)
+        return [from_dict(data_class=classification, data=kwargs) for classification in classifications]
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
