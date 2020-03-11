@@ -11,15 +11,13 @@ class PersonFelonyClassB(Charge):
     expungement_rules: str = (
         """If a [Class B Felony](#FelonyClassB) is also defined as a person felony under Oregon law, it is type-ineligible.
 A person felony is defined in section 14 of this page: (https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712)
-In some cases, the statute named in this list includes a subsection. Because OECI can have a data error that excludes the subsection, records that are a B felony and also charged under one of these sections are tagged with Needs More Analysis, because the charge may or may not constitute a person felony depending on the subsection under which the person was charged.
 Dismissal of a person felony is eligible as usual under 137.225(1)(b).
 A person felony that is below a class B felony is not considered under this subsection and lower levels of charge may still be eligible, with the exceptions named elsewhere such as in [Subsection 6](#Subsection6).
 """
     )
     """
-    Some statutes listed in the definition for person crime include a subsection.
-    These statutes which need special logic to handle the potential OECI error that the subsection was dropped.
-    Such a charge in OECI more analysis because the actual subsection that applies will determine eligibility. """
+    Some statutes listed in the definition for person crime only apply to a particular subsection.
+    """
     statutes_with_subsection = [
         "1631874",  # [contains subsection] # Felony Strangulation; class C felony
         "1643772C",  # [contains subsection] # Computer Crime—Theft of an Intimate Image; class C misdemeanor
@@ -134,10 +132,4 @@ A person felony that is below a class B felony is not considered under this subs
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
-            if self.statute in [full_statute[:6] for full_statute in self.statutes_with_subsection]:
-                return TypeEligibility(
-                    EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                    reason="OECI may be missing a statute subsection which would make this charge a person crime, and thus ineligible under 137.225(5)(a)",
-                )
-            else:
-                return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(5)(a)")
+            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(5)(a)")

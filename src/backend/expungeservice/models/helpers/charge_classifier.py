@@ -41,7 +41,7 @@ class ChargeClassifier:
     def __classifications_list(self):
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._traffic_crime(self.statute, self.level)
-        yield from ChargeClassifier._drug_crime(self.statute,  self.section, self.name.lower())
+        yield from ChargeClassifier._drug_crime(self.statute, self.section, self.name.lower())
         yield from ChargeClassifier._classification_by_statute(self.statute, self.chapter, self.section, self.level)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield from ChargeClassifier._classification_by_level(self.level, self.statute)
@@ -82,20 +82,16 @@ class ChargeClassifier:
 
     @staticmethod
     def _marijuana_eligible(section, name):
-        if (section == "475860" or
-            "marij" in name or
-            "mj" in name.split()
-            ):
+        if section == "475860" or "marij" in name or "mj" in name.split():
             return MarijuanaEligible
-
 
     @staticmethod
     def _manufacture_delivery(name):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
             if "2" in name:
-                return None # This is schedule 2 and will get picked up by normal "Felony" eligibility rules.
+                return None  # This is schedule 2 and will get picked up by normal "Felony" eligibility rules.
             else:
-                return ManufactureDelivery # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
+                return ManufactureDelivery  # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
 
     @staticmethod
     def _subsection_6(section, level):
@@ -132,7 +128,7 @@ class ChargeClassifier:
     def _contempt_of_court(name):
         if "contempt of court" in name.lower():
             return ContemptOfCourt
-                            
+
     @staticmethod
     def _civil_offense(statute, chapter, name):
         statute_range = range(1, 100)
@@ -183,13 +179,9 @@ class ChargeClassifier:
         The statutes listed here are specified in https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
         The list includes statutes which are not named as class B felonies. However, because a statute can be charged as a different level of crime from that named in the statute, our expunger checks OECI directly for whether the charge was a class B felony, and then checks membership in this list.
         """
-        if statute in PersonFelonyClassB.statutes + PersonFelonyClassB.statutes_with_subsection:
-            return True
-        elif statute in [full_statute[:6] for full_statute in PersonFelonyClassB.statutes_with_subsection]:
-            return True
-            # In this case the type eligibility needs more analysis. The condition is checked again in the charge object's type eligibility method.
-        else:
-            return False
+        return statute in PersonFelonyClassB.statutes or statute in [
+            full_statute[:6] for full_statute in PersonFelonyClassB.statutes_with_subsection
+        ]
 
     @staticmethod
     def _sex_crime(statute):
