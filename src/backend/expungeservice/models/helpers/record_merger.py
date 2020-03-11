@@ -2,6 +2,8 @@ from dataclasses import replace
 from datetime import date
 from typing import List, Dict, Set, Optional
 
+from more_itertools import flatten
+
 from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import (
@@ -25,13 +27,15 @@ class RecordMerger:
         for charge_id_to_time_eligibility in charge_id_to_time_eligibility_list:
             for k, v in charge_id_to_time_eligibility.items():
                 charge_id_to_time_eligibilities[k].add(v)
+        charges = list(flatten([record.charges for record in ambiguous_record]))
         record = ambiguous_record[0]
         new_case_list = []
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
                 time_eligibilities = charge_id_to_time_eligibilities.get(charge.id)
-                merged_type_eligibility = RecordMerger.merge_type_eligibilities(charge.id, case.charges)
+                same_charges = list(filter(lambda c: c.id == charge.id, charges))
+                merged_type_eligibility = RecordMerger.merge_type_eligibilities(same_charges)
                 merged_time_eligibility = RecordMerger.merge_time_eligibilities(time_eligibilities)
                 charge_eligibility = RecordMerger.compute_charge_eligibility(
                     merged_type_eligibility, time_eligibilities
@@ -41,17 +45,18 @@ class RecordMerger:
                     time_eligibility=merged_time_eligibility,
                     charge_eligibility=charge_eligibility,
                 )
-                new_charge: Charge = replace(charge, expungement_result=expungement_result)
+                merged_type_name = ", ".join(sorted(list(set([charge.type_name for charge in same_charges]))))
+                new_charge: Charge = replace(charge, type_name=merged_type_name, expungement_result=expungement_result)
                 new_charges.append(new_charge)
             new_case = replace(case, charges=new_charges)
             new_case_list.append(new_case)
         return replace(record, cases=new_case_list)
 
     @staticmethod
-    def merge_type_eligibilities(charge_id: str, charges: List[Charge]) -> TypeEligibility:
-        same_charges = list(filter(lambda charge: charge.id == charge_id, charges))
+    def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:
         status = RecordMerger.compute_type_eligibility_status(same_charges)
-        reason = ", ".join([charge.type_eligibility.reason for charge in same_charges])
+        reasons = [charge.type_eligibility.reason for charge in same_charges]
+        reason = ", ".join(sorted(list(set(reasons))))
         return TypeEligibility(status=status, reason=reason)
 
     @staticmethod
@@ -67,7 +72,8 @@ class RecordMerger:
     def merge_time_eligibilities(time_eligibilities: Optional[Set[TimeEligibility]]) -> Optional[TimeEligibility]:
         if time_eligibilities:
             status = RecordMerger.compute_time_eligibility_status(time_eligibilities)
-            reason = ", ".join([time_eligibility.reason for time_eligibility in time_eligibilities])
+            reasons = [time_eligibility.reason for time_eligibility in time_eligibilities]
+            reason = ", ".join(sorted(list(set(reasons))))
             date_will_be_eligible = date.max  # TODO: Fix
             return TimeEligibility(status=status, reason=reason, date_will_be_eligible=date_will_be_eligible)
         else:

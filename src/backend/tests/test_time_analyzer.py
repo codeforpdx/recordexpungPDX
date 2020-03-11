@@ -2,17 +2,16 @@ import unittest
 
 from datetime import date
 
-import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
 from tests.time import Time
-from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
@@ -436,26 +435,33 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
 
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     # This charge is both ManufactureDelivery and also a class B felony. ManufactureDelivery classification takes precedence and the B felony time rule does not apply.
-    manudel_charge = ChargeFactory.create(
+    manudel_charges = ChargeFactory.create_ambiguous_charge(
         name="Manufacture/Delivery 1",
         statute="4759922b",
         level="Felony Class B",
         date=Time.LESS_THAN_TWENTY_YEARS_AGO,
         disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_TWENTY_YEARS_AGO),
     )
+    manudel_type_eligilibility = RecordMerger.merge_type_eligibilities(manudel_charges)
 
-    case_1 = CaseFactory.create()
-    case_1.charges = [manudel_charge]
+    case_1a = CaseFactory.create()
+    case_1a.charges = [manudel_charges[0]]
+    case_1b = CaseFactory.create()
+    case_1b.charges = [manudel_charges[1]]
     subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
     case_2 = CaseFactory.create()
     case_2.charges = [subsequent_charge]
 
-    expunger = Expunger(Record([case_1, case_2]))
-    expunger_result = expunger.run()
+    possible_record_1 = Record([case_1a, case_2])
+    possible_record_2 = Record([case_1b, case_2])
+    expunger = Expunger(possible_record_1)
+    expunger_result_1 = expunger.run()
+    expunger = Expunger(possible_record_2)
+    expunger_result_2 = expunger.run()
 
-    assert not isinstance(manudel_charge, FelonyClassB)
-    assert manudel_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert expunger_result[manudel_charge.id].status is EligibilityStatus.ELIGIBLE
+    assert manudel_type_eligilibility.status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_1[manudel_charges[0].id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_2[manudel_charges[1].id].status is EligibilityStatus.INELIGIBLE
 
 
 def test_single_violation_is_time_restricted():
