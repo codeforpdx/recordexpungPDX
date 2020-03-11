@@ -23,4 +23,7 @@ If a class B felony is eligible under any other subsection of the statute, that 
         if self.dismissed():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
         elif self.convicted():
-            return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Further Analysis Needed")
+            return TypeEligibility(
+                EligibilityStatus.ELIGIBLE,
+                reason="Convictions that fulfill the conditions of 137.225(5)(a) are eligible",
+            )
