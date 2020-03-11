@@ -139,4 +139,4 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-TODO: Add license
+This project is open source under the terms of the [MIT License](LICENSE.md).
