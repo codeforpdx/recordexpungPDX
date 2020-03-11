@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
-from expungeservice.models.disposition import DispositionStatus
 
 
 @dataclass
@@ -17,6 +16,19 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
     )
 
     def _type_eligibility(self):
+        if self.dismissed():
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)",)
+        elif self.convicted():
+            return TypeEligibility(
+                EligibilityStatus.INELIGIBLE, reason="137.225(7)(a) - Traffic offenses are ineligible"
+            )
+
+
+@dataclass
+class DivertedDuii(Charge):
+    type_name: str = "Diverted DUII"
+
+    def _type_eligibility(self):
         """
         DUII charges can be diverted, and in some cases the Disposition will
         reflect this and in others it will say Dismissed.  We need to handle
@@ -24,8 +36,7 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
         """
         if self.dismissed():
             return TypeEligibility(
-                EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                reason="Further Analysis Needed - Dismissed charge may have been Diverted, making it ineligible under 137.225(8)(b)",
+                EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",
             )
         elif self.convicted():
             return TypeEligibility(

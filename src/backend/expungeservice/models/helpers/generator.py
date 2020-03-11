@@ -21,13 +21,12 @@ def _is_proper_charge_subclass(attr):
 
 
 def get_charge_classes() -> List[Type[Charge]]:
-    charge_classes = []
+    charge_classes: List[Type[Charge]] = []
     for _, module_name, _ in pkgutil.iter_modules(charge_types.__path__):  # type: ignore  # mypy issue #1422
         module = import_module(f"{charge_types.__name__}.{module_name}")
         attrs = list(module.__dict__.values())
         charge_subclass_attrs = list(filter(lambda attr: _is_proper_charge_subclass(attr), attrs))
-        assert len(charge_subclass_attrs) == 1
-        charge_classes.append(charge_subclass_attrs[0])
+        charge_classes += charge_subclass_attrs
     return charge_classes
 
 
