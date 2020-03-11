@@ -31,7 +31,7 @@ def test_possibly_eligible():
     )
 
     assert charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
-    assert charge_eligibility.label == "Possibly Eligible (review)"
+    assert charge_eligibility.label == "Possibly Eligible Now (review)"
 
 
 def test_possibly_will_be_eligible():
