@@ -93,7 +93,9 @@ class Expunger:
             date_will_be_eligible, reason = max(eligibility_dates)
             if date_will_be_eligible and date.today() >= date_will_be_eligible:
                 time_eligibility = TimeEligibility(
-                    status=EligibilityStatus.ELIGIBLE, reason="", date_will_be_eligible=date_will_be_eligible
+                    status=EligibilityStatus.ELIGIBLE,
+                    reason="Eligible now",
+                    date_will_be_eligible=date_will_be_eligible,
                 )
             else:
                 time_eligibility = TimeEligibility(

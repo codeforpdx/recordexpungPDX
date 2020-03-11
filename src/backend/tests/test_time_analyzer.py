@@ -92,7 +92,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == ""
+        assert expunger_result[charge.id].reason == "Eligible now"
         assert expunger_result[charge.id].date_will_be_eligible == charge.disposition.date + relativedelta(years=+3)
 
     def test_10_yr_old_conviction_with_3_yr_old_mrc(self):
@@ -110,7 +110,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         assert expunger_result[ten_yr_charge.id].date_will_be_eligible == three_yr_mrc.disposition.date + Time.TEN_YEARS
 
         assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[three_yr_mrc.id].reason == ""
+        assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
         assert expunger_result[three_yr_mrc.id].date_will_be_eligible == ten_yr_charge.disposition.date + Time.TEN_YEARS
 
     def test_10_yr_old_conviction_with_less_than_3_yr_old_mrc(self):
@@ -148,7 +148,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == ""
+        assert expunger_result[charge.id].reason == "Eligible now"
         assert expunger_result[charge.id].date_will_be_eligible == date.today()
 
     def test_less_than_three_year_rule_conviction(self):
@@ -198,7 +198,7 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == ""
+        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
         assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_all_mrd_case_related_dismissals_are_expungeable(self):
@@ -210,11 +210,11 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == ""
+        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
         assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
         assert expunger_result[case_related_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[case_related_dismissal.id].reason == ""
+        assert expunger_result[case_related_dismissal.id].reason == "Eligible now"
         assert expunger_result[case_related_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_mrd_blocks_dismissals_in_unrelated_cases(self):
@@ -246,7 +246,7 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[convicted_charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[convicted_charge.id].reason == ""
+        assert expunger_result[convicted_charge.id].reason == "Eligible now"
         assert expunger_result[
             convicted_charge.id
         ].date_will_be_eligible == convicted_charge.disposition.date + relativedelta(years=+3)
@@ -355,7 +355,7 @@ def test_felony_class_b_greater_than_20yrs():
     expunger_result = expunger.run()
 
     assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[charge.id].reason == ""
+    assert expunger_result[charge.id].reason == "Eligible now"
     assert expunger_result[charge.id].date_will_be_eligible == date.today()
 
 
@@ -415,7 +415,7 @@ def test_felony_class_b_with_prior_conviction():
         == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[b_felony_charge.id].reason == ""
+    assert expunger_result[b_felony_charge.id].reason == "Eligible now"
 
 
 def test_dismissed_felony_class_b_with_subsequent_conviction():
