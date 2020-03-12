@@ -116,19 +116,19 @@ $(REQUIREMENTS_TXT):
 
 .ONESHELL:
 deploy_staging_update_repo:
-	cd ~/recordexpungPDX/
+	cd /deployments/staging/recordexpungPDX
 	git reset --hard
 	git checkout staging
 	git pull origin staging:staging
 
 .ONESHELL:
 deploy_staging_backend: deploy_staging_update_repo
-	cd ~/recordexpungPDX/src/backend/
+	cd /deployments/staging/recordexpungPDX/src/backend/
 	kill $(ps -ef | grep -v grep | grep 127.0.0.1:3032 | awk '{print $2}')
-	$(shell tr '\n' ' ' < ~/recordexpungPDX/config/expungeservice/expungeservice.staging.env) nohup pipenv run uwsgi --socket 127.0.0.1:3032 --module expungeservice.wsgi &
+	$(shell tr '\n' ' ' < /deployments/staging/recordexpungPDX/recordexpungPDX/config/expungeservice/expungeservice.staging.env) nohup pipenv run uwsgi --socket 127.0.0.1:3032 --module expungeservice.wsgi &
 
 .ONESHELL:
 deploy_staging_frontend: deploy_staging_update_repo
-	cd ~/recordexpungPDX/src/frontend/
+	cd /deployments/staging/recordexpungPDX/src/frontend/
 	npm run build
 	cp -r build/* /var/www/dev.recordsponge.com/html/
