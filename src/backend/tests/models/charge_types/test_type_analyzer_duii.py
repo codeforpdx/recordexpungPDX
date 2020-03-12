@@ -21,7 +21,7 @@ def test_duii_dismissed():
     assert duii_type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_type_eligibility.reason
-        == "Dismissals are eligible under 137.225(1)(b) OR 137.225(8)(b) - Diverted DUIIs are ineligible"
+        == "Dismissals are eligible under 137.225(1)(b) ⬥ 137.225(8)(b) - Diverted DUIIs are ineligible"
     )
 
 
@@ -32,7 +32,7 @@ def test_duii_diverted():
     assert duii_type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_type_eligibility.reason
-        == "Dismissals are eligible under 137.225(1)(b) OR 137.225(8)(b) - Diverted DUIIs are ineligible"
+        == "Dismissals are eligible under 137.225(1)(b) ⬥ 137.225(8)(b) - Diverted DUIIs are ineligible"
     )
 
 
