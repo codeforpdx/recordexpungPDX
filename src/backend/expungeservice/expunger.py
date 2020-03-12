@@ -127,7 +127,7 @@ class Expunger:
                         charge.type_eligibility.status != EligibilityStatus.INELIGIBLE
                         and charge.dismissed()
                         and charge_id_to_time_eligibility[charge.id].date_will_be_eligible
-                        >= charge_id_to_time_eligibility[attractor.id].date_will_be_eligible
+                        > charge_id_to_time_eligibility[attractor.id].date_will_be_eligible
                     ):
                         time_eligibility = TimeEligibility(
                             status=charge_id_to_time_eligibility[attractor.id].status,
