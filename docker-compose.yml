@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  postgres:
+    env_file:
+      - config/postgres/postgres.env
+    image: postgres:10-alpine
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./config/postgres:/var/lib/postgresql/config
+
+  expungeservice:
+    build:
+      context: src/backend
+    depends_on:
+      - postgres
+    env_file:
+      - config/postgres/postgres.env
+    image: recordsponge.com/docker/expungeservice
+    volumes:
+      - ./src/backend:/var/opt/backend
+
+  node:
+    command: sh -c "cd /var/opt/frontend && npm install && npm start"
+    depends_on:
+      - expungeservice
+    image: node:alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/frontend:/var/opt/frontend
+      - node_modules:/var/opt/frontend/node_modules
+
+volumes:
+  node_modules:
+  postgresql_data:
