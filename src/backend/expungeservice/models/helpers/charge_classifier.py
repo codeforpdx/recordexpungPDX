@@ -94,18 +94,18 @@ class ChargeClassifier:
     def _manufacture_delivery(name, level, statute):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
             if "2" in name:
-                if level == "Felony Unclassified":  # TODO: Check format
+                if level == "Felony Unclassified":
                     return [FelonyClassA, FelonyClassB]
                 else:
                     return ChargeClassifier._classification_by_level(level, statute)
             elif "3" in name or "4" in name:
-                if level == "Felony Unclassified":  # TODO: Check format
+                if level == "Felony Unclassified":
                     return [FelonyClassA, FelonyClassB, FelonyClassC]
                 else:
                     return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
-                if level == "Felony Unclassified":  # TODO: Check format
+                if level == "Felony Unclassified":
                     return [FelonyClassA, FelonyClassB, FelonyClassC, MarijuanaEligible]
                 else:
                     return [MarijuanaEligible] + ChargeClassifier._classification_by_level(level, statute)
