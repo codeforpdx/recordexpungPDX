@@ -3,13 +3,53 @@ name: recordexpungPDX tests
 on: [pull_request]
 
 jobs:
-  build:
+  frontend:
     runs-on: ubuntu-latest
+    container:
+      image: node:alpine
+      env:
+        CI: true
     steps:
       - uses: actions/checkout@v2
-      - name: pull node:alpine
-        run: docker pull node:alpine
       - name: run frontend tests
+        run: cd src/frontend && npm ci && npm test
+
+  backend:
+    runs-on: ubuntu-latest
+    container:
+      image: recordsponge/expungeservice:latest
+      env:
+        PGUSER: postgres
+        PGDATABASE: record_expunge_test
+        PGHOST: postgres
+        PGPORT: 5432
+        PGPASSWORD: testing
+
+    services:
+      postgres:
+        image: postgres:10-alpine
         env:
-          CI: true
-        run: docker run -v `pwd`/src/frontend:/var/opt/frontend --rm node:alpine sh -c 'cd /var/opt/frontend && npm ci && CI=true npm test'
+          POSTGRES_PASSWORD: testing
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: copy to pipenv project dir
+        run: cp -R src/backend/* /var/opt/backend && ls -l /var/opt/backend
+
+      - name: add pg client
+        run: apk add postgresql-client
+      - name: create database
+        run: createdb ${PGDATABASE}
+      - name: create tables
+        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/create-tables.sql
+      - name: create functions
+        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/create-functions.sql
+      - name: create credentials
+        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/initial_credentials.dev.sql
+
+      - name: run backend tests
+        run: cd /var/opt/backend && pipenv run mypy && pipenv run pytest

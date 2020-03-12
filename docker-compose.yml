@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     env_file:
-      - config/postgres/postgres.env
+      - config/postgres/image.env
     image: postgres:10-alpine
     volumes:
       - postgresql_data:/var/lib/postgresql/data
@@ -15,8 +15,8 @@ services:
     depends_on:
       - postgres
     env_file:
-      - config/postgres/postgres.env
-    image: recordsponge.com/docker/expungeservice
+      - config/postgres/client.env
+    image: recordsponge/expungeservice
     volumes:
       - ./src/backend:/var/opt/backend
 
