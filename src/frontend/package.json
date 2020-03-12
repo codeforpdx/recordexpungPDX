@@ -2,7 +2,7 @@
   "name": "record-expunge-pdx",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://expungeservice:5000",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@reduxjs/toolkit": "^1.2.1",

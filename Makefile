@@ -24,11 +24,16 @@ endif
 
 dev: dev_up
 
-dev_up:
-	docker-compose -f docker-compose.dev.yml up -d
+dev_pull:
+	docker-compose pull
+
+dev_up: dev_pull
+	docker-compose up -d
+	# docker-compose -f docker-compose.dev.yml up -d
 
 dev_down:
-	docker-compose -f docker-compose.dev.yml down
+	docker-compose down
+	# docker-compose -f docker-compose.dev.yml down
 
 dev_build:
 	docker-compose -f docker-compose.dev.yml build
@@ -94,3 +99,16 @@ deploy_frontend: deploy_update_repo
 .PHONY: $(REQUIREMENTS_TXT)
 $(REQUIREMENTS_TXT):
 	pipenv lock -r > $@
+
+dev_initdb:
+	docker-compose exec --user=postgres postgres /var/lib/postgresql/config/initdb/init-db.dev.sh
+
+dev_dropdb:
+	docker-compose exec --user=postgres postgres sh -l -c "dropdb \$$PGDATABASE"
+
+dev_backend_test:
+	docker-compose exec expungeservice pipenv run mypy
+	docker-compose exec expungeservice pipenv run pytest
+
+dev_frontend_test:
+	docker-compose exec node sh -c 'cd /var/opt/frontend && npm test'

@@ -103,7 +103,7 @@ def get_database():
     host = os.environ["PGHOST"]
     port = int(os.environ["PGPORT"])
     name = os.environ["PGDATABASE"]
-    username = os.environ["POSTGRES_USERNAME"]
-    password = os.environ["POSTGRES_PASSWORD"]
+    username = os.environ["PGUSERNAME"]
+    password = os.environ["PGPASSWORD"]
 
     return Database(host=host, port=port, name=name, username=username, password=password)
