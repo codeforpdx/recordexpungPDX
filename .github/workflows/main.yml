@@ -1,0 +1,15 @@
+name: recordexpungPDX tests
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: pull node:alpine
+        run: docker pull node:alpine
+      - name: run frontend tests
+        env:
+          CI: true
+        run: docker run -v `pwd`/src/frontend:/var/opt/frontend --rm node:alpine sh -c 'cd /var/opt/frontend && npm ci && CI=true npm test'
