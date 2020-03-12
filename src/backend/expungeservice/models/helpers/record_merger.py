@@ -109,7 +109,7 @@ class RecordMerger:
                 for time_eligibility in at_least_will_be_eligibles
                 if time_eligibility.status != EligibilityStatus.ELIGIBLE
             ]
-            will_be_eligibles_string = ", ".join(will_be_eligibles)
+            will_be_eligibles_string = " OR ".join(will_be_eligibles)
             if all(
                 [
                     time_eligibility.status == EligibilityStatus.ELIGIBLE
@@ -125,7 +125,7 @@ class RecordMerger:
             ):
                 return ChargeEligibility(
                     ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible Now, {will_be_eligibles_string} (review)",
+                    f"Possibly Eligible Now OR {will_be_eligibles_string} (review)",
                 )
             else:
                 return ChargeEligibility(
@@ -140,7 +140,7 @@ class RecordMerger:
                     time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
                     for time_eligibility in time_eligibilities
                 ]
-                eligible_date_string = ", ".join(date_will_be_eligibles)
+                eligible_date_string = " OR ".join(date_will_be_eligibles)
                 return ChargeEligibility(ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible {eligible_date_string}")
         else:
             raise ValueError("Either all, some, or no time eligibilities will have an eligibility date of date.max.")
