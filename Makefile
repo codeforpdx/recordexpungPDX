@@ -125,7 +125,7 @@ deploy_staging_update_repo:
 deploy_staging_backend: deploy_staging_update_repo
 	cd /deployments/staging/recordexpungPDX/src/backend/
 	kill $(ps -ef | grep -v grep | grep 127.0.0.1:3032 | awk '{print $2}')
-	$(shell tr '\n' ' ' < /deployments/staging/recordexpungPDX/recordexpungPDX/config/expungeservice/expungeservice.staging.env) nohup pipenv run uwsgi --socket 127.0.0.1:3032 --module expungeservice.wsgi &
+	$(shell tr '\n' ' ' < /deployments/staging/recordexpungPDX/config/expungeservice/expungeservice.staging.env) nohup pipenv run uwsgi --socket 127.0.0.1:3032 --module expungeservice.wsgi &
 
 .ONESHELL:
 deploy_staging_frontend: deploy_staging_update_repo
