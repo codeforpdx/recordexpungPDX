@@ -1,12 +1,13 @@
 from datetime import date as date_class
 from expungeservice.models.charge_types.civil_offense import CivilOffense
-from expungeservice.models.charge_types.duii import Duii
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.charge_types.manufacture_delivery import ManufactureDelivery
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
@@ -35,9 +36,22 @@ def test_civil_offense_hidden_in_summary():
     assert isinstance(charge, CivilOffense)
     assert charge.hidden_in_record_summary() == False
 
+'''
+def test_contempt_of_court_hidden_in_summary():
+    charge = ChargeFactory.create(
+        case=CaseFactory.create(type_status=["Contempt of Court", "Closed"]),
+        name="contempt of court",
+        statute="33",
+        level="N/A",
+        disposition=Dispositions.CONVICTED
+    )
+
+    assert isinstance(charge, ContemptOfCourt)
+    assert charge.hidden_in_record_summary() == False
+'''
 
 def test_duii_hidden_in_summary():
-    charge = ChargeFactory.create(
+    charges = ChargeFactory.create_ambiguous_charge(
         case=CaseFactory.create(type_status=["DUII", "Closed"]),
         name="Driving Under the Influence",
         statute="813.010",
@@ -45,8 +59,10 @@ def test_duii_hidden_in_summary():
         disposition=Dispositions.DISMISSED
     )
 
-    assert isinstance(charge, Duii)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charges[0], Duii)
+    assert charges[0].hidden_in_record_summary() == False
+    assert isinstance(charges[1], DivertedDuii)
+    assert charges[1].hidden_in_record_summary() == False
 
 def test_felony_class_a_hidden_in_summary():
     charge = ChargeFactory.create(
@@ -103,6 +119,16 @@ def test_juvenile_charge_hidden_in_summary():
 
 def test_marijuana_ineligible_hidden_in_summary():
     charge = ChargeFactory.create(
+        name="Delivery of Marijuana to Minor",
+        statute="4758604A",
+        level="Felony Class A",
+        disposition=Dispositions.DISMISSED,
+    )
+    assert isinstance(charge, MarijuanaEligible)
+    assert charge.hidden_in_record_summary() == False
+
+def test_marijuana_ineligible_hidden_in_summary():
+    charge = ChargeFactory.create(
         case=CaseFactory.create(type_status=["Offense Felony Class C", "Closed"]),
         name="Unlawful Manufacture of Marijuana Item",
         statute="475B.349(3)(C)",
@@ -112,18 +138,6 @@ def test_marijuana_ineligible_hidden_in_summary():
     )
 
     assert isinstance(charge, MarijuanaIneligible)
-    assert charge.hidden_in_record_summary() == False
-
-def test_manufacture_delivery_hidden_in_summary():
-    charge = ChargeFactory.create(
-        case=CaseFactory.create(type_status=["Offense Felony", "Closed"]),
-        name="Manufacture/Delivery",
-        statute="4759922b",
-        level="Felony Class A",
-        date=date_class(1901, 1, 1)
-    )
-
-    assert isinstance(charge, ManufactureDelivery)
     assert charge.hidden_in_record_summary() == False
 
 def test_misdemeanor_hidden_in_summary():
@@ -180,7 +194,7 @@ def test_sex_crimes_hidden_in_summary():
     assert charge.hidden_in_record_summary() == False
 
 def test_subsection_6_hidden_in_summary():
-    charge = ChargeFactory.create(
+    charges = ChargeFactory.create_ambiguous_charge(
         case=CaseFactory.create(type_status=["Offense Misdemeanor", "Closed"]),
         name="Criminal mistreatment in the second degree",
         statute="163.200",
@@ -189,8 +203,10 @@ def test_subsection_6_hidden_in_summary():
         disposition=Dispositions.CONVICTED
     )
 
-    assert isinstance(charge, Subsection6)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charges[0], Subsection6)
+    assert charges[0].hidden_in_record_summary() == False
+    assert isinstance(charges[1], Misdemeanor)
+    assert charges[1].hidden_in_record_summary() == False
 
 def test_traffic_non_violation_hidden_in_summary():
     charge = ChargeFactory.create(
