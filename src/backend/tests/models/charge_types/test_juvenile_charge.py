@@ -39,4 +39,3 @@ def test_juvenile_charge_unrecognized():
     assert isinstance(juvenile_charge, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"
->>>>>>> Adds juvenile charge tests for more dispositions
