@@ -9,7 +9,6 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.models.disposition import Disposition, DispositionStatus
 from expungeservice.models.expungement_result import (
     ExpungementResult,
-    TimeEligibility,
     TypeEligibility,
     EligibilityStatus,
 )
@@ -23,16 +22,16 @@ class Charge:
     level: str
     date: date_class
     disposition: Optional[Disposition]
-    expungement_result: ExpungementResult = field(init=False)
+    type_eligibility: TypeEligibility = field(init=False)
     _chapter: Optional[str]
     _section: str
     _case: weakref.ref
+    expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
     type_name: str = "Unknown"
     expungement_rules: str = "\\[rules documentation not added yet\\]"
 
     def __post_init__(self):
-        type_eligibility = self._build_type_eligibility()
-        self.expungement_result = ExpungementResult(type_eligibility=type_eligibility, time_eligibility=None)
+        self.type_eligibility = self._build_type_eligibility()
 
     def _build_type_eligibility(self):
         type_eligibility = self._type_eligibility()

@@ -97,6 +97,4 @@ class Crawler:
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
             charge["disposition"] = Disposition(date, ruling, "amended" in disposition_data["event"].lower())
-        return [
-            ChargeCreator.create(charge_id, **charge)
-        ]  # TODO: Fix. Eventually we want the ChargeCreator to directly return an AmbiguousCharge
+        return ChargeCreator.create(charge_id, **charge)

@@ -2,17 +2,16 @@ import unittest
 
 from datetime import date
 
-import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.expunger_factory import ExpungerFactory
 from tests.time import Time
-from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
@@ -93,7 +92,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == ""
+        assert expunger_result[charge.id].reason == "Eligible now"
         assert expunger_result[charge.id].date_will_be_eligible == charge.disposition.date + relativedelta(years=+3)
 
     def test_10_yr_old_conviction_with_3_yr_old_mrc(self):
@@ -111,7 +110,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         assert expunger_result[ten_yr_charge.id].date_will_be_eligible == three_yr_mrc.disposition.date + Time.TEN_YEARS
 
         assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[three_yr_mrc.id].reason == ""
+        assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
         assert expunger_result[three_yr_mrc.id].date_will_be_eligible == ten_yr_charge.disposition.date + Time.TEN_YEARS
 
     def test_10_yr_old_conviction_with_less_than_3_yr_old_mrc(self):
@@ -149,7 +148,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == ""
+        assert expunger_result[charge.id].reason == "Eligible now"
         assert expunger_result[charge.id].date_will_be_eligible == date.today()
 
     def test_less_than_three_year_rule_conviction(self):
@@ -199,7 +198,7 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == ""
+        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
         assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_all_mrd_case_related_dismissals_are_expungeable(self):
@@ -211,11 +210,11 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == ""
+        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
         assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
         assert expunger_result[case_related_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[case_related_dismissal.id].reason == ""
+        assert expunger_result[case_related_dismissal.id].reason == "Eligible now"
         assert expunger_result[case_related_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_mrd_blocks_dismissals_in_unrelated_cases(self):
@@ -247,7 +246,7 @@ class TestDismissalBlock(unittest.TestCase):
         expunger_result = expunger.run()
 
         assert expunger_result[convicted_charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[convicted_charge.id].reason == ""
+        assert expunger_result[convicted_charge.id].reason == "Eligible now"
         assert expunger_result[
             convicted_charge.id
         ].date_will_be_eligible == convicted_charge.disposition.date + relativedelta(years=+3)
@@ -356,7 +355,7 @@ def test_felony_class_b_greater_than_20yrs():
     expunger_result = expunger.run()
 
     assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[charge.id].reason == ""
+    assert expunger_result[charge.id].reason == "Eligible now"
     assert expunger_result[charge.id].date_will_be_eligible == date.today()
 
 
@@ -394,7 +393,7 @@ def test_felony_class_b_with_subsequent_conviction():
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
     assert expunger_result[subsequent_charge.id].status is EligibilityStatus.ELIGIBLE
-    assert subsequent_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert subsequent_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
 
 
 def test_felony_class_b_with_prior_conviction():
@@ -410,10 +409,13 @@ def test_felony_class_b_with_prior_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert b_felony_charge.expungement_result.type_eligibility.reason == "Further Analysis Needed"
+    assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert (
+        b_felony_charge.type_eligibility.reason
+        == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+    )
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[b_felony_charge.id].reason == ""
+    assert expunger_result[b_felony_charge.id].reason == "Eligible now"
 
 
 def test_dismissed_felony_class_b_with_subsequent_conviction():
@@ -427,32 +429,40 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert b_felony_charge.expungement_result.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
 
 
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     # This charge is both ManufactureDelivery and also a class B felony. ManufactureDelivery classification takes precedence and the B felony time rule does not apply.
-    manudel_charge = ChargeFactory.create(
+    manudel_charges = ChargeFactory.create_ambiguous_charge(
         name="Manufacture/Delivery 1",
         statute="4759922b",
         level="Felony Class B",
         date=Time.LESS_THAN_TWENTY_YEARS_AGO,
         disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_TWENTY_YEARS_AGO),
     )
+    manudel_type_eligilibility = RecordMerger.merge_type_eligibilities(manudel_charges)
 
-    case_1 = CaseFactory.create()
-    case_1.charges = [manudel_charge]
+    case_1a = CaseFactory.create()
+    case_1a.charges = [manudel_charges[0]]
+    case_1b = CaseFactory.create()
+    case_1b.charges = [manudel_charges[1]]
     subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
     case_2 = CaseFactory.create()
     case_2.charges = [subsequent_charge]
 
-    expunger = Expunger(Record([case_1, case_2]))
-    expunger_result = expunger.run()
+    possible_record_1 = Record([case_1a, case_2])
+    possible_record_2 = Record([case_1b, case_2])
+    expunger = Expunger(possible_record_1)
+    expunger_result_1 = expunger.run()
+    expunger = Expunger(possible_record_2)
+    expunger_result_2 = expunger.run()
 
-    assert not isinstance(manudel_charge, FelonyClassB)
-    assert manudel_charge.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert expunger_result[manudel_charge.id].status is EligibilityStatus.ELIGIBLE
+    assert manudel_type_eligilibility.status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_1[manudel_charges[0].id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_2[manudel_charges[1].id].status is EligibilityStatus.INELIGIBLE
+
 
 def test_single_violation_is_time_restricted():
     # A single violation doesn't block other records, but it is still subject to the 3 year rule.

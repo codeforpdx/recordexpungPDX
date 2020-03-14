@@ -1,4 +1,4 @@
-# recordexpungPDX
+# RecordSponge
 [![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
 
 A project to automate expunging qualifying criminal records. This project is done in conjunction with Qiu-Qiu Law. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
@@ -139,4 +139,4 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-TODO: Add license
+This project is open source under the terms of the [MIT License](LICENSE.md).

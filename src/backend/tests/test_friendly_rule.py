@@ -31,21 +31,21 @@ def test_eligible_mrc_with_single_arrest():
     assert expunger_result[arrest.id].date_will_be_eligible == date.today()
 
     assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[three_yr_mrc.id].reason == ""
+    assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
     assert expunger_result[three_yr_mrc.id].date_will_be_eligible == date.today()
 
     merged_record = RecordMerger.merge([record], [expunger_result])
     assert (
-        merged_record.cases[0].charges[0].expungement_result.charge_eligibility.status
+        merged_record.cases[0].charges[0].expungement_result.charge_eligibility.status  # type: ignore
         == ChargeEligibilityStatus.ELIGIBLE_NOW
     )
-    assert merged_record.cases[0].charges[0].expungement_result.charge_eligibility.label == "Eligible"
+    assert merged_record.cases[0].charges[0].expungement_result.charge_eligibility.label == "Eligible"  # type: ignore
 
     assert (
-        merged_record.cases[0].charges[1].expungement_result.charge_eligibility.status
+        merged_record.cases[0].charges[1].expungement_result.charge_eligibility.status  # type: ignore
         == ChargeEligibilityStatus.ELIGIBLE_NOW
     )
-    assert merged_record.cases[0].charges[1].expungement_result.charge_eligibility.label == "Eligible"
+    assert merged_record.cases[0].charges[1].expungement_result.charge_eligibility.label == "Eligible"  # type: ignore
 
 
 def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
@@ -63,7 +63,7 @@ def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
 
     assert expunger_result[arrest.id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[arrest.id].date_will_be_eligible == arrest.date
-    assert expunger_result[arrest.id].reason == ""
+    assert expunger_result[arrest.id].reason == "Eligible now"
 
 
 def test_eligible_mrc_with_violation():
@@ -85,7 +85,7 @@ def test_eligible_mrc_with_violation():
 
     expunger_result = expunger.run()
     assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[three_yr_mrc.id].reason == ""
+    assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
     assert expunger_result[three_yr_mrc.id].date_will_be_eligible == date.today()
 
     assert expunger_result[arrest.id].status is EligibilityStatus.ELIGIBLE
@@ -129,7 +129,7 @@ def test_needs_more_analysis_mrc_with_single_arrest():
 
     assert three_yr_mrc.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[three_yr_mrc.id].reason == ""
+    assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
     assert expunger_result[three_yr_mrc.id].date_will_be_eligible == date.today()
     assert three_yr_mrc.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
     assert three_yr_mrc.expungement_result.charge_eligibility.label == "Possibly Eligible (review)"

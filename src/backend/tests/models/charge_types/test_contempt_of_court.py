@@ -6,6 +6,7 @@ from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
 from tests.models.test_charge import Dispositions
 
+
 def test_contempt_of_court_dismissed():
     charge_dict = {
         "case": CaseFactory.create(type_status=["Contempt of Court", "Closed"]),
@@ -13,14 +14,13 @@ def test_contempt_of_court_dismissed():
         "statute": "33",
         "level": "N/A",
         "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.DISMISSED
+        "disposition": Dispositions.DISMISSED,
     }
     charge = ChargeFactory.create(**charge_dict)
 
     assert isinstance(charge, ContemptOfCourt)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
-
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
 
 def test_contempt_of_court_convicted():
@@ -30,13 +30,13 @@ def test_contempt_of_court_convicted():
         "statute": "33065",
         "level": "N/A",
         "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.CONVICTED
+        "disposition": Dispositions.CONVICTED,
     }
     charge = ChargeFactory.create(**charge_dict)
 
     assert isinstance(charge, ContemptOfCourt)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
 
 def test_contempt_of_court_no_disposition():
@@ -45,13 +45,13 @@ def test_contempt_of_court_no_disposition():
         "name": "contempt of court",
         "statute": "33015",
         "level": "misdemeanor",
-        "date": date_class(1901, 1, 1)
+        "date": date_class(1901, 1, 1),
     }
     charge = ChargeFactory.create(**charge_dict)
 
     assert isinstance(charge, ContemptOfCourt)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
 
 def test_contempt_of_court_unrecognized_disposition():
@@ -61,10 +61,10 @@ def test_contempt_of_court_unrecognized_disposition():
         "statute": "33055",
         "level": "violation",
         "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.UNRECOGNIZED_DISPOSITION
+        "disposition": Dispositions.UNRECOGNIZED_DISPOSITION,
     }
     charge = ChargeFactory.create(**charge_dict)
 
     assert isinstance(charge, ContemptOfCourt)
-    assert charge.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.expungement_result.type_eligibility.reason == "Ineligible by omission from statute"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Ineligible by omission from statute"

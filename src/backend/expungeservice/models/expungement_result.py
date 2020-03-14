@@ -40,52 +40,8 @@ class ChargeEligibility:
 
 @dataclass
 class ExpungementResult:
-    type_eligibility: TypeEligibility
-    time_eligibility: Optional[TimeEligibility]
-
-    def set_type_eligibility(self, type_eligibility):
-        self.type_eligibility = type_eligibility
-
-    @property
-    def charge_eligibility(self):
-        if self.type_eligibility.status == EligibilityStatus.ELIGIBLE:
-            if self.time_eligibility and self.time_eligibility.status == EligibilityStatus.ELIGIBLE:
-                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible")
-
-            elif self.time_eligibility and self.time_eligibility.status == EligibilityStatus.INELIGIBLE:
-                if self.time_eligibility.date_will_be_eligible == date.max:
-                    # Currently, no charge types that are type-eligible can be disqualified due to a time-ineligibility date of max, meaning "never"
-                    # So this else block has no applicable cases and never runs. But it will apply if a new charge type that qualifies gets added.
-                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
-                elif self.time_eligibility.date_will_be_eligible:
-                    return ChargeEligibility(
-                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
-                        f"Eligible {self.time_eligibility.date_will_be_eligible.strftime('%b %-d, %Y')}",
-                    )
-                else:
-                    raise ValueError("There was no date_will_be_eligible.")
-            else:
-                return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Type-eligible but time analysis is missing")
-
-        elif self.type_eligibility.status == EligibilityStatus.NEEDS_MORE_ANALYSIS:
-            if self.time_eligibility and self.time_eligibility.status == EligibilityStatus.ELIGIBLE:
-                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, "Possibly Eligible (review)")
-
-            elif self.time_eligibility and self.time_eligibility.status == EligibilityStatus.INELIGIBLE:
-                if self.time_eligibility.date_will_be_eligible == date.max:
-                    # Currently, this occurs with Class B Felonies only, which can be time ineligible with a date of max, meaning "never"
-                    return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
-                elif self.time_eligibility.date_will_be_eligible:
-                    return ChargeEligibility(
-                        ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                        f"Possibly Eligible {self.time_eligibility.date_will_be_eligible.strftime('%b %-d, %Y')} (review)",
-                    )
-                else:
-                    raise ValueError("There was no date_will_be_eligible.")
-            else:
-                return ChargeEligibility(
-                    ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing"
-                )
-
-        elif self.type_eligibility.status == EligibilityStatus.INELIGIBLE:
-            return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
+    type_eligibility: TypeEligibility = TypeEligibility(
+        status=EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Default value"
+    )  # TODO: Remove default value
+    time_eligibility: Optional[TimeEligibility] = None
+    charge_eligibility: Optional[ChargeEligibility] = None

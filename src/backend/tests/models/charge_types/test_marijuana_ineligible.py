@@ -15,8 +15,8 @@ def test_marijuana_ineligible_statute_475b3493c():
 
     assert isinstance(marijuana_felony_class_c, MarijuanaIneligible)
     assert marijuana_felony_class_c.type_name == "Marijuana Ineligible"
-    assert marijuana_felony_class_c.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_felony_class_c.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_felony_class_c.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_felony_class_c.type_eligibility.reason == "Ineligible under 137.226"
 
 
 def test_marijuana_ineligible_statute_475b359():
@@ -29,8 +29,8 @@ def test_marijuana_ineligible_statute_475b359():
 
     assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
     assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_felony_class_a.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_felony_class_a.type_eligibility.reason == "Ineligible under 137.226"
 
 
 def test_marijuana_ineligible_statute_475b367():
@@ -43,8 +43,8 @@ def test_marijuana_ineligible_statute_475b367():
 
     assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
     assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_felony_class_a.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_felony_class_a.type_eligibility.reason == "Ineligible under 137.226"
 
 
 def test_marijuana_ineligible_statute_475b371():
@@ -57,8 +57,8 @@ def test_marijuana_ineligible_statute_475b371():
 
     assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
     assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_felony_class_a.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_felony_class_a.type_eligibility.reason == "Ineligible under 137.226"
 
 
 def test_marijuana_ineligible_statute_167262():
@@ -71,8 +71,8 @@ def test_marijuana_ineligible_statute_167262():
 
     assert isinstance(marijuana_misdemeanor_class_a, MarijuanaIneligible)
     assert marijuana_misdemeanor_class_a.type_name == "Marijuana Ineligible"
-    assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_misdemeanor_class_a.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_misdemeanor_class_a.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_misdemeanor_class_a.type_eligibility.reason == "Ineligible under 137.226"
 
 
 def test_marijuana_ineligible_statute_475b3592a():
@@ -85,5 +85,5 @@ def test_marijuana_ineligible_statute_475b3592a():
 
     assert isinstance(marijuana_felony_class_a, MarijuanaIneligible)
     assert marijuana_felony_class_a.type_name == "Marijuana Ineligible"
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_felony_class_a.expungement_result.type_eligibility.reason == "Ineligible under 137.226"
+    assert marijuana_felony_class_a.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert marijuana_felony_class_a.type_eligibility.reason == "Ineligible under 137.226"
