@@ -23,7 +23,7 @@ def test_manufacture_delivery_missing_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Disposition not found. Needs further analysis"
+        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) ⬥ Disposition not found. Needs further analysis"
     )
 
 
@@ -39,7 +39,7 @@ def test_manufacture_delivery_unrecognized_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Disposition not recognized. Needs further analysis"
+        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) ⬥ Disposition not recognized. Needs further analysis"
     )
 
 
@@ -50,7 +50,7 @@ def test_manufacture_delivery_manudel():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert type_eligibility.reason == "Eligible under 137.226 OR Ineligible by omission from statute"
+    assert type_eligibility.reason == "Eligible under 137.226 ⬥ Ineligible by omission from statute"
 
 
 def test_manufacture_delivery_manudel_felony_unclassified():
@@ -65,7 +65,7 @@ def test_manufacture_delivery_manudel_felony_unclassified():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute OR Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Eligible under 137.225(5)(b) OR Eligible under 137.226"
+        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b) ⬥ Eligible under 137.226"
     )
 
 
@@ -81,7 +81,7 @@ def test_manufacture_delivery_manufacturing_name():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute OR Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Eligible under 137.225(5)(b) OR Eligible under 137.226"
+        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b) ⬥ Eligible under 137.226"
     )
 
 
@@ -97,5 +97,5 @@ def test_manufacture_delivery_1():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute OR Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
