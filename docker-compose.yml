@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   postgres:
@@ -19,6 +19,8 @@ services:
     image: recordsponge/expungeservice
     volumes:
       - ./src/backend:/var/opt/backend
+    ports:
+      - "5000:5000"
 
   node:
     command: sh -c "cd /var/opt/frontend && npm install && npm start"
