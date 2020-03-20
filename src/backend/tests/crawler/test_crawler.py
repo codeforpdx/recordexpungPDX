@@ -9,11 +9,10 @@ from expungeservice.models.record import Record
 
 class TestCrawler(unittest.TestCase):
     def setUp(self):
-        self.crawler = CrawlerFactory.setup()
+        pass
 
     def test_search_function(self):
         record = CrawlerFactory.create(
-            self.crawler,
             JohnDoe.RECORD,
             {
                 "X0001": CaseDetails.CASE_X1,
@@ -47,12 +46,12 @@ class TestCrawler(unittest.TestCase):
         assert record.cases[2].charges[2].disposition is None
 
     def test_a_blank_search_response(self):
-        record = CrawlerFactory.create(self.crawler, JohnDoe.BLANK_RECORD, {})
+        record = CrawlerFactory.create(JohnDoe.BLANK_RECORD, {})
 
         assert len(record.cases) == 0
 
     def test_single_charge_conviction(self):
-        record = CrawlerFactory.create(self.crawler, JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
+        record = CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
 
         assert len(record.cases) == 1
         assert len(record.cases[0].charges) == 1
@@ -66,7 +65,6 @@ class TestCrawler(unittest.TestCase):
 
     def test_nonzero_balance_due_on_case(self):
         record = CrawlerFactory.create(
-            self.crawler,
             JohnDoe.RECORD,
             {
                 "X0001": CaseDetails.CASE_X1,
@@ -78,6 +76,6 @@ class TestCrawler(unittest.TestCase):
         assert record.cases[0].get_balance_due() == 1516.80
 
     def test_zero_balance_due_on_case(self):
-        record = CrawlerFactory.create(self.crawler, JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
+        record = CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
 
         assert record.cases[0].get_balance_due() == 0

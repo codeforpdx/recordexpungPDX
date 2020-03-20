@@ -19,9 +19,7 @@ def service():
 def setup_and_teardown(service):
     service.setup()
 
-    service.crawler = CrawlerFactory.setup()
-    service.crawler.logged_in = True
-    service.mock_record = {"john_doe": CrawlerFactory.create(service.crawler)}
+    service.mock_record = {"john_doe": CrawlerFactory.create()}
     service.search_request_data = {
         "aliases": [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": "02/02/1990"}]
     }

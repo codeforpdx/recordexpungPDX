@@ -10,7 +10,6 @@ from tests.test_crawler_expunger import (
     record_without_dispos,
     record_with_various_categories,
     record_with_specific_dates,
-    crawler,
 )
 
 import json

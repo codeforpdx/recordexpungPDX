@@ -14,14 +14,8 @@ FIFTEEN_YEARS_AGO = date_class.today() + relativedelta(years=-15)
 
 
 @pytest.fixture
-def crawler():
-    return CrawlerFactory.setup()
-
-
-@pytest.fixture
-def record_with_open_case(crawler):
+def record_with_open_case():
     return CrawlerFactory.create(
-        crawler,
         JohnDoe.RECORD,
         {
             "X0001": CaseDetails.CASE_X1,
@@ -40,8 +34,8 @@ def test_expunger_with_open_case(record_with_open_case):
 
 
 @pytest.fixture
-def empty_record(crawler):
-    return CrawlerFactory.create(crawler, JohnDoe.BLANK_RECORD, {})
+def empty_record():
+    return CrawlerFactory.create(JohnDoe.BLANK_RECORD, {})
 
 
 def test_expunger_with_an_empty_record(empty_record):
@@ -50,8 +44,8 @@ def test_expunger_with_an_empty_record(empty_record):
 
 
 @pytest.fixture
-def partial_dispos_record(crawler):
-    return CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASE_WITH_PARTIAL_DISPOS})
+def partial_dispos_record():
+    return CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASE_WITH_PARTIAL_DISPOS})
 
 
 def test_partial_dispos(partial_dispos_record):
@@ -60,8 +54,8 @@ def test_partial_dispos(partial_dispos_record):
 
 
 @pytest.fixture
-def record_without_dispos(crawler):
-    return CrawlerFactory.create(crawler, JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASE_WITHOUT_DISPOS})
+def record_without_dispos():
+    return CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASE_WITHOUT_DISPOS})
 
 
 def test_case_without_dispos(record_without_dispos):
@@ -76,9 +70,8 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 
 
 @pytest.fixture
-def record_with_unrecognized_dispo(crawler):
+def record_with_unrecognized_dispo():
     return CrawlerFactory.create(
-        crawler,
         cases={
             "X0001": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
             "X0002": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
@@ -95,9 +88,8 @@ def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
 
 
 @pytest.fixture
-def record_with_multiple_disposition_errors(crawler):
+def record_with_multiple_disposition_errors():
     return CrawlerFactory.create(
-        crawler,
         cases={
             "X0001": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),
             "X0002": CaseDetails.case_x(dispo_ruling_1="Something else unrecognized"),
@@ -120,9 +112,8 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 
 
 @pytest.fixture
-def record_with_various_categories(crawler):
+def record_with_various_categories():
     return CrawlerFactory.create(
-        crawler,
         cases={
             "X0001": CaseDetails.case_x(
                 dispo_ruling_1="Convicted - Failure to show", dispo_ruling_2="Dismissed", dispo_ruling_3="Acquitted"
@@ -145,9 +136,8 @@ def test_expunger_categorizes_charges(record_with_various_categories):
 
 
 @pytest.fixture
-def record_with_specific_dates(crawler):
+def record_with_specific_dates():
     return CrawlerFactory.create(
-        crawler,
         cases={
             "X0001": CaseDetails.case_x(
                 arrest_date=FIFTEEN_YEARS_AGO.strftime("%m/%d/%Y"),
@@ -192,9 +182,8 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
 
 
 @pytest.fixture
-def record_with_revoked_probation(crawler):
+def record_with_revoked_probation():
     return CrawlerFactory.create(
-        crawler,
         cases={
             "X0001": CaseDetails.CASE_WITH_REVOKED_PROBATION,
             "X0002": CaseDetails.case_x(dispo_ruling_1="Something unrecognized"),

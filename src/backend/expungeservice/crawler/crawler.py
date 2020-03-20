@@ -59,8 +59,11 @@ class Crawler:
             ambiguous_charge = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
         ambiguous_case = []
-        for charges in product(*ambiguous_charges):
-            possible_case: Case = copy(case)
+        for i, charges in enumerate(product(*ambiguous_charges)):
+            if i == 0:
+                possible_case: Case = case  # TODO: Fix me. Hack to force case not be garbage collected
+            else:
+                possible_case: Case = copy(case)  # type: ignore
             possible_case.charges = list(charges)
             ambiguous_case.append(possible_case)
         return ambiguous_case

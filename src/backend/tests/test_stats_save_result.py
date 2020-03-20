@@ -25,7 +25,7 @@ def test_save_result(service):
             "aliases": [{"first_name": "John", "last_name": "Doe", "middle_name": "Test", "birth_date": "01/01/1980",}]
         }
 
-        record = CrawlerFactory.create(CrawlerFactory.setup())
+        record = CrawlerFactory.create()
 
         service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
 
