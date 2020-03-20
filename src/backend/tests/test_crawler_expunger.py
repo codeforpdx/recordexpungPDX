@@ -26,7 +26,7 @@ def record_with_open_case():
 
 
 def test_expunger_with_open_case(record_with_open_case):
-    errors = ErrorChecker.check(record_with_open_case)
+    errors = record_with_open_case.errors
     expunger = Expunger(record_with_open_case)
 
     assert len(expunger.run()) == 4
@@ -59,7 +59,7 @@ def record_without_dispos():
 
 
 def test_case_without_dispos(record_without_dispos):
-    errors = ErrorChecker.check(record_without_dispos)
+    errors = record_without_dispos.errors
     expunger = Expunger(record_without_dispos)
     assert record_without_dispos.cases[0].closed()
     assert expunger.run() == {}
@@ -81,7 +81,7 @@ def record_with_unrecognized_dispo():
 
 
 def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
-    errors = ErrorChecker.check(record_with_unrecognized_dispo)
+    errors = record_with_unrecognized_dispo.errors
     expunger = Expunger(record_with_unrecognized_dispo)
     assert len(expunger.run()) == 6
     assert "The following cases have charges with an unrecognized disposition" in errors[0]
@@ -99,7 +99,7 @@ def record_with_multiple_disposition_errors():
 
 
 def test_case_with_mulitple_disposition_errors(record_with_multiple_disposition_errors):
-    errors = ErrorChecker.check(record_with_multiple_disposition_errors)
+    errors = record_with_multiple_disposition_errors.errors
     unrecognized_error_message = f"""The following cases have charges with an unrecognized disposition.
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: """
