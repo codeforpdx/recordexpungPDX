@@ -25,7 +25,7 @@ class Expunger:
         cases = self.record.cases
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in self.analyzable_charges if c.blocks_other_charges() and c != charge]
+            other_charges = [c for c in self.analyzable_charges if c.blocks_other_charges() and c.id != charge.id]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
