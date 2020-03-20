@@ -3,6 +3,7 @@ from typing import List, Any, Callable
 
 import pytest
 
+from expungeservice.crawler.crawler import Crawler
 from expungeservice.endpoints import search
 from expungeservice.models.ambiguous import AmbiguousCase
 from tests.endpoints.endpoint_util import EndpointShared
@@ -56,8 +57,8 @@ def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
 def test_search(service, monkeypatch):
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
 
-    monkeypatch.setattr(search.Crawler, "login", mock_login(True))
-    monkeypatch.setattr(search.Crawler, "search", mock_search(service, "john_doe"))
+    monkeypatch.setattr(Crawler, "login", mock_login(True))
+    monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
 
     """
     A separate test, below, verifies that the save-result step
@@ -101,8 +102,8 @@ def test_search_creates_save_results(service, monkeypatch):
 
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
 
-    monkeypatch.setattr(search.Crawler, "login", mock_login(True))
-    monkeypatch.setattr(search.Crawler, "search", mock_search(service, "john_doe"))
+    monkeypatch.setattr(Crawler, "login", mock_login(True))
+    monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
 
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
@@ -129,8 +130,8 @@ def test_search_with_failing_save_results(service, monkeypatch):
     """
 
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
-    monkeypatch.setattr(search.Crawler, "login", mock_login(True))
-    monkeypatch.setattr(search.Crawler, "search", mock_search(service, "john_doe"))
+    monkeypatch.setattr(Crawler, "login", mock_login(True))
+    monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
     monkeypatch.setattr(search, "save_result", mock_save_result_fail)
 
     service.client.post(
