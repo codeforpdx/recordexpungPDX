@@ -10,14 +10,10 @@ from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.expunger_factory import ExpungerFactory
 from tests.time import Time
 
 
 class TestSingleChargeDismissals(unittest.TestCase):
-    def setUp(self):
-        self.expunger = ExpungerFactory.create()
-
     def test_eligible_arrests_eligibility_based_on_second_mrc(self):
         case = CaseFactory.create()
 
@@ -263,9 +259,6 @@ class TestDismissalBlock(unittest.TestCase):
 
 
 class TestSecondMRCLogic(unittest.TestCase):
-    def setUp(self):
-        self.expunger = ExpungerFactory.create()
-
     def run_expunger(self, mrc, second_mrc):
         case = CaseFactory.create()
         case.charges = [mrc, second_mrc]
