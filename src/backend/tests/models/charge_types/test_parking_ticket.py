@@ -9,15 +9,16 @@ from tests.models.test_charge import Dispositions
 
 
 def test_parking_ticket_conviction():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
-        "name": "Unknown",
-        "statute": "109",
-        "level": "Violation Unclassified",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.CONVICTED,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="Unknown",
+        statute="109",
+        level="Violation Unclassified",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.CONVICTED,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
@@ -26,15 +27,16 @@ def test_parking_ticket_conviction():
 
 
 def test_parking_ticket_dismissal():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
-        "name": "Unknown",
-        "statute": "109",
-        "level": "Violation Unclassified",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.DISMISSED,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="Unknown",
+        statute="109",
+        level="Violation Unclassified",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.DISMISSED,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
@@ -43,15 +45,16 @@ def test_parking_ticket_dismissal():
 
 
 def test_parking_ticket_no_disposition():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
-        "name": "Unknown",
-        "statute": "109",
-        "level": "Violation Unclassified",
-        "date": date_class(1901, 1, 1),
-        "disposition": None,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="Unknown",
+        statute="109",
+        level="Violation Unclassified",
+        date=date_class(1901, 1, 1),
+        disposition=None,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()
@@ -63,15 +66,16 @@ def test_parking_ticket_no_disposition():
 
 
 def test_parking_ticket_unrecognized_disposition():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Municipal Parking", "Closed"]),
-        "name": "Unknown",
-        "statute": "109",
-        "level": "Violation Unclassified",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.UNRECOGNIZED_DISPOSITION,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="Unknown",
+        statute="109",
+        level="Violation Unclassified",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ParkingTicket)
     assert not charge.blocks_other_charges()

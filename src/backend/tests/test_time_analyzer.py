@@ -22,20 +22,22 @@ class TestSingleChargeDismissals(unittest.TestCase):
         case = CaseFactory.create()
 
         three_yr_conviction = ChargeFactory.create(
-            case=case, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
+            case_number=case.case_number, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
         )
 
-        arrest = ChargeFactory.create(case=case, disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
+        arrest = ChargeFactory.create(
+            case_number=case.case_number, disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO)
+        )
 
         violation = ChargeFactory.create(
             level="Violation",
-            case=case,
+            case_number=case.case_number,
             disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
         )
 
         violation_2 = ChargeFactory.create(
             level="Violation",
-            case=case,
+            case_number=case.case_number,
             disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
         )
 
@@ -61,14 +63,15 @@ class TestSingleChargeDismissals(unittest.TestCase):
         case = CaseFactory.create()
 
         mrc = ChargeFactory.create(
-            case=case,
+            case_number=case.case_number,
             disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
             statute="666.666",
             level="Felony Class A",
         )
 
         arrest = ChargeFactory.create(
-            case=case, disposition=Disposition(ruling="Dismissed", date=Time.LESS_THAN_THREE_YEARS_AGO)
+            case_number=case.case_number,
+            disposition=Disposition(ruling="Dismissed", date=Time.LESS_THAN_THREE_YEARS_AGO),
         )
 
         case.charges = [mrc, arrest]
@@ -186,10 +189,12 @@ class TestSingleChargeDismissals(unittest.TestCase):
 
 class TestDismissalBlock(unittest.TestCase):
     def setUp(self):
-        self.case_1 = CaseFactory.create()
-        self.case_2 = CaseFactory.create()
+        self.case_1 = CaseFactory.create(case_number="1")
+        self.case_2 = CaseFactory.create(case_number="2")
 
-        self.recent_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_1, date=Time.TWO_YEARS_AGO)
+        self.recent_dismissal = ChargeFactory.create_dismissed_charge(
+            case_number=self.case_1.case_number, date=Time.TWO_YEARS_AGO, violation_type=self.case_1.violation_type
+        )
         self.case_1.charges = [self.recent_dismissal]
 
     def test_record_with_only_an_mrd_is_time_eligible(self):
@@ -202,7 +207,9 @@ class TestDismissalBlock(unittest.TestCase):
         assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_all_mrd_case_related_dismissals_are_expungeable(self):
-        case_related_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_1, date=Time.TWO_YEARS_AGO)
+        case_related_dismissal = ChargeFactory.create_dismissed_charge(
+            case_number=self.case_1.case_number, date=Time.TWO_YEARS_AGO, violation_type=self.case_1.violation_type
+        )
         self.case_1.charges.append(case_related_dismissal)
 
         record = Record([self.case_1])
@@ -218,7 +225,9 @@ class TestDismissalBlock(unittest.TestCase):
         assert expunger_result[case_related_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_mrd_blocks_dismissals_in_unrelated_cases(self):
-        unrelated_dismissal = ChargeFactory.create_dismissed_charge(case=self.case_2, date=Time.TEN_YEARS_AGO)
+        unrelated_dismissal = ChargeFactory.create_dismissed_charge(
+            case_number=self.case_2.case_number, date=Time.TEN_YEARS_AGO, violation_type=self.case_2.violation_type
+        )
         self.case_2.charges = [unrelated_dismissal]
 
         record = Record([self.case_1, self.case_2])
@@ -235,9 +244,10 @@ class TestDismissalBlock(unittest.TestCase):
     def test_mrd_does_not_block_convictions(self):
         case = CaseFactory.create()
         convicted_charge = ChargeFactory.create(
-            case=case,
+            case_number=case.case_number,
             date=Time.TWENTY_YEARS_AGO,
             disposition=Disposition(ruling="Convicted", date=Time.TWENTY_YEARS_AGO),
+            violation_type=case.violation_type,
         )
         case.charges = [convicted_charge]
 
@@ -337,19 +347,21 @@ class TestSecondMRCLogic(unittest.TestCase):
         assert expunger_result[one_year_old_conviction.id].date_will_be_eligible == eligibility_date
 
 
-def create_class_b_felony_charge(date, ruling="Convicted"):
+def create_class_b_felony_charge(case, date, ruling="Convicted"):
     return ChargeFactory.create(
+        case_number=case.case_number,
         name="Aggravated theft in the first degree",
         statute="164.057",
         level="Felony Class B",
         date=date,
         disposition=Disposition(ruling=ruling, date=date),
+        violation_type=case.violation_type,
     )
 
 
 def test_felony_class_b_greater_than_20yrs():
     case = CaseFactory.create()
-    charge = create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
+    charge = create_class_b_felony_charge(case, Time.TWENTY_YEARS_AGO)
     case.charges = [charge]
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
@@ -361,7 +373,7 @@ def test_felony_class_b_greater_than_20yrs():
 
 def test_felony_class_b_less_than_20yrs():
     case = CaseFactory.create()
-    charge = create_class_b_felony_charge(Time.LESS_THAN_TWENTY_YEARS_AGO)
+    charge = create_class_b_felony_charge(case, Time.LESS_THAN_TWENTY_YEARS_AGO)
     case.charges = [charge]
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
@@ -374,11 +386,11 @@ def test_felony_class_b_less_than_20yrs():
 
 
 def test_felony_class_b_with_subsequent_conviction():
-    b_felony_charge = create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
-    case_1 = CaseFactory.create()
+    case_1 = CaseFactory.create(case_number="1")
+    b_felony_charge = create_class_b_felony_charge(case_1, Time.TWENTY_YEARS_AGO)
     case_1.charges = [b_felony_charge]
     subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
-    case_2 = CaseFactory.create()
+    case_2 = CaseFactory.create(case_number="2")
     case_2.charges = [subsequent_charge]
 
     expunger = Expunger(Record([case_1, case_2]))
@@ -397,13 +409,13 @@ def test_felony_class_b_with_subsequent_conviction():
 
 
 def test_felony_class_b_with_prior_conviction():
-    b_felony_charge = create_class_b_felony_charge(Time.TWENTY_YEARS_AGO)
-    case_1 = CaseFactory.create()
+    case_1 = CaseFactory.create(case_number="1")
+    b_felony_charge = create_class_b_felony_charge(case_1, Time.TWENTY_YEARS_AGO)
     case_1.charges = [b_felony_charge]
     prior_charge = ChargeFactory.create(
         disposition=Disposition(ruling="Convicted", date=Time.MORE_THAN_TWENTY_YEARS_AGO)
     )
-    case_2 = CaseFactory.create()
+    case_2 = CaseFactory.create(case_number="2")
     case_2.charges = [prior_charge]
 
     expunger = Expunger(Record([case_1, case_2]))
@@ -419,11 +431,15 @@ def test_felony_class_b_with_prior_conviction():
 
 
 def test_dismissed_felony_class_b_with_subsequent_conviction():
-    b_felony_charge = create_class_b_felony_charge(Time.LESS_THAN_TWENTY_YEARS_AGO, "Dismissed")
-    case_1 = CaseFactory.create()
+    case_1 = CaseFactory.create(case_number="1")
+    b_felony_charge = create_class_b_felony_charge(case_1, Time.LESS_THAN_TWENTY_YEARS_AGO, "Dismissed")
     case_1.charges = [b_felony_charge]
-    subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
-    case_2 = CaseFactory.create()
+    case_2 = CaseFactory.create(case_number="2")
+    subsequent_charge = ChargeFactory.create(
+        case_number=case_2.case_number,
+        disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+        violation_type=case_2.violation_type,
+    )
     case_2.charges = [subsequent_charge]
 
     expunger = Expunger(Record([case_1, case_2]))
@@ -436,6 +452,7 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     # This charge is both ManufactureDelivery and also a class B felony. ManufactureDelivery classification takes precedence and the B felony time rule does not apply.
     manudel_charges = ChargeFactory.create_ambiguous_charge(
+        case_number="1",
         name="Manufacture/Delivery 1",
         statute="4759922b",
         level="Felony Class B",
@@ -444,12 +461,14 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     )
     manudel_type_eligilibility = RecordMerger.merge_type_eligibilities(manudel_charges)
 
-    case_1a = CaseFactory.create()
+    case_1a = CaseFactory.create(case_number="1")
     case_1a.charges = [manudel_charges[0]]
-    case_1b = CaseFactory.create()
+    case_1b = CaseFactory.create(case_number="1")
     case_1b.charges = [manudel_charges[1]]
-    subsequent_charge = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO))
-    case_2 = CaseFactory.create()
+    case_2 = CaseFactory.create(case_number="2")
+    subsequent_charge = ChargeFactory.create(
+        case_number=case_2.case_number, disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO)
+    )
     case_2.charges = [subsequent_charge]
 
     possible_record_1 = Record([case_1a, case_2])

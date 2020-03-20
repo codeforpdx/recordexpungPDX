@@ -1,5 +1,6 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from copy import copy
+from dataclasses import replace
 from itertools import product
 from typing import List
 
@@ -55,16 +56,13 @@ class Crawler:
         case.set_balance_due(case_parser_data.balance_due)
         ambiguous_charges = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
-            charge_dict["case"] = case
+            charge_dict["case_number"] = case.case_number
+            charge_dict["violation_type"] = case.violation_type
             ambiguous_charge = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
         ambiguous_case = []
-        for i, charges in enumerate(product(*ambiguous_charges)):
-            if i == 0:
-                possible_case: Case = case  # TODO: Fix me. Hack to force case not be garbage collected
-            else:
-                possible_case: Case = copy(case)  # type: ignore
-            possible_case.charges = list(charges)
+        for charges in product(*ambiguous_charges):
+            possible_case = replace(case, charges=list(charges))
             ambiguous_case.append(possible_case)
         return ambiguous_case
 

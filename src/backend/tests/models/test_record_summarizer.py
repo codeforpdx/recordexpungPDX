@@ -9,55 +9,52 @@ from tests.time import Time
 
 
 def test_record_summarizer_multiple_cases():
-    case_all_eligible = CaseFactory.create(
-        case_number="0000", balance="100.00", date_location=["1/1/1995", "Multnomah"]
-    )
+    case_all_eligible = CaseFactory.create(case_number="1", balance="100.00", date_location=["1/1/1995", "Multnomah"])
     case_all_eligible.charges = [
         ChargeFactory.create(
-            case=case_all_eligible,
+            case_number=case_all_eligible.case_number,
             name="Theft of dignity",
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
     case_partially_eligible = CaseFactory.create(
-        case_number="0001", balance="200.00", date_location=["1/1/1995", "Clackamas"]
+        case_number="2", balance="200.00", date_location=["1/1/1995", "Clackamas"]
     )
     case_partially_eligible.charges = [
         ChargeFactory.create(
-            case=case_partially_eligible, disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO)
+            case_number=case_partially_eligible.case_number,
+            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         ),
         ChargeFactory.create(
-            case=case_partially_eligible,
+            case_number=case_partially_eligible.case_number,
             level="Felony Class A",
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         ),
     ]
 
-    case_possibly_eligible = CaseFactory.create(
-        case_number="0002", balance="300.00", date_location=["1/1/1995", "Baker"]
-    )
+    case_possibly_eligible = CaseFactory.create(case_number="3", balance="300.00", date_location=["1/1/1995", "Baker"])
     case_possibly_eligible.charges = [
         ChargeFactory.create(
-            case=case_possibly_eligible,
+            case_number=case_possibly_eligible.case_number,
             level="Felony Class B",
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
-    case_all_ineligible = CaseFactory.create(case_number="0003", balance="400.00", date_location=["1/1/1995", "Baker"])
+    case_all_ineligible = CaseFactory.create(case_number="4", balance="400.00", date_location=["1/1/1995", "Baker"])
     case_all_ineligible.charges = [
         ChargeFactory.create(
-            case=case_all_ineligible,
+            case_number=case_all_ineligible.case_number,
             level="Felony Class A",
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
-    case_all_ineligible_2 = CaseFactory.create(case_number="0004", date_location=["1/1/1995", "Baker"])
+    case_all_ineligible_2 = CaseFactory.create(case_number="5", date_location=["1/1/1995", "Baker"])
     case_all_ineligible_2.charges = [
         ChargeFactory.create(
-            case=case_all_ineligible_2,
+            case_number=case_all_ineligible_2.case_number,
             level="Felony Class A",
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
@@ -73,10 +70,10 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.total_balance_due == 1000.00
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
-    assert record_summary.cases_sorted["fully_eligible"] == ["0000"]
-    assert record_summary.cases_sorted["fully_ineligible"] == ["0003", "0004"]
-    assert record_summary.cases_sorted["partially_eligible"] == ["0001"]
-    assert record_summary.cases_sorted["other"] == ["0002"]
+    assert record_summary.cases_sorted["fully_eligible"] == ["1"]
+    assert record_summary.cases_sorted["fully_ineligible"] == ["4", "5"]
+    assert record_summary.cases_sorted["partially_eligible"] == ["2"]
+    assert record_summary.cases_sorted["other"] == ["3"]
 
     """
     assert record_summary.county_balances["Baker"] == 700.00

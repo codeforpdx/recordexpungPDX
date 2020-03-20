@@ -70,13 +70,17 @@ def test_eligible_mrc_with_violation():
     case = CaseFactory.create()
 
     three_yr_mrc = ChargeFactory.create(
-        case=case, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
+        case_number=case.case_number, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
     )
 
-    arrest = ChargeFactory.create(case=case, disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
+    arrest = ChargeFactory.create(
+        case_number=case.case_number, disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO)
+    )
 
     violation = ChargeFactory.create(
-        level="Violation", case=case, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
+        level="Violation",
+        case_number=case.case_number,
+        disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
 
     case.charges = [three_yr_mrc, arrest, violation]

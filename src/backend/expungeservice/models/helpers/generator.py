@@ -31,7 +31,7 @@ def get_charge_classes() -> List[Type[Charge]]:
 
 
 def _build_charge_strategy(charge_class: Type[Charge], case: Case) -> SearchStrategy[Charge]:
-    return builds(charge_class, _case=just(ref(case)))
+    return builds(charge_class, case_number=just(case.case_number))
 
 
 @composite

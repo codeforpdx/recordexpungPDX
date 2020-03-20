@@ -8,15 +8,16 @@ from tests.models.test_charge import Dispositions
 
 
 def test_contempt_of_court_dismissed():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Contempt of Court", "Closed"]),
-        "name": "contempt of court",
-        "statute": "33",
-        "level": "N/A",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.DISMISSED,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Contempt of Court", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="contempt of court",
+        statute="33",
+        level="N/A",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.DISMISSED,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ContemptOfCourt)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -24,15 +25,16 @@ def test_contempt_of_court_dismissed():
 
 
 def test_contempt_of_court_convicted():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Civil Offense", "Closed"]),
-        "name": "contempt of court",
-        "statute": "33065",
-        "level": "N/A",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.CONVICTED,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="contempt of court",
+        statute="33065",
+        level="N/A",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.CONVICTED,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ContemptOfCourt)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -40,14 +42,15 @@ def test_contempt_of_court_convicted():
 
 
 def test_contempt_of_court_no_disposition():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Civil Offense", "Closed"]),
-        "name": "contempt of court",
-        "statute": "33015",
-        "level": "misdemeanor",
-        "date": date_class(1901, 1, 1),
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="contempt of court",
+        statute="33015",
+        level="misdemeanor",
+        date=date_class(1901, 1, 1),
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ContemptOfCourt)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
@@ -55,15 +58,16 @@ def test_contempt_of_court_no_disposition():
 
 
 def test_contempt_of_court_unrecognized_disposition():
-    charge_dict = {
-        "case": CaseFactory.create(type_status=["Civil Offense", "Closed"]),
-        "name": "contempt of court",
-        "statute": "33055",
-        "level": "violation",
-        "date": date_class(1901, 1, 1),
-        "disposition": Dispositions.UNRECOGNIZED_DISPOSITION,
-    }
-    charge = ChargeFactory.create(**charge_dict)
+    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    charge = ChargeFactory.create(
+        case_number=case.case_number,
+        name="contempt of court",
+        statute="33055",
+        level="violation",
+        date=date_class(1901, 1, 1),
+        disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(charge, ContemptOfCourt)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
