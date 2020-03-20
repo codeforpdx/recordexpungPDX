@@ -8,9 +8,6 @@ from expungeservice.models.record import Record
 
 
 class TestCrawler(unittest.TestCase):
-    def setUp(self):
-        pass
-
     def test_search_function(self):
         record = CrawlerFactory.create(
             JohnDoe.RECORD,
