@@ -1,8 +1,8 @@
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
-import pytest
 
 
 def test_delivery_to_minor_4758604A():
@@ -12,7 +12,7 @@ def test_delivery_to_minor_4758604A():
         level="Felony Class A",
         disposition=Dispositions.DISMISSED,
     )
-    assert isinstance(marijuana_eligible_charge, MarijuanaEligible)
+    assert isinstance(marijuana_eligible_charge, DismissedCharge)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert marijuana_eligible_charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 

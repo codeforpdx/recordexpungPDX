@@ -19,7 +19,10 @@ class ChargeCreator:
         level = kwargs["level"]
         chapter = ChargeCreator._set_chapter(kwargs["statute"])
         section = ChargeCreator.__set_section(statute)
-        classifications = ChargeClassifier(violation_type, name, statute, level, chapter, section).classify()
+        disposition = kwargs.get("disposition")
+        classifications = ChargeClassifier(
+            violation_type, name, statute, level, chapter, section, disposition
+        ).classify()
         kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
         kwargs["_chapter"] = chapter
         kwargs["_section"] = section
