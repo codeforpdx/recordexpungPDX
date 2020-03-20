@@ -2,9 +2,9 @@ from expungeservice.models.disposition import Disposition
 from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.helpers.record_summarizer import RecordSummarizer
 from expungeservice.expunger import Expunger
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.record_factory import RecordFactory
 from tests.time import Time
 
 
@@ -59,7 +59,7 @@ def test_record_summarizer_multiple_cases():
             disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
-    record = RecordFactory.create(
+    record = Record(
         [case_all_eligible, case_partially_eligible, case_possibly_eligible, case_all_ineligible, case_all_ineligible_2]
     )
     expunger = Expunger(record)
@@ -84,7 +84,7 @@ def test_record_summarizer_multiple_cases():
 
 
 def test_record_summarizer_no_cases():
-    record = RecordFactory.create([])
+    record = Record([])
     record_summary = RecordSummarizer.summarize(record)
 
     assert record_summary.total_balance_due == 0.00
