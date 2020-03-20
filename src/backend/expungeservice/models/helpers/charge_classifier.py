@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import List, Iterator, Type
+from typing import List, Iterator, Type, Optional
 
 from expungeservice.models.charge import Charge
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
@@ -20,6 +21,7 @@ from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import SexCrime, RomeoAndJulietIneligibleSexCrime
+from expungeservice.models.disposition import DispositionStatus, Disposition
 
 
 @dataclass
@@ -30,6 +32,7 @@ class ChargeClassifier:
     level: str
     chapter: str
     section: str
+    disposition: Optional[Disposition]
 
     def classify(self) -> List[Type[Charge]]:
         def classification_found(c):
@@ -43,18 +46,30 @@ class ChargeClassifier:
 
     def __classifications_list(self) -> Iterator[List[Type[Charge]]]:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
-        yield ChargeClassifier._traffic_crime(self.statute, self.level)
-        yield from ChargeClassifier._drug_crime(self.statute, self.section, self.name.lower(), self.level)
-        yield ChargeClassifier._subsection_6(self.section, self.level, self.statute)
-        yield ChargeClassifier._parking_ticket(self.violation_type)
-        yield ChargeClassifier._classification_by_level(self.level, self.statute)
         yield ChargeClassifier._contempt_of_court(self.name)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name.lower())
+        yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
+        yield ChargeClassifier._parking_ticket(self.violation_type)
+        yield ChargeClassifier._violation(self.level)
+        yield ChargeClassifier._dismissed_charge(self.disposition)
+        yield from ChargeClassifier._drug_crime(self.statute, self.section, self.name.lower(), self.level)
+        yield ChargeClassifier._subsection_6(self.section, self.level, self.statute)
+        yield ChargeClassifier._classification_by_level(self.level, self.statute)
 
     @staticmethod
-    def _juvenile_charge(violation_type):
+    def _dismissed_charge(disposition: Optional[Disposition]):
+        if ChargeClassifier._is_dimissed(disposition):
+            return [DismissedCharge]
+
+    @staticmethod
+    def _juvenile_charge(violation_type: str):
         if "juvenile" in violation_type.lower():
             return [JuvenileCharge]
+
+    @staticmethod
+    def _violation(level):
+        if "Violation" in level:
+            return [Violation]
 
     @staticmethod
     def _drug_crime(statute, section, name, level):
@@ -65,8 +80,6 @@ class ChargeClassifier:
 
     @staticmethod
     def _classification_by_level(level, statute):
-        if "Violation" in level:
-            return [Violation]
         if "Misdemeanor" in level:
             return [Misdemeanor]
         if level == "Felony Class C":
@@ -123,21 +136,23 @@ class ChargeClassifier:
             return [Subsection6] + ChargeClassifier._classification_by_level(level, statute)
 
     @staticmethod
-    def _traffic_crime(statute, level):
-
+    def _traffic_crime(statute, level, disposition):
         chapter = statute[:3]
         if chapter.isdigit():
             statute_range = range(801, 826)
-
             chapter_num = int(chapter)
-
             if chapter_num == 813:
-                return [Duii, DivertedDuii]
-
-            elif chapter_num in statute_range:
+                if ChargeClassifier._is_dimissed(disposition):
+                    return [DismissedCharge, DivertedDuii]
+                else:
+                    return [Duii]
+            if chapter_num in statute_range:
                 level_str = level.lower()
                 if "felony" in level_str or "misdemeanor" in level_str:
-                    return [TrafficNonViolation]
+                    if ChargeClassifier._is_dimissed(disposition):
+                        return [DismissedCharge]
+                    else:
+                        return [TrafficNonViolation]
                 else:
                     return [TrafficViolation]
 
@@ -178,3 +193,12 @@ class ChargeClassifier:
             return [SexCrime]
         elif statute in SexCrime.romeo_and_juliet_exceptions:
             return [RomeoAndJulietIneligibleSexCrime] + ChargeClassifier._classification_by_level(level, statute)
+
+    # TODO: Deduplicate with charge.dismissed()
+    @staticmethod
+    def _is_dimissed(disposition: Optional[Disposition]):
+        return disposition and disposition.status in [
+            DispositionStatus.NO_COMPLAINT,
+            DispositionStatus.DISMISSED,
+            DispositionStatus.DIVERTED,
+        ]

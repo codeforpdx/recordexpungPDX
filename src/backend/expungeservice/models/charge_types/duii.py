@@ -34,11 +34,4 @@ class DivertedDuii(Charge):
         reflect this and in others it will say Dismissed.  We need to handle
         both possibilities.
         """
-        if self.dismissed():
-            return TypeEligibility(
-                EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",
-            )
-        elif self.convicted():
-            return TypeEligibility(
-                EligibilityStatus.INELIGIBLE, reason="137.225(7)(a) - Traffic offenses are ineligible"
-            )
+        return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",)

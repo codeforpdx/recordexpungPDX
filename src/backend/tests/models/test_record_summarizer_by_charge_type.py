@@ -1,6 +1,7 @@
 from datetime import date as date_class
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
@@ -48,7 +49,7 @@ def test_duii_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charges[0], Duii)
+    assert isinstance(charges[0], DismissedCharge)
     assert charges[0].hidden_in_record_summary() == False
     assert isinstance(charges[1], DivertedDuii)
     assert charges[1].hidden_in_record_summary() == False
@@ -125,7 +126,7 @@ def test_marijuana_eligible_hidden_in_summary():
         level="Felony Class A",
         disposition=Dispositions.DISMISSED,
     )
-    assert isinstance(charge, MarijuanaEligible)
+    assert isinstance(charge, DismissedCharge)
     assert charge.hidden_in_record_summary() == False
 
 
@@ -287,5 +288,5 @@ def test_violation_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, UnclassifiedCharge)
+    assert isinstance(charge, DismissedCharge)
     assert charge.hidden_in_record_summary() == False

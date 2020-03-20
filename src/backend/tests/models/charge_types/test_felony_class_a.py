@@ -1,3 +1,4 @@
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.expungement_result import EligibilityStatus
 
@@ -26,7 +27,7 @@ def test_felony_class_a_dismissed():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(felony_class_a_dismissed, FelonyClassA)
+    assert isinstance(felony_class_a_dismissed, DismissedCharge)
     assert felony_class_a_dismissed.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert felony_class_a_dismissed.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 
@@ -39,6 +40,6 @@ def test_felony_class_a_no_complaint():
         disposition=Dispositions.NO_COMPLAINT,
     )
 
-    assert isinstance(felony_class_a_no_complaint, FelonyClassA)
+    assert isinstance(felony_class_a_no_complaint, DismissedCharge)
     assert felony_class_a_no_complaint.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert felony_class_a_no_complaint.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"

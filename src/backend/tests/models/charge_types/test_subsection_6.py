@@ -1,3 +1,4 @@
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
@@ -18,8 +19,7 @@ def test_subsection_6_dismissed():
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
-    assert isinstance(charges[0], Subsection6)
-    assert isinstance(charges[1], Misdemeanor)
+    assert isinstance(charges[0], DismissedCharge)
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 

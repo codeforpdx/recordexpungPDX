@@ -8,7 +8,7 @@ Rules for 800 Level charges are as follows:
 800 level misdemeanor and felony arrests block like other arrests
 800 level convictions of any kind are not type eligible
 """
-
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
@@ -133,7 +133,7 @@ def test_felony_dismissal_is_eligible():
 
 
 def test_duii():
-    charges = ChargeFactory.create_ambiguous_charge(statute="813.010")
+    charges = ChargeFactory.create_ambiguous_charge(statute="813.010", disposition=Dispositions.DISMISSED)
 
-    assert isinstance(charges[0], Duii)
+    assert isinstance(charges[0], DismissedCharge)
     assert isinstance(charges[1], DivertedDuii)

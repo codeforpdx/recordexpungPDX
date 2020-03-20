@@ -1,3 +1,4 @@
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.charge_factory import ChargeFactory
@@ -12,9 +13,9 @@ def test_unclassified_charge():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(unclassified_dismissed, UnclassifiedCharge)
-    assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert unclassified_dismissed.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
+    assert isinstance(unclassified_dismissed, DismissedCharge)
+    assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert unclassified_dismissed.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 
 
 def test_charge_that_falls_through():
@@ -25,9 +26,9 @@ def test_charge_that_falls_through():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(charge, UnclassifiedCharge)
-    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert charge.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
+    assert isinstance(charge, DismissedCharge)
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 
 
 def test_unrecognized_disposition():

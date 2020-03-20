@@ -1,3 +1,4 @@
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.expungement_result import EligibilityStatus
 
@@ -20,7 +21,7 @@ def test_felony_c_dismissal():
         name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=Dispositions.DISMISSED
     )
 
-    assert isinstance(charge, FelonyClassC)
+    assert isinstance(charge, DismissedCharge)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
 
