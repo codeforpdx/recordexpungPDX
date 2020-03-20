@@ -46,9 +46,6 @@ class TestCaseClosedMethod(unittest.TestCase):
 
 
 class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
-    def setUp(self):
-        pass
-
     def test_birth_year_defaults_to_empty_string(self):
         case = CaseFactory.create(info=["John Doe"])
 
@@ -66,9 +63,6 @@ class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
 
 
 class TestViolationLevelTrafficCases(unittest.TestCase):
-    def setUp(self):
-        pass
-
     def test_open_cases_are_treated_as_closed(self):
         case = CaseFactory.create(type_status=["Offense Violation", "Open"])
 
@@ -76,9 +70,6 @@ class TestViolationLevelTrafficCases(unittest.TestCase):
 
 
 class TestParkingCases(unittest.TestCase):
-    def setUp(self):
-        pass
-
     def test_open_cases_are_treated_as_closed(self):
         case = CaseFactory.create(type_status=["Municipal Parking", "Open"])
         assert case.closed() is True
