@@ -12,7 +12,7 @@ class CaseFactory:
         charges=[],
         case_detail_link="?404",
         balance="0",
-    ):
+    ) -> Case:
         case = Case.create(info, case_number, citation_number, date_location, type_status, charges, case_detail_link)
         case.set_balance_due(balance)
         return case
