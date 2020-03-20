@@ -23,7 +23,6 @@ class CrawlerFactory:
             m.post(URL.login_url(), text=PostLoginPage.POST_LOGIN_PAGE)
             crawler.login("username", "password")
 
-        with requests_mock.Mocker() as m:
             m.post(
                 "{}{}".format(base_url, "Search.aspx?ID=100"), [{"text": SearchPageResponse.RESPONSE}, {"text": record}]
             )
