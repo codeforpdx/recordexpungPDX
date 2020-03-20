@@ -1,20 +1,20 @@
 import unittest
 
+from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.record_factory import RecordFactory
 
 
 class TestRecordObject(unittest.TestCase):
     def test_print_balance_in_cents(self):
 
-        recordTest = RecordFactory.create([CaseFactory.create(balance="123.00"), CaseFactory.create(balance="246.00")])
+        recordTest = Record([CaseFactory.create(balance="123.00"), CaseFactory.create(balance="246.00")])
 
         assert recordTest.total_balance_due == 369.00
 
     def test_print_balance_in_cents_empty(self):
 
-        recordTest = RecordFactory.create([CaseFactory.create()])
+        recordTest = Record([CaseFactory.create()])
 
         assert recordTest.total_balance_due == 0.00
 
@@ -30,7 +30,7 @@ class TestChargeMethod(unittest.TestCase):
         self.charge_two = ChargeFactory.create(case_number=self.case_2.case_number)
         self.case_2.charges = [self.charge_one, self.charge_two]
 
-        self.record = RecordFactory.create([self.case_1, self.case_2])
+        self.record = Record([self.case_1, self.case_2])
 
     def test_num_cases(self):
         assert len(self.record.charges) == 3
