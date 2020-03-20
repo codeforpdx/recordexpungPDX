@@ -32,7 +32,7 @@ class Crawler:
         if close_session:
             self.session.close()
 
-        return Crawler.__login_validation(self.response, url)
+        return Crawler.__login_validation(self.response)
 
     def search(self, first_name, last_name, middle_name="", birth_date="") -> List[AmbiguousCase]:
         url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
@@ -88,8 +88,8 @@ class Crawler:
         return Payload.payload(param_parser, last_name, first_name, middle_name, birth_date)
 
     @staticmethod
-    def __login_validation(response, login_url):
-        return response.url != login_url
+    def __login_validation(response):
+        return "Case Records" in response.text
 
     @staticmethod
     def __build_charge(charge_id, charge, case_parser_data) -> AmbiguousCharge:
