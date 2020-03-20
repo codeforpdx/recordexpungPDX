@@ -1,7 +1,7 @@
 import requests_mock
 
-from expungeservice.crawler.crawler import Crawler
 from expungeservice.crawler.request import URL
+from expungeservice.models.record import Record
 from expungeservice.record_creator import RecordCreator
 from tests.fixtures.post_login_page import PostLoginPage
 from tests.fixtures.search_page_response import SearchPageResponse
@@ -14,7 +14,7 @@ class CrawlerFactory:
     def create(
         record=JohnDoe.RECORD_WITH_CLOSED_CASES,
         cases={"X0001": CaseDetails.case_x(), "X0002": CaseDetails.case_x(), "X0003": CaseDetails.case_x()},
-    ):
+    ) -> Record:
         base_url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/"
         with requests_mock.Mocker() as m:
             m.post(URL.login_url(), text=PostLoginPage.POST_LOGIN_PAGE)

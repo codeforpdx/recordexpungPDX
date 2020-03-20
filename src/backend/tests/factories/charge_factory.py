@@ -67,7 +67,7 @@ class ChargeFactory:
         level="Misdemeanor Class A",
         date=date_class(1901, 1, 1),
         violation_type="Offense Misdemeanor",
-    ):
+    ) -> Charge:
         cls.charge_count += 1
         disposition = Disposition(date=date_class.today(), ruling="Dismissed")
         kwargs = {
