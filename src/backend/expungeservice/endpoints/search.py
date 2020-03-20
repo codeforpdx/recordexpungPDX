@@ -1,18 +1,11 @@
-from itertools import groupby, product
-from typing import List
-
 from flask.views import MethodView
 from flask import request, current_app
 from flask_login import login_required
 import logging
 
-from expungeservice.models.helpers.record_merger import RecordMerger
-from expungeservice.models.record import Record
-from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
+from expungeservice.record_creator import RecordCreator
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
-from expungeservice.crawler.crawler import Crawler
-from expungeservice.expunger import Expunger, ErrorChecker
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
@@ -34,45 +27,9 @@ class Search(MethodView):
         if not "oeci_token" in request.cookies.keys():
             error(401, "Missing login credentials to OECI.")
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
+        username, password = decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
 
-        ambiguous_cases: List[AmbiguousCase] = []
-        errors = []
-        for alias in request_data["aliases"]:
-            crawler = Crawler()
-            login_result = crawler.login(
-                decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"], close_session=False
-            )
-            if login_result is False:
-                error(401, "Attempted login to OECI failed")
-
-            try:
-                ambiguous_cases += crawler.search(
-                    alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
-                )
-
-            except Exception as e:
-                errors.append(str(e))
-
-        if errors:
-            record = Record([], errors)
-        else:
-            ambiguous_record: AmbiguousRecord = []
-            for cases in product(*ambiguous_cases):
-                cases_with_unique_case_number = [
-                    list(group)[0]
-                    for key, group in groupby(
-                        sorted(list(cases), key=lambda case: case.case_number), lambda case: case.case_number
-                    )
-                ]
-                ambiguous_record.append(Record(cases_with_unique_case_number))
-
-            charge_id_to_time_eligibilities = []
-            for record in ambiguous_record:
-                record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
-                expunger = Expunger(record)
-                charge_id_to_time_eligibility = expunger.run()
-                charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+        record = RecordCreator.build_record(username, password, request_data["aliases"])
 
         try:
             save_result(request_data, record)
