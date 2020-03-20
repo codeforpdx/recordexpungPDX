@@ -21,16 +21,16 @@ class TestRecordObject(unittest.TestCase):
 
 class TestChargeMethod(unittest.TestCase):
     def setUp(self):
-        self.case_zero = CaseFactory.create()
-        self.charge_zero = ChargeFactory.create(case=self.case_zero)
-        self.case_zero.charges = [self.charge_zero]
+        self.case_1 = CaseFactory.create(case_number="1")
+        self.charge_zero = ChargeFactory.create(case_number=self.case_1.case_number)
+        self.case_1.charges = [self.charge_zero]
 
-        self.case_one = CaseFactory.create()
-        self.charge_one = ChargeFactory.create(case=self.case_one)
-        self.charge_two = ChargeFactory.create(case=self.case_one)
-        self.case_one.charges = [self.charge_one, self.charge_two]
+        self.case_2 = CaseFactory.create(case_number="2")
+        self.charge_one = ChargeFactory.create(case_number=self.case_2.case_number)
+        self.charge_two = ChargeFactory.create(case_number=self.case_2.case_number)
+        self.case_2.charges = [self.charge_one, self.charge_two]
 
-        self.record = RecordFactory.create([self.case_zero, self.case_one])
+        self.record = RecordFactory.create([self.case_1, self.case_2])
 
     def test_num_cases(self):
         assert len(self.record.charges) == 3

@@ -8,15 +8,20 @@ from tests.models.test_charge import Dispositions
 
 def test_juvenile_charge_dismissed():
     case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-    juvenile_charge = ChargeFactory.create(case=case, disposition=Dispositions.DISMISSED)
+    juvenile_charge = ChargeFactory.create(
+        case_number=case.case_number, disposition=Dispositions.DISMISSED, violation_type=case.violation_type
+    )
 
     assert isinstance(juvenile_charge, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"
 
+
 def test_juvenile_charge_convicted():
     case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-    juvenile_charge = ChargeFactory.create(case=case, disposition=Dispositions.CONVICTED)
+    juvenile_charge = ChargeFactory.create(
+        case_number=case.case_number, disposition=Dispositions.CONVICTED, violation_type=case.violation_type
+    )
 
     assert isinstance(juvenile_charge, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -25,7 +30,9 @@ def test_juvenile_charge_convicted():
 
 def test_juvenile_charge_no_disposition():
     case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-    juvenile_charge = ChargeFactory.create(case=case, disposition=None)
+    juvenile_charge = ChargeFactory.create(
+        case_number=case.case_number, disposition=None, violation_type=case.violation_type
+    )
 
     assert isinstance(juvenile_charge, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
@@ -34,7 +41,11 @@ def test_juvenile_charge_no_disposition():
 
 def test_juvenile_charge_unrecognized():
     case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
-    juvenile_charge = ChargeFactory.create(case=case, disposition=Dispositions.UNRECOGNIZED_DISPOSITION)
+    juvenile_charge = ChargeFactory.create(
+        case_number=case.case_number,
+        disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+        violation_type=case.violation_type,
+    )
 
     assert isinstance(juvenile_charge, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS

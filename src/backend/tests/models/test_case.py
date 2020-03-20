@@ -47,44 +47,38 @@ class TestCaseClosedMethod(unittest.TestCase):
 
 class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):
     def setUp(self):
-        self.case = CaseFactory.build()
+        pass
 
     def test_birth_year_defaults_to_empty_string(self):
-        self.case["info"] = ["John Doe"]
-        case = CaseFactory.save(self.case)
+        case = CaseFactory.create(info=["John Doe"])
 
         assert case.birth_year is None
 
     def test_it_assigns_birth_year_when_given_the_year(self):
-        self.case["info"] = ["John Doe", "1979"]
-        case = CaseFactory.save(self.case)
+        case = CaseFactory.create(info=["John Doe", "1979"])
 
         assert case.birth_year == 1979
 
     def test_it_assigns_birth_year_when_given_the_month_day_year_format(self):
-        self.case["info"] = ["John Doe", "12/21/1979"]
-        case = CaseFactory.save(self.case)
+        case = CaseFactory.create(info=["John Doe", "12/21/1979"])
 
         assert case.birth_year == 1979
 
 
 class TestViolationLevelTrafficCases(unittest.TestCase):
     def setUp(self):
-        self.case = CaseFactory.build()
+        pass
 
     def test_open_cases_are_treated_as_closed(self):
-        self.case["type_status"] = ["Offense Violation", "Open"]
-        case = CaseFactory.save(self.case)
+        case = CaseFactory.create(type_status=["Offense Violation", "Open"])
 
         assert case.closed() is True
 
 
 class TestParkingCases(unittest.TestCase):
     def setUp(self):
-        self.case = CaseFactory.build()
+        pass
 
     def test_open_cases_are_treated_as_closed(self):
-        self.case["type_status"] = ["Municipal Parking", "Open"]
-        case = CaseFactory.save(self.case)
-
+        case = CaseFactory.create(type_status=["Municipal Parking", "Open"])
         assert case.closed() is True

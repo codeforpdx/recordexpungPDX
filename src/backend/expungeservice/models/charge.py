@@ -1,4 +1,3 @@
-import weakref
 from dataclasses import dataclass, field
 
 from datetime import date as date_class
@@ -25,7 +24,7 @@ class Charge:
     type_eligibility: TypeEligibility = field(init=False)
     _chapter: Optional[str]
     _section: str
-    _case: weakref.ref
+    case_number: str
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
     type_name: str = "Unknown"
     expungement_rules: str = "\\[rules documentation not added yet\\]"
@@ -61,8 +60,8 @@ It may also return the eligibility without a known disposition (this works for s
 If the type eligibility is unknown, the method can return None. """
         raise NotImplementedError
 
-    def case(self):
-        return self._case
+    def case(self, cases):
+        return next(case for case in cases if case.case_number == self.case_number)
 
     def dismissed(self):
         dismissal_status = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]

@@ -39,9 +39,9 @@ class TestChargeClass(unittest.TestCase):
 
     def test_it_retrieves_its_parent_instance(self):
         case = CaseFactory.create()
-        charge = ChargeFactory.create(case=case)
+        charge = ChargeFactory.create(case_number=case.case_number)
 
-        assert charge.case()() is case
+        assert charge.case([case]) is case
 
     def test_it_knows_if_it_has_a_recent_conviction_happy_path(self):
         charge = ChargeFactory.create()
@@ -80,9 +80,9 @@ class TestChargeClass(unittest.TestCase):
         assert charge.recent_dismissal() is False
 
     def test_same_charge_is_not_equal(self):
-        case = CaseFactory.create(case_number="C0000")
-        mrc_charge = ChargeFactory.create(case=case)
-        second_mrc_charge = ChargeFactory.create(case=case)
+        case = CaseFactory.create()
+        mrc_charge = ChargeFactory.create(case_number=case.case_number)
+        second_mrc_charge = ChargeFactory.create(case_number=case.case_number)
 
         assert mrc_charge != second_mrc_charge
 

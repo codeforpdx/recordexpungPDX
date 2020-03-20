@@ -4,6 +4,7 @@ from typing import Set, List, Iterator, Tuple, Dict
 from dateutil.relativedelta import relativedelta
 from more_itertools import flatten, padnone, take
 
+from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.disposition import DispositionStatus
@@ -21,11 +22,12 @@ class Expunger:
         Evaluates the expungement eligibility of a record.
         """
         charge_id_to_time_eligibility = {}
+        cases = self.record.cases
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
             other_charges = [c for c in self.analyzable_charges if c != charge and c.blocks_other_charges()]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
-            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
+            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals, cases)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
 
             if charge.convicted():
@@ -53,7 +55,7 @@ class Expunger:
                 )
 
             if charge.convicted():
-                probation_revoked_date = charge.case()().get_probation_revoked()
+                probation_revoked_date = charge.case(cases).get_probation_revoked()
                 if probation_revoked_date:
                     eligibility_dates.append(
                         (
@@ -102,7 +104,7 @@ class Expunger:
                     status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
                 )
             charge_id_to_time_eligibility[charge.id] = time_eligibility
-        for case in self.record.cases:
+        for case in cases:
             non_violation_convictions_in_case = []
             violations_in_case = []
             for charge in case.charges:
@@ -150,8 +152,8 @@ class Expunger:
         return dismissals, convictions
 
     @staticmethod
-    def _most_recent_different_case_dismissal(charge, dismissals):
-        different_case_dismissals = [c for c in dismissals if c.case()() != charge.case()()]
+    def _most_recent_different_case_dismissal(charge, dismissals, cases):
+        different_case_dismissals = [c for c in dismissals if c.case(cases) != charge.case(cases)]
         different_case_dismissals.sort(key=lambda charge: charge.date)
         if different_case_dismissals and different_case_dismissals[-1].recent_dismissal():
             return different_case_dismissals[-1]
@@ -194,14 +196,14 @@ class ErrorChecker:
             errors += [
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
-        errors += ErrorChecker._build_disposition_errors(record.charges)
+        errors += ErrorChecker._build_disposition_errors(record.charges, record.cases)
         return errors
 
     @staticmethod
-    def _build_disposition_errors(charges: List[Charge]):
+    def _build_disposition_errors(charges: List[Charge], cases: List[Case]):
         record_errors = []
         cases_with_missing_disposition, cases_with_unrecognized_disposition = ErrorChecker._filter_cases_with_errors(
-            charges
+            charges, cases
         )
         if cases_with_missing_disposition:
             record_errors.append(ErrorChecker._build_missing_disposition_error_message(cases_with_missing_disposition))
@@ -212,13 +214,13 @@ class ErrorChecker:
         return record_errors
 
     @staticmethod
-    def _filter_cases_with_errors(charges: List[Charge]):
+    def _filter_cases_with_errors(charges: List[Charge], cases: List[Case]):
         cases_with_missing_disposition: Set[str] = set()
         cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
             if charge.blocks_other_charges():
-                case_number = f"[{charge.case()().case_number}]"
-                if not charge.disposition and charge.case()().closed():
+                case_number = f"[{charge.case(cases).case_number}]"
+                if not charge.disposition and charge.case(cases).closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))
