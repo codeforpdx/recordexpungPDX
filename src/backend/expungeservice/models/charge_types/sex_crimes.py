@@ -54,7 +54,7 @@ class SexCrime(Charge):
 
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")
 
@@ -63,7 +63,7 @@ class SexCrime(Charge):
 class RomeoAndJulietIneligibleSexCrime(Charge):
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE, reason="Failure to meet requirements under 163A.140(1)"
