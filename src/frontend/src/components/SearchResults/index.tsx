@@ -17,12 +17,12 @@ export default class SearchResults extends React.Component<Props> {
         const errorMessageHTML = errorMessageArray.map(function (element) {
           if (element.match(/^\[.*\]$/)) {
               const caseNumber = element.slice(1, -1);
-              return <a href={"#" + caseNumber}>{caseNumber}</a>;
+              return <a className="underline" href={"#" + caseNumber}>{caseNumber}</a>;
           } else {
               return element;
           }
         });
-        return <p id={id} className="bg-washed-red mv4 pa3 br3 fw6">
+        return <p role="status" id={id} className="bg-washed-red mv3 pa3 br3 fw6">
                   {errorMessageHTML}
                </p>
         }
@@ -34,7 +34,7 @@ export default class SearchResults extends React.Component<Props> {
     return (
       <>
       {errors}
-      <section className="bg-gray-blue-2 shadow br3 overflow-auto">
+      <section>
         {this.props.record.summary ? (
           <RecordSummary summary={this.props.record.summary}/>
           ) : null }

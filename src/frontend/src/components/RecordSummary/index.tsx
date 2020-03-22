@@ -20,9 +20,9 @@ export default class RecordSummary extends React.Component<Props> {
     } = this.props.summary;
 
     return (
-      <div className="bg-white pa3">
+      <div className="bg-white shadow br3 pa3 mb3">
         <h2 className="mb3 f5 fw7">Search Summary</h2>
-        <div className="flex-ns">
+        <div className="flex-ns flex-wrap">
           <CasesSummary casesSorted={cases_sorted} totalCases={total_cases}/>
           <ChargesList eligibleCharges={eligible_charges} totalCharges={total_charges}/>
           <CountyBalances totalBalance = {total_balance_due} balances={county_balances}/>

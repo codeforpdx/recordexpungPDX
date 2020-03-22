@@ -19,7 +19,7 @@ export default class CaseNumbersList extends React.Component<Props> {
     }));
 
     return <>
-      <h3 className={"fw8 mb1 " + this.props.color }>{this.props.title}</h3>
+      <h3 className={"fw7 mb1 " + this.props.color }>{this.props.title}</h3>
       <p className="f6 mb2">{this.props.subheading}</p>
       <ul className="list mb3">
        {(listItems.length > 0 ? listItems : "None")}
