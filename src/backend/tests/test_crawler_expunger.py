@@ -198,3 +198,16 @@ def test_probation_revoked_affects_time_eligibility(record_with_revoked_probatio
     expunger_result = expunger.run()
     assert len(expunger_result) == 6
     assert expunger_result[record.cases[0].charges[0].id].date_will_be_eligible == date_class(2020, 11, 9)
+
+
+@pytest.fixture
+def record_with_odd_event_table_contents():
+    return CrawlerFactory.create(
+        record=JohnDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_WITH_ODD_EVENT_TABLE_CONTENTS,},
+    )
+
+
+@pytest.mark.skip()
+def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event_table_contents):
+    expunger = Expunger(record_with_odd_event_table_contents)
+    assert expunger.run() != {}

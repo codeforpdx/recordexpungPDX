@@ -1,20 +1,22 @@
 from os import path
 from pathlib import Path
 
-CASE_HTMLDIR = path.join(path.dirname(__file__), 'case_html')
+CASE_HTMLDIR = path.join(path.dirname(__file__), "case_html")
+
 
 def read_html(p):
-    return Path(path.join(CASE_HTMLDIR, p + '.html')).read_text()
+    return Path(path.join(CASE_HTMLDIR, p + ".html")).read_text()
+
 
 class CaseDetails:
-    CASE_X1 = read_html('x1')
-    CASE_WITHOUT_FINANCIAL_SECTION = read_html('without_financial_section')
-    CASE_WITH_PARTIAL_DISPOS = read_html('with_partial_dispos')
-    CASE_WITHOUT_DISPOS = read_html('without_dispos')
-    CASE_PARKING_VIOLATION = read_html('parking_violation')
-    CASEJD1 = read_html('jd1')
-    CASEJD74 = read_html('jd74')
-    CASE_X3 = read_html('x3')
+    CASE_X1 = read_html("x1")
+    CASE_WITHOUT_FINANCIAL_SECTION = read_html("without_financial_section")
+    CASE_WITH_PARTIAL_DISPOS = read_html("with_partial_dispos")
+    CASE_WITHOUT_DISPOS = read_html("without_dispos")
+    CASE_PARKING_VIOLATION = read_html("parking_violation")
+    CASEJD1 = read_html("jd1")
+    CASEJD74 = read_html("jd74")
+    CASE_X3 = read_html("x3")
 
     @staticmethod
     def case_x(
@@ -30,8 +32,11 @@ class CaseDetails:
         dispo_ruling_3="Dismissed",
     ):
 
-        return read_html('x').format(**locals())
+        return read_html("x").format(**locals())
 
-    CASE_WITH_REVOKED_PROBATION = read_html('with_revoked_probation')
-    COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS = read_html('comments_entered_under_separate_disposition_headers')
-    CHARGE_INFO_WITH_EMPTY_DATA_CELLS = read_html('charge_info_with_empty_data_cells')
+    CASE_WITH_REVOKED_PROBATION = read_html("with_revoked_probation")
+    COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS = read_html(
+        "comments_entered_under_separate_disposition_headers"
+    )
+    CHARGE_INFO_WITH_EMPTY_DATA_CELLS = read_html("charge_info_with_empty_data_cells")
+    CASE_WITH_ODD_EVENT_TABLE_CONTENTS = read_html("case_detail_with_odd_event_table_contents")
