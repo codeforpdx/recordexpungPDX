@@ -11,9 +11,10 @@ class MarijuanaEligible(Charge):
     expungement_rules: str = """ORS 137.226 makes eligible additional marijuana-related charges - in particular, those crimes which are now considered minor felonies or below.
     One way to identify a marijuana crime is if it has the statute section 475860.
     Also if "marijuana", "marij", or "mj" are in the charge name, we conclude it's a marijuana eligible charge (after filtering out MarijuanaIneligible charges by statute)."""
+
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.226")
         elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:

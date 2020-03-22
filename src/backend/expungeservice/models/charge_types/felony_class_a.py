@@ -15,6 +15,6 @@ Class A felony dismissals are always eligible under 137.225(5)(a).
 
     def _type_eligibility(self):
         if self.dismissed():
-            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Dismissals are eligible under 137.225(1)(b)")
+            raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
