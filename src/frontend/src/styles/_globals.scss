@@ -75,6 +75,10 @@ $washed-red: #f0e0e8;
     1px 1px 2px 0 rgba(59, 86, 73, 0.1);
 }
 
+.break-all {
+  word-break: break-all;
+}
+
 .logo {
   width: 140px;
   height: auto;
@@ -135,7 +139,6 @@ $washed-red: #f0e0e8;
   }
 }
 
-// Below is not in github yet
 .loading-btn {
   position: relative;
 }
