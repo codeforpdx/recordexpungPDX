@@ -7,7 +7,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 @dataclass
 class DismissedCharge(Charge):
     type_name: str = "Dismissed Criminal Charge"
-    expungement_rules: str = ("""""")
+    expungement_rules: str = ("""All non-duii criminal charges that are dismissed fall under this charge type.""")
 
     def _type_eligibility(self):
         return TypeEligibility(
