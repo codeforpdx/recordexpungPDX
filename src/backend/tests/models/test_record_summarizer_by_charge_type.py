@@ -288,5 +288,5 @@ def test_violation_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, DismissedCharge)
+    assert isinstance(charge, UnclassifiedCharge)
     assert charge.hidden_in_record_summary() == False
