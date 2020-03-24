@@ -61,6 +61,9 @@ class SexCrime(Charge):
 
 @dataclass
 class RomeoAndJulietIneligibleSexCrime(Charge):
+    type_name: str = "Romeo And Juliet Ineligible Sex Crime"
+    expungement_rules: str = ("""TODO""")
+
     def _type_eligibility(self):
         if self.dismissed():
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
