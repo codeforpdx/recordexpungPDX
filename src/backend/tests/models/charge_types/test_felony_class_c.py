@@ -23,7 +23,7 @@ def test_felony_c_dismissal():
 
     assert isinstance(charge, DismissedCharge)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
 
 def test_felony_c_no_disposition():
