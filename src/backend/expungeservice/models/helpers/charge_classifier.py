@@ -51,15 +51,19 @@ class ChargeClassifier:
         yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._violation(self.level)
-        yield ChargeClassifier._dismissed_charge(self.disposition)
-        yield from ChargeClassifier._drug_crime(self.statute, self.section, self.name.lower(), self.level)
-        yield ChargeClassifier._subsection_6(self.section, self.level, self.statute)
-        yield ChargeClassifier._classification_by_level(self.level, self.statute)
+        criminal_charge = next(
+            (c for c in ChargeClassifier._criminal_charge(self.statute, self.section, self.name, self.level) if c), None
+        )
+        if criminal_charge and ChargeClassifier._is_dimissed(self.disposition):
+            yield [DismissedCharge]
+        elif criminal_charge:
+            yield criminal_charge
 
     @staticmethod
-    def _dismissed_charge(disposition: Optional[Disposition]):
-        if ChargeClassifier._is_dimissed(disposition):
-            return [DismissedCharge]
+    def _criminal_charge(statute, section, name, level) -> Iterator[List[Type[Charge]]]:
+        yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level)
+        yield ChargeClassifier._subsection_6(section, level, statute)
+        yield ChargeClassifier._classification_by_level(level, statute)
 
     @staticmethod
     def _juvenile_charge(violation_type: str):

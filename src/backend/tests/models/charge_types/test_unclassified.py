@@ -13,9 +13,9 @@ def test_unclassified_charge():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(unclassified_dismissed, DismissedCharge)
-    assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert unclassified_dismissed.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert isinstance(unclassified_dismissed, UnclassifiedCharge)
+    assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert unclassified_dismissed.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
 
 def test_charge_that_falls_through():
@@ -26,9 +26,9 @@ def test_charge_that_falls_through():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(charge, DismissedCharge)
-    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert isinstance(charge, UnclassifiedCharge)
+    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
 
 def test_unrecognized_disposition():
