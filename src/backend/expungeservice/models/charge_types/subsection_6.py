@@ -16,8 +16,7 @@ The three remaining specifications in the statute are:
  * 163.200 (Criminal mistreatment II) is ineligible if the victim at the time of the crime was 65 years of age or older; otherwise eligible as a (Class A) [Misdemeanor](#Misdemeanor).
  * 163.205 (Criminal mistreatment I) is ineligible if the victim at the time of the crime was 65 years of age or older or a minor; otherwise eligible as a [Class C Felony](#FelonyClassC).
  * 163.575 (Endangering the welfare of a minor) (1)(a) is ineligible when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions); otherwise eligible as a (Class A) [Misdemeanor](#Misdemeanor).
- * 163.145 (Criminally negligent homicide) is ineligible when that offense was punishable as a Class C felony.
-Dismissals are eligible under 137.225(1)(b)."""
+ * 163.145 (Criminally negligent homicide) is ineligible when that offense was punishable as a Class C felony."""
     )
 
     def _type_eligibility(self):

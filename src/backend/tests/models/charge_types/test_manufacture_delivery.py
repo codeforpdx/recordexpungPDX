@@ -11,7 +11,7 @@ def test_manufacture_delivery_dismissed():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
 
 def test_manufacture_delivery_missing_disposition():

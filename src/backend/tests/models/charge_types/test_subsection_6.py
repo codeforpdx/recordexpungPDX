@@ -21,7 +21,7 @@ def test_subsection_6_dismissed():
 
     assert isinstance(charges[0], DismissedCharge)
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
 
 def test_subsection_6_163165():

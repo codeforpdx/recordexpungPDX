@@ -112,7 +112,7 @@ def test_misdemeanor_dismissal_is_eligible():
     charge = ChargeFactory.create(statute="814.010(4)", level="Misdemeanor Class A", disposition=Dispositions.DISMISSED)
 
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
     assert charge.blocks_other_charges()
 
 
@@ -128,7 +128,7 @@ def test_felony_dismissal_is_eligible():
     charge = ChargeFactory.create(statute="819.300", level="Felony Class C", disposition=Dispositions.DISMISSED)
 
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissals are eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
     assert charge.blocks_other_charges()
 
 
