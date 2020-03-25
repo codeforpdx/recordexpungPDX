@@ -42,17 +42,19 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
 
         expunger_result = expunger.run()
-        assert expunger_result[three_yr_conviction.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[three_yr_conviction.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[three_yr_conviction.id].reason
+            expunger_result[three_yr_conviction.ambiguous_charge_id].reason
             == "Ten years from most recent other conviction (137.225(7)(b))"
         )
-        assert expunger_result[three_yr_conviction.id].date_will_be_eligible == date.today() + relativedelta(
-            years=7, days=1
-        )
+        assert expunger_result[
+            three_yr_conviction.ambiguous_charge_id
+        ].date_will_be_eligible == date.today() + relativedelta(years=7, days=1)
 
-        assert expunger_result[arrest.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[arrest.id].date_will_be_eligible == date.today() + relativedelta(years=7)
+        assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[arrest.ambiguous_charge_id].date_will_be_eligible == date.today() + relativedelta(
+            years=7
+        )
 
     def test_ineligible_mrc_with_arrest_on_single_case(self):
         # In this case, the friendly rule doesn't apply because the conviction doesn't become eligible
@@ -75,11 +77,17 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
 
         expunger_result = expunger.run()
-        assert expunger_result[arrest.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[arrest.id].reason == "Ten years from most recent conviction (137.225(7)(b))"
-        assert expunger_result[mrc.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[mrc.id].reason == "Never. Type ineligible charges are always time ineligible."
-        assert expunger_result[mrc.id].date_will_be_eligible == date.max
+        assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert (
+            expunger_result[arrest.ambiguous_charge_id].reason
+            == "Ten years from most recent conviction (137.225(7)(b))"
+        )
+        assert expunger_result[mrc.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert (
+            expunger_result[mrc.ambiguous_charge_id].reason
+            == "Never. Type ineligible charges are always time ineligible."
+        )
+        assert expunger_result[mrc.ambiguous_charge_id].date_will_be_eligible == date.max
 
     def test_more_than_ten_year_old_conviction(self):
         case = CaseFactory.create()
@@ -90,9 +98,11 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == "Eligible now"
-        assert expunger_result[charge.id].date_will_be_eligible == charge.disposition.date + relativedelta(years=+3)
+        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[charge.ambiguous_charge_id].reason == "Eligible now"
+        assert expunger_result[
+            charge.ambiguous_charge_id
+        ].date_will_be_eligible == charge.disposition.date + relativedelta(years=+3)
 
     def test_10_yr_old_conviction_with_3_yr_old_mrc(self):
         case = CaseFactory.create()
@@ -104,13 +114,22 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[ten_yr_charge.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[ten_yr_charge.id].reason == "Ten years from most recent other conviction (137.225(7)(b))"
-        assert expunger_result[ten_yr_charge.id].date_will_be_eligible == three_yr_mrc.disposition.date + Time.TEN_YEARS
+        assert expunger_result[ten_yr_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert (
+            expunger_result[ten_yr_charge.ambiguous_charge_id].reason
+            == "Ten years from most recent other conviction (137.225(7)(b))"
+        )
+        assert (
+            expunger_result[ten_yr_charge.ambiguous_charge_id].date_will_be_eligible
+            == three_yr_mrc.disposition.date + Time.TEN_YEARS
+        )
 
-        assert expunger_result[three_yr_mrc.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[three_yr_mrc.id].reason == "Eligible now"
-        assert expunger_result[three_yr_mrc.id].date_will_be_eligible == ten_yr_charge.disposition.date + Time.TEN_YEARS
+        assert expunger_result[three_yr_mrc.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[three_yr_mrc.ambiguous_charge_id].reason == "Eligible now"
+        assert (
+            expunger_result[three_yr_mrc.ambiguous_charge_id].date_will_be_eligible
+            == ten_yr_charge.disposition.date + Time.TEN_YEARS
+        )
 
     def test_10_yr_old_conviction_with_less_than_3_yr_old_mrc(self):
         case = CaseFactory.create()
@@ -124,18 +143,24 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[ten_yr_charge.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[ten_yr_charge.id].reason == "Ten years from most recent other conviction (137.225(7)(b))"
+        assert expunger_result[ten_yr_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[ten_yr_charge.id].date_will_be_eligible
+            expunger_result[ten_yr_charge.ambiguous_charge_id].reason
+            == "Ten years from most recent other conviction (137.225(7)(b))"
+        )
+        assert (
+            expunger_result[ten_yr_charge.ambiguous_charge_id].date_will_be_eligible
             == less_than_three_yr_mrc.disposition.date + Time.TEN_YEARS
         )
 
-        assert expunger_result[less_than_three_yr_mrc.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[less_than_three_yr_mrc.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[less_than_three_yr_mrc.id].reason == "Three years from date of conviction (137.225(1)(a))"
+            expunger_result[less_than_three_yr_mrc.ambiguous_charge_id].reason
+            == "Three years from date of conviction (137.225(1)(a))"
         )
-        assert expunger_result[less_than_three_yr_mrc.id].date_will_be_eligible == date.today() + relativedelta(days=+1)
+        assert expunger_result[
+            less_than_three_yr_mrc.ambiguous_charge_id
+        ].date_will_be_eligible == date.today() + relativedelta(days=+1)
 
     def test_more_than_three_year_rule_conviction(self):
         case = CaseFactory.create()
@@ -146,9 +171,9 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.id].reason == "Eligible now"
-        assert expunger_result[charge.id].date_will_be_eligible == date.today()
+        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[charge.ambiguous_charge_id].reason == "Eligible now"
+        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == date.today()
 
     def test_less_than_three_year_rule_conviction(self):
         case = CaseFactory.create()
@@ -159,9 +184,13 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[charge.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[charge.id].reason == "Three years from date of conviction (137.225(1)(a))"
-        assert expunger_result[charge.id].date_will_be_eligible == date.today() + relativedelta(days=+1)
+        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert (
+            expunger_result[charge.ambiguous_charge_id].reason == "Three years from date of conviction (137.225(1)(a))"
+        )
+        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == date.today() + relativedelta(
+            days=+1
+        )
 
     def test_time_eligibility_date_is_none_when_type_ineligible(self):
         case = CaseFactory.create()
@@ -178,9 +207,12 @@ class TestSingleChargeDismissals(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[charge.id].status is EligibilityStatus.INELIGIBLE
-        assert expunger_result[charge.id].reason == "Never. Type ineligible charges are always time ineligible."
-        assert expunger_result[charge.id].date_will_be_eligible is date.max
+        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert (
+            expunger_result[charge.ambiguous_charge_id].reason
+            == "Never. Type ineligible charges are always time ineligible."
+        )
+        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible is date.max
 
 
 class TestDismissalBlock(unittest.TestCase):
@@ -198,9 +230,9 @@ class TestDismissalBlock(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
-        assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].reason == "Eligible now"
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_all_mrd_case_related_dismissals_are_expungeable(self):
         case_related_dismissal = ChargeFactory.create_dismissed_charge(
@@ -212,13 +244,13 @@ class TestDismissalBlock(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[self.recent_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[self.recent_dismissal.id].reason == "Eligible now"
-        assert expunger_result[self.recent_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].reason == "Eligible now"
+        assert expunger_result[self.recent_dismissal.ambiguous_charge_id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
-        assert expunger_result[case_related_dismissal.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[case_related_dismissal.id].reason == "Eligible now"
-        assert expunger_result[case_related_dismissal.id].date_will_be_eligible == Time.TWO_YEARS_AGO
+        assert expunger_result[case_related_dismissal.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[case_related_dismissal.ambiguous_charge_id].reason == "Eligible now"
+        assert expunger_result[case_related_dismissal.ambiguous_charge_id].date_will_be_eligible == Time.TWO_YEARS_AGO
 
     def test_mrd_blocks_dismissals_in_unrelated_cases(self):
         unrelated_dismissal = ChargeFactory.create_dismissed_charge(
@@ -230,12 +262,12 @@ class TestDismissalBlock(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[unrelated_dismissal.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[unrelated_dismissal.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[unrelated_dismissal.id].reason
+            expunger_result[unrelated_dismissal.ambiguous_charge_id].reason
             == "Three years from most recent other arrest (137.225(8)(a))"
         )
-        assert expunger_result[unrelated_dismissal.id].date_will_be_eligible == Time.ONE_YEARS_FROM_NOW
+        assert expunger_result[unrelated_dismissal.ambiguous_charge_id].date_will_be_eligible == Time.ONE_YEARS_FROM_NOW
 
     def test_mrd_does_not_block_convictions(self):
         case = CaseFactory.create()
@@ -251,10 +283,10 @@ class TestDismissalBlock(unittest.TestCase):
         expunger = Expunger(record)
         expunger_result = expunger.run()
 
-        assert expunger_result[convicted_charge.id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[convicted_charge.id].reason == "Eligible now"
+        assert expunger_result[convicted_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+        assert expunger_result[convicted_charge.ambiguous_charge_id].reason == "Eligible now"
         assert expunger_result[
-            convicted_charge.id
+            convicted_charge.ambiguous_charge_id
         ].date_will_be_eligible == convicted_charge.disposition.date + relativedelta(years=+3)
 
 
@@ -276,23 +308,23 @@ class TestSecondMRCLogic(unittest.TestCase):
 
         expunger_result = self.run_expunger(two_years_ago_charge, three_years_ago_charge)
 
-        assert expunger_result[three_years_ago_charge.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[three_years_ago_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[three_years_ago_charge.id].reason
+            expunger_result[three_years_ago_charge.ambiguous_charge_id].reason
             == "Ten years from most recent other conviction (137.225(7)(b))"
         )
         assert (
-            expunger_result[three_years_ago_charge.id].date_will_be_eligible
+            expunger_result[three_years_ago_charge.ambiguous_charge_id].date_will_be_eligible
             == two_years_ago_charge.disposition.date + Time.TEN_YEARS
         )
 
-        assert expunger_result[two_years_ago_charge.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[two_years_ago_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[two_years_ago_charge.id].reason
+            expunger_result[two_years_ago_charge.ambiguous_charge_id].reason
             == "Ten years from most recent other conviction (137.225(7)(b))"
         )
         assert (
-            expunger_result[two_years_ago_charge.id].date_will_be_eligible
+            expunger_result[two_years_ago_charge.ambiguous_charge_id].date_will_be_eligible
             == three_years_ago_charge.disposition.date + Time.TEN_YEARS
         )
 
@@ -306,23 +338,23 @@ class TestSecondMRCLogic(unittest.TestCase):
 
         expunger_result = self.run_expunger(five_year_ago_charge, seven_year_ago_charge)
 
-        assert expunger_result[seven_year_ago_charge.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[seven_year_ago_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[seven_year_ago_charge.id].reason
+            expunger_result[seven_year_ago_charge.ambiguous_charge_id].reason
             == "Ten years from most recent other conviction (137.225(7)(b))"
         )
         assert (
-            expunger_result[seven_year_ago_charge.id].date_will_be_eligible
+            expunger_result[seven_year_ago_charge.ambiguous_charge_id].date_will_be_eligible
             == five_year_ago_charge.disposition.date + Time.TEN_YEARS
         )
 
-        assert expunger_result[five_year_ago_charge.id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[five_year_ago_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
-            expunger_result[five_year_ago_charge.id].reason
+            expunger_result[five_year_ago_charge.ambiguous_charge_id].reason
             == "Ten years from most recent other conviction (137.225(7)(b))"
         )
         assert (
-            expunger_result[five_year_ago_charge.id].date_will_be_eligible
+            expunger_result[five_year_ago_charge.ambiguous_charge_id].date_will_be_eligible
             == seven_year_ago_charge.disposition.date + Time.TEN_YEARS
         )
 
@@ -337,7 +369,7 @@ class TestSecondMRCLogic(unittest.TestCase):
 
         expunger_result = self.run_expunger(one_year_old_conviction, nine_year_old_conviction)
 
-        assert expunger_result[one_year_old_conviction.id].date_will_be_eligible == eligibility_date
+        assert expunger_result[one_year_old_conviction.ambiguous_charge_id].date_will_be_eligible == eligibility_date
 
 
 def create_class_b_felony_charge(case, date, ruling="Convicted"):
@@ -359,9 +391,9 @@ def test_felony_class_b_greater_than_20yrs():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[charge.id].reason == "Eligible now"
-    assert expunger_result[charge.id].date_will_be_eligible == date.today()
+    assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[charge.ambiguous_charge_id].reason == "Eligible now"
+    assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == date.today()
 
 
 def test_felony_class_b_less_than_20yrs():
@@ -371,11 +403,12 @@ def test_felony_class_b_less_than_20yrs():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[charge.id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[charge.id].reason == "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"
+        expunger_result[charge.ambiguous_charge_id].reason
+        == "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"
     )
-    assert expunger_result[charge.id].date_will_be_eligible == Time.TOMORROW
+    assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == Time.TOMORROW
 
 
 def test_felony_class_b_with_subsequent_conviction():
@@ -389,15 +422,15 @@ def test_felony_class_b_with_subsequent_conviction():
     expunger = Expunger(Record([case_1, case_2]))
     expunger_result = expunger.run()
 
-    assert expunger_result[b_felony_charge.id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[b_felony_charge.id].reason
+        expunger_result[b_felony_charge.ambiguous_charge_id].reason
         == "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"
     )
-    assert expunger_result[b_felony_charge.id].date_will_be_eligible == date.max
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].date_will_be_eligible == date.max
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
-    assert expunger_result[subsequent_charge.id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[subsequent_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert subsequent_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
 
 
@@ -419,8 +452,8 @@ def test_felony_class_b_with_prior_conviction():
         b_felony_charge.type_eligibility.reason
         == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
-    assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[b_felony_charge.id].reason == "Eligible now"
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].reason == "Eligible now"
 
 
 def test_dismissed_felony_class_b_with_subsequent_conviction():
@@ -439,7 +472,7 @@ def test_dismissed_felony_class_b_with_subsequent_conviction():
     expunger_result = expunger.run()
 
     assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[b_felony_charge.id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
 
 def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
@@ -472,8 +505,8 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     expunger_result_2 = expunger.run()
 
     assert manudel_type_eligilibility.status is EligibilityStatus.ELIGIBLE
-    assert expunger_result_1[manudel_charges[0].id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result_2[manudel_charges[1].id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result_1[manudel_charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_2[manudel_charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
 
 
 def test_single_violation_is_time_restricted():
@@ -489,9 +522,14 @@ def test_single_violation_is_time_restricted():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[violation_charge.id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[violation_charge.id].reason == "Three years from date of conviction (137.225(1)(a))"
-    assert expunger_result[violation_charge.id].date_will_be_eligible == date.today() + relativedelta(days=+1)
+    assert expunger_result[violation_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert (
+        expunger_result[violation_charge.ambiguous_charge_id].reason
+        == "Three years from date of conviction (137.225(1)(a))"
+    )
+    assert expunger_result[violation_charge.ambiguous_charge_id].date_will_be_eligible == date.today() + relativedelta(
+        days=+1
+    )
 
 
 def test_2_violations_are_time_restricted():
@@ -511,17 +549,23 @@ def test_2_violations_are_time_restricted():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[violation_charge_1.id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[violation_charge_1.id].reason == "Three years from date of conviction (137.225(1)(a))"
+    assert expunger_result[violation_charge_1.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[violation_charge_1.id].date_will_be_eligible
+        expunger_result[violation_charge_1.ambiguous_charge_id].reason
+        == "Three years from date of conviction (137.225(1)(a))"
+    )
+    assert (
+        expunger_result[violation_charge_1.ambiguous_charge_id].date_will_be_eligible
         == violation_charge_1.disposition.date + Time.THREE_YEARS
     )
 
-    assert expunger_result[violation_charge_2.id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[violation_charge_2.id].reason == "Three years from date of conviction (137.225(1)(a))"
+    assert expunger_result[violation_charge_2.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[violation_charge_2.id].date_will_be_eligible
+        expunger_result[violation_charge_2.ambiguous_charge_id].reason
+        == "Three years from date of conviction (137.225(1)(a))"
+    )
+    assert (
+        expunger_result[violation_charge_2.ambiguous_charge_id].date_will_be_eligible
         == violation_charge_2.disposition.date + Time.THREE_YEARS
     )
 
@@ -548,30 +592,33 @@ def test_3_violations_are_time_restricted():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[violation_charge_1.id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[violation_charge_1.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[violation_charge_1.id].reason == "Ten years from most recent other conviction (137.225(7)(b))"
+        expunger_result[violation_charge_1.ambiguous_charge_id].reason
+        == "Ten years from most recent other conviction (137.225(7)(b))"
     )
     assert (
-        expunger_result[violation_charge_1.id].date_will_be_eligible
+        expunger_result[violation_charge_1.ambiguous_charge_id].date_will_be_eligible
         == violation_charge_2.disposition.date + Time.TEN_YEARS
     )
 
-    assert expunger_result[violation_charge_2.id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[violation_charge_2.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[violation_charge_2.id].reason == "Ten years from most recent other conviction (137.225(7)(b))"
+        expunger_result[violation_charge_2.ambiguous_charge_id].reason
+        == "Ten years from most recent other conviction (137.225(7)(b))"
     )
     assert (
-        expunger_result[violation_charge_2.id].date_will_be_eligible
+        expunger_result[violation_charge_2.ambiguous_charge_id].date_will_be_eligible
         == violation_charge_1.disposition.date + Time.TEN_YEARS
     )
 
-    assert expunger_result[violation_charge_3.id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[violation_charge_3.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result[violation_charge_3.id].reason == "Ten years from most recent other conviction (137.225(7)(b))"
+        expunger_result[violation_charge_3.ambiguous_charge_id].reason
+        == "Ten years from most recent other conviction (137.225(7)(b))"
     )
     assert (
-        expunger_result[violation_charge_3.id].date_will_be_eligible
+        expunger_result[violation_charge_3.ambiguous_charge_id].date_will_be_eligible
         == violation_charge_1.disposition.date + Time.TEN_YEARS
     )
 
@@ -592,8 +639,11 @@ def test_nonblocking_charge_is_not_skipped_and_does_not_block():
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
-    assert expunger_result[civil_offense.id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[civil_offense.id].reason == "Never. Type ineligible charges are always time ineligible."
-    assert expunger_result[civil_offense.id].date_will_be_eligible == date.max
+    assert expunger_result[civil_offense.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert (
+        expunger_result[civil_offense.ambiguous_charge_id].reason
+        == "Never. Type ineligible charges are always time ineligible."
+    )
+    assert expunger_result[civil_offense.ambiguous_charge_id].date_will_be_eligible == date.max
 
-    assert expunger_result[violation_charge.id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[violation_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE

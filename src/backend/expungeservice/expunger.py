@@ -22,7 +22,7 @@ class Expunger:
         """
         Evaluates the expungement eligibility of a record.
         """
-        charge_id_to_time_eligibility = {}
+        ambiguous_charge_id_to_time_eligibility = {}
         cases = self.record.cases
         for charge in self.analyzable_charges:
             eligibility_dates: List[Tuple[date, str]] = []
@@ -104,7 +104,7 @@ class Expunger:
                 time_eligibility = TimeEligibility(
                     status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
                 )
-            charge_id_to_time_eligibility[charge.id] = time_eligibility
+            ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id] = time_eligibility
         for case in cases:
             non_violation_convictions_in_case = []
             violations_in_case = []
@@ -129,16 +129,18 @@ class Expunger:
                     if (
                         charge.type_eligibility.status != EligibilityStatus.INELIGIBLE
                         and charge.dismissed()
-                        and charge_id_to_time_eligibility[charge.id].date_will_be_eligible
-                        > charge_id_to_time_eligibility[attractor.id].date_will_be_eligible
+                        and ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id].date_will_be_eligible
+                        > ambiguous_charge_id_to_time_eligibility[attractor.ambiguous_charge_id].date_will_be_eligible
                     ):
                         time_eligibility = TimeEligibility(
-                            status=charge_id_to_time_eligibility[attractor.id].status,
+                            status=ambiguous_charge_id_to_time_eligibility[attractor.ambiguous_charge_id].status,
                             reason='Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)',
-                            date_will_be_eligible=charge_id_to_time_eligibility[attractor.id].date_will_be_eligible,
+                            date_will_be_eligible=ambiguous_charge_id_to_time_eligibility[
+                                attractor.ambiguous_charge_id
+                            ].date_will_be_eligible,
                         )
-                        charge_id_to_time_eligibility[charge.id] = time_eligibility
-        return charge_id_to_time_eligibility
+                        ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id] = time_eligibility
+        return ambiguous_charge_id_to_time_eligibility
 
     @staticmethod
     def _categorize_charges(charges):
