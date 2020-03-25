@@ -119,14 +119,14 @@ class CaseParser:
         event_table = event_table_wrapper.contents
         if len(event_table) == 1:
             event_table_contents = event_table[0].contents
-            if len(event_table_contents) == 5:
-                event_type, officer, _, event_inner_table_div, created = event_table_contents
+            if len(event_table_contents) >= 5 and len(event_table_contents) % 2 == 1:
+                event_type, officer, _, event_inner_table_div, created, *rest = event_table_contents
                 event_inner_table_parse = CaseParser.__parse_string_list(event_inner_table_div)
-            elif len(event_table_contents) == 4:
-                event_type, _, event_inner_table_div, created = event_table_contents
+            elif len(event_table_contents) >= 4 and len(event_table_contents) % 2 == 0:
+                event_type, _, event_inner_table_div, created, *rest = event_table_contents
                 event_inner_table_parse = CaseParser.__parse_string_list(event_inner_table_div)
             else:
-                raise ValueError("len(event_table_contents) should always be 4 or 5.")
+                raise ValueError("len(event_table_contents) should always be greater than 3.")
 
             if CaseParser.__normalize_text(event_type.text) in ["disposition", "amendeddisposition"]:
                 disposition_data = {}
