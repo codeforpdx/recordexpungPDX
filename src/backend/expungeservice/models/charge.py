@@ -16,6 +16,7 @@ from expungeservice.models.expungement_result import (
 @dataclass
 class Charge:
     id: str
+    ambiguous_charge_id: str
     name: str
     statute: str
     level: str

@@ -21,21 +21,22 @@ import collections
 class RecordMerger:
     @staticmethod
     def merge(
-        ambiguous_record: AmbiguousRecord, charge_id_to_time_eligibility_list: List[Dict[str, TimeEligibility]]
+        ambiguous_record: AmbiguousRecord,
+        ambiguous_charge_id_to_time_eligibility_list: List[Dict[str, TimeEligibility]],
     ) -> Record:
-        charge_id_to_time_eligibilities: Dict[str, List[TimeEligibility]] = collections.defaultdict(list)
-        for charge_id_to_time_eligibility in charge_id_to_time_eligibility_list:
+        ambiguous_charge_id_to_time_eligibilities: Dict[str, List[TimeEligibility]] = collections.defaultdict(list)
+        for charge_id_to_time_eligibility in ambiguous_charge_id_to_time_eligibility_list:
             for k, v in charge_id_to_time_eligibility.items():
-                if v not in charge_id_to_time_eligibilities[k]:
-                    charge_id_to_time_eligibilities[k].append(v)
+                if v not in ambiguous_charge_id_to_time_eligibilities[k]:
+                    ambiguous_charge_id_to_time_eligibilities[k].append(v)
         charges = list(flatten([record.charges for record in ambiguous_record]))
         record = ambiguous_record[0]
         new_case_list = []
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
-                time_eligibilities = charge_id_to_time_eligibilities.get(charge.id)
-                same_charges = list(filter(lambda c: c.id == charge.id, charges))
+                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(charge.ambiguous_charge_id)
+                same_charges = list(filter(lambda c: c.ambiguous_charge_id == charge.ambiguous_charge_id, charges))
                 merged_type_eligibility = RecordMerger.merge_type_eligibilities(same_charges)
                 merged_time_eligibility = RecordMerger.merge_time_eligibilities(time_eligibilities)
                 charge_eligibility = RecordMerger.compute_charge_eligibility(
