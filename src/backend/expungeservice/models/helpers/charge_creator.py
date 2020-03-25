@@ -1,8 +1,5 @@
 import re
-import weakref
 from datetime import datetime
-from typing import List
-
 from dacite import from_dict
 
 from expungeservice.models.ambiguous import AmbiguousCharge
@@ -27,8 +24,14 @@ class ChargeCreator:
         kwargs["_chapter"] = chapter
         kwargs["_section"] = section
         kwargs["statute"] = statute
-        kwargs["id"] = f"{case_number}-{charge_id}"
-        return [from_dict(data_class=classification, data=kwargs) for classification in classifications]
+        kwargs["ambiguous_charge_id"] = f"{case_number}-{charge_id}"
+        ambiguous_charge = []
+        for i, classification in enumerate(classifications):
+            uid = f"{case_number}-{charge_id}-{i}"
+            charge_dict = {**kwargs, "id": uid}
+            charge = from_dict(data_class=classification, data=charge_dict)
+            ambiguous_charge.append(charge)
+        return ambiguous_charge
 
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
