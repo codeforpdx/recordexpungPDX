@@ -1,9 +1,9 @@
-from datetime import date as date_class
+from datetime import date as date_class, datetime, date
 
 import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger, ErrorChecker
-from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -207,7 +207,17 @@ def record_with_odd_event_table_contents():
     )
 
 
-@pytest.mark.skip()
 def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event_table_contents):
     expunger = Expunger(record_with_odd_event_table_contents)
-    assert expunger.run() != {}
+    assert expunger.run() == {
+        "CASEJD1-1": TimeEligibility(
+            status=EligibilityStatus.INELIGIBLE,
+            reason="Never. Type ineligible charges are always time ineligible.",
+            date_will_be_eligible=date.max,
+        ),
+        "CASEJD1-2": TimeEligibility(
+            status=EligibilityStatus.INELIGIBLE,
+            reason="Never. Type ineligible charges are always time ineligible.",
+            date_will_be_eligible=date.max,
+        ),
+    }
