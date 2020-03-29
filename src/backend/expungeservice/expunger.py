@@ -7,6 +7,7 @@ from more_itertools import flatten, padnone, take
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
+from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from expungeservice.models.record import Record
@@ -183,7 +184,13 @@ class Expunger:
 
     @staticmethod
     def _without_skippable_charges(charges: Iterator[Charge]):
-        return [charge for charge in charges if charge.disposition and (charge.convicted() or charge.dismissed())]
+        return [
+            charge
+            for charge in charges
+            if charge.disposition
+            and (charge.convicted() or charge.dismissed())
+            and not isinstance(charge, JuvenileCharge)
+        ]
 
 
 class ErrorChecker:
