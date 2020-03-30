@@ -13,5 +13,5 @@ from expungeservice.serializer import ExpungeModelEncoder
 def test_round_trip_various_records(record):
     expunger = Expunger(record)
     expunger_result = expunger.run()
-    updated_record = RecordMerger.merge([record], [expunger_result])
+    updated_record = RecordMerger.merge([record], [expunger_result], [])
     json.loads(json.dumps(updated_record, cls=ExpungeModelEncoder))

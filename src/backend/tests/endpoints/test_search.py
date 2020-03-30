@@ -1,11 +1,12 @@
 import copy
-from typing import List, Any, Callable
+from typing import List, Any, Callable, Tuple
 
 import pytest
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.endpoints import search
 from expungeservice.models.ambiguous import AmbiguousCase
+from expungeservice.models.record import Question
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 
@@ -32,11 +33,13 @@ def mock_login(return_value):
 
 
 # The copy here is required because we mutate the resulting Record object in search
-def mock_search(service, mocked_record_name) -> Callable[[Any, Any, Any, Any, Any], List[AmbiguousCase]]:
+def mock_search(
+    service, mocked_record_name
+) -> Callable[[Any, Any, Any, Any, Any], Tuple[List[AmbiguousCase], List[Question]]]:
     def compute_ambiguous_cases(s, first_name, last_name, middle_name, birth_date):
         record = copy.copy(service.mock_record[mocked_record_name])
         ambiguous_cases = [[case] for case in record.cases]
-        return ambiguous_cases
+        return ambiguous_cases, []
 
     return compute_ambiguous_cases
 

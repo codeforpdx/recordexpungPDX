@@ -2,12 +2,11 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from copy import copy
 from dataclasses import replace
 from itertools import product
-from typing import List
+from typing import List, Tuple, Optional
 
 import requests
 from datetime import datetime
 
-from expungeservice.models.case import Case
 from expungeservice.models.helpers.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from expungeservice.crawler.parsers.param_parser import ParamParser
@@ -16,6 +15,7 @@ from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
 from expungeservice.crawler.request import *
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase
+from expungeservice.models.record import Question
 
 
 class Crawler:
@@ -35,7 +35,9 @@ class Crawler:
 
         return Crawler.__login_validation(self.response)
 
-    def search(self, first_name, last_name, middle_name="", birth_date="") -> List[AmbiguousCase]:
+    def search(
+        self, first_name, last_name, middle_name="", birth_date=""
+    ) -> Tuple[List[AmbiguousCase], List[Question]]:
         url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
         node_response = self.__parse_nodes(url)
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
@@ -46,25 +48,32 @@ class Crawler:
 
         # Parse search results (case detail pages)
         with ThreadPoolExecutor(max_workers=50) as executor:
-            ambiguous_cases = list(executor.map(self.__build_case, self.result.cases))
+            ambiguous_cases: List[AmbiguousCase] = []
+            questions_accumulator: List[Question] = []
+            for ambiguous_case, questions in executor.map(self.__build_case, self.result.cases):
+                ambiguous_cases.append(ambiguous_case)
+                questions_accumulator += questions
         self.session.close()
-        return ambiguous_cases
+        return ambiguous_cases, questions_accumulator
 
-    def __build_case(self, case) -> AmbiguousCase:
+    def __build_case(self, case) -> Tuple[AmbiguousCase, List[Question]]:
         case_parser_data = self.__parse_case(case)
         case.set_probation_revoked(case_parser_data.probation_revoked)
         case.set_balance_due(case_parser_data.balance_due)
-        ambiguous_charges = []
+        ambiguous_charges: List[AmbiguousCharge] = []
+        questions: List[Question] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
             charge_dict["case_number"] = case.case_number
             charge_dict["violation_type"] = case.violation_type
-            ambiguous_charge = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
+            ambiguous_charge, question = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
+            if question:
+                questions.append(question)
         ambiguous_case = []
         for charges in product(*ambiguous_charges):
             possible_case = replace(case, charges=list(charges))
             ambiguous_case.append(possible_case)
-        return ambiguous_case
+        return ambiguous_case, questions
 
     def __parse_nodes(self, url):
         node_parser = NodeParser()
@@ -90,7 +99,7 @@ class Crawler:
         return "Case Records" in response.text
 
     @staticmethod
-    def __build_charge(charge_id, charge, case_parser_data) -> AmbiguousCharge:
+    def __build_charge(charge_id, charge, case_parser_data) -> Tuple[AmbiguousCharge, Optional[Question]]:
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition_data = case_parser_data.hashed_dispo_data[charge_id]
             date = datetime.date(
@@ -98,4 +107,4 @@ class Crawler:
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
             charge["disposition"] = Disposition(date, ruling, "amended" in disposition_data["event"].lower())
-        return ChargeCreator.create(charge_id, **charge)[0]  # TODO: Fix
+        return ChargeCreator.create(charge_id, **charge)

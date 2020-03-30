@@ -5,14 +5,15 @@ from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.models.helpers.record_merger import RecordMerger
-from expungeservice.models.record import Record
+from expungeservice.models.record import Record, Question
 from expungeservice.request import error
 
 
 class RecordCreator:
     @staticmethod
     def build_record(username: str, password: str, aliases: List[Dict[str, str]]) -> Record:
-        ambiguous_cases: List[AmbiguousCase] = []
+        ambiguous_cases_accumulator: List[AmbiguousCase] = []
+        questions_accumulator: List[Question] = []
         errors = []
         for alias in aliases:
             crawler = Crawler()
@@ -21,17 +22,19 @@ class RecordCreator:
                 error(401, "Attempted login to OECI failed")
 
             try:
-                ambiguous_cases += crawler.search(
+                search_result = crawler.search(
                     alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
                 )
-
+                ambiguous_cases, questions = search_result
+                ambiguous_cases_accumulator += ambiguous_cases
+                questions_accumulator += questions
             except Exception as e:
                 errors.append(str(e))
         if errors:
-            record = Record([], errors)
+            record = Record([], [], errors)
         else:
             ambiguous_record: AmbiguousRecord = []
-            for cases in product(*ambiguous_cases):
+            for cases in product(*ambiguous_cases_accumulator):
                 cases_with_unique_case_number = [
                     list(group)[0]
                     for key, group in groupby(
@@ -46,5 +49,5 @@ class RecordCreator:
                 expunger = Expunger(record)
                 charge_id_to_time_eligibility = expunger.run()
                 charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities, questions_accumulator)
         return record

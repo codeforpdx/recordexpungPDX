@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Type
 
@@ -15,9 +16,3 @@ class AmbiguousChargeTypeWithQuestion:
     ambiguous_charge_type: List[Type[Charge]]
     question: Optional[str] = None
     options: Optional[List[str]] = None
-
-
-@dataclass
-class Question:
-    question: str
-    options: Dict[str, str]

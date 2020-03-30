@@ -4,8 +4,9 @@ from typing import Tuple, Optional
 
 from dacite import from_dict
 
-from expungeservice.models.ambiguous import AmbiguousCharge, Question
+from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.models.helpers.charge_classifier import ChargeClassifier
+from expungeservice.models.record import Question
 
 
 class ChargeCreator:
@@ -41,7 +42,8 @@ class ChargeCreator:
             if options:
                 options_dict[options[i]] = uid
         if question:
-            return ambiguous_charge, Question(question, options_dict)
+            ambiguous_charge_id = ambiguous_charge[0].ambiguous_charge_id
+            return ambiguous_charge, Question(ambiguous_charge_id, question, options_dict)
         else:
             return ambiguous_charge, None
 
