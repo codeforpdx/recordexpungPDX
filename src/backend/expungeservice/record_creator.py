@@ -31,9 +31,9 @@ class RecordCreator:
             except Exception as e:
                 errors.append(str(e))
         if errors:
-            record = Record([], [], errors)
+            ambiguous_record = [Record([], [], errors)]
         else:
-            ambiguous_record: AmbiguousRecord = []
+            ambiguous_record: AmbiguousRecord = []  # type: ignore
             for cases in product(*ambiguous_cases_accumulator):
                 cases_with_unique_case_number = [
                     list(group)[0]
@@ -43,11 +43,11 @@ class RecordCreator:
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
 
-            charge_id_to_time_eligibilities = []
-            for record in ambiguous_record:
-                record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
-                expunger = Expunger(record)
-                charge_id_to_time_eligibility = expunger.run()
-                charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities, questions_accumulator)
+        charge_id_to_time_eligibilities = []
+        for record in ambiguous_record:
+            record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
+            expunger = Expunger(record)
+            charge_id_to_time_eligibility = expunger.run()
+            charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
+        record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities, questions_accumulator)
         return record
