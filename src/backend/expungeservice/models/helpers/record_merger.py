@@ -14,7 +14,7 @@ from expungeservice.models.expungement_result import (
     ChargeEligibility,
     ChargeEligibilityStatus,
 )
-from expungeservice.models.record import Record
+from expungeservice.models.record import Record, Question
 import collections
 
 
@@ -23,6 +23,7 @@ class RecordMerger:
     def merge(
         ambiguous_record: AmbiguousRecord,
         ambiguous_charge_id_to_time_eligibility_list: List[Dict[str, TimeEligibility]],
+        questions: List[Question],
     ) -> Record:
         ambiguous_charge_id_to_time_eligibilities: Dict[str, List[TimeEligibility]] = collections.defaultdict(list)
         for charge_id_to_time_eligibility in ambiguous_charge_id_to_time_eligibility_list:
@@ -52,7 +53,7 @@ class RecordMerger:
                 new_charges.append(new_charge)
             new_case = replace(case, charges=new_charges)
             new_case_list.append(new_case)
-        return replace(record, cases=new_case_list)
+        return replace(record, cases=new_case_list, questions=questions)
 
     @staticmethod
     def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:

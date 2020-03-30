@@ -1,13 +1,21 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 
 
 @dataclass
+class Question:
+    ambiguous_charge_id: str
+    question: str
+    options: Dict[str, str]
+
+
+@dataclass
 class Record:
     cases: List[Case]
+    questions: List[Question] = field(default_factory=list)
     errors: List[str] = field(default_factory=list)
 
     @property
