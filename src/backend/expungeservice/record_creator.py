@@ -7,6 +7,7 @@ from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question
 from expungeservice.request import error
+from expungeservice.serializer import ExpungeModelEncoder
 
 
 class RecordCreator:
@@ -47,6 +48,7 @@ class RecordCreator:
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
         return record, ambiguous_record, questions_accumulator
 
+<<<<<<< HEAD
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
         charge_id_to_time_eligibilities = []
@@ -56,4 +58,21 @@ class RecordCreator:
             charge_id_to_time_eligibility = expunger.run()
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
         record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+=======
+            charge_id_to_time_eligibilities = []
+            for record in ambiguous_record:
+                record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
+                expunger = Expunger(record)
+                charge_id_to_time_eligibility = expunger.run()
+                charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
+            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+            record = RecordCreator.sort_record_by_case_date(record)
+>>>>>>> added static method to record creator to sort the record cases by date
         return record
+        
+        
+    @staticmethod
+    def sort_record_by_case_date(record):
+        record.cases = sorted(record.cases, key = lambda i: i.date, reverse = True)
+        return record
+        
