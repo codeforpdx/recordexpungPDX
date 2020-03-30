@@ -49,9 +49,9 @@ def test_duii_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charges[0], DismissedCharge)
+    assert isinstance(charges[0], DivertedDuii)
     assert charges[0].hidden_in_record_summary() == False
-    assert isinstance(charges[1], DivertedDuii)
+    assert isinstance(charges[1], DismissedCharge)
     assert charges[1].hidden_in_record_summary() == False
 
 

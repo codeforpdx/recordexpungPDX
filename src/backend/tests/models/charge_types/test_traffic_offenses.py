@@ -135,5 +135,5 @@ def test_felony_dismissal_is_eligible():
 def test_duii():
     charges = ChargeFactory.create_ambiguous_charge(statute="813.010", disposition=Dispositions.DISMISSED)
 
-    assert isinstance(charges[0], DismissedCharge)
-    assert isinstance(charges[1], DivertedDuii)
+    assert isinstance(charges[0], DivertedDuii)
+    assert isinstance(charges[1], DismissedCharge)

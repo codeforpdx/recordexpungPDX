@@ -55,7 +55,7 @@ class ChargeFactory:
             "disposition": disposition,
             "violation_type": violation_type,
         }
-        charges = ChargeCreator.create(cls.charge_count, **kwargs)
+        charges = ChargeCreator.create(cls.charge_count, **kwargs)[0]
         return charges
 
     @classmethod
@@ -80,6 +80,6 @@ class ChargeFactory:
             "violation_type": violation_type,
         }
 
-        charges = ChargeCreator.create(cls.charge_count, **kwargs)
+        charges = ChargeCreator.create(cls.charge_count, **kwargs)[0]
         assert len(charges) == 1
         return charges[0]

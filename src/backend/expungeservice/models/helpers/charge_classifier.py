@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Iterator, Type, Optional
 
+from expungeservice.models.ambiguous import AmbiguousChargeTypeWithQuestion
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
@@ -34,7 +35,7 @@ class ChargeClassifier:
     section: str
     disposition: Optional[Disposition]
 
-    def classify(self) -> List[Type[Charge]]:
+    def classify(self) -> AmbiguousChargeTypeWithQuestion:
         def classification_found(c):
             return c is not None
 
@@ -42,9 +43,9 @@ class ChargeClassifier:
             if classification_found(c):
                 return c
 
-        return [UnclassifiedCharge]
+        return AmbiguousChargeTypeWithQuestion([UnclassifiedCharge])
 
-    def __classifications_list(self) -> Iterator[List[Type[Charge]]]:
+    def __classifications_list(self) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._contempt_of_court(self.name)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name.lower())
@@ -55,12 +56,12 @@ class ChargeClassifier:
             (c for c in ChargeClassifier._criminal_charge(self.statute, self.section, self.name, self.level) if c), None
         )
         if criminal_charge and ChargeClassifier._is_dimissed(self.disposition):
-            yield [DismissedCharge]
+            yield AmbiguousChargeTypeWithQuestion([DismissedCharge])
         elif criminal_charge:
             yield criminal_charge
 
     @staticmethod
-    def _criminal_charge(statute, section, name, level) -> Iterator[List[Type[Charge]]]:
+    def _criminal_charge(statute, section, name, level) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level)
         yield ChargeClassifier._subsection_6(section, level, statute)
         yield ChargeClassifier._classification_by_level(level, statute)
@@ -68,15 +69,15 @@ class ChargeClassifier:
     @staticmethod
     def _juvenile_charge(violation_type: str):
         if "juvenile" in violation_type.lower():
-            return [JuvenileCharge]
+            return AmbiguousChargeTypeWithQuestion([JuvenileCharge])
 
     @staticmethod
     def _violation(level):
         if "Violation" in level:
-            return [Violation]
+            return AmbiguousChargeTypeWithQuestion([Violation])
 
     @staticmethod
-    def _drug_crime(statute, section, name, level):
+    def _drug_crime(statute, section, name, level) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._marijuana_eligible(section, name)
         yield ChargeClassifier._manufacture_delivery(name, level, statute)
@@ -85,47 +86,64 @@ class ChargeClassifier:
     @staticmethod
     def _classification_by_level(level, statute):
         if "Misdemeanor" in level:
-            return [Misdemeanor]
+            return AmbiguousChargeTypeWithQuestion([Misdemeanor])
         if level == "Felony Class C":
-            return [FelonyClassC]
+            return AmbiguousChargeTypeWithQuestion([FelonyClassC])
         if level == "Felony Class B":
             if ChargeClassifier._person_felony(statute):
-                return [PersonFelonyClassB]
+                return AmbiguousChargeTypeWithQuestion([PersonFelonyClassB])
             else:
-                return [FelonyClassB]
+                return AmbiguousChargeTypeWithQuestion([FelonyClassB])
         if level == "Felony Class A":
-            return [FelonyClassA]
+            return AmbiguousChargeTypeWithQuestion([FelonyClassA])
 
     @staticmethod
     def _marijuana_ineligible(statute, section):
         ineligible_statutes = ["475B359", "475B367", "475B371", "167262"]
         if statute == "475B3493C" or section in ineligible_statutes:
-            return [MarijuanaIneligible]
+            return AmbiguousChargeTypeWithQuestion([MarijuanaIneligible])
 
     @staticmethod
     def _marijuana_eligible(section, name):
         if section == "475860" or "marij" in name or "mj" in name.split():
-            return [MarijuanaEligible]
+            return AmbiguousChargeTypeWithQuestion([MarijuanaEligible])
 
     @staticmethod
     def _manufacture_delivery(name, level, statute):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
             if "2" in name:
                 if level == "Felony Unclassified":
-                    return [FelonyClassA, FelonyClassB]
+                    question_string = "Was the charge for an A Felony or B Felony?"
+                    options = ["A Felony", "B Felony"]
+                    return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
                 else:
                     return ChargeClassifier._classification_by_level(level, statute)
             elif "3" in name or "4" in name:
                 if level == "Felony Unclassified":
-                    return [FelonyClassA, FelonyClassB, FelonyClassC]
+                    question_string = "Was the charge for an A Felony, B Felony, or C Felony?"
+                    options = ["A Felony", "B Felony", "C Felony"]
+                    return AmbiguousChargeTypeWithQuestion(
+                        [FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
+                    )
                 else:
                     return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
                 if level == "Felony Unclassified":
-                    return [FelonyClassA, FelonyClassB, FelonyClassC, MarijuanaEligible]
+                    question_string = "Was the underlying substance marijuana, and if not, was the charge for an A Felony, B Felony, or C Felony?"
+                    options = ["Yes", "No: A Felony", "No: B Felony", "No: C Felony"]
+                    return AmbiguousChargeTypeWithQuestion(
+                        [FelonyClassA, FelonyClassB, FelonyClassC, MarijuanaEligible], question_string, options
+                    )
                 else:
-                    return [MarijuanaEligible] + ChargeClassifier._classification_by_level(level, statute)
+                    question_string = "Was the underlying substance marijuana?"
+                    options = ["Yes", "No"]
+                    charge_type_by_level = ChargeClassifier._classification_by_level(
+                        level, statute
+                    ).ambiguous_charge_type
+                    return AmbiguousChargeTypeWithQuestion(
+                        [MarijuanaEligible] + charge_type_by_level, question_string, options
+                    )
 
     @staticmethod
     def _subsection_6(section, level, statute):
@@ -137,7 +155,10 @@ class ChargeClassifier:
             "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         ]
         if section in conditionally_ineligible_statutes:
-            return [Subsection6] + ChargeClassifier._classification_by_level(level, statute)
+            question_string = "TODO: FIXME: Is this charge eligible?"
+            options = ["TODO 1", "TODO 2"]
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            return AmbiguousChargeTypeWithQuestion([Subsection6] + charge_type_by_level, question_string, options)
 
     @staticmethod
     def _traffic_crime(statute, level, disposition):
@@ -147,39 +168,41 @@ class ChargeClassifier:
             chapter_num = int(chapter)
             if chapter_num == 813:
                 if ChargeClassifier._is_dimissed(disposition):
-                    return [DismissedCharge, DivertedDuii]
+                    question_string = "Was the charge dismissed pursuant to a court-ordered diversion program?"
+                    options = ["Yes", "No"]
+                    return AmbiguousChargeTypeWithQuestion([DivertedDuii, DismissedCharge], question_string, options)
                 else:
-                    return [Duii]
+                    return AmbiguousChargeTypeWithQuestion([Duii])
             if chapter_num in statute_range:
                 level_str = level.lower()
                 if "felony" in level_str or "misdemeanor" in level_str:
                     if ChargeClassifier._is_dimissed(disposition):
-                        return [DismissedCharge]
+                        return AmbiguousChargeTypeWithQuestion([DismissedCharge])
                     else:
-                        return [TrafficNonViolation]
+                        return AmbiguousChargeTypeWithQuestion([TrafficNonViolation])
                 else:
-                    return [TrafficViolation]
+                    return AmbiguousChargeTypeWithQuestion([TrafficViolation])
 
     @staticmethod
     def _contempt_of_court(name):
         if "contempt of court" in name.lower():
-            return [ContemptOfCourt]
+            return AmbiguousChargeTypeWithQuestion([ContemptOfCourt])
 
     @staticmethod
     def _civil_offense(statute, chapter, name):
         statute_range = range(1, 100)
         if chapter:
             if chapter.isdigit() and int(chapter) in statute_range:
-                return [CivilOffense]
+                return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif statute.isdigit() and int(statute) in statute_range:
-            return [CivilOffense]
+            return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif "fugitive complaint" in name:
-            return [CivilOffense]
+            return AmbiguousChargeTypeWithQuestion([CivilOffense])
 
     @staticmethod
     def _parking_ticket(violation_type):
         if "parking" in violation_type.lower():
-            return [ParkingTicket]
+            return AmbiguousChargeTypeWithQuestion([ParkingTicket])
 
     @staticmethod
     def _person_felony(statute):
@@ -194,9 +217,14 @@ class ChargeClassifier:
     @staticmethod
     def _sex_crime(level, statute):
         if statute in SexCrime.statutes:
-            return [SexCrime]
+            return AmbiguousChargeTypeWithQuestion([SexCrime])
         elif statute in SexCrime.romeo_and_juliet_exceptions:
-            return [RomeoAndJulietIneligibleSexCrime] + ChargeClassifier._classification_by_level(level, statute)
+            question_string = "TODO: FIXME: Is this charge eligible?"
+            options = ["TODO 1", "TODO 2"]
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            return AmbiguousChargeTypeWithQuestion(
+                [RomeoAndJulietIneligibleSexCrime] + charge_type_by_level, question_string, options
+            )
 
     # TODO: Deduplicate with charge.dismissed()
     @staticmethod
