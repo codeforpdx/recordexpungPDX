@@ -7,7 +7,6 @@ from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question
 from expungeservice.request import error
-from expungeservice.serializer import ExpungeModelEncoder
 
 
 class RecordCreator:
