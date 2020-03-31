@@ -147,18 +147,35 @@ class ChargeClassifier:
 
     @staticmethod
     def _subsection_6(section, level, statute):
-        conditionally_ineligible_statutes = [
-            "163200",  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
-            "163205",  # (Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
-            "163575",  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
-            "163145",  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
-            "163165",  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
-        ]
-        if section in conditionally_ineligible_statutes:
-            question_string = "TODO: FIXME: Is this charge eligible?"
-            options = ["TODO 1", "TODO 2"]
+        mistreatment_one = "163205"  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
+        mistreatment_two = "163200"  # (Criminal mistreatment in the first degree) if the victim at the time of the crime was 65 years of age or older, or when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+        endangering_welfare = "163575"  #  (Endangering the welfare of a minor) (1)(a), when the offense constitutes child abuse as defined in ORS 419B.005 (Definitions).
+        negligent_homicide = (
+            "163145"  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
+        )
+        assault_three = "163165"  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
+        if section == mistreatment_one:
+            question_string = "Was the victim between the ages of 18 and 65?"
+            options = ["Yes", "No"]
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            return AmbiguousChargeTypeWithQuestion(charge_type_by_level + [Subsection6], question_string, options)
+        elif section == mistreatment_two:
+            question_string = "Was the victim older than 65?"
+            options = ["Yes", "No"]
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
             return AmbiguousChargeTypeWithQuestion([Subsection6] + charge_type_by_level, question_string, options)
+        elif section == endangering_welfare:
+            question_string = "Was the charge for physical abuse?"
+            options = ["Yes", "No"]
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            return AmbiguousChargeTypeWithQuestion([Subsection6] + charge_type_by_level, question_string, options)
+        elif section == assault_three:
+            question_string = "Was the victim more than ten years old?"
+            options = ["Yes", "No"]
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            return AmbiguousChargeTypeWithQuestion(charge_type_by_level + [Subsection6], question_string, options)
+        elif section == negligent_homicide and level == "Felony Class C":
+            return AmbiguousChargeTypeWithQuestion([Subsection6])
 
     @staticmethod
     def _traffic_crime(statute, level, disposition):
