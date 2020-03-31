@@ -55,7 +55,8 @@ class Disambiguate(MethodView):
         request_data = request.get_json()
         questions_list = request_data.get("questions")
         questions = [from_dict(data_class=Question, data=question) for question in questions_list]
-        record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+        updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions)
+        record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
         record_summary = RecordSummarizer.summarize(record, questions)
         response_data = {"data": {"record": record_summary}}
         encoded_response = json.dumps(response_data, cls=ExpungeModelEncoder)

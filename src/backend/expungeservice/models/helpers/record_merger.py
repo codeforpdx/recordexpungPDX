@@ -55,6 +55,26 @@ class RecordMerger:
         return replace(record, cases=new_case_list)
 
     @staticmethod
+    def filter_ambiguous_record(ambiguous_record: AmbiguousRecord, questions: List[Question]) -> AmbiguousRecord:
+        records = []
+        for record in ambiguous_record:
+            if RecordMerger._is_possible_record(record, questions):
+                records.append(record)
+        return records
+
+    @staticmethod
+    def _is_possible_record(record: Record, questions: List[Question]):
+        charges = record.charges
+        charge_ids = list(map(lambda c: c.id, charges))
+        for question in questions:
+            if question.answer:
+                not_answer_ids = [option_id for option_id in question.options.values() if option_id != question.answer]
+                for not_answer_id in not_answer_ids:
+                    if not_answer_id in charge_ids:
+                        return False
+        return True
+
+    @staticmethod
     def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:
         status = RecordMerger.compute_type_eligibility_status(same_charges)
         reasons = [charge.type_eligibility.reason for charge in same_charges]
