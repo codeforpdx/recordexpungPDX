@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import request, current_app
+from flask import request, current_app, json
 from flask_login import login_required
 import logging
 
@@ -39,9 +39,9 @@ class Search(MethodView):
         record_summary = RecordSummarizer.summarize(record)
         response_data = {"data": {"record": record_summary}}
 
-        current_app.json_encoder = ExpungeModelEncoder
+        encoded_response = json.dumps(response_data, cls=ExpungeModelEncoder)
 
-        return response_data  # Json-encoding happens automatically here
+        return encoded_response
 
 
 def register(app):
