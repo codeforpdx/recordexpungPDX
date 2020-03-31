@@ -10,12 +10,12 @@ class Question:
     ambiguous_charge_id: str
     question: str
     options: Dict[str, str]
+    answer: str = ""
 
 
 @dataclass
 class Record:
     cases: List[Case]
-    questions: List[Question] = field(default_factory=list)
     errors: List[str] = field(default_factory=list)
 
     @property

@@ -27,4 +27,4 @@ class CrawlerFactory:
                 m.get("{}{}{}".format(base_url, "CaseDetail.aspx?CaseID=", key), text=value)
 
             aliases = [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": ""}]
-            return RecordCreator.build_record("username", "password", aliases)
+            return RecordCreator.build_record("username", "password", aliases)[0]

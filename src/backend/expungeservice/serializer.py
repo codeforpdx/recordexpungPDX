@@ -18,7 +18,8 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                     "county_balances": record_summary.county_balances,
                     "total_balance_due": record_summary.total_balance_due,
                     "total_cases": record_summary.total_cases,
-                }
+                },
+                "questions": record_summary.questions,
             },
         }
 
@@ -26,7 +27,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
         return {
             "total_balance_due": record.total_balance_due,
             "cases": [self.case_to_json(case) for case in record.cases],
-            "questions": record.questions,
             "errors": record.errors,
         }
 

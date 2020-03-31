@@ -1,5 +1,5 @@
 from itertools import product, groupby
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import ErrorChecker, Expunger
@@ -11,7 +11,9 @@ from expungeservice.request import error
 
 class RecordCreator:
     @staticmethod
-    def build_record(username: str, password: str, aliases: List[Dict[str, str]]) -> Record:
+    def build_record(
+        username: str, password: str, aliases: List[Dict[str, str]]
+    ) -> Tuple[Record, AmbiguousRecord, List[Question]]:
         ambiguous_cases_accumulator: List[AmbiguousCase] = []
         questions_accumulator: List[Question] = []
         errors = []
@@ -31,7 +33,7 @@ class RecordCreator:
             except Exception as e:
                 errors.append(str(e))
         if errors:
-            ambiguous_record = [Record([], [], errors)]
+            ambiguous_record = [Record([], errors)]
         else:
             ambiguous_record: AmbiguousRecord = []  # type: ignore
             for cases in product(*ambiguous_cases_accumulator):
@@ -42,12 +44,16 @@ class RecordCreator:
                     )
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
+        record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+        return record, ambiguous_record, questions_accumulator
 
+    @staticmethod
+    def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
         charge_id_to_time_eligibilities = []
         for record in ambiguous_record:
             record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
             expunger = Expunger(record)
             charge_id_to_time_eligibility = expunger.run()
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-        record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities, questions_accumulator)
+        record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
         return record
