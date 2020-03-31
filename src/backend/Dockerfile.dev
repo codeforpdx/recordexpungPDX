@@ -1,5 +1,7 @@
 FROM recordexpungpdx/recordexpungpdx:expungeservicebase
 
+RUN apt-get update &&\
+    apt-get install -y git
 RUN python3.7 -m pip install pipenv
 
 WORKDIR /var/www/
