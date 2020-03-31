@@ -1,7 +1,9 @@
 import pkgutil
+import sys
 from importlib import import_module
 
 from flask import Flask, g
+from flask_session import Session  # type: ignore
 
 from expungeservice.database import get_database
 from .config import app_config
@@ -29,6 +31,8 @@ def create_app(env_name):
     # app initiliazation
     app = Flask(__name__)
     app.config.from_object(app_config[env_name])
+    sess = Session()
+    sess.init_app(app)
 
     attach_logger(app)
     app.logger.setLevel(logging.DEBUG)
