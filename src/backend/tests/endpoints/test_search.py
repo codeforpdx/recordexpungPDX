@@ -1,4 +1,5 @@
 import copy
+import json
 from typing import List, Any, Callable, Tuple
 
 import pytest
@@ -80,9 +81,8 @@ def test_search(service, monkeypatch):
     assert service.client.cookie_jar._cookies["localhost.local"]["/"]["oeci_token"]
 
     response = service.client.post("/api/search", json=service.search_request_data)
-
     assert response.status_code == 200
-    data = response.get_json()["data"]
+    data = json.loads(response.data)["data"]
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
@@ -115,7 +115,7 @@ def test_search_creates_save_results(service, monkeypatch):
     response = service.client.post("/api/search", json=service.search_request_data)
 
     assert response.status_code == 200
-    data = response.get_json()["data"]
+    data = json.loads(response.data)["data"]
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
@@ -144,6 +144,6 @@ def test_search_with_failing_save_results(service, monkeypatch):
     response = service.client.post("/api/search", json=service.search_request_data)
 
     assert response.status_code == 200
-    data = response.get_json()["data"]
+    data = json.loads(response.data)["data"]
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
