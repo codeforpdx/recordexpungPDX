@@ -43,7 +43,7 @@ def create_app(env_name):
     app.after_request(after)
     app.teardown_request(lambda exception: g.database.close_connection())
 
-    app.logger.debug("Flask app created!")
+    sys.setrecursionlimit(15000)
 
     return app
 

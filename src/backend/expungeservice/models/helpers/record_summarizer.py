@@ -1,11 +1,12 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
+from expungeservice.models.record import Record, Question
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
 from typing import Dict, List
 
 
 class RecordSummarizer:
     @staticmethod
-    def summarize(record) -> RecordSummary:
+    def summarize(record, questions: List[Question]) -> RecordSummary:
         fully_eligible_cases = []
         fully_ineligible_cases = []
         partially_eligible_cases = []
@@ -60,6 +61,7 @@ class RecordSummarizer:
         ]
         return RecordSummary(
             record=record,
+            questions=questions,
             cases_sorted=cases_sorted,
             eligible_charges=eligible_charges,
             total_charges=total_charges,

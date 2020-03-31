@@ -1,9 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
-from expungeservice.models.case import Case
-from expungeservice.models.charge import Charge
-from expungeservice.models.record import Record
+from expungeservice.models.record import Record, Question
 
 
 @dataclass
@@ -15,6 +13,7 @@ class CountyBalance:
 @dataclass
 class RecordSummary:
     record: Record
+    questions: List[Question]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
     eligible_charges: List[str]
