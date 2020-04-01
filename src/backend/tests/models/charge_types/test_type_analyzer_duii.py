@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from expungeservice.models.expungement_result import EligibilityStatus
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 
 from tests.factories.charge_factory import ChargeFactory
 from expungeservice.models.disposition import Disposition

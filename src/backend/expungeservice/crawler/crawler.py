@@ -1,5 +1,4 @@
 from concurrent.futures.thread import ThreadPoolExecutor
-from copy import copy
 from dataclasses import replace
 from itertools import product
 from typing import List, Tuple, Optional
@@ -7,7 +6,7 @@ from typing import List, Tuple, Optional
 import requests
 from datetime import datetime
 
-from expungeservice.models.helpers.charge_creator import ChargeCreator
+from expungeservice.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser

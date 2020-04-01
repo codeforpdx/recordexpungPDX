@@ -1,13 +1,12 @@
 from flask.views import MethodView
 from flask import request, current_app
 from flask_login import login_required
-import logging
 
-from expungeservice.models.helpers.generator import build_record
+from expungeservice.generator import build_record
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
-from expungeservice.models.helpers.record_summarizer import RecordSummarizer
+from expungeservice.record_summarizer import RecordSummarizer
 
 
 class Search(MethodView):

@@ -1,5 +1,5 @@
 from expungeservice.models.expungement_result import *
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 from tests.time import Time
 
 

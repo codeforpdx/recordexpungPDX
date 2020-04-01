@@ -2,10 +2,9 @@ from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
-from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.subsection_6 import Subsection6
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 

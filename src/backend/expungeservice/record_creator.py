@@ -4,7 +4,7 @@ from typing import List, Dict, Tuple
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question
 from expungeservice.request import error
 

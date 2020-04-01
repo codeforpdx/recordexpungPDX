@@ -8,15 +8,15 @@ from flask_login import login_required
 import logging
 
 from expungeservice.models.ambiguous import AmbiguousRecord
-from expungeservice.models.helpers.record_merger import RecordMerger
-from expungeservice.models.record import Question, Record
+from expungeservice.record_merger import RecordMerger
+from expungeservice.models.record import Question
 from expungeservice.record_creator import RecordCreator
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
-from expungeservice.models.helpers.record_summarizer import RecordSummarizer
+from expungeservice.record_summarizer import RecordSummarizer
 
 
 class Search(MethodView):

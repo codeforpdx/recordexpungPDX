@@ -3,8 +3,8 @@ import json
 from hypothesis import given, settings, HealthCheck
 
 from expungeservice.expunger import Expunger
-from expungeservice.models.helpers.generator import build_record_strategy
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.generator import build_record_strategy
+from expungeservice.record_merger import RecordMerger
 from expungeservice.serializer import ExpungeModelEncoder
 
 

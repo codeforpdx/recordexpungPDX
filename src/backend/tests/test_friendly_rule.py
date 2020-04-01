@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.disposition import Disposition
 from expungeservice.models.expungement_result import EligibilityStatus, ChargeEligibilityStatus
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
