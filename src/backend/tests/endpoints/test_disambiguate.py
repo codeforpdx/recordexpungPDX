@@ -53,7 +53,7 @@ DUII_SEARCH_RESPONSE = {
                     "location": "Multnomah",
                     "name": "DOE, JOHN",
                     "probation_revoked": None,
-                    "violation_type": "Municipal Parking",
+                    "violation_type": "Misdemeanor",
                 }
             ],
             "errors": [],
@@ -125,7 +125,7 @@ DIVERTED_RESPONSE = {
                     "location": "Multnomah",
                     "name": "DOE, JOHN",
                     "probation_revoked": None,
-                    "violation_type": "Municipal Parking",
+                    "violation_type": "Misdemeanor",
                 }
             ],
             "errors": [],

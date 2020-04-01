@@ -48,9 +48,9 @@ class ChargeClassifier:
     def __classifications_list(self) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._contempt_of_court(self.name)
+        yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name.lower())
         yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
-        yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._violation(self.level)
         criminal_charge = next(
             (c for c in ChargeClassifier._criminal_charge(self.statute, self.section, self.name, self.level) if c), None
