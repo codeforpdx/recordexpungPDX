@@ -40,3 +40,4 @@ class CaseDetails:
     )
     CHARGE_INFO_WITH_EMPTY_DATA_CELLS = read_html("charge_info_with_empty_data_cells")
     CASE_WITH_ODD_EVENT_TABLE_CONTENTS = read_html("case_detail_with_odd_event_table_contents")
+    CASE_WITH_SINGLE_DUII = read_html("duii")
