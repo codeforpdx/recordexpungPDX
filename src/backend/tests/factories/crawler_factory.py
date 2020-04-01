@@ -1,7 +1,10 @@
+from typing import Tuple, List
+
 import requests_mock
 
 from expungeservice.crawler.request import URL
-from expungeservice.models.record import Record
+from expungeservice.models.ambiguous import AmbiguousRecord
+from expungeservice.models.record import Record, Question
 from expungeservice.record_creator import RecordCreator
 from tests.fixtures.post_login_page import PostLoginPage
 from tests.fixtures.search_page_response import SearchPageResponse
@@ -15,6 +18,13 @@ class CrawlerFactory:
         record=JohnDoe.RECORD_WITH_CLOSED_CASES,
         cases={"X0001": CaseDetails.case_x(), "X0002": CaseDetails.case_x(), "X0003": CaseDetails.case_x()},
     ) -> Record:
+        return CrawlerFactory.create_ambiguous_record_with_questions(record, cases)[0]
+
+    @staticmethod
+    def create_ambiguous_record_with_questions(
+        record=JohnDoe.RECORD_WITH_CLOSED_CASES,
+        cases={"X0001": CaseDetails.case_x(), "X0002": CaseDetails.case_x(), "X0003": CaseDetails.case_x()},
+    ) -> Tuple[Record, AmbiguousRecord, List[Question]]:
         base_url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/"
         with requests_mock.Mocker() as m:
             m.post(URL.login_url(), text=PostLoginPage.POST_LOGIN_PAGE)
@@ -27,4 +37,4 @@ class CrawlerFactory:
                 m.get("{}{}{}".format(base_url, "CaseDetail.aspx?CaseID=", key), text=value)
 
             aliases = [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": ""}]
-            return RecordCreator.build_record("username", "password", aliases)[0]
+            return RecordCreator.build_record("username", "password", aliases)

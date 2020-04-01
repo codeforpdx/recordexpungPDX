@@ -1,4 +1,5 @@
 import pickle
+from typing import List, Any, Dict
 
 from dacite import from_dict
 from flask.views import MethodView
@@ -6,6 +7,7 @@ from flask import request, current_app, session, json
 from flask_login import login_required
 import logging
 
+from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.helpers.record_merger import RecordMerger
 from expungeservice.models.record import Question, Record
 from expungeservice.record_creator import RecordCreator
@@ -54,13 +56,16 @@ class Disambiguate(MethodView):
         ambiguous_record = pickle.loads(session.get("ambiguous_record"))
         request_data = request.get_json()
         questions_list = request_data.get("questions")
+        return Disambiguate.build_response(ambiguous_record, questions_list)
+
+    @staticmethod
+    def build_response(ambiguous_record: AmbiguousRecord, questions_list: List[Dict[str, Any]]):
         questions = [from_dict(data_class=Question, data=question) for question in questions_list]
         updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions)
         record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
         record_summary = RecordSummarizer.summarize(record, questions)
         response_data = {"data": {"record": record_summary}}
-        encoded_response = json.dumps(response_data, cls=ExpungeModelEncoder)
-        return encoded_response
+        return json.dumps(response_data, cls=ExpungeModelEncoder)
 
 
 def register(app):
