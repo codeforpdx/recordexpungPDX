@@ -146,3 +146,4 @@ config/postgres/data
 .vscode
 src/backend/logs
 config/expungeservice/expungeservice.production.env
+src/backend/tests/endpoints/flask_session
