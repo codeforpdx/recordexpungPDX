@@ -1,7 +1,7 @@
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.sex_crimes import SexCrime, RomeoAndJulietIneligibleSexCrime
-from expungeservice.models.helpers.record_merger import RecordMerger
+from expungeservice.record_merger import RecordMerger
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 import pytest

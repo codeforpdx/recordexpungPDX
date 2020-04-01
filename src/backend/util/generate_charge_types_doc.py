@@ -2,9 +2,7 @@
 This util script generates the user-facing documentation for charge types as an md file.
 """
 
-import pkgutil
-from expungeservice.models.charge import Charge
-from expungeservice.models.helpers.generator import get_charge_classes
+from expungeservice.generator import get_charge_classes
 
 
 def generate_charge_type_doc():

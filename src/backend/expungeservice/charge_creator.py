@@ -5,7 +5,7 @@ from typing import Tuple, Optional
 from dacite import from_dict
 
 from expungeservice.models.ambiguous import AmbiguousCharge
-from expungeservice.models.helpers.charge_classifier import ChargeClassifier
+from expungeservice.charge_classifier import ChargeClassifier
 from expungeservice.models.record import Question
 
 
