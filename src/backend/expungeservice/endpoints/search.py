@@ -37,7 +37,8 @@ class Search(MethodView):
         username, password = decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
 
         record, ambiguous_record, questions = RecordCreator.build_record(username, password, request_data["aliases"])
-        session["ambiguous_record"] = pickle.dumps(ambiguous_record)
+        if questions:
+            session["ambiguous_record"] = pickle.dumps(ambiguous_record)
 
         try:
             save_result(request_data, record)
@@ -53,10 +54,14 @@ class Search(MethodView):
 class Disambiguate(MethodView):
     @login_required
     def post(self):
-        ambiguous_record = pickle.loads(session.get("ambiguous_record"))
-        request_data = request.get_json()
-        questions_list = request_data.get("questions")
-        return Disambiguate.build_response(ambiguous_record, questions_list)
+        ambiguous_record_data = session.get("ambiguous_record")
+        if ambiguous_record_data:
+            ambiguous_record = pickle.loads(ambiguous_record_data)
+            request_data = request.get_json()
+            questions_list = request_data.get("questions")
+            return Disambiguate.build_response(ambiguous_record, questions_list)
+        else:
+            error(428, "Must hit the search endpoint with question generating records first.")
 
     @staticmethod
     def build_response(ambiguous_record: AmbiguousRecord, questions_list: List[Dict[str, Any]]):
