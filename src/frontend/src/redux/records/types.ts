@@ -50,13 +50,3 @@ interface SearchRecordsAction {
 // Add other Action types here like so:
 // export type RecordActionTypes = LoadRecordsAction | OtherRecordsAction;
 export type SearchRecordsActionType = SearchRecordsAction;
-
-export type CaseProps = {
-  case: {
-    name: string;
-    case_number: string;
-    birth_year: number;
-    balance_due: number;
-    charges: any[];
-  };
-};
