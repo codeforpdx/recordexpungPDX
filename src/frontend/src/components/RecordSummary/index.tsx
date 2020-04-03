@@ -2,7 +2,7 @@ import React from 'react';
 import CasesSummary from './CasesSummary'
 import ChargesList from './ChargesList'
 import CountyBalances from './CountyBalances'
-import { RecordSummaryType, CountyBalanceType } from '../SearchResults/types';
+import { RecordSummaryType } from '../SearchResults/types';
 
 interface Props {
   summary: RecordSummaryType;

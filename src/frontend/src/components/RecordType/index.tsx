@@ -47,7 +47,7 @@ export default class RecordType extends React.Component<Props> {
       </div>
     );
 
-    if (status == 'Eligible') {
+    if (status === 'Eligible') {
       return eligible(reason);
     } else if (status === 'Needs more analysis') {
       return review;

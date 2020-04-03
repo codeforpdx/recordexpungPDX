@@ -18,7 +18,7 @@ type Props = {
 };
 
 class AllRecords extends Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     checkOeciRedirect();
   }
 

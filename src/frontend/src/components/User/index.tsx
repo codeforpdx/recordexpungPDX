@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import history from '../../service/history';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import { User as UserTypes } from '../../redux/users/types';
