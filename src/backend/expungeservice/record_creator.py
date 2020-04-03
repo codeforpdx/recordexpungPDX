@@ -46,15 +46,17 @@ class RecordCreator:
                 ambiguous_record.append(Record(cases_with_unique_case_number))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
         return record, ambiguous_record, questions_accumulator
-
-            charge_id_to_time_eligibilities = []
-            for record in ambiguous_record:
-                record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
-                expunger = Expunger(record)
-                charge_id_to_time_eligibility = expunger.run()
-                charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-            record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
-            record = RecordCreator.sort_record_by_case_date(record)
+        
+    @staticmethod
+    def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
+        charge_id_to_time_eligibilities = []
+        for record in ambiguous_record:
+            record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
+            expunger = Expunger(record)
+            charge_id_to_time_eligibility = expunger.run()
+            charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
+        record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+        record = RecordCreator.sort_record_by_case_date(record)
         return record
         
         
