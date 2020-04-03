@@ -1,5 +1,6 @@
 from itertools import product, groupby
 from typing import List, Dict, Tuple
+from dataclasses import replace
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import ErrorChecker, Expunger
@@ -45,6 +46,7 @@ class RecordCreator:
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+        record = RecordCreator.sort_record_by_case_date(record)
         return record, ambiguous_record, questions_accumulator
         
     @staticmethod
@@ -56,12 +58,12 @@ class RecordCreator:
             charge_id_to_time_eligibility = expunger.run()
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
         record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
-        record = RecordCreator.sort_record_by_case_date(record)
         return record
         
         
     @staticmethod
     def sort_record_by_case_date(record):
-        record.cases = sorted(record.cases, key = lambda i: i.date, reverse = True)
-        return record
+        # sorts record by case date to ensure consistent sorted data for front end. 
+        sortedCases = sorted(record.cases, key = lambda i: i.date, reverse = True)
+        return replace(record, cases=sortedCases)
         
