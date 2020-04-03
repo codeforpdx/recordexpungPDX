@@ -46,8 +46,8 @@ class RecordCreator:
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-        record = RecordCreator.sort_record_by_case_date(record)
-        return record, ambiguous_record, questions_accumulator
+        sortedRecord = RecordCreator.sort_record_by_case_date(record)
+        return sortedRecord, ambiguous_record, questions_accumulator
         
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
