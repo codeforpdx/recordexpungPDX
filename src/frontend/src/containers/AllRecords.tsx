@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
-import { Record } from '../redux/records/types';
+import { Record } from '../redux/record/types';
 import {
-  loadSearchRecords,
-  clearSearchRecords
-} from '../redux/records/actions';
+  searchRecord,
+  clearSearchRecord
+} from '../redux/record/actions';
 import RecordSearch from '../components/RecordSearch';
 import SearchResults from '../components/SearchResults';
 import AllStatus from './AllStatus';
 import { checkOeciRedirect } from '../service/cookie-service';
 
 type Props = {
-  fetchRecords: Function;
-  clearRecords: Function;
+  fetchRecord: Function;
+  clearRecord: Function;
   record?: Record;
 };
 
@@ -23,14 +23,13 @@ class AllRecords extends Component<Props> {
   }
 
   componentWillUnmount() {
-    this.props.clearRecords();
+    this.props.clearRecord();
   }
 
   render() {
-    // Once fetch adds records to Redux, a SearchResults container is rendered with updated records
     return (
       <main className="mw8 center ph2">
-        <RecordSearch fetchRecords={this.props.fetchRecords} />
+        <RecordSearch fetchRecord={this.props.fetchRecord} />
         {this.props.record &&
         ((this.props.record.cases &&
         this.props.record.cases.length > 0) || this.props.record.errors) ? (
@@ -56,14 +55,14 @@ class AllRecords extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    record: state.records.records
+    record: state.record.record
   };
 };
 
 export default connect(
   mapStateToProps,
   {
-    fetchRecords: loadSearchRecords,
-    clearRecords: clearSearchRecords
+    fetchRecord: searchRecord,
+    clearRecord: clearSearchRecord
   }
 )(AllRecords);

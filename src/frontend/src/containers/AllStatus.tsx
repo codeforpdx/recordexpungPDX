@@ -24,7 +24,7 @@ class AllStatus extends React.Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    loading: state.records.loading
+    loading: state.record.loading
   };
 };
 

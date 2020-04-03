@@ -8,7 +8,7 @@ import Alias from './Alias';
 
 interface Props {
   system: SystemState;
-  fetchRecords: Function;
+  fetchRecord: Function;
 }
 
 interface State {
@@ -38,7 +38,7 @@ class RecordSearch extends React.Component<Props, State> {
         !this.state.missingInputs &&
         !this.state.invalidDate
       ) {
-        this.props.fetchRecords( this.state.aliases);
+        this.props.fetchRecord( this.state.aliases);
       }
     });
   };
