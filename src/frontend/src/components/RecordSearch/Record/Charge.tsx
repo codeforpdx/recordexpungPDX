@@ -1,11 +1,11 @@
 import React from 'react';
-import Eligibility from '../Eligibility';
-import RecordTime from '../RecordTime';
-import RecordType from '../RecordType';
-import { ChargeType } from '../SearchResults/types';
+import Eligibility from './Eligibility';
+import TimeEligibility from './TimeEligibility';
+import TypeEligibility from './TypeEligibility';
+import { ChargeData } from './types';
 
 interface Props {
-  charge: ChargeType;
+  charge: ChargeData;
 }
 
 export default class Charge extends React.Component<Props> {
@@ -56,7 +56,7 @@ export default class Charge extends React.Component<Props> {
            &&
            expungement_result.time_eligibility) {
         return (
-          <RecordTime time_eligibility={expungement_result.time_eligibility} />
+          <TimeEligibility time_eligibility={expungement_result.time_eligibility} />
         );
       }
     };
@@ -67,7 +67,7 @@ export default class Charge extends React.Component<Props> {
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-40-l pr3">
             {recordTimeRender()}
-            <RecordType
+            <TypeEligibility
               type_eligibility={expungement_result.type_eligibility}
               type_name={type_name}
             />

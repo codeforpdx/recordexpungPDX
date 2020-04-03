@@ -5,16 +5,16 @@ import {
   SEARCH_RECORD,
   SEARCH_RECORD_LOADING,
   SearchResponse,
-  CLEAR_SEARCH_RECORD
+  CLEAR_RECORD
 } from './types';
-import {AliasType} from '../../components/RecordSearch/types'
+import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 
 function validateResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('data') && data.data.hasOwnProperty('record');
 }
 
 export function searchRecord(
-  aliases: AliasType[]
+  aliases: AliasData[]
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -44,8 +44,8 @@ export function searchRecord(
   };
 }
 
-export function clearSearchRecord() {
+export function clearRecord() {
   return {
-    type: CLEAR_SEARCH_RECORD
+    type: CLEAR_RECORD
   };
 }

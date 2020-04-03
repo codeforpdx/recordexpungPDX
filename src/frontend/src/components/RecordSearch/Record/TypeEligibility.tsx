@@ -1,8 +1,8 @@
 import React from 'react';
-import { TypeEligibility } from '../SearchResults/types';
+import { TypeEligibilityData } from './types';
 
 interface Props {
-  type_eligibility: TypeEligibility;
+  type_eligibility: TypeEligibilityData;
   type_name: string;
 }
 

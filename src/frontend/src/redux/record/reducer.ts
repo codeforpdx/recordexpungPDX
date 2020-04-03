@@ -3,7 +3,7 @@ import {
   SEARCH_RECORD_LOADING,
   SearchRecordState,
   SearchRecordActionType,
-  CLEAR_SEARCH_RECORD
+  CLEAR_RECORD
 } from './types';
 
 const initalState: SearchRecordState = {
@@ -26,7 +26,7 @@ export function recordReducer(
       // while loading state is true, a spinner is rendered on the screen. If loading
       // state is false, and no results were fetched, no "search results found" will be displayed.
       return { ...state, record: {}, loading: true };
-    case CLEAR_SEARCH_RECORD:
+    case CLEAR_RECORD:
       return { ...state, record: {}, loading: false };
     default:
       return state;

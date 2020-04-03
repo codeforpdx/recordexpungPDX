@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { CountyBalanceType } from '../SearchResults/types';
-import currencyFormat from '../../service/currency-format';
+import { CountyBalanceData } from '../types';
+import currencyFormat from '../../../../service/currency-format';
 
 interface Props {
-  balances: CountyBalanceType[];
+  balances: CountyBalanceData[];
   totalBalance: number;
 }
 
 export default class CountyBalances extends React.Component<Props> {
   render() {
-    const listItems = this.props.balances.map((pair: CountyBalanceType) => {
+    const listItems = this.props.balances.map((pair: CountyBalanceData) => {
       return (
         <li className="mb2">
           <span className="break-all">{pair.county_name} </span>{' '}

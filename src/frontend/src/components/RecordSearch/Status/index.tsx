@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '../redux/store';
-import LoadingSpinner from '../components/LoadingSpinner';
-import NoSearchResults from '../components/NoSearchResults';
+import { AppState } from '../../../redux/store';
+import LoadingSpinner from '../../LoadingSpinner';
+import NoSearchResults from './NoSearchResults';
 
 type Props = {
   loading: boolean;
 };
 
-class AllStatus extends React.Component<Props> {
+class Status extends React.Component<Props> {
   render() {
     return (
       <section>
@@ -28,4 +28,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(mapStateToProps)(AllStatus);
+export default connect(mapStateToProps)(Status);

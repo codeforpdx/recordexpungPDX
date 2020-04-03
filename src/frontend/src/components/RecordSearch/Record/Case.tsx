@@ -1,10 +1,10 @@
 import React from 'react';
-import { CaseType } from '../SearchResults/types';
-import Charges from '../Charges';
-import currencyFormat from '../../service/currency-format';
+import { CaseData } from './types';
+import Charges from './Charges';
+import currencyFormat from '../../../service/currency-format';
 
 interface Props {
-  case: CaseType;
+  case: CaseData;
 }
 
 export default class Cases extends React.Component<Props> {

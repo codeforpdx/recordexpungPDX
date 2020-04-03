@@ -1,8 +1,8 @@
 import React from 'react';
-import { ExpungementResultType } from '../SearchResults/types';
+import { ExpungementResultData } from './types';
 
 interface Props {
-  expungement_result: ExpungementResultType;
+  expungement_result: ExpungementResultData;
 }
 
 export default class Eligibility extends React.Component<Props> {
