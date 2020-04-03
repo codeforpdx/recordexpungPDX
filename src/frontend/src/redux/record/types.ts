@@ -1,4 +1,4 @@
-import {RecordSummaryData, RecordData} from '../../components/RecordSearch/Record/types'
+import {RecordData} from '../../components/RecordSearch/Record/types'
 
 export interface RecordWrapper {
   record: RecordData;
