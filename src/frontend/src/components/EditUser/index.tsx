@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { UserState } from '../../redux/users/types';
 import { editUser } from '../../redux/users/actions';
@@ -331,7 +330,7 @@ class EditUser extends React.Component<Props, State> {
             </div>
           </form>
         </section>
-      </main> 
+      </main>
     );
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import history from '../../service/history';
-import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 import { addUser } from '../../redux/users/actions';
 import { UserState } from '../../redux/users/types';

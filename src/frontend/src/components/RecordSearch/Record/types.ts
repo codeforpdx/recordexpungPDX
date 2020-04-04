@@ -1,4 +1,4 @@
-export interface ChargeType {
+export interface ChargeData {
   statute: string;
   expungement_result: any;
   name: string;
@@ -10,12 +10,12 @@ export interface ChargeType {
   };
 }
 
-export interface CaseType {
+export interface CaseData {
   balance_due: number;
   birth_year: number;
   case_detail_link: string;
   case_number: string;
-  charges: ChargeType[];
+  charges: ChargeData[];
   citation_number: string;
   current_status: string;
   date: string;
@@ -24,45 +24,45 @@ export interface CaseType {
   violation_type: string;
 }
 
-export interface Record {
+export interface RecordData {
   total_balance_Due?: number;
   cases?: any[];
   errors?: string[];
-  summary?: RecordSummaryType;
+  summary?: RecordSummaryData;
 }
 
-export interface RecordSummaryType {
+export interface RecordSummaryData {
   total_charges: number;
   cases_sorted: any;
   eligible_charges: any[];
-  county_balances: CountyBalanceType[];
+  county_balances: CountyBalanceData[];
   total_balance_due: number;
   total_cases: number;
 }
 
-export interface CountyBalanceType {
+export interface CountyBalanceData {
   county_name: string;
   balance: number;
 }
 
-export interface ExpungementResultType {
-  type_eligibility: TypeEligibility;
-  time_eligibility?: TimeEligibility;
-  charge_eligibility: ChargeEligibility;
+export interface ExpungementResultData {
+  type_eligibility: TypeEligibilityData;
+  time_eligibility?: TimeEligibilityData;
+  charge_eligibility: ChargeEligibilityData;
 }
 
-export interface TypeEligibility {
+export interface TypeEligibilityData {
   status: string;
   reason: string;
 }
 
-export interface TimeEligibility {
+export interface TimeEligibilityData {
   status: string;
   reason: string;
   date_will_be_eligible: string;
 }
 
-export interface ChargeEligibility {
+export interface ChargeEligibilityData {
   status: string;
   label: string;
 }

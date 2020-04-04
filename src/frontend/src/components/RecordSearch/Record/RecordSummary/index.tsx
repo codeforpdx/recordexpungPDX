@@ -2,10 +2,10 @@ import React from 'react';
 import CasesSummary from './CasesSummary'
 import ChargesList from './ChargesList'
 import CountyBalances from './CountyBalances'
-import { RecordSummaryType, CountyBalanceType } from '../SearchResults/types';
+import { RecordSummaryData } from '../types';
 
 interface Props {
-  summary: RecordSummaryType;
+  summary: RecordSummaryData;
 }
 
 export default class RecordSummary extends React.Component<Props> {
