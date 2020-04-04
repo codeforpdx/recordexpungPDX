@@ -2,23 +2,23 @@ import { Dispatch } from 'redux';
 import apiService from '../../service/api-service';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
-  LOAD_SEARCH_RECORDS,
-  LOAD_SEARCH_RECORDS_LOADING,
+  SEARCH_RECORD,
+  SEARCH_RECORD_LOADING,
   SearchResponse,
-  CLEAR_SEARCH_RECORDS
+  CLEAR_RECORD
 } from './types';
-import {AliasType} from '../../components/RecordSearch/types'
+import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 
 function validateResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('data') && data.data.hasOwnProperty('record');
 }
 
-export function loadSearchRecords(
-  aliases: AliasType[]
+export function searchRecord(
+  aliases: AliasData[]
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: LOAD_SEARCH_RECORDS_LOADING
+      type: SEARCH_RECORD_LOADING
     });
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
@@ -31,8 +31,8 @@ export function loadSearchRecords(
       .then((response: AxiosResponse<SearchResponse>) => {
         if (validateResponseData(response.data)) {
           dispatch({
-            type: LOAD_SEARCH_RECORDS,
-            search_records: response.data.data.record
+            type: SEARCH_RECORD,
+            search_record: response.data.data.record
           });
         } else {
           alert('Response data has unexpected format.');
@@ -44,8 +44,8 @@ export function loadSearchRecords(
   };
 }
 
-export function clearSearchRecords() {
+export function clearRecord() {
   return {
-    type: CLEAR_SEARCH_RECORDS
+    type: CLEAR_RECORD
   };
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import { TimeEligibility } from '../SearchResults/types';
+import { TimeEligibilityData } from './types';
 
 interface Props {
-  time_eligibility: TimeEligibility;
+  time_eligibility: TimeEligibilityData;
 }
 
-export default class RecordTime extends React.Component<Props> {
+export default class TimeEligibility extends React.Component<Props> {
   render() {
     const { status, reason } = this.props.time_eligibility;
 

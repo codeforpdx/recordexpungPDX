@@ -1,8 +1,8 @@
 import React from 'react';
-import { TypeEligibility } from '../SearchResults/types';
+import { TypeEligibilityData } from './types';
 
 interface Props {
-  type_eligibility: TypeEligibility;
+  type_eligibility: TypeEligibilityData;
   type_name: string;
 }
 
@@ -47,7 +47,7 @@ export default class RecordType extends React.Component<Props> {
       </div>
     );
 
-    if (status == 'Eligible') {
+    if (status === 'Eligible') {
       return eligible(reason);
     } else if (status === 'Needs more analysis') {
       return review;

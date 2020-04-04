@@ -1,4 +1,4 @@
-export interface AliasType {
+export interface AliasData {
   // this data structure is sent in the endpoint request, so it uses python's snake_case
   first_name: string;
   middle_name: string;

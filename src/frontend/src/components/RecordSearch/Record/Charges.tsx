@@ -1,14 +1,14 @@
 import React from 'react';
-import Charge from '../Charge';
-import { ChargeType } from '../SearchResults/types';
+import Charge from './Charge';
+import { ChargeData } from './types';
 
 interface Props {
-  charges: ChargeType[];
+  charges: ChargeData[];
 }
 
 export default class Charges extends React.Component<Props> {
   render() {
-    const charges = this.props.charges.map((charge: ChargeType, i) => {
+    const charges = this.props.charges.map((charge: ChargeData, i) => {
       return (
         <li key={i}>
           <Charge charge={charge} />

@@ -5,7 +5,7 @@ import history from '../../service/history';
 import LogIn from '../LogIn';
 import AddUser from '../AddUser';
 import EditUser from '../EditUser';
-import AllRecords from '../../containers/AllRecords';
+import RecordSearch from '../RecordSearch';
 import OeciLogin from '../OeciLogin';
 import ForgotPassword from '../ForgotPassword';
 import PasswordReset from '../PasswordReset';
@@ -23,7 +23,7 @@ class AppRouter extends React.Component {
       <Router history={history}>
         <Switch>
           <AuthenticatedRoute path="/oeci" component={OeciLogin} />
-          <AuthenticatedRoute path="/record-search" component={AllRecords} />
+          <AuthenticatedRoute path="/record-search" component={RecordSearch} />
           <AuthenticatedRoute path="/stats" component={InterimPage} />
           <AuthenticatedRoute path="/admin" component={Admin} />
           <AuthenticatedRoute path="/account" component={InterimPage} />

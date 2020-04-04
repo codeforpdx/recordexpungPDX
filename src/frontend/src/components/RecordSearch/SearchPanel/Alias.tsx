@@ -1,11 +1,11 @@
 import React from 'react';
-import { AliasType, AliasFieldNames } from './types';
+import { AliasData, AliasFieldNames } from './types';
 import Field from './Field';
 
 
 interface Props {
   ind: number;
-  aliasData: AliasType;
+  aliasData: AliasData;
   onChange: Function; // requires 2 arguments: the fieldName and fieldValue
   onRemoveClick: Function;
   hideRemoveButton: boolean;
