@@ -16,9 +16,10 @@ services:
       - postgres
     env_file:
       - config/postgres/client.env
-    image: recordsponge/expungeservice
+    image: recordsponge/expungeservice:dev
     volumes:
       - ./src/backend:/var/opt/backend
+      - ./src/frontend:/var/opt/frontend
     ports:
       - "5000:5000"
 
