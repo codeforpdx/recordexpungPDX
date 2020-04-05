@@ -99,3 +99,19 @@ def test_manufacture_delivery_1():
         type_eligibility.reason
         == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
+
+
+def test_manufacture_delivery_heroin():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="MANUFACTURING CONTROLLED SUB HEROIN",
+        statute="4759921A",
+        level="Felony Unclassified",
+        disposition=Dispositions.CONVICTED,
+    )
+    type_eligibility = RecordMerger.merge_type_eligibilities(charges)
+
+    assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert (
+        type_eligibility.reason
+        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+    )
