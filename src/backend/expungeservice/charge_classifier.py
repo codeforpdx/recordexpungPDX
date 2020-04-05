@@ -111,7 +111,7 @@ class ChargeClassifier:
     @staticmethod
     def _manufacture_delivery(name, level, statute):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
-            if "2" in name:
+            if "2" in name or "heroin" in name or "cocaine" in name or "meth" in name:
                 if level == "Felony Unclassified":
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
