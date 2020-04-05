@@ -9,7 +9,7 @@ from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
-from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
+from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
@@ -196,7 +196,7 @@ class ChargeClassifier:
                     if ChargeClassifier._is_dimissed(disposition):
                         return AmbiguousChargeTypeWithQuestion([DismissedCharge])
                     else:
-                        return AmbiguousChargeTypeWithQuestion([TrafficNonViolation])
+                        return AmbiguousChargeTypeWithQuestion([TrafficOffense])
                 else:
                     return AmbiguousChargeTypeWithQuestion([TrafficViolation])
 

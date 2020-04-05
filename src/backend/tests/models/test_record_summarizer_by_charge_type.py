@@ -1,20 +1,18 @@
 from datetime import date as date_class
 from expungeservice.models.charge_types.civil_offense import CivilOffense
-from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
-from expungeservice.models.charge_types.duii import Duii, DivertedDuii
+from expungeservice.models.charge_types.duii import DivertedDuii
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
-from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.sex_crimes import SexCrime
 from expungeservice.models.charge_types.subsection_6 import Subsection6
-from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
+from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
@@ -228,8 +226,8 @@ def test_subsection_6_hidden_in_summary():
     assert charges[1].hidden_in_record_summary() == False
 
 
-def test_traffic_non_violation_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Traffic Non-Violation", "Closed"])
+def test_traffic_offense_hidden_in_summary():
+    case = CaseFactory.create(type_status=["Traffic Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="N/A",
@@ -240,7 +238,7 @@ def test_traffic_non_violation_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, TrafficNonViolation)
+    assert isinstance(charge, TrafficOffense)
     assert charge.hidden_in_record_summary() == False
 
 
