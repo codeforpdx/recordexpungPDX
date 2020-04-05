@@ -18,21 +18,21 @@ services:
       - config/postgres/client.env
     image: recordsponge/expungeservice:dev
     volumes:
-      - ./src/backend:/var/opt/backend
-      - ./src/frontend:/var/opt/frontend
+      - ./src/backend:/src/backend
+      - ./src/frontend:/src/frontend
     ports:
       - "5000:5000"
 
   node:
-    command: sh -c "cd /var/opt/frontend && npm install && npm start"
+    command: sh -c "cd /src/frontend && npm install && npm start"
     depends_on:
       - expungeservice
     image: node:alpine
     ports:
       - "3000:3000"
     volumes:
-      - ./src/frontend:/var/opt/frontend
-      - node_modules:/var/opt/frontend/node_modules
+      - ./src/frontend:/src/frontend
+      - node_modules:/src/frontend/node_modules
 
 volumes:
   node_modules:
