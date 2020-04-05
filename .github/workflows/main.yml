@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: run frontend tests
-        run: apk update && apk add python3 && cd src/frontend && npm ci && npm test
+        run: cd src/frontend && npm i && npm test
 
   backend:
     runs-on: ubuntu-latest
