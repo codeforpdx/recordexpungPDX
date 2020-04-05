@@ -124,7 +124,7 @@ backend_test:
 	docker-compose exec expungeservice pipenv run pytest
 
 frontend_test:
-	docker-compose exec node sh -c 'cd /var/opt/frontend && npm test'
+	docker-compose exec node sh -c 'cd /src/frontend && npm test'
 
 frontend_test_no_watch:
-	docker-compose exec node sh -c 'cd /var/opt/frontend && CI=true npm test'
+	docker-compose exec node sh -c 'cd /src/frontend && CI=true npm test'

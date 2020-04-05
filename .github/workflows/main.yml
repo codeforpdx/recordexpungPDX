@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: copy to pipenv project dir
-        run: cp -R src/backend/* /var/opt/backend && ls -l /var/opt/backend
+        run: cp -R src/backend/* /src/backend && ls -l /src/backend
 
       - name: add pg client
         run: apk add postgresql-client
@@ -52,4 +52,4 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/initial_credentials.dev.sql
 
       - name: run backend tests
-        run: cd /var/opt/backend && pipenv run mypy && pipenv run pytest
+        run: cd /src/backend && pipenv run mypy && pipenv run pytest
