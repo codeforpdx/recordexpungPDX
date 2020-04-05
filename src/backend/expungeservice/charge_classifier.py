@@ -236,11 +236,16 @@ class ChargeClassifier:
         if statute in SexCrime.statutes:
             return AmbiguousChargeTypeWithQuestion([SexCrime])
         elif statute in SexCrime.romeo_and_juliet_exceptions:
-            question_string = "TODO: FIXME: Is this charge eligible?"
-            options = ["TODO 1", "TODO 2"]
+            question_string = """
+            Select "Yes" if ALL of the following are true:
+            1. The victim's lack of consent was solely due to age (statutory rape) AND
+            2. The victim was at least twelve years old at the time of the act AND
+            3. You were no more than nineteen years old at the time of the act
+            """
+            options = ["Yes", "No"]
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
             return AmbiguousChargeTypeWithQuestion(
-                [RomeoAndJulietIneligibleSexCrime] + charge_type_by_level, question_string, options
+                charge_type_by_level + [RomeoAndJulietIneligibleSexCrime], question_string, options
             )
 
     # TODO: Deduplicate with charge.dismissed()
