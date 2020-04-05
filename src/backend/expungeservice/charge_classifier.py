@@ -213,7 +213,7 @@ class ChargeClassifier:
                 return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif statute.isdigit() and int(statute) in statute_range:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
-        elif "fugitive complaint" in name:
+        elif "fugitive" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
 
     @staticmethod
