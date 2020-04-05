@@ -46,8 +46,7 @@ class RecordCreator:
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-        sortedRecord = RecordCreator.sort_record_by_case_date(record)
-        return sortedRecord, ambiguous_record, questions_accumulator
+        return record, ambiguous_record, questions_accumulator
         
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
@@ -63,7 +62,7 @@ class RecordCreator:
         
     @staticmethod
     def sort_record_by_case_date(record):
-        # sorts record by case date to ensure consistent sorted data for front end. 
-        sortedCases = sorted(record.cases, key = lambda i: i.date, reverse = True)
+        # sorts record's cases by date to ensure consistent sorted data for front end. 
+        sortedCases = sorted(record.cases, key = lambda case: case.date, reverse = True)
         return replace(record, cases=sortedCases)
         
