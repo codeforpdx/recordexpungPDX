@@ -5,14 +5,14 @@ import { RecordData } from './Record/types';
 import {
   searchRecord,
   clearRecord
-} from '../../redux/record/actions';
+} from '../../redux/search/actions';
 import SearchPanel from './SearchPanel';
 import Record from './Record';
 import Status from './Status';
 import { checkOeciRedirect } from '../../service/cookie-service';
 
 type Props = {
-  fetchRecord: Function;
+  searchRecord: Function;
   clearRecord: Function;
   record?: RecordData;
 };
@@ -29,7 +29,7 @@ class RecordSearch extends Component<Props> {
   render() {
     return (
       <main className="mw8 center ph2">
-        <SearchPanel fetchRecord={this.props.fetchRecord} />
+        <SearchPanel searchRecord={this.props.searchRecord} />
         {this.props.record &&
         ((this.props.record.cases &&
         this.props.record.cases.length > 0) || this.props.record.errors) ? (
@@ -55,14 +55,14 @@ class RecordSearch extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    record: state.record.record
+    record: state.search.record
   };
 };
 
 export default connect(
   mapStateToProps,
   {
-    fetchRecord: searchRecord,
+    searchRecord: searchRecord,
     clearRecord: clearRecord
   }
 )(RecordSearch);

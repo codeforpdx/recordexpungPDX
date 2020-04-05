@@ -10,9 +10,9 @@ interface Props {
 
 export default class CountyBalances extends React.Component<Props> {
   render() {
-    const listItems = this.props.balances.map((pair: CountyBalanceData) => {
+    const listItems = this.props.balances.map((pair: CountyBalanceData, i: number) => {
       return (
-        <li className="mb2">
+        <li className="mb2" key={i}>
           <span className="break-all">{pair.county_name} </span>{' '}
           <span className="fr">{currencyFormat(pair.balance)}</span>
         </li>

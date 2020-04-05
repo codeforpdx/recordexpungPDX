@@ -6,13 +6,13 @@ import { combineReducers } from 'redux';
 
 // Reducers:
 import { usersReducer } from './users/reducer';
-import { recordReducer } from './record/reducer';
+import { searchReducer } from './search/reducer';
 import { systemReducer } from './system/reducer';
 import { groupsReducer } from './groups/reducer';
 
 const rootReducer = combineReducers({
   system: systemReducer,
-  record: recordReducer,
+  search: searchReducer,
   users: usersReducer,
   groups: groupsReducer
 });
