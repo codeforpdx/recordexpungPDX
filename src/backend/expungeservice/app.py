@@ -4,6 +4,7 @@ from importlib import import_module
 
 from flask import Flask, g
 from flask_session import Session  # type: ignore
+from os import path
 
 from expungeservice.database import get_database
 from .config import app_config
@@ -12,6 +13,10 @@ from . import endpoints
 import logging
 
 from .loggers import attach_logger
+
+
+FRONTEND_BUILD_DIR = path.abspath(path.join(
+    path.dirname(__file__), "..", "..", "frontend", "build"))
 
 
 def before():
@@ -29,7 +34,7 @@ def create_app(env_name):
     """
 
     # app initiliazation
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=FRONTEND_BUILD_DIR)
     app.config.from_object(app_config[env_name])
     sess = Session()
     sess.init_app(app)
