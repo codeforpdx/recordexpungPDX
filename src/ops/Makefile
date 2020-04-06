@@ -19,6 +19,10 @@ rsync:
 	rsync -rlptoD --delete --omit-dir-times --exclude logs --exclude flask_session ../backend docker/expungeservice
 	rsync -rlptoD --delete --omit-dir-times ../frontend/build docker/expungeservice/frontend
 
+# echo out version.json
+version:
+	echo {\"recordexpungPDX\":\"$$(git rev-parse HEAD)\"} > docker/expungeservice/frontend/build/version.json
+
 # build an expungeservice image with the given RS_ENV tag ('staging', 'prod', etc)
 image: rsync env_check
 	cd docker/expungeservice; \
@@ -28,15 +32,27 @@ image: rsync env_check
 push: env_check
 	docker push recordsponge/expungeservice:$(RS_ENV)
 
+# --- staging
+
 # build staging image
-staging:
+staging_image:
 	@make clean
 	@cd ../..; make frontend_build
-	@make rsync image RS_ENV=staging
+	@make rsync version image RS_ENV=staging
 
-# launch staging container, only run on staging deploy host
-# expects './staging.env' with database credentials and TIER
-staging_deploy:
-	@docker pull recordsponge/expungeservice:staging
-	@docker stop staging
-	docker run --rm -d --name staging -p --env-file staging.env -p 3032:5000 recordsponge/expungeservice:staging
+staging_push:
+	@make push RS_ENV=staging
+
+# perform staging deploy
+#
+# expects:
+#   * 'Host recordsponge' section in ~/.ssh/config
+#   * 'staging.env' with database credentials and TIER in remote home dir
+ssh_staging_deploy:
+	@ssh recordsponge -C \
+		'docker pull recordsponge/expungeservice:staging; \
+		 docker stop staging; \
+		 docker run --rm -d --name staging --env-file staging.env -p 3032:5000 recordsponge/expungeservice:staging'
+
+# build and deploy staging
+staging: staging_image staging_push ssh_staging_deploy
