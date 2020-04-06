@@ -40,7 +40,7 @@ class ChargeCreator:
             charge = from_dict(data_class=classification, data=charge_dict)
             ambiguous_charge.append(charge)
             if options:
-                options_dict[options[i]] = uid
+                options_dict[uid] = options[i]
         if question:
             ambiguous_charge_id = ambiguous_charge[0].ambiguous_charge_id
             return ambiguous_charge, Question(ambiguous_charge_id, question, options_dict)

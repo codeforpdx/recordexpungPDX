@@ -68,7 +68,7 @@ class RecordMerger:
         charge_ids = list(map(lambda c: c.id, charges))
         for question in questions:
             if question.answer:
-                not_answer_ids = [option_id for option_id in question.options.values() if option_id != question.answer]
+                not_answer_ids = [option_id for option_id in question.options.keys() if option_id != question.answer]
                 for not_answer_id in not_answer_ids:
                     if not_answer_id in charge_ids:
                         return False
