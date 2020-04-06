@@ -12,7 +12,7 @@ export default class CaseNumbersList extends React.Component<Props> {
     const listItems = this.props.cases.map(((caseNumber:string, index:number) => {
       const id = "summary_li_" + caseNumber;
       return (
-        <li className="mb2" id={id}>
+        <li className="mb2" id={id} key={id}>
           <a href={"#" + caseNumber} className="underline">{caseNumber}</a>
         </li>
         )

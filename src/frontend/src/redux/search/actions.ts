@@ -5,12 +5,39 @@ import {
   SEARCH_RECORD,
   SEARCH_RECORD_LOADING,
   SearchResponse,
-  CLEAR_RECORD
+  CLEAR_RECORD,
+  SELECT_ANSWER,
+  EDIT_ANSWER,
+  CANCEL_EDIT,
+  UPDATE_ANALYSIS,
+  QuestionEndpointData,
+  QuestionsEndpointData
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
+import {RecordData, QuestionData, QuestionsData} from '../../components/RecordSearch/Record/types'
 
-function validateResponseData(data: SearchResponse): boolean {
+function validateSearchResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('record');
+}
+
+function processReceivedQuestions(receivedQuestions: QuestionsEndpointData) : QuestionsData {
+  let processedQuestions: QuestionsData = {};
+  let processedQuestion: QuestionData;
+  let receivedQuestion: QuestionEndpointData;
+  for (const ambiguous_charge_id of Object.keys(receivedQuestions)){
+    receivedQuestion = receivedQuestions[ambiguous_charge_id]
+    processedQuestion = {
+      ambiguous_charge_id: receivedQuestion.ambiguous_charge_id,
+      question: receivedQuestion.question,
+      options: receivedQuestion.options,  //{[option: string]: string;};
+      editing: false,
+      analyzed: Boolean(receivedQuestion.answer),
+      selected_answer: receivedQuestion.answer,
+      submitted_answer: receivedQuestion.answer
+    };
+    processedQuestions[ambiguous_charge_id]=processedQuestion;
+  }
+  return processedQuestions;
 }
 
 export function searchRecord(
@@ -29,10 +56,20 @@ export function searchRecord(
       withCredentials: true
     })
       .then((response: AxiosResponse<SearchResponse>) => {
-        if (validateResponseData(response.data)) {
+        if (validateSearchResponseData(response.data)) {
+          const receivedRecord = response.data.record;
+          const questions : QuestionsData = processReceivedQuestions(receivedRecord.questions);
+          let record: RecordData = {
+             total_balance_due: receivedRecord.total_balance_due,
+             cases: receivedRecord.cases,
+             errors: receivedRecord.errors,
+             summary: receivedRecord.summary,
+             };
           dispatch({
             type: SEARCH_RECORD,
-            record: response.data.record
+            record: record,
+            questions: questions
+
           });
         } else {
           alert('Response data has unexpected format.');
@@ -48,4 +85,41 @@ export function clearRecord() {
   return {
     type: CLEAR_RECORD
   };
+}
+
+export function selectAnswer(
+  ambiguous_charge_id: string,
+  answer: string): any {
+  // when you hit a radio button, but nothing else visibly changes,
+  // update in redux because that will make it possible to send off data to the endpoint
+
+  // can either return a function that accepts a dispatch, and use the dispatch to
+  // return data objects to be handled in the reducer,
+  // or just return a data object to be handled in the reducer.
+  // in this case, just issue a data object
+
+  return {
+    type: SELECT_ANSWER,
+    ambiguous_charge_id: ambiguous_charge_id,
+    selected_answer: answer
+  }
+}
+
+export function updateAnalysis() {
+  // construct a request object with Question from redux contents,
+  // the request object has data structure QuestionEndpointData
+  // the answers sent are:
+  // whatever is in "selected", in all cases.
+  // send the disambiguate request,
+  // update the app state based on the response.
+  // for all questions that have a selected answer, switch analyzed = true.
+}
+
+export function editAnswer() {
+  // editing becomes true for that question, causing the display state (a property) to change.
+  // this only happens if the question has been analyzed
+}
+
+export function cancelEdit() {
+  // edit becomes false. the selected answer is reverted to the value of submitted answer.
 }

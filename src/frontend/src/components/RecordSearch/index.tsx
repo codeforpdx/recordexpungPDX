@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
-import { RecordData } from './Record/types';
+import { RecordData, QuestionsData } from './Record/types';
 import {
   searchRecord,
-  clearRecord
+  clearRecord,
 } from '../../redux/search/actions';
 import SearchPanel from './SearchPanel';
 import Record from './Record';
@@ -15,6 +15,7 @@ type Props = {
   searchRecord: Function;
   clearRecord: Function;
   record?: RecordData;
+  questions?: QuestionsData
 };
 
 class RecordSearch extends Component<Props> {
@@ -29,6 +30,9 @@ class RecordSearch extends Component<Props> {
   render() {
     return (
       <main className="mw8 center ph2">
+        {
+          (this.props.questions ? JSON.stringify(this.props.questions) : "no questions")
+        }
         <SearchPanel searchRecord={this.props.searchRecord} />
         {this.props.record &&
         ((this.props.record.cases &&
@@ -55,7 +59,8 @@ class RecordSearch extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    record: state.search.record
+    record: state.search.record,
+    questions: state.search.questions
   };
 };
 
@@ -63,6 +68,6 @@ export default connect(
   mapStateToProps,
   {
     searchRecord: searchRecord,
-    clearRecord: clearRecord
+    clearRecord: clearRecord,
   }
 )(RecordSearch);

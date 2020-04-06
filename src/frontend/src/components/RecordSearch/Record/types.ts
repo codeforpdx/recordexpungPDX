@@ -1,4 +1,5 @@
 export interface ChargeData {
+  ambiguous_charge_id: string;
   statute: string;
   expungement_result: any;
   name: string;
@@ -25,10 +26,11 @@ export interface CaseData {
 }
 
 export interface RecordData {
-  total_balance_Due?: number;
+  total_balance_due?: number;
   cases?: any[];
   errors?: string[];
   summary?: RecordSummaryData;
+  questions?: QuestionsData;
 }
 
 export interface RecordSummaryData {
@@ -65,4 +67,18 @@ export interface TimeEligibilityData {
 export interface ChargeEligibilityData {
   status: string;
   label: string;
+}
+
+export interface QuestionsData {
+  [ambiguous_charge_id: string] : QuestionData
+}
+
+export interface QuestionData {
+  ambiguous_charge_id: string;
+  question: string;
+  options: {[option: string]: string;};
+  editing: boolean;
+  analyzed: boolean;
+  selected_answer: string; // what the radio button is showing
+  submitted_answer: string; // the persistent value if you hit the "cancel" (editing) button
 }
