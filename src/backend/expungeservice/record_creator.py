@@ -62,7 +62,6 @@ class RecordCreator:
         
     @staticmethod
     def sort_record_by_case_date(record):
-        # sorts record's cases by date to ensure consistent sorted data for front end. 
         sortedCases = sorted(record.cases, key = lambda case: case.date, reverse = True)
         return replace(record, cases=sortedCases)
         
