@@ -44,8 +44,8 @@ class Search(MethodView):
             save_result(request_data, record)
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
-        sortedRecord = RecordCreator.sort_record_by_case_date(record)
-        record_summary = RecordSummarizer.summarize(sortedRecord, questions)
+        sorted_record = RecordCreator.sort_record_by_case_date(record)
+        record_summary = RecordSummarizer.summarize(sorted_record, questions)
         response_data = {"data": {"record": record_summary}}
         encoded_response = json.dumps(response_data, cls=ExpungeModelEncoder)
         return encoded_response
