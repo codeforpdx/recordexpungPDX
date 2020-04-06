@@ -97,34 +97,68 @@ $(REQUIREMENTS_TXT):
 
 # ---
 
+# currently, only used for PGDATABASE var in 'dropdb' target
 include config/postgres/client.env
 
+# pulls the necessary images for the local dev services
 pull:
 	docker-compose pull
 
+# pushes the dev image for the local expungeservice service
 push:
 	docker-compose push expungeservice
 
+# pulls, then fires up local dev services
 up: pull
 	docker-compose up -d
 
+# brings down local dev services
 down:
 	docker-compose down
 
+# runs database initialization scripts - run at first creation or if database
+# data volume is removed
 initdb:
 	docker-compose exec --user=postgres postgres /var/lib/postgresql/config/initdb/init-db.dev.sh
 
+# drop database
 dropdb:
 	docker-compose exec --user=postgres postgres sh -l -c "dropdb $(PGDATABASE)"
 
+# run all tests
 test: frontend_test_no_watch backend_test
 
+# recreate the backend container; n.b. does not recreate image
+backend_reload:
+	docker-compose stop expungeservice
+	docker rm recordexpungpdx_expungeservice_1
+	docker-compose up -d expungeservice
+
+# run backend tests
 backend_test:
 	docker-compose exec expungeservice pipenv run mypy
 	docker-compose exec expungeservice pipenv run pytest
 
+# run react-scripts build
+frontend_build: frontend_clean
+	docker run --rm \
+		-v `pwd`/src/frontend:/src/frontend \
+		-v recordexpungpdx_node_modules:/src/frontend/node_modules \
+		node:alpine /bin/sh -c 'cd /src/frontend && npm run build'
+
+# delete react built files
+frontend_clean:
+	rm -rf src/frontend/build/*
+
+# stop and remove the frontend container
+frontend_down:
+	docker-compose stop node
+	docker rm recordexpungpdx_node_1
+
+# run frontend tests, watching enabled (default)
 frontend_test:
 	docker-compose exec node sh -c 'cd /src/frontend && npm test'
 
+# run frontend tests without watching enabled
 frontend_test_no_watch:
 	docker-compose exec node sh -c 'cd /src/frontend && CI=true npm test'
