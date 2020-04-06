@@ -13,7 +13,7 @@ export default class RecordSummary extends React.Component<Props> {
     const {
       total_charges,
       cases_sorted,
-      eligible_charges,
+      eligible_charges_by_date,
       county_balances,
       total_balance_due,
       total_cases
@@ -24,7 +24,7 @@ export default class RecordSummary extends React.Component<Props> {
         <h2 className="mb3 f5 fw7">Search Summary</h2>
         <div className="flex-ns flex-wrap">
           <CasesSummary casesSorted={cases_sorted} totalCases={total_cases}/>
-          <ChargesList eligibleCharges={eligible_charges} totalCharges={total_charges}/>
+          <ChargesList eligibleChargesByDate={eligible_charges_by_date} totalCharges={total_charges}/>
           <CountyBalances totalBalance = {total_balance_due} balances={county_balances}/>
         </div>
       </div>

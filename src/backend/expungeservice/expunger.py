@@ -61,7 +61,7 @@ class Expunger:
                     eligibility_dates.append(
                         (
                             probation_revoked_date + relativedelta(years=10),
-                            "Time-ineligible under 137.225(1)(c). Inspect further if the case has multiple convictions on the case.",
+                            "Time-ineligible under 137.225(1)(c) (Probation Revoked). Inspect further if the case has multiple convictions on the case.",
                         )
                     )
 

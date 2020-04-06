@@ -14,7 +14,7 @@ class RecordCreator:
     @staticmethod
     def build_record(
         username: str, password: str, aliases: List[Dict[str, str]]
-    ) -> Tuple[Record, AmbiguousRecord, List[Question]]:
+    ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
         ambiguous_cases_accumulator: List[AmbiguousCase] = []
         questions_accumulator: List[Question] = []
         errors = []
@@ -46,8 +46,9 @@ class RecordCreator:
                 ]
                 ambiguous_record.append(Record(cases_with_unique_case_number))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-        return record, ambiguous_record, questions_accumulator
-        
+        questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_accumulator)))
+        return record, ambiguous_record, questions_as_dict
+
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
         charge_id_to_time_eligibilities = []

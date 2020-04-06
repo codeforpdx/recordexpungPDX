@@ -57,14 +57,19 @@ DUII_SEARCH_RESPONSE = {
                 }
             ],
             "errors": [],
-            "questions": [
-                {
+            "questions": {
+                "CASEJD1-1": {
                     "ambiguous_charge_id": "CASEJD1-1",
                     "answer": "",
                     "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                    "question": "Was the charge dismissed pursuant to a court-ordered diversion program?",
+                    "question": "Was the charge "
+                    "dismissed "
+                    "pursuant to a "
+                    "court-ordered "
+                    "diversion "
+                    "program?",
                 }
-            ],
+            },
             "summary": {
                 "cases_sorted": {
                     "fully_eligible": [],
@@ -73,7 +78,7 @@ DUII_SEARCH_RESPONSE = {
                     "partially_eligible": [],
                 },
                 "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-                "eligible_charges": [],
+                "eligible_charges_by_date": [["now", []]],
                 "total_balance_due": 0.0,
                 "total_cases": 1,
                 "total_charges": 1,
@@ -129,14 +134,19 @@ DIVERTED_RESPONSE = {
                 }
             ],
             "errors": [],
-            "questions": [
-                {
+            "questions": {
+                "CASEJD1-1": {
                     "ambiguous_charge_id": "CASEJD1-1",
                     "answer": "CASEJD1-1-0",
                     "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                    "question": "Was the charge dismissed pursuant to a court-ordered diversion program?",
+                    "question": "Was the charge "
+                    "dismissed "
+                    "pursuant to a "
+                    "court-ordered "
+                    "diversion "
+                    "program?",
                 }
-            ],
+            },
             "summary": {
                 "cases_sorted": {
                     "fully_eligible": [],
@@ -145,7 +155,7 @@ DIVERTED_RESPONSE = {
                     "partially_eligible": [],
                 },
                 "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-                "eligible_charges": [],
+                "eligible_charges_by_date": [["now", []]],
                 "total_balance_due": 0.0,
                 "total_cases": 1,
                 "total_charges": 1,
@@ -173,14 +183,14 @@ def test_disambiguate_endpoint_with_no_answers(record_with_single_duii):
 
 def test_disambiguate_endpoint_with_diverted_answer(record_with_single_duii):
     ambiguous_record = record_with_single_duii[1]
-    answers = [
-        Question(
+    answers = {
+        "CASEJD1-1": Question(
             ambiguous_charge_id="CASEJD1-1",
             question="Was the charge dismissed pursuant to a court-ordered diversion program?",
             options={"Yes": "CASEJD1-1-0", "No": "CASEJD1-1-1"},
             answer="CASEJD1-1-0",
         )
-    ]
+    }
     questions = json.loads(json.dumps(answers))
     response = Disambiguate.build_response(ambiguous_record, questions)
     response_as_dict = json.loads(response)

@@ -58,17 +58,18 @@ class Disambiguate(MethodView):
         if ambiguous_record_data:
             ambiguous_record = pickle.loads(ambiguous_record_data)
             request_data = request.get_json()
-            questions_list = request_data.get("questions")
-            return Disambiguate.build_response(ambiguous_record, questions_list)
+            questions = request_data.get("questions")
+            return Disambiguate.build_response(ambiguous_record, questions)
         else:
             error(428, "Must hit the search endpoint with question generating records first.")
 
     @staticmethod
-    def build_response(ambiguous_record: AmbiguousRecord, questions_list: List[Dict[str, Any]]):
-        questions = [from_dict(data_class=Question, data=question) for question in questions_list]
+    def build_response(ambiguous_record: AmbiguousRecord, questions_data: Dict[str, Any]):
+        questions = [from_dict(data_class=Question, data=question) for id, question in questions_data.items()]
+        questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
         updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions)
         record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
-        record_summary = RecordSummarizer.summarize(record, questions)
+        record_summary = RecordSummarizer.summarize(record, questions_as_dict)
         response_data = {"data": {"record": record_summary}}
         return json.dumps(response_data, cls=ExpungeModelEncoder)
 

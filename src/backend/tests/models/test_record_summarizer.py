@@ -65,7 +65,7 @@ def test_record_summarizer_multiple_cases():
     expunger = Expunger(record)
     expunger_result = expunger.run()
     merged_record = RecordMerger.merge([record], [expunger_result])
-    record_summary = RecordSummarizer.summarize(merged_record, [])
+    record_summary = RecordSummarizer.summarize(merged_record, {})
 
     assert record_summary.total_balance_due == 1000.00
     assert record_summary.total_cases == 5
@@ -85,7 +85,7 @@ def test_record_summarizer_multiple_cases():
 
 def test_record_summarizer_no_cases():
     record = Record([])
-    record_summary = RecordSummarizer.summarize(record, [])
+    record_summary = RecordSummarizer.summarize(record, {})
 
     assert record_summary.total_balance_due == 0.00
     assert record_summary.total_cases == 0
@@ -95,4 +95,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.cases_sorted["partially_eligible"] == []
     assert record_summary.cases_sorted["other"] == []
     assert record_summary.county_balances == []
-    assert record_summary.eligible_charges == []
+    assert record_summary.eligible_charges_by_date == [("now", [])]

@@ -9,7 +9,7 @@ from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
-from expungeservice.models.charge_types.traffic_non_violation import TrafficNonViolation
+from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
@@ -111,7 +111,7 @@ class ChargeClassifier:
     @staticmethod
     def _manufacture_delivery(name, level, statute):
         if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
-            if "2" in name:
+            if "2" in name or "heroin" in name or "cocaine" in name or "meth" in name:
                 if level == "Felony Unclassified":
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
@@ -196,7 +196,7 @@ class ChargeClassifier:
                     if ChargeClassifier._is_dimissed(disposition):
                         return AmbiguousChargeTypeWithQuestion([DismissedCharge])
                     else:
-                        return AmbiguousChargeTypeWithQuestion([TrafficNonViolation])
+                        return AmbiguousChargeTypeWithQuestion([TrafficOffense])
                 else:
                     return AmbiguousChargeTypeWithQuestion([TrafficViolation])
 
@@ -213,7 +213,7 @@ class ChargeClassifier:
                 return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif statute.isdigit() and int(statute) in statute_range:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
-        elif "fugitive complaint" in name:
+        elif "fugitive" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
 
     @staticmethod
@@ -236,11 +236,16 @@ class ChargeClassifier:
         if statute in SexCrime.statutes:
             return AmbiguousChargeTypeWithQuestion([SexCrime])
         elif statute in SexCrime.romeo_and_juliet_exceptions:
-            question_string = "TODO: FIXME: Is this charge eligible?"
-            options = ["TODO 1", "TODO 2"]
+            question_string = """
+            Select "Yes" if ALL of the following are true:
+            1. The victim's lack of consent was solely due to age (statutory rape) AND
+            2. The victim was at least twelve years old at the time of the act AND
+            3. You were no more than nineteen years old at the time of the act
+            """
+            options = ["Yes", "No"]
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
             return AmbiguousChargeTypeWithQuestion(
-                [RomeoAndJulietIneligibleSexCrime] + charge_type_by_level, question_string, options
+                charge_type_by_level + [RomeoAndJulietIneligibleSexCrime], question_string, options
             )
 
     # TODO: Deduplicate with charge.dismissed()
