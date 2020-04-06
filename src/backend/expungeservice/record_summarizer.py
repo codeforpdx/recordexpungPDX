@@ -1,7 +1,8 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record import Record, Question
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
-from typing import Dict, List
+from typing import Dict, List, Tuple
+from datetime import date
 
 
 class RecordSummarizer:
@@ -54,16 +55,28 @@ class RecordSummarizer:
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
-        eligible_charges = [
+        eligible_charges_now = [
             c.name
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
         ]
+        eligible_charges_by_date : List[Tuple[str, List[str]]] = [("now",eligible_charges_now)]
+        will_be_eligible_charges : Dict[date, List[str]] = {}
+        for charge in record.charges:
+            if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
+                date_eligible = charge.expungement_result.time_eligibility.date_will_be_eligible
+                charge_short_name = charge.name.split("(")[0]
+                if will_be_eligible_charges.get(date_eligible):
+                    will_be_eligible_charges[date_eligible].append(charge_short_name)
+                else:
+                    will_be_eligible_charges[date_eligible] = [charge_short_name]
+        for date_value in sorted(will_be_eligible_charges):
+            eligible_charges_by_date.append((date_value.strftime('%b %-d, %Y'), will_be_eligible_charges[date_value]))
         return RecordSummary(
             record=record,
             questions=questions,
             cases_sorted=cases_sorted,
-            eligible_charges=eligible_charges,
+            eligible_charges_by_date=eligible_charges_by_date,
             total_charges=total_charges,
             county_balances=county_balances_list,
         )

@@ -95,4 +95,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.cases_sorted["partially_eligible"] == []
     assert record_summary.cases_sorted["other"] == []
     assert record_summary.county_balances == []
-    assert record_summary.eligible_charges == []
+    assert record_summary.eligible_charges_by_date == [("now", [])]
