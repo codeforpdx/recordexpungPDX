@@ -13,7 +13,7 @@ class CountyBalance:
 @dataclass
 class RecordSummary:
     record: Record
-    questions: List[Question]
+    questions: Dict[str, Question]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
     eligible_charges_by_date: List[Tuple[str, List[str]]]
