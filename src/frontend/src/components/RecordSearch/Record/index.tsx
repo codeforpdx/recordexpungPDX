@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default class Record extends React.Component<Props> {
+
   render() {
     const errors = ( this.props.record.errors ?
       this.props.record.errors.map(((errorMessage: string, errorIndex: number) => {
@@ -17,12 +18,12 @@ export default class Record extends React.Component<Props> {
         const errorMessageHTML = errorMessageArray.map(function (element) {
           if (element.match(/^\[.*\]$/)) {
               const caseNumber = element.slice(1, -1);
-              return <a className="underline" href={"#" + caseNumber}>{caseNumber}</a>;
+              return <a className="underline" href={"#" + caseNumber} key={caseNumber}>{caseNumber}</a>;
           } else {
               return element;
           }
         });
-        return <p role="status" id={id} className="bg-washed-red mv3 pa3 br3 fw6">
+        return <p role="status" id={id} key={id} className="bg-washed-red mv3 pa3 br3 fw6">
                   {errorMessageHTML}
                </p>
         }

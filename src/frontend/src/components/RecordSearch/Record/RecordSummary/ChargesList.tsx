@@ -13,14 +13,14 @@ export default class ChargesList extends React.Component<Props> {
       const listItems = this.buildListItems(chargesNames);
       const labelColor = (eligibilityDate==="now" ? "green" : "dark-blue");
       return (
-        <>
-          <div key={index} className="mb1">
+        <div key={index}>
+          <div className="mb1">
             <span className={"fw8 mb2 " + labelColor}> {"Eligible " + eligibilityDate} </span> <span className="fw8">{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
           </div>
           <ul className="list mb3">
            {listItems}
           </ul>
-        </>
+        </div>
       )
     }));
 
