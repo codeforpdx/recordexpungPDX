@@ -46,7 +46,7 @@ class Search(MethodView):
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
 
         record_summary = RecordSummarizer.summarize(record, questions)
-        response_data = {"data": {"record": record_summary}}
+        response_data = {"record": record_summary}
         encoded_response = json.dumps(response_data, cls=ExpungeModelEncoder)
         return encoded_response
 
@@ -70,7 +70,7 @@ class Disambiguate(MethodView):
         updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions)
         record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
         record_summary = RecordSummarizer.summarize(record, questions_as_dict)
-        response_data = {"data": {"record": record_summary}}
+        response_data = {"record": record_summary}
         return json.dumps(response_data, cls=ExpungeModelEncoder)
 
 

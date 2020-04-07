@@ -1,14 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { AppState } from '../../../redux/store';
-import { SystemState } from '../../../redux/system/types';
 import { AliasData, AliasFieldNames } from './types';
 import moment from 'moment';
 import Alias from './Alias';
 
 interface Props {
-  system: SystemState;
-  fetchRecord: Function;
+  searchRecord: Function;
 }
 
 interface State {
@@ -17,7 +13,7 @@ interface State {
   invalidDate: boolean;
 }
 
-class SearchPanel extends React.Component<Props, State> {
+export default class SearchPanel extends React.Component<Props, State> {
   state: State = {
     aliases: [
       {
@@ -38,7 +34,7 @@ class SearchPanel extends React.Component<Props, State> {
         !this.state.missingInputs &&
         !this.state.invalidDate
       ) {
-        this.props.fetchRecord( this.state.aliases);
+        this.props.searchRecord( this.state.aliases);
       }
     });
   };
@@ -99,7 +95,7 @@ class SearchPanel extends React.Component<Props, State> {
     const aliasComponents = this.state.aliases.map((alias: AliasData, i) => {
       const separator = ( i > 0 ? <hr className="bb b--black-05 mt2 mt3-ns mb3 mb4-ns" /> : null );
       return (
-        <>
+        <div key={i}>
         {separator}
         <Alias
           ind={i}
@@ -115,9 +111,8 @@ class SearchPanel extends React.Component<Props, State> {
             }
           }
           hideRemoveButton={this.state.aliases.length === 1}
-          key={"alias" + i}
         />
-        </>
+        </div>
       );
     });
     return (
@@ -159,9 +154,3 @@ class SearchPanel extends React.Component<Props, State> {
     );
   }
 }
-
-const mapStateToProps = (state: AppState) => ({
-  system: state.system
-});
-
-export default connect(mapStateToProps)(SearchPanel);

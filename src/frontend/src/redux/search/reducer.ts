@@ -10,7 +10,7 @@ const initalState: SearchRecordState = {
   loading: false
 };
 
-export function recordReducer(
+export function searchReducer(
   state = initalState,
   action: SearchRecordActionType
 ): SearchRecordState {
@@ -20,7 +20,7 @@ export function recordReducer(
       // action. We ignore existing cases and do not
       // necessarily include them in the new state. This
       // is a "destructive update".
-      return { ...state, record: action.search_record, loading: false };
+      return { ...state, record: action.record, loading: false };
     case SEARCH_RECORD_LOADING:
       // When an API call is made for a record, loading state is toggled to true.
       // while loading state is true, a spinner is rendered on the screen. If loading

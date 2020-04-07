@@ -10,7 +10,7 @@ import {
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 
 function validateResponseData(data: SearchResponse): boolean {
-  return data.hasOwnProperty('data') && data.data.hasOwnProperty('record');
+  return data.hasOwnProperty('record');
 }
 
 export function searchRecord(
@@ -32,7 +32,7 @@ export function searchRecord(
         if (validateResponseData(response.data)) {
           dispatch({
             type: SEARCH_RECORD,
-            search_record: response.data.data.record
+            record: response.data.record
           });
         } else {
           alert('Response data has unexpected format.');

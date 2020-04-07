@@ -82,7 +82,7 @@ def test_search(service, monkeypatch):
 
     response = service.client.post("/api/search", json=service.search_request_data)
     assert response.status_code == 200
-    data = json.loads(response.data)["data"]
+    data = json.loads(response.data)
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
@@ -115,7 +115,7 @@ def test_search_creates_save_results(service, monkeypatch):
     response = service.client.post("/api/search", json=service.search_request_data)
 
     assert response.status_code == 200
-    data = json.loads(response.data)["data"]
+    data = json.loads(response.data)
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
@@ -144,6 +144,6 @@ def test_search_with_failing_save_results(service, monkeypatch):
     response = service.client.post("/api/search", json=service.search_request_data)
 
     assert response.status_code == 200
-    data = json.loads(response.data)["data"]
+    data = json.loads(response.data)
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])

@@ -8,160 +8,157 @@ from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 
 DUII_SEARCH_RESPONSE = {
-    "data": {
-        "record": {
-            "cases": [
-                {
-                    "balance_due": 0.0,
-                    "birth_year": 1969,
-                    "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=CASEJD1",
-                    "case_number": "CASEJD1",
-                    "charges": [
-                        {
-                            "ambiguous_charge_id": "CASEJD1-1",
-                            "date": "Nov 7, 1997",
-                            "disposition": {
-                                "amended": False,
-                                "date": "Nov 10, 1997",
-                                "ruling": "Dismissed",
-                                "status": "Dismissed",
+    "record": {
+        "cases": [
+            {
+                "balance_due": 0.0,
+                "birth_year": 1969,
+                "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=CASEJD1",
+                "case_number": "CASEJD1",
+                "charges": [
+                    {
+                        "ambiguous_charge_id": "CASEJD1-1",
+                        "date": "Nov 7, 1997",
+                        "disposition": {
+                            "amended": False,
+                            "date": "Nov 10, 1997",
+                            "ruling": "Dismissed",
+                            "status": "Dismissed",
+                        },
+                        "expungement_result": {
+                            "charge_eligibility": {
+                                "label": "Possibly Eligible Now (review)",
+                                "status": "Possibly eligible",
                             },
-                            "expungement_result": {
-                                "charge_eligibility": {
-                                    "label": "Possibly Eligible Now (review)",
-                                    "status": "Possibly eligible",
-                                },
-                                "time_eligibility": {
-                                    "date_will_be_eligible": "Dec 31, 9999",
-                                    "reason": "Never. Type ineligible charges are always time ineligible. ⬥ Eligible now",
-                                    "status": "Ineligible",
-                                },
-                                "type_eligibility": {
-                                    "reason": "137.225(8)(b) - Diverted DUIIs are ineligible ⬥ Dismissals are generally eligible under 137.225(1)(b)",
-                                    "status": "Needs more analysis",
-                                },
+                            "time_eligibility": {
+                                "date_will_be_eligible": "Dec 31, 9999",
+                                "reason": "Never. Type ineligible charges are always time ineligible. ⬥ Eligible now",
+                                "status": "Ineligible",
                             },
-                            "level": "Misdemeanor Class A",
-                            "name": "DUII",
-                            "statute": "813010",
-                            "type_name": "Diverted DUII ⬥ Dismissed Criminal Charge",
-                        }
-                    ],
-                    "citation_number": "CASEJD1",
-                    "current_status": "Closed",
-                    "date": "Sep 5, 2008",
-                    "location": "Multnomah",
-                    "name": "DOE, JOHN",
-                    "probation_revoked": None,
-                    "violation_type": "Misdemeanor",
-                }
-            ],
-            "errors": [],
-            "questions": {
-                "CASEJD1-1": {
-                    "ambiguous_charge_id": "CASEJD1-1",
-                    "answer": "",
-                    "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                    "question": "Was the charge "
-                    "dismissed "
-                    "pursuant to a "
-                    "court-ordered "
-                    "diversion "
-                    "program?",
-                }
+                            "type_eligibility": {
+                                "reason": "137.225(8)(b) - Diverted DUIIs are ineligible ⬥ Dismissals are generally eligible under 137.225(1)(b)",
+                                "status": "Needs more analysis",
+                            },
+                        },
+                        "level": "Misdemeanor Class A",
+                        "name": "DUII",
+                        "statute": "813010",
+                        "type_name": "Diverted DUII ⬥ Dismissed Criminal Charge",
+                    }
+                ],
+                "citation_number": "CASEJD1",
+                "current_status": "Closed",
+                "date": "Sep 5, 2008",
+                "location": "Multnomah",
+                "name": "DOE, JOHN",
+                "probation_revoked": None,
+                "violation_type": "Misdemeanor",
+            }
+        ],
+        "errors": [],
+        "questions": {
+            "CASEJD1-1": {
+                "ambiguous_charge_id": "CASEJD1-1",
+                "answer": "",
+                "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
+                "question": "Was the charge "
+                "dismissed "
+                "pursuant to a "
+                "court-ordered "
+                "diversion "
+                "program?",
+            }
+        },
+        "summary": {
+            "cases_sorted": {
+                "fully_eligible": [],
+                "fully_ineligible": [],
+                "other": ["CASEJD1"],
+                "partially_eligible": [],
             },
-            "summary": {
-                "cases_sorted": {
-                    "fully_eligible": [],
-                    "fully_ineligible": [],
-                    "other": ["CASEJD1"],
-                    "partially_eligible": [],
-                },
-                "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-                "eligible_charges_by_date": [["now", []]],
-                "total_balance_due": 0.0,
-                "total_cases": 1,
-                "total_charges": 1,
-            },
+            "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
+            "eligible_charges_by_date": [["now", []]],
             "total_balance_due": 0.0,
-        }
+            "total_cases": 1,
+            "total_charges": 1,
+        },
+        "total_balance_due": 0.0,
     }
 }
+
 DIVERTED_RESPONSE = {
-    "data": {
-        "record": {
-            "cases": [
-                {
-                    "balance_due": 0.0,
-                    "birth_year": 1969,
-                    "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=CASEJD1",
-                    "case_number": "CASEJD1",
-                    "charges": [
-                        {
-                            "ambiguous_charge_id": "CASEJD1-1",
-                            "date": "Nov 7, 1997",
-                            "disposition": {
-                                "amended": False,
-                                "date": "Nov 10, 1997",
-                                "ruling": "Dismissed",
-                                "status": "Dismissed",
+    "record": {
+        "cases": [
+            {
+                "balance_due": 0.0,
+                "birth_year": 1969,
+                "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=CASEJD1",
+                "case_number": "CASEJD1",
+                "charges": [
+                    {
+                        "ambiguous_charge_id": "CASEJD1-1",
+                        "date": "Nov 7, 1997",
+                        "disposition": {
+                            "amended": False,
+                            "date": "Nov 10, 1997",
+                            "ruling": "Dismissed",
+                            "status": "Dismissed",
+                        },
+                        "expungement_result": {
+                            "charge_eligibility": {"label": "Ineligible", "status": "Ineligible"},
+                            "time_eligibility": {
+                                "date_will_be_eligible": "Dec 31, 9999",
+                                "reason": "Never. Type ineligible charges are always time ineligible.",
+                                "status": "Ineligible",
                             },
-                            "expungement_result": {
-                                "charge_eligibility": {"label": "Ineligible", "status": "Ineligible"},
-                                "time_eligibility": {
-                                    "date_will_be_eligible": "Dec 31, 9999",
-                                    "reason": "Never. Type ineligible charges are always time ineligible.",
-                                    "status": "Ineligible",
-                                },
-                                "type_eligibility": {
-                                    "reason": "137.225(8)(b) - Diverted DUIIs are ineligible",
-                                    "status": "Ineligible",
-                                },
+                            "type_eligibility": {
+                                "reason": "137.225(8)(b) - Diverted DUIIs are ineligible",
+                                "status": "Ineligible",
                             },
-                            "level": "Misdemeanor Class A",
-                            "name": "DUII",
-                            "statute": "813010",
-                            "type_name": "Diverted DUII",
-                        }
-                    ],
-                    "citation_number": "CASEJD1",
-                    "current_status": "Closed",
-                    "date": "Sep 5, 2008",
-                    "location": "Multnomah",
-                    "name": "DOE, JOHN",
-                    "probation_revoked": None,
-                    "violation_type": "Misdemeanor",
-                }
-            ],
-            "errors": [],
-            "questions": {
-                "CASEJD1-1": {
-                    "ambiguous_charge_id": "CASEJD1-1",
-                    "answer": "CASEJD1-1-0",
-                    "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                    "question": "Was the charge "
-                    "dismissed "
-                    "pursuant to a "
-                    "court-ordered "
-                    "diversion "
-                    "program?",
-                }
+                        },
+                        "level": "Misdemeanor Class A",
+                        "name": "DUII",
+                        "statute": "813010",
+                        "type_name": "Diverted DUII",
+                    }
+                ],
+                "citation_number": "CASEJD1",
+                "current_status": "Closed",
+                "date": "Sep 5, 2008",
+                "location": "Multnomah",
+                "name": "DOE, JOHN",
+                "probation_revoked": None,
+                "violation_type": "Misdemeanor",
+            }
+        ],
+        "errors": [],
+        "questions": {
+            "CASEJD1-1": {
+                "ambiguous_charge_id": "CASEJD1-1",
+                "answer": "CASEJD1-1-0",
+                "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
+                "question": "Was the charge "
+                "dismissed "
+                "pursuant to a "
+                "court-ordered "
+                "diversion "
+                "program?",
+            }
+        },
+        "summary": {
+            "cases_sorted": {
+                "fully_eligible": [],
+                "fully_ineligible": ["CASEJD1"],
+                "other": [],
+                "partially_eligible": [],
             },
-            "summary": {
-                "cases_sorted": {
-                    "fully_eligible": [],
-                    "fully_ineligible": ["CASEJD1"],
-                    "other": [],
-                    "partially_eligible": [],
-                },
-                "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-                "eligible_charges_by_date": [["now", []]],
-                "total_balance_due": 0.0,
-                "total_cases": 1,
-                "total_charges": 1,
-            },
+            "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
+            "eligible_charges_by_date": [["now", []]],
             "total_balance_due": 0.0,
-        }
+            "total_cases": 1,
+            "total_charges": 1,
+        },
+        "total_balance_due": 0.0,
     }
 }
 

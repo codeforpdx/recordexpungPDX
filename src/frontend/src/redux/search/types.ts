@@ -1,15 +1,12 @@
 import {RecordData} from '../../components/RecordSearch/Record/types'
 
-export interface RecordWrapper {
-  record: RecordData;
-}
 export interface SearchResponse {
-  data: RecordWrapper;
+  record: RecordData;
 }
 
 // These constants are used as the 'type' field in Redux actions.
-export const SEARCH_RECORD = 'LOAD_SEARCH_RECORD';
-export const SEARCH_RECORD_LOADING = 'LOAD_SEARCH_RECORD_LOADING';
+export const SEARCH_RECORD = 'SEARCH_RECORD';
+export const SEARCH_RECORD_LOADING = 'SEARCH_RECORD_LOADING';
 export const CLEAR_RECORD = 'CLEAR_RECORD';
 
 export interface SearchRecordState {
@@ -22,7 +19,7 @@ interface SearchRecordAction {
     | typeof SEARCH_RECORD
     | typeof SEARCH_RECORD_LOADING
     | typeof CLEAR_RECORD;
-  search_record: RecordData;
+  record: RecordData;
 }
 
 // Add other Action types here like so:
