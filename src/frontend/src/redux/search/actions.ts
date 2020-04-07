@@ -16,6 +16,27 @@ import {
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData, QuestionData, QuestionsData} from '../../components/RecordSearch/Record/types'
 
+function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
+  if (validateSearchResponseData(data)) {
+    const receivedRecord = data.record;
+    const questions : QuestionsData = processReceivedQuestions(receivedRecord.questions);
+    let record: RecordData = {
+       total_balance_due: receivedRecord.total_balance_due,
+       cases: receivedRecord.cases,
+       errors: receivedRecord.errors,
+       summary: receivedRecord.summary,
+       };
+    dispatch({
+      type: SEARCH_RECORD,
+      record: record,
+      questions: questions
+
+    });
+  } else {
+  alert('Response data has unexpected format.');
+  }
+}
+
 function validateSearchResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('record');
 }
@@ -40,6 +61,23 @@ function processReceivedQuestions(receivedQuestions: QuestionsEndpointData) : Qu
   return processedQuestions;
 }
 
+/*function prepareDisambiguatingQuestions() : QuestionsEndpointData {
+  // ignore flags for editing, analyzed, submitted_answer
+  // but assemble the data object containing:
+  //   ambiguous_charge_id: string;
+  //   question : string;
+  //   options: {[option: string]: string;};
+  //   answer = selected_answer: string;
+//
+  }
+}*/
+
+export function disambiguateRecord() {
+  // const questions : QuestionsEndpointData = prepareDisambiguatingQuestions();
+  //return (dispatch: Dispatch)
+
+  // receive the record and questions and handle them identically to what search call is doing
+}
 export function searchRecord(
   aliases: AliasData[]
 ): any {
@@ -56,24 +94,7 @@ export function searchRecord(
       withCredentials: true
     })
       .then((response: AxiosResponse<SearchResponse>) => {
-        if (validateSearchResponseData(response.data)) {
-          const receivedRecord = response.data.record;
-          const questions : QuestionsData = processReceivedQuestions(receivedRecord.questions);
-          let record: RecordData = {
-             total_balance_due: receivedRecord.total_balance_due,
-             cases: receivedRecord.cases,
-             errors: receivedRecord.errors,
-             summary: receivedRecord.summary,
-             };
-          dispatch({
-            type: SEARCH_RECORD,
-            record: record,
-            questions: questions
-
-          });
-        } else {
-          alert('Response data has unexpected format.');
-        }
+        storeSearchResponse(response.data, dispatch)
       })
       .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
