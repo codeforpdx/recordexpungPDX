@@ -61,7 +61,7 @@ class SexCrime(Charge):
 
 @dataclass
 class RomeoAndJulietNMASexCrime(Charge):
-    type_name: str = "163A.140(1) related sex crime"
+    type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""Please contact michael@qiu-qiulaw.com for manual analysis.""")
 
     def _type_eligibility(self):
@@ -70,17 +70,19 @@ class RomeoAndJulietNMASexCrime(Charge):
         elif self.convicted():
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE,
-                reason="Possibly meets requirements under 163A.140(1) - please contact michael@qiu-qiulaw.com for manual analysis",
+                reason="Possibly meets requirements under 137.225(6)(f) - Contact email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis",
             )
 
 
 @dataclass
 class RomeoAndJulietIneligibleSexCrime(Charge):
-    type_name: str = "163A.140(1) related sex crime"
+    type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""TODO""")
 
     def _type_eligibility(self):
         if self.dismissed():
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Fails to meet requirements under 163A.140(1)")
+            return TypeEligibility(
+                EligibilityStatus.INELIGIBLE, reason="Fails to meet requirements under 137.225(6)(f)"
+            )
