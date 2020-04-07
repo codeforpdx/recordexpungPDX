@@ -70,7 +70,7 @@ class RomeoAndJulietNMASexCrime(Charge):
         elif self.convicted():
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE,
-                reason="Possibly meets requirements under 137.225(6)(f) - Contact email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis",
+                reason="Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis",
             )
 
 
