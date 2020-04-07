@@ -21,7 +21,11 @@ from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
-from expungeservice.models.charge_types.sex_crimes import SexCrime, RomeoAndJulietIneligibleSexCrime
+from expungeservice.models.charge_types.sex_crimes import (
+    SexCrime,
+    RomeoAndJulietIneligibleSexCrime,
+    RomeoAndJulietNMASexCrime,
+)
 from expungeservice.models.disposition import DispositionStatus, Disposition
 
 
@@ -81,7 +85,7 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._marijuana_eligible(section, name)
         yield ChargeClassifier._manufacture_delivery(name, level, statute)
-        yield ChargeClassifier._sex_crime(level, statute)
+        yield ChargeClassifier._sex_crime(statute)
 
     @staticmethod
     def _classification_by_level(level, statute):
@@ -232,20 +236,19 @@ class ChargeClassifier:
         ]
 
     @staticmethod
-    def _sex_crime(level, statute):
+    def _sex_crime(statute):
         if statute in SexCrime.statutes:
             return AmbiguousChargeTypeWithQuestion([SexCrime])
         elif statute in SexCrime.romeo_and_juliet_exceptions:
             question_string = """
             Select "Yes" if ALL of the following are true:
             1. The victim's lack of consent was solely due to age (statutory rape) AND
-            2. The victim was at least twelve years old at the time of the act AND
-            3. You were no more than nineteen years old at the time of the act
+            2. You were under 23 years old when the act occurred AND
+            3. The victim was less than five years younger than you when the act occurred
             """
-            options = ["Yes", "No"]
-            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
+            options = ["Yes (Rare, contact michael@qiu-qiulaw.com)", "No"]
             return AmbiguousChargeTypeWithQuestion(
-                charge_type_by_level + [RomeoAndJulietIneligibleSexCrime], question_string, options
+                [RomeoAndJulietNMASexCrime, RomeoAndJulietIneligibleSexCrime], question_string, options
             )
 
     # TODO: Deduplicate with charge.dismissed()

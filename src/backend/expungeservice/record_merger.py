@@ -6,6 +6,7 @@ from more_itertools import flatten, unique_everseen
 
 from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.charge import Charge
+from expungeservice.models.charge_types.sex_crimes import RomeoAndJulietNMASexCrime
 from expungeservice.models.expungement_result import (
     TimeEligibility,
     ExpungementResult,
@@ -37,10 +38,11 @@ class RecordMerger:
             for charge in case.charges:
                 time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(charge.ambiguous_charge_id)
                 same_charges = list(filter(lambda c: c.ambiguous_charge_id == charge.ambiguous_charge_id, charges))
+                romeo_and_juliet_exception = RecordMerger._is_romeo_and_juliet_exception(same_charges)
                 merged_type_eligibility = RecordMerger.merge_type_eligibilities(same_charges)
                 merged_time_eligibility = RecordMerger.merge_time_eligibilities(time_eligibilities)
                 charge_eligibility = RecordMerger.compute_charge_eligibility(
-                    merged_type_eligibility, time_eligibilities
+                    merged_type_eligibility, time_eligibilities, romeo_and_juliet_exception
                 )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
@@ -111,9 +113,13 @@ class RecordMerger:
     # TODO: Think about if it is possible for a NEEDS_MORE_ANALYSIS type eligibility charge to have no disposition and handle.
     @staticmethod
     def compute_charge_eligibility(
-        type_eligibility: TypeEligibility, time_eligibilities: Optional[List[TimeEligibility]]
+        type_eligibility: TypeEligibility,
+        time_eligibilities: Optional[List[TimeEligibility]],
+        romeo_and_juliet_exception: bool = False,
     ) -> ChargeEligibility:
-        if type_eligibility.status == EligibilityStatus.INELIGIBLE:
+        if romeo_and_juliet_exception:
+            return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, "Possibly Eligible")
+        elif type_eligibility.status == EligibilityStatus.INELIGIBLE:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
             return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing")
@@ -165,3 +171,10 @@ class RecordMerger:
                 return ChargeEligibility(ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible {eligible_date_string}")
         else:
             raise ValueError("Either all, some, or no time eligibilities will have an eligibility date of date.max.")
+
+    @staticmethod
+    def _is_romeo_and_juliet_exception(same_charges: List[Charge]) -> bool:
+        for charge in same_charges:
+            if isinstance(charge, RomeoAndJulietNMASexCrime):
+                return True
+        return False
