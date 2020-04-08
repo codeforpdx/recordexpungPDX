@@ -78,8 +78,8 @@ def test_record_summarizer_multiple_cases():
     record = Record(
         [case_all_eligible, case_partially_eligible, case_possibly_eligible, case_all_ineligible, case_all_ineligible_2]
     )
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
+
     merged_record = RecordMerger.merge([record], [expunger_result])
     record_summary = RecordSummarizer.summarize(merged_record, {})
 

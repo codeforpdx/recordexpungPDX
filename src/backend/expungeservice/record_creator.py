@@ -1,3 +1,4 @@
+from dataclasses import replace
 from itertools import product, groupby
 from typing import List, Dict, Tuple
 
@@ -51,10 +52,11 @@ class RecordCreator:
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
         charge_id_to_time_eligibilities = []
+        ambiguous_record_with_errors = []
         for record in ambiguous_record:
-            record.errors += ErrorChecker.check(record)  # TODO: Fix mutation
-            expunger = Expunger(record)
-            charge_id_to_time_eligibility = expunger.run()
+            record_with_errors = replace(record, errors=ErrorChecker.check(record))
+            charge_id_to_time_eligibility = Expunger.run(record_with_errors)
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-        record = RecordMerger.merge(ambiguous_record, charge_id_to_time_eligibilities)
+            ambiguous_record_with_errors.append(record_with_errors)
+        record = RecordMerger.merge(ambiguous_record_with_errors, charge_id_to_time_eligibilities)
         return record

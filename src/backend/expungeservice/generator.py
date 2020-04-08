@@ -62,6 +62,4 @@ def build_record_strategy(min_cases_size=0, min_charges_size=0) -> SearchStrateg
 def build_record() -> Record:
     record_strategy = build_record_strategy(min_cases_size=10, min_charges_size=1)
     record = record_strategy.example()
-    expunger = Expunger(record)
-    expunger.run()
     return record

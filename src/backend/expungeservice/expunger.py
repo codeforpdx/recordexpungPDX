@@ -1,3 +1,4 @@
+from dataclasses import replace
 from datetime import date
 from typing import Set, List, Iterator, Tuple, Dict
 
@@ -14,19 +15,17 @@ from expungeservice.models.record import Record
 
 
 class Expunger:
-    def __init__(self, record: Record):
-        self.record = record
-        self.analyzable_charges = Expunger._without_skippable_charges(self.record.charges)
-
-    def run(self) -> Dict[str, TimeEligibility]:
+    @staticmethod
+    def run(record: Record) -> Dict[str, TimeEligibility]:
         """
         Evaluates the expungement eligibility of a record.
         """
+        analyzable_record = Expunger._without_skippable_charges(record)
         ambiguous_charge_id_to_time_eligibility = {}
-        cases = self.record.cases
-        for charge in self.analyzable_charges:
+        cases = analyzable_record.cases
+        for charge in analyzable_record.charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in self.analyzable_charges if c.blocks_other_charges() and c.id != charge.id]
+            other_charges = [c for c in analyzable_record.charges if c.blocks_other_charges() and c.id != charge.id]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
@@ -185,14 +184,20 @@ class Expunger:
         return False
 
     @staticmethod
-    def _without_skippable_charges(charges: Iterator[Charge]):
-        return [
-            charge
-            for charge in charges
-            if charge.disposition
-            and (charge.convicted() or charge.dismissed())
-            and not isinstance(charge, JuvenileCharge)
-        ]
+    def _without_skippable_charges(record: Record) -> Record:
+        updated_cases = []
+        for case in record.cases:
+            updated_charges = []
+            for charge in case.charges:
+                if (
+                    charge.disposition
+                    and (charge.convicted() or charge.dismissed())
+                    and not isinstance(charge, JuvenileCharge)
+                ):
+                    updated_charges.append(charge)
+            updated_case = replace(case, charges=updated_charges)
+            updated_cases.append(updated_case)
+        return replace(record, cases=updated_cases)
 
 
 class ErrorChecker:
