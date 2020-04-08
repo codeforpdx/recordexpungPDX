@@ -5,6 +5,7 @@ from typing import List, Dict, Set, Optional
 from more_itertools import flatten, unique_everseen
 
 from expungeservice.models.ambiguous import AmbiguousRecord
+from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.sex_crimes import RomeoAndJulietNMASexCrime
 from expungeservice.models.expungement_result import (
@@ -32,7 +33,7 @@ class RecordMerger:
                     ambiguous_charge_id_to_time_eligibilities[k].append(v)
         charges = list(flatten([record.charges for record in ambiguous_record]))
         record = ambiguous_record[0]
-        new_case_list = []
+        new_case_list: List[Case] = []
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
@@ -52,9 +53,9 @@ class RecordMerger:
                 merged_type_name = " ⬥ ".join(list(unique_everseen([charge.type_name for charge in same_charges])))
                 new_charge: Charge = replace(charge, type_name=merged_type_name, expungement_result=expungement_result)
                 new_charges.append(new_charge)
-            new_case = replace(case, charges=new_charges)
+            new_case = replace(case, charges=tuple(new_charges))
             new_case_list.append(new_case)
-        return replace(record, cases=new_case_list)
+        return replace(record, cases=tuple(new_case_list))
 
     @staticmethod
     def filter_ambiguous_record(ambiguous_record: AmbiguousRecord, questions: List[Question]) -> AmbiguousRecord:
