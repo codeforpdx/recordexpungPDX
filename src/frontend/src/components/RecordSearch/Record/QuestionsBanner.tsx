@@ -53,7 +53,7 @@ class QuestionsBanner extends React.Component<Props> {
   }
 
   render() {
-    if (Object.keys(this.props.questions) > 0 ) {
+    if (this.props.questions && Object.keys(this.props.questions).length > 0 ) {
     return (
         <div className="bt bw3 b--light-purple bg-white shadow pa3 mb3">
             <div className="flex-lg justify-between">
