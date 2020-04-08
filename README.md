@@ -63,21 +63,34 @@ You can get your dev environment up and running with installing only Docker and 
 
 ## Running the docker stack
 
-In the project's root directory, run `make dev_up`. This builds the dev version of the docker images and launches the containers using docker-compose. Stop the running stack with `make dev_down`.
+In the project's root directory, run `make new`. This pulls the dev-tagged "expungeservice" image and launches the containers using docker-compose. Stop the running stack with `make stop`.
 
-After running `make dev_up`, you can navigate to `localhost` in the browser and see the frontend running.  You can now log in using either of the following credentials
+After this target completes, you can navigate to [http://localhost:3000](http://localhost:3000) in the browser and connect to the React dev server with full hot-module reloading. This may take a minute or two to come up before it is available. Check the service with `make frontend_logs`. Once everything is up, you can log in using either of the following credentials:
 
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
-If you run `docker ps`, you can see the frontend app running on `localhost:3000`, however if you try logging into this instance instead of the frontend at `localhost`, you will get a 500 server error.
+In the course of backend development, one may not need to be running the React/HMR dev server. To build the frontend static files, and use the backend to serve them, run the following command:
 
-Whenever a dependency is added to the frontend or backend, you will need to rebuild the docker images or you will get errors when trying to run the stack. To do so, take down the stack, rebuild, and restart stack with:
 ```
-make dev_down
-make dev_build
-make dev_up
+$ make frontend_down frontend_build
 ```
+
+Then navigate to [http://localhost:5000](http://localhost:5000) to access the backend service directly. This is configured to serve the static files. `make up` will start the HMR dev server again at 3000 if you need it.
+
+Whenever a dependency is added to the backend, someone needs to rebuild the dev-tagged image and push or folks will get errors when trying to run the stack. To do so, rebuild the image, and reload the backend with:
+
+```
+$ make backend_build backend_reload
+```
+
+If it works, push with:
+
+```
+$ make push
+```
+
+More details in [DevOps README](src/ops/README.md).
 
 For more project documentation on Docker, some troubleshooting, and some basic commands, see:
 [doc/docker.md](https://github.com/codeforpdx/recordexpungPDX/blob/master/doc/docker.md)
@@ -91,37 +104,31 @@ $ make clean
 ```
 in order to remove build artifacts.
 
+To completely remove containers, volumes, and compose networks, run:
+
+```
+$ make clobber
+```
+
+## DevOps
+
+See [DevOps README](src/ops/README.md).
 
 ## Testing
 
 Currently using [pytest](https://docs.pytest.org) for testing the backend.
-Run all tests by running the following command in the project root directory:
+Run all backend tests by running the following command in the project root directory:
 
 ```
-$ make dev_test
+$ make backend_test
 ```
 
 This runs a `pytest` command to execute all the unit tests inside the backend docker container. All of these tests should pass if you have correctly set up the backend dev environment.
 
-There are also make targets to operate in a docker container interactively:
+To run a subset of test cases without first shelling into the docker container, you can use a docker-compose `exec` command, which specifies a container by service name and a runnable command in the container in a single step, e.g.:
 
 ```
-make bash_backend
-```
-
-or
-
-```
-make bash_frontend
-```
-
-
-which opens a bash shell inside the respective container. In the backend container, you can then run the python interactive shell with `python3`, or run `pytest`.
-
-To run a subset of test cases without first shelling into the docker container, you can use a docker `exec` command, which specifies a container by name and a runnable command in the container in a single step, e.g.:
-
-```
-docker exec -t expungeservice pytest ./tests/[subdir]
+$ docker-compose exec expungeservice pytest ./tests/[subdir]
 ```
 
 To specify and run a subset of the test cases.
