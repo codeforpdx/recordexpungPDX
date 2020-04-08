@@ -7,6 +7,7 @@ import requests
 from datetime import datetime
 
 from expungeservice.charge_creator import ChargeCreator
+from expungeservice.models.case import CaseCreator
 from expungeservice.models.disposition import Disposition, DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
@@ -57,20 +58,22 @@ class Crawler:
 
     def __build_case(self, case) -> Tuple[AmbiguousCase, List[Question]]:
         case_parser_data = self.__parse_case(case)
-        case.set_probation_revoked(case_parser_data.probation_revoked)
-        case.set_balance_due(case_parser_data.balance_due)
+        balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
+        updated_case = replace(
+            case, balance_due_in_cents=balance_due_in_cents, probation_revoked=case_parser_data.probation_revoked
+        )
         ambiguous_charges: List[AmbiguousCharge] = []
         questions: List[Question] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
-            charge_dict["case_number"] = case.case_number
-            charge_dict["violation_type"] = case.violation_type
+            charge_dict["case_number"] = updated_case.case_number
+            charge_dict["violation_type"] = updated_case.violation_type
             ambiguous_charge, question = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
             if question:
                 questions.append(question)
         ambiguous_case = []
         for charges in product(*ambiguous_charges):
-            possible_case = replace(case, charges=list(charges))
+            possible_case = replace(updated_case, charges=list(charges))
             ambiguous_case.append(possible_case)
         return ambiguous_case, questions
 

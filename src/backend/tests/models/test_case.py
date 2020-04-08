@@ -1,48 +1,43 @@
 import unittest
 
-from expungeservice.models.case import Case
+from expungeservice.models.case import CaseCreator
 from tests.factories.case_factory import CaseFactory
 
 
 class TestCaseBalanceDue(unittest.TestCase):
-    def setUp(self):
-        self.case = Case.create(("John Doe", "1990"), "", "", ("1/1/2019", ""), ("", ""), "", "")
-
     def test_balance_due_getter_setter(self):
+        case_args = [("John Doe", "1990"), "", "", ("1/1/2019", ""), ("", ""), "", ""]
 
-        self.case.set_balance_due("123.45")
-        assert self.case.get_balance_due() == 123.45
+        case_1 = CaseCreator.create(*case_args, "123.45")  # type: ignore
+        assert case_1.get_balance_due() == 123.45
 
-        self.case.set_balance_due("2,345.67")
-        assert self.case.get_balance_due() == 2345.67
+        case_2 = CaseCreator.create(*case_args, "2,345.67")  # type: ignore
+        assert case_2.get_balance_due() == 2345.67
 
-        self.case.set_balance_due("0")
-        assert self.case.get_balance_due() == 0
+        case_3 = CaseCreator.create(*case_args, "0")  # type: ignore
+        assert case_3.get_balance_due() == 0
 
 
 class TestCaseClosedMethod(unittest.TestCase):
-    def setUp(self):
-        self.case = CaseFactory.create()
-
     def test_it_returns_true_for_a_closed_case(self):
-        self.case.current_status = "Closed"
-        assert self.case.closed() is True
+        case = CaseFactory.create(type_status=["Offense Misdemeanor", "Closed"])
+        assert case.closed() is True
 
     def test_it_returns_false_for_an_open_case(self):
-        self.case.current_status = "Open"
-        assert self.case.closed() is False
+        case = CaseFactory.create(type_status=["Offense Misdemeanor", "Open"])
+        assert case.closed() is False
 
     def test_it_returns_true_for_an_inactive_case(self):
-        self.case.current_status = "Inactive"
-        assert self.case.closed() is True
+        case = CaseFactory.create(type_status=["Offense Misdemeanor", "Inactive"])
+        assert case.closed() is True
 
     def test_it_returns_true_for_a_purged_case(self):
-        self.case.current_status = "Purgable"
-        assert self.case.closed() is True
+        case = CaseFactory.create(type_status=["Offense Misdemeanor", "Purgable"])
+        assert case.closed() is True
 
     def test_it_returns_true_for_a_bankeruptcy_case(self):
-        self.case.current_status = "Bankruptcy Pending"
-        assert self.case.closed() is True
+        case = CaseFactory.create(type_status=["Offense Misdemeanor", "Bankruptcy Pending"])
+        assert case.closed() is True
 
 
 class TestBirthYearInitializesGivenMultipleValues(unittest.TestCase):

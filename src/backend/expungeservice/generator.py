@@ -1,5 +1,6 @@
 import pkgutil
 from _weakref import ref
+from dataclasses import replace
 from typing import List, Type, Callable, Any
 
 from hypothesis._strategies import none, composite
@@ -50,8 +51,7 @@ def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size
     charge_strategy_choices = list(map(lambda charge_class: _build_charge_strategy(charge_class, case), charge_classes))
     charge_strategy = one_of(charge_strategy_choices)
     charges = draw(lists(charge_strategy, min_charges_size))
-    case.charges = charges
-    return case
+    return replace(case, charges=charges)
 
 
 def build_record_strategy(min_cases_size=0, min_charges_size=0) -> SearchStrategy[Record]:

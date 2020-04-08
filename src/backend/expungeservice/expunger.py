@@ -56,7 +56,7 @@ class Expunger:
                 )
 
             if charge.convicted():
-                probation_revoked_date = charge.case(cases).get_probation_revoked()
+                probation_revoked_date = charge.case(cases).probation_revoked
                 if probation_revoked_date:
                     eligibility_dates.append(
                         (

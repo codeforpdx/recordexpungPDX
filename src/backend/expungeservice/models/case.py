@@ -5,7 +5,7 @@ from typing import List, Optional
 from expungeservice.models.charge import Charge
 
 
-@dataclass
+@dataclass(frozen=True)
 class Case:
     name: str
     birth_year: Optional[int]
@@ -17,47 +17,11 @@ class Case:
     current_status: str
     charges: List[Charge]
     case_detail_link: str
-    __balance_due_in_cents: int = 0
-    __probation_revoked: Optional[date_class] = None
-
-    @staticmethod
-    def create(info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance="0"):
-        name = info[0]
-        birth_year = Case._parse_birth_year(info)
-        citation_number = citation_number[0] if citation_number else ""
-        date, location = date_location
-        date = datetime.date(datetime.strptime(date, "%m/%d/%Y"))
-        violation_type, current_status = type_status
-        case = Case(
-            name,
-            birth_year,
-            case_number,
-            citation_number,
-            location,
-            date,
-            violation_type,
-            current_status,
-            charges,
-            case_detail_link,
-        )
-        case.set_balance_due(balance)
-        return case
-
-    def get_probation_revoked(self) -> Optional[date_class]:
-        return self.__probation_revoked
-
-    def set_probation_revoked(self, probation_revoked: Optional[date_class]):
-        self.__probation_revoked = probation_revoked
-
-    def set_balance_due(self, balance_due_dollar_amount: str):
-        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(",", ""))
-        self.__balance_due_in_cents = int(balance_due_dollar_amount_float * 100)
+    balance_due_in_cents: int = 0
+    probation_revoked: Optional[date_class] = None
 
     def get_balance_due(self):
-        return self.__balance_due_in_cents / 100
-
-    def get_balance_due_in_cents(self):
-        return self.__balance_due_in_cents
+        return self.balance_due_in_cents / 100
 
     def closed(self):
         if self._ignore_open_case():
@@ -78,3 +42,35 @@ class Case:
     def _closed(self):
         CLOSED_STATUS = ["Closed", "Inactive", "Purgable", "Bankruptcy Pending"]
         return self.current_status in CLOSED_STATUS
+
+
+class CaseCreator:
+    @staticmethod
+    def create(
+        info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance="0"
+    ) -> Case:
+        name = info[0]
+        birth_year = Case._parse_birth_year(info)
+        citation_number = citation_number[0] if citation_number else ""
+        date, location = date_location
+        date = datetime.date(datetime.strptime(date, "%m/%d/%Y"))
+        violation_type, current_status = type_status
+        balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(balance)
+        return Case(
+            name,
+            birth_year,
+            case_number,
+            citation_number,
+            location,
+            date,
+            violation_type,
+            current_status,
+            charges,
+            case_detail_link,
+            balance_due_in_cents,
+        )
+
+    @staticmethod
+    def compute_balance_due_in_cents(balance_due_dollar_amount: str):
+        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(",", ""))
+        return int(balance_due_dollar_amount_float * 100)
