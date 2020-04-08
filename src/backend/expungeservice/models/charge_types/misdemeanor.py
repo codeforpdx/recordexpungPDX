@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class Misdemeanor(Charge):
     type_name: str = "Misdemeanor"
     expungement_rules: str = """Convictions for misdemeanors are generally eligible under ORS 137.225(5)(b).

@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class SexCrime(Charge):
     type_name: str = "Sex Crime"
     expungement_rules: str = (
@@ -59,7 +59,7 @@ class SexCrime(Charge):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")
 
 
-@dataclass
+@dataclass(frozen=True)
 class RomeoAndJulietNMASexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""Please contact michael@qiu-qiulaw.com for manual analysis.""")
@@ -74,7 +74,7 @@ class RomeoAndJulietNMASexCrime(Charge):
             )
 
 
-@dataclass
+@dataclass(frozen=True)
 class RomeoAndJulietIneligibleSexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""TODO""")

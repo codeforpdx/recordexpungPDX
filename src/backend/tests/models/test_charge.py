@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -46,39 +47,51 @@ class TestChargeClass(unittest.TestCase):
 
     def test_it_knows_if_it_has_a_recent_conviction_happy_path(self):
         charge = ChargeFactory.create()
-        charge.disposition = DispositionCreator.create(self.LESS_THAN_TEN_YEARS_AGO, "Convicted")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(self.LESS_THAN_TEN_YEARS_AGO, "Convicted")
+        )
 
-        assert charge.recent_conviction() is True
+        assert charge_with_disposition.recent_conviction() is True
 
     def test_it_knows_if_it_has_a_recent_conviction_sad_path(self):
         charge = ChargeFactory.create()
-        charge.disposition = DispositionCreator.create(self.TEN_YEARS_AGO, "Convicted")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(self.TEN_YEARS_AGO, "Convicted")
+        )
 
-        assert charge.recent_conviction() is False
+        assert charge_with_disposition.recent_conviction() is False
 
     def test_dismissed_charge_is_not_a_recent_conviction(self):
         charge = ChargeFactory.create()
-        charge.disposition = DispositionCreator.create(self.LESS_THAN_TEN_YEARS_AGO, "Dismissed")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(self.LESS_THAN_TEN_YEARS_AGO, "Dismissed")
+        )
 
-        assert charge.recent_conviction() is False
+        assert charge_with_disposition.recent_conviction() is False
 
     def test_most_recent_dismissal_happy_path(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
-        charge.disposition = DispositionCreator.create(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Dismissed")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Dismissed")
+        )
 
-        assert charge.recent_dismissal() is True
+        assert charge_with_disposition.recent_dismissal() is True
 
     def test_most_recent_dismissal_sad_path(self):
         charge = ChargeFactory.create(date=self.THREE_YEARS_AGO)
-        charge.disposition = DispositionCreator.create(date=self.THREE_YEARS_AGO, ruling="Dismissed")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(date=self.THREE_YEARS_AGO, ruling="Dismissed")
+        )
 
-        assert charge.recent_dismissal() is False
+        assert charge_with_disposition.recent_dismissal() is False
 
     def test_convicted_charge_is_not_a_recent_dismissal(self):
         charge = ChargeFactory.create(date=self.LESS_THAN_THREE_YEARS_AGO)
-        charge.disposition = DispositionCreator.create(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Convicted")
+        charge_with_disposition = replace(
+            charge, disposition=DispositionCreator.create(date=self.LESS_THAN_THREE_YEARS_AGO, ruling="Convicted")
+        )
 
-        assert charge.recent_dismissal() is False
+        assert charge_with_disposition.recent_dismissal() is False
 
     def test_same_charge_is_not_equal(self):
         case = CaseFactory.create()
