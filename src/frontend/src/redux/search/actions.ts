@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
+import {Dispatch} from 'redux';
 import store from '../store';
 import apiService from '../../service/api-service';
-import { AxiosError, AxiosResponse } from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 import {
   SEARCH_RECORD,
   SEARCH_RECORD_LOADING,
@@ -16,11 +16,11 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
     const receivedRecord = data.record;
     const record: RecordData = {
-       total_balance_due: receivedRecord.total_balance_due,
-       cases: receivedRecord.cases,
-       errors: receivedRecord.errors,
-       summary: receivedRecord.summary,
-       };
+      total_balance_due: receivedRecord.total_balance_due,
+      cases: receivedRecord.cases,
+      errors: receivedRecord.errors,
+      summary: receivedRecord.summary,
+    };
     dispatch({
       type: SEARCH_RECORD,
       record: record,
@@ -28,7 +28,7 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
 
     });
   } else {
-  alert('Response data has unexpected format.');
+    alert('Response data has unexpected format.');
   }
 }
 
@@ -76,7 +76,7 @@ export function selectAnswer(
       ambiguous_charge_id: ambiguous_charge_id,
       answer: answer
     });
-   return apiService<SearchResponse>(dispatch, {
+    return apiService<SearchResponse>(dispatch, {
       url: '/api/disambiguate',
       data: {
         questions: store.getState().search.questions

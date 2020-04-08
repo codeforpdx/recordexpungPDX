@@ -70,12 +70,12 @@ export interface ChargeEligibilityData {
 }
 
 export interface QuestionsData {
-  [ambiguous_charge_id: string] : QuestionData
+  [ambiguous_charge_id: string]: QuestionData
 }
 
 export interface QuestionData {
   ambiguous_charge_id: string;
   question: string;
-  options: {[option: string]: string;};
+  options: { [option: string]: string; };
   answer: string;
 }

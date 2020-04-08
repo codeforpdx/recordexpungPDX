@@ -1,4 +1,8 @@
-import {RecordData, RecordSummaryData, QuestionsData} from '../../components/RecordSearch/Record/types'
+import {
+  RecordData,
+  RecordSummaryData,
+  QuestionsData
+} from '../../components/RecordSearch/Record/types'
 
 export interface SearchResponse {
   record: RecordEndpointData;
