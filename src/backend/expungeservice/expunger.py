@@ -1,5 +1,6 @@
 from dataclasses import replace
 from datetime import date
+from functools import lru_cache
 from typing import Set, List, Iterator, Tuple, Dict
 
 from dateutil.relativedelta import relativedelta
@@ -16,6 +17,7 @@ from expungeservice.models.record import Record
 
 class Expunger:
     @staticmethod
+    @lru_cache(maxsize=32)
     def run(record: Record) -> Dict[str, TimeEligibility]:
         """
         Evaluates the expungement eligibility of a record.
