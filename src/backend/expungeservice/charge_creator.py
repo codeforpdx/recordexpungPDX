@@ -43,7 +43,7 @@ class ChargeCreator:
                 options_dict[options[i]] = uid
         if question:
             ambiguous_charge_id = ambiguous_charge[0].ambiguous_charge_id
-            return ambiguous_charge, Question(ambiguous_charge_id, question, options_dict)
+            return ambiguous_charge, Question(ambiguous_charge_id, case_number, question, options_dict)
         else:
             return ambiguous_charge, None
 

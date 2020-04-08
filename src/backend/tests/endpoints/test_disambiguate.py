@@ -59,14 +59,10 @@ DUII_SEARCH_RESPONSE = {
         "questions": {
             "CASEJD1-1": {
                 "ambiguous_charge_id": "CASEJD1-1",
+                "case_number": "CASEJD1",
                 "answer": "",
                 "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                "question": "Was the charge "
-                "dismissed "
-                "pursuant to a "
-                "court-ordered "
-                "diversion "
-                "program?",
+                "question": "Was the charge " "dismissed " "pursuant to a " "court-ordered " "diversion " "program?",
             }
         },
         "summary": {
@@ -135,14 +131,10 @@ DIVERTED_RESPONSE = {
         "questions": {
             "CASEJD1-1": {
                 "ambiguous_charge_id": "CASEJD1-1",
+                "case_number": "CASEJD1",
                 "answer": "CASEJD1-1-0",
                 "options": {"No": "CASEJD1-1-1", "Yes": "CASEJD1-1-0"},
-                "question": "Was the charge "
-                "dismissed "
-                "pursuant to a "
-                "court-ordered "
-                "diversion "
-                "program?",
+                "question": "Was the charge " "dismissed " "pursuant to a " "court-ordered " "diversion " "program?",
             }
         },
         "summary": {
@@ -183,6 +175,7 @@ def test_disambiguate_endpoint_with_diverted_answer(record_with_single_duii):
     answers = {
         "CASEJD1-1": Question(
             ambiguous_charge_id="CASEJD1-1",
+            case_number="CASEJD1",
             question="Was the charge dismissed pursuant to a court-ordered diversion program?",
             options={"Yes": "CASEJD1-1-0", "No": "CASEJD1-1-1"},
             answer="CASEJD1-1-0",
