@@ -2,7 +2,7 @@ import pytest
 from dateutil.relativedelta import relativedelta
 
 from expungeservice.expunger import Expunger
-from expungeservice.models.disposition import Disposition
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus, ChargeEligibilityStatus
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record
@@ -13,9 +13,11 @@ from datetime import date
 
 
 def test_eligible_mrc_with_single_arrest():
-    three_yr_mrc = ChargeFactory.create(disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO))
+    three_yr_mrc = ChargeFactory.create(
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO)
+    )
 
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()
     case.charges = [three_yr_mrc, arrest]
@@ -52,9 +54,9 @@ def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
     violation_charge = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TEN_YEARS_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
     )
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create()
     case.charges = [violation_charge, arrest]
@@ -70,17 +72,19 @@ def test_eligible_mrc_with_violation():
     case = CaseFactory.create()
 
     three_yr_mrc = ChargeFactory.create(
-        case_number=case.case_number, disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO)
+        case_number=case.case_number,
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
 
     arrest = ChargeFactory.create(
-        case_number=case.case_number, disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO)
+        case_number=case.case_number,
+        disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO),
     )
 
     violation = ChargeFactory.create(
         level="Violation",
         case_number=case.case_number,
-        disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
 
     case.charges = [three_yr_mrc, arrest, violation]
@@ -113,9 +117,9 @@ def test_needs_more_analysis_mrc_with_single_arrest():
         name="Assault in the third degree",
         statute="163.165",
         level="Felony Class C",
-        disposition=Disposition(ruling="Convicted", date=Time.THREE_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()
     case.charges = [three_yr_mrc, arrest]
@@ -148,9 +152,9 @@ def test_very_old_needs_more_analysis_mrc_with_single_arrest():
         name="Assault in the third degree",
         statute="163.165",
         level="Felony Class C",
-        disposition=Disposition(ruling="Convicted", date=Time.TWENTY_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWENTY_YEARS_AGO),
     )
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
     case = CaseFactory.create()
     case.charges = [mrc, arrest]
@@ -176,14 +180,14 @@ def test_arrest_time_eligibility_is_set_to_older_violation():
     older_violation = ChargeFactory.create(
         level="Class A Violation",
         date=Time.LESS_THAN_THREE_YEARS_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
     )
     newer_violation = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TWO_YEARS_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.TWO_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWO_YEARS_AGO),
     )
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create()
     case.charges = [older_violation, newer_violation, arrest]
@@ -205,19 +209,19 @@ def test_3_violations_are_time_restricted():
     violation_charge_1 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.LESS_THAN_THREE_YEARS_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
     )
     violation_charge_2 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TWO_YEARS_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.TWO_YEARS_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWO_YEARS_AGO),
     )
     violation_charge_3 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.ONE_YEAR_AGO,
-        disposition=Disposition(ruling="Convicted", date=Time.ONE_YEAR_AGO),
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO),
     )
-    arrest = ChargeFactory.create(disposition=Disposition(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
+    arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create()
     case.charges = [violation_charge_3, violation_charge_2, violation_charge_1, arrest]

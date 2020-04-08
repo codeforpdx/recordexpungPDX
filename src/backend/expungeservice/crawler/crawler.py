@@ -7,7 +7,7 @@ import requests
 from datetime import datetime
 
 from expungeservice.charge_creator import ChargeCreator
-from expungeservice.models.disposition import Disposition
+from expungeservice.models.disposition import Disposition, DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
@@ -105,5 +105,7 @@ class Crawler:
                 datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
-            charge["disposition"] = Disposition(date, ruling, "amended" in disposition_data["event"].lower())
+            charge["disposition"] = DispositionCreator.create(
+                date, ruling, "amended" in disposition_data["event"].lower()
+            )
         return ChargeCreator.create(charge_id, **charge)

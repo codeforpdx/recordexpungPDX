@@ -8,6 +8,8 @@ from hypothesis.searchstrategy import SearchStrategy
 
 from expungeservice.expunger import Expunger
 from expungeservice.models.case import Case
+from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
+from expungeservice.models.disposition import DispositionStatus, Disposition
 from expungeservice.models.record import Record
 
 from importlib import import_module
@@ -31,7 +33,14 @@ def get_charge_classes() -> List[Type[Charge]]:
 
 
 def _build_charge_strategy(charge_class: Type[Charge], case: Case) -> SearchStrategy[Charge]:
-    return builds(charge_class, case_number=just(case.case_number))
+    if charge_class == DismissedCharge:
+        disposition_status = one_of(
+            just(DispositionStatus.DISMISSED), just(DispositionStatus.NO_COMPLAINT), just(DispositionStatus.DIVERTED)
+        )
+    else:
+        disposition_status = one_of(just(DispositionStatus.CONVICTED), just(DispositionStatus.UNRECOGNIZED))
+    disposition = builds(Disposition, status=disposition_status)
+    return builds(charge_class, case_number=just(case.case_number), disposition=one_of(none(), disposition))
 
 
 @composite
