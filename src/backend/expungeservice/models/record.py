@@ -8,6 +8,7 @@ from expungeservice.models.charge import Charge
 @dataclass
 class Question:
     ambiguous_charge_id: str
+    case_number: str
     question: str
     options: Dict[str, str]
     answer: str = ""
