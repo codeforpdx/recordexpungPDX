@@ -19,8 +19,7 @@ def test_eligible_mrc_with_single_arrest():
 
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [three_yr_mrc, arrest]
+    case = CaseFactory.create(charges=[three_yr_mrc, arrest])
     record = Record([case])
     expunger = Expunger(record)
     expunger_result = expunger.run()
@@ -58,8 +57,7 @@ def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [violation_charge, arrest]
+    case = CaseFactory.create(charges=[violation_charge, arrest])
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
@@ -69,25 +67,21 @@ def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
 
 
 def test_eligible_mrc_with_violation():
-    case = CaseFactory.create()
 
     three_yr_mrc = ChargeFactory.create(
-        case_number=case.case_number,
-        disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
+        case_number="1", disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
 
     arrest = ChargeFactory.create(
-        case_number=case.case_number,
-        disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO),
+        case_number="1", disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO),
     )
 
     violation = ChargeFactory.create(
         level="Violation",
-        case_number=case.case_number,
+        case_number="1",
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
     )
-
-    case.charges = [three_yr_mrc, arrest, violation]
+    case = CaseFactory.create(case_number="1", charges=[three_yr_mrc, arrest, violation])
     record = Record([case])
     expunger = Expunger(record)
 
@@ -121,8 +115,7 @@ def test_needs_more_analysis_mrc_with_single_arrest():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [three_yr_mrc, arrest]
+    case = CaseFactory.create(charges=[three_yr_mrc, arrest])
     record = Record([case])
     expunger = Expunger(record)
     expunger_result = expunger.run()
@@ -156,8 +149,7 @@ def test_very_old_needs_more_analysis_mrc_with_single_arrest():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [mrc, arrest]
+    case = CaseFactory.create(charges=[mrc, arrest])
     record = Record([case])
     expunger = Expunger(record)
     expunger_result = expunger.run()
@@ -189,8 +181,7 @@ def test_arrest_time_eligibility_is_set_to_older_violation():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [older_violation, newer_violation, arrest]
+    case = CaseFactory.create(charges=[older_violation, newer_violation, arrest])
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 
@@ -223,8 +214,7 @@ def test_3_violations_are_time_restricted():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
-    case = CaseFactory.create()
-    case.charges = [violation_charge_3, violation_charge_2, violation_charge_1, arrest]
+    case = CaseFactory.create(charges=[violation_charge_3, violation_charge_2, violation_charge_1, arrest])
     expunger = Expunger(Record([case]))
     expunger_result = expunger.run()
 

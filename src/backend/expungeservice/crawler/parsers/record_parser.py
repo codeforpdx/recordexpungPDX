@@ -1,6 +1,6 @@
 from html.parser import HTMLParser
 
-from expungeservice.models.case import Case
+from expungeservice.models.case import CaseCreator
 
 
 class RecordParser(HTMLParser):
@@ -74,7 +74,7 @@ class RecordParser(HTMLParser):
 
     def __record_case(self):
         self.cases.append(
-            Case.create(
+            CaseCreator.create(
                 self.info,
                 self.case_number,
                 self.citation_number,
