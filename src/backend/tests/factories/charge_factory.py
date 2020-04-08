@@ -3,7 +3,7 @@ from datetime import date as date_class
 from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.models.charge import Charge
 from expungeservice.charge_creator import ChargeCreator
-from expungeservice.models.disposition import Disposition
+from expungeservice.models.disposition import Disposition, DispositionCreator
 
 
 class ChargeFactory:
@@ -69,7 +69,7 @@ class ChargeFactory:
         violation_type="Offense Misdemeanor",
     ) -> Charge:
         cls.charge_count += 1
-        disposition = Disposition(date=date_class.today(), ruling="Dismissed")
+        disposition = DispositionCreator.create(date=date_class.today(), ruling="Dismissed")
         kwargs = {
             "case_number": case_number,
             "name": name,

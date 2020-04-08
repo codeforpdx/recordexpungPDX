@@ -1,6 +1,5 @@
-from dataclasses import dataclass, field
-from datetime import date, datetime
-from typing import Optional
+from dataclasses import dataclass
+from datetime import date
 from enum import Enum
 
 
@@ -12,18 +11,23 @@ class DispositionStatus(str, Enum):
     UNRECOGNIZED = "Unrecognized"
 
 
-@dataclass(eq=False)
+@dataclass(frozen=True)
 class Disposition:
     date: date
     ruling: str
+    status: DispositionStatus
     amended: bool = False
-    status: DispositionStatus = field(init=False)
 
-    def __post_init__(self):
-        self.status = self.__set_status()
 
-    def __set_status(self):
-        ruling = self.ruling.lower()
+class DispositionCreator:
+    @staticmethod
+    def create(date: date, ruling: str, amended: bool = False) -> Disposition:
+        status = DispositionCreator.__build_status(ruling)
+        return Disposition(date, ruling, status, amended)
+
+    @staticmethod
+    def __build_status(ruling_string):
+        ruling = ruling_string.lower()
         conviction_rulings = ["convicted", "conviction", "reduced", "finding - guilty", "conversion", "converted"]
         dismissal_rulings = [
             "acquitted",

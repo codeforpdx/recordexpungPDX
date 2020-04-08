@@ -1,4 +1,4 @@
-from expungeservice.models.disposition import Disposition
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.record_merger import RecordMerger
 from expungeservice.record_summarizer import RecordSummarizer
 from expungeservice.expunger import Expunger
@@ -14,7 +14,7 @@ def test_record_summarizer_multiple_cases():
         ChargeFactory.create(
             case_number=case_all_eligible.case_number,
             name="Theft of dignity",
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
@@ -24,12 +24,12 @@ def test_record_summarizer_multiple_cases():
     case_partially_eligible.charges = [
         ChargeFactory.create(
             case_number=case_partially_eligible.case_number,
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         ),
         ChargeFactory.create(
             case_number=case_partially_eligible.case_number,
             level="Felony Class A",
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         ),
     ]
 
@@ -38,7 +38,7 @@ def test_record_summarizer_multiple_cases():
         ChargeFactory.create(
             case_number=case_possibly_eligible.case_number,
             level="Felony Class B",
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
@@ -47,7 +47,7 @@ def test_record_summarizer_multiple_cases():
         ChargeFactory.create(
             case_number=case_all_ineligible.case_number,
             level="Felony Class A",
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
 
@@ -56,7 +56,7 @@ def test_record_summarizer_multiple_cases():
         ChargeFactory.create(
             case_number=case_all_ineligible_2.case_number,
             level="Felony Class A",
-            disposition=Disposition(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+            disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
         )
     ]
     record = Record(
