@@ -13,7 +13,7 @@ from expungeservice.models.expungement_result import (
 )
 
 
-@dataclass
+@dataclass(frozen=True)
 class Charge:
     id: str
     ambiguous_charge_id: str
@@ -22,7 +22,6 @@ class Charge:
     level: str
     date: date_class
     disposition: Optional[Disposition]
-    type_eligibility: TypeEligibility = field(init=False)
     _chapter: Optional[str]
     _section: str
     case_number: str
@@ -30,10 +29,8 @@ class Charge:
     type_name: str = "Unknown"
     expungement_rules: str = "\\[rules documentation not added yet\\]"
 
-    def __post_init__(self):
-        self.type_eligibility = self._build_type_eligibility()
-
-    def _build_type_eligibility(self):
+    @property
+    def type_eligibility(self) -> TypeEligibility:
         type_eligibility = self._type_eligibility()
         if type_eligibility:
             return type_eligibility

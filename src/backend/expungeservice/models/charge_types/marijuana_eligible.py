@@ -5,7 +5,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 from expungeservice.models.disposition import DispositionStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class MarijuanaEligible(Charge):
     type_name: str = "Marijuana Eligible"
     expungement_rules: str = """ORS 137.226 makes eligible additional marijuana-related charges - in particular, those crimes which are now considered minor felonies or below.

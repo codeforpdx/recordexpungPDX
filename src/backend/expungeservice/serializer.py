@@ -1,7 +1,6 @@
 import flask
 from datetime import date
 
-from expungeservice.models.case import Case
 from expungeservice.models.record import Record
 from expungeservice.models.record_summary import RecordSummary
 

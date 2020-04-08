@@ -1,3 +1,4 @@
+from dataclasses import replace
 from datetime import date
 
 from expungeservice.models.disposition import DispositionStatus, DispositionCreator
@@ -21,12 +22,12 @@ def test_disposition_status_values():
 
 
 def test_all_disposition_statuses_are_either_convicted_or_dismissed():
-    charge = ChargeFactory.create()
+    pre_charge = ChargeFactory.create()
     today = date.today()
     for status in DispositionStatus:
         # Use the status.value to create the disposition,
         # which happens to always be a valid string for that dispo status.
-        charge.disposition = DispositionCreator.create(today, status.value)
+        charge = replace(pre_charge, disposition=DispositionCreator.create(today, status.value))
 
         if status == DispositionStatus.UNRECOGNIZED:
             assert not charge.convicted()

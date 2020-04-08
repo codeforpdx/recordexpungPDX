@@ -4,8 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-
-@dataclass(eq=False)
+@dataclass(frozen=True)
 class ContemptOfCourt(Charge):
 
     type_name: str = "Contempt of Court"
