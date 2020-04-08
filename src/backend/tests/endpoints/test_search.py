@@ -127,7 +127,6 @@ def test_search_creates_save_results(service, monkeypatch):
 def test_search_with_failing_save_results(service, monkeypatch):
     """
     The search endpoint should succeed even if something goes wrong with the save-result step.
-
     """
 
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
