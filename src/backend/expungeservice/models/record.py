@@ -13,7 +13,7 @@ class Question:
     answer: str = ""
 
 
-@dataclass
+@dataclass(frozen=True)
 class Record:
     cases: List[Case]
     errors: List[str] = field(default_factory=list)
