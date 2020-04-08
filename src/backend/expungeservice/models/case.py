@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime, date as date_class
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from expungeservice.models.charge import Charge
 
@@ -15,7 +15,7 @@ class Case:
     date: date_class
     violation_type: str
     current_status: str
-    charges: List[Charge]
+    charges: Tuple[Charge, ...]
     case_detail_link: str
     balance_due_in_cents: int = 0
     probation_revoked: Optional[date_class] = None

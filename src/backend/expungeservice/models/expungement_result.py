@@ -32,13 +32,13 @@ class TimeEligibility:
     date_will_be_eligible: date
 
 
-@dataclass
+@dataclass(frozen=True)
 class ChargeEligibility:
     status: ChargeEligibilityStatus
     label: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class ExpungementResult:
     type_eligibility: TypeEligibility = TypeEligibility(
         status=EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Default value"

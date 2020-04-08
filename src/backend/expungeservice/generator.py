@@ -1,5 +1,4 @@
 import pkgutil
-from _weakref import ref
 from dataclasses import replace
 from typing import List, Type, Callable, Any
 
@@ -7,7 +6,6 @@ from hypothesis._strategies import none, composite
 from hypothesis.strategies import builds, just, lists, one_of
 from hypothesis.searchstrategy import SearchStrategy
 
-from expungeservice.expunger import Expunger
 from expungeservice.models.case import Case
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.disposition import DispositionStatus, Disposition
@@ -51,15 +49,16 @@ def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size
     charge_strategy_choices = list(map(lambda charge_class: _build_charge_strategy(charge_class, case), charge_classes))
     charge_strategy = one_of(charge_strategy_choices)
     charges = draw(lists(charge_strategy, min_charges_size))
-    return replace(case, charges=charges)
+    return replace(case, charges=tuple(charges))
 
 
-def build_record_strategy(min_cases_size=0, min_charges_size=0) -> SearchStrategy[Record]:
+@composite
+def build_record_strategy(draw: Callable[[SearchStrategy], Any], min_cases_size=0, min_charges_size=0) -> Record:
     case_strategy = _build_case_strategy(min_charges_size)
-    return builds(Record, cases=lists(case_strategy, min_cases_size))
+    cases = draw(lists(case_strategy, min_cases_size))
+    record = draw(builds(Record, cases=none()))
+    return replace(record, cases=tuple(cases))
 
 
 def build_record() -> Record:
-    record_strategy = build_record_strategy(min_cases_size=10, min_charges_size=1)
-    record = record_strategy.example()
-    return record
+    return build_record_strategy(min_cases_size=10, min_charges_size=1)  # type: ignore

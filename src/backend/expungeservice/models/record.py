@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
@@ -15,8 +15,8 @@ class Question:
 
 @dataclass(frozen=True)
 class Record:
-    cases: List[Case]
-    errors: List[str] = field(default_factory=list)
+    cases: Tuple[Case, ...]
+    errors: Tuple[str, ...] = ()
 
     @property
     def charges(self):

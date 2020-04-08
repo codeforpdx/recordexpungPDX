@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 
 from datetime import date
 
@@ -35,8 +36,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
             case_number="1",
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
         )
-        case = CaseFactory.create(charges=[three_yr_conviction, arrest, violation, violation_2])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([three_yr_conviction, arrest, violation, violation_2]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[three_yr_conviction.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -66,8 +67,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
             case_number="1",
             disposition=DispositionCreator.create(ruling="Dismissed", date=Time.LESS_THAN_THREE_YEARS_AGO),
         )
-        case = CaseFactory.create(charges=[mrc, arrest])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([mrc, arrest]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -86,8 +87,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         charge = ChargeFactory.create(
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO)
         )
-        case = CaseFactory.create(charges=[charge])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([charge]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -103,8 +104,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         three_yr_mrc = ChargeFactory.create(
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO)
         )
-        case = CaseFactory.create(charges=[ten_yr_charge, three_yr_mrc])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([ten_yr_charge, three_yr_mrc]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[ten_yr_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -131,8 +132,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         less_than_three_yr_mrc = ChargeFactory.create(
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO)
         )
-        case = CaseFactory.create(charges=[ten_yr_charge, less_than_three_yr_mrc])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([ten_yr_charge, less_than_three_yr_mrc]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[ten_yr_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -158,8 +159,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         charge = ChargeFactory.create(
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO)
         )
-        case = CaseFactory.create(charges=[charge])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([charge]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -170,8 +171,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         charge = ChargeFactory.create(
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO)
         )
-        case = CaseFactory.create(charges=[charge])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([charge]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -190,8 +191,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
             date=Time.ONE_YEAR_AGO,
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO),
         )
-        case = CaseFactory.create(charges=[charge])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([charge]))
+        record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -205,10 +206,10 @@ class TestSingleChargeDismissals(unittest.TestCase):
 class TestDismissalBlock(unittest.TestCase):
     def setUp(self):
         self.recent_dismissal = ChargeFactory.create_dismissed_charge(case_number="1", date=Time.TWO_YEARS_AGO)
-        self.case_1 = CaseFactory.create(case_number="1", charges=[self.recent_dismissal])
+        self.case_1 = CaseFactory.create(case_number="1", charges=tuple([self.recent_dismissal]))
 
     def test_record_with_only_an_mrd_is_time_eligible(self):
-        record = Record([self.case_1])
+        record = Record(tuple([self.case_1]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[self.recent_dismissal.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -219,9 +220,8 @@ class TestDismissalBlock(unittest.TestCase):
         case_related_dismissal = ChargeFactory.create_dismissed_charge(
             case_number=self.case_1.case_number, date=Time.TWO_YEARS_AGO
         )
-        self.case_1.charges.append(case_related_dismissal)
-
-        record = Record([self.case_1])
+        updated_case_1 = replace(self.case_1, charges=tuple([*self.case_1.charges, case_related_dismissal]))
+        record = Record(tuple([updated_case_1]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[self.recent_dismissal.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -236,9 +236,9 @@ class TestDismissalBlock(unittest.TestCase):
         unrelated_dismissal = ChargeFactory.create_dismissed_charge(
             case_number="2", date=Time.TEN_YEARS_AGO, violation_type="Offense Misdemeanor"
         )
-        case_2 = CaseFactory.create(case_number="2", charges=[unrelated_dismissal])
+        case_2 = CaseFactory.create(case_number="2", charges=tuple([unrelated_dismissal]))
 
-        record = Record([self.case_1, case_2])
+        record = Record(tuple([self.case_1, case_2]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[unrelated_dismissal.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -253,9 +253,9 @@ class TestDismissalBlock(unittest.TestCase):
             date=Time.TWENTY_YEARS_AGO,
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWENTY_YEARS_AGO),
         )
-        case = CaseFactory.create(charges=[convicted_charge])
+        case = CaseFactory.create(charges=tuple([convicted_charge]))
 
-        record = Record([self.case_1, case])
+        record = Record(tuple([self.case_1, case]))
         expunger_result = Expunger.run(record)
 
         assert expunger_result[convicted_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -267,8 +267,8 @@ class TestDismissalBlock(unittest.TestCase):
 
 class TestSecondMRCLogic(unittest.TestCase):
     def run_expunger(self, mrc, second_mrc):
-        case = CaseFactory.create(charges=[mrc, second_mrc])
-        record = Record([case])
+        case = CaseFactory.create(charges=tuple([mrc, second_mrc]))
+        record = Record(tuple([case]))
         return Expunger.run(record)
 
     def test_3_yr_old_conviction_2_yr_old_mrc(self):
@@ -358,8 +358,8 @@ def create_class_b_felony_charge(case_number, date, ruling="Convicted"):
 
 def test_felony_class_b_greater_than_20yrs():
     charge = create_class_b_felony_charge("1", Time.TWENTY_YEARS_AGO)
-    case = CaseFactory.create(charges=[charge])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([charge]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[charge.ambiguous_charge_id].reason == "Eligible now"
@@ -368,8 +368,8 @@ def test_felony_class_b_greater_than_20yrs():
 
 def test_felony_class_b_less_than_20yrs():
     charge = create_class_b_felony_charge("1", Time.LESS_THAN_TWENTY_YEARS_AGO)
-    case = CaseFactory.create(charges=[charge])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([charge]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -381,13 +381,13 @@ def test_felony_class_b_less_than_20yrs():
 
 def test_felony_class_b_with_subsequent_conviction():
     b_felony_charge = create_class_b_felony_charge("1", Time.TWENTY_YEARS_AGO)
-    case_1 = CaseFactory.create(case_number="1", charges=[b_felony_charge])
+    case_1 = CaseFactory.create(case_number="1", charges=tuple([b_felony_charge]))
     subsequent_charge = ChargeFactory.create(
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO)
     )
-    case_2 = CaseFactory.create(case_number="2", charges=[subsequent_charge])
+    case_2 = CaseFactory.create(case_number="2", charges=tuple([subsequent_charge]))
 
-    expunger_result = Expunger.run(Record([case_1, case_2]))
+    expunger_result = Expunger.run(Record(tuple([case_1, case_2])))
 
     assert expunger_result[b_felony_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -403,13 +403,13 @@ def test_felony_class_b_with_subsequent_conviction():
 
 def test_felony_class_b_with_prior_conviction():
     b_felony_charge = create_class_b_felony_charge("1", Time.TWENTY_YEARS_AGO)
-    case_1 = CaseFactory.create(case_number="1", charges=[b_felony_charge])
+    case_1 = CaseFactory.create(case_number="1", charges=tuple([b_felony_charge]))
     prior_charge = ChargeFactory.create(
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.MORE_THAN_TWENTY_YEARS_AGO)
     )
-    case_2 = CaseFactory.create(case_number="2", charges=[prior_charge])
+    case_2 = CaseFactory.create(case_number="2", charges=tuple([prior_charge]))
 
-    expunger_result = Expunger.run(Record([case_1, case_2]))
+    expunger_result = Expunger.run(Record(tuple([case_1, case_2])))
 
     assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
@@ -422,13 +422,13 @@ def test_felony_class_b_with_prior_conviction():
 
 def test_dismissed_felony_class_b_with_subsequent_conviction():
     b_felony_charge = create_class_b_felony_charge("1", Time.LESS_THAN_TWENTY_YEARS_AGO, "Dismissed")
-    case_1 = CaseFactory.create(case_number="1", charges=[b_felony_charge])
+    case_1 = CaseFactory.create(case_number="1", charges=tuple([b_felony_charge]))
     subsequent_charge = ChargeFactory.create(
         case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
     )
-    case_2 = CaseFactory.create(case_number="2", charges=[subsequent_charge])
+    case_2 = CaseFactory.create(case_number="2", charges=tuple([subsequent_charge]))
 
-    expunger_result = Expunger.run(Record([case_1, case_2]))
+    expunger_result = Expunger.run(Record(tuple([case_1, case_2])))
 
     assert b_felony_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert expunger_result[b_felony_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -446,15 +446,15 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
     )
     manudel_type_eligilibility = RecordMerger.merge_type_eligibilities(manudel_charges)
 
-    case_1a = CaseFactory.create(case_number="1", charges=[manudel_charges[0]])
-    case_1b = CaseFactory.create(case_number="1", charges=[manudel_charges[1]])
+    case_1a = CaseFactory.create(case_number="1", charges=tuple([manudel_charges[0]]))
+    case_1b = CaseFactory.create(case_number="1", charges=tuple([manudel_charges[1]]))
     subsequent_charge = ChargeFactory.create(
         case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
     )
-    case_2 = CaseFactory.create(case_number="2", charges=[subsequent_charge])
+    case_2 = CaseFactory.create(case_number="2", charges=tuple([subsequent_charge]))
 
-    possible_record_1 = Record([case_1a, case_2])
-    possible_record_2 = Record([case_1b, case_2])
+    possible_record_1 = Record(tuple([case_1a, case_2]))
+    possible_record_2 = Record(tuple([case_1b, case_2]))
     expunger_result_1 = Expunger.run(possible_record_1)
     expunger_result_2 = Expunger.run(possible_record_2)
 
@@ -471,8 +471,8 @@ def test_single_violation_is_time_restricted():
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
     )
 
-    case = CaseFactory.create(charges=[violation_charge])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([violation_charge]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[violation_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -496,8 +496,8 @@ def test_2_violations_are_time_restricted():
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWO_YEARS_AGO),
     )
 
-    case = CaseFactory.create(charges=[violation_charge_1, violation_charge_2])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([violation_charge_1, violation_charge_2]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[violation_charge_1.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -537,8 +537,8 @@ def test_3_violations_are_time_restricted():
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO),
     )
 
-    case = CaseFactory.create(charges=[violation_charge_3, violation_charge_2, violation_charge_1])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([violation_charge_3, violation_charge_2, violation_charge_1]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[violation_charge_1.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -582,8 +582,8 @@ def test_nonblocking_charge_is_not_skipped_and_does_not_block():
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
     )
 
-    case = CaseFactory.create(charges=[civil_offense, violation_charge])
-    expunger_result = Expunger.run(Record([case]))
+    case = CaseFactory.create(charges=tuple([civil_offense, violation_charge]))
+    expunger_result = Expunger.run(Record(tuple([case])))
 
     assert expunger_result[civil_offense.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
