@@ -3,9 +3,6 @@ import {
   SEARCH_RECORD_LOADING,
   CLEAR_RECORD,
   SELECT_ANSWER,
-  EDIT_ANSWER,
-  CANCEL_EDIT,
-  UPDATE_ANALYSIS,
   SearchRecordState,
   SearchRecordActionType
 } from './types';
@@ -37,15 +34,9 @@ export function searchReducer(
     case SELECT_ANSWER:
       let questions : QuestionsData = JSON.parse(JSON.stringify(state.questions));
       if (questions && questions[action.ambiguous_charge_id]) {
-        questions[action.ambiguous_charge_id].selected_answer=action.selected_answer;
+        questions[action.ambiguous_charge_id].answer=action.answer;
       }
       return {...state, questions: questions};
-    case EDIT_ANSWER:
-      return state;
-    case CANCEL_EDIT:
-      return state;
-    case UPDATE_ANALYSIS:
-      return state;
     default:
       return state;
   }

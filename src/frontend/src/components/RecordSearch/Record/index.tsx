@@ -2,13 +2,13 @@ import React from 'react';
 import Cases from './Cases';
 import RecordSummary from './RecordSummary';
 import { RecordData } from './types';
+import QuestionsBanner from './QuestionsBanner';
 
 interface Props {
   record: RecordData;
 }
 
 export default class Record extends React.Component<Props> {
-
   render() {
     const errors = ( this.props.record.errors ?
       this.props.record.errors.map(((errorMessage: string, errorIndex: number) => {
@@ -39,6 +39,7 @@ export default class Record extends React.Component<Props> {
         {this.props.record.summary ? (
           <RecordSummary summary={this.props.record.summary}/>
           ) : null }
+        <QuestionsBanner/>
         {this.props.record.cases ? (
           <Cases cases={this.props.record.cases} />
         ) : null}

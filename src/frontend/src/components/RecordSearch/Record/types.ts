@@ -77,8 +77,5 @@ export interface QuestionData {
   ambiguous_charge_id: string;
   question: string;
   options: {[option: string]: string;};
-  editing: boolean;
-  analyzed: boolean;
-  selected_answer: string; // what the radio button is showing
-  submitted_answer: string; // the persistent value if you hit the "cancel" (editing) button
+  answer: string;
 }

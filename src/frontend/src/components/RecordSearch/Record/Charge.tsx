@@ -86,7 +86,7 @@ export default class Charge extends React.Component<Props> {
             </ul>
           </div>
         </div>
-        <Question ambiguous_charge_id= {this.props.charge.ambiguous_charge_id}/>
+        <Question ambiguous_charge_id= {ambiguous_charge_id}/>
       </div>
     );
   }

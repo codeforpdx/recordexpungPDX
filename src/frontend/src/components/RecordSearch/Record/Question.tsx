@@ -9,39 +9,45 @@ interface Props {
   question?: QuestionData;
 }
 
-interface State {
-  selected_answer: string
-}
+class Question extends React.Component<Props> {
 
-class Question extends React.Component<Props, State> {
-
-  state = {
-    selected_answer: (
-    this.props.question ?
-    this.props.question.selected_answer :
-    "")
+  handleRadioChange = (e: React.BaseSyntheticEvent) => {
+    store.dispatch(selectAnswer(e.target.name, e.target.value))
   };
 
   render() {
-    return ( this.props.question ?
-      (
-        <div>
-          <div>Question</div>
-          <button
-            onClick={() => {
-              console.log("clicked");
-              store.dispatch(selectAnswer("15PK267144-1", "clicked for jordan"));
-              store.dispatch(selectAnswer("900633651-1", "clicked answer"));
-            }}
-                type="button">
-                    Alias
-          </button>
-          {"state: " + this.state.selected_answer}
-          {"props: " + this.props.question.selected_answer}
-
+    if (this.props.question) {
+    const options : {[option: string] : string} = this.props.question.options;
+    return (
+        <div className="flex-l items-start justify-between w-100 bt bw3 b--light-purple pt3">
+          <div>
+            <fieldset className="mb4">
+              <legend className="fw7">{this.props.question.question}</legend>
+              <div className="radio">
+                {Object.keys(options).map(
+                  (option_str :string)=>{
+                    const id : string = this.props.ambiguous_charge_id + options[option_str];
+                  return (
+                    <div key={id}>
+                    <input
+                      type="radio"
+                      name={this.props.ambiguous_charge_id}
+                      id={id}
+                      value={options[option_str]}
+                      onChange={this.handleRadioChange}
+                      />
+                    <label htmlFor={id}>{option_str}</label>
+                    </div>
+                    )
+                })}
+              </div>
+            </fieldset>
+          </div>
         </div>
-      ): null
-      );
+      )
+    } else {
+      return (<div></div>);
+    }
   }
 }
 
@@ -50,7 +56,6 @@ function mapStateToProps(state: AppState, ownProps: Props) {
   if (state.search.questions &&
     state.search.questions[ownProps.ambiguous_charge_id]) {
       question = state.search.questions[ownProps.ambiguous_charge_id];
-      console.log("with question");
       return {
         ambiguous_charge_id: ownProps.ambiguous_charge_id,
         question: question
@@ -60,8 +65,6 @@ function mapStateToProps(state: AppState, ownProps: Props) {
         ambiguous_charge_id: ownProps.ambiguous_charge_id,
        };
     }
-
-
 }
 
 
