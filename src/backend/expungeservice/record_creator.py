@@ -5,6 +5,7 @@ from typing import List, Dict, Tuple
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
+from expungeservice.models.case import Case
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question
 from expungeservice.request import error
@@ -34,17 +35,17 @@ class RecordCreator:
             except Exception as e:
                 errors.append(str(e))
         if errors:
-            ambiguous_record = [Record([], errors)]
+            ambiguous_record = [Record((), tuple(errors))]
         else:
             ambiguous_record: AmbiguousRecord = []  # type: ignore
             for cases in product(*ambiguous_cases_accumulator):
-                cases_with_unique_case_number = [
+                cases_with_unique_case_number: List[Case] = [
                     list(group)[0]
                     for key, group in groupby(
                         sorted(list(cases), key=lambda case: case.case_number), lambda case: case.case_number
                     )
                 ]
-                ambiguous_record.append(Record(cases_with_unique_case_number))
+                ambiguous_record.append(Record(tuple(cases_with_unique_case_number)))
         record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
         questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_accumulator)))
         return record, ambiguous_record, questions_as_dict
@@ -54,7 +55,7 @@ class RecordCreator:
         charge_id_to_time_eligibilities = []
         ambiguous_record_with_errors = []
         for record in ambiguous_record:
-            record_with_errors = replace(record, errors=ErrorChecker.check(record))
+            record_with_errors = replace(record, errors=tuple(ErrorChecker.check(record)))
             charge_id_to_time_eligibility = Expunger.run(record_with_errors)
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
             ambiguous_record_with_errors.append(record_with_errors)

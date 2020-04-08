@@ -13,70 +13,88 @@ def test_record_summarizer_multiple_cases():
         case_number="1",
         balance="100.00",
         date_location=["1/1/1995", "Multnomah"],
-        charges=[
-            ChargeFactory.create(
-                case_number="1",
-                name="Theft of dignity",
-                disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            )
-        ],
+        charges=tuple(
+            [
+                ChargeFactory.create(
+                    case_number="1",
+                    name="Theft of dignity",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                )
+            ]
+        ),
     )
 
     case_partially_eligible = CaseFactory.create(
         case_number="2",
         balance="200.00",
         date_location=["1/1/1995", "Clackamas"],
-        charges=[
-            ChargeFactory.create(
-                case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            ),
-            ChargeFactory.create(
-                case_number="2",
-                level="Felony Class A",
-                disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            ),
-        ],
+        charges=tuple(
+            [
+                ChargeFactory.create(
+                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                ),
+                ChargeFactory.create(
+                    case_number="2",
+                    level="Felony Class A",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                ),
+            ]
+        ),
     )
 
     case_possibly_eligible = CaseFactory.create(
         case_number="3",
         balance="300.00",
         date_location=["1/1/1995", "Baker"],
-        charges=[
-            ChargeFactory.create(
-                case_number="3",
-                level="Felony Class B",
-                disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            )
-        ],
+        charges=tuple(
+            [
+                ChargeFactory.create(
+                    case_number="3",
+                    level="Felony Class B",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                )
+            ]
+        ),
     )
 
     case_all_ineligible = CaseFactory.create(
         case_number="4",
         balance="400.00",
         date_location=["1/1/1995", "Baker"],
-        charges=[
-            ChargeFactory.create(
-                case_number="4",
-                level="Felony Class A",
-                disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            )
-        ],
+        charges=tuple(
+            [
+                ChargeFactory.create(
+                    case_number="4",
+                    level="Felony Class A",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                )
+            ]
+        ),
     )
 
     case_all_ineligible_2 = CaseFactory.create(
         case_number="5",
         date_location=["1/1/1995", "Baker"],
-        charges=[
-            ChargeFactory.create(
-                case_number="5",
-                level="Felony Class A",
-                disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-            )
-        ],
+        charges=tuple(
+            [
+                ChargeFactory.create(
+                    case_number="5",
+                    level="Felony Class A",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                )
+            ]
+        ),
     )
     record = Record(
-        [case_all_eligible, case_partially_eligible, case_possibly_eligible, case_all_ineligible, case_all_ineligible_2]
+        tuple(
+            [
+                case_all_eligible,
+                case_partially_eligible,
+                case_possibly_eligible,
+                case_all_ineligible,
+                case_all_ineligible_2,
+            ]
+        )
     )
     expunger_result = Expunger.run(record)
 
@@ -100,7 +118,7 @@ def test_record_summarizer_multiple_cases():
 
 
 def test_record_summarizer_no_cases():
-    record = Record([])
+    record = Record(tuple([]))
     record_summary = RecordSummarizer.summarize(record, {})
 
     assert record_summary.total_balance_due == 0.00

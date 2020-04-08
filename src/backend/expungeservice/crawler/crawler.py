@@ -73,7 +73,7 @@ class Crawler:
                 questions.append(question)
         ambiguous_case = []
         for charges in product(*ambiguous_charges):
-            possible_case = replace(updated_case, charges=list(charges))
+            possible_case = replace(updated_case, charges=tuple(charges))
             ambiguous_case.append(possible_case)
         return ambiguous_case, questions
 
