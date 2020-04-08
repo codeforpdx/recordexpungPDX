@@ -97,8 +97,18 @@ $(REQUIREMENTS_TXT):
 
 # ---
 
+BACKEND_SERVICE := expungeservice
+FRONTEND_SERVICE := node
+DB_SERVICE := postgres
+
 # currently, only used for PGDATABASE var in 'dropdb' target
 include config/postgres/client.env
+
+# one step target for a new dev env
+new: up
+	@echo waiting for database...
+	@sleep 10
+	@make initdb
 
 # pulls the necessary images for the local dev services
 pull:
@@ -106,7 +116,7 @@ pull:
 
 # pushes the dev image for the local expungeservice service
 push:
-	docker-compose push expungeservice
+	docker-compose push $(BACKEND_SERVICE)
 
 # pulls, then fires up local dev services
 up: pull
@@ -119,25 +129,37 @@ down:
 # runs database initialization scripts - run at first creation or if database
 # data volume is removed
 initdb:
-	docker-compose exec --user=postgres postgres /var/lib/postgresql/config/initdb/init-db.dev.sh
+	docker-compose exec --user=postgres $(DB_SERVICE) /var/lib/postgresql/config/initdb/init-db.dev.sh
 
 # drop database
 dropdb:
-	docker-compose exec --user=postgres postgres sh -l -c "dropdb $(PGDATABASE)"
+	docker-compose exec --user=postgres $(DB_SERVICE) sh -l -c "dropdb $(PGDATABASE)"
 
 # run all tests
 test: frontend_test_no_watch backend_test
 
+# wipeout containers and volumes
+clobber:
+	docker-compose down -v
+
+# build expungeservice:dev image
+backend_build:
+	docker-compose build $(BACKEND_SERVICE)
+
+# tail logs from backend
+backend_logs:
+	docker-compose logs -f $(BACKEND_SERVICE)
+
 # recreate the backend container; n.b. does not recreate image
 backend_reload:
-	docker-compose stop expungeservice
-	docker rm recordexpungpdx_expungeservice_1
-	docker-compose up -d expungeservice
+	docker-compose stop $(BACKEND_SERVICE)
+	docker rm recordexpungpdx_$(BACKEND_SERVICE)_1
+	docker-compose up -d $(BACKEND_SERVICE)
 
 # run backend tests
 backend_test:
-	docker-compose exec expungeservice pipenv run mypy
-	docker-compose exec expungeservice pipenv run pytest
+	docker-compose exec $(BACKEND_SERVICE) pipenv run mypy
+	docker-compose exec $(BACKEND_SERVICE) pipenv run pytest
 
 # run react-scripts build
 frontend_build: frontend_clean
@@ -152,13 +174,17 @@ frontend_clean:
 
 # stop and remove the frontend container
 frontend_down:
-	docker-compose stop node
-	docker rm recordexpungpdx_node_1
+	docker-compose stop $(FRONTEND_SERVICE)
+	docker rm recordexpungpdx_$(FRONTEND_SERVICE)_1
+
+# tail logs from frontend
+frontend_logs:
+	docker-compose logs -f $(FRONTEND_SERVICE)
 
 # run frontend tests, watching enabled (default)
 frontend_test:
-	docker-compose exec node sh -c 'cd /src/frontend && npm test'
+	docker-compose exec $(FRONTEND_SERVICE) sh -c 'cd /src/frontend && npm test'
 
 # run frontend tests without watching enabled
 frontend_test_no_watch:
-	docker-compose exec node sh -c 'cd /src/frontend && CI=true npm test'
+	docker-compose exec $(FRONTEND_SERVICE) sh -c 'cd /src/frontend && CI=true npm test'

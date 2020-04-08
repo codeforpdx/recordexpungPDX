@@ -1,0 +1,198 @@
+RecordSponge Ops
+================
+
+Details on developer operations, deploy steps, configurations, etc.
+
+## Goals
+
+* make initial developer set up as simple as possible (`make new`)
+* make staging, production, etc. deploys as simple as possible (`cd src/ops && make staging`)
+* keep dev, staging, and production environments as similar as possible
+* make developing either frontend or backend features as simple as possible
+    * support HMR dev server for frontend dev, or static files for backend-only
+    * bind mount local source tree into dev containers
+    * support test/style watchers/linters
+
+## DevOps
+
+This section describes the configuration of the "local" developer enviroment
+with notes addressing specific decisions made to support the overall goals of
+this initiative.
+
+### Implementation
+
+The local developer environment for this project relies on 3 containers:
+
+* Node to run react-scripts, handle HMR dev server
+* Python 3.7 to serve the Flask app (API & static files)
+* PostgreSQL 10 to be the database
+
+In trying to keep things simple, we only customize the Python container and use
+published base images for Node and Postgres directly. The Python container is
+configured to have all the run-time dependencies and the virutalenv defined by
+`Pipfile.lock`.
+
+There are no run-time node requirements, since react-scripts will build a
+complete static tree of HTML, CSS, and JavaScript for production deploys. The
+Flask app is configured to serve these statically built files. This keeps
+deploys simple, see below.
+
+#### Python dependencies
+
+When Python dependencies change, an owner of the
+[RecordSponge](https://hub.docker.com/u/recordsponge) Docker Hub ID needs to
+build and push a new image. This does not prevent a developer from testing with
+different dependencies, but pushing the dev image is considered an official step
+and provides the rest of the group with the new pre-built image.
+
+Testing new dependency locally:
+
+```
+$ vim src/backend/Pipfile
+$ make backend_build backend_reload backend_logs
+```
+
+Pushing new `expungeservice:dev` image:
+
+```
+$ docker login
+$ make push
+```
+
+_Dependency changes should be thoroughly vetted before both being merged in and
+pushing a new dev image._
+
+NOTE: virtualenv is stored *inside the image* at `/src/venvs`
+
+#### Node dependencies
+
+The Node container is configured to use `npm install && npm run start` as its
+run command. This will attempt to intall node modules each time the container
+is started, then fire up the HMR dev server.
+
+Changing node module dependencies:
+
+```
+$ vim src/frontend/package.json
+$ docker-compose restart node
+
+```
+
+NOTE: `node_modules` is a named volume, mounted into the node container at the
+path `/src/frontend/node_modules`. This keeps the node\_modules tree off of the
+local filesystem, and preserves it across container lifecycles.
+
+#### PostgreSQL volumes
+
+`postgres_data` is a named volume, mounted into the postgres container at the
+path `/var/lib/postgresql/data`. This keeps the data tree off of the local
+filesystem, and preserves it across container lifecycles.
+
+The local path `config/postgres` is bind-mounted into the postgres container at
+the path `/var/lib/postgresql/config`. This allows the `initdb` make target to
+run the seeding SQL scripts therein.
+
+##
+
+## Deploys
+
+### Image tags
+
+We use the `:dev` image tag to denote an python:3.7-alpine based image that has
+all the run-time dependencies but no source. It expects source trees to be
+bind-mounted into a container running this image.
+
+Conversely, we use the `:staging` (and soon `:prod`) tags to denote images that
+are based on `:dev` but have full backend source & frontend build artifacts
+copied into the image. These images are fully-contained, and deployable on
+any platform, using only ENV variables to configure database connections and
+TIER.
+
+### hub.docker.com ID and config
+
+A `recordsponge` organization has been created on Docker hub. The `expungeservice`
+repository under this org contains images with tags for `dev` (local), `staging`
+(dev.recordsponge.com), and (in the future) `prod` (recordsponge.com).
+
+### DigitalOcean host config
+
+An Ubuntu 18.04 host has been stood up to serve `*.recordsponge.com`. This host
+has PostgreSQL 10, nginx, and Docker installed.
+
+#### SSH config
+
+To connect to this host, supply your SSH *public* key to someone with access.
+Add the following to your `~/.ssh/config` file:
+
+```
+Host recordsponge
+    User username
+    Hostname recordsponge.com
+    IdentityFile ~/.ssh/codeforpdx_ed25519
+```
+
+Replace `username` with yours, and `codeforpdx_ed25519` with your SSH *private*
+key. You should now be able to connect with:
+
+```
+$ ssh recordsponge
+```
+
+#### SSL config
+
+LetsEncrypt is fully configured. See:
+
+* `/etc/nginx/sites-available/recordexpunge-nginx.conf`.
+* `/etc/nginx/sites-available/dev.recordsponge.com.conf`.
+* `/etc/cron.d/certbot`
+* `/var/spool/cron/crontabs/root`
+
+#### nginx config
+
+nginx is currently configured to serve the following domains:
+
+`recordsponge.com`:
+
+* requires GitHub access & git source tree on host
+* direct process, managed by hand
+* serves static files from `/usr/share/nginx/html`
+* `uwsgi_pass` proxy method
+* OOMs
+
+See `/etc/nginx/sites-available/recordexpunge-nginx.conf`.
+
+`dev.recordsponge.com`:
+
+* `proxy_pass` proxy method
+* terminates SSL, passes everything else to port
+* single-container listening on port
+
+See `/etc/nginx/sites-available/dev.recordsponge.com.conf`.
+
+#### PostgreSQL config
+
+PostgreSQL is configured to listen on `localhost` *and* the interface of the
+"Docker" host: `172.17.0.1` (see `/etc/postgresql/10/main/postgresql.conf`). It
+also allows password authenticated connections on that interface (see
+`/etc/postgresql/10/main/pg_hba.conf`).
+
+For connection credentails, see:
+
+* `/home/kent/recordexpungPDX/config/expungeservice/expungeservice.production.env`
+* `/home/kenichi/staging.env`
+
+### DNS config
+
+TODO: find out details
+
+### Steps to deploy
+
+NOTE: These steps assume the above configurations and a tangible example exists in
+the `staging` target of `src/ops/Makefile`.
+
+1. build tagged image
+2. push tagged image
+3. connect to production host
+4. pull tagged image
+5. stop container
+6. start container
