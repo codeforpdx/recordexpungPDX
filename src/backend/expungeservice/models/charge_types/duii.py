@@ -4,7 +4,7 @@ from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class Duii(Charge):
     type_name: str = "DUII"
     expungement_rules: str = (
@@ -24,7 +24,7 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
             )
 
 
-@dataclass
+@dataclass(frozen=True)
 class DivertedDuii(Charge):
     type_name: str = "Diverted DUII"
 

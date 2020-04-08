@@ -5,7 +5,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 from expungeservice.models.disposition import DispositionStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class FelonyClassC(Charge):
     type_name: str = "Felony Class C"
     expungement_rules: str = (

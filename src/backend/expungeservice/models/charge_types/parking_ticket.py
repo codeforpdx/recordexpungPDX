@@ -5,7 +5,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 from expungeservice.models.disposition import DispositionStatus
 
 
-@dataclass
+@dataclass(frozen=True)
 class ParkingTicket(Charge):
     """
     This is a civil offense, and it is also a traffic offense.
