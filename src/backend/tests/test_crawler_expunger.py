@@ -27,9 +27,9 @@ def record_with_open_case():
 
 def test_expunger_with_open_case(record_with_open_case):
     errors = record_with_open_case.errors
-    expunger = Expunger(record_with_open_case)
+    expunger_result = Expunger.run(record_with_open_case)
 
-    assert len(expunger.run()) == 4
+    assert len(expunger_result) == 4
     assert "All charges are ineligible because there is one or more open case" in errors[0]
 
 
@@ -39,8 +39,8 @@ def empty_record():
 
 
 def test_expunger_with_an_empty_record(empty_record):
-    expunger = Expunger(empty_record)
-    assert expunger.run() == {}
+    expunger_result = Expunger.run(empty_record)
+    assert expunger_result == {}
 
 
 @pytest.fixture
@@ -49,8 +49,8 @@ def partial_dispos_record():
 
 
 def test_partial_dispos(partial_dispos_record):
-    expunger = Expunger(partial_dispos_record)
-    assert len(expunger.run()) == 1
+    expunger_result = Expunger.run(partial_dispos_record)
+    assert len(expunger_result) == 1
 
 
 @pytest.fixture
@@ -60,9 +60,9 @@ def record_without_dispos():
 
 def test_case_without_dispos(record_without_dispos):
     errors = record_without_dispos.errors
-    expunger = Expunger(record_without_dispos)
+    expunger_result = Expunger.run(record_without_dispos)
     assert record_without_dispos.cases[0].closed()
-    assert expunger.run() == {}
+    assert expunger_result == {}
     assert errors[0] == (
         f"""Case [{record_without_dispos.cases[0].case_number}] has a charge with a missing disposition.
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
@@ -82,8 +82,8 @@ def record_with_unrecognized_dispo():
 
 def test_case_with_unrecognized_dispo(record_with_unrecognized_dispo):
     errors = record_with_unrecognized_dispo.errors
-    expunger = Expunger(record_with_unrecognized_dispo)
-    assert len(expunger.run()) == 6
+    expunger_result = Expunger.run(record_with_unrecognized_dispo)
+    assert len(expunger_result) == 6
     assert "The following cases have charges with an unrecognized disposition" in errors[0]
 
 
@@ -164,8 +164,8 @@ def record_with_specific_dates():
 
 def test_expunger_runs_time_analyzer(record_with_specific_dates):
     record = record_with_specific_dates
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
+
     assert len(expunger_result) == 9
 
     assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -194,12 +194,13 @@ def record_with_revoked_probation():
 
 def test_probation_revoked_affects_time_eligibility(record_with_revoked_probation):
     record = record_with_revoked_probation
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
+
     assert len(expunger_result) == 6
     assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].date_will_be_eligible == date_class(
         2020, 11, 9
     )
+
 
 @pytest.fixture
 def record_with_odd_event_table_contents():
@@ -209,8 +210,8 @@ def record_with_odd_event_table_contents():
 
 
 def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event_table_contents):
-    expunger = Expunger(record_with_odd_event_table_contents)
-    assert expunger.run() == {
+    expunger_result = Expunger.run(record_with_odd_event_table_contents)
+    assert expunger_result == {
         "CASEJD1-1": TimeEligibility(
             status=EligibilityStatus.INELIGIBLE,
             reason="Never. Type ineligible charges are always time ineligible.",

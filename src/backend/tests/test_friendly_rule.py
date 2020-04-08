@@ -21,8 +21,7 @@ def test_eligible_mrc_with_single_arrest():
 
     case = CaseFactory.create(charges=[three_yr_mrc, arrest])
     record = Record([case])
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
 
     assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert (
@@ -58,8 +57,7 @@ def test_arrest_is_unaffected_if_conviction_eligibility_is_older():
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create(charges=[violation_charge, arrest])
-    expunger = Expunger(Record([case]))
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(Record([case]))
 
     assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[arrest.ambiguous_charge_id].date_will_be_eligible == arrest.date
@@ -83,9 +81,8 @@ def test_eligible_mrc_with_violation():
     )
     case = CaseFactory.create(case_number="1", charges=[three_yr_mrc, arrest, violation])
     record = Record([case])
-    expunger = Expunger(record)
+    expunger_result = Expunger.run(record)
 
-    expunger_result = expunger.run()
     assert expunger_result[three_yr_mrc.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[three_yr_mrc.ambiguous_charge_id].reason == "Eligible now"
     assert expunger_result[three_yr_mrc.ambiguous_charge_id].date_will_be_eligible == date.today()
@@ -117,8 +114,7 @@ def test_needs_more_analysis_mrc_with_single_arrest():
 
     case = CaseFactory.create(charges=[three_yr_mrc, arrest])
     record = Record([case])
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
 
     ten_years_from_mrc = three_yr_mrc.disposition.date + Time.TEN_YEARS
     assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
@@ -151,8 +147,7 @@ def test_very_old_needs_more_analysis_mrc_with_single_arrest():
 
     case = CaseFactory.create(charges=[mrc, arrest])
     record = Record([case])
-    expunger = Expunger(record)
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(record)
 
     three_years_from_mrc = mrc.disposition.date + Time.THREE_YEARS
     assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -182,8 +177,7 @@ def test_arrest_time_eligibility_is_set_to_older_violation():
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create(charges=[older_violation, newer_violation, arrest])
-    expunger = Expunger(Record([case]))
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(Record([case]))
 
     assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
@@ -215,8 +209,7 @@ def test_3_violations_are_time_restricted():
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.ONE_YEAR_AGO))
 
     case = CaseFactory.create(charges=[violation_charge_3, violation_charge_2, violation_charge_1, arrest])
-    expunger = Expunger(Record([case]))
-    expunger_result = expunger.run()
+    expunger_result = Expunger.run(Record([case]))
 
     earliest_date_eligible = min(
         expunger_result[violation_charge_1.ambiguous_charge_id].date_will_be_eligible,
