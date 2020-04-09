@@ -69,6 +69,16 @@ def test_manufacture_delivery_manudel_felony_unclassified():
     )
 
 
+def test_manufacture_delivery_manudel_felony_c():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="Manu/Del Cntrld Sub-SC 1", statute="4759921B", level="Felony Class C", disposition=Dispositions.CONVICTED
+    )
+    type_eligibility = RecordMerger.merge_type_eligibilities(charges)
+
+    assert type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert type_eligibility.reason == "Eligible under 137.225(5)(b)"
+
+
 def test_manufacture_delivery_manufacturing_name():
     charges = ChargeFactory.create_ambiguous_charge(
         name="MANUFACTURING CONTROLLED SUB",
