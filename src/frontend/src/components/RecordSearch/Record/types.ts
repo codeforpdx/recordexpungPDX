@@ -74,6 +74,7 @@ export interface QuestionsData {
 }
 
 export interface QuestionData {
+  case_number: string;
   ambiguous_charge_id: string;
   question: string;
   options: { [option: string]: string; };

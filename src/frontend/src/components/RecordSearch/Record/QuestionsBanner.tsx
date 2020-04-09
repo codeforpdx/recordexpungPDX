@@ -9,46 +9,46 @@ interface Props {
 
 class QuestionsBanner extends React.Component<Props> {
 
-  getQuestionCases(): { [caseId: string]: boolean } {
-    let questionCaseIds: { [caseId: string]: boolean } = {};
+  getQuestionCaseNumbers(): { [caseNumber: string]: boolean } {
+    let questionCaseNumbers: { [caseNumber: string]: boolean } = {};
     if (this.props.questions) {
-      const re = /(.*)-[^-]*/;
-      let res: string[] | null = [];
-      let caseId: string;
+      let caseNumber: string;
       let answered: boolean;
       for (const ambiguousChargeId of Object.keys(this.props.questions)) {
-        res = re.exec(ambiguousChargeId);
-        caseId = res && res[1] ? res[1] : "";
-        answered = ((caseId !== "") && (this.props.questions[ambiguousChargeId]["answer"] !== ""));
-        if (caseId !== "") {
-          if (!Object.keys(questionCaseIds).includes(caseId) || questionCaseIds[caseId]) {
-            questionCaseIds[caseId] = answered;
-          }
+        caseNumber = this.props.questions[ambiguousChargeId]["case_number"];
+        answered = this.props.questions[ambiguousChargeId]["answer"] !== "";
+        if (!Object.keys(questionCaseNumbers).includes(caseNumber) || questionCaseNumbers[caseNumber]) {
+          questionCaseNumbers[caseNumber] = answered;
         }
       }
     }
-    return questionCaseIds;
+    return questionCaseNumbers;
+  }
+
+  renderStatus(answered: boolean) {
+    if (answered) {
+      return (
+        <>
+          <span className="visually-hidden">Case resolved</span>
+          <span className="fas fa-check green pr1" aria-hidden="true"></span>
+        </>
+      )
+    } else {
+      return (
+        <span className="fas fa-question-circle purple pr1" aria-hidden="true"></span>
+      )
+    }
   }
 
   renderCases() {
-    const questionCases: { [caseId: string]: boolean } = this.getQuestionCases();
-    return Object.keys(questionCases).map((caseId: string) => {
-      if (questionCases[caseId]) {
-        return (
-          <li className="mb2" key={"qb-" + caseId}>
-          <span className="visually-hidden">Case resolved</span>
-          <span className="fas fa-check green pr1" aria-hidden="true"></span>
-          <a className="underline" href={"#" + caseId}>{caseId}</a>
-          </li>
+    const questionCasesNumbers: { [caseNumber: string]: boolean } = this.getQuestionCaseNumbers();
+    return Object.keys(questionCasesNumbers).map((caseNumber: string) => {
+      return (
+        <li className="mb2" key={"qb-" + caseNumber}>
+          {this.renderStatus(questionCasesNumbers[caseNumber])}
+          <a className="underline" href={"#" + caseNumber}>{caseNumber}</a>
+        </li>
         )
-      } else {
-        return (
-          <li className="mb2" key={"qb-" + caseId}>
-          <span className="fas fa-question-circle purple pr1" aria-hidden="true"></span>
-          <a className="underline" href={"#" + caseId}>{caseId}</a>
-          </li>
-        )
-      }
     })
   }
 
