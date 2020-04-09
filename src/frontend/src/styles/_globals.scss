@@ -109,6 +109,10 @@ $washed-red: #f0e0e8;
   border-radius: 50%;
   border: 3px solid rgba(53, 126, 221, 0.2);
 }
+.spinner--sm {
+  width:16px;
+  height: 16px;
+}
 .spinner--light {
   border: 3px solid rgba(186, 216, 255, 0.2);
 }
@@ -137,6 +141,11 @@ $washed-red: #f0e0e8;
     -webkit-transform: rotate(360deg);
     tranform: rotate(360deg);
   }
+}
+
+.radio-spinner {
+  bottom: -1.4rem;
+  left: 0.38rem;
 }
 
 .loading-btn {
@@ -237,11 +246,15 @@ footer {
 
 .radio input[type='radio'] {
   opacity: 0;
+  display: block;
+  position: relative;
+  top: 0.5rem;
 }
 .radio label {
   position: relative;
-  display: block;
-  padding: 0.4rem 3rem 0 2.2rem;
+  top: -0.6rem;
+  display: inline-block;
+  padding: 0.4rem 1.5rem 0 2.1rem;
 }
 .radio label::before,
 .radio label::after {
@@ -273,8 +286,8 @@ footer {
   content: '';
 }
 .radio input[type='radio']:focus + label::before {
-  outline: auto 2px Highlight;
-  outline: auto 5px -webkit-focus-ring-color;
+  outline: 0;
+  border: 2px solid $blue;
 }
 
 // Change the breakpoint "ns" variable to be wider?

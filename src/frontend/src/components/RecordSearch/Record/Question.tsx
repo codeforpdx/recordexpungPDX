@@ -19,24 +19,26 @@ class Question extends React.Component<Props> {
     if (this.props.question) {
       const options: { [option: string]: string } = this.props.question.options;
       return (
-        <div className="flex-l items-start justify-between w-100 bt bw3 b--light-purple pt3">
-        <div>
-        <fieldset className="mb4">
-        <legend className="fw7">{this.props.question.question}</legend>
-        <div className="radio">
-        {Object.keys(options).map(
-          (option_str: string) => {
-            const id: string = this.props.ambiguous_charge_id + options[option_str];
-            return (
-              <div key={id}>
-              <input type="radio" name={this.props.ambiguous_charge_id} id={id} value={options[option_str]} onChange={this.handleRadioChange}/>
-              <label htmlFor={id}>{option_str}</label>
-              </div>
-            )
-          })}
-        </div>
-        </fieldset>
-        </div>
+        <div className="w-100 bt bw3 b--light-purple pa3 pb1">
+          <fieldset className="relative mb4">
+            <legend className="fw7 mb2">{this.props.question.question}</legend>
+            <div className="radio">
+            {Object.keys(options).map(
+              (option_str: string) => {
+                const id: string = this.props.ambiguous_charge_id + options[option_str];
+                return (
+                  <div className="dib" key={id}>
+                  <input type="radio" name={this.props.ambiguous_charge_id} id={id} value={options[option_str]} onChange={this.handleRadioChange}/>
+                  <label htmlFor={id}>{option_str}</label>
+                  </div>
+                )
+              })}
+            </div>
+            <div className="radio-spinner absolute" role="status">
+              <span className="spinner spinner--sm mr1"></span>
+              <span className="f6 fw5">Updating&#8230;</span>
+            </div>
+          </fieldset>
         </div>
       )
     } else {
