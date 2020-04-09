@@ -70,7 +70,7 @@ After this target completes, you can navigate to [http://localhost:3000](http://
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
 
-In the course of backend development, one may not need to be running the React/HMR dev server. To build the frontend static files, and use the backend to serve them, run the following command:
+In the course of backend development, one may not need to be running the React/HMR dev server. To build the frontend static files, and use Flask to serve them, run the following command:
 
 ```
 $ make frontend_down frontend_build
