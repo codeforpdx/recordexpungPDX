@@ -1,5 +1,5 @@
 # RecordSponge
-[![Build Status](https://travis-ci.com/codeforpdx/recordexpungPDX.svg?branch=master)](https://travis-ci.com/codeforpdx/recordexpungPDX)
+![](https://github.com/codeforpdx/recordexpungPDX/workflows/recordexpungPDX%20tests/badge.svg)
 
 A project to automate expunging qualifying criminal records. This project is done in conjunction with Qiu-Qiu Law. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
