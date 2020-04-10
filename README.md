@@ -63,9 +63,9 @@ You can get your dev environment up and running with installing only Docker and 
 
 ## Running the docker stack
 
-In the project's root directory, run `make new`. This pulls the dev-tagged "expungeservice" image and launches the containers using docker-compose. Stop the running stack with `make stop`.
+In the project's root directory, run `make new`. This pulls the dev-tagged "expungeservice" image and launches the containers using docker-compose. Start and stop the running stack with `make up` and `make down`.
 
-After this target completes, you can navigate to [http://localhost:3000](http://localhost:3000) in the browser and connect to the React dev server with full hot-module reloading. This may take a minute or two to come up before it is available. Check the service with `make frontend_logs`. Once everything is up, you can log in using either of the following credentials:
+After this target completes, you can navigate to [http://localhost:3000](http://localhost:3000) in the browser and connect to the React dev server with full hot-module reloading. This may take a minute or two to come up before it is available while it installs node modules. Check the service with `make frontend_logs`. Once everything is up, you can log in using either of the following credentials:
 
 * Email: admin@email.com, Password: admin
 * Email: user@email.com, Password: user
@@ -76,7 +76,7 @@ In the course of backend development, one may not need to be running the React/H
 $ make frontend_down frontend_build
 ```
 
-Then navigate to [http://localhost:5000](http://localhost:5000) to access the backend service directly. This is configured to serve the static files. `make up` will start the HMR dev server again at 3000 if you need it.
+Then navigate to [http://localhost:5000](http://localhost:5000) to access the backend service directly. This is configured to serve the static files. `make up` will start the HMR dev server again at 3000 if you stopped it.
 
 Whenever a dependency is added to the backend, someone needs to rebuild the dev-tagged image and push or folks will get errors when trying to run the stack. To do so, rebuild the image, and reload the backend with:
 
@@ -128,7 +128,7 @@ This runs a `pytest` command to execute all the unit tests inside the backend do
 To run a subset of test cases without first shelling into the docker container, you can use a docker-compose `exec` command, which specifies a container by service name and a runnable command in the container in a single step, e.g.:
 
 ```
-$ docker-compose exec expungeservice pytest ./tests/[subdir]
+$ docker-compose exec expungeservice pipenv run pytest tests/[subdir]
 ```
 
 To specify and run a subset of the test cases.

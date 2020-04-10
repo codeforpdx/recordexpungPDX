@@ -181,6 +181,10 @@ frontend_down:
 frontend_logs:
 	docker-compose logs -f $(FRONTEND_SERVICE)
 
+# restart frontend
+frontend_restart:
+	docker-compose restart $(FRONTEND_SERVICE)
+
 # run frontend tests, watching enabled (default)
 frontend_test:
 	docker-compose exec $(FRONTEND_SERVICE) sh -c 'cd /src/frontend && npm test'
