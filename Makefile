@@ -112,3 +112,19 @@ frontend_test:
 # run frontend tests without watching enabled
 frontend_test_no_watch:
 	docker-compose exec $(FRONTEND_SERVICE) sh -c 'cd /src/frontend && CI=true npm test'
+
+# pull a database backup from production
+#
+# expects:
+#   * 'Host recordsponge' section in _local_ ~/.ssh/config (see /src/ops/README.md#SSH_Config)
+#   * 'prod.env' with database credentials and TIER in _remote_ /etc/recordsponge/
+#
+prod_db_sync:
+	@ssh recordsponge -C \
+		'docker pull postgres:10-alpine; \
+		 docker run --rm --user=`id -u` --env-file /etc/recordsponge/prod.env --name backup -v /var/tmp:/var/tmp postgres:10-alpine pg_dump -Fc -f /var/tmp/backup-prod.psql'
+	@scp recordsponge:/var/tmp/backup-prod.psql config/postgres/backup-prod.psql
+	@make dropdb
+	@docker-compose exec --user=postgres $(DB_SERVICE) sh -l -c "createdb $(PGDATABASE) && pg_restore -O -d $(PGDATABASE) /var/lib/postgresql/config/backup-prod.psql"
+	@rm config/postgres/backup-prod.psql
+	@ssh recordsponge -C 'rm /var/tmp/backup-prod.psql'
