@@ -20,7 +20,7 @@ rsync:
 
 # echo out version.json
 version:
-	echo {\"recordexpungPDX\":\"$$(git rev-parse HEAD)\",\"branch\":\"$$(git rev-parse --abbrev-ref HEAD)\"} \
+	echo "{\"recordexpungPDX\":\"$$(git rev-parse HEAD)\",\"branch\":\"$$(git rev-parse --abbrev-ref HEAD)\"}" \
 		> docker/expungeservice/frontend/build/version.json
 
 # build an expungeservice image with the given RS_ENV tag ('staging', 'prod', etc)
