@@ -20,7 +20,8 @@ rsync:
 
 # echo out version.json
 version:
-	echo {\"recordexpungPDX\":\"$$(git rev-parse HEAD)\"} > docker/expungeservice/frontend/build/version.json
+	echo {\"recordexpungPDX\":\"$$(git rev-parse HEAD)\",\"branch\":\"$$(git rev-parse --abbrev-ref HEAD)\"} \
+		> docker/expungeservice/frontend/build/version.json
 
 # build an expungeservice image with the given RS_ENV tag ('staging', 'prod', etc)
 image: rsync env_check
@@ -63,7 +64,7 @@ endif
 #   * '*.env' with database credentials and TIER in _remote_ /etc/recordsponge/
 #
 ssh_deploy: env_check port_check
-	@echo ssh recordsponge -C \
+	@ssh recordsponge -C \
 		'docker pull recordsponge/expungeservice:$(DEPLOY_TAG); \
 		 docker stop $(RS_ENV); \
 		 docker run --rm -d --name $(RS_ENV) --env-file /etc/recordsponge/$(RS_ENV).env -p $(PORT):5000 recordsponge/expungeservice:$(DEPLOY_TAG)'
