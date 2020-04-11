@@ -17,6 +17,8 @@ from expungeservice.crypto import DataCipher
 from expungeservice.stats import save_result
 from expungeservice.record_summarizer import RecordSummarizer
 
+this_is_terrible = []
+
 
 class Search(MethodView):
     @login_required
@@ -37,7 +39,8 @@ class Search(MethodView):
 
         record, ambiguous_record, questions = RecordCreator.build_record(username, password, request_data["aliases"])
         if questions:
-            session["ambiguous_record"] = ambiguous_record
+            global this_is_terrible
+            this_is_terrible = ambiguous_record
 
         try:
             save_result(request_data, record)
@@ -53,7 +56,7 @@ class Search(MethodView):
 class Disambiguate(MethodView):
     @login_required
     def post(self):
-        ambiguous_record_data = session.get("ambiguous_record")
+        ambiguous_record_data = this_is_terrible
         if ambiguous_record_data:
             ambiguous_record = ambiguous_record_data
             request_data = request.get_json()
