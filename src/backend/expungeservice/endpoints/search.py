@@ -1,4 +1,3 @@
-import pickle
 from typing import List, Any, Dict
 
 from dacite import from_dict
@@ -38,7 +37,7 @@ class Search(MethodView):
 
         record, ambiguous_record, questions = RecordCreator.build_record(username, password, request_data["aliases"])
         if questions:
-            session["ambiguous_record"] = pickle.dumps(ambiguous_record)
+            session["ambiguous_record"] = ambiguous_record
 
         try:
             save_result(request_data, record)
@@ -56,7 +55,7 @@ class Disambiguate(MethodView):
     def post(self):
         ambiguous_record_data = session.get("ambiguous_record")
         if ambiguous_record_data:
-            ambiguous_record = pickle.loads(ambiguous_record_data)
+            ambiguous_record = ambiguous_record_data
             request_data = request.get_json()
             questions = request_data.get("questions")
             return Disambiguate.build_response(ambiguous_record, questions)
