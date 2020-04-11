@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 interface Props {
   ambiguous_charge_id: string;
   question?: QuestionData;
+  loading?: boolean;
 }
 
 class Question extends React.Component<Props> {
@@ -34,10 +35,14 @@ class Question extends React.Component<Props> {
                 )
               })}
             </div>
-            <div className="radio-spinner absolute" role="status">
-              <span className="spinner spinner--sm mr1"></span>
-              <span className="f6 fw5">Updating&#8230;</span>
-            </div>
+            {(this.props.loading ?
+              <div className="radio-spinner absolute" role="status">
+                <span className="spinner spinner--sm mr1"></span>
+                <span className="f6 fw5">Updating&#8230;</span>
+              </div> :
+                null
+              )
+            }
           </fieldset>
         </div>
       )
@@ -54,7 +59,8 @@ function mapStateToProps(state: AppState, ownProps: Props) {
     question = state.search.questions[ownProps.ambiguous_charge_id];
     return {
       ambiguous_charge_id: ownProps.ambiguous_charge_id,
-      question: question
+      question: question,
+      loading: state.search.loading,
     };
   } else {
     return {

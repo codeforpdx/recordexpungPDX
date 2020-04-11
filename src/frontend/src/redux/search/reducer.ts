@@ -41,7 +41,7 @@ export function searchReducer(
       if (questions && questions[action.ambiguous_charge_id]) {
         questions[action.ambiguous_charge_id].answer = action.answer;
       }
-      return {...state, questions: questions};
+      return {...state, questions: questions, loading: true};
     default:
       return state;
   }
