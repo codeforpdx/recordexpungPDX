@@ -13,13 +13,14 @@ def test_eligible():
 
 
 def test_will_be_eligible():
-    today = date.today()
     type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
-    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Ineligible under some statute", today)
+    time_eligibility = TimeEligibility(
+        EligibilityStatus.INELIGIBLE, "Ineligible under some statute", Time.ONE_YEARS_FROM_NOW
+    )
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [time_eligibility])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
-    assert charge_eligibility.label == f"Eligible {today.strftime('%b %-d, %Y')}"
+    assert charge_eligibility.label == f"Eligible {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')}"
 
 
 def test_possibly_eligible():
@@ -46,6 +47,20 @@ def test_possibly_will_be_eligible():
 
     assert charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE
     assert charge_eligibility.label == f"Possibly Eligible {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')} (review)"
+
+
+def test_multiple_will_be_eligible():
+    type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
+    time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible Now", Time.THREE_YEARS_AGO)
+    time_eligibility_2 = TimeEligibility(
+        EligibilityStatus.INELIGIBLE, "Ineligible under some statute", Time.ONE_YEARS_FROM_NOW
+    )
+    charge_eligibility = RecordMerger.compute_charge_eligibility(
+        type_eligibility, [time_eligibility, time_eligibility_2]
+    )
+
+    assert charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+    assert charge_eligibility.label == f"Eligible Now ⬥ {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')}"
 
 
 def test_ineligible():
