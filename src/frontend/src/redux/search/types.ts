@@ -16,8 +16,8 @@ export interface RecordEndpointData {
   questions: QuestionsData;
 }
 
-export const SEARCH_RECORD = 'SEARCH_RECORD';
-export const SEARCH_RECORD_LOADING = 'SEARCH_RECORD_LOADING';
+export const DISPLAY_RECORD = 'DISPLAY_RECORD';
+export const RECORD_LOADING = 'RECORD_LOADING';
 export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_ANSWER = 'SELECT_ANSWER';
 
@@ -29,8 +29,8 @@ export interface SearchRecordState {
 
 interface SearchRecordAction {
   type:
-    | typeof SEARCH_RECORD
-    | typeof SEARCH_RECORD_LOADING
+    | typeof DISPLAY_RECORD
+    | typeof RECORD_LOADING
     | typeof CLEAR_RECORD;
   record: RecordData;
   questions: QuestionsData;

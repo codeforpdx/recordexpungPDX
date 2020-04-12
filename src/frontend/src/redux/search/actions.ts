@@ -3,8 +3,8 @@ import store from '../store';
 import apiService from '../../service/api-service';
 import {AxiosError, AxiosResponse} from 'axios';
 import {
-  SEARCH_RECORD,
-  SEARCH_RECORD_LOADING,
+  DISPLAY_RECORD,
+  RECORD_LOADING,
   SearchResponse,
   CLEAR_RECORD,
   SELECT_ANSWER
@@ -22,10 +22,9 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       summary: receivedRecord.summary,
     };
     dispatch({
-      type: SEARCH_RECORD,
+      type: DISPLAY_RECORD,
       record: record,
       questions: receivedRecord.questions
-
     });
   } else {
     alert('Response data has unexpected format.');
@@ -41,7 +40,7 @@ export function searchRecord(
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: SEARCH_RECORD_LOADING
+      type: RECORD_LOADING
     });
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',

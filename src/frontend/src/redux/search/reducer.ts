@@ -1,6 +1,6 @@
 import {
-  SEARCH_RECORD,
-  SEARCH_RECORD_LOADING,
+  DISPLAY_RECORD,
+  RECORD_LOADING,
   CLEAR_RECORD,
   SELECT_ANSWER,
   SearchRecordState,
@@ -17,7 +17,7 @@ export function searchReducer(
   action: SearchRecordActionType
 ): SearchRecordState {
   switch (action.type) {
-    case SEARCH_RECORD:
+    case DISPLAY_RECORD:
       // The new state is the record returned in the
       // action. We ignore existing cases and do not
       // necessarily include them in the new state. This
@@ -28,7 +28,7 @@ export function searchReducer(
         questions: action.questions,
         loading: false
       };
-    case SEARCH_RECORD_LOADING:
+    case RECORD_LOADING:
       // When an API call is made for a record, loading state is toggled to true.
       // while loading state is true, a spinner is rendered on the screen. If loading
       // state is false, and no results were fetched, no "search results found" will be displayed.
