@@ -13,20 +13,20 @@ export default class ChargesList extends React.Component<Props> {
       const listItems = this.buildListItems(chargesNames);
       const labelColor = (eligibilityDate==="now" ? "green" : "dark-blue");
       return (
-        <>
-          <div key={index} className="mb1">
-            <span className={"fw8 mb2 " + labelColor}> {"Eligible " + eligibilityDate} </span> <span className="fw8">{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
+        <div key={index}>
+          <div className="mb1">
+            <span className={"fw7 ttc mb2 " + labelColor}> {"Eligible " + eligibilityDate} </span> <span>{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
           </div>
           <ul className="list mb3">
            {listItems}
           </ul>
-        </>
+        </div>
       )
     }));
 
     return (
       <div className="w-100 w-50-ns w-33-l br-ns b--light-gray ph3-m ph3-l mb3">
-        <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Charges</span> {this.props.totalCharges}</h3>
+        <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Charges</span> ({this.props.totalCharges})</h3>
         {summarizedCharges}
       </div>
     );

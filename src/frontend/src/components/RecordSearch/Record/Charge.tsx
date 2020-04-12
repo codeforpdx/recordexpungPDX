@@ -2,6 +2,7 @@ import React from 'react';
 import Eligibility from './Eligibility';
 import TimeEligibility from './TimeEligibility';
 import TypeEligibility from './TypeEligibility';
+import Question from './Question';
 import { ChargeData } from './types';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 export default class Charge extends React.Component<Props> {
   render() {
     const {
+      ambiguous_charge_id,
       date,
       disposition,
       statute,
@@ -18,7 +20,6 @@ export default class Charge extends React.Component<Props> {
       type_name,
       expungement_result
     } = this.props.charge;
-
 
     const dispositionEvent = (disposition: any, date: any) => {
       let dispositionEvent;
@@ -85,6 +86,7 @@ export default class Charge extends React.Component<Props> {
             </ul>
           </div>
         </div>
+        <Question ambiguous_charge_id= {ambiguous_charge_id}/>
       </div>
     );
   }

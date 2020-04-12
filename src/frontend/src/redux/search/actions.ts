@@ -1,15 +1,37 @@
-import { Dispatch } from 'redux';
+import {Dispatch} from 'redux';
+import store from '../store';
 import apiService from '../../service/api-service';
-import { AxiosError, AxiosResponse } from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 import {
-  SEARCH_RECORD,
-  SEARCH_RECORD_LOADING,
+  DISPLAY_RECORD,
+  RECORD_LOADING,
   SearchResponse,
-  CLEAR_RECORD
+  CLEAR_RECORD,
+  SELECT_ANSWER
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
+import {RecordData} from '../../components/RecordSearch/Record/types'
 
-function validateResponseData(data: SearchResponse): boolean {
+function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
+  if (validateSearchResponseData(data)) {
+    const receivedRecord = data.record;
+    const record: RecordData = {
+      total_balance_due: receivedRecord.total_balance_due,
+      cases: receivedRecord.cases,
+      errors: receivedRecord.errors,
+      summary: receivedRecord.summary,
+    };
+    dispatch({
+      type: DISPLAY_RECORD,
+      record: record,
+      questions: receivedRecord.questions
+    });
+  } else {
+    alert('Response data has unexpected format.');
+  }
+}
+
+function validateSearchResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('record');
 }
 
@@ -18,7 +40,7 @@ export function searchRecord(
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: SEARCH_RECORD_LOADING
+      type: RECORD_LOADING
     });
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
@@ -29,14 +51,7 @@ export function searchRecord(
       withCredentials: true
     })
       .then((response: AxiosResponse<SearchResponse>) => {
-        if (validateResponseData(response.data)) {
-          dispatch({
-            type: SEARCH_RECORD,
-            record: response.data.record
-          });
-        } else {
-          alert('Response data has unexpected format.');
-        }
+        storeSearchResponse(response.data, dispatch)
       })
       .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
@@ -47,5 +62,32 @@ export function searchRecord(
 export function clearRecord() {
   return {
     type: CLEAR_RECORD
+  };
+}
+
+export function selectAnswer(
+  ambiguous_charge_id: string,
+  answer: string
+): any {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: SELECT_ANSWER,
+      ambiguous_charge_id: ambiguous_charge_id,
+      answer: answer
+    });
+    return apiService<SearchResponse>(dispatch, {
+      url: '/api/disambiguate',
+      data: {
+        questions: store.getState().search.questions
+      },
+      method: 'post',
+      withCredentials: true
+    })
+      .then((response: AxiosResponse<SearchResponse>) => {
+        storeSearchResponse(response.data, dispatch)
+      })
+      .catch((error: AxiosError<SearchResponse>) => {
+        alert(error.message);
+      });
   };
 }

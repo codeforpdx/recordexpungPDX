@@ -1,27 +1,45 @@
-import {RecordData} from '../../components/RecordSearch/Record/types'
+import {
+  RecordData,
+  RecordSummaryData,
+  QuestionsData
+} from '../../components/RecordSearch/Record/types'
 
 export interface SearchResponse {
-  record: RecordData;
+  record: RecordEndpointData;
 }
 
-// These constants are used as the 'type' field in Redux actions.
-export const SEARCH_RECORD = 'SEARCH_RECORD';
-export const SEARCH_RECORD_LOADING = 'SEARCH_RECORD_LOADING';
+export interface RecordEndpointData {
+  total_balance_due: number;
+  cases: any[];
+  errors: string[];
+  summary: RecordSummaryData;
+  questions: QuestionsData;
+}
+
+export const DISPLAY_RECORD = 'DISPLAY_RECORD';
+export const RECORD_LOADING = 'RECORD_LOADING';
 export const CLEAR_RECORD = 'CLEAR_RECORD';
+export const SELECT_ANSWER = 'SELECT_ANSWER';
 
 export interface SearchRecordState {
   loading: boolean;
   record?: RecordData;
+  questions?: QuestionsData
 }
 
 interface SearchRecordAction {
   type:
-    | typeof SEARCH_RECORD
-    | typeof SEARCH_RECORD_LOADING
+    | typeof DISPLAY_RECORD
+    | typeof RECORD_LOADING
     | typeof CLEAR_RECORD;
   record: RecordData;
+  questions: QuestionsData;
 }
 
-// Add other Action types here like so:
-// export type RecordActionTypes = LoadRecordAction | OtherRecordAction;
-export type SearchRecordActionType = SearchRecordAction;
+interface QuestionsAction {
+  ambiguous_charge_id: string,
+  type: typeof SELECT_ANSWER
+  answer: string
+}
+
+export type SearchRecordActionType = SearchRecordAction | QuestionsAction;
