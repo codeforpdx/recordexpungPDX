@@ -46,9 +46,10 @@ class Crawler:
         response = self.session.post(url, data=payload)
         self.result.feed(response.text)
 
-        if len(self.result.cases) >= 300:
+        case_limit = 300
+        if len(self.result.cases) >= case_limit:
             raise ValueError(
-                f"{len(self.result.cases)} (too many) cases parsed. Please add a date of birth to your search."
+                f"Found {len(self.result.cases)} matching cases, exceeding the limit of {case_limit}. Please add a date of birth to your search."
             )
         else:
             # Parse search results (case detail pages)
