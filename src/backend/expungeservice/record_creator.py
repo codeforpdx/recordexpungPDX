@@ -35,7 +35,9 @@ class RecordCreator:
             except Exception as e:
                 errors.append(str(e))
         if errors:
-            ambiguous_record = [Record((), tuple(errors))]
+            record = Record((), tuple(errors))
+            ambiguous_record = [record]
+            return record, ambiguous_record, {}
         else:
             ambiguous_record: AmbiguousRecord = []  # type: ignore
             for cases in product(*ambiguous_cases_accumulator):
@@ -46,9 +48,9 @@ class RecordCreator:
                     )
                 ]
                 ambiguous_record.append(Record(tuple(cases_with_unique_case_number)))
-        record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-        questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_accumulator)))
-        return record, ambiguous_record, questions_as_dict
+            record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+            questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_accumulator)))
+            return record, ambiguous_record, questions_as_dict
 
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
