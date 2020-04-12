@@ -46,15 +46,20 @@ class Crawler:
         response = self.session.post(url, data=payload)
         self.result.feed(response.text)
 
-        # Parse search results (case detail pages)
-        with ThreadPoolExecutor(max_workers=50) as executor:
-            ambiguous_cases: List[AmbiguousCase] = []
-            questions_accumulator: List[Question] = []
-            for ambiguous_case, questions in executor.map(self.__build_case, self.result.cases):
-                ambiguous_cases.append(ambiguous_case)
-                questions_accumulator += questions
-        self.session.close()
-        return ambiguous_cases, questions_accumulator
+        if len(self.result.cases) >= 300:
+            raise ValueError(
+                f"{len(self.result.cases)} (too many) cases parsed. Please add a date of birth to your search."
+            )
+        else:
+            # Parse search results (case detail pages)
+            with ThreadPoolExecutor(max_workers=50) as executor:
+                ambiguous_cases: List[AmbiguousCase] = []
+                questions_accumulator: List[Question] = []
+                for ambiguous_case, questions in executor.map(self.__build_case, self.result.cases):
+                    ambiguous_cases.append(ambiguous_case)
+                    questions_accumulator += questions
+            self.session.close()
+            return ambiguous_cases, questions_accumulator
 
     def __build_case(self, case) -> Tuple[AmbiguousCase, List[Question]]:
         case_parser_data = self.__parse_case(case)
