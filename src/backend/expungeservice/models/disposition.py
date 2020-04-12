@@ -37,6 +37,7 @@ class DispositionCreator:
             "finding - not guilty",
             "accusatory instrument filed",
             "removed from charging instrument",
+            "plea lesser charge",
         ]
 
         if any([rule in ruling for rule in conviction_rulings]):
