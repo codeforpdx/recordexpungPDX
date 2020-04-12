@@ -47,7 +47,7 @@ class Question extends React.Component<Props> {
         </div>
       )
     } else {
-      return (<div></div>);
+      return (<></>);
     }
   }
 }
