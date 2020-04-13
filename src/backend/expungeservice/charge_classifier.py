@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from math import ceil
 from typing import List, Iterator, Type, Optional
 
 from expungeservice.models.ambiguous import AmbiguousChargeTypeWithQuestion
@@ -13,7 +14,7 @@ from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible, MarijuanaUnder21
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
@@ -36,6 +37,7 @@ class ChargeClassifier:
     statute: str
     level: str
     section: str
+    birth_year: Optional[int]
     disposition: Optional[Disposition]
 
     def classify(self) -> AmbiguousChargeTypeWithQuestion:
@@ -56,7 +58,14 @@ class ChargeClassifier:
         yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
         yield ChargeClassifier._violation(self.level)
         criminal_charge = next(
-            (c for c in ChargeClassifier._criminal_charge(self.statute, self.section, self.name, self.level) if c), None
+            (
+                c
+                for c in ChargeClassifier._criminal_charge(
+                    self.statute, self.section, self.name, self.level, self.birth_year, self.disposition
+                )
+                if c
+            ),
+            None,
         )
         if criminal_charge and ChargeClassifier._is_dimissed(self.disposition):
             yield AmbiguousChargeTypeWithQuestion([DismissedCharge])
@@ -64,8 +73,10 @@ class ChargeClassifier:
             yield criminal_charge
 
     @staticmethod
-    def _criminal_charge(statute, section, name, level) -> Iterator[AmbiguousChargeTypeWithQuestion]:
-        yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level)
+    def _criminal_charge(
+        statute, section, name, level, birth_year, disposition
+    ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
+        yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level, birth_year, disposition)
         yield ChargeClassifier._subsection_6(section, level, statute)
         yield ChargeClassifier._classification_by_level(level, statute)
 
@@ -80,9 +91,11 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([Violation])
 
     @staticmethod
-    def _drug_crime(statute, section, name, level) -> Iterator[AmbiguousChargeTypeWithQuestion]:
+    def _drug_crime(
+        statute, section, name, level, birth_year, disposition
+    ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
-        yield ChargeClassifier._marijuana_eligible(section, name)
+        yield ChargeClassifier._marijuana_eligible(section, name, birth_year, disposition)
         yield ChargeClassifier._manufacture_delivery(name, level, statute)
         yield ChargeClassifier._sex_crime(statute)
 
@@ -107,8 +120,12 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([MarijuanaIneligible])
 
     @staticmethod
-    def _marijuana_eligible(section, name):
+    def _marijuana_eligible(section, name, birth_year, disposition):
         if section == "475860" or "marij" in name or "mj" in name.split():
+            if birth_year and disposition:
+                convicted_age = ceil(disposition.date.year - birth_year)
+                if convicted_age < 21:
+                    return AmbiguousChargeTypeWithQuestion([MarijuanaUnder21])
             return AmbiguousChargeTypeWithQuestion([MarijuanaEligible])
 
     @staticmethod

@@ -22,3 +22,15 @@ class MarijuanaEligible(Charge):
                 EligibilityStatus.ELIGIBLE,
                 reason="Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)",
             )
+
+
+@dataclass(frozen=True)
+class MarijuanaUnder21(Charge):
+    type_name: str = "Marijuana Eligible (Below age 21)"
+    expungement_rules: str = """Under ORS 137.226, marijuana convictions where the offender was under the age of 21 are eligible for conviction in a year assuming their record has no other charges."""
+
+    def _type_eligibility(self):
+        if self.dismissed():
+            raise ValueError("Dismissed criminal charges should have been caught by another class.")
+        elif self.convicted():
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.226")
