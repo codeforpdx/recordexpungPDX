@@ -17,14 +17,12 @@ class ChargeCreator:
         name = kwargs["name"]
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
-        chapter = ChargeCreator._set_chapter(kwargs["statute"])
         section = ChargeCreator.__set_section(statute)
         disposition = kwargs.get("disposition")
         ambiguous_charge_type_with_questions = ChargeClassifier(
-            violation_type, name, statute, level, chapter, section, disposition
+            violation_type, name, statute, level, section, disposition
         ).classify()
         kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
-        kwargs["_chapter"] = chapter
         kwargs["_section"] = section
         kwargs["statute"] = statute
         kwargs["ambiguous_charge_id"] = f"{case_number}-{charge_id}"
@@ -50,16 +48,6 @@ class ChargeCreator:
     @staticmethod
     def __strip_non_alphanumeric_chars(statute):
         return re.sub(r"[^a-zA-Z0-9*]", "", statute).upper()
-
-    @staticmethod
-    def _set_chapter(statute):
-        if "." in statute:
-            return statute.split(".")[0]
-        elif len(statute) == 4:
-            # When the statue is a civil offense and has no period
-            return statute[:2]
-        else:
-            return None
 
     @staticmethod
     def __set_section(statute):

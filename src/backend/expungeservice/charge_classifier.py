@@ -35,7 +35,6 @@ class ChargeClassifier:
     name: str
     statute: str
     level: str
-    chapter: str
     section: str
     disposition: Optional[Disposition]
 
@@ -53,7 +52,7 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._contempt_of_court(self.name)
         yield ChargeClassifier._parking_ticket(self.violation_type)
-        yield ChargeClassifier._civil_offense(self.statute, self.chapter, self.name.lower())
+        yield ChargeClassifier._civil_offense(self.statute, self.name.lower())
         yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
         yield ChargeClassifier._violation(self.level)
         criminal_charge = next(
@@ -210,8 +209,9 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([ContemptOfCourt])
 
     @staticmethod
-    def _civil_offense(statute, chapter, name):
+    def _civil_offense(statute, name):
         statute_range = range(1, 100)
+        chapter = ChargeClassifier._build_chapter_for_civil_offense(statute)
         if chapter:
             if chapter.isdigit() and int(chapter) in statute_range:
                 return AmbiguousChargeTypeWithQuestion([CivilOffense])
@@ -219,6 +219,16 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif "fugitive" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
+
+    @staticmethod
+    def _build_chapter_for_civil_offense(statute):
+        if "." in statute:
+            return statute.split(".")[0]
+        elif len(statute) == 4:
+            # When the statue has no period
+            return statute[:2]
+        else:
+            return None
 
     @staticmethod
     def _parking_ticket(violation_type):

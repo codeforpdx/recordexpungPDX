@@ -22,7 +22,6 @@ class Charge:
     level: str
     date: date_class
     disposition: Optional[Disposition]
-    _chapter: Optional[str]
     _section: str
     case_number: str
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
