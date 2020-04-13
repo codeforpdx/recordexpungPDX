@@ -199,7 +199,7 @@ def test_probation_revoked_affects_time_eligibility(record_with_revoked_probatio
     expunger_result = Expunger.run(record)
 
     assert len(expunger_result) == 6
-    assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].date_will_be_eligible == date_class(
+    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].date_will_be_eligible == date_class(
         2020, 11, 9
     )
 
