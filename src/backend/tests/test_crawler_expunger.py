@@ -3,6 +3,7 @@ from datetime import date as date_class, datetime, date
 import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger, ErrorChecker
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
@@ -234,6 +235,7 @@ def record_with_mj_under_21():
 
 
 def test_expunger_for_record_with_mj_under_21(record_with_mj_under_21):
+    assert isinstance(record_with_mj_under_21.charges[0], MarijuanaUnder21)
     expunger_result = Expunger.run(record_with_mj_under_21)
     assert expunger_result == {
         "CASEJD1-1": TimeEligibility(
