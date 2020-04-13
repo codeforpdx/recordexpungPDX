@@ -29,7 +29,9 @@ def test_55_is_a_civil_offense():
 
 
 def test_2915_is_a_civil_offense():
-    charge = ChargeFactory.create(statute="2915", level="N/A", disposition=Dispositions.CONVICTED)
+    charge = ChargeFactory.create(
+        name="Non-Payment of Fare", statute="2915", level="N/A", disposition=Dispositions.CONVICTED
+    )
     assert isinstance(charge, CivilOffense)
 
 
