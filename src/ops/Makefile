@@ -1,14 +1,13 @@
 # make sure RS_ENV is set and not 'dev'
 env_check:
 ifndef RS_ENV
-	@echo error: set RS_ENV to 'staging' or 'prod' 1>&2
+	@echo error: RS_ENV value required 1>&2
 	@exit 1
 endif
 ifeq ($(RS_ENV),dev)
 	@echo error: RS_ENV can not be set to 'dev' 1>&2
 	@exit 1
 endif
-
 # remove source from docker image context tree
 clean:
 	rm -rf docker/expungeservice/backend \
@@ -21,7 +20,8 @@ rsync:
 
 # echo out version.json
 version:
-	echo {\"recordexpungPDX\":\"$$(git rev-parse HEAD)\"} > docker/expungeservice/frontend/build/version.json
+	echo "{\"recordexpungPDX\":\"$$(git rev-parse HEAD)\",\"branch\":\"$$(git rev-parse --abbrev-ref HEAD)\"}" \
+		> docker/expungeservice/frontend/build/version.json
 
 # build an expungeservice image with the given RS_ENV tag ('staging', 'prod', etc)
 image: rsync env_check
@@ -32,27 +32,67 @@ image: rsync env_check
 push: env_check
 	docker push recordsponge/expungeservice:$(RS_ENV)
 
+# --- deploys
+
+# configure port
+ifeq ($(RS_ENV),staging)
+PORT := 3032
+else ifeq ($(RS_ENV),prod)
+PORT := 3031
+endif
+
+# configure DEPLOY_TAG
+ifndef DEPLOY_TAG
+DEPLOY_TAG := $(RS_ENV)
+endif
+
+# validate PORT setting
+port_check:
+ifndef PORT
+	@echo error: PORT value required - default for '$(RS_ENV)' not found 1>&2
+	@exit 1
+endif
+
+# ssh to digitalocean host and perform deploy.
+#
+#   * name of container based on RS_ENV e.g. 'staging' or 'prod'
+#   * PORT determined by RS_ENV, override on command line
+#   * DEPLOY_TAG defaults to RS_ENV, override on command line
+#
+# expects:
+#   * 'Host recordsponge' section in _local_ ~/.ssh/config (see /src/ops/README.md#SSH_Config)
+#   * '*.env' with database credentials and TIER in _remote_ /etc/recordsponge/
+#
+ssh_deploy: env_check port_check
+	@ssh recordsponge -C \
+		'docker pull recordsponge/expungeservice:$(DEPLOY_TAG); \
+		 docker stop $(RS_ENV); \
+		 docker run --rm -d --name $(RS_ENV) --env-file /etc/recordsponge/$(RS_ENV).env -p $(PORT):5000 recordsponge/expungeservice:$(DEPLOY_TAG)'
+
 # --- staging
 
 # build staging image
-staging_image:
-	@make clean
+staging_image: clean
 	@cd ../..; make frontend_build
 	@make rsync version image RS_ENV=staging
 
 staging_push:
 	@make push RS_ENV=staging
 
-# perform staging deploy
-#
-# expects:
-#   * 'Host recordsponge' section in ~/.ssh/config
-#   * 'staging.env' with database credentials and TIER in remote home dir
-ssh_staging_deploy:
-	@ssh recordsponge -C \
-		'docker pull recordsponge/expungeservice:staging; \
-		 docker stop staging; \
-		 docker run --rm -d --name staging --env-file staging.env -p 3032:5000 recordsponge/expungeservice:staging'
-
 # build and deploy staging
-staging: staging_image staging_push ssh_staging_deploy
+staging: staging_image staging_push
+	@make ssh_deploy RS_ENV=staging
+
+# --- production
+
+# build prod image
+prod_image: clean
+	@cd ../..; make frontend_build
+	@make rsync version image RS_ENV=prod
+
+prod_push:
+	@make push RS_ENV=prod
+
+# build and deploy prod
+prod: prod_image prod_push
+	@make ssh_deploy RS_ENV=prod

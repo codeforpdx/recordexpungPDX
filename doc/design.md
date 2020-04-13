@@ -20,13 +20,13 @@ Table of Contents
 Project Stack
 -------------
 
-The app stack is deployed as three services in a Docker stack:
+The development app stack is deployed as three services in a Docker Compose network:
 
-[ Web Server ]  -- Nginx, https enabled. Serves static pages and proxies API calls
+[ postgres ] -- PostgreSQL 10
 
-[ Backend API ] -- Python, Flask, Psycopg
+[ expungeservice ] -- Python 3.7, Flask, Psycopg
 
-[ Database ] -- PostgreSQL
+[ node ] -- NodeJS, React
 
 
 Project Layout
@@ -35,18 +35,14 @@ Project Layout
 This is a high-level [tree](https://linux.die.net/man/1/tree) of the project only listing "notable" folders/files.
 ```
 .
-├── Makefile : GNU Makefile controlling installing dependencies and running the application
+├── Makefile : GNU Makefile with targets for working with local dev environment
 ├── config : Project configuration files
-│   ├── expungeservice
-│   ├── nginx
 │   └── postgres
-├── deployment
 ├── doc : Developer-generated documentation folder
-├── docker-compose.dev.yml : Docker file that `make dev_up` invokes
+├── docker-compose.yml : Docker Compose file that `make` targets invoke
 └── src : Source directory
     ├── backend
-    │   ├── Dockerfile.dev
-    │   ├── Dockerfile.web
+    │   ├── Dockerfile
     │   ├── Pipfile : Pipenv file listing backend project dependencies
     │   ├── Pipfile.lock
     │   ├── expungeservice
@@ -54,7 +50,11 @@ This is a high-level [tree](https://linux.die.net/man/1/tree) of the project onl
     │   ├── mypy.ini : Configuration file to the mypy type checker 
     │   ├── setup.py
     │   └── tests
-    └── frontend
+    ├── frontend
+    └── ops
+        ├── Makefile : GNU Makefile with targets for building & deploying staging/prod images
+        └── docker/expungeservice
+            └── Dockerfile
 ```
 
 User Flow

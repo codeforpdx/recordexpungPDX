@@ -23,4 +23,7 @@ Setting up swapspace version 1, size = 3.9 GiB (4145737728 bytes)
 no label, UUID=31f4b6de-d752-4b83-ba6a-2f27fb94784e
 ```
 
-No [Docker](https://www.docker.com/) containers have been used so far on production but that may change as the deployment pipeline is WIP.
+See more at:
+
+* [Docker config](../doc/docker.md)
+* [Digital Ocean host config](../src/ops/README.md#digitalocean-host-config)

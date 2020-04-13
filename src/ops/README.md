@@ -27,15 +27,14 @@ The local developer environment for this project relies on 3 containers:
 * Python 3.7 to serve the Flask app (API & static files)
 * PostgreSQL 10 to be the database
 
-In trying to keep things simple, we only customize the Python container and use
-published base images for Node and Postgres directly. The Python container is
-configured to have all the run-time dependencies and the virutalenv defined by
-`Pipfile.lock`.
+We only customize the Python container and use published base images for Node
+and Postgres directly. The Python container is configured to have all the
+run-time dependencies and the virutalenv defined by `Pipfile.lock`.
 
-There are no run-time node requirements, since react-scripts will build a
+For node, there are no run-time requirements, since react-scripts will build a
 complete static tree of HTML, CSS, and JavaScript for production deploys. The
 Flask app is configured to serve these statically built files. This keeps
-deploys simple, see below.
+deploys simple, see [below](#Deploys).
 
 #### Python dependencies
 
@@ -112,7 +111,7 @@ TIER.
 
 A `recordsponge` organization has been created on Docker hub. The `expungeservice`
 repository under this org contains images with tags for `dev` (local), `staging`
-(dev.recordsponge.com), and (in the future) `prod` (recordsponge.com).
+(dev.recordsponge.com), and `prod` (recordsponge.com).
 
 ### DigitalOcean host config
 
@@ -138,7 +137,7 @@ key. You should now be able to connect with:
 $ ssh recordsponge
 ```
 
-#### SSL config
+#### TLS/SSL config
 
 LetsEncrypt is fully configured. See:
 
@@ -149,25 +148,15 @@ LetsEncrypt is fully configured. See:
 
 #### nginx config
 
-nginx is currently configured to serve the following domains:
-
-`recordsponge.com`:
-
-* requires GitHub access & git source tree on host
-* direct process, managed by hand
-* serves static files from `/usr/share/nginx/html`
-* `uwsgi_pass` proxy method
-* OOMs
-
-See `/etc/nginx/sites-available/recordexpunge-nginx.conf`.
-
-`dev.recordsponge.com`:
-
 * `proxy_pass` proxy method
 * terminates SSL, passes everything else to port
 * single-container listening on port
 
-See `/etc/nginx/sites-available/dev.recordsponge.com.conf`.
+| domain | conf file |
+|-|-|
+| recordpsonge.com | `/etc/nginx/sites-available/recordexpunge-nginx.conf` |
+| dev.recordpsonge.com | `/etc/nginx/sites-available/dev.recordsponge.com.conf` |
+|-|-|
 
 #### PostgreSQL config
 
@@ -188,11 +177,10 @@ TODO: find out details
 ### Steps to deploy
 
 NOTE: These steps assume the above configurations and a tangible example exists in
-the `staging` target of `src/ops/Makefile`.
+the `staging` and `prod` targets of [src/ops/Makefile](/src/ops/Makefile).
 
-1. build tagged image
-2. push tagged image
-3. connect to production host
-4. pull tagged image
-5. stop container
-6. start container
+1. build, tag, and push new image
+2. connect to production host
+3. pull new image
+4. stop container
+5. start container from new image

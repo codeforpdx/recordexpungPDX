@@ -1,86 +1,106 @@
 Record Expunge Docker Setup
 ===========================
 
-Our project uses Docker to containerize a local dev environment and for deploying the app to production. This document describes the general setup for each of our three environments: dev (local), test (travis-ci), and prod (heroku).
+Our project uses Docker to containerize a local dev environment and for deploying the app to production. This document describes the general setup for local dev, staging, and production.
 
 General Documentation
 ---------------------
 
 [Docker Tutorial](https://docs.docker.com/get-started/)
 
-
-
 Dev Environment Containers
 --------------------------
 
-There are four containers which are configured in /docker-compose.dev.yml , and managed using docker-compose. The project's main README.md includes the commands to manage the containers locally.
+There are three services configured in [/docker-compose.yml](/docker-compose.yml), and managed using docker-compose. The project's main [README.md](../README.md) includes the commands to manage the containers locally.
 
- - **webserver** webpack dev server
- - **expungeservice** wsgi server (hosting a Flask app)
- - **db** postgres database
- - **nginx** proxies /api/ paths to the backend and everything else to the frontend.
+ - **node** react-scripts/webpack dev server (port 3000)
+ - **expungeservice** uwsgi server hosting Flask [app](../src/backend/expungservice/app.py) (port 5000)
+ - **postgres** postgres database
 
-Docker volumes sync the project's source code directories with the frontend and backend dev servers, so that the containers don't need to be rebuilt to reflect code changes, only new package dependencies.
+Named Docker volumes provide persistent storage of database and node\_modules files. To update node dependencies, edit [package.json](../src/frontend/package.json), and restart the container with `make frontend_restart`. Use `make frontend_logs` to watch the NPM install output, and use CTRL-C to stop watching once you see something like:
 
-Test Environment Containers
----------------------------
+```
+node_1            | You can now view record-expunge-pdx in the browser.
+node_1            | 
+node_1            |   Local:            http://localhost:3000/
+node_1            |   On Your Network:  http://192.168.80.4:3000/
+node_1            | 
+node_1            | Note that the development build is not optimized.
+node_1            | To create a production build, use npm run build.
+```
 
-We run a continuous integregation testing pipe using [Travis CI](https://travis-ci.com/). This runs three containers which are managed in the docker-compose.travis.yml file.
+Testing Locally
+---------------
 
- - **webserver** nginx server that contains the frontend static files, built with webpack
- - **expungeservice** wsgi server (hosting a Flask app)
- - **db** postgres database
+Running tests either frontend and backend requires the respective container to be "up". Use the following make targets to run tests:
 
-Prod Environment Containers
----------------------------
+| target | description |
+|-|-|
+| test | run both frontend (no watch) and backend tests |
+| frontend\_test | run frontend tests in the node container in "watch" mode |
+| frontend\_test\_no\_watch | run frontend tests in the node container and exit |
 
-The app is deployed to Heroku in just two containers, each served from a standalone Heroku app:
+Testing on Pull Request via GitHub Actions (CI)
+-----------------------------------------------
 
- - **webserver** The frontend is an nginx container that serves the static files, and proxies api requests to the backend. It runs at https://recordexpungpdx.herokuapp.com/
- - **expungeservice** The backend is a wsgi server that runs at https://recordexpungpdxapi.herokuapp.com/
+We run a continuous integregation testing via [GitHub Actions](https://github.com/features/actions). This both frontend and backend tests, via the same image tags as used in development.
 
-The database runs in a heroku-postgres plugin that is attached to the backend.
+See [main.yml](../.github/workflows/main.yml)
 
-Dockerfiles
------------
+Staging/Prod Environment Containers
+-----------------------------------
 
-Some variations exist between the Dockerfiles used for each enviroment. TODO: elaborate on this a little bit.
-
- - The biggest difference between `dev` and the other environments is that in `dev`, npm runs a webpack server to serve frontend files, whereas in `test` and `prob` the static web files are generated when the nginx image is built and then served by nginx.
- - The nginx `conf` file has some differences for each, because the respective servers ... need
+See [DevOps README](../src/ops/README.md)
 
 Running the Dev containers
 --------------------------
 
-Launching and managing the local workspace uses a few commands written in the project's Makefile:
-
-Launch the docker containers with:
+Launch the docker-compose services with:
 
 ```
-make dev_up
+make up
 ```
 
-This follows a few steps specified in the file `docker-compose.dev.yml`. It first builds the dev docker images using the named Dockerfiles if those images don't already exist. It then creates and launches a new docker container for each service. It runs the docker stack in detached mode, so you can follow the set of container logs with:
+The services are specified in the file [`docker-compose.yml`](../docker-compose.yml). This target first pulls the dev-tagged docker image, and official images for postgres and ndoe. It then creates and launches a new docker container for each service. It runs the docker stack in detached mode, so you can follow the set of container logs with `docker-compose logs`, or each specific one with `make backend_logs` or `make frontend_logs`. `make backend_build` will build the image `recordsponge/expungeservice:dev` if it can't pull or python dependencies change.
+
+Stop the running containers with:
 
 ```
-make dev_logs
+make down
 ```
 
-While the dev stack is running, the integrated app (frontend and backend) is accessible at `http://localhost`. This port (80 is the default for http) is exposed by the nginx container, which proxies calls to the backend (any paths of the form `/api/*`) or to the frontend (any other paths).
-
-The docker-compose file also exposes the frontend, backend, and database each at their own port, so you can access each directly, e.g. if you want to connect to the database by running `psql` locally. Note that accessing the frontend at its own port causes its requests to the backend to fail, because they aren't going through the nginx server.
-
-Stop the running containers with
+To force a rebuild of the expungeservice docker image (if you change any package dependencies), use:
 
 ```
-make dev_down
+make backend_build
 ```
 
-To force a rebuild of the docker images (if you change any package dependencies), use
+While the full dev stack is running, you can use the app in two different ways:
 
-```
-make dev_build
-```
+#### Frontend Development
+
+The frontend stack uses [react-scripts](https://github.com/facebook/create-react-app#readme) which starts a hot-module-reloading dev server for quick iterative work. This is run inside the `node` service, which runs from the stock `node:alpine` image and mounts a persistent named volume to house the node\_modules. This service is listening at:
+
+[http://localhost:3000](http://localhost:3000)
+
+The dev server is configured to proxy the backend API endpoints, so having the backend service running is required. Check out the [make targets](../Makefile) beginning with `frontend_` for commented details.
+
+In the case that one needs to blow away the node\_modules tree and reinstall, use the following steps:
+
+1. `make frontend_down`
+2. `docker volume rm recordexpungpdx_node_modules`
+3. `make up`
+4. `make frontend_logs` to watch install output, ctrl-c when done.
+
+NOTE: a staging/prod deploy uses the output from `npm run build` and does not run any node service.
+
+#### Backend Development
+
+The backend stack uses a Docker Hub published image `recordsponge/expungeservice` with the `:dev` tag. This runs a reloading [uwsgi](https://uwsgi-docs.readthedocs.io/en/latest/) server, handling the [Flask](https://flask.palletsprojects.com/en/1.1.x/) app at [app.py](../src/backend/expungeservice/app.py). This service is listening at:
+
+[http://localhost:5000](http://localhost:5000)
+
+The uwsgi server is run with `--py-autoreload`, so it will hot reload on detected source file chnages. The local `src/backend` and `src/frontend` trees are bind mounted into the container. Frontend source is in there so the Flask app can serve static files out of `src/frontend/build`, where an `npm run build` command would produce deployable artifacts. Check out the [make targets](../Makefile) beginning with `backend_` for commented details.
 
 Some CLI commands
 -----------------
@@ -88,78 +108,14 @@ Some CLI commands
 To see which containers are running (and with the optional flag to see stopped containers also):
 
 
-        docker ps [-a]
+        docker-compose ps
 
 
 To start a PostgreSQL interactive terminal to access the database:
 
-        make dev_psql
+        docker-compose exec --user=postgres postgres psql record_expunge_dev
 
 Exit the psql terminal with `\q`.
-
-Running the Test containers
----------------------------
-
-Because of the differences between the `dev` and `test` stacks, a different set of Dockerfiles and commands are used to build and run the test containers. You can do this for local testing as well as with the automated scripts on Travis. The deployment uses `docker stack` commands rather than `docker-compose`. This is worth changing -- `docker stack` is good for doin more powerful container orchestration than with docker-compose, but we don't really need it for any part of our project.
-
-If you want to play around with some of our deprecated Docker features a bit more, here is the defunct documentation:
-
-Do this once:
-
-
-        docker swarm init
-
-
-This command designates your system as a "swarm manager" so that it can interact with other nodes in a network. We don't work with multiple nodes in our dev environment, but the command is required to deploy and run the docker test stack locally. If your setup has multiple IP addresses e.g. if you are running a linux VM in Windows, you will need to include the --advertise-addr option. More information here: https://docs.docker.com/v17.09/engine/reference/commandline/swarm_init
-
-Below are several docker commands for managing the local docker stack, including rebuilding and restarting the entire stack or its individual images. All make commands need to be executed in the project main folder (the relative location of your Makefile).
-
-1. To build and start the containers, do:
-
-
-        make dev_deploy
-
-
-This builds the docker images that contain the different app components, then launches the docker stack by instantiating a docker service (which wraps one or more replicated containers) from each component image.
-
-Take a look at the Makefile to see all the steps in this make target. You can run these steps individually using the additional make targets provided. It may also be useful to check out what the `make` targets from the Makefile are doing.
-
-
- **Note:**  `docker stack` commands and make targets that launch or stop running the stack containers may return immediately, but take several seconds to take effect. `docker ps` is super useful for this!
-
-2. Individual targets in the Makefile exist for building each docker image. If making local changes to a single component, you can propagate them to the docker stack by first rebuilding the image with:
-
-
-        make <image_name>
-
-
-And then restarting the service to run with the new image:
-
-
-        docker service update --force $(docker stack services ls -f name=CONTAINER_NAME)
-
-
-3. While the docker stack is running, it will restart any stopped containers automatically using the most recently built image. To stop and restart the entire stack, use the commands
-
-        make dev_stop
-        make dev_deploy
-
-Note: the `dev_deploy` target rebuilds every image in the stack which may be time-consuming and not necessary if only updating a single image/service. To start a new docker stack without rebuilding the images, use:
-
-        make dev_stop
-        make dev_start
-
-4. To stop a single *service* in the running stack, run:
-
-        docker service rm recordexpungpdx_*
-
-replacing * with the service name e.g.  webserver or expungeservice. This stops the corresponding docker container and also prevents the docker orchestrator from spinning up a replacement container.
-
-5. To drop the test database by removing the database volume:
-
-        make dev_stop
-        make dev_drop_database
-
 
 More Reading
 ------------
