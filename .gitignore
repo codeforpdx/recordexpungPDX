@@ -148,3 +148,4 @@ src/backend/logs
 config/expungeservice/expungeservice.production.env
 src/backend/tests/endpoints/flask_session
 src/backend/flask_session
+src/ops/docker
