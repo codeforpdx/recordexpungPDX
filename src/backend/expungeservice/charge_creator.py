@@ -55,6 +55,9 @@ class ChargeCreator:
     def _set_chapter(statute):
         if "." in statute:
             return statute.split(".")[0]
+        elif len(statute) == 4:
+            # When the statue is a civil offense and has no period
+            return statute[:2]
         else:
             return None
 
