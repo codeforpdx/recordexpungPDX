@@ -7,6 +7,7 @@ from expungeservice.models.expungement_result import EligibilityStatus, TimeElig
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
+from tests.fixtures.young_doe import YoungDoe
 
 ONE_YEAR_AGO = date_class.today() + relativedelta(years=-1)
 TWO_YEARS_AGO = date_class.today() + relativedelta(years=-2)
@@ -222,4 +223,34 @@ def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event
             reason="Never. Type ineligible charges are always time ineligible.",
             date_will_be_eligible=date.max,
         ),
+    }
+
+
+@pytest.fixture
+def record_with_mj_under_21():
+    return CrawlerFactory.create(
+        record=YoungDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_MJ_CONVICTION,},
+    )
+
+
+def test_expunger_for_record_with_mj_under_21(record_with_mj_under_21):
+    expunger_result = Expunger.run(record_with_mj_under_21)
+    assert expunger_result == {
+        "CASEJD1-1": TimeEligibility(
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date_class(1999, 3, 3)
+        )
+    }
+
+
+@pytest.fixture
+def record_with_mj_over_21():
+    return CrawlerFactory.create(record=JohnDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_MJ_CONVICTION,},)
+
+
+def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
+    expunger_result = Expunger.run(record_with_mj_over_21)
+    assert expunger_result == {
+        "CASEJD1-1": TimeEligibility(
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date_class(2001, 3, 3)
+        )
     }

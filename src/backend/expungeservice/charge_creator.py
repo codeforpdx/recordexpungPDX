@@ -1,5 +1,6 @@
 import re
-from datetime import datetime
+from datetime import datetime, date
+from math import ceil
 from typing import Tuple, Optional
 
 from dacite import from_dict
@@ -18,9 +19,10 @@ class ChargeCreator:
         statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
         section = ChargeCreator.__set_section(statute)
+        birth_year = kwargs.get("birth_year")
         disposition = kwargs.get("disposition")
         ambiguous_charge_type_with_questions = ChargeClassifier(
-            violation_type, name, statute, level, section, disposition
+            violation_type, name, statute, level, section, birth_year, disposition
         ).classify()
         kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
         kwargs["_section"] = section

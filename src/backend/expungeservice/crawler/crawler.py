@@ -73,6 +73,7 @@ class Crawler:
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
             charge_dict["case_number"] = updated_case.case_number
             charge_dict["violation_type"] = updated_case.violation_type
+            charge_dict["birth_year"] = updated_case.birth_year
             ambiguous_charge, question = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
             if question:

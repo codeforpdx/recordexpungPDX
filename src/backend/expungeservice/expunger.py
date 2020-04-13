@@ -10,6 +10,8 @@ from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21
+from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from expungeservice.models.record import Record
@@ -31,15 +33,23 @@ class Expunger:
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
+            other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
 
             if charge.convicted():
-                eligibility_dates.append(
-                    (
-                        charge.disposition.date + relativedelta(years=3),
-                        "Three years from date of conviction (137.225(1)(a))",
+                if isinstance(charge, MarijuanaUnder21) and other_convictions_all_traffic:
+                    eligibility_dates.append(
+                        (
+                            charge.disposition.date + relativedelta(years=1),  # type: ignore
+                            "One year from date of conviction (137.226)",
+                        )
                     )
-                )
-
+                else:
+                    eligibility_dates.append(
+                        (
+                            charge.disposition.date + relativedelta(years=3),
+                            "Three years from date of conviction (137.225(1)(a))",
+                        )
+                    )
             elif charge.dismissed():
                 eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(b))"))
             else:
@@ -172,6 +182,13 @@ class Expunger:
             return older
         else:
             return newer
+
+    @staticmethod
+    def _is_other_convictions_all_traffic(convictions):
+        for charge in convictions:
+            if not isinstance(charge, TrafficViolation):
+                return False
+        return True
 
     @staticmethod
     def _calculate_has_subsequent_charge(class_b_felony: Charge, other_charges: List[Charge]) -> bool:
