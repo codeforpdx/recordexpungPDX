@@ -197,9 +197,9 @@ class Expunger:
                     and not isinstance(charge, JuvenileCharge)
                 ):
                     updated_charges.append(charge)
-            updated_case = replace(case, charges=updated_charges)
+            updated_case = replace(case, charges=tuple(updated_charges))
             updated_cases.append(updated_case)
-        return replace(record, cases=updated_cases)
+        return replace(record, cases=tuple(updated_cases))
 
 
 class ErrorChecker:
