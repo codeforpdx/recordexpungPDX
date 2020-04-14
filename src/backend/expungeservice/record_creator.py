@@ -67,5 +67,5 @@ class RecordCreator:
 
     @staticmethod
     def sort_record_by_case_date(record):
-        sortedCases = sorted(record.cases, key=lambda case: case.date, reverse=True)
-        return replace(record, cases=tuple(sortedCases))
+        sorted_cases = sorted(record.cases, key=lambda case: case.date, reverse=True)
+        return replace(record, cases=tuple(sorted_cases))
