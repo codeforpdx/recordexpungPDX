@@ -62,4 +62,10 @@ class RecordCreator:
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
             ambiguous_record_with_errors.append(record_with_errors)
         record = RecordMerger.merge(ambiguous_record_with_errors, charge_id_to_time_eligibilities)
-        return record
+        sorted_record = RecordCreator.sort_record_by_case_date(record)
+        return sorted_record
+
+    @staticmethod
+    def sort_record_by_case_date(record):
+        sorted_cases = sorted(record.cases, key=lambda case: case.date, reverse=True)
+        return replace(record, cases=tuple(sorted_cases))

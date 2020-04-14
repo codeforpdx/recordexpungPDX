@@ -16,30 +16,30 @@ def test_search_function():
             "X0003": CaseDetails.CASE_WITHOUT_DISPOS,
         },
     )
-
+    # sorting by date results in the order X0003, X0002, X0001
     assert record.__class__ == Record
     assert len(record.cases) == 3
 
-    assert len(record.cases[0].charges) == 3
-    assert len(record.cases[1].charges) == 1
     assert len(record.cases[2].charges) == 3
+    assert len(record.cases[1].charges) == 1
+    assert len(record.cases[0].charges) == 3
 
-    assert record.cases[0].charges[0].disposition.ruling == "Convicted - Failure to Appear"
-    assert record.cases[0].charges[0].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
-    assert record.cases[0].charges[1].disposition.ruling == "Dismissed"
-    assert record.cases[0].charges[1].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
-    assert record.cases[0].charges[2].disposition.ruling == "Dismissed"
-    assert record.cases[0].charges[2].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[0].disposition.ruling == "Convicted - Failure to Appear"
+    assert record.cases[2].charges[0].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[1].disposition.ruling == "Dismissed"
+    assert record.cases[2].charges[1].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[2].disposition.ruling == "Dismissed"
+    assert record.cases[2].charges[2].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
 
     assert record.cases[1].charges[0].disposition.ruling == "Dismissed"
     assert record.cases[1].charges[0].disposition.date == datetime.date(datetime.strptime("04/30/1992", "%m/%d/%Y"))
 
-    assert record.cases[2].charges[0].disposition is None
-    assert record.cases[2].charges[0].disposition is None
-    assert record.cases[2].charges[1].disposition is None
-    assert record.cases[2].charges[1].disposition is None
-    assert record.cases[2].charges[2].disposition is None
-    assert record.cases[2].charges[2].disposition is None
+    assert record.cases[0].charges[0].disposition is None
+    assert record.cases[0].charges[0].disposition is None
+    assert record.cases[0].charges[1].disposition is None
+    assert record.cases[0].charges[1].disposition is None
+    assert record.cases[0].charges[2].disposition is None
+    assert record.cases[0].charges[2].disposition is None
 
 
 def test_a_blank_search_response():
@@ -72,7 +72,7 @@ def test_nonzero_balance_due_on_case():
         },
     )
 
-    assert record.cases[0].get_balance_due() == 1516.80
+    assert record.cases[2].get_balance_due() == 1516.80
 
 
 def test_zero_balance_due_on_case():
