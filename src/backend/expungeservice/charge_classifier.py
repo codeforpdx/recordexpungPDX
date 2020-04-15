@@ -229,7 +229,7 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif "fugitive" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
-        elif "contempt" in name:
+        elif "contempt of court" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
 
     @staticmethod
