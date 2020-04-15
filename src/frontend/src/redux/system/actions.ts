@@ -1,5 +1,5 @@
 import apiService from '../../service/api-service';
-import { removeCookie, hasOeciToken } from '../../service/cookie-service';
+import { removeCookie, hasOeciToken, isAdmin } from '../../service/cookie-service';
 import history from '../../service/history';
 import { LOG_IN, LOG_OUT } from './types';
 import { Dispatch } from 'redux';
@@ -14,7 +14,7 @@ export function logIn(email: string, password: string): any {
     }).then((response: any) => {
       dispatch({
         type: LOG_IN,
-        isAdmin: response.data.is_admin
+        isAdmin: isAdmin()
       });
       history.push('/oeci');
     });
@@ -39,7 +39,8 @@ export function logOut(): any {
 
 export function refreshLocalAuth() {
   return {
-    type: LOG_IN
+    type: LOG_IN,
+    isAdmin: isAdmin()
   };
 }
 

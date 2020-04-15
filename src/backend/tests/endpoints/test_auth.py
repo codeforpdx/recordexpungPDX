@@ -28,7 +28,6 @@ def test_auth_token_valid_credentials(service):
     response = service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
 
     assert response.status_code == 200
-    assert response.headers.get("Content-type") == "application/json"
     cookie = service.client.cookie_jar._cookies["localhost.local"]["/"]["session"]
     assert cookie.version == 0
     assert cookie.name == "session"
@@ -37,7 +36,7 @@ def test_auth_token_valid_credentials(service):
     assert cookie.domain == "localhost.local"
     assert not cookie.domain_specified
     assert not cookie.domain_initial_dot
-    assert response.get_json()["is_admin"] is False
+    assert "is_admin" not in service.client.cookie_jar._cookies["localhost.local"]["/"]
 
 
 def test_auth_token_invalid_username(service):
@@ -121,7 +120,7 @@ def __login_user_with_custom_duration(service, monkeypatch, duration):
 
 def test_is_admin_auth_token(service):
     login_response = service.login(service.user_data["admin"]["email"], service.user_data["admin"]["password"])
-    assert login_response.get_json()["is_admin"]
+    assert "is_admin" in service.client.cookie_jar._cookies["localhost.local"]["/"]
 
     response = service.client.get("/api/test/admin_protected")
     assert response.status_code == 200

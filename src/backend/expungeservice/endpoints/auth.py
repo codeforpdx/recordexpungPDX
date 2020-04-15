@@ -1,9 +1,10 @@
 from flask.views import MethodView
-from flask import request, jsonify, g
+from flask import request, make_response, g
 from flask_login import login_required, logout_user
 from flask_login.login_manager import LoginManager
 from werkzeug.security import check_password_hash
 from dacite import from_dict
+import time
 
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
@@ -28,7 +29,13 @@ class AuthToken(MethodView):
         user = from_dict(data_class=User, data=user_db_result)
         User.login_user(user)
 
-        return jsonify({"is_admin": user.admin})
+        response = make_response()
+        if user.admin:
+            response.set_cookie(
+                "is_admin",
+                expires=time.time() + 365 * 24 * 60 * 60,  # type: ignore # 1 year lifetime matches flask login cookie
+            )
+        return response, 200
 
 
 class Logout(MethodView):
