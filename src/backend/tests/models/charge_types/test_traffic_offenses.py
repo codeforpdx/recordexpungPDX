@@ -137,3 +137,8 @@ def test_duii():
 
     assert isinstance(charges[0], DivertedDuii)
     assert isinstance(charges[1], DismissedCharge)
+
+
+def test_pedestrian_jwalking():
+    charge = ChargeFactory.create(name="Pedestrian J-Walking", statute="1634020", level="Infraction Unclassified")
+    assert isinstance(charge, TrafficViolation)

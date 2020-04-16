@@ -53,7 +53,7 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._civil_offense(self.statute, self.name.lower())
-        yield ChargeClassifier._traffic_crime(self.statute, self.level, self.disposition)
+        yield ChargeClassifier._traffic_crime(self.statute, self.name.lower(), self.level, self.disposition)
         yield ChargeClassifier._violation(self.level)
         criminal_charge = next(
             (
@@ -196,7 +196,7 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([Subsection6])
 
     @staticmethod
-    def _traffic_crime(statute, level, disposition):
+    def _traffic_crime(statute, name, level, disposition):
         chapter = statute[:3]
         if chapter.isdigit():
             statute_range = range(801, 826)
@@ -217,6 +217,8 @@ class ChargeClassifier:
                         return AmbiguousChargeTypeWithQuestion([TrafficOffense])
                 else:
                     return AmbiguousChargeTypeWithQuestion([TrafficViolation])
+        if name == "pedestrian j-walking":
+            return AmbiguousChargeTypeWithQuestion([TrafficViolation])
 
     @staticmethod
     def _civil_offense(statute, name):
