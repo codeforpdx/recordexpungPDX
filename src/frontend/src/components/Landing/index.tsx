@@ -1,5 +1,7 @@
 import React from 'react';
 import Logo from '../Logo';
+import history from '../../service/history';
+import Header from '../Header';
 
 class Landing extends React.Component {
   render() {
@@ -10,23 +12,9 @@ class Landing extends React.Component {
 
           <title>RecordSponge Oregon</title>
         </div>
-
+        <Header/>
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
-
-            <nav className="mw8 center flex justify-between ph3 pb3 mt4 mb5">
-              <div className="logo--landing-page">
-                <Logo />
-              </div>
-
-              <div>
-                <a href="/login"
-                  className="bg-blue white bg-animate hover-bg-dark-blue f5 fw6 br2 pv2 ph3"
-                >
-                  Log In
-                </a>
-              </div>
-            </nav>
 
             <div className="mw8 center ph4 pb6">
               <h1 className="f3 f2-ns fw7 mw7 mb4">
