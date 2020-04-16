@@ -14,6 +14,7 @@ import AuthenticatedRoute from '../AuthenticatedRoute';
 import PublicRoute from '../PublicRoute';
 import InterimPage from '../InterimPage';
 import Landing from '../Landing';
+import Manual from '../Manual';
 
 class AppRouter extends React.Component {
   public redirect = () => <Redirect to="/" />;
@@ -31,6 +32,7 @@ class AppRouter extends React.Component {
           <AuthenticatedRoute path="/edit-user" component={EditUser} />
 
           <PublicRoute exact={true} path="/" component={Landing} />
+          <PublicRoute path="/manual" component={Manual} />
           <PublicRoute path="/login" component={LogIn} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />

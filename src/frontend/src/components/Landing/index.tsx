@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../Logo';
+import history from '../../service/history';
 
 class Landing extends React.Component {
   render() {
@@ -18,7 +19,12 @@ class Landing extends React.Component {
               <div className="logo--landing-page">
                 <Logo />
               </div>
-
+              <button
+                onClick={() => history.push('/manual')}
+                className="link mid-gray hover-blue f6 f5-ns dib pa3"
+                >
+                Manual
+              </button>
               <div>
                 <a href="/login"
                   className="bg-blue white bg-animate hover-bg-dark-blue f5 fw6 br2 pv2 ph3"
