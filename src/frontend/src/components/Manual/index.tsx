@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../Logo';
 
-class Landing extends React.Component {
+class Manual extends React.Component {
   render() {
     return (
       <div>
@@ -11,4 +11,4 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+export default Manual;
