@@ -8,11 +8,12 @@ interface Props {
   component: ReactComponentLike;
   loggedIn: boolean;
   path: string;
+  redirectIfLoggedIn?: boolean;
   exact?: boolean;
 }
 
 class PublicRoute extends React.Component<Props> {
-  public isAuthenticated = () => this.props.loggedIn;
+  public loggedInRedirect = () => this.props.loggedIn && this.props.redirectIfLoggedIn;
 
   public displayComponent = () => {
     const { component: Component, ...props } = this.props;
@@ -20,7 +21,7 @@ class PublicRoute extends React.Component<Props> {
     // checks if there is current authentication:
     // if authenticated it redirects to the OECI login
     // otherwise it renders the desired component
-    return this.isAuthenticated() ? (
+    return this.loggedInRedirect() ? (
       <Redirect to="/oeci" />
     ) : (
       <Component {...props} />

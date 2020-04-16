@@ -30,12 +30,12 @@ class AppRouter extends React.Component {
           <AuthenticatedRoute path="/account" component={InterimPage} />
           <AuthenticatedRoute path="/add-user" component={AddUser} />
           <AuthenticatedRoute path="/edit-user" component={EditUser} />
-          <AuthenticatedRoute path="/manual" component={Manual} />
 
-          <PublicRoute exact={true} path="/" component={Landing} />
-          <PublicRoute path="/login" component={LogIn} />
+          <PublicRoute exact={true} path="/" component={Landing} redirectIfLoggedIn={true} />
+          <PublicRoute path="/login" component={LogIn} redirectIfLoggedIn={true} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
+          <PublicRoute path="/manual" component={Manual} />
 
           {/* This route catches undefined url entries and redirects back to app
               we could put a 404 page in place at some point */}
