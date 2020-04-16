@@ -10,6 +10,7 @@ from expungeservice.models.ambiguous import AmbiguousCase
 from expungeservice.models.record import Question
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
+from expungeservice.record_creator import RecordCreator
 
 
 @pytest.fixture
@@ -50,9 +51,12 @@ def mock_save_result_fail(request_data, record):
 
 
 def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
+    # response data is now sorted by date just before return in search.py
+    # so test cases should be sorted with same method when testing against search.py
+    sorted_mock_record = RecordCreator.sort_record_by_case_date(mock_record)
     assert record_dict["total_balance_due"] == mock_record.total_balance_due
     case_numbers = [case["case_number"] for case in record_dict["cases"]]
-    mocked_case_numbers = [case.case_number for case in mock_record.cases]
+    mocked_case_numbers = [case.case_number for case in sorted_mock_record.cases]
     assert case_numbers == mocked_case_numbers
 
 
