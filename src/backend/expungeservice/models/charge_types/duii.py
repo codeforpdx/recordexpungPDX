@@ -27,11 +27,6 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
 @dataclass(frozen=True)
 class DivertedDuii(Charge):
     type_name: str = "Diverted DUII"
-
+    expungement_rules = "A DUII dismissal resulting from completion of diversion is ineligible under ORS 137.225(8)(b)."
     def _type_eligibility(self):
-        """
-        DUII charges can be diverted, and in some cases the Disposition will
-        reflect this and in others it will say Dismissed.  We need to handle
-        both possibilities.
-        """
         return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",)

@@ -8,10 +8,8 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class SexCrime(Charge):
     type_name: str = "Sex Crime"
     expungement_rules: str = (
-        """
-        Sex Crimes are type-ineligible for expungement other than a narrow exception for "Romeo and Juliet" cases.
-        For further detail, see 137.225(6)(a)
-        """
+        """Sex Crimes are type-ineligible for expungement other than a narrow exception for "Romeo and Juliet" cases.
+For further detail, see 137.225(6)(a)"""
     )
 
     statutes = [
@@ -62,7 +60,7 @@ class SexCrime(Charge):
 @dataclass(frozen=True)
 class RomeoAndJulietNMASexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
-    expungement_rules: str = ("""Please contact michael@qiu-qiulaw.com for manual analysis.""")
+    expungement_rules: str = ("""In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis.""")
 
     def _type_eligibility(self):
         if self.dismissed():
@@ -77,7 +75,7 @@ class RomeoAndJulietNMASexCrime(Charge):
 @dataclass(frozen=True)
 class RomeoAndJulietIneligibleSexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
-    expungement_rules: str = ("""TODO""")
+    expungement_rules: str = ("""See other entry for this charge type""")
 
     def _type_eligibility(self):
         if self.dismissed():
