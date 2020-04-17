@@ -40,7 +40,6 @@ def create_app(env_name):
     sess.init_app(app)
 
     attach_logger(app)
-    app.logger.setLevel(logging.DEBUG)
 
     __register_endpoints(app)
 
