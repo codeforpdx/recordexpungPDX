@@ -1,9 +1,9 @@
-from flask import abort, jsonify, make_response
+from flask import abort, current_app, jsonify, make_response
 import logging
 
 
 def error(code, message):
-    logging.error("code %i %s" % (code, message), stack_info=True)
+    current_app.logger.error("code %i %s" % (code, message), stack_info=True)
     abort(make_response(jsonify(message=message), code))
 
 
