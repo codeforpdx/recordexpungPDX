@@ -38,8 +38,6 @@ CREATE TABLE search_results (
     user_id               UUID REFERENCES users(user_id),
     date_searched         TIMESTAMP WITH TIME ZONE DEFAULT now(),
     hashed_search_params  TEXT NOT NULL,
-    num_charges           INTEGER,
-    num_eligible_charges  INTEGER,
     PRIMARY KEY (search_result_id)
 );
 
