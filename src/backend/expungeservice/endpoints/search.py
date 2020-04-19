@@ -14,8 +14,8 @@ from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
-from expungeservice.stats import save_result
 from expungeservice.record_summarizer import RecordSummarizer
+from expungeservice.database.db_util import save_search_event
 
 
 class Search(MethodView):
@@ -40,7 +40,7 @@ class Search(MethodView):
             session["ambiguous_record"] = ambiguous_record
 
         try:
-            save_result(request_data, record)
+            save_search_event(request_data, record)
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
 

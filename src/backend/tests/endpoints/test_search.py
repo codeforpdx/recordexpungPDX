@@ -46,8 +46,8 @@ def mock_search(
     return compute_ambiguous_cases
 
 
-def mock_save_result_fail(request_data, record):
-    raise Exception("Exception to test failing save_result")
+def mock_save_search_event_fail(request_data, record):
+    raise Exception("Exception to test failing save_search_event")
 
 
 def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
@@ -67,10 +67,10 @@ def test_search(service, monkeypatch):
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
 
     """
-    A separate test, below, verifies that the save-result step
+    A separate test, below, verifies that the save-search-event step
     also works. Here, we mock the function to reduce the scope of the test.
     """
-    monkeypatch.setattr(search, "save_result", lambda request_data, record: None)
+    monkeypatch.setattr(search, "save_search_event", lambda request_data, record: None)
 
     """
     as a more unit-y unit test, we could make the encrypted cookie
@@ -99,7 +99,7 @@ def test_search_fails_without_oeci_token(service):
     assert response.status_code == 401
 
 
-def test_search_creates_save_results(service, monkeypatch):
+def test_search_creates_save_search_event(service, monkeypatch):
     """
     This is the same test as above except it includes the save-results step. Less unit-y,
     more of a vertical test.
@@ -123,12 +123,12 @@ def test_search_creates_save_results(service, monkeypatch):
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
-    service.check_search_result_saved(
-        service.user_data["user1"]["user_id"], service.search_request_data, num_eligible_charges=6, num_charges=9
+    service.check_search_event_saved(
+        service.user_data["user1"]["user_id"], service.search_request_data
     )
 
 
-def test_search_with_failing_save_results(service, monkeypatch):
+def test_search_with_failing_save_event(service, monkeypatch):
     """
     The search endpoint should succeed even if something goes wrong with the save-result step.
     """
@@ -136,7 +136,7 @@ def test_search_with_failing_save_results(service, monkeypatch):
     service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
     monkeypatch.setattr(Crawler, "login", mock_login(True))
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
-    monkeypatch.setattr(search, "save_result", mock_save_result_fail)
+    monkeypatch.setattr(search, "save_search_event", mock_save_search_event_fail)
 
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}

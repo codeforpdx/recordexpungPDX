@@ -118,7 +118,7 @@ class EndpointShared:
         hashed_search_params = hashlib.sha256(search_param_string.encode()).hexdigest()
         return hashed_search_params
 
-    def check_search_result_saved(self, user_id, request_data, num_eligible_charges, num_charges):
+    def check_search_event_saved(self, user_id, request_data):
         with self.app.app_context():
             g.database = get_database()
             hashed_search_params = self.__hash_search_params(user_id, request_data)
@@ -131,5 +131,3 @@ class EndpointShared:
                 {"hashed_search_params": hashed_search_params},
             )
             result = g.database.cursor.fetchone()._asdict()
-            assert result["num_eligible_charges"] == num_eligible_charges
-            assert result["num_charges"] == num_charges
