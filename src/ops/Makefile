@@ -34,11 +34,13 @@ push: env_check
 
 # --- deploys
 
-# configure port
+# configure port & syslog facility
 ifeq ($(RS_ENV),staging)
 PORT := 3032
+FACILITY := local1
 else ifeq ($(RS_ENV),prod)
 PORT := 3031
+FACILITY := local0
 endif
 
 # configure DEPLOY_TAG
@@ -67,7 +69,15 @@ ssh_deploy: env_check port_check
 	@ssh recordsponge -C \
 		'docker pull recordsponge/expungeservice:$(DEPLOY_TAG); \
 		 docker stop $(RS_ENV); \
-		 docker run --rm -d --name $(RS_ENV) --env-file /etc/recordsponge/$(RS_ENV).env -p $(PORT):5000 recordsponge/expungeservice:$(DEPLOY_TAG)'
+		 docker run --rm -d \
+		            --name $(RS_ENV) \
+								--env-file /etc/recordsponge/$(RS_ENV).env \
+								-p $(PORT):5000 \
+								--log-driver syslog \
+								--log-opt syslog-address=udp://172.17.0.1 \
+								--log-opt syslog-facility=$(FACILITY) \
+								--log-opt tag=$(RS_ENV) \
+								recordsponge/expungeservice:$(DEPLOY_TAG)'
 
 # --- staging
 

@@ -36,11 +36,11 @@ def create_app(env_name):
     # app initiliazation
     app = Flask(__name__, static_folder=FRONTEND_BUILD_DIR)
     app.config.from_object(app_config[env_name])
+    app.config.from_mapping(TIER=env_name)
     sess = Session()
     sess.init_app(app)
 
     attach_logger(app)
-    app.logger.setLevel(logging.DEBUG)
 
     __register_endpoints(app)
 

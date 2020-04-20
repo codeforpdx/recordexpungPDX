@@ -34,16 +34,28 @@ class ColoredFormatter(DetailedFormatter):
 
 
 def attach_logger(app):
-
     app.logger = logging.getLogger("recordexpunge")
+    app.logger.setLevel(logging.DEBUG)
+    if app.config["TIER"] == "development":
+        colored_stdout_handler(app.logger)
+        file_handler(app.logger)
+    else:
+        stdout_handler(app.logger)
 
-    # create console handler with a higher log level
+def colored_stdout_handler(logger):
     stdout_handler = logging.StreamHandler()
     stdout_handler.setLevel(logging.DEBUG)
     stdout_handler.setFormatter(ColoredFormatter())
-    app.logger.addHandler(stdout_handler)
+    logger.addHandler(stdout_handler)
 
+def file_handler(logger):
     log_file_handler = logging.FileHandler("logs/expungeservice_log.txt")
     log_file_handler.setLevel(logging.DEBUG)
     log_file_handler.setFormatter(DetailedFormatter())
-    app.logger.addHandler(log_file_handler)
+    logger.addHandler(log_file_handler)
+
+def stdout_handler(logger):
+    stdout_handler = logging.StreamHandler()
+    stdout_handler.setLevel(logging.DEBUG)
+    stdout_handler.setFormatter(DetailedFormatter())
+    logger.addHandler(stdout_handler)
