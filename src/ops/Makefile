@@ -74,7 +74,6 @@ ssh_deploy: env_check port_check
 								--env-file /etc/recordsponge/$(RS_ENV).env \
 								-p $(PORT):5000 \
 								--log-driver syslog \
-								--log-opt syslog-address=udp://172.17.0.1 \
 								--log-opt syslog-facility=$(FACILITY) \
 								--log-opt tag=$(RS_ENV) \
 								recordsponge/expungeservice:$(DEPLOY_TAG)'
