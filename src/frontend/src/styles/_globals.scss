@@ -82,10 +82,11 @@ $washed-red: #f0e0e8;
 .logo {
   width: 140px;
   height: auto;
-  margin: 0.7rem 0 0 1rem;
+  margin: 0.7rem 0 0.7rem 1rem;
 
-  @media screen and (min-width: 30em) {
+  @media screen and (min-width: 60em) {
     width: 164px;
+    margin: 0.7rem 0 0 1rem;
   }
 }
 
@@ -93,6 +94,23 @@ $washed-red: #f0e0e8;
   width: 210px;
   height: auto;
   margin: 1.25rem auto 3rem auto;
+}
+
+// For Manual internal links
+.bb-dotted-2 {
+  border-bottom: 2px dotted #aaa;
+}
+
+// For Manual menu
+.shrink-none {
+  flex-shrink: 0;
+}
+@media screen and (min-width: 60em) {
+  .sticky-l {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  }
 }
 
 .btn--search {
@@ -307,6 +325,9 @@ footer {
 .nowrap {
   white-space: nowrap;
 }
+.bottom-6 {
+  bottom: 6rem;
+}
 
 // New CSS as of Landing addition
 
@@ -315,8 +336,9 @@ $lightest-blue2: #e8f2ff;
 .bg-lightest-blue1 {
   background-color: $lightest-blue1;
 }
-.bg-lightest-blue2 {
-  background-color: $lightest-blue2;
+
+.b--lightest-blue1 {
+  border-color: $lightest-blue1;
 }
 
 .no-wrap {
@@ -324,17 +346,17 @@ $lightest-blue2: #e8f2ff;
 }
 
 .logo--landing-page {
-  width: 190px;
+  width: 180px;
   height: auto;
 
   @media screen and (min-width: 30em) {
-    width: 220px;
+    width: 208px;
   }
 }
 
 .wipe-illustrations {
   max-width: 100%;
-  width: 600px;
+  width: 840px;
   height: auto;
 }
 .key--bkg-sm {
