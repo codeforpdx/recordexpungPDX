@@ -151,7 +151,7 @@ class ChargeClassifier:
                     question_string = "Was the underlying substance marijuana, and if not, was the charge for an A Felony, B Felony, or C Felony?"
                     options = ["Yes", "No: A Felony", "No: B Felony", "No: C Felony"]
                     return AmbiguousChargeTypeWithQuestion(
-                        [FelonyClassA, FelonyClassB, FelonyClassC, MarijuanaEligible], question_string, options
+                        [MarijuanaEligible, FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
                     )
                 elif level == "Felony Class A" or level == "Felony Class B":
                     question_string = "Was the underlying substance marijuana?"
