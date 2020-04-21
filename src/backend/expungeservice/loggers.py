@@ -38,7 +38,7 @@ def attach_logger(app):
     app.logger.setLevel(logging.DEBUG)
     if app.config["TIER"] == "development":
         colored_stdout_handler(app.logger)
-        file_handler(app.logger)
+        # file_handler(app.logger)
     else:
         stdout_handler(app.logger)
 
