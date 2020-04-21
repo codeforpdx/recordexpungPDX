@@ -15,8 +15,7 @@ import logging
 from .loggers import attach_logger
 
 
-FRONTEND_BUILD_DIR = path.abspath(path.join(
-    path.dirname(__file__), "..", "..", "frontend", "build"))
+FRONTEND_BUILD_DIR = path.abspath(path.join(path.dirname(__file__), "..", "..", "frontend", "build"))
 
 
 def before():
@@ -48,7 +47,7 @@ def create_app(env_name):
     app.after_request(after)
     app.teardown_request(lambda exception: g.database.close_connection())
 
-    sys.setrecursionlimit(15000)
+    sys.setrecursionlimit(150000)
 
     return app
 
