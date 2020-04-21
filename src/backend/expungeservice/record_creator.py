@@ -1,4 +1,4 @@
-from dataclasses import replace
+from dataclasses import replace, dataclass
 from itertools import product, groupby
 from typing import List, Dict, Tuple
 
@@ -11,10 +11,18 @@ from expungeservice.models.record import Record, Question
 from expungeservice.request import error
 
 
+@dataclass(frozen=True)
+class Alias:
+    first_name: str
+    last_name: str
+    middle_name: str
+    birth_date: str
+
+
 class RecordCreator:
     @staticmethod
     def build_record(
-        username: str, password: str, aliases: List[Dict[str, str]]
+        username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
         ambiguous_cases_accumulator: List[AmbiguousCase] = []
         questions_accumulator: List[Question] = []
@@ -26,9 +34,7 @@ class RecordCreator:
                 error(401, "Attempted login to OECI failed")
 
             try:
-                search_result = crawler.search(
-                    alias["first_name"], alias["last_name"], alias["middle_name"], alias["birth_date"],
-                )
+                search_result = crawler.search(alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,)
                 ambiguous_cases, questions = search_result
                 ambiguous_cases_accumulator += ambiguous_cases
                 questions_accumulator += questions

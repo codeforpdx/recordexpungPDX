@@ -1,11 +1,11 @@
-from typing import Tuple, List, Dict
+from typing import Tuple, Dict
 
 import requests_mock
 
 from expungeservice.crawler.request import URL
 from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.record import Record, Question
-from expungeservice.record_creator import RecordCreator
+from expungeservice.record_creator import RecordCreator, Alias
 from tests.fixtures.post_login_page import PostLoginPage
 from tests.fixtures.search_page_response import SearchPageResponse
 from tests.fixtures.case_details import CaseDetails
@@ -36,5 +36,5 @@ class CrawlerFactory:
             for key, value in cases.items():
                 m.get("{}{}{}".format(base_url, "CaseDetail.aspx?CaseID=", key), text=value)
 
-            aliases = [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": ""}]
+            aliases = (Alias(first_name="John", last_name="Doe", middle_name="", birth_date=""),)
             return RecordCreator.build_record("username", "password", aliases)

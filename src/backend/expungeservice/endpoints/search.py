@@ -1,4 +1,4 @@
-from typing import List, Any, Dict
+from typing import Any, Dict
 
 from dacite import from_dict
 from flask.views import MethodView
@@ -9,7 +9,7 @@ import logging
 from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Question
-from expungeservice.record_creator import RecordCreator
+from expungeservice.record_creator import RecordCreator, Alias
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
@@ -35,7 +35,8 @@ class Search(MethodView):
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
         username, password = decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
 
-        record, ambiguous_record, questions = RecordCreator.build_record(username, password, request_data["aliases"])
+        aliases = [from_dict(data_class=Alias, data=alias) for alias in request_data["aliases"]]
+        record, ambiguous_record, questions = RecordCreator.build_record(username, password, tuple(aliases))
         if questions:
             session["ambiguous_record"] = ambiguous_record
 
