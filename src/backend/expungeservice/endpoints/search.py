@@ -1,12 +1,9 @@
-from typing import Dict, Any
-
 from dacite import from_dict
 from flask.views import MethodView
-from flask import request, current_app, session, json
+from flask import request, current_app, json
 from flask_login import login_required
 import logging
 
-from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Question, Alias
 from expungeservice.record_creator import RecordCreator
@@ -40,9 +37,6 @@ class Search(MethodView):
     def build_response(username, password, aliases_data, questions_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, ambiguous_record, questions = RecordCreator.build_record(username, password, tuple(aliases))
-        # TODO: Remove
-        if questions:
-            session["ambiguous_record"] = ambiguous_record
         if questions_data:
             questions, record = Search.disambiguate_record(ambiguous_record, questions_data)
         try:
@@ -62,30 +56,5 @@ class Search(MethodView):
         return questions, record
 
 
-# TODO: Deprecated: Remove
-class Disambiguate(MethodView):
-    @login_required
-    def post(self):
-        ambiguous_record_data = session.get("ambiguous_record")
-        if ambiguous_record_data:
-            ambiguous_record = ambiguous_record_data
-            request_data = request.get_json()
-            questions = request_data.get("questions")
-            return Disambiguate.build_response(ambiguous_record, questions)
-        else:
-            error(428, "Must hit the search endpoint with question generating records first.")
-
-    @staticmethod
-    def build_response(ambiguous_record: AmbiguousRecord, questions_data: Dict[str, Any]):
-        questions = [from_dict(data_class=Question, data=question) for id, question in questions_data.items()]
-        questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-        updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions)
-        record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
-        record_summary = RecordSummarizer.summarize(record, questions_as_dict)
-        response_data = {"record": record_summary}
-        return json.dumps(response_data, cls=ExpungeModelEncoder)
-
-
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
-    app.add_url_rule("/api/disambiguate", view_func=Disambiguate.as_view("disambiguate"))
