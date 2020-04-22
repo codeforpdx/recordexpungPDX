@@ -5,6 +5,14 @@ from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 
 
+@dataclass(frozen=True)
+class Alias:
+    first_name: str
+    last_name: str
+    middle_name: str
+    birth_date: str
+
+
 @dataclass
 class Question:
     ambiguous_charge_id: str
