@@ -9,7 +9,8 @@ import {
 import {QuestionsData} from '../../components/RecordSearch/Record/types'
 
 const initalState: SearchRecordState = {
-  loading: false
+  loading: false,
+  aliases: []
 };
 
 export function searchReducer(
@@ -25,9 +26,9 @@ export function searchReducer(
         loading: false
       };
     case RECORD_LOADING:
-      return {...state, record: {}, questions: {}, loading: true};
+      return {...state, record: {}, aliases: JSON.parse(JSON.stringify(action.aliases)), questions: {}, loading: true};
     case CLEAR_RECORD:
-      return {...state, record: {}, questions: {}, loading: false};
+      return {...state, record: {}, aliases: [], questions: {}, loading: false};
     case SELECT_ANSWER:
       let questions: QuestionsData = JSON.parse(JSON.stringify(state.questions));
       if (questions && questions[action.ambiguous_charge_id]) {

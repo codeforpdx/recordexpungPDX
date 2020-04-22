@@ -40,7 +40,8 @@ export function searchRecord(
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: RECORD_LOADING
+      type: RECORD_LOADING,
+      aliases: aliases
     });
     return apiService<SearchResponse>(dispatch, {
       url: '/api/search',
@@ -76,8 +77,9 @@ export function selectAnswer(
       answer: answer
     });
     return apiService<SearchResponse>(dispatch, {
-      url: '/api/disambiguate',
+      url: '/api/search',
       data: {
+        aliases: store.getState().search.aliases,
         questions: store.getState().search.questions
       },
       method: 'post',

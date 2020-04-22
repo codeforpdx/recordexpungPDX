@@ -3,6 +3,7 @@ import {
   RecordSummaryData,
   QuestionsData
 } from '../../components/RecordSearch/Record/types'
+import {AliasData} from "../../components/RecordSearch/SearchPanel/types";
 
 export interface SearchResponse {
   record: RecordEndpointData;
@@ -23,6 +24,7 @@ export const SELECT_ANSWER = 'SELECT_ANSWER';
 
 export interface SearchRecordState {
   loading: boolean;
+  aliases: AliasData[];
   record?: RecordData;
   questions?: QuestionsData
 }
@@ -32,6 +34,7 @@ interface SearchRecordAction {
     | typeof DISPLAY_RECORD
     | typeof RECORD_LOADING
     | typeof CLEAR_RECORD;
+  aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;
 }
