@@ -1,4 +1,4 @@
-from dataclasses import replace, dataclass
+from dataclasses import replace
 from itertools import product, groupby
 from typing import List, Dict, Tuple
 
@@ -7,16 +7,8 @@ from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case
 from expungeservice.record_merger import RecordMerger
-from expungeservice.models.record import Record, Question
+from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
-
-
-@dataclass(frozen=True)
-class Alias:
-    first_name: str
-    last_name: str
-    middle_name: str
-    birth_date: str
 
 
 class RecordCreator:
