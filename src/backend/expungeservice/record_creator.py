@@ -1,4 +1,5 @@
 from dataclasses import replace
+from functools import lru_cache
 from itertools import product, groupby
 from typing import List, Dict, Tuple
 
@@ -13,6 +14,7 @@ from expungeservice.request import error
 
 class RecordCreator:
     @staticmethod
+    @lru_cache(maxsize=4)
     def build_record(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
