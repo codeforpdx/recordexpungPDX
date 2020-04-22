@@ -79,7 +79,7 @@ While the full dev stack is running, you can use the app in two different ways:
 
 #### Frontend Development
 
-The frontend stack uses [react-scripts](https://github.com/facebook/create-react-app#readme) which starts a hot-module-reloading dev server for quick iterative work. This is run inside the `node` service, which runs from the stock `node:alpine` image and mounts a persistent named volume to house the node\_modules. This service is listening at:
+The frontend stack uses [react-scripts](https://github.com/facebook/create-react-app#readme) which starts a hot-module-reloading dev server for quick iterative work. This is run inside the `node` service, which runs from the stock `node:13.13.0-alpine` image and mounts a persistent named volume to house the node\_modules. This service is listening at:
 
 [http://localhost:3000](http://localhost:3000)
 
