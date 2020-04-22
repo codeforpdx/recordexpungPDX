@@ -7,7 +7,6 @@ class App extends React.Component {
   public render() {
     return (
       <Authenticator>
-        {/*<Header /> // added to individual pages and excluded from others */}
         <AppRouter />
         <Footer />
       </Authenticator>
