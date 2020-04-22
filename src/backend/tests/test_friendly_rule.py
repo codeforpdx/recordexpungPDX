@@ -102,9 +102,8 @@ def test_eligible_mrc_with_violation():
     )
 
 
-@pytest.mark.skip()
 def test_needs_more_analysis_mrc_with_single_arrest():
-    three_yr_mrc = ChargeFactory.create(
+    eligible_charge, ineligible_charge = ChargeFactory.create_ambiguous_charge(
         name="Assault in the third degree",
         statute="163.165",
         level="Felony Class C",
@@ -112,32 +111,30 @@ def test_needs_more_analysis_mrc_with_single_arrest():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
-    case = CaseFactory.create(charges=tuple([three_yr_mrc, arrest]))
-    record = Record(tuple([case]))
-    expunger_result = Expunger.run(record)
+    case_a = CaseFactory.create(charges=tuple([eligible_charge, arrest]))
+    case_b = CaseFactory.create(charges=tuple([ineligible_charge, arrest]))
+    record_a = Record(tuple([case_a]))
+    record_b = Record(tuple([case_b]))
+    expunger_result_a = Expunger.run(record_a)
+    expunger_result_b = Expunger.run(record_b)
 
-    ten_years_from_mrc = three_yr_mrc.disposition.date + Time.TEN_YEARS
-    assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[arrest.ambiguous_charge_id].reason == "Ten years from most recent conviction (137.225(7)(b))"
-    assert expunger_result[arrest.ambiguous_charge_id].date_will_be_eligible == date.today()
-    # assert expunger_result[arrest.ambiguous_charge_id].date_eligible_without_friendly_rule == ten_years_from_mrc
-    assert arrest.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+    ten_years_from_mrc = eligible_charge.disposition.date + Time.TEN_YEARS
+    assert expunger_result_a[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert (
-        arrest.expungement_result.charge_eligibility.label
-        == f"Eligible now or {ten_years_from_mrc.strftime('%b %-d, %Y')} w/o friendly rule (review)"
+        expunger_result_a[arrest.ambiguous_charge_id].reason
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
     )
+    assert expunger_result_a[arrest.ambiguous_charge_id].date_will_be_eligible == date.today()
 
-    assert three_yr_mrc.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert expunger_result[three_yr_mrc.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[three_yr_mrc.ambiguous_charge_id].reason == "Eligible now"
-    assert expunger_result[three_yr_mrc.ambiguous_charge_id].date_will_be_eligible == date.today()
-    assert three_yr_mrc.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
-    assert three_yr_mrc.expungement_result.charge_eligibility.label == "Possibly Eligible (review)"
+    assert expunger_result_b[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert (
+        expunger_result_b[arrest.ambiguous_charge_id].reason == "Ten years from most recent conviction (137.225(7)(b))"
+    )
+    assert expunger_result_b[arrest.ambiguous_charge_id].date_will_be_eligible == ten_years_from_mrc
 
 
-@pytest.mark.skip()
 def test_very_old_needs_more_analysis_mrc_with_single_arrest():
-    mrc = ChargeFactory.create(
+    eligible_charge, ineligible_charge = ChargeFactory.create_ambiguous_charge(
         name="Assault in the third degree",
         statute="163.165",
         level="Felony Class C",
@@ -145,22 +142,24 @@ def test_very_old_needs_more_analysis_mrc_with_single_arrest():
     )
     arrest = ChargeFactory.create(disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO))
 
-    case = CaseFactory.create(charges=tuple([mrc, arrest]))
-    record = Record(tuple([case]))
-    expunger_result = Expunger.run(record)
+    case_a = CaseFactory.create(charges=tuple([eligible_charge, arrest]))
+    case_b = CaseFactory.create(charges=tuple([ineligible_charge, arrest]))
+    record_a = Record(tuple([case_a]))
+    record_b = Record(tuple([case_b]))
+    expunger_result_a = Expunger.run(record_a)
+    expunger_result_b = Expunger.run(record_b)
 
-    three_years_from_mrc = mrc.disposition.date + Time.THREE_YEARS
-    assert expunger_result[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[arrest.ambiguous_charge_id].date_will_be_eligible == three_years_from_mrc
-    # assert expunger_result[arrest.ambiguous_charge_id].date_eligible_without_friendly_rule == Time.THREE_YEARS_AGO
-    assert arrest.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-    assert arrest.expungement_result.charge_eligibility.label == "Eligible"
+    three_years_from_mrc = eligible_charge.disposition.date + Time.THREE_YEARS
+    assert expunger_result_a[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert (
+        expunger_result_a[arrest.ambiguous_charge_id].reason
+        == 'Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)'
+    )
+    assert expunger_result_a[arrest.ambiguous_charge_id].date_will_be_eligible == three_years_from_mrc
 
-    assert mrc.expungement_result.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert expunger_result[mrc.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
-    assert expunger_result[mrc.ambiguous_charge_id].date_will_be_eligible == three_years_from_mrc
-    assert mrc.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
-    assert mrc.expungement_result.charge_eligibility.label == "Possibly Eligible (review)"
+    assert expunger_result_b[arrest.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result_b[arrest.ambiguous_charge_id].reason == "Eligible now"
+    assert expunger_result_b[arrest.ambiguous_charge_id].date_will_be_eligible == arrest.disposition.date
 
 
 def test_arrest_time_eligibility_is_set_to_older_violation():
