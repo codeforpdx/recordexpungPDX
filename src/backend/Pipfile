@@ -25,7 +25,6 @@ pytest-lazy-fixture = "==0.6.2"
 hypothesis = "==4.50.8"
 beautifulsoup4 = "==4.8.1"
 ipdb = "==0.13.2"
-flask-session = {git = "https://github.com/rayluo/flask-session",ref = "0.3.x"}
 
 [dev-packages]
 
