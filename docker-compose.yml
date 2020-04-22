@@ -27,7 +27,7 @@ services:
     command: sh -c "cd /src/frontend && npm install && npm start"
     depends_on:
       - expungeservice
-    image: node:alpine
+    image: node:13.13.0-alpine
     ports:
       - "3000:3000"
     volumes:

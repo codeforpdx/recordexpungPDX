@@ -6,7 +6,7 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     container:
-      image: node:alpine
+      image: node:13.13.0-alpine
       env:
         CI: true
     steps:
