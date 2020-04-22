@@ -1,8 +1,10 @@
 import pytest
 from flask import json
 
-from expungeservice.endpoints.search import Disambiguate
+from expungeservice.endpoints.search import Search
 from expungeservice.models.record import Question
+from expungeservice.record_summarizer import RecordSummarizer
+from expungeservice.serializer import ExpungeModelEncoder
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -165,8 +167,10 @@ def record_with_single_duii():
 def test_disambiguate_endpoint_with_no_answers(record_with_single_duii):
     ambiguous_record = record_with_single_duii[1]
     questions = json.loads(json.dumps(record_with_single_duii[2]))
-    response = Disambiguate.build_response(ambiguous_record, questions)
-    response_as_dict = json.loads(response)
+    questions, record = Search.disambiguate_record(ambiguous_record, questions)
+    record_summary = RecordSummarizer.summarize(record, questions)
+    response_data = {"record": record_summary}
+    response_as_dict = json.loads(json.dumps(response_data, cls=ExpungeModelEncoder))
     assert response_as_dict == DUII_SEARCH_RESPONSE
 
 
@@ -182,6 +186,8 @@ def test_disambiguate_endpoint_with_diverted_answer(record_with_single_duii):
         )
     }
     questions = json.loads(json.dumps(answers))
-    response = Disambiguate.build_response(ambiguous_record, questions)
-    response_as_dict = json.loads(response)
+    questions, record = Search.disambiguate_record(ambiguous_record, questions)
+    record_summary = RecordSummarizer.summarize(record, questions)
+    response_data = {"record": record_summary}
+    response_as_dict = json.loads(json.dumps(response_data, cls=ExpungeModelEncoder))
     assert response_as_dict == DIVERTED_RESPONSE
