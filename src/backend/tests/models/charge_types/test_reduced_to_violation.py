@@ -20,8 +20,8 @@ def test_reduced_to_violation_convicted():
 
 def test_reduced_to_violation_dismissed():
     charge = ChargeFactory.create(
-        name="Theft in the Second Degree (Reduced - DA Elected)",
-        statute="164045",
+        name="Misdemeanor Treated as a Violation",
+        statute="161.566(1)",
         level="Violation Class A",
         disposition=Dispositions.DISMISSED,
     )
