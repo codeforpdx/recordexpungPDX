@@ -22,4 +22,4 @@ def test_fare_violation_dismissed():
 
     assert isinstance(charge, FareViolation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissed criminal charge eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"

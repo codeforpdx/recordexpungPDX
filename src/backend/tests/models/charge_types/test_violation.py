@@ -21,5 +21,5 @@ def test_violation_dismissed():
     )
 
     assert isinstance(charge, Violation)
-    assert charge.type_eligibility.status is EligibilityStatus.inELIGIBLE
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
