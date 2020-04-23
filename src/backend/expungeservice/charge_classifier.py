@@ -17,6 +17,7 @@ from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIne
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible, MarijuanaUnder21
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
+from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
@@ -54,7 +55,7 @@ class ChargeClassifier:
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._civil_offense(self.statute, self.name.lower())
         yield ChargeClassifier._traffic_crime(self.statute, self.name.lower(), self.level, self.disposition)
-        yield ChargeClassifier._violation(self.level)
+        yield ChargeClassifier._violation(self.level, self.name.lower())
         criminal_charge = next(
             (
                 c
@@ -84,9 +85,12 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([JuvenileCharge])
 
     @staticmethod
-    def _violation(level):
+    def _violation(level, name):
         if "Violation" in level:
-            return AmbiguousChargeTypeWithQuestion([Violation])
+            if "reduced" in name:
+                return AmbiguousChargeTypeWithQuestion([ReducedToViolation])
+            else:
+                return AmbiguousChargeTypeWithQuestion([Violation])
 
     @staticmethod
     def _drug_crime(
