@@ -17,7 +17,9 @@ from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIne
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible, MarijuanaUnder21
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
+from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
+from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
@@ -50,11 +52,13 @@ class ChargeClassifier:
         return AmbiguousChargeTypeWithQuestion([UnclassifiedCharge])
 
     def __classifications_list(self) -> Iterator[AmbiguousChargeTypeWithQuestion]:
+        name = self.name.lower()
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
-        yield ChargeClassifier._civil_offense(self.statute, self.name.lower())
-        yield ChargeClassifier._traffic_crime(self.statute, self.name.lower(), self.level, self.disposition)
-        yield ChargeClassifier._violation(self.level)
+        yield ChargeClassifier._fare_violation(name)
+        yield ChargeClassifier._civil_offense(self.statute, name)
+        yield ChargeClassifier._traffic_crime(self.statute, name, self.level, self.disposition)
+        yield ChargeClassifier._violation(self.level, name)
         criminal_charge = next(
             (
                 c
@@ -84,9 +88,12 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([JuvenileCharge])
 
     @staticmethod
-    def _violation(level):
+    def _violation(level, name):
         if "Violation" in level:
-            return AmbiguousChargeTypeWithQuestion([Violation])
+            if "reduced" in name or "treated as" in name:
+                return AmbiguousChargeTypeWithQuestion([ReducedToViolation])
+            else:
+                return AmbiguousChargeTypeWithQuestion([Violation])
 
     @staticmethod
     def _drug_crime(
@@ -248,6 +255,11 @@ class ChargeClassifier:
     def _parking_ticket(violation_type):
         if "parking" in violation_type.lower():
             return AmbiguousChargeTypeWithQuestion([ParkingTicket])
+
+    @staticmethod
+    def _fare_violation(name):
+        if "fare violation" in name or "non-payment of fare" in name:
+            return AmbiguousChargeTypeWithQuestion([FareViolation])
 
     @staticmethod
     def _person_felony(statute):
