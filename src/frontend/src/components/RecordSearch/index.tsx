@@ -9,6 +9,7 @@ import {
 import SearchPanel from './SearchPanel';
 import Record from './Record';
 import Status from './Status';
+import Header from '../Header';
 import { checkOeciRedirect } from '../../service/cookie-service';
 
 type Props = {
@@ -28,6 +29,8 @@ class RecordSearch extends Component<Props> {
 
   render() {
     return (
+      <>
+      <Header/>
       <main className="mw8 center ph2">
         <SearchPanel searchRecord={this.props.searchRecord} />
         {this.props.record &&
@@ -41,14 +44,18 @@ class RecordSearch extends Component<Props> {
           <h2 className="fw6 mb3">Assumptions</h2>
           <p className="mb3">We are only able to access your public Oregon records.</p>
           <p className="mb2">Your analysis may be different if you have had cases which were:</p>
-          <ul className="lh-copy pl4 mw6">
+          <ul className="lh-copy pl4 mw6 mb3">
             <li className="mb2">Previously expunged</li>
             <li className="mb2">From States besides Oregon within the last ten years</li>
             <li className="mb2">From Federal Court within the last ten years</li>
             <li className="mb2">From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years</li>
           </ul>
+          <p>
+            <a className="link hover-blue underline" href="/manual#assumption1">Learn more in the Manual</a>
+          </p>
         </div>
       </main>
+      </>
     );
   }
 }

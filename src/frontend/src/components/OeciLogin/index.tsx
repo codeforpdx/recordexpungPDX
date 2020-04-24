@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { oeciLogIn } from '../../redux/system/actions';
 import { SystemState } from '../../redux/system/types';
+import Header from '../Header';
 
 interface Props {
   system: SystemState;
@@ -66,6 +67,8 @@ class OeciLogin extends React.Component<Props, State> {
 
   public render() {
     return (
+      <>
+      <Header/>
       <main className="mw8 center ph2">
         <section className="mw6 center cf white bg-dark-blue shadow br3 mt4 mb3 pa4 pa5-ns pt4-ns">
           <form
@@ -164,6 +167,7 @@ class OeciLogin extends React.Component<Props, State> {
           </form>
         </section>
       </main>
+      </>
     );
   }
 }

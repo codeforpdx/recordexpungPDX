@@ -14,6 +14,7 @@ import AuthenticatedRoute from '../AuthenticatedRoute';
 import PublicRoute from '../PublicRoute';
 import InterimPage from '../InterimPage';
 import Landing from '../Landing';
+import Manual from '../Manual';
 
 class AppRouter extends React.Component {
   public redirect = () => <Redirect to="/" />;
@@ -24,16 +25,15 @@ class AppRouter extends React.Component {
         <Switch>
           <AuthenticatedRoute path="/oeci" component={OeciLogin} />
           <AuthenticatedRoute path="/record-search" component={RecordSearch} />
-          <AuthenticatedRoute path="/stats" component={InterimPage} />
           <AuthenticatedRoute path="/admin" component={Admin} />
-          <AuthenticatedRoute path="/account" component={InterimPage} />
           <AuthenticatedRoute path="/add-user" component={AddUser} />
           <AuthenticatedRoute path="/edit-user" component={EditUser} />
 
-          <PublicRoute exact={true} path="/" component={Landing} />
-          <PublicRoute path="/login" component={LogIn} />
+          <PublicRoute exact={true} path="/" component={Landing} redirectIfLoggedIn={true} />
+          <PublicRoute path="/login" component={LogIn} redirectIfLoggedIn={true} />
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute path="/password-reset" component={PasswordReset} />
+          <PublicRoute path="/manual" component={Manual} />
 
           {/* This route catches undefined url entries and redirects back to app
               we could put a 404 page in place at some point */}

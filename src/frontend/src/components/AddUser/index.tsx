@@ -5,6 +5,7 @@ import { AppState } from '../../redux/store';
 import { addUser } from '../../redux/users/actions';
 import { UserState } from '../../redux/users/types';
 import validateEmail from '../../service/email-validation';
+import Header from '../Header';
 
 interface Props {
   users: UserState;
@@ -126,6 +127,8 @@ class AddUser extends React.Component<Props, State> {
 
   public render() {
     return (
+      <>
+      <Header/>
       <main className="mw6 ph2 center">
         <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
           <h1 className="mb4 f4 fw6">Add User</h1>
@@ -305,6 +308,7 @@ class AddUser extends React.Component<Props, State> {
           </form>
         </section>
       </main>
+      </>
     );
   }
 }
