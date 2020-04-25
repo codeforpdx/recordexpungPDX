@@ -17,6 +17,7 @@ def test_disposition_status_values():
     assert DispositionCreator.create(today, "Convicted").status == DispositionStatus.CONVICTED
     assert DispositionCreator.create(today, "Reduced to a lesser charge").status == DispositionStatus.CONVICTED
     assert DispositionCreator.create(today, "Conversion - Disposition Types").status == DispositionStatus.CONVICTED
+    assert DispositionCreator.create(today, "Bail Forfeiture").status == DispositionStatus.CONVICTED
     assert DispositionCreator.create(today, "Diverted").status == DispositionStatus.DIVERTED
     assert DispositionCreator.create(today, "No complaint").status == DispositionStatus.NO_COMPLAINT
     assert DispositionCreator.create(today, "What is this?").status == DispositionStatus.UNRECOGNIZED
