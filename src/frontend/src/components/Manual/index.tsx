@@ -141,7 +141,7 @@ class Landing extends React.Component {
                 </ul>
               </li>
               <li className="mb3">
-                Ensure that <a className="bb-dotted-2 hover-blue" href="#assumption1">Assaupmtion 1</a> is met
+                Ensure that <a className="bb-dotted-2 hover-blue" href="#assumption1">Assumption 1</a> is met
               </li>
               <li className="mb3">
                 <a className="bb-dotted-2 hover-blue" href="#search">Search records</a> by name and date of birth
