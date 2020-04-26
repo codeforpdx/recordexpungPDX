@@ -6,7 +6,7 @@ import os
 
 from flask_login import login_required
 
-from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword
+from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
 from expungeservice.crypto import DataCipher
@@ -28,8 +28,10 @@ class OeciLogin(MethodView):
         crawler_session = requests.Session()
         try:
             Crawler.attempt_login(crawler_session, credentials["oeci_username"], credentials["oeci_password"])
-        except InvalidOECIUsernamePassword:
-            error(401, "Invalid OECI username or password.")
+        except InvalidOECIUsernamePassword as e:
+            error(401, str(e))
+        except OECIUnavailable as e:
+            error(404, str(e))
         finally:
             crawler_session.close()
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
