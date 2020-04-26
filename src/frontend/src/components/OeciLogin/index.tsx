@@ -164,6 +164,8 @@ class OeciLogin extends React.Component<Props, State> {
             >
               Oregon eCourt Case Information website
             </a>
+            <p className="lh-copy mt4">The eCourt site is offline during the 4th weekend of each month between
+            6 PM PST on Friday until noon on Sunday. During this time, record search will not&nbsp;function.</p>
           </form>
         </section>
       </main>
