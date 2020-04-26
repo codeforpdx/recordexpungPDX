@@ -14,7 +14,8 @@ interface State {
   password: string;
   missingUserId: boolean;
   missingPassword: boolean;
-  invalidCredentials: null | boolean;
+  expectedFailure: null | boolean;
+  expectedFailureMessage: null | string;
   invalidResponse: null | boolean;
   missingInputs: null | boolean;
 }
@@ -25,7 +26,8 @@ class OeciLogin extends React.Component<Props, State> {
     password: '',
     missingUserId: false, // Initially set to false for aria-invalid
     missingPassword: false, // Initially set to false for aria-invalid
-    invalidCredentials: null,
+    expectedFailure: null,
+    expectedFailureMessage: null,
     invalidResponse: null,
     missingInputs: null
   };
@@ -54,9 +56,9 @@ class OeciLogin extends React.Component<Props, State> {
           this.props
             .oeciLogIn(this.state.userId, this.state.password)
             .catch((error: any) => {
-              error.response.status === 401
-                ? // error: email and password do not match
-                  this.setState({ invalidCredentials: true })
+              (error.response.status === 401 || error.response.status === 404)
+                ? // error: 40x
+                  this.setState({ expectedFailure: true, expectedFailureMessage: error.response.data.message })
                 : // error: technical difficulties
                   this.setState({ invalidResponse: true });
             });
@@ -145,9 +147,9 @@ class OeciLogin extends React.Component<Props, State> {
                   All fields are required.
                 </p>
               ) : null}
-              {this.state.invalidCredentials === true ? (
+              {this.state.expectedFailure === true ? (
                 <p className="bg-washed-red mb3 pa3 br3 fw6">
-                  User ID and password do not match.
+                {this.state.expectedFailureMessage}
                 </p>
               ) : null}
               {this.state.invalidResponse === true ? (
@@ -162,8 +164,6 @@ class OeciLogin extends React.Component<Props, State> {
             >
               Oregon eCourt Case Information website
             </a>
-            <p className="lh-copy mt4">The eCourt site is offline during the 4th weekend of each month between
-            6 PM PST on Friday until noon on Sunday. During this time, record search will not&nbsp;function.</p>
           </form>
         </section>
       </main>

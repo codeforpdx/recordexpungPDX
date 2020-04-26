@@ -5,7 +5,7 @@ from typing import List, Dict, Tuple
 
 import requests
 
-from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword
+from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case
@@ -33,8 +33,10 @@ class RecordCreator:
                 ambiguous_cases, questions = search_result
                 ambiguous_cases_accumulator += ambiguous_cases
                 questions_accumulator += questions
-            except InvalidOECIUsernamePassword:
-                error(401, "Invalid OECI username or password.")
+            except InvalidOECIUsernamePassword as e:
+                error(401, str(e))
+            except OECIUnavailable as e:
+                error(404, str(e))
             except Exception as e:
                 errors.append(str(e))
             finally:

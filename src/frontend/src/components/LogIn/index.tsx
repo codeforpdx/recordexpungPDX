@@ -14,7 +14,7 @@ interface Props {
 interface State {
   email: string;
   password: string;
-  invalidCredentials: boolean;
+  expectedFailure: boolean;
   invalidResponse: boolean;
   invalidEmail: boolean;
   missingPassword: boolean;
@@ -24,7 +24,7 @@ class LogIn extends React.Component<Props, State> {
   public state: State = {
     email: '',
     password: '',
-    invalidCredentials: false,
+    expectedFailure: false,
     invalidResponse: false,
     invalidEmail: false,
     missingPassword: false
@@ -69,7 +69,7 @@ class LogIn extends React.Component<Props, State> {
             .catch((error: any) => {
               error.response.status === 401
                 ? // error: email and password do not match
-                  this.setState({ invalidCredentials: true })
+                  this.setState({ expectedFailure: true })
                 : // error: technical difficulties
                   this.setState({ invalidResponse: true });
             });
@@ -99,12 +99,12 @@ class LogIn extends React.Component<Props, State> {
               aria-describedby={
                 this.state.invalidEmail
                   ? 'email_msg'
-                  : this.state.invalidCredentials
+                  : this.state.expectedFailure
                   ? 'no_match_msg'
                   : undefined
               }
               aria-invalid={
-                this.state.invalidEmail || this.state.invalidCredentials
+                this.state.invalidEmail || this.state.expectedFailure
                   ? true
                   : false
               }
@@ -120,14 +120,14 @@ class LogIn extends React.Component<Props, State> {
               className="w-100 mb4 pa3 br2 b--black-20"
               required={true}
               aria-describedby={
-                this.state.invalidCredentials
+                this.state.expectedFailure
                   ? 'no_match_msg'
                   : this.state.missingPassword
                   ? 'input_msg'
                   : undefined
               }
               aria-invalid={
-                this.state.invalidCredentials || this.state.missingPassword
+                this.state.expectedFailure || this.state.missingPassword
                   ? true
                   : false
               }
@@ -147,7 +147,7 @@ class LogIn extends React.Component<Props, State> {
                   Both fields are required.
                 </p>
               ) : null}
-              {this.state.invalidCredentials === true ? (
+              {this.state.expectedFailure === true ? (
                 <p id="no_match_msg" className="bg-washed-red mv4 pa3 br3 fw6">
                   Email and password do not match.
                 </p>

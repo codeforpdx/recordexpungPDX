@@ -19,7 +19,13 @@ from expungeservice.models.record import Question
 
 
 class InvalidOECIUsernamePassword(Exception):
-    pass
+    def __str__(self, *args, **kwargs):
+        return "Invalid OECI username or password."
+
+
+class OECIUnavailable(Exception):
+    def __str__(self, *args, **kwargs):
+        return """The eCourt site is offline during the 4th weekend of each month between 6 PM PST on Friday until noon on Sunday. During this time, record search will not function."""
 
 
 class Crawler:
@@ -30,6 +36,8 @@ class Crawler:
         response = session.post(url, data=payload)
         if Crawler._succeed_login(response):
             return response.text
+        elif "Oregon eCourt is temporarily unavailable due to maintenance" in response.text:
+            raise OECIUnavailable
         else:
             raise InvalidOECIUsernamePassword
 
