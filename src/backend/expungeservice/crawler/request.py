@@ -11,8 +11,7 @@ class Payload:
 
     @staticmethod
     def payload(param_parser, last_name, first_name, middle_name, birth_date):
-
-        payload = {
+        return {
             "__EVENTTARGET": "",
             "__EVENTARGUMENT": "",
             "__VIEWSTATE": param_parser.view_state,
@@ -82,8 +81,6 @@ class Payload:
             + birth_date
             + "||AllOption~~All~~0~~All||selectSortBy~~Sort+By:~~Filed+Date~~Filed+Date",
         }
-
-        return payload
 
 
 class URL:
