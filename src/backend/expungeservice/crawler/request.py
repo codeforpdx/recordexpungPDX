@@ -87,3 +87,7 @@ class URL:
     @staticmethod
     def login_url():
         return "https://publicaccess.courts.oregon.gov/PublicAccessLogin/login.aspx"
+
+    @staticmethod
+    def search_url():
+        return "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
