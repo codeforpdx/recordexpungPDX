@@ -1,69 +1,73 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from dataclasses import replace
+from functools import partial
 from itertools import product
 from typing import List, Tuple, Optional
 
-import requests
 from datetime import datetime
 
 from expungeservice.charge_creator import ChargeCreator
+from expungeservice.crawler.request import Payload, URL
 from expungeservice.models.case import CaseCreator
-from expungeservice.models.disposition import Disposition, DispositionCreator
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
-from expungeservice.crawler.request import *
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase
 from expungeservice.models.record import Question
 
 
-class Crawler:
-    def __init__(self):
-        self.session = requests.Session()
-        self.response = requests.Response()
-        self.result = RecordParser()
+class InvalidOECIUsernamePassword(Exception):
+    pass
 
-    def login(self, username, password, close_session=False) -> bool:
+
+class Crawler:
+    @staticmethod
+    def attempt_login(session, username, password) -> str:
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
+        response = session.post(url, data=payload)
+        if Crawler._succeed_login(response):
+            return response.text
+        else:
+            raise InvalidOECIUsernamePassword
 
-        self.response = self.session.post(url, data=payload)
-
-        if close_session:
-            self.session.close()
-
-        return Crawler.__login_validation(self.response)
-
+    @staticmethod
     def search(
-        self, first_name, last_name, middle_name="", birth_date=""
+        session, login_response, first_name, last_name, middle_name="", birth_date=""
     ) -> Tuple[List[AmbiguousCase], List[Question]]:
-        url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/Search.aspx?ID=100"
-        node_response = self.__parse_nodes(url)
-        payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
-
-        # perform search
-        response = self.session.post(url, data=payload)
-        self.result.feed(response.text)
-
+        search_url = URL.search_url()
+        node_response = Crawler._fetch_search_page(session, search_url, login_response)
+        record = Crawler._search_record(
+            session, node_response, search_url, first_name, last_name, middle_name, birth_date
+        )
         case_limit = 300
-        if len(self.result.cases) >= case_limit:
+        if len(record.cases) >= case_limit:
             raise ValueError(
-                f"Found {len(self.result.cases)} matching cases, exceeding the limit of {case_limit}. Please add a date of birth to your search."
+                f"Found {len(record.cases)} matching cases, exceeding the limit of {case_limit}. Please add a date of birth to your search."
             )
         else:
             # Parse search results (case detail pages)
             with ThreadPoolExecutor(max_workers=50) as executor:
                 ambiguous_cases: List[AmbiguousCase] = []
                 questions_accumulator: List[Question] = []
-                for ambiguous_case, questions in executor.map(self.__build_case, self.result.cases):
+                for ambiguous_case, questions in executor.map(partial(Crawler._build_case, session), record.cases):
                     ambiguous_cases.append(ambiguous_case)
                     questions_accumulator += questions
-            self.session.close()
             return ambiguous_cases, questions_accumulator
 
-    def __build_case(self, case) -> Tuple[AmbiguousCase, List[Question]]:
-        case_parser_data = self.__parse_case(case)
+    @staticmethod
+    def _search_record(session, node_response, search_url, first_name, last_name, middle_name, birth_date):
+        payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
+        response = session.post(search_url, data=payload)
+        record_parser = RecordParser()
+        record_parser.feed(response.text)
+        return record_parser
+
+    @staticmethod
+    def _build_case(session, case) -> Tuple[AmbiguousCase, List[Question]]:
+        case_parser_data = Crawler._parse_case(session, case)
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
         updated_case = replace(
             case, balance_due_in_cents=balance_due_in_cents, probation_revoked=case_parser_data.probation_revoked
@@ -74,7 +78,7 @@ class Crawler:
             charge_dict["case_number"] = updated_case.case_number
             charge_dict["violation_type"] = updated_case.violation_type
             charge_dict["birth_year"] = updated_case.birth_year
-            ambiguous_charge, question = Crawler.__build_charge(charge_id, charge_dict, case_parser_data)
+            ambiguous_charge, question = Crawler._build_charge(charge_id, charge_dict, case_parser_data)
             ambiguous_charges.append(ambiguous_charge)
             if question:
                 questions.append(question)
@@ -84,14 +88,16 @@ class Crawler:
             ambiguous_case.append(possible_case)
         return ambiguous_case, questions
 
-    def __parse_nodes(self, url):
+    @staticmethod
+    def _fetch_search_page(session, url, login_response):
         node_parser = NodeParser()
-        node_parser.feed(self.response.text)
+        node_parser.feed(login_response)
         payload = {"NodeID": node_parser.node_id, "NodeDesc": "All+Locations"}
-        return self.session.post(url, data=payload)
+        return session.post(url, data=payload)
 
-    def __parse_case(self, case):
-        response = self.session.get(case.case_detail_link)
+    @staticmethod
+    def _parse_case(session, case):
+        response = session.get(case.case_detail_link)
         if response.status_code == 200 and response.text:
             return CaseParser.feed(response.text)
         else:
@@ -104,11 +110,11 @@ class Crawler:
         return Payload.payload(param_parser, last_name, first_name, middle_name, birth_date)
 
     @staticmethod
-    def __login_validation(response):
+    def _succeed_login(response):
         return "Case Records" in response.text
 
     @staticmethod
-    def __build_charge(charge_id, charge, case_parser_data) -> Tuple[AmbiguousCharge, Optional[Question]]:
+    def _build_charge(charge_id, charge, case_parser_data) -> Tuple[AmbiguousCharge, Optional[Question]]:
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition_data = case_parser_data.hashed_dispo_data[charge_id]
             date = datetime.date(

@@ -3,7 +3,9 @@ from functools import lru_cache
 from itertools import product, groupby
 from typing import List, Dict, Tuple
 
-from expungeservice.crawler.crawler import Crawler
+import requests
+
+from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case
@@ -22,18 +24,21 @@ class RecordCreator:
         questions_accumulator: List[Question] = []
         errors = []
         for alias in aliases:
-            crawler = Crawler()
-            login_result = crawler.login(username, password, close_session=False)
-            if login_result is False:
-                error(401, "Attempted login to OECI failed")
-
+            session = requests.Session()
             try:
-                search_result = crawler.search(alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,)
+                login_response = Crawler.attempt_login(session, username, password)
+                search_result = Crawler.search(
+                    session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
+                )
                 ambiguous_cases, questions = search_result
                 ambiguous_cases_accumulator += ambiguous_cases
                 questions_accumulator += questions
+            except InvalidOECIUsernamePassword:
+                error(401, "Invalid OECI username or password.")
             except Exception as e:
                 errors.append(str(e))
+            finally:
+                session.close()
         if errors:
             record = Record((), tuple(errors))
             ambiguous_record = [record]
