@@ -141,9 +141,16 @@ class ChargeClassifier:
 
     @staticmethod
     def _manufacture_delivery(name, level, statute):
-        if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
-            if any([non_marijuana_keyword in name for non_marijuana_keyword in [
-                "2", "3", "4", "heroin", "cocaine", "meth"]]):
+        if any([manu_del_keyword in name for manu_del_keyword in ["delivery", "manu/del", "manufactur"]]):
+            if any([schedule_2_keyword in name for schedule_2_keyword in [
+                "2", "heroin", "cocaine", "meth"]]):
+                if level == "Felony Unclassified":
+                    question_string = "Was the charge for an A Felony or B Felony?"
+                    options = ["A Felony", "B Felony"]
+                    return AmbiguousChargeTypeWithQuestion(
+                        [FelonyClassA, FelonyClassB], question_string, options
+                    )
+            elif "3" in name or "4" in name:
                 return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
