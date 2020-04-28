@@ -21,24 +21,7 @@ class RecordCreator:
     def build_record(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
-        errors = []
-        search_results: List[OeciCase] = []
-        for alias in aliases:
-            session = requests.Session()
-            try:
-                login_response = Crawler.attempt_login(session, username, password)
-                alias_search_result = Crawler.search(
-                    session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
-                )
-                search_results += alias_search_result
-            except InvalidOECIUsernamePassword as e:
-                error(401, str(e))
-            except OECIUnavailable as e:
-                error(404, str(e))
-            except Exception as e:
-                errors.append(str(e))
-            finally:
-                session.close()
+        search_results, errors = RecordCreator._build_search_results(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
             ambiguous_record = [record]
@@ -58,6 +41,31 @@ class RecordCreator:
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
             return record, ambiguous_record, questions_as_dict
+
+    # TODO: In the future we will add a cache here
+    @staticmethod
+    def _build_search_results(
+        username: str, password: str, aliases: Tuple[Alias, ...]
+    ) -> Tuple[List[OeciCase], List[str]]:
+        errors = []
+        search_results: List[OeciCase] = []
+        for alias in aliases:
+            session = requests.Session()
+            try:
+                login_response = Crawler.attempt_login(session, username, password)
+                alias_search_result = Crawler.search(
+                    session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
+                )
+                search_results += alias_search_result
+            except InvalidOECIUsernamePassword as e:
+                error(401, str(e))
+            except OECIUnavailable as e:
+                error(404, str(e))
+            except Exception as e:
+                errors.append(str(e))
+            finally:
+                session.close()
+        return search_results, errors
 
     @staticmethod
     def build_ambiguous_record(search_result: List[OeciCase]) -> Tuple[AmbiguousRecord, List[Question]]:
