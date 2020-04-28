@@ -6,9 +6,9 @@ from typing import List, Tuple, Optional
 
 from datetime import datetime
 
-from expungeservice.charge_creator import ChargeCreator
 from expungeservice.crawler.request import Payload, URL
-from expungeservice.models.case import CaseCreator
+from expungeservice.models.case import CaseCreator, Case
+from expungeservice.models.charge import OeciCharge
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
@@ -44,26 +44,24 @@ class Crawler:
     @staticmethod
     def search(
         session, login_response, first_name, last_name, middle_name="", birth_date=""
-    ) -> Tuple[List[AmbiguousCase], List[Question]]:
+    ) -> List[Case]:
         search_url = URL.search_url()
         node_response = Crawler._fetch_search_page(session, search_url, login_response)
-        record = Crawler._search_record(
+        oeci_search_result = Crawler._search_record(
             session, node_response, search_url, first_name, last_name, middle_name, birth_date
         )
         case_limit = 300
-        if len(record.cases) >= case_limit:
+        if len(oeci_search_result.cases) >= case_limit:
             raise ValueError(
-                f"Found {len(record.cases)} matching cases, exceeding the limit of {case_limit}. Please add a date of birth to your search."
+                f"Found {len(oeci_search_result.cases)} matching cases, exceeding the limit of {case_limit}. Please add a date of birth to your search."
             )
         else:
             # Parse search results (case detail pages)
             with ThreadPoolExecutor(max_workers=50) as executor:
-                ambiguous_cases: List[AmbiguousCase] = []
-                questions_accumulator: List[Question] = []
-                for ambiguous_case, questions in executor.map(partial(Crawler._build_case, session), record.cases):
-                    ambiguous_cases.append(ambiguous_case)
-                    questions_accumulator += questions
-            return ambiguous_cases, questions_accumulator
+                oeci_cases: List[Case] = []
+                for oeci_case in executor.map(partial(Crawler._read_case, session), oeci_search_result.cases):
+                    oeci_cases.append(oeci_case)
+            return oeci_cases
 
     @staticmethod
     def _search_record(session, node_response, search_url, first_name, last_name, middle_name, birth_date):
@@ -74,27 +72,20 @@ class Crawler:
         return record_parser
 
     @staticmethod
-    def _build_case(session, case) -> Tuple[AmbiguousCase, List[Question]]:
+    def _read_case(session, case) -> Case:
         case_parser_data = Crawler._parse_case(session, case)
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
-        updated_case = replace(
-            case, balance_due_in_cents=balance_due_in_cents, probation_revoked=case_parser_data.probation_revoked
-        )
-        ambiguous_charges: List[AmbiguousCharge] = []
-        questions: List[Question] = []
+        charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
-            charge_dict["case_number"] = updated_case.case_number
-            charge_dict["violation_type"] = updated_case.violation_type
-            charge_dict["birth_year"] = updated_case.birth_year
-            ambiguous_charge, question = Crawler._build_charge(charge_id, charge_dict, case_parser_data)
-            ambiguous_charges.append(ambiguous_charge)
-            if question:
-                questions.append(question)
-        ambiguous_case = []
-        for charges in product(*ambiguous_charges):
-            possible_case = replace(updated_case, charges=tuple(charges))
-            ambiguous_case.append(possible_case)
-        return ambiguous_case, questions
+            charge = Crawler._build_oeci_charge(charge_id, charge_dict, case_parser_data)
+            charges.append(charge)
+        updated_case = replace(
+            case,
+            balance_due_in_cents=balance_due_in_cents,
+            probation_revoked=case_parser_data.probation_revoked,
+            charges=tuple(charges)
+        )
+        return updated_case
 
     @staticmethod
     def _fetch_search_page(session, url, login_response):
@@ -122,14 +113,16 @@ class Crawler:
         return "Case Records" in response.text
 
     @staticmethod
-    def _build_charge(charge_id, charge, case_parser_data) -> Tuple[AmbiguousCharge, Optional[Question]]:
+    def _build_oeci_charge(charge_id, charge_dict, case_parser_data) -> OeciCharge:
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition_data = case_parser_data.hashed_dispo_data[charge_id]
             date = datetime.date(
                 datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
-            charge["disposition"] = DispositionCreator.create(
+            disposition= DispositionCreator.create(
                 date, ruling, "amended" in disposition_data["event"].lower()
             )
-        return ChargeCreator.create(charge_id, **charge)
+            return OeciCharge(charge_id, disposition=disposition, **charge_dict)
+        else:
+            return OeciCharge(charge_id, **charge_dict)
