@@ -7,6 +7,7 @@ import pytest
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.endpoints import search
 from expungeservice.models.ambiguous import AmbiguousCase
+from expungeservice.models.case import Case
 from expungeservice.models.record import Question
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
@@ -34,15 +35,12 @@ def mock_login(return_value):
     return lambda s, username, password, close_session=False: return_value
 
 
-def mock_search(
-    service, mocked_record_name
-) -> Callable[[Any, Any, Any, Any, Any, Any], Tuple[List[AmbiguousCase], List[Question]]]:
-    def compute_ambiguous_cases(s, login_response, first_name, last_name, middle_name, birth_date):
+def mock_search(service, mocked_record_name) -> Callable[[Any, Any, Any, Any, Any, Any], List[Case]]:
+    def compute_cases(s, login_response, first_name, last_name, middle_name, birth_date):
         record = service.mock_record[mocked_record_name]
-        ambiguous_cases = [[case] for case in record.cases]
-        return ambiguous_cases, []
+        return record.cases
 
-    return compute_ambiguous_cases
+    return compute_cases
 
 
 def mock_save_search_event_fail(aliases_data):

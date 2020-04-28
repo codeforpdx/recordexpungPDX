@@ -1,6 +1,4 @@
 import re
-from datetime import datetime, date
-from math import ceil
 from typing import Tuple, Optional
 
 from dacite import from_dict
@@ -24,7 +22,6 @@ class ChargeCreator:
         ambiguous_charge_type_with_questions = ChargeClassifier(
             violation_type, name, statute, level, section, birth_year, disposition
         ).classify()
-        kwargs["date"] = datetime.date(datetime.strptime(kwargs["date"], "%m/%d/%Y"))
         kwargs["_section"] = section
         kwargs["statute"] = statute
         kwargs["ambiguous_charge_id"] = f"{case_number}-{charge_id}"

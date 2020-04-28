@@ -50,16 +50,16 @@ class RecordCreator:
                     sorted(search_results, key=lambda case: case.case_number), lambda case: case.case_number
                 )
             ]
-            user_edited_search_results = RecordCreator.edit_search_results(cases_with_unique_case_number, user_edits=None)
+            user_edited_search_results = RecordCreator.edit_search_results(
+                cases_with_unique_case_number, user_edits=None
+            )
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
             return record, ambiguous_record, questions_as_dict
 
     @staticmethod
-    def build_ambiguous_record(
-        search_result: List[Case]
-    ) -> Tuple[AmbiguousRecord, List[Question]] :
+    def build_ambiguous_record(search_result: List[Case]) -> Tuple[AmbiguousRecord, List[Question]]:
         ambiguous_record: AmbiguousRecord = []
         questions_accumulator: List[Question] = []
         ambiguous_cases: List[AmbiguousCase] = []
@@ -67,7 +67,6 @@ class RecordCreator:
             ambiguous_case, questions = RecordCreator._build_case(oeci_case)
             questions_accumulator += questions
             ambiguous_cases.append(ambiguous_case)
-
         for cases in product(*ambiguous_cases):
             ambiguous_record.append(Record(tuple(cases)))
         return ambiguous_record, questions_accumulator
@@ -91,22 +90,21 @@ class RecordCreator:
         return replace(record, cases=tuple(sorted_cases))
 
     @staticmethod
-    def _build_case(oeci_case) -> Tuple[AmbiguousCase, List[Question]]:
+    def _build_case(oeci_case: Case) -> Tuple[AmbiguousCase, List[Question]]:
         ambiguous_charges: List[AmbiguousCharge] = []
         questions: List[Question] = []
         for oeci_charge in oeci_case.charges:
             charge_id = oeci_charge.id
-            charge_dict ={
-                "name":oeci_charge.name,
-                "statute":oeci_charge.statute,
-                "level":oeci_charge.level,
-                "date":oeci_charge.date,
-                "disposition":oeci_charge.disposition
+            charge_dict = {
+                "name": oeci_charge.name,
+                "statute": oeci_charge.statute,
+                "level": oeci_charge.level,
+                "date": oeci_charge.date,
+                "disposition": oeci_charge.disposition,
+                "case_number": oeci_case.case_number,
+                "violation_type": oeci_case.violation_type,
+                "birth_year": oeci_case.birth_year,
             }
-
-            charge_dict["case_number"] = oeci_case.case_number
-            charge_dict["violation_type"] = oeci_case.violation_type
-            charge_dict["birth_year"] = oeci_case.birth_year
             ambiguous_charge, question = ChargeCreator.create(charge_id, **charge_dict)
             ambiguous_charges.append(ambiguous_charge)
             if question:
@@ -119,5 +117,5 @@ class RecordCreator:
 
     # TODO: implement.
     @staticmethod
-    def edit_search_results(cases_with_unique_case_number, user_edits):
+    def edit_search_results(cases_with_unique_case_number: List[Case], user_edits) -> List[Case]:
         return cases_with_unique_case_number

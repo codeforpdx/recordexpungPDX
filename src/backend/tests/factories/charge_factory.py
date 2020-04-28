@@ -41,17 +41,17 @@ class ChargeFactory:
     def _build_ambiguous_charge(cls, case_number, date, disposition, level, name, statute, violation_type):
         cls.charge_count += 1
         if disposition and not date:
-            date_string = disposition.date.strftime("%m/%d/%Y")
+            updated_date = disposition.date
         elif date:
-            date_string = date.strftime("%m/%d/%Y")
+            updated_date = date
         else:
-            date_string = "1/1/1901"
+            updated_date = date_class(1901, 1, 1)
         kwargs = {
             "case_number": case_number,
             "name": name,
             "statute": statute,
             "level": level,
-            "date": date_string,
+            "date": updated_date,
             "disposition": disposition,
             "violation_type": violation_type,
         }
@@ -75,7 +75,7 @@ class ChargeFactory:
             "name": name,
             "statute": statute,
             "level": level,
-            "date": date.strftime("%m/%d/%Y"),
+            "date": date,
             "disposition": disposition,
             "violation_type": violation_type,
         }

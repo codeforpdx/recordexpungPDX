@@ -42,9 +42,7 @@ class Crawler:
             raise InvalidOECIUsernamePassword
 
     @staticmethod
-    def search(
-        session, login_response, first_name, last_name, middle_name="", birth_date=""
-    ) -> List[Case]:
+    def search(session, login_response, first_name, last_name, middle_name="", birth_date="") -> List[Case]:
         search_url = URL.search_url()
         node_response = Crawler._fetch_search_page(session, search_url, login_response)
         oeci_search_result = Crawler._search_record(
@@ -75,17 +73,14 @@ class Crawler:
     def _read_case(session, case) -> Case:
         case_parser_data = Crawler._parse_case(session, case)
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
+        probation_revoked = case_parser_data.probation_revoked
         charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
             charge = Crawler._build_oeci_charge(charge_id, charge_dict, case_parser_data)
             charges.append(charge)
-        updated_case = replace(
-            case,
-            balance_due_in_cents=balance_due_in_cents,
-            probation_revoked=case_parser_data.probation_revoked,
-            charges=tuple(charges)
+        return replace(
+            case, balance_due_in_cents=balance_due_in_cents, probation_revoked=probation_revoked, charges=tuple(charges)
         )
-        return updated_case
 
     @staticmethod
     def _fetch_search_page(session, url, login_response):
@@ -114,15 +109,19 @@ class Crawler:
 
     @staticmethod
     def _build_oeci_charge(charge_id, charge_dict, case_parser_data) -> OeciCharge:
+        charge_dict["date"] = datetime.date(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
         if case_parser_data.hashed_dispo_data.get(charge_id):
-            disposition_data = case_parser_data.hashed_dispo_data[charge_id]
-            date = datetime.date(
-                datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
-            )  # TODO: Log error if format is not correct
-            ruling = disposition_data.get("ruling")
-            disposition= DispositionCreator.create(
-                date, ruling, "amended" in disposition_data["event"].lower()
-            )
+            disposition = Crawler._build_disposition(case_parser_data, charge_id)
             return OeciCharge(charge_id, disposition=disposition, **charge_dict)
         else:
-            return OeciCharge(charge_id, **charge_dict)
+            return OeciCharge(charge_id, disposition=None, **charge_dict)
+
+    @staticmethod
+    def _build_disposition(case_parser_data, charge_id):
+        disposition_data = case_parser_data.hashed_dispo_data[charge_id]
+        date = datetime.date(
+            datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
+        )  # TODO: Log error if format is not correct
+        ruling = disposition_data.get("ruling")
+        disposition = DispositionCreator.create(date, ruling, "amended" in disposition_data["event"].lower())
+        return disposition
