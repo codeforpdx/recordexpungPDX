@@ -14,15 +14,14 @@ class ChargeCreator:
         case_number = kwargs["case_number"]
         violation_type = kwargs["violation_type"]
         name = kwargs["name"]
-        statute = ChargeCreator.__strip_non_alphanumeric_chars(kwargs["statute"])
         level = kwargs["level"]
-        section = ChargeCreator.__set_section(statute)
+        statute = ChargeCreator._strip_non_alphanumeric_chars(kwargs["statute"])
+        section = ChargeCreator._set_section(statute)
         birth_year = kwargs.get("birth_year")
         disposition = kwargs.get("disposition")
         ambiguous_charge_type_with_questions = ChargeClassifier(
             violation_type, name, statute, level, section, birth_year, disposition
         ).classify()
-        kwargs["_section"] = section
         kwargs["statute"] = statute
         kwargs["ambiguous_charge_id"] = f"{case_number}-{charge_id}"
         classifications = ambiguous_charge_type_with_questions.ambiguous_charge_type
@@ -45,11 +44,11 @@ class ChargeCreator:
             return ambiguous_charge, None
 
     @staticmethod
-    def __strip_non_alphanumeric_chars(statute):
+    def _strip_non_alphanumeric_chars(statute):
         return re.sub(r"[^a-zA-Z0-9*]", "", statute).upper()
 
     @staticmethod
-    def __set_section(statute):
+    def _set_section(statute):
         if len(statute) < 6:
             return ""
         elif statute[3].isalpha():
