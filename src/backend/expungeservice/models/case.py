@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime, date as date_class
-from typing import List, Optional, Tuple, Any
-
-from expungeservice.models.charge import Charge, OeciCharge
+from typing import Optional, Tuple, Any
 
 
 @dataclass(frozen=True)
@@ -42,6 +40,7 @@ class Case:
     def _closed(self):
         CLOSED_STATUS = ["Closed", "Inactive", "Purgable", "Bankruptcy Pending"]
         return self.current_status in CLOSED_STATUS
+
 
 class CaseCreator:
     @staticmethod
