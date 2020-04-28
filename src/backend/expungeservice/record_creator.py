@@ -9,7 +9,7 @@ from expungeservice.charge_creator import ChargeCreator
 from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
-from expungeservice.models.case import Case
+from expungeservice.models.case import Case, OeciCase
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
@@ -22,7 +22,7 @@ class RecordCreator:
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
         errors = []
-        search_results: List[Case] = []
+        search_results: List[OeciCase] = []
         for alias in aliases:
             session = requests.Session()
             try:
@@ -44,10 +44,11 @@ class RecordCreator:
             ambiguous_record = [record]
             return record, ambiguous_record, {}
         else:
-            cases_with_unique_case_number: List[Case] = [
+            cases_with_unique_case_number: List[OeciCase] = [
                 list(group)[0]
                 for key, group in groupby(
-                    sorted(search_results, key=lambda case: case.case_number), lambda case: case.case_number
+                    sorted(search_results, key=lambda case: case.summary.case_number),
+                    lambda case: case.summary.case_number,
                 )
             ]
             user_edited_search_results = RecordCreator.edit_search_results(
@@ -59,7 +60,7 @@ class RecordCreator:
             return record, ambiguous_record, questions_as_dict
 
     @staticmethod
-    def build_ambiguous_record(search_result: List[Case]) -> Tuple[AmbiguousRecord, List[Question]]:
+    def build_ambiguous_record(search_result: List[OeciCase]) -> Tuple[AmbiguousRecord, List[Question]]:
         ambiguous_record: AmbiguousRecord = []
         questions_accumulator: List[Question] = []
         ambiguous_cases: List[AmbiguousCase] = []
@@ -86,11 +87,11 @@ class RecordCreator:
 
     @staticmethod
     def sort_record_by_case_date(record):
-        sorted_cases = sorted(record.cases, key=lambda case: case.date, reverse=True)
+        sorted_cases = sorted(record.cases, key=lambda case: case.summary.date, reverse=True)
         return replace(record, cases=tuple(sorted_cases))
 
     @staticmethod
-    def _build_case(oeci_case: Case) -> Tuple[AmbiguousCase, List[Question]]:
+    def _build_case(oeci_case: OeciCase) -> Tuple[AmbiguousCase, List[Question]]:
         ambiguous_charges: List[AmbiguousCharge] = []
         questions: List[Question] = []
         for oeci_charge in oeci_case.charges:
@@ -101,9 +102,9 @@ class RecordCreator:
                 "level": oeci_charge.level,
                 "date": oeci_charge.date,
                 "disposition": oeci_charge.disposition,
-                "case_number": oeci_case.case_number,
-                "violation_type": oeci_case.violation_type,
-                "birth_year": oeci_case.birth_year,
+                "case_number": oeci_case.summary.case_number,
+                "violation_type": oeci_case.summary.violation_type,
+                "birth_year": oeci_case.summary.birth_year,
             }
             ambiguous_charge, question = ChargeCreator.create(charge_id, **charge_dict)
             ambiguous_charges.append(ambiguous_charge)
@@ -111,11 +112,11 @@ class RecordCreator:
                 questions.append(question)
         ambiguous_case: AmbiguousCase = []
         for charges in product(*ambiguous_charges):
-            possible_case = replace(oeci_case, charges=tuple(charges))
+            possible_case = Case(oeci_case.summary, charges=tuple(charges))
             ambiguous_case.append(possible_case)
         return ambiguous_case, questions
 
     # TODO: implement.
     @staticmethod
-    def edit_search_results(cases_with_unique_case_number: List[Case], user_edits) -> List[Case]:
+    def edit_search_results(cases_with_unique_case_number: List[OeciCase], user_edits) -> List[OeciCase]:
         return cases_with_unique_case_number

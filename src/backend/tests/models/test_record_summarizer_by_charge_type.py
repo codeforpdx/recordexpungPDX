@@ -17,12 +17,12 @@ from expungeservice.models.charge_types.traffic_violation import TrafficViolatio
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
+from tests.factories.case_factory import CaseSummaryFactory
 from tests.models.test_charge import Dispositions
 
 
 def test_civil_offense_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Civil Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Defamation",
@@ -37,7 +37,7 @@ def test_civil_offense_hidden_in_summary():
 
 
 def test_duii_hidden_in_summary():
-    case = CaseFactory.create(type_status=["DUII", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["DUII", "Closed"])
     charges = ChargeFactory.create_ambiguous_charge(
         case_number=case.case_number,
         name="Driving Under the Influence",
@@ -54,7 +54,7 @@ def test_duii_hidden_in_summary():
 
 
 def test_felony_class_a_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Felony Class A", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Felony Class A", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Assault in the first degree",
@@ -70,7 +70,7 @@ def test_felony_class_a_hidden_in_summary():
 
 
 def test_felony_class_b_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Felony Class B", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Felony Class B", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Aggravated theft in the first degree",
@@ -86,7 +86,7 @@ def test_felony_class_b_hidden_in_summary():
 
 
 def test_felony_class_c_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Felony Class C", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Felony Class C", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Theft in the first degree",
@@ -102,7 +102,7 @@ def test_felony_class_c_hidden_in_summary():
 
 
 def test_juvenile_charge_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Theft in the first degree",
@@ -129,7 +129,7 @@ def test_marijuana_eligible_hidden_in_summary():
 
 
 def test_marijuana_ineligible_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Felony Class C", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Felony Class C", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unlawful Manufacture of Marijuana Item",
@@ -145,7 +145,7 @@ def test_marijuana_ineligible_hidden_in_summary():
 
 
 def test_misdemeanor_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Misdemeanor", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Theft in the third degree",
@@ -161,7 +161,7 @@ def test_misdemeanor_hidden_in_summary():
 
 
 def test_parking_ticket_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Municipal Parking", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unknown",
@@ -177,7 +177,7 @@ def test_parking_ticket_hidden_in_summary():
 
 
 def test_person_felony_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Personal Felony", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Personal Felony", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Generic",
@@ -193,7 +193,7 @@ def test_person_felony_hidden_in_summary():
 
 
 def test_sex_crimes_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Misdemeanor", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Generic",
@@ -209,7 +209,7 @@ def test_sex_crimes_hidden_in_summary():
 
 
 def test_subsection_6_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Misdemeanor", "Closed"])
     charges = ChargeFactory.create_ambiguous_charge(
         case_number=case.case_number,
         name="Criminal mistreatment in the second degree",
@@ -227,7 +227,7 @@ def test_subsection_6_hidden_in_summary():
 
 
 def test_traffic_offense_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Traffic Offense", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Traffic Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="N/A",
@@ -243,7 +243,7 @@ def test_traffic_offense_hidden_in_summary():
 
 
 def test_traffic_violation_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Traffic Violation", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Traffic Violation", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="N/A",
@@ -259,7 +259,7 @@ def test_traffic_violation_hidden_in_summary():
 
 
 def test_unclassified_charge_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Offense Felony", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Offense Felony", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Assault in the ninth degree",
@@ -275,7 +275,7 @@ def test_unclassified_charge_hidden_in_summary():
 
 
 def test_violation_hidden_in_summary():
-    case = CaseFactory.create(type_status=["Violation", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Violation", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Assault in the first degree",

@@ -4,12 +4,12 @@ from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
+from tests.factories.case_factory import CaseSummaryFactory
 from tests.models.test_charge import Dispositions
 
 
 def test_parking_ticket_conviction():
-    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Municipal Parking", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unknown",
@@ -27,7 +27,7 @@ def test_parking_ticket_conviction():
 
 
 def test_parking_ticket_dismissal():
-    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Municipal Parking", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unknown",
@@ -45,7 +45,7 @@ def test_parking_ticket_dismissal():
 
 
 def test_parking_ticket_no_disposition():
-    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Municipal Parking", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unknown",
@@ -66,7 +66,7 @@ def test_parking_ticket_no_disposition():
 
 
 def test_parking_ticket_unrecognized_disposition():
-    case = CaseFactory.create(type_status=["Municipal Parking", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Municipal Parking", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="Unknown",

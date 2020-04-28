@@ -1,7 +1,7 @@
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
+from tests.factories.case_factory import CaseSummaryFactory
 from tests.models.test_charge import Dispositions
 
 
@@ -36,8 +36,9 @@ def test_fugitive_complaint():
 
     assert isinstance(charge, CivilOffense)
 
+
 def test_contempt_of_court():
-    case = CaseFactory.create(type_status=["Contempt of Court", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Contempt of Court", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="contempt of court",
@@ -53,7 +54,7 @@ def test_contempt_of_court():
 
 
 def test_contempt_of_court_convicted():
-    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Civil Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="contempt of court",
@@ -69,7 +70,7 @@ def test_contempt_of_court_convicted():
 
 
 def test_contempt_of_court_no_disposition():
-    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Civil Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="contempt of court",
@@ -84,7 +85,7 @@ def test_contempt_of_court_no_disposition():
 
 
 def test_contempt_of_court_unrecognized_disposition():
-    case = CaseFactory.create(type_status=["Civil Offense", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Civil Offense", "Closed"])
     charge = ChargeFactory.create(
         case_number=case.case_number,
         name="contempt of court",

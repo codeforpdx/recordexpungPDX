@@ -1,13 +1,13 @@
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 
-from tests.factories.case_factory import CaseFactory
+from tests.factories.case_factory import CaseSummaryFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 
 
 def test_juvenile_charge_dismissed():
-    case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     juvenile_charge = ChargeFactory.create(
         case_number=case.case_number, disposition=Dispositions.DISMISSED, violation_type=case.violation_type
     )
@@ -18,7 +18,7 @@ def test_juvenile_charge_dismissed():
 
 
 def test_juvenile_charge_convicted():
-    case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     juvenile_charge = ChargeFactory.create(
         case_number=case.case_number, disposition=Dispositions.CONVICTED, violation_type=case.violation_type
     )
@@ -29,7 +29,7 @@ def test_juvenile_charge_convicted():
 
 
 def test_juvenile_charge_no_disposition():
-    case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     juvenile_charge = ChargeFactory.create(
         case_number=case.case_number, disposition=None, violation_type=case.violation_type
     )
@@ -40,7 +40,7 @@ def test_juvenile_charge_no_disposition():
 
 
 def test_juvenile_charge_unrecognized():
-    case = CaseFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
+    case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     juvenile_charge = ChargeFactory.create(
         case_number=case.case_number,
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,

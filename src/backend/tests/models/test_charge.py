@@ -7,7 +7,7 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.models.disposition import DispositionCreator
 from tests.factories.charge_factory import ChargeFactory
-from tests.factories.case_factory import CaseFactory
+from tests.factories.case_factory import CaseSummaryFactory, CaseFactory
 
 
 class Dispositions:
@@ -42,7 +42,7 @@ class TestChargeClass(unittest.TestCase):
 
     def test_it_retrieves_its_parent_instance(self):
         case = CaseFactory.create()
-        charge = ChargeFactory.create(case_number=case.case_number)
+        charge = ChargeFactory.create(case_number=case.summary.case_number)
 
         assert charge.case([case]) is case
 
@@ -95,7 +95,7 @@ class TestChargeClass(unittest.TestCase):
         assert charge_with_disposition.recent_dismissal() is False
 
     def test_same_charge_is_not_equal(self):
-        case = CaseFactory.create()
+        case = CaseSummaryFactory.create()
         mrc_charge = ChargeFactory.create(case_number=case.case_number)
         second_mrc_charge = ChargeFactory.create(case_number=case.case_number)
 
