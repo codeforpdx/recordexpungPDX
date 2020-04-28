@@ -4,6 +4,7 @@ from dataclasses import replace
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+from expungeservice.charge_creator import ChargeCreator
 from expungeservice.models.disposition import DispositionCreator
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseFactory
@@ -101,23 +102,20 @@ class TestChargeClass(unittest.TestCase):
         assert mrc_charge != second_mrc_charge
 
 
+# TODO: Clean up testing of private methods
 class TestChargeStatuteSectionAssignment(unittest.TestCase):
     def test_it_sets_section_to_the_first_6_digits_of_statute(self):
-        charge = ChargeFactory.create(statute="1231235B")
-
-        assert charge._section == "123123"
+        section = ChargeCreator._set_section("1231235B")
+        assert section == "123123"
 
     def test_it_sets_section_to_the_first_7_digits_when_4th_char_in_statute_is_a_letter(self):
-        charge = ChargeFactory.create(statute="475B3493C")
-
-        assert charge._section == "475B349"
+        section = ChargeCreator._set_section(statute="475B3493C")
+        assert section == "475B349"
 
     def test_it_sets_section_to_none_if_statute_is_does_not_contain_a_section(self):
-        charge = ChargeFactory.create(statute="29")
-
-        assert charge._section == ""
+        section = ChargeCreator._set_section(statute="29")
+        assert section == ""
 
     def test_it_normalizes_section(self):
-        charge = ChargeFactory.create(statute="475B.349(3)(C)")
-
-        assert charge._section == "475B349"
+        section = ChargeCreator._set_section(statute=ChargeCreator._strip_non_alphanumeric_chars("475B.349(3)(C)"))
+        assert section == "475B349"

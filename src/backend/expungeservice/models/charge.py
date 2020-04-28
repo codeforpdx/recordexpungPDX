@@ -22,10 +22,10 @@ class OeciCharge:
     date: date_class
     disposition: Optional[Disposition]
 
+
 @dataclass(frozen=True)
 class Charge(OeciCharge):
     ambiguous_charge_id: str
-    _section: str
     case_number: str
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
     type_name: str = "Unknown"
