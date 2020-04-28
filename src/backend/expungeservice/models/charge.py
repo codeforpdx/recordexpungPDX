@@ -14,14 +14,17 @@ from expungeservice.models.expungement_result import (
 
 
 @dataclass(frozen=True)
-class Charge:
+class OeciCharge:
     id: str
-    ambiguous_charge_id: str
     name: str
     statute: str
     level: str
     date: date_class
     disposition: Optional[Disposition]
+
+@dataclass(frozen=True)
+class Charge(OeciCharge):
+    ambiguous_charge_id: str
     _section: str
     case_number: str
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
