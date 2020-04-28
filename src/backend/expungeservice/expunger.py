@@ -67,7 +67,7 @@ class Expunger:
                 )
 
             if charge.convicted():
-                probation_revoked_date = charge.case(cases).probation_revoked
+                probation_revoked_date = charge.case(cases).summary.probation_revoked
                 if probation_revoked_date:
                     eligibility_dates.append(
                         (
@@ -223,9 +223,9 @@ class ErrorChecker:
     @staticmethod
     def check(record) -> List[str]:
         errors: List[str] = []
-        open_cases = [case for case in record.cases if not case.closed()]
+        open_cases = [case for case in record.cases if not case.summary.closed()]
         if len(open_cases) > 0:
-            case_numbers = ", ".join([f"[{case.case_number}]" for case in open_cases])
+            case_numbers = ", ".join([f"[{case.summary.case_number}]" for case in open_cases])
             errors += [
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
@@ -252,8 +252,8 @@ class ErrorChecker:
         cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
             if charge.blocks_other_charges():
-                case_number = f"[{charge.case(cases).case_number}]"
-                if not charge.disposition and charge.case(cases).closed():
+                case_number = f"[{charge.case(cases).summary.case_number}]"
+                if not charge.disposition and charge.case(cases).summary.closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))

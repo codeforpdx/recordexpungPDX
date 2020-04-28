@@ -72,10 +72,10 @@ def test_nonzero_balance_due_on_case():
         },
     )
 
-    assert record.cases[2].get_balance_due() == 1516.80
+    assert record.cases[2].summary.get_balance_due() == 1516.80
 
 
 def test_zero_balance_due_on_case():
     record = CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
 
-    assert record.cases[0].get_balance_due() == 0
+    assert record.cases[0].summary.get_balance_due() == 0

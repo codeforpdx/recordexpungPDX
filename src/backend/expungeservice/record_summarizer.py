@@ -15,10 +15,10 @@ class RecordSummarizer:
 
         county_balances: Dict[str, float] = {}
         for case in record.cases:
-            if not case.location in county_balances.keys():
-                county_balances[case.location] = case.get_balance_due()
+            if not case.summary.location in county_balances.keys():
+                county_balances[case.summary.location] = case.summary.get_balance_due()
             else:
-                county_balances[case.location] += case.get_balance_due()
+                county_balances[case.summary.location] += case.summary.get_balance_due()
 
             if all(
                 [
@@ -26,14 +26,14 @@ class RecordSummarizer:
                     for c in case.charges
                 ]
             ):
-                fully_eligible_cases.append(case.case_number)
+                fully_eligible_cases.append(case.summary.case_number)
             elif any(
                 [
                     c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
                     for c in case.charges
                 ]
             ):
-                partially_eligible_cases.append(case.case_number)
+                partially_eligible_cases.append(case.summary.case_number)
             elif all(
                 [
                     c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
@@ -41,9 +41,9 @@ class RecordSummarizer:
                     for c in case.charges
                 ]
             ):
-                fully_ineligible_cases.append(case.case_number)
+                fully_ineligible_cases.append(case.summary.case_number)
             else:
-                other_cases.append(case.case_number)
+                other_cases.append(case.summary.case_number)
 
         cases_sorted = {
             "fully_eligible": fully_eligible_cases,
@@ -60,8 +60,8 @@ class RecordSummarizer:
             for c in record.charges
             if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
         ]
-        eligible_charges_by_date : List[Tuple[str, List[str]]] = [("now",eligible_charges_now)]
-        will_be_eligible_charges : Dict[date, List[str]] = {}
+        eligible_charges_by_date: List[Tuple[str, List[str]]] = [("now", eligible_charges_now)]
+        will_be_eligible_charges: Dict[date, List[str]] = {}
         for charge in record.charges:
             if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
                 date_eligible = charge.expungement_result.time_eligibility.date_will_be_eligible
@@ -71,7 +71,7 @@ class RecordSummarizer:
                 else:
                     will_be_eligible_charges[date_eligible] = [charge_short_name]
         for date_value in sorted(will_be_eligible_charges):
-            eligible_charges_by_date.append((date_value.strftime('%b %-d, %Y'), will_be_eligible_charges[date_value]))
+            eligible_charges_by_date.append((date_value.strftime("%b %-d, %Y"), will_be_eligible_charges[date_value]))
         return RecordSummary(
             record=record,
             questions=questions,

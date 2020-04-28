@@ -31,6 +31,12 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
 
     def case_to_json(self, case):
         return {
+            **self.case_summary_to_json(case.summary),
+            "charges": [self.charge_to_json(charge) for charge in case.charges],
+        }
+
+    def case_summary_to_json(self, case):
+        return {
             "name": case.name,
             "birth_year": case.birth_year,
             "case_number": case.case_number,
@@ -39,7 +45,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "date": case.date,
             "violation_type": case.violation_type,
             "current_status": case.current_status,
-            "charges": [self.charge_to_json(charge) for charge in case.charges],
             "balance_due": case.get_balance_due(),
             "probation_revoked": case.probation_revoked,
             "case_detail_link": case.case_detail_link,

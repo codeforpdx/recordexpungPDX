@@ -53,7 +53,7 @@ def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
     sorted_mock_record = RecordCreator.sort_record_by_case_date(mock_record)
     assert record_dict["total_balance_due"] == mock_record.total_balance_due
     case_numbers = [case["case_number"] for case in record_dict["cases"]]
-    mocked_case_numbers = [case.case_number for case in sorted_mock_record.cases]
+    mocked_case_numbers = [case.summary.case_number for case in sorted_mock_record.cases]
     assert case_numbers == mocked_case_numbers
 
 

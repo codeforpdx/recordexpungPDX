@@ -61,7 +61,7 @@ If the type eligibility is unknown, the method can return None. """
         raise NotImplementedError
 
     def case(self, cases):
-        return next(case for case in cases if case.case_number == self.case_number)
+        return next(case for case in cases if case.summary.case_number == self.case_number)
 
     def dismissed(self):
         dismissal_status = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]

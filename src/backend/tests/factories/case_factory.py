@@ -1,4 +1,20 @@
-from expungeservice.models.case import Case, CaseCreator
+from expungeservice.models.case import Case, CaseCreator, CaseSummary
+
+
+class CaseSummaryFactory:
+    @staticmethod
+    def create(
+        info=["John Doe", "1990"],
+        case_number="1",
+        citation_number=None,
+        date_location=["1/1/1995", "Multnomah"],
+        type_status=["Offense Misdemeanor", "Closed"],
+        case_detail_link="?404",
+        balance="0",
+    ) -> CaseSummary:
+        return CaseCreator.create(
+            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
+        )
 
 
 class CaseFactory:
@@ -13,7 +29,7 @@ class CaseFactory:
         case_detail_link="?404",
         balance="0",
     ) -> Case:
-        case = CaseCreator.create(
-            info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance
+        case_summary = CaseSummaryFactory.create(
+            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
         )
-        return case
+        return Case(case_summary, tuple(charges))

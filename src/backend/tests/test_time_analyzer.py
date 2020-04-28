@@ -218,7 +218,7 @@ class TestDismissalBlock(unittest.TestCase):
 
     def test_all_mrd_case_related_dismissals_are_expungeable(self):
         case_related_dismissal = ChargeFactory.create_dismissed_charge(
-            case_number=self.case_1.case_number, date=Time.TWO_YEARS_AGO
+            case_number=self.case_1.summary.case_number, date=Time.TWO_YEARS_AGO
         )
         updated_case_1 = replace(self.case_1, charges=tuple([*self.case_1.charges, case_related_dismissal]))
         record = Record(tuple([updated_case_1]))

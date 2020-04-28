@@ -2,9 +2,11 @@ from dataclasses import dataclass
 from datetime import datetime, date as date_class
 from typing import Optional, Tuple, Any
 
+from expungeservice.models.charge import OeciCharge, Charge
+
 
 @dataclass(frozen=True)
-class Case:
+class CaseSummary:
     name: str
     birth_year: Optional[int]
     case_number: str
@@ -13,7 +15,6 @@ class Case:
     date: date_class
     violation_type: str
     current_status: str
-    charges: Tuple[Any, ...]
     case_detail_link: str
     balance_due_in_cents: int = 0
     probation_revoked: Optional[date_class] = None
@@ -42,19 +43,31 @@ class Case:
         return self.current_status in CLOSED_STATUS
 
 
+@dataclass(frozen=True)
+class OeciCase:
+    summary: CaseSummary
+    charges: Tuple[OeciCharge, ...]
+
+
+@dataclass(frozen=True)
+class Case(OeciCase):
+    summary: CaseSummary
+    charges: Tuple[Charge, ...]
+
+
 class CaseCreator:
     @staticmethod
     def create(
-        info, case_number, citation_number, date_location, type_status, charges, case_detail_link, balance="0"
-    ) -> Case:
+        info, case_number, citation_number, date_location, type_status, case_detail_link, balance="0"
+    ) -> CaseSummary:
         name = info[0]
-        birth_year = Case._parse_birth_year(info)
+        birth_year = CaseSummary._parse_birth_year(info)
         citation_number = citation_number[0] if citation_number else ""
         date, location = date_location
         date = datetime.date(datetime.strptime(date, "%m/%d/%Y"))
         violation_type, current_status = type_status
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(balance)
-        return Case(
+        return CaseSummary(
             name,
             birth_year,
             case_number,
@@ -63,7 +76,6 @@ class CaseCreator:
             date,
             violation_type,
             current_status,
-            charges,
             case_detail_link,
             balance_due_in_cents,
         )

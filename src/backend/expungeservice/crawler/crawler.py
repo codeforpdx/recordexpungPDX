@@ -1,21 +1,20 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from dataclasses import replace
 from functools import partial
-from itertools import product
-from typing import List, Tuple, Optional
+from typing import List
 
 from datetime import datetime
 
+from requests import Session
+
 from expungeservice.crawler.request import Payload, URL
-from expungeservice.models.case import CaseCreator, Case
+from expungeservice.models.case import CaseCreator, Case, OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
 from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
-from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase
-from expungeservice.models.record import Question
 
 
 class InvalidOECIUsernamePassword(Exception):
@@ -30,7 +29,7 @@ class OECIUnavailable(Exception):
 
 class Crawler:
     @staticmethod
-    def attempt_login(session, username, password) -> str:
+    def attempt_login(session: Session, username, password) -> str:
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
         response = session.post(url, data=payload)
@@ -42,7 +41,9 @@ class Crawler:
             raise InvalidOECIUsernamePassword
 
     @staticmethod
-    def search(session, login_response, first_name, last_name, middle_name="", birth_date="") -> List[Case]:
+    def search(
+        session: Session, login_response, first_name, last_name, middle_name="", birth_date=""
+    ) -> List[OeciCase]:
         search_url = URL.search_url()
         node_response = Crawler._fetch_search_page(session, search_url, login_response)
         oeci_search_result = Crawler._search_record(
@@ -56,13 +57,13 @@ class Crawler:
         else:
             # Parse search results (case detail pages)
             with ThreadPoolExecutor(max_workers=50) as executor:
-                oeci_cases: List[Case] = []
+                oeci_cases: List[OeciCase] = []
                 for oeci_case in executor.map(partial(Crawler._read_case, session), oeci_search_result.cases):
                     oeci_cases.append(oeci_case)
             return oeci_cases
 
     @staticmethod
-    def _search_record(session, node_response, search_url, first_name, last_name, middle_name, birth_date):
+    def _search_record(session: Session, node_response, search_url, first_name, last_name, middle_name, birth_date):
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
         response = session.post(search_url, data=payload)
         record_parser = RecordParser()
@@ -70,17 +71,18 @@ class Crawler:
         return record_parser
 
     @staticmethod
-    def _read_case(session, case) -> Case:
-        case_parser_data = Crawler._parse_case(session, case)
+    def _read_case(session: Session, case_summary: CaseSummary) -> OeciCase:
+        case_parser_data = Crawler._parse_case(session, case_summary)
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
         probation_revoked = case_parser_data.probation_revoked
         charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
             charge = Crawler._build_oeci_charge(charge_id, charge_dict, case_parser_data)
             charges.append(charge)
-        return replace(
-            case, balance_due_in_cents=balance_due_in_cents, probation_revoked=probation_revoked, charges=tuple(charges)
+        updated_case_summary = replace(
+            case_summary, balance_due_in_cents=balance_due_in_cents, probation_revoked=probation_revoked
         )
+        return OeciCase(updated_case_summary, charges=tuple(charges))
 
     @staticmethod
     def _fetch_search_page(session, url, login_response):
@@ -90,7 +92,7 @@ class Crawler:
         return session.post(url, data=payload)
 
     @staticmethod
-    def _parse_case(session, case):
+    def _parse_case(session: Session, case: CaseSummary):
         response = session.get(case.case_detail_link)
         if response.status_code == 200 and response.text:
             return CaseParser.feed(response.text)

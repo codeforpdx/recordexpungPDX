@@ -80,7 +80,6 @@ class RecordParser(HTMLParser):
                 self.citation_number,
                 self.date_location,
                 self.type_status,
-                [],
                 self.case_detail_link,
             )
         )

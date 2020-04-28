@@ -6,7 +6,7 @@ from hypothesis._strategies import none, composite
 from hypothesis.strategies import builds, just, lists, one_of
 from hypothesis.searchstrategy import SearchStrategy
 
-from expungeservice.models.case import Case
+from expungeservice.models.case import Case, CaseSummary
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.disposition import DispositionStatus, Disposition
 from expungeservice.models.record import Record
@@ -31,7 +31,7 @@ def get_charge_classes() -> List[Type[Charge]]:
     return charge_classes
 
 
-def _build_charge_strategy(charge_class: Type[Charge], case: Case) -> SearchStrategy[Charge]:
+def _build_charge_strategy(charge_class: Type[Charge], case: CaseSummary) -> SearchStrategy[Charge]:
     if charge_class == DismissedCharge:
         disposition_status = one_of(
             just(DispositionStatus.DISMISSED), just(DispositionStatus.NO_COMPLAINT), just(DispositionStatus.DIVERTED)
@@ -44,12 +44,14 @@ def _build_charge_strategy(charge_class: Type[Charge], case: Case) -> SearchStra
 
 @composite
 def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size=0) -> Case:
-    case = draw(builds(Case, charges=none()))
+    case_summary = draw(builds(CaseSummary))
     charge_classes = get_charge_classes()
-    charge_strategy_choices = list(map(lambda charge_class: _build_charge_strategy(charge_class, case), charge_classes))
+    charge_strategy_choices = list(
+        map(lambda charge_class: _build_charge_strategy(charge_class, case_summary), charge_classes)
+    )
     charge_strategy = one_of(charge_strategy_choices)
     charges = draw(lists(charge_strategy, min_charges_size))
-    return replace(case, charges=tuple(charges))
+    return Case(case_summary, charges=tuple(charges))
 
 
 @composite

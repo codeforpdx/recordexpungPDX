@@ -63,10 +63,10 @@ def record_without_dispos():
 def test_case_without_dispos(record_without_dispos):
     errors = record_without_dispos.errors
     expunger_result = Expunger.run(record_without_dispos)
-    assert record_without_dispos.cases[0].closed()
+    assert record_without_dispos.cases[0].summary.closed()
     assert expunger_result == {}
     assert errors[0] == (
-        f"""Case [{record_without_dispos.cases[0].case_number}] has a charge with a missing disposition.
+        f"""Case [{record_without_dispos.cases[0].summary.case_number}] has a charge with a missing disposition.
 This might be an error in the OECI database. Time analysis is ignoring this charge and may be inaccurate for other charges."""
     )
 
