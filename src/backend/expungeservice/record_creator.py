@@ -20,11 +20,7 @@ from expungeservice.models.disposition import DispositionCreator
 class RecordCreator:
     @staticmethod
     def build_record(
-        search: Callable,
-        username: str,
-        password: str,
-        aliases: Tuple[Alias, ...],
-        edits: Dict[str, Dict[str, Any]],
+        search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
         search_results, errors = search(username, password, aliases)
         if errors:
@@ -39,16 +35,14 @@ class RecordCreator:
                     lambda case: case.summary.case_number,
                 )
             ]
-            user_edited_search_results = RecordCreator._edit_search_results(
-                cases_with_unique_case_number, edits
-            )
+            user_edited_search_results = RecordCreator._edit_search_results(cases_with_unique_case_number, edits)
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
             return record, ambiguous_record, questions_as_dict
 
-    # TODO: In the future we will add a cache here
     @staticmethod
+    @lru_cache(maxsize=4)
     def build_search_results(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[List[OeciCase], List[str]]:
