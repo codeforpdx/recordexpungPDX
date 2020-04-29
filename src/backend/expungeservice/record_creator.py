@@ -25,7 +25,6 @@ class RecordCreator:
         password: str,
         aliases: Tuple[Alias, ...],
         edits: Dict[str, Dict[str, Any]],
-        additions: List[Dict[str, Any]],
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
         search_results, errors = search(username, password, aliases)
         if errors:
@@ -41,7 +40,7 @@ class RecordCreator:
                 )
             ]
             user_edited_search_results = RecordCreator._edit_search_results(
-                cases_with_unique_case_number, edits, additions
+                cases_with_unique_case_number, edits
             )
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
@@ -131,7 +130,7 @@ class RecordCreator:
         return ambiguous_case, questions
 
     @staticmethod
-    def _edit_search_results(search_result_cases: List[OeciCase], edits, additions) -> List[OeciCase]:
+    def _edit_search_results(search_result_cases: List[OeciCase], edits) -> List[OeciCase]:
         edited_cases: List[OeciCase] = []
         for case in search_result_cases:
             case_number = case.summary.case_number
@@ -141,8 +140,7 @@ class RecordCreator:
                 # else: if the action name for this case_number isn't "edit", assume it is "delete" and skip it
             else:
                 edited_cases.append(case)
-        new_cases = RecordCreator._build_additional_cases(additions)
-        return edited_cases + new_cases
+        return edited_cases
 
     @staticmethod
     def _edit_case(case, edits):
@@ -187,8 +185,3 @@ class RecordCreator:
             else:
                 edited_charges.append(charge)
         return edited_charges
-
-    @staticmethod
-    def _build_additional_cases(additions):
-        # todo: implement
-        return []

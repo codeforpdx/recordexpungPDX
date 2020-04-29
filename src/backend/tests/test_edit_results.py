@@ -83,7 +83,7 @@ def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase]
 
 def test_no_op():
     record, ambiguous_record, questions = RecordCreator.build_record(
-        search("two_cases_two_charges_each"), "username", "password", (), {}, []
+        search("two_cases_two_charges_each"), "username", "password", (), {}
     )
     assert len(record.cases) == 2
     assert len(record.cases[0].charges) == 2
@@ -97,7 +97,6 @@ def test_edit_some_fields_on_case():
         "password",
         (),
         {"X0002": {"action": "edit", "summary": {"location": "ocean", "balance_due": "100", "date": "1/1/1001",}}},
-        [],
     )
     assert len(record.cases) == 2
     assert record.cases[0].summary.location == "earth"
@@ -108,7 +107,7 @@ def test_edit_some_fields_on_case():
 
 def test_delete_case():
     record, ambiguous_record, questions = RecordCreator.build_record(
-        search("single_case_two_charges"), "username", "password", (), {"X0001": {"action": "delete"}}, [],
+        search("single_case_two_charges"), "username", "password", (), {"X0001": {"action": "delete"}},
     )
     assert record == Record((), ())
 
@@ -120,6 +119,5 @@ def test_add_disposition():
         "password",
         (),
         {"X0001": {"action": "edit", "charges": {"2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}}}},
-        [],
     )
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.CONVICTED
