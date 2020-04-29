@@ -52,10 +52,10 @@ def test_record_with_various_categories(record_with_various_categories):
       "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=X0003",
       "charges": [
         {
+          "id": "X0003-1-0",
           "name": "Driving Uninsured",
           "statute": "806010",
           "level": "Class B Felony",
-          "type_name": "Dismissed Criminal Charge",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -63,6 +63,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "No Complaint",
             "amended": false
           },
+          "ambiguous_charge_id": "X0003-1",
+          "case_number": "X0003",
           "expungement_result": {
             "type_eligibility": {
               "status": "Eligible",
@@ -78,13 +80,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Eligible Jun 12, 2027"
             }
           },
-          "ambiguous_charge_id": "X0003-1"
+          "type_name": "Dismissed Criminal Charge",
+          "expungement_rules": "All non-duii criminal charges that are dismissed fall under this charge type."
         },
         {
+          "id": "X0003-2-0",
           "name": "Violation Driving While Suspended or Revoked",
           "statute": "811175",
           "level": "Class B Felony",
-          "type_name": "Dismissed Criminal Charge",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -92,6 +95,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Dismissed",
             "amended": false
           },
+          "ambiguous_charge_id": "X0003-2",
+          "case_number": "X0003",
           "expungement_result": {
             "type_eligibility": {
               "status": "Eligible",
@@ -107,13 +112,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Eligible Jun 12, 2027"
             }
           },
-          "ambiguous_charge_id": "X0003-2"
+          "type_name": "Dismissed Criminal Charge",
+          "expungement_rules": "All non-duii criminal charges that are dismissed fall under this charge type."
         },
         {
+          "id": "X0003-3-0",
           "name": "Failure to Obey Traffic Control Device",
           "statute": "811265",
           "level": "Class B Felony",
-          "type_name": "Traffic Offense",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -121,6 +127,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Convicted",
             "amended": false
           },
+          "ambiguous_charge_id": "X0003-3",
+          "case_number": "X0003",
           "expungement_result": {
             "type_eligibility": {
               "status": "Ineligible",
@@ -136,7 +144,8 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Ineligible"
             }
           },
-          "ambiguous_charge_id": "X0003-3"
+          "type_name": "Traffic Offense",
+          "expungement_rules": "A conviction for a State or municipal traffic offense is not eligible for expungement. Common convictions under this category include Driving While Suspended/Revoked, Possession of a Stolen Vehicle, Driving Under the Influence of Intoxicants, and Failure to Perform Duties of a Driver."
         }
       ]
     },
@@ -154,10 +163,10 @@ def test_record_with_various_categories(record_with_various_categories):
       "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=X0002",
       "charges": [
         {
+          "id": "X0002-1-0",
           "name": "Driving Uninsured",
           "statute": "806010",
           "level": "Class B Felony",
-          "type_name": "Dismissed Criminal Charge",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -165,6 +174,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Dismissed",
             "amended": false
           },
+          "ambiguous_charge_id": "X0002-1",
+          "case_number": "X0002",
           "expungement_result": {
             "type_eligibility": {
               "status": "Eligible",
@@ -180,13 +191,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Eligible Jun 12, 2027"
             }
           },
-          "ambiguous_charge_id": "X0002-1"
+          "type_name": "Dismissed Criminal Charge",
+          "expungement_rules": "All non-duii criminal charges that are dismissed fall under this charge type."
         },
         {
+          "id": "X0002-2-0",
           "name": "Violation Driving While Suspended or Revoked",
           "statute": "811175",
           "level": "Class B Felony",
-          "type_name": "Traffic Offense",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -194,6 +206,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Convicted",
             "amended": false
           },
+          "ambiguous_charge_id": "X0002-2",
+          "case_number": "X0002",
           "expungement_result": {
             "type_eligibility": {
               "status": "Ineligible",
@@ -209,13 +223,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Ineligible"
             }
           },
-          "ambiguous_charge_id": "X0002-2"
+          "type_name": "Traffic Offense",
+          "expungement_rules": "A conviction for a State or municipal traffic offense is not eligible for expungement. Common convictions under this category include Driving While Suspended/Revoked, Possession of a Stolen Vehicle, Driving Under the Influence of Intoxicants, and Failure to Perform Duties of a Driver."
         },
         {
+          "id": "X0002-3-0",
           "name": "Failure to Obey Traffic Control Device",
           "statute": "811265",
           "level": "Class B Felony",
-          "type_name": "Traffic Offense",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -223,6 +238,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Convicted",
             "amended": false
           },
+          "ambiguous_charge_id": "X0002-3",
+          "case_number": "X0002",
           "expungement_result": {
             "type_eligibility": {
               "status": "Ineligible",
@@ -238,7 +255,8 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Ineligible"
             }
           },
-          "ambiguous_charge_id": "X0002-3"
+          "type_name": "Traffic Offense",
+          "expungement_rules": "A conviction for a State or municipal traffic offense is not eligible for expungement. Common convictions under this category include Driving While Suspended/Revoked, Possession of a Stolen Vehicle, Driving Under the Influence of Intoxicants, and Failure to Perform Duties of a Driver."
         }
       ]
     },
@@ -256,10 +274,10 @@ def test_record_with_various_categories(record_with_various_categories):
       "case_detail_link": "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=X0001",
       "charges": [
         {
+          "id": "X0001-1-0",
           "name": "Driving Uninsured",
           "statute": "806010",
           "level": "Class B Felony",
-          "type_name": "Traffic Offense",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -267,6 +285,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Convicted",
             "amended": false
           },
+          "ambiguous_charge_id": "X0001-1",
+          "case_number": "X0001",
           "expungement_result": {
             "type_eligibility": {
               "status": "Ineligible",
@@ -282,13 +302,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Ineligible"
             }
           },
-          "ambiguous_charge_id": "X0001-1"
+          "type_name": "Traffic Offense",
+          "expungement_rules": "A conviction for a State or municipal traffic offense is not eligible for expungement. Common convictions under this category include Driving While Suspended/Revoked, Possession of a Stolen Vehicle, Driving Under the Influence of Intoxicants, and Failure to Perform Duties of a Driver."
         },
         {
+          "id": "X0001-2-0",
           "name": "Violation Driving While Suspended or Revoked",
           "statute": "811175",
           "level": "Class B Felony",
-          "type_name": "Dismissed Criminal Charge",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -296,6 +317,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Dismissed",
             "amended": false
           },
+          "ambiguous_charge_id": "X0001-2",
+          "case_number": "X0001",
           "expungement_result": {
             "type_eligibility": {
               "status": "Eligible",
@@ -311,13 +334,14 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Eligible Jun 12, 2027"
             }
           },
-          "ambiguous_charge_id": "X0001-2"
+          "type_name": "Dismissed Criminal Charge",
+          "expungement_rules": "All non-duii criminal charges that are dismissed fall under this charge type."
         },
         {
+          "id": "X0001-3-0",
           "name": "Failure to Obey Traffic Control Device",
           "statute": "811265",
           "level": "Class B Felony",
-          "type_name": "Dismissed Criminal Charge",
           "date": "Mar 12, 2017",
           "disposition": {
             "date": "Jun 12, 2017",
@@ -325,6 +349,8 @@ def test_record_with_various_categories(record_with_various_categories):
             "status": "Dismissed",
             "amended": false
           },
+          "ambiguous_charge_id": "X0001-3",
+          "case_number": "X0001",
           "expungement_result": {
             "type_eligibility": {
               "status": "Eligible",
@@ -340,7 +366,8 @@ def test_record_with_various_categories(record_with_various_categories):
               "label": "Eligible Jun 12, 2027"
             }
           },
-          "ambiguous_charge_id": "X0001-3"
+          "type_name": "Dismissed Criminal Charge",
+          "expungement_rules": "All non-duii criminal charges that are dismissed fall under this charge type."
         }
       ]
     }
