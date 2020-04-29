@@ -32,7 +32,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def case_to_json(self, case):
         return {
             **self.case_summary_to_json(case.summary),
-            "charges": [self.charge_to_json(charge) for charge in case.charges],
+            "charges": case.charges,
         }
 
     def case_summary_to_json(self, case):
@@ -48,34 +48,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "balance_due": case.get_balance_due(),
             "probation_revoked": case.probation_revoked,
             "case_detail_link": case.case_detail_link,
-        }
-
-    def charge_to_json(self, charge):
-        disposition = self.disposition_to_json(charge.disposition) if charge.disposition else None
-        return {
-            "name": charge.name,
-            "statute": charge.statute,
-            "level": charge.level,
-            "type_name": charge.type_name,
-            "date": charge.date,
-            "disposition": disposition,
-            "expungement_result": self.expungement_result_to_json(charge.expungement_result),
-            "ambiguous_charge_id": charge.ambiguous_charge_id,
-        }
-
-    def disposition_to_json(self, disposition):
-        return {
-            "date": disposition.date,
-            "ruling": disposition.ruling,
-            "status": disposition.status,
-            "amended": disposition.amended,
-        }
-
-    def expungement_result_to_json(self, expungement_result):
-        return {
-            "type_eligibility": expungement_result.type_eligibility,
-            "time_eligibility": expungement_result.time_eligibility,
-            "charge_eligibility": expungement_result.charge_eligibility,
         }
 
     def default(self, o):
