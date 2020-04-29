@@ -1,17 +1,11 @@
 from typing import List, Any, Callable, Tuple
 from datetime import datetime, date
 
-import pytest
-
 from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.record import Record
 from expungeservice.models.disposition import Disposition, DispositionStatus
 from expungeservice.record_creator import RecordCreator
-
-
-class Service:
-    pass
 
 
 case_1 = OeciCase(
@@ -80,11 +74,6 @@ case_2 = OeciCase(
 mock_search_results = {"empty": [], "single_case_two_charges": [case_1], "two_cases_two_charges_each": [case_1, case_2]}
 
 
-@pytest.fixture
-def service():
-    return Service()
-
-
 def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase], List[str]]]:
     def _build_search_results(username, password, aliases):
         return mock_search_results[mocked_record_name], []
@@ -92,7 +81,7 @@ def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase]
     return _build_search_results
 
 
-def test_no_op(service):
+def test_no_op():
     record, ambiguous_record, questions = RecordCreator.build_record(
         search("two_cases_two_charges_each"), "username", "password", (), {}, []
     )
@@ -101,7 +90,7 @@ def test_no_op(service):
     assert record.cases[0].charges[1].disposition == None
 
 
-def test_edit_some_fields_on_case(service):
+def test_edit_some_fields_on_case():
     record, ambiguous_record, questions = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
         "username",
@@ -117,14 +106,14 @@ def test_edit_some_fields_on_case(service):
     assert record.cases[1].summary.date == datetime.date(datetime.strptime("1/1/1001", "%m/%d/%Y"))
 
 
-def test_delete_case(service):
+def test_delete_case():
     record, ambiguous_record, questions = RecordCreator.build_record(
         search("single_case_two_charges"), "username", "password", (), {"X0001": {"action": "delete"}}, [],
     )
     assert record == Record((), ())
 
 
-def test_add_disposition(service):
+def test_add_disposition():
     record, ambiguous_record, questions = RecordCreator.build_record(
         search("single_case_two_charges"),
         "username",
