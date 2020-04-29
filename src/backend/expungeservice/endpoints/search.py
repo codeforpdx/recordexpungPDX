@@ -38,7 +38,9 @@ class Search(MethodView):
     @staticmethod
     def build_response(username, password, aliases_data, questions_data, edits_data, additions_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
-        record, ambiguous_record, questions = RecordCreator.build_record(username, password, tuple(aliases), edits_data, additions_data)
+        record, ambiguous_record, questions = RecordCreator.build_record(
+            RecordCreator.build_search_results, username, password, tuple(aliases), edits_data, additions_data
+        )
         if questions_data:
             questions, record = Search.disambiguate_record(ambiguous_record, questions_data)
         try:

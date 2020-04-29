@@ -1,7 +1,7 @@
 from dataclasses import replace
 from functools import lru_cache
 from itertools import product, groupby
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple, Any, Callable
 from datetime import datetime
 
 import requests
@@ -16,12 +16,18 @@ from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
 from expungeservice.models.disposition import DispositionCreator
 
+
 class RecordCreator:
     @staticmethod
     def build_record(
-        username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]], additions: List[Dict[str,Any]]
+        search: Callable,
+        username: str,
+        password: str,
+        aliases: Tuple[Alias, ...],
+        edits: Dict[str, Dict[str, Any]],
+        additions: List[Dict[str, Any]],
     ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
-        search_results, errors = RecordCreator._build_search_results(username, password, aliases)
+        search_results, errors = search(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
             ambiguous_record = [record]
@@ -44,7 +50,7 @@ class RecordCreator:
 
     # TODO: In the future we will add a cache here
     @staticmethod
-    def _build_search_results(
+    def build_search_results(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[List[OeciCase], List[str]]:
         errors = []
@@ -142,7 +148,7 @@ class RecordCreator:
     def _edit_case(case, edits):
         if "summary" in edits.keys():
             case_summary_edits: Dict[str, Any] = {}
-            for key,value in edits["summary"].items():
+            for key, value in edits["summary"].items():
                 if key in ("date", "probation_revoked"):
                     case_summary_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                 elif key == "balance_due":
@@ -166,12 +172,13 @@ class RecordCreator:
         for charge in charges:
             # TODO: deleting charges not supported yet
             if charge.id in edits.keys():
-                charge_edits: Dict[str, Any] =  {}
-                for key,value in edits[charge.id].items():
+                charge_edits: Dict[str, Any] = {}
+                for key, value in edits[charge.id].items():
                     if key == "disposition":
                         charge_edits["disposition"] = DispositionCreator.create(
                             datetime.date(datetime.strptime(edits[charge.id]["disposition"]["date"], "%m/%d/%Y")),
-                            edits[charge.id]["disposition"]["ruling"])
+                            edits[charge.id]["disposition"]["ruling"],
+                        )
                     elif key == "date":
                         charge_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                     else:

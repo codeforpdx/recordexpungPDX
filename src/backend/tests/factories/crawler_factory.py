@@ -37,6 +37,6 @@ class CrawlerFactory:
                 m.get("{}{}{}".format(base_url, "CaseDetail.aspx?CaseID=", key), text=value)
 
             aliases = (Alias(first_name="John", last_name="Doe", middle_name="", birth_date=""),)
-            return RecordCreator.build_record( #.__wrapped__(
-                "username", "password", aliases, {}, []
+            return RecordCreator.build_record(  # .__wrapped__(
+                RecordCreator.build_search_results, "username", "password", aliases, {}, []
             )  # __wrapped__ bypasses the LRU cache
