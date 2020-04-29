@@ -135,10 +135,10 @@ class CaseParser:
                         charge_id_string, charge = row.split(".\xa0")
                         charge_id = int(charge_id_string)
                         disposition_data[charge_id] = {
-                            "date": date.text,
-                            "charge": charge,
-                            "ruling": next_row,
-                            "event": event_type.text,
+                            "date": str(date.text),
+                            "charge": str(charge),
+                            "ruling": str(next_row),
+                            "event": str(event_type.text),
                         }
                 return disposition_data
             else:

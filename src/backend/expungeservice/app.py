@@ -1,5 +1,4 @@
 import pkgutil
-import sys
 from importlib import import_module
 
 from flask import Flask, g
@@ -9,7 +8,6 @@ from expungeservice.database import get_database
 from .config import app_config
 
 from . import endpoints
-import logging
 
 from .loggers import attach_logger
 
@@ -43,8 +41,6 @@ def create_app(env_name):
     app.before_request(before)
     app.after_request(after)
     app.teardown_request(lambda exception: g.database.close_connection())
-
-    sys.setrecursionlimit(150000)
 
     return app
 
