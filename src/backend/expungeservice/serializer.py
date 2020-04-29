@@ -19,6 +19,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                     "total_cases": record_summary.total_cases,
                 },
                 "questions": record_summary.questions,
+                "disposition_was_unknown": record_summary.disposition_was_unknown,
             },
         }
 

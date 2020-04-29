@@ -14,19 +14,19 @@ from expungeservice.models.case import Case, OeciCase, CaseCreator
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
-from expungeservice.models.disposition import DispositionCreator
+from expungeservice.models.disposition import DispositionCreator, DispositionStatus
 
 
 class RecordCreator:
     @staticmethod
     def build_record(
         search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
-    ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question]]:
+    ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question], List[str]]:
         search_results, errors = search(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
             ambiguous_record = [record]
-            return record, ambiguous_record, {}
+            return record, ambiguous_record, {}, []
         else:
             cases_with_unique_case_number: List[OeciCase] = [
                 list(group)[0]
@@ -35,11 +35,12 @@ class RecordCreator:
                     lambda case: case.summary.case_number,
                 )
             ]
+            unknown_dispositions = RecordCreator._find_unknown_dispositions(cases_with_unique_case_number)
             user_edited_search_results = RecordCreator._edit_search_results(cases_with_unique_case_number, edits)
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, ambiguous_record, questions_as_dict
+            return record, ambiguous_record, questions_as_dict, unknown_dispositions
 
     @staticmethod
     @lru_cache(maxsize=4)
@@ -179,3 +180,12 @@ class RecordCreator:
             else:
                 edited_charges.append(charge)
         return edited_charges
+
+    @staticmethod
+    def _find_unknown_dispositions(cases: List[OeciCase]) -> List[str]:
+        unknown_dispositions = []
+        for case in cases:
+            for charge in case.charges:
+                if not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED:
+                    unknown_dispositions.append(charge.id)
+        return unknown_dispositions

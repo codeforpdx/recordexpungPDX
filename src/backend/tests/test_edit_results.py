@@ -82,7 +82,7 @@ def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase]
 
 
 def test_no_op():
-    record, ambiguous_record, questions = RecordCreator.build_record(
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("two_cases_two_charges_each"), "username", "password", (), {}
     )
     assert len(record.cases) == 2
@@ -91,7 +91,7 @@ def test_no_op():
 
 
 def test_edit_some_fields_on_case():
-    record, ambiguous_record, questions = RecordCreator.build_record(
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
         "username",
         "password",
@@ -106,14 +106,14 @@ def test_edit_some_fields_on_case():
 
 
 def test_delete_case():
-    record, ambiguous_record, questions = RecordCreator.build_record(
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("single_case_two_charges"), "username", "password", (), {"X0001": {"action": "delete"}},
     )
     assert record == Record((), ())
 
 
 def test_add_disposition():
-    record, ambiguous_record, questions = RecordCreator.build_record(
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("single_case_two_charges"),
         "username",
         "password",
