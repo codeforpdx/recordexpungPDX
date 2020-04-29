@@ -1,5 +1,5 @@
 from typing import List, Any, Callable, Tuple
-from datetime import datetime
+from datetime import datetime, date
 
 import pytest
 
@@ -21,7 +21,7 @@ case_1 = OeciCase(
         case_number="X0001",
         citation_number="X0001",
         location="earth",
-        date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
+        date=date(2001, 1, 1),
         violation_type="Something",
         current_status="CLOSED",
         case_detail_link="alink",
@@ -33,12 +33,9 @@ case_1 = OeciCase(
             name="manufacturing",
             statute="100.000",
             level="Felony Class B",
-            date=datetime.date(datetime.strptime("1/1/2000", "%m/%d/%Y")),
+            date=date(2000, 1, 1),
             disposition=Disposition(
-                date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
-                ruling="Convicted",
-                status=DispositionStatus.CONVICTED,
-                amended=False,
+                date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
             ),
         ),
         OeciCharge(
@@ -46,7 +43,7 @@ case_1 = OeciCase(
             name="assault 3",
             statute="200.000",
             level="Felony Class C",
-            date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
+            date=date(2001, 1, 1),
             disposition=None,
         ),
     ),
@@ -58,7 +55,7 @@ case_2 = OeciCase(
         case_number="X0002",
         citation_number="X0002",
         location="america",
-        date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
+        date=date(2001, 1, 1),
         violation_type="Something Else",
         current_status="CLOSED",
         case_detail_link="alink",
@@ -70,21 +67,13 @@ case_2 = OeciCase(
             name="driving",
             statute="100.000",
             level="Misdemeanor",
-            date=datetime.date(datetime.strptime("1/1/2000", "%m/%d/%Y")),
+            date=date(2000, 1, 1),
             disposition=Disposition(
-                date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
-                ruling="Convicted",
-                status=DispositionStatus.CONVICTED,
-                amended=False,
+                date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
             ),
         ),
         OeciCharge(
-            id="2",
-            name="assault 3",
-            statute="200.000",
-            level="Violation",
-            date=datetime.date(datetime.strptime("1/1/2001", "%m/%d/%Y")),
-            disposition=None,
+            id="2", name="assault 3", statute="200.000", level="Violation", date=date(2001, 1, 1), disposition=None,
         ),
     ),
 )
