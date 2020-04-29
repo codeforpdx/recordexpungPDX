@@ -26,17 +26,20 @@ class Search(MethodView):
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
         aliases_data = request_data["aliases"]
         questions_data = request_data.get("questions")
+        edits_data = request_data.get("edits") or {}
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
         if not "oeci_token" in request.cookies.keys():
             error(401, "Missing login credentials to OECI.")
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
         username, password = decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
-        return Search.build_response(username, password, aliases_data, questions_data)
+        return Search.build_response(username, password, aliases_data, questions_data, edits_data)
 
     @staticmethod
-    def build_response(username, password, aliases_data, questions_data):
+    def build_response(username, password, aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
-        record, ambiguous_record, questions = RecordCreator.build_record(username, password, tuple(aliases))
+        record, ambiguous_record, questions = RecordCreator.build_record(
+            RecordCreator.build_search_results, username, password, tuple(aliases), edits_data
+        )
         if questions_data:
             questions, record = Search.disambiguate_record(ambiguous_record, questions_data)
         try:
