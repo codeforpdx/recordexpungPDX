@@ -23,7 +23,7 @@ case_1 = OeciCase(
     ),
     (
         OeciCharge(
-            id="1",
+            ambiguous_charge_id="X0001-1",
             name="manufacturing",
             statute="100.000",
             level="Felony Class B",
@@ -33,7 +33,7 @@ case_1 = OeciCase(
             ),
         ),
         OeciCharge(
-            id="2",
+            ambiguous_charge_id="X0001-2",
             name="assault 3",
             statute="200.000",
             level="Felony Class C",
@@ -57,7 +57,7 @@ case_2 = OeciCase(
     ),
     (
         OeciCharge(
-            id="1",
+            ambiguous_charge_id="X0002-1",
             name="driving",
             statute="100.000",
             level="Misdemeanor",
@@ -67,7 +67,12 @@ case_2 = OeciCase(
             ),
         ),
         OeciCharge(
-            id="2", name="assault 3", statute="200.000", level="Violation", date=date(2001, 1, 1), disposition=None,
+            ambiguous_charge_id="X0002-2",
+            name="assault 3",
+            statute="200.000",
+            level="Violation",
+            date=date(2001, 1, 1),
+            disposition=None,
         ),
     ),
 )
@@ -118,6 +123,11 @@ def test_add_disposition():
         "username",
         "password",
         (),
-        {"X0001": {"action": "edit", "charges": {"2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}}}},
+        {
+            "X0001": {
+                "action": "edit",
+                "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
+            }
+        },
     )
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.CONVICTED

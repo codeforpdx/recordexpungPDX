@@ -77,7 +77,8 @@ class Crawler:
         probation_revoked = case_parser_data.probation_revoked
         charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
-            charge = Crawler._build_oeci_charge(charge_id, charge_dict, case_parser_data)
+            ambiguous_charge_id = f"{case_summary.case_number}-{charge_id}"
+            charge = Crawler._build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data)
             charges.append(charge)
         updated_case_summary = replace(
             case_summary, balance_due_in_cents=balance_due_in_cents, probation_revoked=probation_revoked
@@ -110,13 +111,13 @@ class Crawler:
         return "Case Records" in response.text
 
     @staticmethod
-    def _build_oeci_charge(charge_id, charge_dict, case_parser_data) -> OeciCharge:
+    def _build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data) -> OeciCharge:
         charge_dict["date"] = datetime.date(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition = Crawler._build_disposition(case_parser_data, charge_id)
-            return OeciCharge(charge_id, disposition=disposition, **charge_dict)
+            return OeciCharge(ambiguous_charge_id, disposition=disposition, **charge_dict)
         else:
-            return OeciCharge(charge_id, disposition=None, **charge_dict)
+            return OeciCharge(ambiguous_charge_id, disposition=None, **charge_dict)
 
     @staticmethod
     def _build_disposition(case_parser_data, charge_id):

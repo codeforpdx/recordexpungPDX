@@ -11,6 +11,7 @@ from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword,
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case, OeciCase, CaseCreator
+from expungeservice.models.charge import OeciCharge
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
@@ -103,7 +104,7 @@ class RecordCreator:
         ambiguous_charges: List[AmbiguousCharge] = []
         questions: List[Question] = []
         for oeci_charge in oeci_case.charges:
-            charge_id = oeci_charge.id
+            ambiguous_charge_id = oeci_charge.ambiguous_charge_id
             charge_dict = {
                 "name": oeci_charge.name,
                 "statute": oeci_charge.statute,
@@ -114,7 +115,7 @@ class RecordCreator:
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
             }
-            ambiguous_charge, question = ChargeCreator.create(charge_id, **charge_dict)
+            ambiguous_charge, question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
             ambiguous_charges.append(ambiguous_charge)
             if question:
                 questions.append(question)
@@ -138,7 +139,7 @@ class RecordCreator:
         return edited_cases
 
     @staticmethod
-    def _edit_case(case, edits):
+    def _edit_case(case: OeciCase, edits):
         if "summary" in edits.keys():
             case_summary_edits: Dict[str, Any] = {}
             for key, value in edits["summary"].items():
@@ -160,17 +161,19 @@ class RecordCreator:
         return OeciCase(edited_summary, edited_charges)
 
     @staticmethod
-    def _edit_charges(charges, edits):
+    def _edit_charges(charges: Tuple[OeciCharge, ...], edits):
         edited_charges = []
         for charge in charges:
             # TODO: deleting charges not supported yet
-            if charge.id in edits.keys():
+            if charge.ambiguous_charge_id in edits.keys():
                 charge_edits: Dict[str, Any] = {}
-                for key, value in edits[charge.id].items():
+                for key, value in edits[charge.ambiguous_charge_id].items():
                     if key == "disposition":
                         charge_edits["disposition"] = DispositionCreator.create(
-                            datetime.date(datetime.strptime(edits[charge.id]["disposition"]["date"], "%m/%d/%Y")),
-                            edits[charge.id]["disposition"]["ruling"],
+                            datetime.date(
+                                datetime.strptime(edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y")
+                            ),
+                            edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
                         )
                     elif key == "date":
                         charge_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
@@ -187,5 +190,5 @@ class RecordCreator:
         for case in cases:
             for charge in case.charges:
                 if not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED:
-                    unknown_dispositions.append(charge.id)
+                    unknown_dispositions.append(charge.ambiguous_charge_id)
         return unknown_dispositions

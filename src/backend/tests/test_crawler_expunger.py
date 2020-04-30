@@ -79,7 +79,7 @@ def record_tuple_without_dispos():
 
 
 def test_case_without_dispos_for_unknown_dispositions(record_tuple_without_dispos):
-    assert [1, 2, 3] == record_tuple_without_dispos[3]
+    assert ["CASEJD1-1", "CASEJD1-2", "CASEJD1-3"] == record_tuple_without_dispos[3]
 
 
 @pytest.fixture
