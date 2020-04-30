@@ -7,7 +7,7 @@ from datetime import date
 
 class RecordSummarizer:
     @staticmethod
-    def summarize(record, questions: Dict[str, Question]) -> RecordSummary:
+    def summarize(record, questions: Dict[str, Question], disposition_was_unknown: List[str]) -> RecordSummary:
         fully_eligible_cases = []
         fully_ineligible_cases = []
         partially_eligible_cases = []
@@ -75,6 +75,7 @@ class RecordSummarizer:
         return RecordSummary(
             record=record,
             questions=questions,
+            disposition_was_unknown=disposition_was_unknown,
             cases_sorted=cases_sorted,
             eligible_charges_by_date=eligible_charges_by_date,
             total_charges=total_charges,
