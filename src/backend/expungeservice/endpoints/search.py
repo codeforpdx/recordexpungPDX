@@ -20,18 +20,16 @@ class Search(MethodView):
     def post(self):
         request_data = request.get_json()
 
-        if self.validate_request(request_data):
-            username, password = Search.oeci_login_params(request)
+        Search._validate_request(request_data)
+        username, password = Search._oeci_login_params(request)
 
-            return Search.build_response(
-                username,
-                password,
-                request_data["aliases"],
-                request_data.get("questions"),
-                request_data.get("edits", {})
-            )
-        else:
-            error(400, "No json data in request body")
+        return Search.build_response(
+            username,
+            password,
+            request_data["aliases"],
+            request_data.get("questions"),
+            request_data.get("edits", {})
+        )
 
     @staticmethod
     def build_response(username, password, aliases_data, questions_data, edits_data):
@@ -58,7 +56,7 @@ class Search(MethodView):
         return questions, record
 
     @staticmethod
-    def oeci_login_params(request):
+    def _oeci_login_params(request):
         cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
         if not "oeci_token" in request.cookies.keys():
             error(401, "Missing login credentials to OECI.")
@@ -66,11 +64,10 @@ class Search(MethodView):
         return decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
 
     @staticmethod
-    def validate_request(request_data):
+    def _validate_request(request_data):
         check_data_fields(request_data, ["aliases"])
         for alias in request_data["aliases"]:
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
-        return True
 
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
