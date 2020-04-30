@@ -19,20 +19,19 @@ class Search(MethodView):
     @login_required
     def post(self):
         request_data = request.get_json()
-        if request_data is None or not request_data.get("aliases"):
+
+        if self.validate_request(request_data):
+            username, password = Search.oeci_login_params(request)
+
+            return Search.build_response(
+                username,
+                password,
+                request_data["aliases"],
+                request_data.get("questions"),
+                request_data.get("edits", {})
+            )
+        else:
             error(400, "No json data in request body")
-        check_data_fields(request_data, ["aliases"])
-        for alias in request_data["aliases"]:
-            check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
-        aliases_data = request_data["aliases"]
-        questions_data = request_data.get("questions")
-        edits_data = request_data.get("edits") or {}
-        cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
-        if not "oeci_token" in request.cookies.keys():
-            error(401, "Missing login credentials to OECI.")
-        decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
-        username, password = decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
-        return Search.build_response(username, password, aliases_data, questions_data, edits_data)
 
     @staticmethod
     def build_response(username, password, aliases_data, questions_data, edits_data):
@@ -58,6 +57,20 @@ class Search(MethodView):
         record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
         return questions, record
 
+    @staticmethod
+    def oeci_login_params(request):
+        cipher = DataCipher(key=current_app.config.get("SECRET_KEY"))
+        if not "oeci_token" in request.cookies.keys():
+            error(401, "Missing login credentials to OECI.")
+        decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
+        return decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
+
+    @staticmethod
+    def validate_request(request_data):
+        check_data_fields(request_data, ["aliases"])
+        for alias in request_data["aliases"]:
+            check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
+        return True
 
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
