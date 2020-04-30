@@ -4,13 +4,14 @@ import {
   CLEAR_RECORD,
   SELECT_ANSWER,
   SearchRecordState,
-  SearchRecordActionType
+  SearchRecordActionType, ANSWER_DISPOSITION
 } from './types';
 import {QuestionsData} from '../../components/RecordSearch/Record/types'
 
 const initalState: SearchRecordState = {
   loading: false,
-  aliases: []
+  aliases: [],
+  dispositionWasUnknown: []
 };
 
 export function searchReducer(
@@ -23,7 +24,8 @@ export function searchReducer(
         ...state,
         record: action.record,
         questions: action.questions,
-        loading: false
+        loading: false,
+        dispositionWasUnknown: action.dispositionWasUnknown
       };
     case RECORD_LOADING:
       return {...state, record: {}, aliases: JSON.parse(JSON.stringify(action.aliases)), questions: {}, loading: true};
@@ -35,6 +37,8 @@ export function searchReducer(
         questions[action.ambiguous_charge_id].answer = action.answer;
       }
       return {...state, questions: questions, loading: true};
+    case ANSWER_DISPOSITION:
+      return {...state, loading: true};
     default:
       return state;
   }

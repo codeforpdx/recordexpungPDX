@@ -7,7 +7,8 @@ import {
   RECORD_LOADING,
   SearchResponse,
   CLEAR_RECORD,
-  SELECT_ANSWER
+  SELECT_ANSWER,
+  ANSWER_DISPOSITION
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData} from '../../components/RecordSearch/Record/types'
@@ -24,7 +25,8 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
     dispatch({
       type: DISPLAY_RECORD,
       record: record,
-      questions: receivedRecord.questions
+      questions: receivedRecord.questions,
+      dispositionWasUnknown: receivedRecord.disposition_was_unknown
     });
   } else {
     alert('Response data has unexpected format.');
@@ -91,5 +93,15 @@ export function selectAnswer(
       .catch((error: AxiosError<SearchResponse>) => {
         alert(error.message);
       });
+  };
+}
+
+// TODO: Hit backend endpoint
+export function answerDisposition(): any {
+  return (dispatch: Dispatch) => {
+    alert("Answered a disposition question.");
+    dispatch({
+      type: ANSWER_DISPOSITION,
+    });
   };
 }

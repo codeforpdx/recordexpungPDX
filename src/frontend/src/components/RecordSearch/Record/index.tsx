@@ -6,6 +6,7 @@ import QuestionsBanner from './QuestionsBanner';
 
 interface Props {
   record: RecordData;
+  dispositionWasUnknown: string[];
 }
 
 export default class Record extends React.Component<Props> {
@@ -41,7 +42,7 @@ export default class Record extends React.Component<Props> {
           ) : null }
         <QuestionsBanner/>
         {this.props.record.cases ? (
-          <Cases cases={this.props.record.cases} />
+          <Cases cases={this.props.record.cases} dispositionWasUnknown={this.props.dispositionWasUnknown} />
         ) : null}
       </section>
       </>

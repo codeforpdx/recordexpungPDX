@@ -5,6 +5,7 @@ import currencyFormat from '../../../service/currency-format';
 
 interface Props {
   case: CaseData;
+  dispositionWasUnknown: string[];
 }
 
 export default class Cases extends React.Component<Props> {
@@ -41,7 +42,7 @@ export default class Cases extends React.Component<Props> {
             {birth_year}
           </div>
         </div>
-        <Charges charges={charges} />
+        <Charges charges={charges} dispositionWasUnknown={this.props.dispositionWasUnknown} />
       </div>
     );
   }

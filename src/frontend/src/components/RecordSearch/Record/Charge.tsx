@@ -4,9 +4,11 @@ import TimeEligibility from './TimeEligibility';
 import TypeEligibility from './TypeEligibility';
 import Question from './Question';
 import { ChargeData } from './types';
+import DispositionQuestion from "./DispositionQuestion";
 
 interface Props {
   charge: ChargeData;
+  showDispositionQuestion: boolean;
 }
 
 export default class Charge extends React.Component<Props> {
@@ -62,6 +64,14 @@ export default class Charge extends React.Component<Props> {
       }
     };
 
+    const dispositionQuestionRender = () => {
+      if (this.props.showDispositionQuestion) {
+        return (
+          <DispositionQuestion />
+        )
+      }
+    };
+
     return (
       <div className="br3 ma2 bg-white">
         <Eligibility expungement_result={expungement_result} />
@@ -87,6 +97,7 @@ export default class Charge extends React.Component<Props> {
           </div>
         </div>
         <Question ambiguous_charge_id= {ambiguous_charge_id}/>
+        {dispositionQuestionRender()}
       </div>
     );
   }

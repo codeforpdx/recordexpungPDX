@@ -4,6 +4,7 @@ import { CaseData } from './types';
 
 interface Props {
   cases: CaseData[];
+  dispositionWasUnknown: string[];
 }
 
 export default class Cases extends React.Component<Props> {
@@ -11,7 +12,7 @@ export default class Cases extends React.Component<Props> {
     const allCases = this.props.cases.map((caseInstance, index) => {
       return (
         <li key={index}>
-          <Case case={caseInstance} />
+          <Case case={caseInstance} dispositionWasUnknown={this.props.dispositionWasUnknown} />
         </li>
       );
     });

@@ -16,6 +16,7 @@ type Props = {
   searchRecord: Function;
   clearRecord: Function;
   record?: RecordData;
+  dispositionWasUnknown?: string[];
 };
 
 class RecordSearch extends Component<Props> {
@@ -36,7 +37,7 @@ class RecordSearch extends Component<Props> {
         {this.props.record &&
         ((this.props.record.cases &&
         this.props.record.cases.length > 0) || this.props.record.errors) ? (
-          <Record record={this.props.record} />
+          <Record record={this.props.record} dispositionWasUnknown={this.props.dispositionWasUnknown ? this.props.dispositionWasUnknown : []} />
         ) : (
           <Status />
         )}
@@ -62,7 +63,8 @@ class RecordSearch extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    record: state.search.record
+    record: state.search.record,
+    dispositionWasUnknown: state.search.dispositionWasUnknown
   };
 };
 
