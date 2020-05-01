@@ -19,14 +19,14 @@ interface State {
 }
 
 export default class DispositionQuestion extends React.Component<Props, State> {
-
   state: State  = {
     status: "Open",
     conviction_date: "",
     probation_revoked_date: "",
     missingFields: false,
     invalidDate: false
-  }
+  };
+
   componentDidMount() {
     this.setState({
       status: (this.props.disposition ? this.props.disposition.status : "Open") ,
@@ -43,18 +43,19 @@ export default class DispositionQuestion extends React.Component<Props, State> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.validateForm().then( () => {
-      if (!this.state.missingFields  && !this.state.invalidDate) {
+    this.validateForm().then(() => {
+      if (!this.state.missingFields && !this.state.invalidDate) {
         store.dispatch(
           answerDisposition(
             this.props.case_number,
             this.props.ambiguous_charge_id,
             this.state.status,
-            (this.state.status === "Convicted" || this.state.status === "revoked" ? this.state.conviction_date : "1/1/2020"), // The date for a dismissal doesn't matter, but the backend expects something so here we are.
-             this.state.probation_revoked_date)
+            this.state.conviction_date || "1/1/2020", // The date for a dismissal doesn't matter, but the backend expects something so here we are.
+            this.state.probation_revoked_date
+          )
         )
       }
-    })
+    });
   };
 
   validateForm = () => {
@@ -66,16 +67,15 @@ export default class DispositionQuestion extends React.Component<Props, State> {
         missingFields = this.state.conviction_date === "" || this.state.probation_revoked_date === "";
       }
 
-      let invalidDate = ( this.state.status === "Convicted" || this.state.status === "revoked") &&
+      let invalidDate = (this.state.status === "Convicted" || this.state.status === "revoked") &&
         (this.state.conviction_date.length !== 0 && !moment(this.state.conviction_date, 'M/D/YYYY', true).isValid()) ||
-        (this.state.probation_revoked_date.length !== 0 && !moment(this.state.probation_revoked_date, 'M/D/YYYY', true).isValid())
-      ;
+        (this.state.probation_revoked_date.length !== 0 && !moment(this.state.probation_revoked_date, 'M/D/YYYY', true).isValid());
       this.setState(
         {
           missingFields: missingFields ,
           invalidDate: invalidDate
         },
-      resolve
+        resolve
       );
     });
   };
@@ -89,20 +89,20 @@ export default class DispositionQuestion extends React.Component<Props, State> {
             {"state: " + JSON.stringify(this.state)}
             <div className="radio">
                 <div className="dib">
-                    <input id="dis" name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleChange} />
-                    <label htmlFor="dis">Dismissed</label>
+                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleChange} />
+                    <label htmlFor={this.props.ambiguous_charge_id + "-dis"}>Dismissed</label>
                 </div>
                 <div className="dib">
-                    <input id="con" name="status" type="radio" value="Convicted" checked={this.state.status==="Convicted"} onChange={this.handleChange} />
-                    <label htmlFor="con">Convicted</label>
+                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" checked={this.state.status==="Convicted"} onChange={this.handleChange} />
+                    <label htmlFor={this.props.ambiguous_charge_id + "-con"}>Convicted</label>
                 </div>
                 <div className="dib">
-                    <input id="rev" name="status" type="radio" value="revoked" checked={this.state.status==="revoked"} onChange={this.handleChange} />
-                    <label htmlFor="rev">Probation Revoked</label>
+                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" checked={this.state.status==="revoked"} onChange={this.handleChange} />
+                    <label htmlFor={this.props.ambiguous_charge_id + "-rev"}>Probation Revoked</label>
                 </div>
                 <div className="dib">
-                    <input id="open" name="status" type="radio" value="Open" checked={this.state && this.state.status==="Open"} onChange={this.handleChange} />
-                    <label htmlFor="open">Open</label>
+                    <input id={this.props.ambiguous_charge_id + "-open"} name="status" type="radio" value="Open" checked={this.state && this.state.status==="Open"} onChange={this.handleChange} />
+                    <label htmlFor={this.props.ambiguous_charge_id + "-open"}>Open</label>
                 </div>
             </div>
             <div className={this.state && (this.state.status === "Convicted" || this.state.status === "revoked") ? "" : "visually-hidden"}>
@@ -120,7 +120,6 @@ export default class DispositionQuestion extends React.Component<Props, State> {
             <div role="alert">
               <p className={(this.state && this.state.invalidDate ? "" : "visually-hidden " ) + "dib bg-washed-red fw6 br3 pa3 mt3"}>The date format must be MM/DD/YYYY</p>
             </div>
-
         </fieldset>
       </form>
     )
