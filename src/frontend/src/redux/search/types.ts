@@ -29,6 +29,7 @@ export interface SearchRecordState {
   aliases: AliasData[];
   record?: RecordData;
   questions?: QuestionsData;
+  edits?: any;
   dispositionWasUnknown: string[];
 }
 
@@ -51,6 +52,10 @@ interface QuestionsAction {
 
 interface AnswerDispositionAction {
   type: typeof ANSWER_DISPOSITION;
+  case_number: string;
+  ambiguous_charge_id: string;
+  edits: any;
+
 }
 
 export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction;

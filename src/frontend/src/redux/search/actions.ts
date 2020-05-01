@@ -2,6 +2,7 @@ import {Dispatch} from 'redux';
 import store from '../store';
 import apiService from '../../service/api-service';
 import {AxiosError, AxiosResponse} from 'axios';
+
 import {
   DISPLAY_RECORD,
   RECORD_LOADING,
@@ -37,6 +38,24 @@ function validateSearchResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('record');
 }
 
+function buildAndSendSearchRequest(dispatch: any) : any {
+  return apiService<SearchResponse>(dispatch, {
+    url: '/api/search',
+    data: {
+      aliases: store.getState().search.aliases,
+      questions: store.getState().search.questions,
+      edits: store.getState().search.edits
+    },
+    method: 'post',
+    withCredentials: true
+  })
+    .then((response: AxiosResponse<SearchResponse>) => {
+      storeSearchResponse(response.data, dispatch)
+    })
+    .catch((error: AxiosError<SearchResponse>) => {
+      alert(error.message);
+    });
+}
 export function searchRecord(
   aliases: AliasData[]
 ): any {
@@ -45,20 +64,7 @@ export function searchRecord(
       type: RECORD_LOADING,
       aliases: aliases
     });
-    return apiService<SearchResponse>(dispatch, {
-      url: '/api/search',
-      data: {
-        aliases: aliases
-      },
-      method: 'post',
-      withCredentials: true
-    })
-      .then((response: AxiosResponse<SearchResponse>) => {
-        storeSearchResponse(response.data, dispatch)
-      })
-      .catch((error: AxiosError<SearchResponse>) => {
-        alert(error.message);
-      });
+    return buildAndSendSearchRequest(dispatch);
   };
 }
 
@@ -78,30 +84,24 @@ export function selectAnswer(
       ambiguous_charge_id: ambiguous_charge_id,
       answer: answer
     });
-    return apiService<SearchResponse>(dispatch, {
-      url: '/api/search',
-      data: {
-        aliases: store.getState().search.aliases,
-        questions: store.getState().search.questions
-      },
-      method: 'post',
-      withCredentials: true
-    })
-      .then((response: AxiosResponse<SearchResponse>) => {
-        storeSearchResponse(response.data, dispatch)
-      })
-      .catch((error: AxiosError<SearchResponse>) => {
-        alert(error.message);
-      });
+    return buildAndSendSearchRequest(dispatch);
+
   };
 }
 
-// TODO: Hit backend endpoint
-export function answerDisposition(): any {
+export function answerDisposition(
+  case_number: string,
+  ambiguous_charge_id: string,
+  ruling: string,
+  date: string,
+  probation_revoked_date: string): any {
   return (dispatch: Dispatch) => {
-    alert("Answered a disposition question.");
     dispatch({
       type: ANSWER_DISPOSITION,
+      case_number: case_number,
+      ambiguous_charge_id: ambiguous_charge_id,
+      edits: {"disposition": ruling === "Open" ? null : {"date": date, "ruling": ruling}}
     });
+    return buildAndSendSearchRequest(dispatch);
   };
 }

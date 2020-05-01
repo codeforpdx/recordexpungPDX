@@ -1,4 +1,5 @@
 export interface ChargeData {
+  case_number: string;
   ambiguous_charge_id: string;
   statute: string;
   expungement_result: any;

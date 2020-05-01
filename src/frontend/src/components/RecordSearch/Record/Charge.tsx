@@ -14,6 +14,7 @@ interface Props {
 export default class Charge extends React.Component<Props> {
   render() {
     const {
+      case_number,
       ambiguous_charge_id,
       date,
       disposition,
@@ -67,7 +68,7 @@ export default class Charge extends React.Component<Props> {
     const dispositionQuestionRender = () => {
       if (this.props.showDispositionQuestion) {
         return (
-          <DispositionQuestion />
+          <DispositionQuestion case_number={case_number} ambiguous_charge_id={ambiguous_charge_id} disposition={disposition}/>
         )
       }
     };
