@@ -17,7 +17,6 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int = 0
-    probation_revoked: Optional[date_class] = None
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
