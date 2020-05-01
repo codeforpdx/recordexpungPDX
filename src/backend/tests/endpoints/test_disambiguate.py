@@ -47,6 +47,7 @@ DUII_SEARCH_RESPONSE = {
                         "id": "CASEJD1-1-0",
                         "level": "Misdemeanor Class A",
                         "name": "DUII",
+                        "probation_revoked": None,
                         "statute": "813010",
                         "type_name": "Diverted DUII ⬥ Dismissed Criminal Charge",
                     }
@@ -56,7 +57,6 @@ DUII_SEARCH_RESPONSE = {
                 "date": "Sep 5, 2008",
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
-                "probation_revoked": None,
                 "violation_type": "Misdemeanor",
             }
         ],
@@ -123,6 +123,7 @@ DIVERTED_RESPONSE = {
                         "id": "CASEJD1-1-0",
                         "level": "Misdemeanor Class A",
                         "name": "DUII",
+                        "probation_revoked": None,
                         "statute": "813010",
                         "type_name": "Diverted DUII",
                     }
@@ -132,7 +133,6 @@ DIVERTED_RESPONSE = {
                 "date": "Sep 5, 2008",
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
-                "probation_revoked": None,
                 "violation_type": "Misdemeanor",
             }
         ],

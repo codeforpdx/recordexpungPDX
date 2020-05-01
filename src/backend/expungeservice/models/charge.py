@@ -21,6 +21,7 @@ class OeciCharge:
     level: str
     date: date_class
     disposition: Optional[Disposition]
+    probation_revoked: Optional[date_class]
 
 
 @dataclass(frozen=True)

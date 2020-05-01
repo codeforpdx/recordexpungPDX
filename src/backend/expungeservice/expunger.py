@@ -66,15 +66,13 @@ class Expunger:
                     )
                 )
 
-            if charge.convicted():
-                probation_revoked_date = charge.case(cases).summary.probation_revoked
-                if probation_revoked_date:
-                    eligibility_dates.append(
-                        (
-                            probation_revoked_date + relativedelta(years=10),
-                            "Time-ineligible under 137.225(1)(c) (Probation Revoked). Inspect further if the case has multiple convictions on the case.",
-                        )
+            if charge.convicted() and charge.probation_revoked:
+                eligibility_dates.append(
+                    (
+                        charge.probation_revoked + relativedelta(years=10),
+                        "Time-ineligible under 137.225(1)(c) (Probation Revoked). Inspect further if the case has multiple convictions on the case.",
                     )
+                )
 
             if most_recent_blocking_conviction:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"

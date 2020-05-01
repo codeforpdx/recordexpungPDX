@@ -111,6 +111,7 @@ class RecordCreator:
                 "level": oeci_charge.level,
                 "date": oeci_charge.date,
                 "disposition": oeci_charge.disposition,
+                "probation_revoked": oeci_charge.probation_revoked,
                 "case_number": oeci_case.summary.case_number,
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
@@ -143,8 +144,8 @@ class RecordCreator:
         if "summary" in edits.keys():
             case_summary_edits: Dict[str, Any] = {}
             for key, value in edits["summary"].items():
-                if key in ("date", "probation_revoked"):
-                    case_summary_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+                if key == "date":
+                    case_summary_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                 elif key == "balance_due":
                     case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
                 elif key == "birth_year":
@@ -175,8 +176,8 @@ class RecordCreator:
                             ),
                             edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
                         )
-                    elif key == "date":
-                        charge_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+                    elif key in ("date", "probation_revoked"):
+                        charge_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                     else:
                         charge_edits[key] = value
                 edited_charges.append(replace(charge, **charge_edits))

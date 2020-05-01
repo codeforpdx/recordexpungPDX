@@ -47,7 +47,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "violation_type": case.violation_type,
             "current_status": case.current_status,
             "balance_due": case.get_balance_due(),
-            "probation_revoked": case.probation_revoked,
             "case_detail_link": case.case_detail_link,
         }
 

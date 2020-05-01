@@ -74,15 +74,12 @@ class Crawler:
     def _read_case(session: Session, case_summary: CaseSummary) -> OeciCase:
         case_parser_data = Crawler._parse_case(session, case_summary)
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
-        probation_revoked = case_parser_data.probation_revoked
         charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
             ambiguous_charge_id = f"{case_summary.case_number}-{charge_id}"
             charge = Crawler._build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data)
             charges.append(charge)
-        updated_case_summary = replace(
-            case_summary, balance_due_in_cents=balance_due_in_cents, probation_revoked=probation_revoked
-        )
+        updated_case_summary = replace(case_summary, balance_due_in_cents=balance_due_in_cents)
         return OeciCase(updated_case_summary, charges=tuple(charges))
 
     @staticmethod
@@ -112,12 +109,15 @@ class Crawler:
 
     @staticmethod
     def _build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data) -> OeciCharge:
+        probation_revoked = case_parser_data.probation_revoked
         charge_dict["date"] = datetime.date(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
         if case_parser_data.hashed_dispo_data.get(charge_id):
             disposition = Crawler._build_disposition(case_parser_data, charge_id)
-            return OeciCharge(ambiguous_charge_id, disposition=disposition, **charge_dict)
+            return OeciCharge(
+                ambiguous_charge_id, disposition=disposition, probation_revoked=probation_revoked, **charge_dict
+            )
         else:
-            return OeciCharge(ambiguous_charge_id, disposition=None, **charge_dict)
+            return OeciCharge(ambiguous_charge_id, disposition=None, probation_revoked=probation_revoked, **charge_dict)
 
     @staticmethod
     def _build_disposition(case_parser_data, charge_id):
