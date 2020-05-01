@@ -4,6 +4,7 @@ $green: #007b4b;
 $washed-green: #e5f1ed;
 $blue: #2b74d2;
 $washed-blue: #e0e7f0;
+$dark-blue: #00449E;
 $purple: #9619ff;
 $washed-purple: #efe3fa;
 $red: #a0004b;
@@ -168,6 +169,17 @@ $washed-red: #f0e0e8;
 
 .loading-btn {
   position: relative;
+  background-color: $dark-blue;
+
+  &:hover {
+    background-color: $dark-blue;
+  }
+  &:focus {
+    background-color: $dark-blue;
+  }
+  &:active {
+    background-color: $dark-blue;
+  }
 }
 .loading-btn:before {
   content: '';
