@@ -84,9 +84,7 @@ export default class DispositionQuestion extends React.Component<Props, State> {
     return (
       <form className="w-100 bt bw3 b--light-purple pa3 pb1" onSubmit={this.handleSubmit}>
         <fieldset className="relative mb4">
-            <legend className="fw7 mb2">What is the disposition?</legend>
-            {"props: " + JSON.stringify(this.props)}
-            {"state: " + JSON.stringify(this.state)}
+            <legend className="fw7 mb2">Choose a disposition</legend>
             <div className="radio">
                 <div className="dib">
                     <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleChange} />
