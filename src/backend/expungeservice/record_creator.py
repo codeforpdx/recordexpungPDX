@@ -170,12 +170,15 @@ class RecordCreator:
                 charge_edits: Dict[str, Any] = {}
                 for key, value in edits[charge.ambiguous_charge_id].items():
                     if key == "disposition":
-                        charge_edits["disposition"] = DispositionCreator.create(
-                            datetime.date(
-                                datetime.strptime(edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y")
-                            ),
-                            edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
-                        )
+                        if value:
+                            charge_edits["disposition"] = DispositionCreator.create(
+                                datetime.date(
+                                    datetime.strptime(edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y")
+                                ),
+                                edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
+                            )
+                        else:
+                            charge_edits["disposition"] = None
                     elif key in ("date", "probation_revoked"):
                         charge_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                     else:
