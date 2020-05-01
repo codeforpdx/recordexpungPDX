@@ -60,6 +60,7 @@ DUII_SEARCH_RESPONSE = {
                 "violation_type": "Misdemeanor",
             }
         ],
+        "disposition_was_unknown": [],
         "errors": [],
         "questions": {
             "CASEJD1-1": {
@@ -135,6 +136,7 @@ DIVERTED_RESPONSE = {
                 "violation_type": "Misdemeanor",
             }
         ],
+        "disposition_was_unknown": [],
         "errors": [],
         "questions": {
             "CASEJD1-1": {
@@ -173,8 +175,9 @@ def record_with_single_duii():
 def test_disambiguate_endpoint_with_no_answers(record_with_single_duii):
     ambiguous_record = record_with_single_duii[1]
     questions = json.loads(json.dumps(record_with_single_duii[2]))
+    unknown_dispositions = record_with_single_duii[3]
     questions, record = Search.disambiguate_record(ambiguous_record, questions)
-    record_summary = RecordSummarizer.summarize(record, questions)
+    record_summary = RecordSummarizer.summarize(record, questions, unknown_dispositions)
     response_data = {"record": record_summary}
     response_as_dict = json.loads(json.dumps(response_data, cls=ExpungeModelEncoder))
     assert response_as_dict == DUII_SEARCH_RESPONSE
@@ -192,8 +195,9 @@ def test_disambiguate_endpoint_with_diverted_answer(record_with_single_duii):
         )
     }
     questions = json.loads(json.dumps(answers))
+    unknown_dispositions = record_with_single_duii[3]
     questions, record = Search.disambiguate_record(ambiguous_record, questions)
-    record_summary = RecordSummarizer.summarize(record, questions)
+    record_summary = RecordSummarizer.summarize(record, questions, unknown_dispositions)
     response_data = {"record": record_summary}
     response_as_dict = json.loads(json.dumps(response_data, cls=ExpungeModelEncoder))
     assert response_as_dict == DIVERTED_RESPONSE

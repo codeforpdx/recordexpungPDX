@@ -15,7 +15,7 @@ from expungeservice.models.expungement_result import (
 
 @dataclass(frozen=True)
 class OeciCharge:
-    id: str
+    ambiguous_charge_id: str
     name: str
     statute: str
     level: str
@@ -25,7 +25,7 @@ class OeciCharge:
 
 @dataclass(frozen=True)
 class Charge(OeciCharge):
-    ambiguous_charge_id: str
+    id: str
     case_number: str
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
     type_name: str = "Unknown"

@@ -72,6 +72,17 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 
 
 @pytest.fixture
+def record_tuple_without_dispos():
+    return CrawlerFactory.create_ambiguous_record_with_questions(
+        JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASE_WITHOUT_DISPOS}
+    )
+
+
+def test_case_without_dispos_for_unknown_dispositions(record_tuple_without_dispos):
+    assert ["CASEJD1-1", "CASEJD1-2", "CASEJD1-3"] == record_tuple_without_dispos[3]
+
+
+@pytest.fixture
 def record_with_unrecognized_dispo():
     return CrawlerFactory.create(
         cases={

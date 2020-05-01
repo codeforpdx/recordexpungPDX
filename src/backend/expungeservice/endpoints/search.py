@@ -23,7 +23,7 @@ class Search(MethodView):
         Search._validate_request(request_data)
         username, password = Search._oeci_login_params(request)
 
-        return Search.build_response(
+        return Search._build_response(
             username,
             password,
             request_data["aliases"],
@@ -32,9 +32,9 @@ class Search(MethodView):
         )
 
     @staticmethod
-    def build_response(username, password, aliases_data, questions_data, edits_data):
+    def _build_response(username, password, aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
-        record, ambiguous_record, questions = RecordCreator.build_record(
+        record, ambiguous_record, questions, disposition_was_unknown = RecordCreator.build_record(
             RecordCreator.build_search_results, username, password, tuple(aliases), edits_data
         )
         if questions_data:
@@ -43,7 +43,7 @@ class Search(MethodView):
             save_search_event(aliases_data)
         except Exception as ex:
             logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
-        record_summary = RecordSummarizer.summarize(record, questions)
+        record_summary = RecordSummarizer.summarize(record, questions, disposition_was_unknown)
         response_data = {"record": record_summary}
         return json.dumps(response_data, cls=ExpungeModelEncoder)
 
