@@ -100,7 +100,7 @@ export function answerDisposition(
       type: ANSWER_DISPOSITION,
       case_number: case_number,
       ambiguous_charge_id: ambiguous_charge_id,
-      edits: {"disposition": ruling === "Open" ? null : {"date": date, "ruling": ruling}}
+      disposition_edit: ruling === "Open" ? null : {"date": date, "ruling": ruling}
     });
     return buildAndSendSearchRequest(dispatch);
   };

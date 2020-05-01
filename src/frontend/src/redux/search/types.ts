@@ -54,8 +54,7 @@ interface AnswerDispositionAction {
   type: typeof ANSWER_DISPOSITION;
   case_number: string;
   ambiguous_charge_id: string;
-  edits: any;
-
+  disposition_edit: any; // TODO: Properly type
 }
 
 export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction;
