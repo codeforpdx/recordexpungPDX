@@ -1,13 +1,14 @@
 import React from 'react';
 import {answerDisposition} from '../../../redux/search/actions';
 import {connect} from 'react-redux';
-import store from '../../../redux/store';
+import store, {AppState} from '../../../redux/store';
 import moment from 'moment';
 
 interface Props {
   case_number: string;
   ambiguous_charge_id: string;
   disposition: any;
+  loading?: boolean;
 }
 
 interface State {
@@ -18,7 +19,7 @@ interface State {
   invalidDate: boolean
 }
 
-export default class DispositionQuestion extends React.Component<Props, State> {
+class DispositionQuestion extends React.Component<Props, State> {
   state: State  = {
     status: "Open",
     conviction_date: "",
@@ -111,7 +112,10 @@ export default class DispositionQuestion extends React.Component<Props, State> {
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
               <input onChange={this.handleChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
             </div>
-            <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button>
+            {this.props.loading ?
+              <button className="loading-btn db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button> :
+              <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button>
+              }
             <div role="alert">
               <p className={(this.state && this.state.missingFields ? "" : "visually-hidden " ) + "dib bg-washed-red fw6 br3 pa3 mt3"}>Please complete all fields</p>
             </div>
@@ -123,3 +127,19 @@ export default class DispositionQuestion extends React.Component<Props, State> {
     )
   }
 }
+
+function mapStateToProps(state: AppState, ownProps: Props) {
+  return {
+      case_number: ownProps.case_number,
+      ambiguous_charge_id: ownProps.ambiguous_charge_id,
+      disposition: ownProps.disposition,
+      loading: state.search.loading
+    };
+
+}
+
+export default connect(
+  mapStateToProps,
+  {
+  }
+)(DispositionQuestion);
