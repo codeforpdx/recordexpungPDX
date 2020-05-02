@@ -96,11 +96,21 @@ export function answerDisposition(
   date: string,
   probation_revoked_date: string): any {
   return (dispatch: Dispatch) => {
+    const disposition = () => {
+      if (ruling === "Open") {
+        return;
+      } else if (ruling === "revoked") {
+        return {"date": date, "ruling": "Convicted"};
+      } else {
+        return {"date": date, "ruling": ruling};
+      }
+    };
     dispatch({
       type: ANSWER_DISPOSITION,
       case_number: case_number,
       ambiguous_charge_id: ambiguous_charge_id,
-      disposition_edit: ruling === "Open" ? null : {"date": date, "ruling": ruling}
+      probation_revoked_edit: probation_revoked_date,
+      disposition_edit: disposition()
     });
     return buildAndSendSearchRequest(dispatch);
   };

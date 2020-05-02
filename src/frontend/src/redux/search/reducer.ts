@@ -45,6 +45,9 @@ export function searchReducer(
       edits[action.case_number]["charges"] = edits[action.case_number]["charges"] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = edits[action.case_number]["charges"][action.ambiguous_charge_id] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id]["disposition"] = action.disposition_edit;
+      if (action.probation_revoked_edit) {
+        edits[action.case_number]["charges"][action.ambiguous_charge_id]["probation_revoked"] = action.probation_revoked_edit;
+      }
       return {...state, edits: edits, loading: true};
     default:
       return state;

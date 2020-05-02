@@ -54,6 +54,7 @@ interface AnswerDispositionAction {
   type: typeof ANSWER_DISPOSITION;
   case_number: string;
   ambiguous_charge_id: string;
+  probation_revoked_edit: string;
   disposition_edit: any; // TODO: Properly type
 }
 
