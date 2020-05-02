@@ -92,8 +92,9 @@ class LogIn extends React.Component<Props, State> {
             </label>
             <input
               id="email"
-              name="email"
+              name="login"
               type="email"
+              autoComplete="email"
               className="w-100 mb4 pa3 br2 b--black-20"
               required={true}
               aria-describedby={
@@ -115,8 +116,9 @@ class LogIn extends React.Component<Props, State> {
             </label>
             <input
               id="password"
-              name="password"
+              name="login"
               type="password"
+              autoComplete="current-password"
               className="w-100 mb4 pa3 br2 b--black-20"
               required={true}
               aria-describedby={

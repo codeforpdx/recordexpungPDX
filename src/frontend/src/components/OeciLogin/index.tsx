@@ -105,13 +105,15 @@ class OeciLogin extends React.Component<Props, State> {
                 expungement.
               </p>
               <div className="mt4">
-                <label htmlFor="name" className="db mb1 fw6">
+                <label htmlFor="userId" className="db mb1 fw6">
                   User ID
                 </label>
                 <input
                   id="userId"
-                  className="w-100 mb4 pa3 br2 b--black-20"
+                  name="oecilogin"
                   type="text"
+                  autoComplete="username"
+                  className="w-100 mb4 pa3 br2 b--black-20"
                   required
                   aria-describedby={
                     this.state.missingUserId ? 'inputs_msg' : undefined
@@ -124,9 +126,11 @@ class OeciLogin extends React.Component<Props, State> {
                 Password
               </label>
               <input
-                className="w-100 mb4 pa3 br2 b--black-20"
-                type="password"
                 id="password"
+                name="oecilogin"
+                type="password"
+                autoComplete="current-password"
+                className="w-100 mb4 pa3 br2 b--black-20"
                 required
                 aria-describedby={
                   this.state.missingPassword ? 'inputs_msg' : undefined
