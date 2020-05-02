@@ -95,7 +95,7 @@ def test_manufacture_delivery_manufacturing_name():
     )
 
 
-def test_manufacture_delivery_1():
+def test_manufacture_delivery_2():
     charges = ChargeFactory.create_ambiguous_charge(
         name="MANUFACTURING CONTROLLED SUB 2",
         statute="4759921A",

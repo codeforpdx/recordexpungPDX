@@ -117,6 +117,12 @@ class ChargeClassifier:
                 return AmbiguousChargeTypeWithQuestion([FelonyClassB])
         if level == "Felony Class A":
             return AmbiguousChargeTypeWithQuestion([FelonyClassA])
+        if level == "Felony Unclassified":
+            question_string = "Was the charge for an A Felony, B Felony, or C Felony?"
+            options = ["A Felony", "B Felony", "C Felony"]
+            return AmbiguousChargeTypeWithQuestion(
+                [FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
+            )
 
     @staticmethod
     def _marijuana_ineligible(statute, section):
@@ -135,23 +141,17 @@ class ChargeClassifier:
 
     @staticmethod
     def _manufacture_delivery(name, level, statute):
-        if any([keyword in name for keyword in ["delivery", "manu/del", "manufactur"]]):
-            if "2" in name or "heroin" in name or "cocaine" in name or "meth" in name:
+        if any([manu_del_keyword in name for manu_del_keyword in ["delivery", "manu/del", "manufactur"]]):
+            if any([schedule_2_keyword in name for schedule_2_keyword in [
+                "2", "heroin", "cocaine", "meth"]]):
                 if level == "Felony Unclassified":
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
-                    return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
-                else:
-                    return ChargeClassifier._classification_by_level(level, statute)
-            elif "3" in name or "4" in name:
-                if level == "Felony Unclassified":
-                    question_string = "Was the charge for an A Felony, B Felony, or C Felony?"
-                    options = ["A Felony", "B Felony", "C Felony"]
                     return AmbiguousChargeTypeWithQuestion(
-                        [FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
+                        [FelonyClassA, FelonyClassB], question_string, options
                     )
-                else:
-                    return ChargeClassifier._classification_by_level(level, statute)
+            elif "3" in name or "4" in name:
+                return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
                 if level == "Felony Unclassified":
