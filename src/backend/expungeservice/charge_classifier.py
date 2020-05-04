@@ -9,6 +9,7 @@ from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
+from expungeservice.models.charge_types.severe_charge import SevereCharge
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
@@ -80,6 +81,7 @@ class ChargeClassifier:
     ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level, birth_year, disposition)
         yield ChargeClassifier._subsection_6(section, level, statute)
+        yield ChargeClassifier._severe_unclassified_charges(name.lower(), statute)
         yield ChargeClassifier._classification_by_level(level, statute)
 
     @staticmethod
@@ -103,6 +105,12 @@ class ChargeClassifier:
         yield ChargeClassifier._marijuana_eligible(section, name, birth_year, disposition)
         yield ChargeClassifier._manufacture_delivery(name, level, statute)
         yield ChargeClassifier._sex_crime(statute)
+
+    @staticmethod
+    def _severe_unclassified_charges(name, statute):
+        treason_statute = "166005"
+        if "murder" in name or statute == treason_statute:
+            return AmbiguousChargeTypeWithQuestion([SevereCharge])
 
     @staticmethod
     def _classification_by_level(level, statute):
