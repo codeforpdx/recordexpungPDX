@@ -97,7 +97,7 @@ export function answerDisposition(
   probation_revoked_date: string): any {
   return (dispatch: Dispatch) => {
     const disposition = () => {
-      if (ruling === "Open") {
+      if (ruling === "Unknown") {
         return;
       } else if (ruling === "revoked") {
         return {"date": date, "ruling": "Convicted"};
