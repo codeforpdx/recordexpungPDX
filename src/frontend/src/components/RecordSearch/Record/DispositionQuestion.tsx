@@ -153,11 +153,11 @@ class DispositionQuestion extends React.Component<Props, State> {
                     <label htmlFor={this.props.ambiguous_charge_id + "-unknown"}>Unknown</label>
                 </div>
             </div>
-            <div className={this.state && this.state.submitPending ? "" : "visually-hidden"}>
+            <div className={this.state && (this.state.status === "Convicted" || this.state.status === "revoked") ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Convicted <span className="f6 fw4">mm/dd/yyyy</span></label>
               <input value={this.state.conviction_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="conviction_date"/>
             </div>
-            <div className={this.state && this.state.submitPending && this.state.status === "revoked" ? "" : "visually-hidden"}>
+            <div className={this.state && this.state.status === "revoked" ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
               <input value={this.state.probation_revoked_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
             </div>
