@@ -180,7 +180,8 @@ class RecordCreator:
                         else:
                             charge_edits["disposition"] = None
                     elif key in ("date", "probation_revoked"):
-                        charge_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+                        if value:
+                            charge_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                     else:
                         charge_edits[key] = value
                 edited_charges.append(replace(charge, **charge_edits))
