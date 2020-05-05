@@ -16,29 +16,71 @@ interface State {
   conviction_date: string;
   probation_revoked_date: string;
   missingFields: boolean;
-  invalidDate: boolean
+  invalidDate: boolean;
+  submitClickPending: boolean;
 }
 
 class DispositionQuestion extends React.Component<Props, State> {
   state: State  = {
-    status: "Open",
+    status: "Unknown",
     conviction_date: "",
     probation_revoked_date: "",
     missingFields: false,
-    invalidDate: false
+    invalidDate: false,
+    submitClickPending: false
   };
 
   componentDidMount() {
     this.setState({
-      status: (this.props.disposition ? this.props.disposition.status : "Open") ,
+      status: (this.props.disposition ? this.props.disposition.status : "Unknown") ,
       conviction_date: (this.props.disposition ? this.props.disposition.date : ""),
       }
     )
   }
 
-  handleChange = (e: React.BaseSyntheticEvent) => {
+  handleDismissedClick = () => {
     this.setState<any>({
-      [e.target.name]: e.target.value
+      status: "Dismissed",
+      conviction_date: "",
+      probation_revoked_date: "",
+      missingFields: false,
+      invalidDate: false,
+      submitClickPending: false
+    }, this.dispatchAnswer);
+  };
+
+  handleConvictedClick = () => {
+    this.setState<any>({
+      status: "Convicted",
+      probation_revoked_date: "",
+      missingFields: false,
+      invalidDate: false,
+      submitClickPending: true
+    });
+  };
+
+  handleRevokedClick = () => {
+    this.setState<any>({
+      status: "revoked",
+      submitClickPending : true
+    });
+  };
+
+  handleUnknownClick = () => {
+    this.setState<any>({
+      status: "Unknown",
+      submitClickPending: false,
+      conviction_date: "",
+      probation_revoked_date: "",
+      missingFields: false,
+      invalidDate: false
+    }, this.dispatchAnswer);
+  };
+
+  handleDateFieldChange = (e: React.BaseSyntheticEvent) => {
+    this.setState<any>({
+      submitClickPending: true,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -46,17 +88,24 @@ class DispositionQuestion extends React.Component<Props, State> {
     e.preventDefault();
     this.validateForm().then(() => {
       if (!this.state.missingFields && !this.state.invalidDate) {
-        store.dispatch(
-          answerDisposition(
-            this.props.case_number,
-            this.props.ambiguous_charge_id,
-            this.state.status,
-            this.state.conviction_date || "1/1/2020", // The date for a dismissal doesn't matter, but the backend expects something so here we are.
-            this.state.probation_revoked_date
-          )
-        )
+        this.setState<any>({
+          submitClickPending : false
+        });
+        this.dispatchAnswer();
       }
     });
+  };
+
+  dispatchAnswer = () => {
+    store.dispatch(
+      answerDisposition(
+        this.props.case_number,
+        this.props.ambiguous_charge_id,
+        this.state.status,
+        this.state.conviction_date || "1/1/2020", // The date for a dismissal doesn't matter, but the backend expects something so here we are.
+        this.state.probation_revoked_date
+      )
+    )
   };
 
   validateForm = () => {
@@ -88,34 +137,43 @@ class DispositionQuestion extends React.Component<Props, State> {
             <legend className="fw7 mb2">Choose a disposition</legend>
             <div className="radio">
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleChange} />
+                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleDismissedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-dis"}>Dismissed</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" checked={this.state.status==="Convicted"} onChange={this.handleChange} />
+                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" checked={this.state.status==="Convicted"} onChange={this.handleConvictedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-con"}>Convicted</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" checked={this.state.status==="revoked"} onChange={this.handleChange} />
+                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" checked={this.state.status==="revoked"} onChange={this.handleRevokedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-rev"}>Probation Revoked</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-open"} name="status" type="radio" value="Open" checked={this.state && this.state.status==="Open"} onChange={this.handleChange} />
-                    <label htmlFor={this.props.ambiguous_charge_id + "-open"}>Open</label>
+                    <input id={this.props.ambiguous_charge_id + "-unknown"} name="status" type="radio" value="Unknown" checked={this.state && this.state.status==="Unknown"} onChange={this.handleUnknownClick} />
+                    <label htmlFor={this.props.ambiguous_charge_id + "-unknown"}>Unknown</label>
                 </div>
             </div>
             <div className={this.state && (this.state.status === "Convicted" || this.state.status === "revoked") ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Convicted <span className="f6 fw4">mm/dd/yyyy</span></label>
-              <input onChange={this.handleChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="conviction_date"/>
+              <input value={this.state.conviction_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="conviction_date"/>
             </div>
             <div className={this.state && this.state.status === "revoked" ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
-              <input onChange={this.handleChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
+              <input value={this.state.probation_revoked_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
             </div>
-            {this.props.loading ?
-              <button className="loading-btn db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button> :
-              <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button>
-              }
+            {
+              this.state.submitClickPending ?
+                <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button> :
+                null
+            }
+            {
+              this.props.loading ?
+                <div className="radio-spinner absolute" role="status">
+                  <span className="spinner spinner--sm mr1"></span>
+                  <span className="f6 fw5">Updating&#8230;</span>
+                </div> :
+                null
+            }
             <div role="alert">
               <p className={(this.state && this.state.missingFields ? "" : "visually-hidden " ) + "dib bg-washed-red fw6 br3 pa3 mt3"}>Please complete all fields</p>
             </div>

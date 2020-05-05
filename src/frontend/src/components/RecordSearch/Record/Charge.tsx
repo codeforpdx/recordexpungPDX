@@ -27,7 +27,7 @@ export default class Charge extends React.Component<Props> {
     const dispositionEvent = (disposition: any, date: any) => {
       let dispositionEvent;
       if (disposition === null) {
-        dispositionEvent = "Missing";
+        dispositionEvent = "Unknown";
       }  else {
         dispositionEvent = disposition.status;
         if (disposition.status === "Convicted") {
