@@ -40,47 +40,47 @@ class DispositionQuestion extends React.Component<Props, State> {
 
   handleDismissedClick = () => {
     this.setState<any>({
-      ["status"]: "Dismissed",
-      ["conviction_date"]: "",
-      ["probation_revoked_date"]: "",
-      ["missingFields"]: false,
-      ["invalidDate"]: false,
-      ["submitPending"]: false
+      "status": "Dismissed",
+      "conviction_date": "",
+      "probation_revoked_date": "",
+      "missingFields": false,
+      "invalidDate": false,
+      "submitPending": false
     }, this.dispatchAnswer);
   };
 
   handleConvictedClick = () => {
     this.setState<any>({
-      ["status"]: "Convicted",
-      ["probation_revoked_date"]: "",
-      ["missingFields"]: false,
-      ["invalidDate"]: false,
-      ["submitPending"] : true
+      "status": "Convicted",
+      "probation_revoked_date": "",
+      "missingFields": false,
+      "invalidDate": false,
+      "submitPending": true
     });
   };
 
   handleRevokedClick = () => {
     this.setState<any>({
-      ["status"]: "revoked",
-      ["submitPending"] : true
+      "status": "revoked",
+      "submitPending" : true
     });
   };
 
   handleUnknownClick = () => {
     this.setState<any>({
-      ["status"]: "Unknown",
-      ["submitPending"] : false,
-      ["conviction_date"]: "",
-      ["probation_revoked_date"]: "",
-      ["missingFields"]: false,
-      ["invalidDate"]: false
+      "status": "Unknown",
+      "submitPending": false,
+      "conviction_date": "",
+      "probation_revoked_date": "",
+      "missingFields": false,
+      "invalidDate": false
     }, this.dispatchAnswer);
   };
 
   handleDateFieldChange = (e: React.BaseSyntheticEvent) => {
     this.setState<any>({
-      ["submitPending"]: true,
-      [e.target.name]: e.target.value
+      "submitPending": true,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -89,7 +89,7 @@ class DispositionQuestion extends React.Component<Props, State> {
     this.validateForm().then(() => {
       if (!this.state.missingFields && !this.state.invalidDate) {
         this.setState<any>({
-          ["submitPending"] : false
+          "submitPending" : false
         });
         this.dispatchAnswer();
       }
@@ -153,11 +153,11 @@ class DispositionQuestion extends React.Component<Props, State> {
                     <label htmlFor={this.props.ambiguous_charge_id + "-unknown"}>Unknown</label>
                 </div>
             </div>
-            <div className={this.state && (this.state.status === "Convicted" || this.state.status === "revoked") ? "" : "visually-hidden"}>
+            <div className={this.state && this.state.submitPending ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Convicted <span className="f6 fw4">mm/dd/yyyy</span></label>
               <input value={this.state.conviction_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="conviction_date"/>
             </div>
-            <div className={this.state && this.state.status === "revoked" ? "" : "visually-hidden"}>
+            <div className={this.state && this.state.submitPending && this.state.status === "revoked" ? "" : "visually-hidden"}>
               <label className="db fw6 mt3 mb1" htmlFor="n">Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
               <input value={this.state.probation_revoked_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
             </div>
