@@ -16,7 +16,8 @@ export default class Cases extends React.Component<Props> {
       birth_year,
       balance_due,
       charges,
-      location
+      location,
+      current_status
     } = this.props.case;
     return (
       <div id={case_number} className="mb3">
@@ -24,6 +25,10 @@ export default class Cases extends React.Component<Props> {
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
             {case_number}
+          </div>
+          <div className="fl ph3 pv1">
+            <div className="fw7">Status </div>
+            {current_status}
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">County </div>
