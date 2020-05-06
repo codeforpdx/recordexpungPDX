@@ -1,8 +1,9 @@
 import pkgutil
 from dataclasses import replace
+from datetime import date
 from typing import List, Type, Callable, Any
 
-from hypothesis._strategies import none, composite
+from hypothesis._strategies import none, composite, dates
 from hypothesis.strategies import builds, just, lists, one_of
 from hypothesis.searchstrategy import SearchStrategy
 
@@ -38,7 +39,7 @@ def _build_charge_strategy(charge_class: Type[Charge], case: CaseSummary) -> Sea
         )
     else:
         disposition_status = one_of(just(DispositionStatus.CONVICTED), just(DispositionStatus.UNRECOGNIZED))
-    disposition = builds(Disposition, status=disposition_status)
+    disposition = builds(Disposition, status=disposition_status, date=dates(max_value=date(9000, 12, 31)))
     return builds(charge_class, case_number=just(case.case_number), disposition=one_of(none(), disposition))
 
 
