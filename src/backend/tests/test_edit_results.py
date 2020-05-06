@@ -3,6 +3,7 @@ from datetime import datetime, date
 
 from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
+from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.record import Record
 from expungeservice.models.disposition import Disposition, DispositionStatus
 from expungeservice.record_creator import RecordCreator
@@ -111,7 +112,7 @@ def test_edit_some_fields_on_case():
     assert record.cases[0].summary.location == "earth"
     assert record.cases[1].summary.location == "ocean"
     assert record.cases[1].summary.balance_due_in_cents == 10000
-    assert record.cases[1].summary.date == datetime.date(datetime.strptime("1/1/1001", "%m/%d/%Y"))
+    assert record.cases[1].summary.date == date(1001, 1, 1)
 
 
 def test_delete_case():
@@ -135,3 +136,37 @@ def test_add_disposition():
         },
     )
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.CONVICTED
+
+
+def test_edit_charge_type_of_charge():
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
+        search("single_case_two_charges"),
+        "username",
+        "password",
+        (),
+        {"X0001": {"action": "edit", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
+    )
+    assert isinstance(record.cases[0].charges[1], Misdemeanor)
+
+
+def test_add_new_charge():
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
+        search("single_case_two_charges"),
+        "username",
+        "password",
+        (),
+        {
+            "X0001": {
+                "action": "edit",
+                "charges": {
+                    "X0001-3": {
+                        "charge_type": "Misdemeanor",
+                        "date": "1/1/2001",
+                        "disposition": {"date": "2/1/2001", "ruling": "Convicted"},
+                    }
+                },
+            }
+        },
+    )
+    assert isinstance(record.cases[0].charges[2], Misdemeanor)
+    assert record.cases[0].charges[2].date == date(2001, 1, 1)
