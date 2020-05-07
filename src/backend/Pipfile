@@ -27,6 +27,7 @@ beautifulsoup4 = "==4.8.1"
 ipdb = "==0.13.2"
 
 [dev-packages]
+pipenv-setup = "*"
 
 [requires]
 python_version = "3.7"
