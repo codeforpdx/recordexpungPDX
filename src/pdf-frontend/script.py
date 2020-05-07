@@ -1,41 +1,29 @@
 import json
 from functools import partial
-from expungeservice.serializer import ExpungeModelEncoder
 import pandas as pd
 from markdown_to_pdf import MarkdownToPDF
 from auth import Auth
+from serializer import Serializer
 
 
-def generate_formatted_summary_text(record):
-    # TODO:
-    # open_cases_block = gen_open_cases_block(record)
-    # ineligible_charges_block = gen_ineligible_charges_block(record)
-    # future_eligible_block = gen_future_eligible_block(record)
-    # needs_more_analysis_block = gen_needs_more_analysis_block(record)
-    return json.dumps(record["summary"], indent=4, cls=ExpungeModelEncoder)
-
-
-def dump_pdf(record, filename):
-    markdown = generate_formatted_summary_text(record)
+def dump_pdf(alias, record, filename):
+    markdown = Serializer.serialize(alias, record)
     MarkdownToPDF.to_pdf(filename, "Expungement analysis", markdown)
 
 
 def handle_person(client, row):
-    try:
-        alias = {
-            "first_name": row["First Name"],
-            "last_name": row["Last Name"],
-            "birth_date": row["Birth Date"],
-            "middle_name": "",
-        }
-        aliases = [alias]
-        response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
-        record = json.loads(response.text)["record"]
-        dump_pdf(
-            record, filename=f"""output/{alias["first_name"]}_{alias["last_name"]}.pdf""",
-        )
-    except Exception as ex:
-        print("error:", ex)
+    alias = {
+        "first_name": row["First Name"],
+        "last_name": row["Last Name"],
+        "birth_date": row["Birth Date"],
+        "middle_name": "",
+    }
+    aliases = [alias]
+    response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
+    record = json.loads(response.text)["record"]
+    dump_pdf(
+        alias, record, filename=f"""output/{alias["first_name"]}_{alias["last_name"]}.pdf""",
+    )
 
 
 def search_and_dump_many_records(source_filename="source/cjpp.csv"):
