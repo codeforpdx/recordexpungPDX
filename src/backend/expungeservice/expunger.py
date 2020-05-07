@@ -60,10 +60,7 @@ class Expunger:
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
-                    (
-                        charge.disposition.date + relativedelta(years=1),
-                        "One year from date of no-complaint arrest (137.225(1)(b))",
-                    )
+                    (charge.date + relativedelta(years=1), "One year from date of no-complaint arrest (137.225(1)(b))",)
                 )
 
             if charge.convicted() and charge.probation_revoked:
