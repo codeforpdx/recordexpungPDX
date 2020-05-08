@@ -99,8 +99,14 @@ class RecordMerger:
             status = RecordMerger.compute_time_eligibility_status(time_eligibilities)
             reasons = [time_eligibility.reason for time_eligibility in time_eligibilities]
             reason = " ⬥ ".join(list(unique_everseen(reasons)))
-            date_will_be_eligible = time_eligibilities[0].date_will_be_eligible  # TODO: Fix
-            return TimeEligibility(status=status, reason=reason, date_will_be_eligible=date_will_be_eligible)
+            date_will_be_eligible = time_eligibilities[0].date_will_be_eligible
+            if len(set([time_eligibility.date_will_be_eligible for time_eligibility in time_eligibilities])) == 1:
+                unique_date = True
+            else:
+                unique_date = False
+            return TimeEligibility(
+                status=status, reason=reason, date_will_be_eligible=date_will_be_eligible, unique_date=unique_date
+            )
         else:
             return None
 

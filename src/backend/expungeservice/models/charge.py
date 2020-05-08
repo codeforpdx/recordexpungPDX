@@ -87,3 +87,9 @@ If the type eligibility is unknown, the method can return None. """
 
     def hidden_in_record_summary(self):
         return False
+
+    def to_one_line(self) -> str:
+        short_name = self.name.split("(")[0]
+        arrested_date = self.date.strftime("%b %-d, %Y")
+        disposition = str(self.disposition.status.name) if self.disposition else "Unknown"
+        return f"{short_name} ({disposition}) - Arrested {arrested_date}"

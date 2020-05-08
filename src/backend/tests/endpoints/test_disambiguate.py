@@ -37,6 +37,7 @@ DUII_SEARCH_RESPONSE = {
                                 "date_will_be_eligible": "Dec 31, 9999",
                                 "reason": "Never. Type ineligible charges are always time ineligible. ⬥ Eligible now",
                                 "status": "Ineligible",
+                                "unique_date": False,
                             },
                             "type_eligibility": {
                                 "reason": "137.225(8)(b) - Diverted DUIIs are ineligible ⬥ Dismissals are generally eligible under 137.225(1)(b)",
@@ -79,7 +80,8 @@ DUII_SEARCH_RESPONSE = {
                 "partially_eligible": [],
             },
             "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-            "eligible_charges_by_date": [["Eligible now", []], ["Ineligible",[]]],
+            "eligible_charges_by_date": [["Eligible now", []], ["Ineligible", []]],
+            "needs_more_analysis_charges": ["DUII (DISMISSED) - Arrested Nov 7, 1997"],
             "total_balance_due": 0.0,
             "total_cases": 1,
             "total_charges": 1,
@@ -113,6 +115,7 @@ DIVERTED_RESPONSE = {
                                 "date_will_be_eligible": "Dec 31, 9999",
                                 "reason": "Never. Type ineligible charges are always time ineligible.",
                                 "status": "Ineligible",
+                                "unique_date": True,
                             },
                             "type_eligibility": {
                                 "reason": "137.225(8)(b) - Diverted DUIIs are ineligible",
@@ -155,7 +158,11 @@ DIVERTED_RESPONSE = {
                 "partially_eligible": [],
             },
             "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
-            "eligible_charges_by_date": [["Eligible now", []], ["Ineligible", ["DUII"]]],
+            "eligible_charges_by_date": [
+                ["Eligible now", []],
+                ["Ineligible", ["DUII (DISMISSED) - Arrested Nov 7, 1997"]],
+            ],
+            "needs_more_analysis_charges": [],
             "total_balance_due": 0.0,
             "total_cases": 1,
             "total_charges": 1,
