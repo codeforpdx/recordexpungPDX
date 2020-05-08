@@ -15,7 +15,6 @@ class RecordSummarizer:
             c.expungement_result.charge_eligibility.status == eligibility
             and not c.hidden_in_record_summary()
             )
-
         ]
 
     @staticmethod
