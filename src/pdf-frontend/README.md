@@ -5,9 +5,10 @@ This frontend is designed to batch process many names and output the analyses as
 ## Usage
 
 1. Run `pipenv install`
-2. Drop a csv file into source/ with the following headers: "First Name", "Last Name", "Middle", "First Short", "Last Short", "Birth Date", "Officer"
-3. Launch the backend on http://localhost:5000 (`make up` does this by default)
-4. Run `pipenv run python3 script.py`
+2. Install `wkhtmltopdf` (`apt-get install wkhtmltopdf` on Debian/Ubuntu)
+3. Drop a csv file into source/ with the following headers: "First Name", "Last Name", "Middle", "First Short", "Last Short", "Birth Date", "Officer"
+4. Launch the backend on http://localhost:5000 (`make up` does this by default)
+5. Run `pipenv run python3 script.py`
 
 ## Notes
 
