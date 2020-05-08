@@ -1,5 +1,7 @@
 import json
 from functools import partial
+from pathlib import Path
+
 import pandas as pd
 from markdown_to_pdf import MarkdownToPDF
 from auth import Auth
@@ -30,6 +32,7 @@ def handle_person(client, row):
 
 
 def search_and_dump_many_records(source_filename="source/cjpp.csv"):
+    Path("output/").mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(source_filename)
     cleaned_df = df[["First Name", "Last Name", "Middle", "First Short", "Last Short", "Birth Date", "Officer"]].fillna(
         ""
