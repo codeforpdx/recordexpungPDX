@@ -1,7 +1,6 @@
 import React from 'react';
-import CasesSummary from './CasesSummary'
-import ChargesList from './ChargesList'
-import CountyBalances from './CountyBalances'
+import ChargesList from './ChargesList';
+import CountyBalances from './CountyBalances';
 import { RecordSummaryData } from '../types';
 
 interface Props {
@@ -23,8 +22,7 @@ export default class RecordSummary extends React.Component<Props> {
       <div className="bg-white shadow br3 pa3 mb3">
         <h2 className="mb3 f5 fw7">Search Summary</h2>
         <div className="flex-ns flex-wrap">
-          <CasesSummary casesSorted={cases_sorted} totalCases={total_cases}/>
-          <ChargesList eligibleChargesByDate={eligible_charges_by_date} totalCharges={total_charges}/>
+          <ChargesList eligibleChargesByDate={eligible_charges_by_date} totalCases={total_cases} totalCharges={total_charges}/>
           <CountyBalances totalBalance = {total_balance_due} balances={county_balances}/>
         </div>
       </div>

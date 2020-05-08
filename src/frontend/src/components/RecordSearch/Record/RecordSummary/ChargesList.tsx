@@ -2,6 +2,7 @@ import React from 'react';
 
 interface Props {
   eligibleChargesByDate: string[];
+  totalCases: number;
   totalCharges: number;
 }
 
@@ -26,7 +27,8 @@ export default class ChargesList extends React.Component<Props> {
     }));
 
     return (
-      <div className="w-100 w-50-ns w-33-l br-ns b--light-gray ph3-m ph3-l mb3">
+      <div className="w-100 w-two-thirds-l br-ns b--light-gray mb3">
+        <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Cases</span> ({this.props.totalCases})</h3>
         <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Charges</span> ({this.props.totalCharges})</h3>
         {summarizedCharges}
       </div>
