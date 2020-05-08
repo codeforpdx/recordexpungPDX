@@ -7,6 +7,17 @@ from datetime import date
 
 class RecordSummarizer:
     @staticmethod
+    def filter_charge_names_by_eligibility(charges, eligibility):
+        return [
+        c.name
+        for c in charges
+        if (
+            c.expungement_result.charge_eligibility.status == eligibility
+            and not c.hidden_in_record_summary()
+            )
+        ]
+
+    @staticmethod
     def summarize(record, questions: Dict[str, Question], disposition_was_unknown: List[str]) -> RecordSummary:
         fully_eligible_cases = []
         fully_ineligible_cases = []
@@ -55,12 +66,8 @@ class RecordSummarizer:
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
         total_charges = len(record.charges)
-        eligible_charges_now = [
-            c.name
-            for c in record.charges
-            if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-        ]
-        eligible_charges_by_date: List[Tuple[str, List[str]]] = [("now", eligible_charges_now)]
+        eligible_charges_now = RecordSummarizer.filter_charge_names_by_eligibility(record.charges, ChargeEligibilityStatus.ELIGIBLE_NOW)
+        eligible_charges_by_date: List[Tuple[str, List[str]]] = [("Eligible now", eligible_charges_now)]
         will_be_eligible_charges: Dict[date, List[str]] = {}
         for charge in record.charges:
             if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE:
@@ -71,7 +78,9 @@ class RecordSummarizer:
                 else:
                     will_be_eligible_charges[date_eligible] = [charge_short_name]
         for date_value in sorted(will_be_eligible_charges):
-            eligible_charges_by_date.append((date_value.strftime("%b %-d, %Y"), will_be_eligible_charges[date_value]))
+            eligible_charges_by_date.append(("Eligible " + date_value.strftime("%b %-d, %Y"), will_be_eligible_charges[date_value]))
+        ineligible_charges = RecordSummarizer.filter_charge_names_by_eligibility(record.charges, ChargeEligibilityStatus.INELIGIBLE)
+        eligible_charges_by_date.append(("Ineligible", ineligible_charges))
         return RecordSummary(
             record=record,
             questions=questions,
