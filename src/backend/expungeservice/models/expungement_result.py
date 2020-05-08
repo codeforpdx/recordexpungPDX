@@ -30,6 +30,7 @@ class TimeEligibility:
     status: EligibilityStatus
     reason: str
     date_will_be_eligible: date
+    unique_date: bool = True
 
 
 @dataclass(frozen=True)

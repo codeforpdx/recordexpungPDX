@@ -18,6 +18,7 @@ class RecordSummary:
     total_charges: int
     cases_sorted: Dict[str, List[str]]
     eligible_charges_by_date: List[Tuple[str, List[str]]]
+    needs_more_analysis_charges: List[str]
     county_balances: List[CountyBalance]
 
     @property
