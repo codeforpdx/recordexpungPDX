@@ -3,15 +3,19 @@ from typing import Dict
 
 class Serializer:
     @staticmethod
-    def serialize(alias, record: Dict) -> str:
-        print(f"Processing {alias}")
-        title = f"# EXPUNGEMENT ANALYSIS REPORT  \nName: {alias['first_name'].upper()} {alias['last_name'].upper()}  \nDOB: {alias['birth_date'].upper()}\n"
+    def serialize(record: Dict, name: str, birth_date: str, officer: str) -> str:
+        print(f"Processing {name}")
+        title = f"# EXPUNGEMENT ANALYSIS REPORT  \n"
+        name = f"Name: {name}  \n" if name else ""
+        dob = f"DOB: {birth_date}  \n" if birth_date else ""
+        officer = f"Officer: {officer}  \n" if officer else ""
+        header = title + name + dob + officer
         open_cases_block = Serializer.gen_open_cases_block(record)
         eligible_charges_block = Serializer.gen_eligible_charges_block(record)
         ineligible_charges_block = Serializer.gen_ineligible_charges_block(record)
         future_eligible_block = Serializer.gen_future_eligible_block(record)
-        # needs_more_analysis_block = gen_needs_more_analysis_block(record)
-        return f"{title}  \n{open_cases_block}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{future_eligible_block}"
+        needs_more_analysis_block = Serializer.gen_needs_more_analysis_block(record)
+        return f"{header}  \n{open_cases_block}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{future_eligible_block}  \n{needs_more_analysis_block}"
 
     @staticmethod
     def gen_open_cases_block(record):
@@ -35,10 +39,10 @@ class Serializer:
             1
         ]  # First item is the tuple ("now", charges)
         if eligible_charges:
-            listed_charges = "  \n".join(eligible_charges)
+            listed_charges = " - " + " \n - ".join(eligible_charges)
         else:
-            listed_charges = "This client is not currently eligible to expunge any charges.  \n"
-        return "## Charges Eligible Now  \n" + listed_charges
+            listed_charges = "This client is not currently eligible to expunge any charges."
+        return "## Charges Eligible Now  \n" + listed_charges + "  \n"
 
     @staticmethod
     def gen_ineligible_charges_block(record):
@@ -46,8 +50,8 @@ class Serializer:
             1
         ]  # Last item is the tuple ("ineligible", charges)
         if ineligible_charges:
-            ineligible_charges_string = "  \n".join(ineligible_charges)
-            return f"## Ineligible Charges  \nThese convictions are not eligible for expungement at any time under the current law.  \n\n{ineligible_charges_string}"
+            ineligible_charges_string = " - " + "  \n - ".join(ineligible_charges)
+            return f"## Ineligible Charges  \nThese convictions are not eligible for expungement at any time under the current law.  \n\n{ineligible_charges_string}  \n"
         else:
             return ""
 
@@ -57,8 +61,19 @@ class Serializer:
         text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates.  \n"
         if future_eligible_charges:
             for section in future_eligible_charges:
-                listed_charges = "  \n".join(section[1])
+                listed_charges = " - " + "  \n - ".join(section[1])
                 text_block += "### Eligible " + section[0] + "  \n" + listed_charges + "  \n\n"
+            return text_block
+        else:
+            return ""
+
+    @staticmethod
+    def gen_needs_more_analysis_block(record):
+        needs_more_analysis_charges = record["summary"]["needs_more_analysis_charges"]
+        text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"
+        if needs_more_analysis_charges:
+            listed_charges = " - " + "  \n - ".join(needs_more_analysis_charges)
+            text_block += listed_charges + "  \n\n"
             return text_block
         else:
             return ""

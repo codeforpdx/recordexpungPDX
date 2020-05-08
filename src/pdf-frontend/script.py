@@ -6,29 +6,34 @@ from auth import Auth
 from serializer import Serializer
 
 
-def dump_pdf(alias, record, filename):
-    markdown = Serializer.serialize(alias, record)
+def dump_pdf(record, filename, name, birth_date, officer):
+    markdown = Serializer.serialize(record, name, birth_date, officer)
     MarkdownToPDF.to_pdf(filename, "Expungement analysis", markdown)
 
 
 def handle_person(client, row):
     alias = {
-        "first_name": row["First Name"],
-        "last_name": row["Last Name"],
-        "birth_date": row["Birth Date"],
-        "middle_name": "",
+        "first_name": row.get("First Short", ""),
+        "last_name": row.get("Last Short", ""),
+        "birth_date": row.get("Birth Date", ""),
+        "middle_name": row.get("Middle", ""),
     }
     aliases = [alias]
     response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
     record = json.loads(response.text)["record"]
-    dump_pdf(
-        alias, record, filename=f"""output/{alias["first_name"]}_{alias["last_name"]}.pdf""",
-    )
+    first_name = row.get("First Name", "").upper()
+    last_name = row.get("Last Name", "").upper()
+    name = f"{first_name} {last_name}"
+    birth_date = row.get("Birth Date", "")
+    officer = row.get("Officer", "").upper()
+    dump_pdf(record, f"""output/{first_name}_{last_name}_{officer}.pdf""", name, birth_date, officer)
 
 
 def search_and_dump_many_records(source_filename="source/cjpp.csv"):
     df = pd.read_csv(source_filename)
-    cleaned_df = df[["First Name", "Last Name", "Birth Date", "Officer"]]  # TODO: Check unique of first/last name
+    cleaned_df = df[["First Name", "Last Name", "Middle", "First Short", "Last Short", "Birth Date", "Officer"]].fillna(
+        ""
+    )  # TODO: Check unique of first/last name
     client = Auth.get_authenticated_client()
     cleaned_df.apply(partial(handle_person, client), axis="columns")
 
