@@ -17,6 +17,7 @@ export default class ChargesList extends React.Component<Props> {
           <div className="mb1">
             <span className={"fw7 ttc mb2 " + labelColor}> {eligibilityDate} </span> <span>{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
           </div>
+          <p className="f6 mb2">{eligibilityDate==="Ineligible" ? "Excludes traffic violations, which are always ineligible" : ""}</p>
           <ul className="list mb3">
            {listItems}
           </ul>
