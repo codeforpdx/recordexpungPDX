@@ -105,7 +105,7 @@ A person felony that is below a class B felony is not considered under this subs
         "166087",  # Abuse of Corpse I;
         "166165",  # Bias Crime I;
         "166220",  # Unlawful Use of a Weapon;
-        "166275",  # Inmate In Possession of Weapon;
+        # "166275",  # Inmate In Possession of Weapon; # Handled separately in charge classifier
         # "1663853", # [contains subsection] # Felony Possession of a Hoax Destructive Device;
         "166643",  # Unlawful Possession of Soft Body Armor as defined in Crime Category 6 (OAR 213-018-0090(1));
         "167012",  # Promoting Prostitution;

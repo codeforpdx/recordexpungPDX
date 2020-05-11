@@ -82,6 +82,7 @@ class ChargeClassifier:
         yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level, birth_year, disposition)
         yield ChargeClassifier._subsection_6(section, level, statute)
         yield ChargeClassifier._severe_unclassified_charges(name.lower(), statute)
+        yield ChargeClassifier._other_criminal_charges(statute)
         yield ChargeClassifier._classification_by_level(level, statute)
 
     @staticmethod
@@ -113,6 +114,12 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([SevereCharge])
 
     @staticmethod
+    def _other_criminal_charges(statute):
+        possession_of_weapon_by_prison_inmate = "166275"
+        if statute == possession_of_weapon_by_prison_inmate:
+            return AmbiguousChargeTypeWithQuestion([FelonyClassA])
+
+    @staticmethod
     def _classification_by_level(level, statute):
         if "Misdemeanor" in level:
             return AmbiguousChargeTypeWithQuestion([Misdemeanor])
@@ -128,9 +135,7 @@ class ChargeClassifier:
         if level == "Felony Unclassified":
             question_string = "Was the charge for an A Felony, B Felony, or C Felony?"
             options = ["A Felony", "B Felony", "C Felony"]
-            return AmbiguousChargeTypeWithQuestion(
-                [FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
-            )
+            return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB, FelonyClassC], question_string, options)
 
     @staticmethod
     def _marijuana_ineligible(statute, section):
@@ -150,14 +155,11 @@ class ChargeClassifier:
     @staticmethod
     def _manufacture_delivery(name, level, statute):
         if any([manu_del_keyword in name for manu_del_keyword in ["delivery", "manu/del", "manufactur"]]):
-            if any([schedule_2_keyword in name for schedule_2_keyword in [
-                "2", "heroin", "cocaine", "meth"]]):
+            if any([schedule_2_keyword in name for schedule_2_keyword in ["2", "heroin", "cocaine", "meth"]]):
                 if level == "Felony Unclassified":
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
-                    return AmbiguousChargeTypeWithQuestion(
-                        [FelonyClassA, FelonyClassB], question_string, options
-                    )
+                    return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
             elif "3" in name or "4" in name:
                 return ChargeClassifier._classification_by_level(level, statute)
             else:
