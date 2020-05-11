@@ -15,7 +15,11 @@ from expungeservice.models.charge_types.traffic_offense import TrafficOffense
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible, MarijuanaUnder21
+from expungeservice.models.charge_types.marijuana_eligible import (
+    MarijuanaEligible,
+    MarijuanaUnder21,
+    MarijuanaViolation,
+)
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
@@ -59,6 +63,7 @@ class ChargeClassifier:
         yield ChargeClassifier._fare_violation(name)
         yield ChargeClassifier._civil_offense(self.statute, name)
         yield ChargeClassifier._traffic_crime(self.statute, name, self.level, self.disposition)
+        yield ChargeClassifier._marijuana_violation(name, self.level)
         yield ChargeClassifier._violation(self.level, name)
         criminal_charge = next(
             (
@@ -144,6 +149,11 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([MarijuanaIneligible])
 
     @staticmethod
+    def _marijuana_violation(name, level):
+        if ("marij" in name or "mj" in name.split()) and "Violation" in level:
+            return AmbiguousChargeTypeWithQuestion([MarijuanaViolation])
+
+    @staticmethod
     def _marijuana_eligible(section, name, birth_year, disposition):
         if section == "475860" or "marij" in name or "mj" in name.split():
             if birth_year and disposition:
@@ -160,7 +170,7 @@ class ChargeClassifier:
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
                     return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
-            if any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]) :
+            elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]) :
                 return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.

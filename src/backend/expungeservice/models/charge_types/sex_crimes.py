@@ -62,6 +62,7 @@ class RomeoAndJulietNMASexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis.""")
 
+
     def _type_eligibility(self):
         if self.dismissed():
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
