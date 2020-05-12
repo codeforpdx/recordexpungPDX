@@ -43,13 +43,6 @@ class Expunger:
                             "One year from date of conviction (137.226)",
                         )
                     )
-                elif isinstance(charge, MarijuanaViolation):
-                    eligibility_dates.append(
-                        (
-                            charge.disposition.date,  # type: ignore
-                            "Eligible immediately (475B.401)",
-                        )
-                    )
                 else:
                     eligibility_dates.append(
                         (
@@ -106,7 +99,12 @@ class Expunger:
                 else:
                     eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
-            date_will_be_eligible, reason = max(eligibility_dates)
+            if isinstance(charge, MarijuanaViolation):
+                    date_will_be_eligible = charge.disposition.date  # type: ignore
+                    reason = "Eligible immediately (475B.401)"
+            else:
+                date_will_be_eligible, reason = max(eligibility_dates)
+
             if date_will_be_eligible and date.today() >= date_will_be_eligible:
                 time_eligibility = TimeEligibility(
                     status=EligibilityStatus.ELIGIBLE,
