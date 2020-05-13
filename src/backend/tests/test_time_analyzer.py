@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaViolation
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
@@ -605,3 +606,31 @@ def test_nonblocking_charge_is_not_skipped_and_does_not_block():
     assert expunger_result[civil_offense.ambiguous_charge_id].date_will_be_eligible == date.max
 
     assert expunger_result[violation_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+
+
+def test_marijuana_violation_eligible_with_prior_conviction():
+    marijuana_violation = ChargeFactory.create(
+        case_number="1",
+        name="Possession of Marijuana < 1 Ounce",
+        statute="4758643",
+        level="Violation Unclassified",
+        date=date.today(),
+        disposition=DispositionCreator.create(ruling="Convicted", date=date.today() + relativedelta(days=-1))
+    )
+    case_1 = CaseFactory.create(case_number="1", charges=tuple([marijuana_violation]))
+
+    prior_conviction = ChargeFactory.create(
+        case_number="2",
+        name="Identity Theft",
+        statute="165.800",
+        level="Felony Class C",
+        date=Time.FIVE_YEARS_AGO,
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO)
+    )
+    case_2 = CaseFactory.create(case_number="2", charges=tuple([prior_conviction]))
+
+    expunger_result = Expunger.run(Record(tuple([case_1, case_2])))
+
+    assert isinstance(marijuana_violation, MarijuanaViolation)
+    assert expunger_result[marijuana_violation.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[prior_conviction.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE

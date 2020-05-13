@@ -10,7 +10,7 @@ from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
-from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21
+from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21, MarijuanaViolation
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
@@ -99,7 +99,12 @@ class Expunger:
                 else:
                     eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
-            date_will_be_eligible, reason = max(eligibility_dates)
+            if isinstance(charge, MarijuanaViolation):
+                    date_will_be_eligible = charge.disposition.date  # type: ignore
+                    reason = "Eligible immediately (475B.401)"
+            else:
+                date_will_be_eligible, reason = max(eligibility_dates)
+
             if date_will_be_eligible and date.today() >= date_will_be_eligible:
                 time_eligibility = TimeEligibility(
                     status=EligibilityStatus.ELIGIBLE,

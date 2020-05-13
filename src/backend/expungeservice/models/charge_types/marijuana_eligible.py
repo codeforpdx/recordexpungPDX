@@ -34,3 +34,18 @@ class MarijuanaUnder21(Charge):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.226")
+
+
+@dataclass(frozen=True)
+class MarijuanaViolation(Charge):
+    type_name: str = "Marijuana Violation"
+    expungement_rules: str = """Under 475B.401, convictions for possession of less than an ounce of marijuana are always eligible, regardless of any time eligibility restrictions that would normally apply.
+    This charge type is identifiable as any marijuana charge whose level is Violation."""
+
+    def _type_eligibility(self):
+        if self.dismissed():
+            return TypeEligibility(
+                EligibilityStatus.INELIGIBLE, reason="Dismissed violations are ineligible by omission from statute"
+            )
+        elif self.convicted():
+            return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 475B.401")
