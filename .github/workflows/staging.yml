@@ -9,14 +9,14 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     container:
-      image: node:13.13.0-alpine
+      image: node:13.13.0
       env:
         CI: false
     steps:
       - name: Install dependencies
         run: |
-          apk update
-          apk add --no-cache make docker rsync openssh git
+          apt update
+          apt install make docker rsync openssh git
       - uses: actions/checkout@v2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
