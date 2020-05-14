@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  deployment:
     runs-on: ubuntu-latest
     env:
       CI: false
@@ -31,12 +31,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build frontend
-        run: cd src/frontend && npm i && npm run build
       - name: Deploy to staging
         run: |
           cd src/ops
-          make rsync version image RS_ENV=staging
-          make push RS_ENV=staging
-          make ssh_deploy RS_ENV=staging
+          make staging
 
