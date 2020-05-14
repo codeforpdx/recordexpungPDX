@@ -184,3 +184,5 @@ the `staging` and `prod` targets of [src/ops/Makefile](/src/ops/Makefile).
 3. pull new image
 4. stop container
 5. start container from new image
+
+See [staging.yml](../../.github/workflows/staging.yml) to see how Github automatically deploys a new build after each PR to staging.
