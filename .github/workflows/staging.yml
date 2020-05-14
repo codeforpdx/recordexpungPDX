@@ -1,0 +1,27 @@
+name: deploy to staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    container:
+      image: node:13.13.0-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa-bastion
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: |
+            Host recordsponge
+                User github
+                Hostname recordsponge.com
+                IdentityFile ~/.ssh/id_rsa-bastion
+      - name: deploy staging
+        run: cd src/ops/ && make staging
