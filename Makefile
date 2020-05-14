@@ -83,10 +83,11 @@ backend_test:
 
 # run react-scripts build
 frontend_build: frontend_clean
+	@echo `pwd`
 	docker run --rm \
 		-v `pwd`/src/frontend:/src/frontend \
 		-v recordexpungpdx_node_modules:/src/frontend/node_modules \
-		node:13.13.0-alpine /bin/sh -c 'cd /src/frontend && npm i && npm run build'
+		node:13.13.0-alpine /bin/sh -c 'cd /src/frontend && ls -al && npm i && npm run build'
 
 # delete react built files
 frontend_clean:
