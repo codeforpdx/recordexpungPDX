@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:13.13.0-alpine
+      env:
+        CI: false
     steps:
       - name: Install dependencies
         run: apk add --no-cache make docker
