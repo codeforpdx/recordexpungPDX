@@ -27,5 +27,9 @@ jobs:
                 IdentityFile ~/.ssh/id_rsa-bastion
       - name: deploy staging
         run: |
-          cd src/ops/
-          make staging
+          cd /src/frontend && npm i && npm run build
+          cd /src/ops
+          make rsync version image RS_ENV=staging
+          make push RS_ENV=staging
+          make ssh_deploy RS_ENV=staging
+
