@@ -25,10 +25,11 @@ jobs:
                 User github
                 Hostname recordsponge.com
                 IdentityFile ~/.ssh/id_rsa-bastion
-      - name: deploy staging
+      - name: Build frontend
         run: |
-          cd /src/frontend && npm i && npm run build
-          cd /src/ops
+          cd src/frontend && npm i && npm run build
+      - name: Deploy to staging
+          cd src/ops
           make rsync version image RS_ENV=staging
           make push RS_ENV=staging
           make ssh_deploy RS_ENV=staging
