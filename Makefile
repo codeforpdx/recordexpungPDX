@@ -84,6 +84,9 @@ backend_test:
 # run react-scripts build
 frontend_build: frontend_clean
 	@echo `pwd`
+	@ls `pwd`
+	@ls `pwd`/src/
+	@ls `pwd`/src/frontend/
 	docker run --rm \
 		-v `pwd`/src/frontend:/src/frontend \
 		-v recordexpungpdx_node_modules:/src/frontend/node_modules \
