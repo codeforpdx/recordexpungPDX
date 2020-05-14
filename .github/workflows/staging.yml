@@ -12,7 +12,7 @@ jobs:
       image: node:13.13.0-alpine
     steps:
       - name: Install dependencies
-        run: apk add --no-cache make
+        run: apk add --no-cache make docker
       - uses: actions/checkout@v2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
