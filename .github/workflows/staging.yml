@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           apk update
-          apk add --no-cache make docker rsync openssh
+          apk add --no-cache make docker rsync openssh git
       - uses: actions/checkout@v2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
