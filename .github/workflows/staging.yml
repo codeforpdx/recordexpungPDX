@@ -24,11 +24,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           name: id_rsa-bastion
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-          config: |
-            Host recordsponge
-                User github
-                Hostname recordsponge.com
-                IdentityFile ~/.ssh/id_rsa-bastion
+          config: ${{ secrets.SSH_CONFIG }}
       - uses: azure/docker-login@v1
         with:
           username: ${{ secrets.DOCKER_LOGIN }}
