@@ -27,6 +27,10 @@ jobs:
                 User github
                 Hostname recordsponge.com
                 IdentityFile ~/.ssh/id_rsa-bastion
+      - uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build frontend
         run: cd src/frontend && npm i && npm run build
       - name: Deploy to staging
