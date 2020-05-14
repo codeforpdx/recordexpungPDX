@@ -26,4 +26,6 @@ jobs:
                 Hostname recordsponge.com
                 IdentityFile ~/.ssh/id_rsa-bastion
       - name: deploy staging
-        run: cd src/ops/ && make staging
+        run: |
+          cd src/ops/
+          make staging
