@@ -14,7 +14,9 @@ jobs:
         CI: false
     steps:
       - name: Install dependencies
-        run: apk add --no-cache make docker rsync
+        run: |
+          apk update
+          apk add --no-cache make docker rsync openssh
       - uses: actions/checkout@v2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
