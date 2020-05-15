@@ -75,12 +75,12 @@ class Print(MethodView):
         record = json.loads(response)["record"]
         request_data = request.get_json()
         aliases = request_data["aliases"]
-        filename = Print.build_filename(aliases)
         header = MarkdownSerializer.default_header(aliases)
         source = MarkdownSerializer.to_markdown(record, header)
         pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
         response = make_response(pdf)
         response.headers["Content-Type"] = "application/pdf"
+        filename = Print.build_filename(aliases)
         response.headers["Content-Disposition"] = f"inline; filename={filename}"
         return response
 
