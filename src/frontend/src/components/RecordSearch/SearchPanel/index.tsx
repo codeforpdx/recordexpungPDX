@@ -117,7 +117,7 @@ export default class SearchPanel extends React.Component<Props, State> {
     });
     return (
       <div>
-        <h1 className="f4 fw6 tc mv4">Record Search</h1>
+        <h1 className="visually-hidden">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
               {aliasComponents}

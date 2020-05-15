@@ -27,7 +27,7 @@ export default class ChargesList extends React.Component<Props> {
     }));
 
     return (
-      <div className="w-100 w-two-thirds-l br-ns b--light-gray mb3">
+      <div className="w-100 w-two-thirds-l mb3">
         <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Cases</span> ({this.props.totalCases})</h3>
         <h3 className="bt b--light-gray pt2 mb3"><span className="fw7">Charges</span> ({this.props.totalCharges})</h3>
         {summarizedCharges}

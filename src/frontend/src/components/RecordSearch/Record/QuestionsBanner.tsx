@@ -55,7 +55,7 @@ class QuestionsBanner extends React.Component<Props> {
   render() {
     if (this.props.questions && Object.keys(this.props.questions).length > 0) {
       return (
-        <div className="bt bw3 b--light-purple bg-white shadow pa3 mb3">
+        <div className="bl bw3 b--light-purple bg-white shadow pa3 mb3">
         <div className="flex-lg justify-between">
         <div className="mb3 pr5-lg mb0-ns">
         <p className="fw7 mb3">These cases need clarification before an accurate analysis can be determined</p>

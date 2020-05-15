@@ -132,7 +132,7 @@ class DispositionQuestion extends React.Component<Props, State> {
 
   render() {
     return (
-      <form className="w-100 bt bw3 b--light-purple pa3 pb1" onSubmit={this.handleSubmit}>
+      <form className="w-100 bl bw3 b--light-purple pa3 pb1" onSubmit={this.handleSubmit}>
         <fieldset className="relative mb4">
             <legend className="fw7 mb2">Choose a disposition</legend>
             <div className="radio">
