@@ -3,14 +3,20 @@ from functools import partial
 from pathlib import Path
 
 import pandas as pd
-from markdown_to_pdf import MarkdownToPDF
 from auth import Auth
-from serializer import Serializer
+
+from expungeservice.pdf.markdown_serializer import MarkdownSerializer
+from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 
-def dump_pdf(record, filename, name, birth_date, officer):
-    markdown = Serializer.serialize(record, name, birth_date, officer)
-    MarkdownToPDF.to_pdf(filename, "Expungement analysis", markdown)
+def build_header(name, birth_date, officer):
+    print(f"Processing {name}")
+    title = f"# EXPUNGEMENT ANALYSIS REPORT  \n"
+    name = f"Name: {name}  \n" if name else ""
+    dob = f"DOB: {birth_date}  \n" if birth_date else ""
+    officer = f"Officer: {officer}  \n" if officer else ""
+    header = title + name + dob + officer
+    return header
 
 
 def handle_person(client, row):
@@ -28,7 +34,12 @@ def handle_person(client, row):
     name = f"{first_name} {last_name}"
     birth_date = row.get("Birth Date", "")
     officer = row.get("Officer", "").upper()
-    dump_pdf(record, f"""output/{first_name}_{last_name}_{officer}.pdf""", name, birth_date, officer)
+    header = build_header(name, birth_date, officer)
+    source = MarkdownSerializer.to_markdown(record, header)
+    pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
+    filename = f"output/{first_name}_{last_name}_{officer}.pdf"
+    with open(filename, "wb") as f:
+        f.write(pdf)
 
 
 def search_and_dump_many_records(source_filename="source/cjpp.csv"):
