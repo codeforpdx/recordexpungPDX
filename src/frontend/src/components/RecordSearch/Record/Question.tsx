@@ -20,7 +20,7 @@ class Question extends React.Component<Props> {
     if (this.props.question) {
       const options: { [option: string]: string } = this.props.question.options;
       return (
-        <div className="w-100 bt bw3 b--light-purple pa3 pb1">
+        <div className="w-100 bl bw3 b--light-purple pa3 pb1">
           <fieldset className="relative mb4">
             <legend className="fw7 mb2">{this.props.question.question}</legend>
             <div className="radio">

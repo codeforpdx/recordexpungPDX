@@ -207,10 +207,16 @@ class Landing extends React.Component {
                   </a>
                   .
                 </p>
-                <p className="lh-copy">
+                <p className="lh-copy mb4">
                   The service is intended to be accompanied by legal advice. The
                   service is not standalone legal advice.
                 </p>
+                <a
+                  className="link bb hover-dark-blue"
+                  href="/manual#privacypolicy"
+                >
+                  Privacy Policy
+                </a>
               </div>
             </footer>
           </div>

@@ -67,6 +67,11 @@ class Landing extends React.Component {
               </li>
               <li className="mb3">
                 <a href="#license" className="link hover-blue">
+                  Privacy Policy
+                </a>
+              </li>
+              <li className="mb3">
+                <a href="#license" className="link hover-blue">
                   License
                 </a>
               </li>
@@ -782,6 +787,85 @@ class Landing extends React.Component {
               </ul>
             </div>
           </section>
+
+          <section className="mb5">
+            <h2 className="f2 fw9 mb3" id="privacypolicy">
+              Privacy Policy
+            </h2>
+            <p className="mb3">
+              Our privacy policy is simple and meant to be read by all of our users. Please email michael@qiu-qiulaw.com if anything is unclear.
+            </p>
+            <h3 className="f4 fw7 mb2">
+              What we collect and why
+            </h3>
+            <p className="mb3">
+              Our guiding principle is to collect only what we need, and we will not sell your data. Here’s what that means in practice:
+            </p>
+            <h4 className="fw7 mb2">
+              Identity & access
+            </h4>
+            <p className="mb3">
+              When you sign up for RecordSponge, we typically ask for identifying information such as your name, email address, and maybe a company name. We’ll never sell your personal info to third parties, and we won’t use your name or company in marketing statements without your permission either.
+            </p>
+            <p className="mb3">
+              Your username doubles as an email where we can contact you or someone in your organization. We encrypt passwords in a non-reversible way (a hash) so that we can compare for a correct password upon login. As with any online service, we highly recommend making your password different from other passwords you use.
+            </p>
+            <h4 className="fw7 mb2">
+              Search “pings” to track usage
+            </h4>
+            <p className="mb3">
+              The only information we collect are user search “pings,” which tells us when (and only when) a user has made a search. We collect this information to track usage rates - if we see that you are searching more or less than usual, we may contact you to see if we can provide support. That’s it.
+            </p>
+            <h4 className="fw7 mb2">
+              Cookies
+            </h4>
+            <p className="mb3">
+              We use persistent first-party cookies to support necessary functions of the application. A cookie is a piece of text stored by your browser to help it remember your login information, site preferences, and more. You can adjust cookie retention settings in your own browser. To learn more about cookies, including how to see which cookies have been set and how to manage and delete them, please visit: <a href="https://www.allaboutcookies.org" className="bb hover-blue">allaboutcookies.org</a>.
+            </p>
+            <h4 className="fw7 mb2">
+              Voluntary correspondence
+            </h4>
+            <p className="mb3">
+              When you write RecordSponge with a question or to ask for help, we keep that correspondence, including the email address, so that we have a history of past correspondences to reference if you reach out in the future.
+            </p>
+            <h3 className="f4 fw7 mb2">
+              What we don't collect
+            </h3>
+            <p className="mb3">
+              We care about the privacy of your clients’ criminal records. Indeed, this project’s purpose is to make these records more private. Therefore, RecordSponge does not record or collect search information. If you are using this software for clients, we have no way of identifying who they are.
+            </p>
+            <p className="mb3">
+              We do not save your Oregon eCourt Case Information (OECI) login credentials. That’s why we must separately log in to OECI every time you use RecordSponge.
+            </p>
+            <h3 className="f4 fw7 mb2">
+              When we access or share your information
+            </h3>
+            <p className="mb2">
+              Our default practice is to not access your information. The only times we’ll ever access or share your info are:
+            </p>
+            <ul className="pl4 mb3">
+              <li className="mb2">
+                <strong>To help you troubleshoot or squash a software bug, with your permission.</strong> If at any point we need to access your account to help you with a Support case, we will ask for your consent before proceeding.
+              </li>
+              <li>
+                <strong>When required under applicable law.</strong> If the appropriate law enforcement authorities have the necessary warrant, criminal subpoena, or court order requiring we share data, we have to comply. Otherwise, we flat-out reject requests from local and federal law enforcement when they seek data. And unless we’re legally prevented from it, we’ll always inform you when such requests are made.
+              </li>
+            </ul>
+            <h3 className="f4 fw7 mb2">
+              How we secure your data
+            </h3>
+            <p className="mb3">
+              All data is encrypted via SSL/TLS when transmitted from our servers to your browser. Most data are not encrypted while they live in our database (since it needs to be ready to send to you when you need it), but we go to great lengths to secure your data at rest.
+            </p>
+            <h3 className="f4 fw7 mb2">
+              When you delete data in your account
+            </h3>
+            <p className="mb4">
+              We delete your data if you remove information in your account and it can not be recovered.
+            </p>
+            <h3>Adapted from the <a href="https://github.com/basecamp/policies" className="bb hover-blue">Basecamp open-source policies</a> / <a href="https://creativecommons.org/licenses/by/4.0" className="bb hover-blue">CC BY 4.0</a></h3>
+          </section>
+
           <section className="mb5">
             <h2 className="f2 fw9 mb3" id="license">
               License

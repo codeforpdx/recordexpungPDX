@@ -60,7 +60,7 @@ class UserList extends React.Component<Props> {
   };
 
   displayUsers = () => (
-    <section className="cf bg-white shadow br3 mb5">
+    <section className="cf bg-white shadow br3 mb5 mt4">
       <div className="pv4 ph3">
         <h1 className="f3 fw6 dib">Users</h1>
         <button

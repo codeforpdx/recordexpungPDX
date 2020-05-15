@@ -186,7 +186,7 @@ class EditUser extends React.Component<Props, State> {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="mb4">
+            <div className="mb2">
               <label htmlFor="password" className="db mb2 fw6">
                 Password
               </label>
@@ -242,7 +242,7 @@ class EditUser extends React.Component<Props, State> {
                   Role
                 </label>
                 <div className="pl0 ml0 center ba bw1 b--black-20 br2">
-                  <div className="ph3 bb bw1 b--black-20">
+                  <div className="pv2 ph3 bb bw1 b--black-20">
                     <div className="radio">
                       <input
                         type="radio"
@@ -255,11 +255,9 @@ class EditUser extends React.Component<Props, State> {
                       />
                       <label htmlFor="search" className="fw6">Search</label>
                     </div>
-                    <div className="radio">
-                      <p className="mt3 ml4 mb4">&bull;&nbsp;Can search records</p>
-                    </div>
+                    <p className="ml4 mb3">&bull;&nbsp;Can search records</p>
                   </div>
-                  <div className="ph3">
+                  <div className="pv2 ph3">
                     <div className="radio">
                       <input
                         type="radio"
@@ -272,7 +270,7 @@ class EditUser extends React.Component<Props, State> {
                       />
                       <label htmlFor="admin" className="fw6">Admin</label>
                     </div>
-                    <ul className="list mt3 ml4 mb4">
+                    <ul className="list ml4 mb3">
                       <li className="mb1">&bull;&nbsp;Can search records</li>
                       <li className="mb1">&bull;&nbsp;Can manage users and groups</li>
                     </ul>
