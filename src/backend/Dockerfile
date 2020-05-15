@@ -11,7 +11,10 @@ ENV WORKON_HOME=/src/venvs
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-RUN apk add libffi openssl libpq
+RUN apk add --update --no-cache \
+    libgcc libstdc++ libx11 glib libxrender libxext libintl \
+    ttf-dejavu ttf-droid ttf-freefont ttf-liberation ttf-ubuntu-font-family \
+    libffi openssl libpq wkhtmltopdf
 
 # ---
 
