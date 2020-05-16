@@ -1,3 +1,5 @@
+from datetime import date
+
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.record_merger import RecordMerger
 from expungeservice.record_summarizer import RecordSummarizer
@@ -18,7 +20,7 @@ def test_record_summarizer_multiple_cases():
                 ChargeFactory.create(
                     case_number="1",
                     name="Theft of dignity",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 )
             ]
         ),
@@ -31,12 +33,12 @@ def test_record_summarizer_multiple_cases():
         charges=tuple(
             [
                 ChargeFactory.create(
-                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 ),
                 ChargeFactory.create(
                     case_number="2",
                     level="Felony Class A",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 ),
             ]
         ),
@@ -51,7 +53,7 @@ def test_record_summarizer_multiple_cases():
                 ChargeFactory.create(
                     case_number="3",
                     level="Felony Class B",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 )
             ]
         ),
@@ -66,7 +68,7 @@ def test_record_summarizer_multiple_cases():
                 ChargeFactory.create(
                     case_number="4",
                     level="Felony Class A",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 )
             ]
         ),
@@ -80,7 +82,7 @@ def test_record_summarizer_multiple_cases():
                 ChargeFactory.create(
                     case_number="5",
                     level="Felony Class A",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 )
             ]
         ),
@@ -109,17 +111,23 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.cases_sorted["partially_eligible"] == ["2"]
     assert record_summary.cases_sorted["other"] == ["3"]
     assert record_summary.eligible_charges_by_date == [
-    ('Eligible now', [
-        ('1-0', 'Theft of dignity (CONVICTED) - Arrested May 15, 2010'),
-        ('2-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010')
-        ]
+        (
+            "Eligible now",
+            [
+                ("1-0", "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010"),
+                ("2-0", "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+            ],
         ),
-    ('Eligible May 15, 2030', [
-        ('4-0','Theft of services (CONVICTED) - Arrested May 15, 2010')]),
-    ('Ineligible', [
-        ('3-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010'),
-        ('5-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010'),
-        ('6-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010')]),
+        ("Eligible Jan 1, 2030", [("4-0", "Theft of services (CONVICTED) - Arrested Jan 1, 2010")]),
+        (
+            "Ineligible",
+            [
+                ("3-0", "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+                ("5-0", "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+                ("6-0", "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+            ],
+        ),
+        ("Need more analysis", []),
     ]
 
     """
@@ -141,4 +149,8 @@ def test_record_summarizer_no_cases():
     assert record_summary.cases_sorted["partially_eligible"] == []
     assert record_summary.cases_sorted["other"] == []
     assert record_summary.county_balances == []
-    assert record_summary.eligible_charges_by_date == [("Eligible now", []), ("Ineligible", [])]
+    assert record_summary.eligible_charges_by_date == [
+        ("Eligible now", []),
+        ("Ineligible", []),
+        ("Need more analysis", []),
+    ]
