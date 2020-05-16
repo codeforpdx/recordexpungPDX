@@ -2,6 +2,7 @@ import {Dispatch} from 'redux';
 import store from '../store';
 import apiService from '../../service/api-service';
 import {AxiosError, AxiosResponse} from 'axios';
+import fileDownload from 'js-file-download';
 
 import {
   DISPLAY_RECORD,
@@ -38,14 +39,18 @@ function validateSearchResponseData(data: SearchResponse): boolean {
   return data.hasOwnProperty('record');
 }
 
+function buildSearchRequest() {
+  return {
+    aliases: store.getState().search.aliases,
+    questions: store.getState().search.questions,
+    edits: store.getState().search.edits
+  };
+}
+
 function buildAndSendSearchRequest(dispatch: any) : any {
   return apiService<SearchResponse>(dispatch, {
     url: '/api/search',
-    data: {
-      aliases: store.getState().search.aliases,
-      questions: store.getState().search.questions,
-      edits: store.getState().search.edits
-    },
+    data: buildSearchRequest(),
     method: 'post',
     withCredentials: true
   })
@@ -56,6 +61,24 @@ function buildAndSendSearchRequest(dispatch: any) : any {
       alert(error.message);
     });
 }
+
+export function downloadPdf() {
+  return apiService(()=>{}, {
+    url: '/api/pdf',
+    data: buildSearchRequest(),
+    method: 'post',
+    withCredentials: true,
+    responseType: 'blob'
+  })
+    .then((response: AxiosResponse) => {
+      const filename = response.headers["content-disposition"].split("filename=")[1].split(" ")[0];
+      fileDownload(response.data, filename)
+    })
+    .catch((error: AxiosError) => {
+      alert(error.message);
+    });
+}
+
 export function searchRecord(
   aliases: AliasData[]
 ): any {
