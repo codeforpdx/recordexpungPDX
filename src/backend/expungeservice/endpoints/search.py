@@ -1,9 +1,11 @@
 from dacite import from_dict
 from flask.views import MethodView
-from flask import request, current_app, json
+from flask import request, current_app, json, make_response
 from flask_login import login_required
 import logging
 
+from expungeservice.pdf.markdown_serializer import MarkdownSerializer
+from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Question, Alias
 from expungeservice.record_creator import RecordCreator
@@ -24,11 +26,7 @@ class Search(MethodView):
         username, password = Search._oeci_login_params(request)
 
         return Search._build_response(
-            username,
-            password,
-            request_data["aliases"],
-            request_data.get("questions"),
-            request_data.get("edits", {})
+            username, password, request_data["aliases"], request_data.get("questions"), request_data.get("edits", {})
         )
 
     @staticmethod
@@ -69,5 +67,30 @@ class Search(MethodView):
         for alias in request_data["aliases"]:
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
 
+
+class Print(MethodView):
+    @login_required
+    def post(self):
+        response = Search.post(self)
+        record = json.loads(response)["record"]
+        request_data = request.get_json()
+        aliases = request_data["aliases"]
+        header = MarkdownSerializer.default_header(aliases)
+        source = MarkdownSerializer.to_markdown(record, header)
+        pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
+        response = make_response(pdf)
+        response.headers["Content-Type"] = "application/pdf"
+        filename = Print.build_filename(aliases)
+        response.headers["Content-Disposition"] = f"inline; filename={filename}"
+        return response
+
+    @staticmethod
+    def build_filename(aliases):
+        first_alias = aliases[0]
+        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
+        return f"{name}_record_summary.pdf"
+
+
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))
+    app.add_url_rule("/api/pdf", view_func=Print.as_view("pdf"))

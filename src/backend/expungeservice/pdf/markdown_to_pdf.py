@@ -5,9 +5,9 @@ import requests
 
 class MarkdownToPDF:
     @staticmethod
-    def to_pdf(filename, title, source):
+    def to_pdf(title: str, markdown_source: str) -> bytes:
         html_style = MarkdownToPDF.css()
-        html_body = markdown2.markdown(source)
+        html_body = markdown2.markdown(markdown_source)
         html = f"""
         <html>
         <head>
@@ -22,7 +22,7 @@ class MarkdownToPDF:
         </body>
         </html>
         """
-        pdfkit.from_string(html, filename)
+        return pdfkit.from_string(html, False)
 
     @staticmethod
     def css():
@@ -30,3 +30,7 @@ class MarkdownToPDF:
             "https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css"
         )
         return response.text
+
+
+if __name__ == "__main__":
+    MarkdownToPDF.to_pdf("Test title", "# Test Header")

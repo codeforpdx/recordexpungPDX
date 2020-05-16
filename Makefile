@@ -34,7 +34,7 @@ new: up
 pull:
 	docker-compose pull
 
-# pushes the dev image for the local expungeservice service
+# pushes the dev image for the local expungeservice service to dockerhub
 push:
 	docker-compose push $(BACKEND_SERVICE)
 

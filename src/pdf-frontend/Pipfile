@@ -8,8 +8,6 @@ verify_ssl = true
 [packages]
 pandas = "*"
 expungeservice = {editable = true,path = "../backend"}
-markdown2 = "*"
-pdfkit = "*"
 
 [requires]
 python_version = "3.8"
