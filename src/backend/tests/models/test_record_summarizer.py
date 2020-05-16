@@ -108,12 +108,24 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.cases_sorted["fully_ineligible"] == ["4", "5"]
     assert record_summary.cases_sorted["partially_eligible"] == ["2"]
     assert record_summary.cases_sorted["other"] == ["3"]
+    assert record_summary.eligible_charges_by_date == [
+    ('Eligible now', [
+        ('1-0', 'Theft of dignity (CONVICTED) - Arrested May 15, 2010'),
+        ('2-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010')
+        ]
+        ),
+    ('Eligible May 15, 2030', [
+        ('4-0','Theft of services (CONVICTED) - Arrested May 15, 2010')]),
+    ('Ineligible', [
+        ('3-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010'),
+        ('5-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010'),
+        ('6-0', 'Theft of services (CONVICTED) - Arrested May 15, 2010')]),
+    ]
 
     """
     assert record_summary.county_balances["Baker"] == 700.00
     assert record_summary.county_balances["Multnomah"] == 100.00
     assert record_summary.county_balances["Clackamas"] == 200.00
-    assert record_summary.eligible_charges == ["Theft of dignity", "Theft of services"]
     """
 
 
