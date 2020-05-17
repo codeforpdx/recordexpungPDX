@@ -74,7 +74,7 @@ export default class Charge extends React.Component<Props> {
     };
 
     return (
-      <div className="br3 ma2 bg-white">
+      <div className="br3 ma2 bg-white" id={ambiguous_charge_id}>
         <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-40-l pr3">

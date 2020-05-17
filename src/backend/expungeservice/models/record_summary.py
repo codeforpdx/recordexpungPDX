@@ -17,8 +17,7 @@ class RecordSummary:
     disposition_was_unknown: List[str]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
-    eligible_charges_by_date: List[Tuple[str, List[str]]]
-    needs_more_analysis_charges: List[str]
+    eligible_charges_by_date: List[Tuple[str, List[Tuple[str,str]]]]
     county_balances: List[CountyBalance]
 
     @property
