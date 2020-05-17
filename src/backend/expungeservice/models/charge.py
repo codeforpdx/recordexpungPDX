@@ -82,6 +82,7 @@ If the type eligibility is unknown, the method can return None. """
         three_years_ago = date_class.today() + relativedelta(years=-3)
         return self.dismissed() and self.date > three_years_ago
 
+    # We assume charges that do not block other charges are not type eligible regardless of what their disposition status is
     def blocks_other_charges(self):
         return True
 
