@@ -12,6 +12,7 @@ from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21, MarijuanaViolation
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
+from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from expungeservice.models.record import Record
@@ -100,8 +101,8 @@ class Expunger:
                     eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
 
             if isinstance(charge, MarijuanaViolation):
-                    date_will_be_eligible = charge.disposition.date  # type: ignore
-                    reason = "Eligible immediately (475B.401)"
+                date_will_be_eligible = charge.disposition.date  # type: ignore
+                reason = "Eligible immediately (475B.401)"
             else:
                 date_will_be_eligible, reason = max(eligibility_dates)
 
@@ -223,14 +224,29 @@ class ErrorChecker:
     @staticmethod
     def check(record) -> List[str]:
         errors: List[str] = []
-        open_cases = [case for case in record.cases if not case.summary.closed()]
+        open_cases = [case for case in record.cases if ErrorChecker.is_meaningfully_open_case(case)]
         if len(open_cases) > 0:
             case_numbers = ", ".join([f"[{case.summary.case_number}]" for case in open_cases])
             errors += [
-                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
+                f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases containing charges with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
         errors += ErrorChecker._build_disposition_errors(record.charges, record.cases)
         return errors
+
+    @staticmethod
+    def is_meaningfully_open_case(case: Case) -> bool:
+        closed = case.summary.closed()
+        if closed:
+            return False
+        else:
+            return any(ErrorChecker.is_meaningfully_open_charge(charge) for charge in case.charges)
+
+    @staticmethod
+    def is_meaningfully_open_charge(charge: Charge) -> bool:
+        is_blocking_charge = charge.blocks_other_charges()
+        is_not_violation = not isinstance(charge, Violation)
+        charge_with_invalid_disposition = not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED
+        return is_blocking_charge and is_not_violation and charge_with_invalid_disposition
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge], cases: List[Case]):
@@ -253,7 +269,7 @@ class ErrorChecker:
         for charge in charges:
             if charge.blocks_other_charges():
                 case_number = f"[{charge.case(cases).summary.case_number}]"
-                if not charge.disposition and charge.case(cases).summary.closed():
+                if not charge.disposition:
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))
