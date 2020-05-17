@@ -41,7 +41,7 @@ export default class ChargesList extends React.Component<Props> {
   buildListItems(chargesNames: string[]) {
     const listItems = chargesNames.map(((chargeName: string, index:number) => {
         return (
-            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb1"><a href={"#" + chargeName[0]}>{chargeName[1]}</a></li>
+            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2"><a href={"#" + chargeName[0]} className="link hover-blue">{chargeName[1]}</a></li>
         )
       }));
     if (listItems.length === 0) {
