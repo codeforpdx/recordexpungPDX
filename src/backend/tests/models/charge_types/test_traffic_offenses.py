@@ -38,7 +38,7 @@ def test_convicted_violation_is_not_type_eligible():
     assert isinstance(charge, TrafficViolation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 def test_dismissed_violation_is_not_type_eligible():
@@ -49,7 +49,7 @@ def test_dismissed_violation_is_not_type_eligible():
     assert isinstance(charge, TrafficViolation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 def test_convicted_infraction_is_not_type_eligible():
@@ -58,7 +58,7 @@ def test_convicted_infraction_is_not_type_eligible():
     assert isinstance(charge, TrafficViolation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 def test_dismissed_infraction_is_not_type_eligible():
@@ -67,7 +67,7 @@ def test_dismissed_infraction_is_not_type_eligible():
     assert isinstance(charge, TrafficViolation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 def test_no_dispo_violation_is_not_type_eligible():
@@ -78,7 +78,7 @@ def test_no_dispo_violation_is_not_type_eligible():
         charge.type_eligibility.reason
         == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 def test_unrecognized_violation_is_not_type_eligible():
@@ -92,7 +92,7 @@ def test_unrecognized_violation_is_not_type_eligible():
         charge.type_eligibility.reason
         == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
 
 
 """
@@ -105,7 +105,7 @@ def test_misdemeanor_conviction_is_not_eligible():
 
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
-    assert charge.blocks_other_charges()
+    assert charge.blocks_other_charges
 
 
 def test_misdemeanor_dismissal_is_eligible():
@@ -113,7 +113,7 @@ def test_misdemeanor_dismissal_is_eligible():
 
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
-    assert charge.blocks_other_charges()
+    assert charge.blocks_other_charges
 
 
 def test_felony_conviction_is_not_eligible():
@@ -121,7 +121,7 @@ def test_felony_conviction_is_not_eligible():
 
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
-    assert charge.blocks_other_charges()
+    assert charge.blocks_other_charges
 
 
 def test_felony_dismissal_is_eligible():
@@ -129,7 +129,7 @@ def test_felony_dismissal_is_eligible():
 
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
-    assert charge.blocks_other_charges()
+    assert charge.blocks_other_charges
 
 
 def test_duii():

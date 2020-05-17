@@ -24,9 +24,7 @@ Additionally, under 419A.262(3)(B), cases for prostitution are automatically eli
 
 The list of charges in ORS 419A.260(1)(d)(J) excludes certain charges from expungement eligibility. These charges generally would not be juvenile records since Oregon’s “Measure 11” requires the defendants in such cases to be charged as adults."""
     )
+    blocks_other_charges: bool = False
 
     def _type_eligibility(self):
         return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Potentially eligible under 419A.262")
-
-    def blocks_other_charges(self):
-        return False

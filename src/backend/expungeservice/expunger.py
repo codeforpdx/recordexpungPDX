@@ -30,7 +30,7 @@ class Expunger:
         cases = analyzable_record.cases
         for charge in analyzable_record.charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in analyzable_record.charges if c.blocks_other_charges() and c.id != charge.id]
+            other_charges = [c for c in analyzable_record.charges if c.blocks_other_charges and c.id != charge.id]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
@@ -243,10 +243,9 @@ class ErrorChecker:
 
     @staticmethod
     def is_meaningfully_open_charge(charge: Charge) -> bool:
-        is_blocking_charge = charge.blocks_other_charges()
         is_not_violation = not isinstance(charge, Violation)
         charge_with_invalid_disposition = not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED
-        return is_blocking_charge and is_not_violation and charge_with_invalid_disposition
+        return charge.blocks_other_charges and is_not_violation and charge_with_invalid_disposition
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge], cases: List[Case]):
@@ -267,7 +266,7 @@ class ErrorChecker:
         cases_with_missing_disposition: Set[str] = set()
         cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
-            if charge.blocks_other_charges():
+            if charge.blocks_other_charges:
                 case_number = f"[{charge.case(cases).summary.case_number}]"
                 if not charge.disposition:
                     cases_with_missing_disposition.add(case_number)

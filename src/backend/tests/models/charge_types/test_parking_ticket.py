@@ -21,7 +21,7 @@ def test_parking_ticket_conviction():
     )
 
     assert isinstance(charge, ParkingTicket)
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible under 137.225(7)(a)"
 
@@ -39,7 +39,7 @@ def test_parking_ticket_dismissal():
     )
 
     assert isinstance(charge, ParkingTicket)
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
@@ -57,7 +57,7 @@ def test_parking_ticket_no_disposition():
     )
 
     assert isinstance(charge, ParkingTicket)
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         charge.type_eligibility.reason
@@ -78,7 +78,7 @@ def test_parking_ticket_unrecognized_disposition():
     )
 
     assert isinstance(charge, ParkingTicket)
-    assert not charge.blocks_other_charges()
+    assert not charge.blocks_other_charges
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         charge.type_eligibility.reason

@@ -15,7 +15,7 @@ def test_unclassified_charge():
     assert isinstance(unclassified_dismissed, UnclassifiedCharge)
     assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dismissed.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
-    assert not unclassified_dismissed.blocks_other_charges()
+    assert not unclassified_dismissed.blocks_other_charges
 
 
 def test_charge_that_falls_through():

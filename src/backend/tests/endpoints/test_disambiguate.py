@@ -20,6 +20,7 @@ DUII_SEARCH_RESPONSE = {
                 "charges": [
                     {
                         "ambiguous_charge_id": "CASEJD1-1",
+                        "blocks_other_charges": True,
                         "case_number": "CASEJD1",
                         "date": "Nov 7, 1997",
                         "disposition": {
@@ -104,6 +105,7 @@ DIVERTED_RESPONSE = {
                 "charges": [
                     {
                         "ambiguous_charge_id": "CASEJD1-1",
+                        "blocks_other_charges": True,
                         "case_number": "CASEJD1",
                         "date": "Nov 7, 1997",
                         "disposition": {

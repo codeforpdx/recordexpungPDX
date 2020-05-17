@@ -208,6 +208,6 @@ class RecordCreator:
         unknown_dispositions = []
         for case in cases:
             for charge in case.charges:
-                if charge.ambiguous_charge_id in charge_ids and charge.blocks_other_charges():
+                if charge.ambiguous_charge_id in charge_ids and charge.blocks_other_charges:
                     unknown_dispositions.append(charge.ambiguous_charge_id)
         return unknown_dispositions
