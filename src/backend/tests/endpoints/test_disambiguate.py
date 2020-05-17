@@ -83,7 +83,7 @@ DUII_SEARCH_RESPONSE = {
             "eligible_charges_by_date": [
                 ["Eligible now", []],
                 ["Ineligible", []],
-                ["Need more analysis", [["CASEJD1-1-0", "DUII (DISMISSED) - Arrested Nov 7, 1997"]]],
+                ["Need more analysis", [["CASEJD1-1", "DUII (DISMISSED) - Arrested Nov 7, 1997"]]],
             ],
             "total_balance_due": 0.0,
             "total_cases": 1,
@@ -163,7 +163,7 @@ DIVERTED_RESPONSE = {
             "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
             "eligible_charges_by_date": [
                 ["Eligible now", []],
-                ["Ineligible", [["CASEJD1-1-0", "DUII (DISMISSED) - Arrested Nov 7, 1997"]]],
+                ["Ineligible", [["CASEJD1-1", "DUII (DISMISSED) - Arrested Nov 7, 1997"]]],
                 ["Need more analysis", []],
             ],
             "total_balance_due": 0.0,

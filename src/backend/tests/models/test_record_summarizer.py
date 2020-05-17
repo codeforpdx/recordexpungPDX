@@ -114,20 +114,40 @@ def test_record_summarizer_multiple_cases():
         (
             "Eligible now",
             [
-                (case_all_eligible.charges[0].id, "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010"),
-                (case_partially_eligible.charges[0].id, "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+                (
+                    case_all_eligible.charges[0].ambiguous_charge_id,
+                    "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010",
+                ),
+                (
+                    case_partially_eligible.charges[0].ambiguous_charge_id,
+                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+                ),
             ],
         ),
         (
             "Eligible Jan 1, 2030",
-            [(case_possibly_eligible.charges[0].id, "Theft of services (CONVICTED) - Arrested Jan 1, 2010")],
+            [
+                (
+                    case_possibly_eligible.charges[0].ambiguous_charge_id,
+                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+                )
+            ],
         ),
         (
             "Ineligible",
             [
-                (case_partially_eligible.charges[1].id, "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
-                (case_all_ineligible.charges[0].id, "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
-                (case_all_ineligible_2.charges[0].id, "Theft of services (CONVICTED) - Arrested Jan 1, 2010"),
+                (
+                    case_partially_eligible.charges[1].ambiguous_charge_id,
+                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+                ),
+                (
+                    case_all_ineligible.charges[0].ambiguous_charge_id,
+                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+                ),
+                (
+                    case_all_ineligible_2.charges[0].ambiguous_charge_id,
+                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+                ),
             ],
         ),
         ("Need more analysis", []),
