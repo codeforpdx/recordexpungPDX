@@ -28,6 +28,8 @@ class OECIUnavailable(Exception):
 
 
 class Crawler:
+    cached_links = {}
+
     @staticmethod
     def attempt_login(session: Session, username, password) -> str:
         url = URL.login_url()
@@ -39,6 +41,15 @@ class Crawler:
             raise OECIUnavailable
         else:
             raise InvalidOECIUsernamePassword
+
+    @staticmethod
+    def fetch_link(link: str, session: Session = None):
+        if session:
+            response = session.get(link)
+            Crawler.cached_links[link] = response
+            return response
+        else:
+            return Crawler.cached_links.get(link)
 
     @staticmethod
     def search(
@@ -91,7 +102,7 @@ class Crawler:
 
     @staticmethod
     def _parse_case(session: Session, case: CaseSummary):
-        response = session.get(case.case_detail_link)
+        response = Crawler.fetch_link(case.case_detail_link, session)
         if response.status_code == 200 and response.text:
             return CaseParser.feed(response.text)
         else:

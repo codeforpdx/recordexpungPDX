@@ -1,0 +1,292 @@
+BODY
+{
+    MARGIN: 3px;
+    FONT-FAMILY: arial
+}
+TH.ssSearchResultHeader
+{
+    BORDER-TOP: black 1px solid;
+    OVERFLOW: hidden;
+    BORDER-BOTTOM: black 1px solid;
+    TEXT-ALIGN: left;
+}
+TH.ssSearchResultHeaderTop
+{
+	BORDER-TOP: black 1px solid;
+	OVERFLOW: hidden;
+  TEXT-ALIGN: left;
+}
+TH.ssSearchResultHeaderBottom
+{
+	BORDER-BOTTOM: black 1px solid;
+	OVERFLOW: hidden;
+  TEXT-ALIGN: left;
+}
+TH
+{
+    OVERFLOW: hidden
+}
+TH.ssTableHeader
+{
+  text-align: left;
+}
+TH.ssTableHeaderLabel
+{
+  TEXT-ALIGN: right;
+  FONT-WEIGHT: lighter;
+}
+TH.ssTableHeaderLabelLeft
+{
+  TEXT-ALIGN: left;
+  FONT-WEIGHT: lighter;
+}
+TD
+{
+	OVERFLOW: hidden;
+}
+a.ssLaunchHyperLink
+{
+    FONT-SIZE: 10pt;
+    COLOR: #ffffff
+}
+DIV.ssBlackNavBarText
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    COLOR: #dfdfdf
+}
+A.ssBlackNavBarHyperlink
+{
+    FONT-SIZE: 8pt;
+    COLOR: #ffffff
+}
+A.ssSearchHyperlink
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10pt;
+    CURSOR: hand;
+    COLOR: cornflowerblue;
+    TEXT-DECORATION: underline
+}
+P.ssCopyright
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    FONT-SIZE: 8pt;
+    PADDING-BOTTOM: 15px;
+    COLOR: #dfdfdf;
+    PADDING-TOP: 15px
+}
+SPAN.ssHyperLinkSpacer
+{
+    PADDING-RIGHT: 15px;
+    PADDING-LEFT: 15px;
+    FONT-SIZE: 8pt;
+    PADDING-BOTTOM: 0px;
+    COLOR: #dfdfdf;
+    PADDING-TOP: 0px
+}
+TABLE
+{
+    FONT-SIZE: 8pt;
+    COLOR: #000000;
+
+}
+DIV.ssCaseDetailSectionTitle
+{
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 20px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    MARGIN-BOTTOM: 10px;
+    WIDTH: 100%;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Times;
+    TEXT-ALIGN: center;
+    FONT-VARIANT: small-caps;
+    white-space: normal;
+    width: 100%;
+}
+DIV.ssTextFooter
+{
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 20px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    MARGIN-BOTTOM: 10px;
+    WIDTH: 100%;
+    TEXT-ALIGN: center;
+}
+DIV.ssCaseDetailROA
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 14pt;
+    WIDTH: 100%;
+    FONT-FAMILY: Times;
+    TEXT-ALIGN: center;
+    FONT-VARIANT: small-caps
+}
+DIV.ssCaseDetailCaseNbr
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10pt;
+    PADDING-BOTTOM: 20px;
+    WIDTH: 100%;
+    FONT-FAMILY: Times;
+    TEXT-ALIGN: center;
+    FONT-VARIANT: small-caps
+}
+TH.ssEventsAndOrdersSubTitle
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    PADDING-BOTTOM: 3px;
+    FONT-FAMILY: Times;
+    TEXT-ALIGN: left;
+}
+LABEL.ssLogin
+{
+    FONT-SIZE: 8pt;
+    COLOR: #003d00
+}
+P.ssLoginError
+{
+    FONT-SIZE: 8pt;
+    COLOR: red
+}
+DIV.ssErrorOccured
+{
+    FONT-SIZE: 8pt;
+    COLOR: red
+}
+P.LoginMessage
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 9pt;
+    COLOR: #6699cc
+}
+
+TD.ssLabel
+{
+    PADDING-RIGHT: 8px;
+    COLOR: #000080;
+    TEXT-ALIGN: right;
+    FONT-SIZE: 12px;
+}
+
+.ssRequiredLabel
+{
+    COLOR: Red;
+    TEXT-ALIGN: Center;
+    FONT-SIZE: 12px;
+    float:none;
+    font-weight:bold;
+}
+
+.ssRequiredText
+{
+    TEXT-ALIGN: Center;
+    FONT-SIZE: 112px;
+    float:none;
+}
+
+SPAN.ssJailingDetail
+{
+    BORDER-TOP: black 1px solid;
+    BORDER-BOTTOM: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    BORDER-RIGHT: black 1px solid;
+    MARGIN-BOTTOM: 10px;
+    MARGIN-LEFT: 10px;
+    MARGIN-RIGHT: 10px;
+    WIDTH: 100%;
+}
+
+DIV.ssJailingDetailTitle
+{
+    MARGIN-TOP: 10px;
+    MARGIN-BOTTOM: 10px;
+    MARGIN-LEFT: 10px;
+    MARGIN-RIGHT: 10px;
+    WIDTH: 100%;
+    PADDING-LEFT: 5px;
+    PADDING-RIGHT: 5px;
+}
+
+DIV.ssIncidentDetailTitle
+{
+    MARGIN-TOP: 10px;
+    MARGIN-BOTTOM: 10px;
+    MARGIN-LEFT: 10px;
+    MARGIN-RIGHT: 10px;
+    WIDTH: 100%;
+    PADDING-LEFT: 5px;
+    PADDING-RIGHT: 5px;
+    FONT-SIZE: 20px;
+}
+
+TD.ssIncidentDetailTitle
+{
+    FONT-SIZE: 20px;
+}
+
+DIV.ssLaunchProductTitle
+{
+	background-color: #EEEEEE;
+	FONT-SIZE: 16px;
+	color: Olive;
+	padding-left: 8px;
+	margin-bottom: 5px;
+}
+.ssInactiveText
+{
+  COLOR: gray;
+  FONT-STYLE: italic
+}
+
+TD.ssMessageText
+{
+  FONT-SIZE: 10pt;
+  FONT-WEIGHT: bold;
+  COLOR: #996578;
+  TEXT-ALIGN: center;
+}
+
+TD.ssSiteFooterRule
+{
+  BORDER-BOTTOM: solid 3px #000000
+}
+
+
+.ssSiteFooter
+{
+ HEIGHT: 1px;
+ VERTICAL-ALIGN: bottom;
+
+}
+
+
+TD.ssHeaderTitleBanner
+{
+	BACKGROUND-COLOR: #ffffff;
+	TEXT-ALIGN: center;
+	HEIGHT: 65px;
+	FONT-SIZE: x-large;
+	FONT-WEIGHT: bold;
+	COLOR: #6699cc;
+}
+
+TD.ssBlackNavBarLocation
+{
+  PADDING-RIGHT: 10px;
+  COLOR: #ffffff;
+  WHITE-SPACE: nowrap;
+  FONT-FAMILY: arial;
+  FONT-SIZE: 8pt;
+}
+.ButtonSection
+{
+  width: 90%;
+  margin-right: 15%;
+  text-align: right;
+}

@@ -14,17 +14,20 @@ export default class Cases extends React.Component<Props> {
       name,
       case_number,
       birth_year,
+      case_detail_link,
       balance_due,
       charges,
       location,
       current_status
     } = this.props.case;
+    const case_detail_base = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
+    const link_id = case_detail_link.substring(case_detail_base.length);
     return (
       <div id={case_number} className="mb3">
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-            {case_number}
+            <a href={"/api/case_detail_page/" + link_id} target="_blank">{case_number}</a>
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">Status </div>
