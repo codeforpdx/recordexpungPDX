@@ -10,6 +10,7 @@ from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 
 EXPECTED_MARKDOWN = """# EXPUNGEMENT ANALYSIS REPORT  
+## Search Terms  
 Name: JOHN  DOE  
   
   

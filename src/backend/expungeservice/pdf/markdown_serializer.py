@@ -13,11 +13,11 @@ class MarkdownSerializer:
 
     @staticmethod
     def default_header(aliases):
-        header = f"# EXPUNGEMENT ANALYSIS REPORT  \n"
+        header = f"# EXPUNGEMENT ANALYSIS REPORT  \n## Search Terms  \n"
         for alias in aliases:
             name = f"{alias.get('first_name', '')} {alias.get('middle_name','')} {alias.get('last_name','')}".upper()
-            name_line = f"Name: {name}  \n" if name else ""
-            dob = f"DOB: {alias.get('birth_date')}  \n" if alias.get("birth_date") else ""
+            name_line = f"Name: {name} " if name else ""
+            dob = f"DOB: {alias.get('birth_date')}  \n" if alias.get("birth_date") else " \n"
             alias_line = name_line + dob
             header += alias_line
         return header
