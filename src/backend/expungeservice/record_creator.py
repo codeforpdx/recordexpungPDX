@@ -1,17 +1,20 @@
-from dataclasses import replace
+from dataclasses import replace, asdict
 from functools import lru_cache
 from itertools import product, groupby
-from typing import List, Dict, Tuple, Any, Callable
+from typing import List, Dict, Tuple, Any, Callable, Type
 from datetime import datetime
 
 import requests
+from dacite import from_dict
 
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.expunger import ErrorChecker, Expunger
+from expungeservice.generator import get_charge_classes
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case, OeciCase, CaseCreator
-from expungeservice.models.charge import OeciCharge
+from expungeservice.models.charge import OeciCharge, Charge
+from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question, Alias
 from expungeservice.request import error
@@ -37,8 +40,10 @@ class RecordCreator:
                 )
             ]
             unknown_dispositions = RecordCreator._find_unknown_dispositions(cases_with_unique_case_number)
-            user_edited_search_results = RecordCreator._edit_search_results(cases_with_unique_case_number, edits)
-            ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
+            user_edited_search_results, new_charges = RecordCreator._edit_search_results(
+                cases_with_unique_case_number, edits
+            )
+            ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results, new_charges)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
             updated_unknown_dispositions = RecordCreator._filter_for_blocking_charges(
                 record.cases, unknown_dispositions
@@ -72,12 +77,17 @@ class RecordCreator:
         return search_results, errors
 
     @staticmethod
-    def build_ambiguous_record(search_result: List[OeciCase]) -> Tuple[AmbiguousRecord, List[Question]]:
+    def build_ambiguous_record(
+        search_result: List[OeciCase], new_charges: List[Charge]
+    ) -> Tuple[AmbiguousRecord, List[Question]]:
         ambiguous_record: AmbiguousRecord = []
         questions_accumulator: List[Question] = []
         ambiguous_cases: List[AmbiguousCase] = []
         for oeci_case in search_result:
-            ambiguous_case, questions = RecordCreator._build_case(oeci_case)
+            new_charges_in_case = list(
+                filter(lambda charge: charge.case_number == oeci_case.summary.case_number, new_charges)
+            )
+            ambiguous_case, questions = RecordCreator._build_case(oeci_case, new_charges_in_case)
             questions_accumulator += questions
             ambiguous_cases.append(ambiguous_case)
         for cases in product(*ambiguous_cases):
@@ -103,7 +113,7 @@ class RecordCreator:
         return replace(record, cases=tuple(sorted_cases))
 
     @staticmethod
-    def _build_case(oeci_case: OeciCase) -> Tuple[AmbiguousCase, List[Question]]:
+    def _build_case(oeci_case: OeciCase, new_charges: List[Charge]) -> Tuple[AmbiguousCase, List[Question]]:
         ambiguous_charges: List[AmbiguousCharge] = []
         questions: List[Question] = []
         for oeci_charge in oeci_case.charges:
@@ -123,6 +133,7 @@ class RecordCreator:
             ambiguous_charges.append(ambiguous_charge)
             if question:
                 questions.append(question)
+        ambiguous_charges += [[charge] for charge in new_charges]
         ambiguous_case: AmbiguousCase = []
         for charges in product(*ambiguous_charges):
             possible_case = Case(oeci_case.summary, charges=tuple(charges))
@@ -130,23 +141,26 @@ class RecordCreator:
         return ambiguous_case, questions
 
     @staticmethod
-    def _edit_search_results(search_result_cases: List[OeciCase], edits) -> List[OeciCase]:
+    def _edit_search_results(search_result_cases: List[OeciCase], edits) -> Tuple[List[OeciCase], List[Charge]]:
         edited_cases: List[OeciCase] = []
+        new_charges_acc: List[Charge] = []
         for case in search_result_cases:
             case_number = case.summary.case_number
             if case_number in edits.keys():
                 if edits[case_number]["action"] == "edit":
-                    edited_cases.append(RecordCreator._edit_case(case, edits[case_number]))
+                    edited_case, new_charges = RecordCreator._edit_case(case, edits[case_number])
+                    edited_cases.append(edited_case)
+                    new_charges_acc += new_charges
                 # else: if the action name for this case_number isn't "edit", assume it is "delete" and skip it
             else:
                 edited_cases.append(case)
-        return edited_cases
+        return edited_cases, new_charges_acc
 
     @staticmethod
-    def _edit_case(case: OeciCase, edits):
-        if "summary" in edits.keys():
+    def _edit_case(case: OeciCase, case_edits) -> Tuple[OeciCase, List[Charge]]:
+        if "summary" in case_edits.keys():
             case_summary_edits: Dict[str, Any] = {}
-            for key, value in edits["summary"].items():
+            for key, value in case_edits["summary"].items():
                 if key == "date":
                     case_summary_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
                 elif key == "balance_due":
@@ -158,41 +172,84 @@ class RecordCreator:
             edited_summary = replace(case.summary, **case_summary_edits)
         else:
             edited_summary = case.summary
-        if "charges" in edits.keys():
-            edited_charges = RecordCreator._edit_charges(case.charges, edits["charges"])
+        new_charges: List[Charge] = []
+        if "charges" in case_edits.keys():
+            edited_charges, new_charges = RecordCreator._edit_charges(
+                case.summary.case_number, case.charges, case_edits["charges"]
+            )
         else:
             edited_charges = case.charges
-        return OeciCase(edited_summary, edited_charges)
+        return OeciCase(edited_summary, edited_charges), new_charges
 
     @staticmethod
-    def _edit_charges(charges: Tuple[OeciCharge, ...], edits):
-        edited_charges = []
+    def _edit_charges(
+        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
+    ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
+        edited_charges, new_charges = [], []
         for charge in charges:
             # TODO: deleting charges not supported yet
-            if charge.ambiguous_charge_id in edits.keys():
-                charge_edits: Dict[str, Any] = {}
-                for key, value in edits[charge.ambiguous_charge_id].items():
-                    if key == "disposition":
-                        if value:
-                            charge_edits["disposition"] = DispositionCreator.create(
-                                datetime.date(
-                                    datetime.strptime(
-                                        edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y"
-                                    )
-                                ),
-                                edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
-                            )
-                        else:
-                            charge_edits["disposition"] = None
-                    elif key in ("date", "probation_revoked"):
-                        if value:
-                            charge_edits[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
-                    else:
-                        charge_edits[key] = value
-                edited_charges.append(replace(charge, **charge_edits))
+            if charge.ambiguous_charge_id in charges_edits.keys():
+                charge_edits = charges_edits[charge.ambiguous_charge_id]
+                charge_dict = RecordCreator._parse_charge_edits(charge_edits)
+                charge_type_string = charge_dict.pop("charge_type", None)
+                edited_oeci_charge = replace(charge, **charge_dict)
+                if charge_type_string:
+                    charge_type = RecordCreator._get_charge_type(charge_type_string)
+                    charge_type_data = {
+                        "id": f"{charge.ambiguous_charge_id}-0",
+                        "case_number": case_number,
+                        **asdict(edited_oeci_charge),
+                    }
+                    new_charge = from_dict(data_class=charge_type, data=charge_type_data)
+                    new_charges.append(new_charge)
+                else:
+                    edited_charges.append(edited_oeci_charge)
             else:
                 edited_charges.append(charge)
-        return edited_charges
+        for ambiguous_charge_id, charge_edits in charges_edits.items():
+            charge_ids = [charge.ambiguous_charge_id for charge in charges]
+            if ambiguous_charge_id not in charge_ids:
+                charge_dict = RecordCreator._parse_charge_edits(charge_edits)
+                charge_type_string = charge_dict.pop("charge_type", None)
+                charge_type = RecordCreator._get_charge_type(charge_type_string)
+                charge_edits_with_defaults = {
+                    **charge_dict,
+                    "ambiguous_charge_id": ambiguous_charge_id,
+                    "case_number": case_number,
+                    "id": f"{ambiguous_charge_id}-0",
+                    "name": "N/A",
+                    "statute": "N/A",
+                    "level": "N/A",
+                    "type_name": "N/A",
+                }
+                new_charge = from_dict(data_class=charge_type, data=charge_edits_with_defaults)
+                new_charges.append(new_charge)
+        return tuple(edited_charges), new_charges
+
+    @staticmethod
+    def _get_charge_type(charge_type: str) -> Type[Charge]:
+        charge_types = get_charge_classes()
+        charge_types_dict = {charge_type.__name__: charge_type for charge_type in charge_types}
+        return charge_types_dict.get(charge_type, UnclassifiedCharge)
+
+    @staticmethod
+    def _parse_charge_edits(charge_edits):
+        charge_dict: Dict[str, Any] = {}
+        for key, value in charge_edits.items():
+            if key == "disposition":
+                if value:
+                    charge_dict["disposition"] = DispositionCreator.create(
+                        datetime.date(datetime.strptime(charge_edits["disposition"]["date"], "%m/%d/%Y")),
+                        charge_edits["disposition"]["ruling"],
+                    )
+                else:
+                    charge_dict["disposition"] = None
+            elif key in ("date", "probation_revoked"):
+                if value:
+                    charge_dict[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+            else:
+                charge_dict[key] = value
+        return charge_dict
 
     @staticmethod
     def _find_unknown_dispositions(cases: List[OeciCase]) -> List[str]:
