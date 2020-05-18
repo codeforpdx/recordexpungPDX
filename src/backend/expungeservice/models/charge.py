@@ -31,6 +31,7 @@ class Charge(OeciCharge):
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
     type_name: str = "Unknown"
     expungement_rules: str = "\\[rules documentation not added yet\\]"
+    blocks_other_charges: bool = True
 
     @property
     def type_eligibility(self) -> TypeEligibility:
@@ -81,9 +82,6 @@ If the type eligibility is unknown, the method can return None. """
     def recent_dismissal(self):
         three_years_ago = date_class.today() + relativedelta(years=-3)
         return self.dismissed() and self.date > three_years_ago
-
-    def blocks_other_charges(self):
-        return True
 
     def hidden_in_record_summary(self):
         return False

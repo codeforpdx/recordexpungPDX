@@ -40,8 +40,11 @@ class RecordCreator:
             user_edited_search_results = RecordCreator._edit_search_results(cases_with_unique_case_number, edits)
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+            updated_unknown_dispositions = RecordCreator._filter_for_blocking_charges(
+                record.cases, unknown_dispositions
+            )
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, ambiguous_record, questions_as_dict, unknown_dispositions
+            return record, ambiguous_record, questions_as_dict, updated_unknown_dispositions
 
     @staticmethod
     @lru_cache(maxsize=4)
@@ -173,7 +176,9 @@ class RecordCreator:
                         if value:
                             charge_edits["disposition"] = DispositionCreator.create(
                                 datetime.date(
-                                    datetime.strptime(edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y")
+                                    datetime.strptime(
+                                        edits[charge.ambiguous_charge_id]["disposition"]["date"], "%m/%d/%Y"
+                                    )
                                 ),
                                 edits[charge.ambiguous_charge_id]["disposition"]["ruling"],
                             )
@@ -195,5 +200,14 @@ class RecordCreator:
         for case in cases:
             for charge in case.charges:
                 if not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED:
+                    unknown_dispositions.append(charge.ambiguous_charge_id)
+        return unknown_dispositions
+
+    @staticmethod
+    def _filter_for_blocking_charges(cases: Tuple[Case, ...], charge_ids: List[str]) -> List[str]:
+        unknown_dispositions = []
+        for case in cases:
+            for charge in case.charges:
+                if charge.ambiguous_charge_id in charge_ids and charge.blocks_other_charges:
                     unknown_dispositions.append(charge.ambiguous_charge_id)
         return unknown_dispositions

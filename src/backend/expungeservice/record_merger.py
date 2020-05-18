@@ -21,6 +21,7 @@ import collections
 
 
 class RecordMerger:
+    # We assume all records contain the same errors
     @staticmethod
     def merge(
         ambiguous_record: AmbiguousRecord,

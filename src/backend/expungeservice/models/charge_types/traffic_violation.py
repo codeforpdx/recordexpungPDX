@@ -13,6 +13,7 @@ Notably, Unauthorized Use of a Vehicle is not considered a traffic offense.
 Dismissed traffic-related Violations are not eligible for expungement
 HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed Misdemeanors and Felonies, ARE eligible for expungement."""
     )
+    blocks_other_charges: bool = False
 
     def _type_eligibility(self):
         if self.dismissed():
@@ -26,9 +27,6 @@ HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed
                 EligibilityStatus.INELIGIBLE,
                 reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",
             )
-
-    def blocks_other_charges(self):
-        return False
 
     def hidden_in_record_summary(self):
         return True

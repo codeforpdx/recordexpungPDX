@@ -21,12 +21,6 @@ class CaseSummary:
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
 
-    def closed(self):
-        if self._ignore_open_case():
-            return True
-        else:
-            return self._closed()
-
     @staticmethod
     def _parse_birth_year(info) -> Optional[int]:
         if len(info) > 1:
@@ -34,10 +28,7 @@ class CaseSummary:
         else:
             return None
 
-    def _ignore_open_case(self):
-        return "violation" in self.violation_type.lower() or "municipal parking" == self.violation_type.lower()
-
-    def _closed(self):
+    def closed(self):
         CLOSED_STATUS = ["Closed", "Inactive", "Purgable", "Bankruptcy Pending"]
         return self.current_status in CLOSED_STATUS
 

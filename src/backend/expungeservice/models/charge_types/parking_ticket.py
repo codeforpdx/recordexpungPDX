@@ -15,6 +15,7 @@ class ParkingTicket(Charge):
     expungement_rules: str = (
         """Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of convicted traffic offenses. No other section specifically allows for parking offenses to be eligible."""
     )
+    blocks_other_charges: bool = False
 
     def _type_eligibility(self):
         if self.convicted():
@@ -26,9 +27,6 @@ class ParkingTicket(Charge):
                 EligibilityStatus.INELIGIBLE,
                 reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",
             )
-
-    def blocks_other_charges(self):
-        return False
 
     def hidden_in_record_summary(self):
         return True
