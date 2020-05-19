@@ -8,6 +8,7 @@ from datetime import datetime
 from requests import Session
 
 from expungeservice.crawler.request import Payload, URL
+from expungeservice.crawler.util import LRUCache
 from expungeservice.models.case import CaseCreator, Case, OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.disposition import DispositionCreator
@@ -28,6 +29,8 @@ class OECIUnavailable(Exception):
 
 
 class Crawler:
+    cached_links = LRUCache(1000)
+
     @staticmethod
     def attempt_login(session: Session, username, password) -> str:
         url = URL.login_url()
@@ -39,6 +42,15 @@ class Crawler:
             raise OECIUnavailable
         else:
             raise InvalidOECIUsernamePassword
+
+    @staticmethod
+    def fetch_link(link: str, session: Session = None):
+        if session:
+            response = session.get(link)
+            Crawler.cached_links[link] = response
+            return response
+        else:
+            return Crawler.cached_links[link]
 
     @staticmethod
     def search(
@@ -91,7 +103,7 @@ class Crawler:
 
     @staticmethod
     def _parse_case(session: Session, case: CaseSummary):
-        response = session.get(case.case_detail_link)
+        response = Crawler.fetch_link(case.case_detail_link, session)
         if response.status_code == 200 and response.text:
             return CaseParser.feed(response.text)
         else:
