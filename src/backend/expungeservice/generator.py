@@ -40,7 +40,13 @@ def _build_charge_strategy(charge_class: Type[Charge], case: CaseSummary) -> Sea
     else:
         disposition_status = one_of(just(DispositionStatus.CONVICTED), just(DispositionStatus.UNRECOGNIZED))
     disposition = builds(Disposition, status=disposition_status, date=dates(max_value=date(9000, 12, 31)))
-    return builds(charge_class, case_number=just(case.case_number), disposition=one_of(none(), disposition))
+    return builds(
+        charge_class,
+        case_number=just(case.case_number),
+        disposition=one_of(none(), disposition),
+        date=dates(max_value=date(9000, 12, 31)),
+        probation_revoked=one_of(none(), dates(max_value=date(9000, 12, 31))),
+    )
 
 
 @composite
