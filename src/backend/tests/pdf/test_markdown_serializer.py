@@ -11,6 +11,7 @@ from tests.fixtures.john_doe import JohnDoe
 
 EXPECTED_MARKDOWN = """# EXPUNGEMENT ANALYSIS REPORT  
 ## Search Terms  
+Name: JOHN  SMITH DOB: 2/2/2020  
 Name: JOHN  DOE  
   
   
@@ -37,7 +38,10 @@ def example_record():
 def test_pdf_print(example_record):
     record_summary = RecordSummarizer.summarize(example_record, {}, [])
     record = json.loads(json.dumps(record_summary, cls=ExpungeModelEncoder))
-    aliases = [{"first_name": "john", "middle_name": "", "last_name": "doe", "birth_date": ""}]
+    aliases = [
+        {"first_name": "john", "middle_name": "", "last_name": "smith", "birth_date": "2/2/2020"},
+        {"first_name": "john", "middle_name": "", "last_name": "doe", "birth_date": ""},
+    ]
     header = MarkdownSerializer.default_header(aliases)
     source = MarkdownSerializer.to_markdown(record, header)
     assert source == EXPECTED_MARKDOWN
