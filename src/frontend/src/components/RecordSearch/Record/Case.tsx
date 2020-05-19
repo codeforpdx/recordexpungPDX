@@ -7,16 +7,18 @@ import currencyFormat from '../../../service/currency-format';
 interface Props {
   case: CaseData;
   dispositionWasUnknown: string[];
-
+  editing: boolean;
+  isNewCase: boolean
+  propogateState?: Function;
 }
+
 interface State {
   editing: Boolean;
   edited: Boolean;
-
 }
 export default class Cases extends React.Component<Props, State> {
   state: State = {
-    editing: false,
+    editing: this.props.editing,
     edited: false
   };
 
@@ -35,12 +37,14 @@ export default class Cases extends React.Component<Props, State> {
     const case_detail_base = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
     const link_id = case_detail_link.substring(case_detail_base.length);
     return (
-      this.state.editing ? <CaseEditPanel propogateSubmit={()=>{this.setState({editing: false})}} case={this.props.case} /> :
       <div id={case_number} className="mb3">
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-            <a href={prefix + "/api/case_detail_page/" + link_id} target="_blank">{case_number}</a>
+            {case_detail_link ?
+              <a href={prefix + "/api/case_detail_page/" + link_id} target="_blank">{case_number}</a> :
+              case_number
+            }
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">Status </div>
@@ -84,6 +88,9 @@ export default class Cases extends React.Component<Props, State> {
             </button>
           </div>
         </div>
+        {(this.state.editing ?
+          <CaseEditPanel propogateSubmit={()=>{this.setState({editing: false}); if(this.props.propogateState){this.props.propogateState()}}} case={this.props.case} isNewCase={this.props.isNewCase}/> :
+        null) }
         <Charges charges={charges} dispositionWasUnknown={this.props.dispositionWasUnknown} />
       </div>
     );

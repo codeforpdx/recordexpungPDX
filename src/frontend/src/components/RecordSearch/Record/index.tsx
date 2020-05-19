@@ -1,8 +1,8 @@
 import React from 'react';
 import Cases from './Cases';
-import AddCaseButton from './AddCaseButton';
 import RecordSummary from './RecordSummary';
 import { RecordData } from './types';
+import AddCaseButton from './AddCaseButton';
 
 interface Props {
   record: RecordData;
@@ -37,10 +37,6 @@ export default class Record extends React.Component<Props> {
       <>
       {errors}
       <section>
-        {this.props.record.summary ? (
-          <RecordSummary summary={this.props.record.summary}/>
-          ) : null }
-          <AddCaseButton/>
         {this.props.record.cases ? (
           <Cases cases={this.props.record.cases} dispositionWasUnknown={this.props.dispositionWasUnknown} />
         ) : null}

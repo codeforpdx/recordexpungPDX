@@ -4,8 +4,9 @@ import { CaseData } from './types';
 import InvalidInput from '../../InvalidInput'
 
 interface Props {
-  propogateSubmit: Function
-  case: CaseData
+  propogateSubmit: Function;
+  case: CaseData;
+  isNewCase: boolean
   }
 
 interface State {
@@ -33,6 +34,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     missingBirthYear: false,
     invalidBirthYear: false,
   };
+
   handleUpdateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm().then(() => {
@@ -68,6 +70,22 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     });
   };
 
+  balancePattern = new RegExp('[0-9]*[.]?[0-9]?[0-9]?');
+  handleBalanceChange = (e: React.BaseSyntheticEvent) => {
+    const parsed = this.balancePattern.exec(e.target.value);
+    this.setState<any>({
+      "balance": ( parsed ? parsed[0] : "")
+    })
+  };
+
+  birthYearPattern = new RegExp('[0-9][0-9]?[0-9]?[0-9]?');
+  handleBirthYearChange = (e: React.BaseSyntheticEvent) => {
+    const parsed = this.birthYearPattern.exec(e.target.value);
+    this.setState<any>({
+      "birth_year": ( parsed ? parsed[0] : "")
+    })
+  };
+
   validateForm = () => {
     return new Promise(resolve => {
       this.setState(
@@ -89,13 +107,6 @@ export default class CaseEditPanel extends React.Component<Props, State> {
       <form className=" bb bw1 b--black-025 pa3">
         <fieldset className="mw6 pa0">
           <legend className="visually-hidden">Edit Case</legend>
-
-          <div className="mw5 mb3">
-            <label htmlFor={"case_edit_number_"+this.props.case.case_number} className="db fw7 mb1">
-              Case Number <span className="normal">(Optional)</span>
-            </label>
-            <input name = "case_number" id={"case_edit_number_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3" onChange={this.handleChange}/>
-          </div>
 
           <fieldset className="mb3 pa0">
             <legend className="fw7">Current Status</legend>
@@ -133,7 +144,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
               <div className="absolute top-0 bottom-0 pl3 flex items-center">
                 <span>$</span>
               </div>
-              <input name="balance" id={"case_edit_balance_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3 pl4" required aria-invalid="false" onChange={this.handleChange}/>
+              <input name="balance" value={this.state.balance} id={"case_edit_balance_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3 pl4" required aria-invalid="false" onChange={this.handleBalanceChange}/>
             </div>
           </div>
 
@@ -141,16 +152,18 @@ export default class CaseEditPanel extends React.Component<Props, State> {
             <label htmlFor={"case_edit_birthyear_"+this.props.case.case_number} className="db fw7 mb1">
               Birth Year <span className="normal">yyyy</span>
             </label>
-            <input name="birth_year" id={"case_edit_birthyear_"+this.props.case.case_number} type="number" className="w-100 br2 b--black-20 pa3" required aria-invalid="false" onChange={this.handleChange}/>
+            <input name="birth_year" value={this.state.birth_year} id={"case_edit_birthyear_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3" required aria-invalid="false" onChange={this.handleBirthYearChange}/>
           </div>
 
           <div className="flex items-center mb3">
             <button className="fw6 br2 bg-blue white bg-animate hover-bg-dark-blue pa3 mr4" onClick={this.handleUpdateSubmit}>
-              Update Case
+              {this.props.isNewCase ? "Create Case" : "Update Case"}
             </button>
-            <button className="fw6 blue link hover-red mr4" onClick={this.handleRemove}>
-              Remove Case
-            </button>
+            {this.props.isNewCase ? null :
+              <button className="fw6 blue link hover-red mr4" onClick={this.handleRemove}>
+                Remove Case
+              </button>
+            }
             <button className="fw6 blue link hover-dark-blue mr4" onClick={this.handleCancel}>
               Cancel
             </button>

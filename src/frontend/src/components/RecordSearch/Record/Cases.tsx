@@ -12,7 +12,7 @@ export default class Cases extends React.Component<Props> {
     const allCases = this.props.cases.map((caseInstance, index) => {
       return (
         <li key={index}>
-          <Case case={caseInstance} dispositionWasUnknown={this.props.dispositionWasUnknown} />
+          <Case case={caseInstance} dispositionWasUnknown={this.props.dispositionWasUnknown} editing={false} isNewCase={false}/>
         </li>
       );
     });
