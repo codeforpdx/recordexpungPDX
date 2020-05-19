@@ -78,19 +78,23 @@ export default class Cases extends React.Component<Props, State> {
           </div>
           */}
           <div className="fl fr-l ph3 pv3">
-            <button className="mid-gray hover-blue ph2" aria-controls="case-form" aria-expanded="true" data-reach-disclosure-button="" data-state="open"  onClick={() => {this.setState({editing: true})}}>
-              <span className="visually-hidden">Edit Case</span>
-              <span aria-hidden="true" className="fas fa-pen"></span>
-            </button>
-            <button className="mid-gray hover-blue ph2">
-              <span className="visually-hidden">Add Charge</span>
-              <span aria-hidden="true" className="fas fa-plus-circle"></span>
-            </button>
+            { !this.state.editing &&
+              <>
+              <button className="mid-gray hover-blue ph2" aria-controls="case-form" aria-expanded="true" data-reach-disclosure-button="" data-state="open"  onClick={() => {this.setState({editing: true})}}>
+                <span className="visually-hidden">Edit Case</span>
+                <span aria-hidden="true" className="fas fa-pen"></span>
+              </button>
+              <button className="mid-gray hover-blue ph2">
+                <span className="visually-hidden">Add Charge</span>
+                <span aria-hidden="true" className="fas fa-plus-circle"></span>
+              </button>
+              </>
+            }
           </div>
         </div>
-        {(this.state.editing ?
-          <CaseEditPanel propogateSubmit={()=>{this.setState({editing: false}); if(this.props.propogateState){this.props.propogateState()}}} case={this.props.case} isNewCase={this.props.isNewCase}/> :
-        null) }
+        {this.state.editing &&
+          <CaseEditPanel propogateSubmit={()=>{this.setState({editing: false}); if(this.props.propogateState){this.props.propogateState()}}} case={this.props.case} isNewCase={this.props.isNewCase}/>
+        }
         <Charges charges={charges} dispositionWasUnknown={this.props.dispositionWasUnknown} />
       </div>
     );

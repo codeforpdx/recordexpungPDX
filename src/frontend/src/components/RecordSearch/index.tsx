@@ -58,10 +58,11 @@ class RecordSearch extends Component<Props, State> {
       <Header/>
       <main className="mw8 center ph2">
         <SearchPanel searchRecord={this.props.searchRecord} />
-        <Status/>
-        {this.props.record && this.props.record.summary ? (
+
+        {this.props.record && this.props.record.summary ?
           <RecordSummary summary={this.props.record.summary}/>
-          ) : null }
+          :
+          <Status/> }
 
         {this.state.addingNewCase ?
           <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">

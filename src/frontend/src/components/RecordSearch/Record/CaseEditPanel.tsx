@@ -15,8 +15,8 @@ interface State {
   birth_year: string;
   county: string;
   missingStatus: boolean;
+  missingCounty: boolean;
   missingBalance: boolean;
-  invalidBalance: boolean;
   missingBirthYear: boolean;
   invalidBirthYear: boolean;
   }
@@ -29,8 +29,8 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     birth_year: "",
     county: "",
     missingStatus: false,
+    missingCounty: false,
     missingBalance: false,
-    invalidBalance: false,
     missingBirthYear: false,
     invalidBirthYear: false,
   };
@@ -40,6 +40,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     this.validateForm().then(() => {
       if (
         !this.state.missingStatus &&
+        !this.state.missingCounty &&
         !this.state.missingBalance &&
         !this.state.missingBirthYear &&
         !this.state.invalidBirthYear
@@ -91,6 +92,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
       this.setState(
         {
             missingStatus: this.state.status.length === 0,
+            missingCounty: this.state.county === "",
             missingBalance: this.state.balance.length === 0,
             missingBirthYear: this.state.birth_year.length === 0,
             invalidBirthYear:
@@ -126,6 +128,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
             <label htmlFor={"case_edit_county_"+this.props.case.case_number} className="db mb1 fw7">County</label>
             <div className="relative mb3">
               <select name = "county" id={"case_edit_county_"+this.props.case.case_number} className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white" onChange={this.handleChange}>
+                <option value="">---</option>
                 <option value="option1">Option 1</option>
                 <option value="option2">Option 2</option>
                 <option value="option3">Option 3</option>
@@ -170,6 +173,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
           </div>
 
           <InvalidInput message="Current Status is required" condition={this.state.missingStatus}/>
+          <InvalidInput message="County is required" condition={this.state.missingCounty}/>
           <InvalidInput message="Balance is required" condition={this.state.missingBalance}/>
           <InvalidInput message="Birth Year is required" condition={this.state.missingBirthYear}/>
           <InvalidInput message="Birth Year format is invalid" condition={this.state.invalidBirthYear}/>
