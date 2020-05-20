@@ -2,7 +2,7 @@ from dataclasses import replace, asdict
 from functools import lru_cache
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable, Type
-from datetime import datetime
+from datetime import date, datetime
 
 import requests
 from dacite import from_dict
@@ -12,7 +12,7 @@ from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword,
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.generator import get_charge_classes
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
-from expungeservice.models.case import Case, OeciCase, CaseCreator
+from expungeservice.models.case import Case, OeciCase, CaseSummary, CaseCreator
 from expungeservice.models.charge import OeciCharge, Charge
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.record_merger import RecordMerger
@@ -154,6 +154,26 @@ class RecordCreator:
                 # else: if the action name for this case_number isn't "edit", assume it is "delete" and skip it
             else:
                 edited_cases.append(case)
+        for (case_number, case_data) in edits.items():
+            if case_data["action"] == "add":
+                blank_case = OeciCase(
+                    summary=CaseSummary(
+                        name="",
+                        birth_year=0,
+                        case_number=case_number,
+                        citation_number="",
+                        location="",
+                        date=date.today(),
+                        violation_type="",
+                        current_status="",
+                        case_detail_link="",
+                        balance_due_in_cents=0
+                    ),
+                    charges=(),
+                )
+                new_case, new_charges = RecordCreator._edit_case(blank_case, case_data)
+                edited_cases.append(new_case)
+                new_charges_acc += new_charges
         return edited_cases, new_charges_acc
 
     @staticmethod

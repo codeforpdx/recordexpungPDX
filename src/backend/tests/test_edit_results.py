@@ -170,3 +170,31 @@ def test_add_new_charge():
     )
     assert isinstance(record.cases[0].charges[2], Misdemeanor)
     assert record.cases[0].charges[2].date == date(2001, 1, 1)
+
+
+def test_add_new_case():
+    record, ambiguous_record, questions, _ = RecordCreator.build_record(
+        search("single_case_two_charges"),
+        "username",
+        "password",
+        (),
+        {
+            "NEW-0001": {
+                "action": "add",
+                "summary": {
+                    "balance_due_in_cents": 0,
+                    "location": "sky",
+                    "date":"1/1/1990"
+                },
+            }
+        },
+    )
+
+    assert len(record.cases)==2
+    assert record.cases[0].summary.case_number=="X0001"
+    assert record.cases[0].summary.location=="earth"
+
+    assert record.cases[1].summary.case_number=="NEW-0001"
+    assert record.cases[1].summary.balance_due_in_cents==0
+    assert record.cases[1].summary.location=="sky"
+    assert record.cases[1].summary.birth_year==0
