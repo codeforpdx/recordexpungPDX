@@ -4,6 +4,7 @@ from typing import List, Iterator, Type, Optional
 
 from expungeservice.models.ambiguous import AmbiguousChargeTypeWithQuestion
 from expungeservice.models.charge import Charge
+from expungeservice.models.charge_types.criminal_forfeiture import CriminalForfeiture
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
@@ -62,6 +63,7 @@ class ChargeClassifier:
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
         yield ChargeClassifier._civil_offense(self.statute, name)
+        yield ChargeClassifier._criminal_forfeiture(self.statute)
         yield ChargeClassifier._traffic_crime(self.statute, name, self.level, self.disposition)
         yield ChargeClassifier._marijuana_violation(name, self.level)
         yield ChargeClassifier._violation(self.level, name)
@@ -260,6 +262,11 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
         elif "contempt of court" in name:
             return AmbiguousChargeTypeWithQuestion([CivilOffense])
+
+    @staticmethod
+    def _criminal_forfeiture(statute):
+        if statute == "131582":
+            return AmbiguousChargeTypeWithQuestion([CriminalForfeiture])
 
     @staticmethod
     def _build_chapter_for_civil_offense(statute):
