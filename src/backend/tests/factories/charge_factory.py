@@ -3,7 +3,7 @@ from datetime import date as date_class
 from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.models.charge import Charge
 from expungeservice.charge_creator import ChargeCreator
-from expungeservice.models.disposition import Disposition, DispositionCreator
+from expungeservice.models.disposition import Disposition, DispositionCreator, DispositionStatus
 
 
 class ChargeFactory:
@@ -17,7 +17,7 @@ class ChargeFactory:
         statute="164.125",
         level="Misdemeanor Class A",
         date: date_class = None,
-        disposition: Disposition = None,
+        disposition: Disposition = DispositionCreator.empty(),
         violation_type="Offense Misdemeanor",
     ) -> Charge:
         charges = cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type)
@@ -32,7 +32,7 @@ class ChargeFactory:
         statute="164.125",
         level="Misdemeanor Class A",
         date: date_class = None,
-        disposition: Disposition = None,
+        disposition: Disposition = DispositionCreator.empty(),
         violation_type="Offense Misdemeanor",
     ) -> AmbiguousCharge:
         return cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type)
@@ -40,7 +40,7 @@ class ChargeFactory:
     @classmethod
     def _build_ambiguous_charge(cls, case_number, date, disposition, level, name, statute, violation_type):
         cls.charge_count += 1
-        if disposition and not date:
+        if disposition.status != DispositionStatus.UNKNOWN and not date:
             updated_date = disposition.date
         elif date:
             updated_date = date

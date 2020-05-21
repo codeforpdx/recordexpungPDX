@@ -1,3 +1,4 @@
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 
@@ -31,7 +32,7 @@ def test_juvenile_charge_convicted():
 def test_juvenile_charge_no_disposition():
     case = CaseSummaryFactory.create(type_status=["Juvenile Delinquency: Misdemeanor", "Closed"])
     juvenile_charge = ChargeFactory.create(
-        case_number=case.case_number, disposition=None, violation_type=case.violation_type
+        case_number=case.case_number, disposition=DispositionCreator.empty(), violation_type=case.violation_type
     )
 
     assert isinstance(juvenile_charge, JuvenileCharge)

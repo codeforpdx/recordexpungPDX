@@ -22,7 +22,7 @@ class ParkingTicket(Charge):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         elif self.dismissed():
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
-        elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:
+        elif self.disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE,
                 reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",

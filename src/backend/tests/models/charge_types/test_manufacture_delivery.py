@@ -1,3 +1,4 @@
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.record_merger import RecordMerger
 from tests.factories.charge_factory import ChargeFactory
@@ -16,7 +17,7 @@ def test_manufacture_delivery_dismissed():
 
 def test_manufacture_delivery_missing_disposition():
     charges = ChargeFactory.create_ambiguous_charge(
-        name="Manufacture/Delivery", statute="4759922b", level="Felony Class A", disposition=None
+        name="Manufacture/Delivery", statute="4759922b", level="Felony Class A", disposition=DispositionCreator.empty()
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 

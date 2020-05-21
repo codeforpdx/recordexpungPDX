@@ -26,18 +26,16 @@ export default class Charge extends React.Component<Props> {
 
     const dispositionEvent = (disposition: any, date: any) => {
       let dispositionEvent;
-      if (disposition === null) {
+      dispositionEvent = disposition.status;
+      if (disposition.status === "Convicted") {
+        dispositionEvent += " - " + disposition.date;
+      } else if (disposition.status === "Unrecognized") {
+        dispositionEvent += " (\"" + disposition.ruling + "\")";
+      } else if (disposition.status === "Unknown") {
         dispositionEvent = "Unknown";
-      }  else {
-        dispositionEvent = disposition.status;
-        if (disposition.status === "Convicted") {
-          dispositionEvent += " - " + disposition.date;
-        } else if (disposition.status === "Unrecognized") {
-          dispositionEvent += " (\"" + disposition.ruling + "\")";
-        }
-        if (disposition.amended) {
-          dispositionEvent += " (Amended)"
-        }
+      }
+      if (disposition.amended) {
+        dispositionEvent += " (Amended)"
       }
       return dispositionEvent;
     };

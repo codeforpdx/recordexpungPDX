@@ -20,7 +20,7 @@ class OeciCharge:
     statute: str
     level: str
     date: date_class
-    disposition: Optional[Disposition]
+    disposition: Disposition
     probation_revoked: Optional[date_class]
 
 
@@ -42,7 +42,7 @@ class Charge(OeciCharge):
             return self._default_type_eligibility()
 
     def _default_type_eligibility(self):
-        if self.disposition is None:
+        if self.disposition.status == DispositionStatus.UNKNOWN:
             return TypeEligibility(
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not found. Needs further analysis"
             )
@@ -51,9 +51,8 @@ class Charge(OeciCharge):
                 EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Disposition not recognized. Needs further analysis"
             )
         else:
-            # This block should never run, because we assume the charge disposition is always convicted, dismissed, unrecognized, or missing.
-            return TypeEligibility(
-                EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Type eligibility could not be determined"
+            raise ValueError(
+                "This block should never run, because we assume the charge disposition is always convicted, dismissed, unrecognized, or missing."
             )
 
     def _type_eligibility(self):
@@ -67,15 +66,15 @@ If the type eligibility is unknown, the method can return None. """
 
     def dismissed(self):
         dismissal_status = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]
-        return self.disposition and self.disposition.status in dismissal_status
+        return self.disposition.status in dismissal_status
 
     def convicted(self):
-        return self.disposition and self.disposition.status == DispositionStatus.CONVICTED
+        return self.disposition.status == DispositionStatus.CONVICTED
 
     def recent_conviction(self):
         ten_years_ago = date_class.today() + relativedelta(years=-10)
         if self.convicted():
-            return self.disposition.date > ten_years_ago  # type: ignore
+            return self.disposition.date > ten_years_ago
         else:
             return False
 
@@ -89,5 +88,5 @@ If the type eligibility is unknown, the method can return None. """
     def to_one_line(self) -> str:
         short_name = self.name.split("(")[0]
         arrested_date = self.date.strftime("%b %-d, %Y")
-        disposition = str(self.disposition.status.name) if self.disposition else "Unknown"
+        disposition = str(self.disposition.status.name)
         return f"{short_name} ({disposition}) - Arrested {arrested_date}"

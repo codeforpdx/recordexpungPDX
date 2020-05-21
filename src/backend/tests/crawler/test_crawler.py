@@ -1,6 +1,8 @@
 import unittest
 
 from datetime import datetime
+
+from expungeservice.models.disposition import DispositionStatus
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -34,12 +36,12 @@ def test_search_function():
     assert record.cases[1].charges[0].disposition.ruling == "Dismissed"
     assert record.cases[1].charges[0].disposition.date == datetime.date(datetime.strptime("04/30/1992", "%m/%d/%Y"))
 
-    assert record.cases[0].charges[0].disposition is None
-    assert record.cases[0].charges[0].disposition is None
-    assert record.cases[0].charges[1].disposition is None
-    assert record.cases[0].charges[1].disposition is None
-    assert record.cases[0].charges[2].disposition is None
-    assert record.cases[0].charges[2].disposition is None
+    assert record.cases[0].charges[0].disposition.status == DispositionStatus.UNKNOWN
+    assert record.cases[0].charges[0].disposition.status == DispositionStatus.UNKNOWN
+    assert record.cases[0].charges[1].disposition.status == DispositionStatus.UNKNOWN
+    assert record.cases[0].charges[1].disposition.status == DispositionStatus.UNKNOWN
+    assert record.cases[0].charges[2].disposition.status == DispositionStatus.UNKNOWN
+    assert record.cases[0].charges[2].disposition.status == DispositionStatus.UNKNOWN
 
 
 def test_a_blank_search_response():

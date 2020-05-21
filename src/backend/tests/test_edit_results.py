@@ -5,7 +5,7 @@ from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.record import Record
-from expungeservice.models.disposition import Disposition, DispositionStatus
+from expungeservice.models.disposition import Disposition, DispositionStatus, DispositionCreator
 from expungeservice.record_creator import RecordCreator
 
 
@@ -40,7 +40,7 @@ case_1 = OeciCase(
             statute="200.000",
             level="Felony Class C",
             date=date(2001, 1, 1),
-            disposition=None,
+            disposition=DispositionCreator.empty(),
             probation_revoked=None,
         ),
     ),
@@ -76,7 +76,7 @@ case_2 = OeciCase(
             statute="200.000",
             level="Violation",
             date=date(2001, 1, 1),
-            disposition=None,
+            disposition=DispositionCreator.empty(),
             probation_revoked=None,
         ),
     ),
@@ -97,7 +97,7 @@ def test_no_op():
     )
     assert len(record.cases) == 2
     assert len(record.cases[0].charges) == 2
-    assert record.cases[0].charges[1].disposition == None
+    assert record.cases[0].charges[1].disposition.status == DispositionStatus.UNKNOWN
 
 
 def test_edit_some_fields_on_case():

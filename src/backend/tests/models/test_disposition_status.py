@@ -36,7 +36,7 @@ def test_all_disposition_statuses_are_either_convicted_or_dismissed():
         # which happens to always be a valid string for that dispo status.
         charge = replace(pre_charge, disposition=DispositionCreator.create(today, status.value))
 
-        if status == DispositionStatus.UNRECOGNIZED:
+        if status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             assert not charge.convicted()
             assert not charge.dismissed()
         else:

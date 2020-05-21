@@ -9,6 +9,7 @@ Rules for 800 Level charges are as follows:
 800 level convictions of any kind are not type eligible
 """
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.duii import Duii, DivertedDuii
@@ -71,7 +72,9 @@ def test_dismissed_infraction_is_not_type_eligible():
 
 
 def test_no_dispo_violation_is_not_type_eligible():
-    charge = ChargeFactory.create(statute="801.000", level="Class C Traffic Violation", disposition=None)
+    charge = ChargeFactory.create(
+        statute="801.000", level="Class C Traffic Violation", disposition=DispositionCreator.empty()
+    )
 
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (

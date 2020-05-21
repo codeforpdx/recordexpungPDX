@@ -256,7 +256,7 @@ class RecordCreator:
         unknown_dispositions = []
         for case in cases:
             for charge in case.charges:
-                if not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED:
+                if charge.disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
                     unknown_dispositions.append(charge.ambiguous_charge_id)
         return unknown_dispositions
 

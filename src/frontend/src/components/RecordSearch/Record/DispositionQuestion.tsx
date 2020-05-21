@@ -32,7 +32,7 @@ class DispositionQuestion extends React.Component<Props, State> {
 
   componentDidMount() {
     this.setState({
-      status: (this.props.disposition ? this.props.disposition.status : "Unknown") ,
+      status: this.props.disposition.status,
       conviction_date: (this.props.disposition ? this.props.disposition.date : ""),
       }
     )

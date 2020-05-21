@@ -40,7 +40,7 @@ class Expunger:
                 if isinstance(charge, MarijuanaUnder21) and other_convictions_all_traffic:
                     eligibility_dates.append(
                         (
-                            charge.disposition.date + relativedelta(years=1),  # type: ignore
+                            charge.disposition.date + relativedelta(years=1),
                             "One year from date of conviction (137.226)",
                         )
                     )
@@ -98,10 +98,15 @@ class Expunger:
                         )
                     )
                 else:
-                    eligibility_dates.append((charge.disposition.date + relativedelta(years=20), "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))"))  # type: ignore
+                    eligibility_dates.append(
+                        (
+                            charge.disposition.date + relativedelta(years=20),
+                            "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))",
+                        )
+                    )
 
             if isinstance(charge, MarijuanaViolation):
-                date_will_be_eligible = charge.disposition.date  # type: ignore
+                date_will_be_eligible = charge.disposition.date
                 reason = "Eligible immediately (475B.401)"
             else:
                 date_will_be_eligible, reason = max(eligibility_dates)
@@ -197,9 +202,9 @@ class Expunger:
             if other_charge.dismissed():
                 date_of_other_charge = other_charge.date
             else:
-                date_of_other_charge = other_charge.disposition.date  # type: ignore
+                date_of_other_charge = other_charge.disposition.date
 
-            if date_of_other_charge > class_b_felony.disposition.date:  # type: ignore
+            if date_of_other_charge > class_b_felony.disposition.date:
                 return True
         return False
 
@@ -209,11 +214,7 @@ class Expunger:
         for case in record.cases:
             updated_charges = []
             for charge in case.charges:
-                if (
-                    charge.disposition
-                    and (charge.convicted() or charge.dismissed())
-                    and not isinstance(charge, JuvenileCharge)
-                ):
+                if (charge.convicted() or charge.dismissed()) and not isinstance(charge, JuvenileCharge):
                     updated_charges.append(charge)
             updated_case = replace(case, charges=tuple(updated_charges))
             updated_cases.append(updated_case)
@@ -244,7 +245,10 @@ class ErrorChecker:
     @staticmethod
     def is_meaningfully_open_charge(charge: Charge) -> bool:
         is_not_violation = not isinstance(charge, Violation)
-        charge_with_invalid_disposition = not charge.disposition or charge.disposition == DispositionStatus.UNRECOGNIZED
+        charge_with_invalid_disposition = charge.disposition.status in [
+            DispositionStatus.UNKNOWN,
+            DispositionStatus.UNRECOGNIZED,
+        ]
         return charge.blocks_other_charges and is_not_violation and charge_with_invalid_disposition
 
     @staticmethod
@@ -268,9 +272,9 @@ class ErrorChecker:
         for charge in charges:
             if charge.blocks_other_charges:
                 case_number = f"[{charge.case(cases).summary.case_number}]"
-                if not charge.disposition:
+                if charge.disposition.status == DispositionStatus.UNKNOWN:
                     cases_with_missing_disposition.add(case_number)
-                elif charge.disposition and charge.disposition.status == DispositionStatus.UNRECOGNIZED:
+                elif charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))
         return cases_with_missing_disposition, cases_with_unrecognized_disposition
 
