@@ -226,7 +226,7 @@ class ChargeClassifier:
     def _traffic_crime(statute, name, level, disposition):
         chapter = statute[:3]
         if chapter.isdigit():
-            statute_range = range(801, 826)
+            statute_range = [481, 482, 483] + list(range(801, 826))
             chapter_num = int(chapter)
             if chapter_num == 813:
                 if ChargeClassifier._is_dimissed(disposition):
