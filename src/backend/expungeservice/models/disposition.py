@@ -28,11 +28,24 @@ class DispositionCreator:
     @staticmethod
     def __build_status(ruling_string):
         ruling = ruling_string.lower()
-        conviction_rulings = ["convicted", "conviction", "reduced", "finding - guilty", "conversion", "converted", "bail forfeiture", ]
+        conviction_rulings = [
+            "convicted",
+            "conviction",
+            "reduced",
+            "finding - guilty",
+            "finding - contempt",
+            "conversion",
+            "converted",
+            "bail forfeiture",
+            "extradited",
+            "forfeiture allowed",
+            "found in contempt",
+        ]
         dismissal_rulings = [
             "acquitted",
             "acquittal",
             "dismissed",
+            "discharged",
             "dismissal",
             "finding - not guilty",
             "accusatory instrument filed",
