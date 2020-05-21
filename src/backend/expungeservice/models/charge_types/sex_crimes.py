@@ -38,7 +38,6 @@ For further detail, see 137.225(6)(a)"""
         "163688",  # Possession of Material Depicting Sexually Explicit Conduct of Child I
         "163689",  # Possession of Material Depicting Sexually Explicit Conduct of Child II
         "163693",  # Failure to report Child Pornography
-
         "167012",  # Promoting prostitution
         "167017",  # Compelling prostitution
         "167057",  # Luring a minor
@@ -46,7 +45,6 @@ For further detail, see 137.225(6)(a)"""
         "167075",  # Exhibiting an obscene performance to a minor
         "167080",  # Displaying obscene materials to minors
         "167090",  # Publicly displaying nudity or sex for advertising purposes
-
     ]
 
     # Romeo and Juliet exception; If a person is convicted of one of the following, and follows certain other
