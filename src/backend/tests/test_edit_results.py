@@ -99,7 +99,6 @@ def test_no_op():
     assert len(record.cases[0].charges) == 2
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.UNKNOWN
 
-
 def test_edit_some_fields_on_case():
     record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("two_cases_two_charges_each"),

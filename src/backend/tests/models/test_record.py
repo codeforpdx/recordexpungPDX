@@ -7,7 +7,7 @@ from tests.factories.charge_factory import ChargeFactory
 
 class TestRecordObject(unittest.TestCase):
     def test_print_balance_in_cents(self):
-        record = Record(tuple([CaseFactory.create(balance="123.00"), CaseFactory.create(balance="246.00")]))
+        record = Record(tuple([CaseFactory.create(balance_due="123.00"), CaseFactory.create(balance_due="246.00")]))
         assert record.total_balance_due == 369.00
 
     def test_print_balance_in_cents_empty(self):

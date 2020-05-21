@@ -13,7 +13,7 @@ from tests.time import Time
 def test_record_summarizer_multiple_cases():
     case_all_eligible = CaseFactory.create(
         case_number="1",
-        balance="100.00",
+        balance_due="100.00",
         date_location=["1/1/1995", "Multnomah"],
         charges=tuple(
             [
@@ -28,7 +28,7 @@ def test_record_summarizer_multiple_cases():
 
     case_partially_eligible = CaseFactory.create(
         case_number="2",
-        balance="200.00",
+        balance_due="200.00",
         date_location=["1/1/1995", "Clackamas"],
         charges=tuple(
             [
@@ -46,7 +46,7 @@ def test_record_summarizer_multiple_cases():
 
     case_possibly_eligible = CaseFactory.create(
         case_number="3",
-        balance="300.00",
+        balance_due="300.00",
         date_location=["1/1/1995", "Baker"],
         charges=tuple(
             [
@@ -61,7 +61,7 @@ def test_record_summarizer_multiple_cases():
 
     case_all_ineligible = CaseFactory.create(
         case_number="4",
-        balance="400.00",
+        balance_due="400.00",
         date_location=["1/1/1995", "Baker"],
         charges=tuple(
             [

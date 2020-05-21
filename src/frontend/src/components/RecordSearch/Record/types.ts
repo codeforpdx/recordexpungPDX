@@ -24,6 +24,7 @@ export interface CaseData {
   location: string;
   name: string;
   violation_type: string;
+  edit_status: string;
 }
 
 export interface RecordData {
@@ -45,7 +46,7 @@ export interface RecordSummaryData {
 
 export interface CountyBalanceData {
   county_name: string;
-  balance: number;
+  balance_due: number;
 }
 
 export interface ExpungementResultData {

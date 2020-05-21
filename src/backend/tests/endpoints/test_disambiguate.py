@@ -60,6 +60,7 @@ DUII_SEARCH_RESPONSE = {
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
                 "violation_type": "Misdemeanor",
+                "edit_status": "UNCHANGED"
             }
         ],
         "disposition_was_unknown": [],
@@ -80,7 +81,7 @@ DUII_SEARCH_RESPONSE = {
                 "other": ["CASEJD1"],
                 "partially_eligible": [],
             },
-            "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
+            "county_balances": [{"balance_due": 0.0, "county_name": "Multnomah"}],
             "eligible_charges_by_date": [
                 ["Eligible now", []],
                 ["Ineligible", []],
@@ -142,6 +143,8 @@ DIVERTED_RESPONSE = {
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
                 "violation_type": "Misdemeanor",
+                "edit_status": "UNCHANGED"
+
             }
         ],
         "disposition_was_unknown": [],
@@ -162,7 +165,7 @@ DIVERTED_RESPONSE = {
                 "other": [],
                 "partially_eligible": [],
             },
-            "county_balances": [{"balance": 0.0, "county_name": "Multnomah"}],
+            "county_balances": [{"balance_due": 0.0, "county_name": "Multnomah"}],
             "eligible_charges_by_date": [
                 ["Eligible now", []],
                 ["Ineligible", [["CASEJD1-1", "DUII (DISMISSED) - Arrested Nov 7, 1997"]]],

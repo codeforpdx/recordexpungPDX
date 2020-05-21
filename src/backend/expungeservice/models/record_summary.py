@@ -7,7 +7,7 @@ from expungeservice.models.record import Record, Question
 @dataclass
 class CountyBalance:
     county_name: str
-    balance: float
+    balance_due: float
 
 
 @dataclass
@@ -22,7 +22,7 @@ class RecordSummary:
 
     @property
     def total_balance_due(self):
-        return round(sum([county.balance for county in self.county_balances]), 2)
+        return round(sum([county.balance_due for county in self.county_balances]), 2)
 
     @property
     def total_cases(self):

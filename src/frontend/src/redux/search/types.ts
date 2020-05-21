@@ -64,7 +64,7 @@ interface UpdateCaseAction {
   case_number: string,
   status: string,
   county: string,
-  balance: string,
+  balance_due: string,
   birth_year: string
 }
 

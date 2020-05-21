@@ -51,6 +51,7 @@ class RecordSearch extends Component<Props, State> {
     location: "",
     name: "",
     violation_type: "",
+    edit_status: "ADDED"
   }
   render() {
     return (

@@ -12,7 +12,7 @@ from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword,
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.generator import get_charge_classes
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
-from expungeservice.models.case import Case, OeciCase, CaseSummary, CaseCreator
+from expungeservice.models.case import Case, OeciCase, CaseSummary, CaseCreator, EditStatus
 from expungeservice.models.charge import OeciCharge, Charge
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.record_merger import RecordMerger
@@ -149,9 +149,10 @@ class RecordCreator:
             if case_number in edits.keys():
                 if edits[case_number]["action"] == "edit":
                     edited_case, new_charges = RecordCreator._edit_case(case, edits[case_number])
-                    edited_cases.append(edited_case)
+                    edited_cases.append(replace(edited_case, summary=replace(edited_case.summary, edit_status=EditStatus.EDITED)))
                     new_charges_acc += new_charges
-                # else: if the action name for this case_number isn't "edit", assume it is "delete" and skip it
+                elif edits[case_number]["action"] == "deleted":
+                    edited_cases.append(replace(case, summary=replace(edited_case.summary, edit_status=EditStatus.DELETED)))
             else:
                 edited_cases.append(case)
         for (case_number, case_data) in edits.items():
@@ -167,7 +168,8 @@ class RecordCreator:
                         violation_type="",
                         current_status="",
                         case_detail_link="",
-                        balance_due_in_cents=0
+                        balance_due_in_cents=0,
+                        edit_status=EditStatus.ADDED
                     ),
                     charges=(),
                 )
@@ -183,7 +185,7 @@ class RecordCreator:
             for key, value in case_edits["summary"].items():
                 if key == "date":
                     case_summary_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
-                elif key == "balance":
+                elif key == "balance_due":
                     case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
                 elif key == "birth_year":
                     case_summary_edits["birth_year"] = int(value)

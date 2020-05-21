@@ -13,7 +13,7 @@ interface Props {
 interface State {
   status: string;
   county: string;
-  balance: string;
+  balance_due: string;
   birth_year: string;
   missingStatus: boolean;
   missingCounty: boolean;
@@ -29,7 +29,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
   state : State  = {
     status: this.props.case.current_status,
     county: this.props.case.location,
-    balance: this.props.case.balance_due.toFixed(2),
+    balance_due: this.props.case.balance_due.toFixed(2),
     birth_year: this.props.case.birth_year.toString(),
     missingStatus: false,
     missingCounty: false,
@@ -49,6 +49,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         !this.state.invalidBirthYear
       ) {
           this.dispatchUpdate();
+          console.log(store.getState().search.edits)
           this.props.propogateSubmit();
       }
     });
@@ -60,7 +61,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         this.props.case.case_number,
         this.state.status,
         this.state.county,
-        this.state.balance,
+        this.state.balance_due,
         this.state.birth_year
       )
     )
@@ -88,7 +89,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
   handleBalanceChange = (e: React.BaseSyntheticEvent) => {
     const parsed = this.balancePattern.exec(e.target.value);
     this.setState<any>({
-      "balance": ( parsed ? parsed[0] : "")
+      "balance_due": ( parsed ? parsed[0] : "")
     })
   };
 
@@ -106,7 +107,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         {
             missingStatus: this.state.status.length === 0,
             missingCounty: this.state.county === "",
-            missingBalance: this.state.balance.length === 0,
+            missingBalance: this.state.balance_due.length === 0,
             missingBirthYear: this.state.birth_year.length === 0,
             invalidBirthYear:
             this.state.birth_year !== "" && !moment(this.state.birth_year, 'YYYY', true).isValid()
@@ -159,7 +160,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
               <div className="absolute top-0 bottom-0 pl3 flex items-center">
                 <span>$</span>
               </div>
-              <input name="balance" value={this.state.balance} id={"case_edit_balance_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3 pl4" required aria-invalid="false" onChange={this.handleBalanceChange}/>
+              <input name="balance_due" value={this.state.balance_due} id={"case_edit_balance_"+this.props.case.case_number} type="text" className="w-100 br2 b--black-20 pa3 pl4" required aria-invalid="false" onChange={this.handleBalanceChange}/>
             </div>
           </div>
 

@@ -144,7 +144,7 @@ export function updateCase(
   case_number: string,
   status: string,
   county: string,
-  balance: string,
+  balance_due: string,
   birth_year: string): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -152,7 +152,7 @@ export function updateCase(
       case_number: case_number,
       status: status,
       county: county,
-      balance: balance,
+      balance_due: balance_due,
       birth_year: birth_year
     });
     return buildAndSendSearchRequest(dispatch);

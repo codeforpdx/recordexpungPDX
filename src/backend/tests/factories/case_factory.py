@@ -10,10 +10,10 @@ class CaseSummaryFactory:
         date_location=["1/1/1995", "Multnomah"],
         type_status=["Offense Misdemeanor", "Closed"],
         case_detail_link="?404",
-        balance="0",
+        balance_due="0",
     ) -> CaseSummary:
         return CaseCreator.create(
-            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
+            info, case_number, citation_number, date_location, type_status, case_detail_link, balance_due
         )
 
 
@@ -27,9 +27,9 @@ class CaseFactory:
         type_status=["Offense Misdemeanor", "Closed"],
         charges=[],
         case_detail_link="?404",
-        balance="0",
+        balance_due="0",
     ) -> Case:
         case_summary = CaseSummaryFactory.create(
-            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
+            info, case_number, citation_number, date_location, type_status, case_detail_link, balance_due
         )
         return Case(case_summary, tuple(charges))

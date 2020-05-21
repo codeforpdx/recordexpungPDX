@@ -48,6 +48,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "current_status": case.current_status,
             "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link,
+            "edit_status": case.edit_status
         }
 
     def default(self, o):

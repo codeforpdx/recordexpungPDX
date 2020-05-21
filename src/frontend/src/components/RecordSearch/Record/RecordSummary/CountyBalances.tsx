@@ -14,7 +14,7 @@ export default class CountyBalances extends React.Component<Props> {
       return (
         <li className="mb2" key={i}>
           <span className="break-all">{pair.county_name} </span>{' '}
-          <span className="fr">{currencyFormat(pair.balance)}</span>
+          <span className="fr">{currencyFormat(pair.balance_due)}</span>
         </li>
       );
     });

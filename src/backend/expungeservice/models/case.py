@@ -1,9 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime, date as date_class
 from typing import Optional, Tuple, Any
+from enum import Enum
 
 from expungeservice.models.charge import OeciCharge, Charge
 
+class EditStatus(str, Enum):
+    UNCHANGED = "UNCHANGED"
+    EDITED = "EDITED"
+    ADDED = "ADDED"
+    DELETED = "DELETED"
 
 @dataclass(frozen=True)
 class CaseSummary:
@@ -17,6 +23,7 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int = 0
+    edit_status: EditStatus = EditStatus.UNCHANGED
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100

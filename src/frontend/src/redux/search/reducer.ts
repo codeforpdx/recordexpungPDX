@@ -55,7 +55,7 @@ export function searchReducer(
       edits[action.case_number]["summary"] = {
         current_status: action.status,
         location: action.county,
-        balance: action.balance,
+        balance_due: action.balance_due,
         birth_year: action.birth_year
       }
       return {...state, edits: edits, loading: true};

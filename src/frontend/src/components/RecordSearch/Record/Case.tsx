@@ -31,7 +31,8 @@ export default class Cases extends React.Component<Props, State> {
       balance_due,
       charges,
       location,
-      current_status
+      current_status,
+      edit_status
     } = this.props.case;
     const prefix = window.location.href.includes("localhost") ? "http://localhost:5000" : ""; // Hack so we do not have to use nginx for dev
     const case_detail_base = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
@@ -67,6 +68,7 @@ export default class Cases extends React.Component<Props, State> {
             {birth_year}
           </div>
 
+          Edit Status: {edit_status}
           {/*
           TODO
           <div className="inline-flex bs2-inset-gray bg-white fw6 br3 mt1">
