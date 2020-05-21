@@ -183,7 +183,7 @@ class RecordCreator:
             for key, value in case_edits["summary"].items():
                 if key == "date":
                     case_summary_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
-                elif key == "balance_due":
+                elif key == "balance":
                     case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
                 elif key == "birth_year":
                     case_summary_edits["birth_year"] = int(value)

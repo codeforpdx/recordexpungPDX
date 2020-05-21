@@ -4,6 +4,7 @@ import {
   CLEAR_RECORD,
   SELECT_ANSWER,
   ANSWER_DISPOSITION,
+  UPDATE_CASE,
   SearchRecordState,
   SearchRecordActionType
 } from './types';
@@ -20,6 +21,7 @@ export function searchReducer(
   state = initalState,
   action: SearchRecordActionType
 ): SearchRecordState {
+  let edits;
   switch (action.type) {
     case DISPLAY_RECORD:
       return {
@@ -40,14 +42,24 @@ export function searchReducer(
       }
       return {...state, questions: questions, loading: true};
     case ANSWER_DISPOSITION:
-      const edits = JSON.parse(JSON.stringify(state.edits));
+      edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {"action": "edit"};
       edits[action.case_number]["charges"] = edits[action.case_number]["charges"] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = edits[action.case_number]["charges"][action.ambiguous_charge_id] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id]["disposition"] = action.disposition_edit;
       edits[action.case_number]["charges"][action.ambiguous_charge_id]["probation_revoked"] = action.probation_revoked_edit;
-
       return {...state, edits: edits, loading: true};
+    case UPDATE_CASE:
+      edits = JSON.parse(JSON.stringify(state.edits));
+      edits[action.case_number] = edits[action.case_number] || {"action": "edit"};
+      edits[action.case_number]["summary"] = {
+        current_status: action.status,
+        location: action.county,
+        balance: action.balance,
+        birth_year: action.birth_year
+      }
+      return {...state, edits: edits, loading: true};
+
     default:
       return state;
   }

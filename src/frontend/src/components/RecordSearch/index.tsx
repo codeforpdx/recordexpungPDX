@@ -60,8 +60,7 @@ class RecordSearch extends Component<Props, State> {
         <SearchPanel searchRecord={this.props.searchRecord} />
 
         {this.props.record && this.props.record.summary ?
-          <RecordSummary summary={this.props.record.summary}/>
-          :
+          <RecordSummary summary={this.props.record.summary}/> :
           <Status/> }
 
         {this.state.addingNewCase ?

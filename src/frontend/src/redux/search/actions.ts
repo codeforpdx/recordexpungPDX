@@ -10,7 +10,8 @@ import {
   SearchResponse,
   CLEAR_RECORD,
   SELECT_ANSWER,
-  ANSWER_DISPOSITION
+  ANSWER_DISPOSITION,
+  UPDATE_CASE
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData} from '../../components/RecordSearch/Record/types'
@@ -134,6 +135,25 @@ export function answerDisposition(
       ambiguous_charge_id: ambiguous_charge_id,
       probation_revoked_edit: probation_revoked_date,
       disposition_edit: disposition()
+    });
+    return buildAndSendSearchRequest(dispatch);
+  };
+}
+
+export function updateCase(
+  case_number: string,
+  status: string,
+  county: string,
+  balance: string,
+  birth_year: string): any {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: UPDATE_CASE,
+      case_number: case_number,
+      status: status,
+      county: county,
+      balance: balance,
+      birth_year: birth_year
     });
     return buildAndSendSearchRequest(dispatch);
   };

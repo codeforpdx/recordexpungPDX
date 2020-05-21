@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import { CaseData } from './types';
 import InvalidInput from '../../InvalidInput'
-
+import {updateCase} from '../../../redux/search/actions';
+import store from '../../../redux/store';
 interface Props {
   propogateSubmit: Function;
   case: CaseData;
@@ -11,9 +12,9 @@ interface Props {
 
 interface State {
   status: string;
+  county: string;
   balance: string;
   birth_year: string;
-  county: string;
   missingStatus: boolean;
   missingCounty: boolean;
   missingBalance: boolean;
@@ -21,13 +22,15 @@ interface State {
   invalidBirthYear: boolean;
   }
 
+const counties = ["Baker", "Benton", "Clackamas", "Clatsop", "Columbia", "Coos", "Crook", "Curry", "Deschutes", "Douglas", "Gilliam", "Grant", "Harney", "Hood River", "Jackson", "Jefferson", "Josephine", "Klamath", "Lake", "Lane", "Lincoln", "Linn", "Malheur", "Marion", "Morrow", "Multnomah", "Polk", "Sherman", "Tillamook", "Umatilla", "Union", "Wallowa", "Wasco", "Washington", "Wheeler", "Yamhill"]
+
 export default class CaseEditPanel extends React.Component<Props, State> {
 
   state : State  = {
-    status: "",
-    balance: "",
-    birth_year: "",
-    county: "",
+    status: this.props.case.current_status,
+    county: this.props.case.location,
+    balance: this.props.case.balance_due.toFixed(2),
+    birth_year: this.props.case.birth_year.toString(),
     missingStatus: false,
     missingCounty: false,
     missingBalance: false,
@@ -45,14 +48,24 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         !this.state.missingBirthYear &&
         !this.state.invalidBirthYear
       ) {
-          alert("Redux/axios update wizwaz");
+          this.dispatchUpdate();
           this.props.propogateSubmit();
       }
-
-
     });
-
   };
+
+  dispatchUpdate = () => {
+    store.dispatch(
+      updateCase(
+        this.props.case.case_number,
+        this.state.status,
+        this.state.county,
+        this.state.balance,
+        this.state.birth_year
+      )
+    )
+  };
+
 
   handleRemove = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,11 +127,11 @@ export default class CaseEditPanel extends React.Component<Props, State> {
             <legend className="fw7">Current Status</legend>
             <div className="radio">
               <div className="dib">
-                <input type="radio" name="status" id={"case_edit_status_open_"+this.props.case.case_number} value="status-open" onChange={this.handleChange}/>
+                <input type="radio" name="status" id={"case_edit_status_open_"+this.props.case.case_number} value="Open" checked={this.state.status==="Open"} onChange={this.handleChange}/>
                 <label htmlFor={"case_edit_status_open_"+this.props.case.case_number}>Open</label>
               </div>
               <div className="dib">
-                <input type="radio" name="status" id={"case_edit_status_closed_"+this.props.case.case_number} value="status-closed" onChange={this.handleChange}/>
+                <input type="radio" name="status" id={"case_edit_status_closed_"+this.props.case.case_number} value="Closed" checked={this.state.status==="Closed"} onChange={this.handleChange}/>
                 <label htmlFor={"case_edit_status_closed_"+this.props.case.case_number}>Closed</label>
               </div>
             </div>
@@ -127,11 +140,10 @@ export default class CaseEditPanel extends React.Component<Props, State> {
           <div className="mw5 mb3">
             <label htmlFor={"case_edit_county_"+this.props.case.case_number} className="db mb1 fw7">County</label>
             <div className="relative mb3">
-              <select name = "county" id={"case_edit_county_"+this.props.case.case_number} className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white" onChange={this.handleChange}>
+              <select value={this.state.county} name = "county" id={"case_edit_county_"+this.props.case.case_number} className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white" onChange={this.handleChange}>
                 <option value="">---</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                {counties.map((county, index) => {
+      return (<option key={index} value={county}>{county}</option>)})}
               </select>
               <div className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none">
                 <i aria-hidden="true" className="fas fa-angle-down"></i>
