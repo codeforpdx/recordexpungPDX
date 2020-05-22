@@ -20,6 +20,13 @@ export default class Cases extends React.Component<Props, State> {
     editing: this.props.editing,
   };
 
+  handleCaseEditSubmit = () => {
+    this.setState({editing: false});
+    if(this.props.propogateState){
+      this.props.propogateState()
+    }
+  }
+
   render() {
     const {
       name,
@@ -70,7 +77,7 @@ export default class Cases extends React.Component<Props, State> {
             <div className="inline-flex bs2-inset-gray bg-white fw6 br3 mt1">
               <span className="mid-gray bs2-r-gray pa2">
                 {
-                  edit_status === "EDITED" ? "Edited" :
+                  edit_status === "UPDATED" ? "Edited" :
                   edit_status === "ADDED" ? "Manual" :
                   edit_status === "DELETED" ? "Removed" :
                   null
@@ -98,7 +105,7 @@ export default class Cases extends React.Component<Props, State> {
           </div>
         </div>
         {this.state.editing &&
-          <CaseEditPanel propogateSubmit={()=>{this.setState({editing: false}); if(this.props.propogateState){this.props.propogateState()}}} case={this.props.case} isNewCase={this.props.isNewCase}/>
+          <CaseEditPanel propogateSubmit={this.handleCaseEditSubmit} case={this.props.case} isNewCase={this.props.isNewCase}/>
         }
         <Charges charges={charges} dispositionWasUnknown={this.props.dispositionWasUnknown} />
       </div>

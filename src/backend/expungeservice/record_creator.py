@@ -2,7 +2,7 @@ from dataclasses import replace, asdict
 from functools import lru_cache
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable, Type
-from datetime import date, datetime
+from datetime import datetime
 
 import requests
 from dacite import from_dict
@@ -147,39 +147,24 @@ class RecordCreator:
         for case in search_result_cases:
             case_number = case.summary.case_number
             if case_number in edits.keys():
-                if edits[case_number]["action"] == "edit":
-                    edited_case, new_charges = RecordCreator._edit_case(case, edits[case_number])
-                    edited_cases.append(replace(edited_case, summary=replace(edited_case.summary, edit_status=EditStatus.EDITED)))
+                if edits[case_number]["action"] == "update":
+                    edited_case, new_charges = RecordCreator._edit_case(case, edits[case_number], EditStatus.UPDATED)
+                    edited_cases.append(edited_case)
                     new_charges_acc += new_charges
-                elif edits[case_number]["action"] == "deleted":
-                    edited_cases.append(replace(case, summary=replace(edited_case.summary, edit_status=EditStatus.DELETED)))
+                elif edits[case_number]["action"] == "delete":
+                    edited_cases.append(replace(case, summary=replace(case.summary, edit_status=EditStatus.DELETED)))
             else:
                 edited_cases.append(case)
         for (case_number, case_data) in edits.items():
             if case_data["action"] == "add":
-                blank_case = OeciCase(
-                    summary=CaseSummary(
-                        name="",
-                        birth_year=0,
-                        case_number=case_number,
-                        citation_number="",
-                        location="",
-                        date=date.today(),
-                        violation_type="",
-                        current_status="",
-                        case_detail_link="",
-                        balance_due_in_cents=0,
-                        edit_status=EditStatus.ADDED
-                    ),
-                    charges=(),
-                )
-                new_case, new_charges = RecordCreator._edit_case(blank_case, case_data)
+                blank_case = OeciCase.empty(case_number)
+                new_case, new_charges = RecordCreator._edit_case(blank_case, case_data, EditStatus.ADDED)
                 edited_cases.append(new_case)
                 new_charges_acc += new_charges
         return edited_cases, new_charges_acc
 
     @staticmethod
-    def _edit_case(case: OeciCase, case_edits) -> Tuple[OeciCase, List[Charge]]:
+    def _edit_case(case: OeciCase, case_edits, edit_status : EditStatus) -> Tuple[OeciCase, List[Charge]]:
         if "summary" in case_edits.keys():
             case_summary_edits: Dict[str, Any] = {}
             for key, value in case_edits["summary"].items():
@@ -191,7 +176,8 @@ class RecordCreator:
                     case_summary_edits["birth_year"] = int(value)
                 else:
                     case_summary_edits[key] = value
-            edited_summary = replace(case.summary, **case_summary_edits)
+
+            edited_summary = replace(case.summary, edit_status=edit_status, **case_summary_edits)
         else:
             edited_summary = case.summary
         new_charges: List[Charge] = []

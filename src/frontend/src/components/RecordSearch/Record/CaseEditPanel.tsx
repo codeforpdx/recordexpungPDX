@@ -58,7 +58,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
   dispatchEdit = () => {
     store.dispatch(
       editCase(
-        this.props.isNewCase ? "add" : "edit",
+        this.props.isNewCase ? "add" : "update",
         this.props.case.case_number,
         this.state.status,
         this.state.county,

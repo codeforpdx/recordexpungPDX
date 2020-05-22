@@ -1,7 +1,7 @@
 from typing import List, Any, Callable, Tuple
 from datetime import datetime, date
 
-from expungeservice.models.case import OeciCase, CaseSummary
+from expungeservice.models.case import OeciCase, CaseSummary, EditStatus
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from expungeservice.models.record import Record
@@ -99,13 +99,14 @@ def test_no_op():
     assert len(record.cases[0].charges) == 2
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.UNKNOWN
 
+
 def test_edit_some_fields_on_case():
     record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
         "username",
         "password",
         (),
-        {"X0002": {"action": "edit", "summary": {"location": "ocean", "balance_due": "100", "date": "1/1/1001",}}},
+        {"X0002": {"action": "update", "summary": {"location": "ocean", "balance_due": "100", "date": "1/1/1001",}}},
     )
     assert len(record.cases) == 2
     assert record.cases[0].summary.location == "earth"
@@ -118,7 +119,7 @@ def test_delete_case():
     record, ambiguous_record, questions, _ = RecordCreator.build_record(
         search("single_case_two_charges"), "username", "password", (), {"X0001": {"action": "delete"}},
     )
-    assert record == Record((), ())
+    assert record.cases[0].summary.edit_status == EditStatus.DELETED
 
 
 def test_add_disposition():
@@ -129,7 +130,7 @@ def test_add_disposition():
         (),
         {
             "X0001": {
-                "action": "edit",
+                "action": "update",
                 "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
             }
         },
@@ -143,7 +144,7 @@ def test_edit_charge_type_of_charge():
         "username",
         "password",
         (),
-        {"X0001": {"action": "edit", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
+        {"X0001": {"action": "update", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
     )
     assert isinstance(record.cases[0].charges[1], Misdemeanor)
 
@@ -156,7 +157,7 @@ def test_add_new_charge():
         (),
         {
             "X0001": {
-                "action": "edit",
+                "action": "update",
                 "charges": {
                     "X0001-3": {
                         "charge_type": "Misdemeanor",

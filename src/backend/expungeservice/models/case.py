@@ -7,7 +7,7 @@ from expungeservice.models.charge import OeciCharge, Charge
 
 class EditStatus(str, Enum):
     UNEDITED = "UNEDITED"
-    EDITED = "EDITED"
+    UPDATED = "UPDATED"
     ADDED = "ADDED"
     DELETED = "DELETED"
 
@@ -45,6 +45,24 @@ class OeciCase:
     summary: CaseSummary
     charges: Tuple[OeciCharge, ...]
 
+    @staticmethod
+    def empty(case_number=""):
+        return OeciCase(
+            summary=CaseSummary(
+            name="",
+            birth_year=0,
+            case_number=case_number,
+            citation_number="",
+            location="",
+            date=date_class.today(),
+            violation_type="",
+            current_status="",
+            case_detail_link="",
+            balance_due_in_cents=0,
+            edit_status=EditStatus.ADDED
+        ),
+        charges=(),
+    )
 
 @dataclass(frozen=True)
 class Case(OeciCase):
