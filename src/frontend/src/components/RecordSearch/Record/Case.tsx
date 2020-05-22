@@ -14,12 +14,10 @@ interface Props {
 
 interface State {
   editing: Boolean;
-  edited: Boolean;
 }
 export default class Cases extends React.Component<Props, State> {
   state: State = {
     editing: this.props.editing,
-    edited: false
   };
 
   render() {
@@ -68,17 +66,22 @@ export default class Cases extends React.Component<Props, State> {
             {birth_year}
           </div>
 
-          Edit Status: {edit_status}
-          {/*
-          TODO
-          <div className="inline-flex bs2-inset-gray bg-white fw6 br3 mt1">
-            <span className="mid-gray bs2-r-gray pa2">Edited</span>
-            <button className="mid-gray link hover-blue pa2">
-              <span className="visually-hidden">Undo all edits</span>
-              <span className="fas fa-undo f6" aria-hidden="true"></span>
-            </button>
-          </div>
-          */}
+          { edit_status === "UNEDITED" ? null :
+            <div className="inline-flex bs2-inset-gray bg-white fw6 br3 mt1">
+              <span className="mid-gray bs2-r-gray pa2">
+                {
+                  edit_status === "EDITED" ? "Edited" :
+                  edit_status === "ADDED" ? "Manual" :
+                  edit_status === "DELETED" ? "Removed" :
+                  null
+                }
+              </span>
+              <button className="mid-gray link hover-blue pa2">
+                <span className="visually-hidden">Undo all edits</span>
+                <span className="fas fa-undo f6" aria-hidden="true"></span>
+              </button>
+            </div>
+          }
           <div className="fl fr-l ph3 pv3">
             { !this.state.editing &&
               <>
