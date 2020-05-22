@@ -108,9 +108,9 @@ A person felony that is below a class B felony is not considered under this subs
         # "166275",  # Inmate In Possession of Weapon; # Handled separately in charge classifier
         # "1663853", # [contains subsection] # Felony Possession of a Hoax Destructive Device;
         "166643",  # Unlawful Possession of Soft Body Armor as defined in Crime Category 6 (OAR 213-018-0090(1));
-        "167012",  # Promoting Prostitution;
-        "167017",  # Compelling Prostitution;
-        "167057",  # Luring a Minor;
+        # "167012",  # [Sex Crimes] Promoting Prostitution;
+        # "167017",  # [Sex Crimes] Compelling Prostitution;
+        # "167057",  # [Sex Crimes] Luring a Minor;
         # "1673204", # [contains subsection] # Felony Animal Abuse I;
         "167322",  # Aggravated Animal Abuse I;
         "468951",  # Environmental Endangerment;

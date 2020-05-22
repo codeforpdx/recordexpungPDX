@@ -38,6 +38,13 @@ For further detail, see 137.225(6)(a)"""
         "163688",  # Possession of Material Depicting Sexually Explicit Conduct of Child I
         "163689",  # Possession of Material Depicting Sexually Explicit Conduct of Child II
         "163693",  # Failure to report Child Pornography
+        "167012",  # Promoting prostitution
+        "167017",  # Compelling prostitution
+        "167057",  # Luring a minor
+        "167062",  # Sadomasochistic abuse or sexual conduct in live show
+        "167075",  # Exhibiting an obscene performance to a minor
+        "167080",  # Displaying obscene materials to minors
+        "167090",  # Publicly displaying nudity or sex for advertising purposes
     ]
 
     # Romeo and Juliet exception; If a person is convicted of one of the following, and follows certain other
@@ -60,7 +67,8 @@ For further detail, see 137.225(6)(a)"""
 @dataclass(frozen=True)
 class RomeoAndJulietNMASexCrime(Charge):
     type_name: str = "137.225(6)(f) related sex crime"
-    expungement_rules: str = ("""In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis.""")
+    expungement_rules: str = (
+        """In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis.""")
 
     def _type_eligibility(self):
         if self.dismissed():
