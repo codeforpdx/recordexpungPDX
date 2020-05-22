@@ -11,7 +11,9 @@ import {
   CLEAR_RECORD,
   SELECT_ANSWER,
   ANSWER_DISPOSITION,
-  EDIT_CASE
+  EDIT_CASE,
+  DELETE_CASE,
+  UNDO_EDIT_CASE
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData} from '../../components/RecordSearch/Record/types'
@@ -156,6 +158,29 @@ export function editCase(
       county: county,
       balance_due: balance_due,
       birth_year: birth_year
+    });
+    return buildAndSendSearchRequest(dispatch);
+  };
+}
+
+
+export function deleteCase(
+  case_number: string) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: DELETE_CASE,
+      case_number: case_number,
+    });
+    return buildAndSendSearchRequest(dispatch);
+  };
+}
+
+export function undoEditCase(
+  case_number: string) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: UNDO_EDIT_CASE,
+      case_number: case_number,
     });
     return buildAndSendSearchRequest(dispatch);
   };

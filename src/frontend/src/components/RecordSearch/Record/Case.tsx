@@ -3,6 +3,8 @@ import { CaseData } from './types';
 import Charges from './Charges';
 import CaseEditPanel from './CaseEditPanel';
 import currencyFormat from '../../../service/currency-format';
+import {undoEditCase} from '../../../redux/search/actions';
+import store from '../../../redux/store';
 
 interface Props {
   case: CaseData;
@@ -25,6 +27,14 @@ export default class Cases extends React.Component<Props, State> {
     if(this.props.propogateState){
       this.props.propogateState()
     }
+  }
+
+  handleUndoEditClick = () => {
+    store.dispatch(
+      undoEditCase(
+        this.props.case.case_number
+      )
+    )
   }
 
   render() {
@@ -83,7 +93,7 @@ export default class Cases extends React.Component<Props, State> {
                   null
                 }
               </span>
-              <button className="mid-gray link hover-blue pa2">
+              <button className="mid-gray link hover-blue pa2" onClick={this.handleUndoEditClick}>
                 <span className="visually-hidden">Undo all edits</span>
                 <span className="fas fa-undo f6" aria-hidden="true"></span>
               </button>
@@ -105,7 +115,7 @@ export default class Cases extends React.Component<Props, State> {
           </div>
         </div>
         {this.state.editing &&
-          <CaseEditPanel propogateSubmit={this.handleCaseEditSubmit} case={this.props.case} isNewCase={this.props.isNewCase}/>
+          <CaseEditPanel propogateSubmit={this.handleCaseEditSubmit} case={this.props.case} isNewCase={this.props.isNewCase} editStatus={edit_status}/>
         }
         <Charges charges={charges} dispositionWasUnknown={this.props.dispositionWasUnknown} />
       </div>

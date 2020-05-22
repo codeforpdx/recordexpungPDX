@@ -24,6 +24,8 @@ export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_ANSWER = 'SELECT_ANSWER';
 export const ANSWER_DISPOSITION = 'ANSWER_DISPOSITION';
 export const EDIT_CASE = 'EDIT_CASE';
+export const DELETE_CASE = 'DELETE_CASE';
+export const UNDO_EDIT_CASE = 'UNDO_EDIT_CASE';
 
 export interface SearchRecordState {
   loading: boolean;
@@ -70,4 +72,13 @@ interface EditCaseAction {
   birth_year: string
 }
 
-export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction | EditCaseAction;
+interface DeleteCaseAction {
+  type: typeof DELETE_CASE;
+  case_number: string,
+}
+
+interface UndoEditCaseAction {
+  type: typeof UNDO_EDIT_CASE;
+  case_number: string,
+}
+export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction | EditCaseAction | DeleteCaseAction | UndoEditCaseAction;

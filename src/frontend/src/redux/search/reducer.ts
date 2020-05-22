@@ -5,6 +5,8 @@ import {
   SELECT_ANSWER,
   ANSWER_DISPOSITION,
   EDIT_CASE,
+  DELETE_CASE,
+  UNDO_EDIT_CASE,
   SearchRecordState,
   SearchRecordActionType
 } from './types';
@@ -54,7 +56,9 @@ export function searchReducer(
     case EDIT_CASE:
       {
         const edits = JSON.parse(JSON.stringify(state.edits));
-        edits[action.case_number] = edits[action.case_number] || {"action": action.edit_type};
+        if (!((edits[action.case_number] && edits[action.case_number]["action"] == "update") && action.edit_type == "update")) {
+          edits[action.case_number] = {"action": action.edit_type}
+        } // This check lets edits merge and not overwrite each other (e.g. AnswerDisposition vs EditCase)
         edits[action.case_number]["summary"] = {
           current_status: action.status,
           location: action.county,
@@ -62,6 +66,22 @@ export function searchReducer(
           birth_year: action.birth_year
         }
         return {...state, nextNewCaseNum: state.nextNewCaseNum + (action.edit_type == "add" ? 1 : 0), edits: edits, loading: true};
+      }
+    case DELETE_CASE:
+      {
+        const edits = JSON.parse(JSON.stringify(state.edits));
+        edits[action.case_number] = {"action": "delete"};
+        return {...state, edits: edits, loading: true};
+      }
+    case UNDO_EDIT_CASE:
+      {
+        const edits = (JSON.parse(JSON.stringify(state.edits)));
+        const filtered_edits = Object.keys(edits)
+          .filter( key => action.case_number !== key )
+          .reduce( (res :any, key) => (res[key] = edits[key], res), {} );
+
+        //edits[action.case_number] = {"action": ""};
+        return {...state, edits: filtered_edits, loading: true};
       }
     default:
       return state;

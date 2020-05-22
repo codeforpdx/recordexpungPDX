@@ -153,6 +153,8 @@ class RecordCreator:
                     new_charges_acc += new_charges
                 elif edits[case_number]["action"] == "delete":
                     edited_cases.append(replace(case, summary=replace(case.summary, edit_status=EditStatus.DELETED)))
+                else: # The edit action on a known case_number is unrecognized, so ignore it.
+                    edited_cases.append(case)
             else:
                 edited_cases.append(case)
         for (case_number, case_data) in edits.items():

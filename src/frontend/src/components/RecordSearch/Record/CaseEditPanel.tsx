@@ -2,12 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import { CaseData } from './types';
 import InvalidInput from '../../InvalidInput'
-import {editCase} from '../../../redux/search/actions';
+import {editCase, deleteCase} from '../../../redux/search/actions';
 import store from '../../../redux/store';
 interface Props {
   propogateSubmit: Function;
   case: CaseData;
-  isNewCase: boolean
+  isNewCase: boolean;
+  editStatus: string;
   }
 
 interface State {
@@ -49,7 +50,6 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         !this.state.invalidBirthYear
       ) {
           this.dispatchEdit();
-          console.log(store.getState().search.edits)
           this.props.propogateSubmit();
       }
     });
@@ -68,11 +68,22 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     )
   };
 
+   dispatchDelete = () => {
+    store.dispatch(
+      deleteCase(
+        this.props.case.case_number
+      )
+    )
+  };
 
   handleRemove = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Redux/axios remove wizwaz");
+    if (this.props.editStatus=="ADDED" && !window.confirm("This data will be lost. Remove anyway?")) {
+      return;
+    }
+    this.dispatchDelete();
     this.props.propogateSubmit();
+    console.log(store.getState().search.edits);
   };
 
   handleCancel = (e: React.FormEvent) => {
