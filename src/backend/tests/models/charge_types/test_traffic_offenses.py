@@ -71,6 +71,17 @@ def test_dismissed_infraction_is_not_type_eligible():
     assert not charge.blocks_other_charges
 
 
+def test_old_traffic_statute():
+    charge = ChargeFactory.create(
+        statute="483050", name="Defective Equipment", level="Infraction Class B", disposition=Dispositions.DISMISSED
+    )
+
+    assert isinstance(charge, TrafficViolation)
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+    assert not charge.blocks_other_charges
+
+
 def test_no_dispo_violation_is_not_type_eligible():
     charge = ChargeFactory.create(
         statute="801.000", level="Class C Traffic Violation", disposition=DispositionCreator.empty()
