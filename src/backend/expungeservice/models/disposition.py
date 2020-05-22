@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from enum import Enum
 
 
@@ -8,6 +8,7 @@ class DispositionStatus(str, Enum):
     DISMISSED = "Dismissed"
     NO_COMPLAINT = "No Complaint"
     DIVERTED = "Diverted"
+    UNKNOWN = "Unknown"
     UNRECOGNIZED = "Unrecognized"
 
 
@@ -20,6 +21,10 @@ class Disposition:
 
 
 class DispositionCreator:
+    @staticmethod
+    def empty():
+        return Disposition(datetime.today(), "missing", DispositionStatus.UNKNOWN)
+
     @staticmethod
     def create(date: date, ruling: str, amended: bool = False) -> Disposition:
         status = DispositionCreator.__build_status(ruling)
@@ -52,18 +57,16 @@ class DispositionCreator:
             "removed from charging instrument",
             "plea lesser charge",
         ]
-
+        missing_rulings = ["missing", "conditional discharge", "deferred"]
         if any([rule in ruling for rule in conviction_rulings]):
             return DispositionStatus.CONVICTED
-
         elif any([rule in ruling for rule in dismissal_rulings]):
             return DispositionStatus.DISMISSED
-
         elif "diverted" in ruling:
             return DispositionStatus.DIVERTED
-
         elif "no complaint" in ruling:
             return DispositionStatus.NO_COMPLAINT
-
+        elif any([rule == ruling for rule in missing_rulings]):
+            return DispositionStatus.UNKNOWN
         else:
             return DispositionStatus.UNRECOGNIZED

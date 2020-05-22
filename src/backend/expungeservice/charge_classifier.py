@@ -44,7 +44,7 @@ class ChargeClassifier:
     level: str
     section: str
     birth_year: Optional[int]
-    disposition: Optional[Disposition]
+    disposition: Disposition
 
     def classify(self) -> AmbiguousChargeTypeWithQuestion:
         def classification_found(c):
@@ -156,7 +156,7 @@ class ChargeClassifier:
     @staticmethod
     def _marijuana_eligible(section, name, birth_year, disposition):
         if section == "475860" or "marij" in name or "mj" in name.split():
-            if birth_year and disposition:
+            if birth_year and disposition.status != DispositionStatus.UNKNOWN:
                 convicted_age = ceil(disposition.date.year - birth_year)
                 if convicted_age < 21:
                     return AmbiguousChargeTypeWithQuestion([MarijuanaUnder21])
@@ -170,7 +170,7 @@ class ChargeClassifier:
                     question_string = "Was the charge for an A Felony or B Felony?"
                     options = ["A Felony", "B Felony"]
                     return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
-            elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]) :
+            elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]):
                 return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
@@ -309,8 +309,8 @@ class ChargeClassifier:
 
     # TODO: Deduplicate with charge.dismissed()
     @staticmethod
-    def _is_dimissed(disposition: Optional[Disposition]):
-        return disposition and disposition.status in [
+    def _is_dimissed(disposition: Disposition):
+        return disposition.status in [
             DispositionStatus.NO_COMPLAINT,
             DispositionStatus.DISMISSED,
             DispositionStatus.DIVERTED,

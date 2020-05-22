@@ -20,8 +20,8 @@ Class C felony dismissals are always eligible under 137.225(1)(b)."""
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(b)")
-        elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:
+        elif self.disposition.status in [DispositionStatus.UNKNOWN, DispositionStatus.UNRECOGNIZED]:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
                 reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",
-            )
+            )  # TODO: Double check

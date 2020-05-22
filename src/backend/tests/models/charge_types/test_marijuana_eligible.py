@@ -1,4 +1,5 @@
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaEligible
 from tests.factories.charge_factory import ChargeFactory
@@ -32,7 +33,10 @@ def test_marijuana_eligible_convicted():
 
 def test_marijuana_eligible_missing_dispo():
     marijuana_eligible_charge = ChargeFactory.create(
-        name="Delivery of Marijuana to Minor", statute="4758604A", level="Felony Class A", disposition=None
+        name="Delivery of Marijuana to Minor",
+        statute="4758604A",
+        level="Felony Class A",
+        disposition=DispositionCreator.empty(),
     )
 
     assert isinstance(marijuana_eligible_charge, MarijuanaEligible)

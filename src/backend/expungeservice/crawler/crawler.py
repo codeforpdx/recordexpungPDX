@@ -123,20 +123,20 @@ class Crawler:
     def _build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data) -> OeciCharge:
         probation_revoked = case_parser_data.probation_revoked
         charge_dict["date"] = datetime.date(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
-        if case_parser_data.hashed_dispo_data.get(charge_id):
-            disposition = Crawler._build_disposition(case_parser_data, charge_id)
-            return OeciCharge(
-                ambiguous_charge_id, disposition=disposition, probation_revoked=probation_revoked, **charge_dict
-            )
-        else:
-            return OeciCharge(ambiguous_charge_id, disposition=None, probation_revoked=probation_revoked, **charge_dict)
+        disposition = Crawler._build_disposition(case_parser_data, charge_id)
+        return OeciCharge(
+            ambiguous_charge_id, disposition=disposition, probation_revoked=probation_revoked, **charge_dict
+        )
 
     @staticmethod
     def _build_disposition(case_parser_data, charge_id):
-        disposition_data = case_parser_data.hashed_dispo_data[charge_id]
-        date = datetime.date(
-            datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
-        )  # TODO: Log error if format is not correct
-        ruling = disposition_data.get("ruling")
-        disposition = DispositionCreator.create(date, ruling, "amended" in disposition_data["event"].lower())
+        disposition_data = case_parser_data.hashed_dispo_data.get(charge_id)
+        if disposition_data:
+            date = datetime.date(
+                datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
+            )  # TODO: Log error if format is not correct
+            ruling = disposition_data.get("ruling")
+            disposition = DispositionCreator.create(date, ruling, "amended" in disposition_data["event"].lower())
+        else:
+            disposition = DispositionCreator.create(datetime.today(), "missing")
         return disposition

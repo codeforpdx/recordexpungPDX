@@ -43,7 +43,7 @@ def _build_charge_strategy(charge_class: Type[Charge], case: CaseSummary) -> Sea
     return builds(
         charge_class,
         case_number=just(case.case_number),
-        disposition=one_of(none(), disposition),
+        disposition=disposition,
         date=dates(max_value=date(9000, 12, 31)),
         probation_revoked=one_of(none(), dates(max_value=date(9000, 12, 31))),
     )

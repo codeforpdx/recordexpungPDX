@@ -1,5 +1,6 @@
 from datetime import date as date_class
 
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 
@@ -52,7 +53,7 @@ def test_parking_ticket_no_disposition():
         statute="109",
         level="Violation Unclassified",
         date=date_class(1901, 1, 1),
-        disposition=None,
+        disposition=DispositionCreator.empty(),
         violation_type=case.violation_type,
     )
 

@@ -1,3 +1,4 @@
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
 from tests.factories.charge_factory import ChargeFactory
@@ -6,7 +7,10 @@ from tests.models.test_charge import Dispositions
 
 def test_misdemeanor_missing_disposition():
     misdemeanor_charge = ChargeFactory.create(
-        name="Criminal Trespass in the Second Degree", statute="164.245", level="Misdemeanor Class C", disposition=None
+        name="Criminal Trespass in the Second Degree",
+        statute="164.245",
+        level="Misdemeanor Class C",
+        disposition=DispositionCreator.empty(),
     )
 
     assert isinstance(misdemeanor_charge, Misdemeanor)

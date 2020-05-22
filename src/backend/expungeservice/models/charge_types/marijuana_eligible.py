@@ -17,7 +17,7 @@ class MarijuanaEligible(Charge):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif self.convicted():
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.226")
-        elif not self.disposition or self.disposition.status == DispositionStatus.UNRECOGNIZED:
+        elif self.disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
                 reason="Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)",

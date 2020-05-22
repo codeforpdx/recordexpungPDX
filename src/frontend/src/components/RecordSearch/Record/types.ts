@@ -6,7 +6,7 @@ export interface ChargeData {
   name: string;
   type_name: string;
   date: string;
-  disposition?: {
+  disposition: {
     ruling: string;
     date: string;
   };

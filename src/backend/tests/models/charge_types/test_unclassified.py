@@ -1,4 +1,5 @@
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
+from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
@@ -52,7 +53,7 @@ def test_convicted_disposition():
 
 def test_no_disposition():
     unclassified_dispo_none = ChargeFactory.create(
-        name="Unknown", statute="333.333", level="Felony Class F", disposition=None,
+        name="Unknown", statute="333.333", level="Felony Class F", disposition=DispositionCreator.empty(),
     )
 
     assert isinstance(unclassified_dispo_none, UnclassifiedCharge)
