@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '../../redux/store';
+import store, { AppState } from '../../redux/store';
 import { CaseData, RecordData } from './Record/types';
 import {
   searchRecord,
@@ -25,12 +25,32 @@ interface Props {
 
 interface State {
   addingNewCase: boolean;
+  blankCase: CaseData;
 }
 
 class RecordSearch extends Component<Props, State> {
   state: State = {
-    addingNewCase: false
+    addingNewCase: false,
+    blankCase: this.createNextBlankCase()
   }
+
+  createNextBlankCase() : CaseData {
+    return {
+      balance_due: 0,
+      birth_year: 0,
+      case_detail_link: "",
+      case_number: "CASE-" + ('000' + store.getState().search.nextNewCaseNum).slice(-4),
+      charges: [],
+      citation_number: "",
+      current_status: "",
+      date: "",
+      location: "",
+      name: "",
+      violation_type: "",
+      edit_status: "ADDED"
+    }
+  }
+
   componentDidMount() {
     checkOeciRedirect();
   }
@@ -39,20 +59,13 @@ class RecordSearch extends Component<Props, State> {
     this.props.clearRecord();
   }
 
-  blankCase : CaseData = {
-    balance_due: 0,
-    birth_year: 0,
-    case_detail_link: "",
-    case_number: "CASE-00X",
-    charges: [],
-    citation_number: "",
-    current_status: "",
-    date: "",
-    location: "",
-    name: "",
-    violation_type: "",
-    edit_status: "ADDED"
+  handleAddCaseClick = () => {
+    this.setState({
+      addingNewCase: true,
+    })
   }
+
+
   render() {
     return (
       <>
@@ -66,9 +79,9 @@ class RecordSearch extends Component<Props, State> {
 
         {this.state.addingNewCase ?
           <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">
-            <Case dispositionWasUnknown={this.props.dispositionWasUnknown ? this.props.dispositionWasUnknown : [] } propogateState={()=>{this.setState({addingNewCase: false})}} case={this.blankCase} editing={true} isNewCase={true}/>
+            <Case dispositionWasUnknown={this.props.dispositionWasUnknown ? this.props.dispositionWasUnknown : [] } propogateState={()=>{this.setState({addingNewCase: false})}} case={this.createNextBlankCase()} editing={true} isNewCase={true}/>
           </div> :
-          <AddCaseButton onClick={()=>{this.setState({addingNewCase: true})}}/> }
+          <AddCaseButton onClick={this.handleAddCaseClick}/> }
         {this.props.record &&
         ((this.props.record.cases &&
         this.props.record.cases.length > 0) || this.props.record.errors) ? (

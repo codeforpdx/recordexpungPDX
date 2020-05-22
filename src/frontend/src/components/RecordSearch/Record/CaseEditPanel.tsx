@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { CaseData } from './types';
 import InvalidInput from '../../InvalidInput'
-import {updateCase} from '../../../redux/search/actions';
+import {editCase} from '../../../redux/search/actions';
 import store from '../../../redux/store';
 interface Props {
   propogateSubmit: Function;
@@ -38,7 +38,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
     invalidBirthYear: false,
   };
 
-  handleUpdateSubmit = (e: React.FormEvent) => {
+  handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm().then(() => {
       if (
@@ -48,16 +48,17 @@ export default class CaseEditPanel extends React.Component<Props, State> {
         !this.state.missingBirthYear &&
         !this.state.invalidBirthYear
       ) {
-          this.dispatchUpdate();
+          this.dispatchEdit();
           console.log(store.getState().search.edits)
           this.props.propogateSubmit();
       }
     });
   };
 
-  dispatchUpdate = () => {
+  dispatchEdit = () => {
     store.dispatch(
-      updateCase(
+      editCase(
+        this.props.isNewCase ? "add" : "edit",
         this.props.case.case_number,
         this.state.status,
         this.state.county,
@@ -172,7 +173,7 @@ export default class CaseEditPanel extends React.Component<Props, State> {
           </div>
 
           <div className="flex items-center mb3">
-            <button className="fw6 br2 bg-blue white bg-animate hover-bg-dark-blue pa3 mr4" onClick={this.handleUpdateSubmit}>
+            <button className="fw6 br2 bg-blue white bg-animate hover-bg-dark-blue pa3 mr4" onClick={this.handleEditSubmit}>
               {this.props.isNewCase ? "Create Case" : "Update Case"}
             </button>
             {this.props.isNewCase ? null :

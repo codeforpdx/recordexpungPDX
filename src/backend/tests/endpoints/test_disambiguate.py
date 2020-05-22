@@ -60,7 +60,7 @@ DUII_SEARCH_RESPONSE = {
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
                 "violation_type": "Misdemeanor",
-                "edit_status": "UNCHANGED"
+                "edit_status": "UNEDITED"
             }
         ],
         "disposition_was_unknown": [],
@@ -143,7 +143,7 @@ DIVERTED_RESPONSE = {
                 "location": "Multnomah",
                 "name": "DOE, JOHN",
                 "violation_type": "Misdemeanor",
-                "edit_status": "UNCHANGED"
+                "edit_status": "UNEDITED"
 
             }
         ],

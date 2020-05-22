@@ -11,7 +11,7 @@ import {
   CLEAR_RECORD,
   SELECT_ANSWER,
   ANSWER_DISPOSITION,
-  UPDATE_CASE
+  EDIT_CASE
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData} from '../../components/RecordSearch/Record/types'
@@ -140,7 +140,8 @@ export function answerDisposition(
   };
 }
 
-export function updateCase(
+export function editCase(
+  edit_type: string,
   case_number: string,
   status: string,
   county: string,
@@ -148,7 +149,8 @@ export function updateCase(
   birth_year: string): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: UPDATE_CASE,
+      type: EDIT_CASE,
+      edit_type: edit_type,
       case_number: case_number,
       status: status,
       county: county,

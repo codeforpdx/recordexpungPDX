@@ -6,7 +6,7 @@ from enum import Enum
 from expungeservice.models.charge import OeciCharge, Charge
 
 class EditStatus(str, Enum):
-    UNCHANGED = "UNCHANGED"
+    UNEDITED = "UNEDITED"
     EDITED = "EDITED"
     ADDED = "ADDED"
     DELETED = "DELETED"
@@ -23,7 +23,7 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int = 0
-    edit_status: EditStatus = EditStatus.UNCHANGED
+    edit_status: EditStatus = EditStatus.UNEDITED
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100

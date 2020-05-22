@@ -23,7 +23,7 @@ export const RECORD_LOADING = 'RECORD_LOADING';
 export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_ANSWER = 'SELECT_ANSWER';
 export const ANSWER_DISPOSITION = 'ANSWER_DISPOSITION';
-export const UPDATE_CASE = 'UPDATE_CASE';
+export const EDIT_CASE = 'EDIT_CASE';
 
 export interface SearchRecordState {
   loading: boolean;
@@ -32,6 +32,7 @@ export interface SearchRecordState {
   questions?: QuestionsData;
   edits?: any;
   dispositionWasUnknown: string[];
+  nextNewCaseNum: number
 }
 
 interface SearchRecordAction {
@@ -59,8 +60,9 @@ interface AnswerDispositionAction {
   disposition_edit: any; // TODO: Properly type
 }
 
-interface UpdateCaseAction {
-  type: typeof UPDATE_CASE;
+interface EditCaseAction {
+  type: typeof EDIT_CASE;
+  edit_type: string,
   case_number: string,
   status: string,
   county: string,
@@ -68,4 +70,4 @@ interface UpdateCaseAction {
   birth_year: string
 }
 
-export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction | UpdateCaseAction;
+export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction | EditCaseAction;
