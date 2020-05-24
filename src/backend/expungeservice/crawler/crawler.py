@@ -8,8 +8,8 @@ from datetime import datetime
 from requests import Session
 
 from expungeservice.crawler.request import Payload, URL
-from expungeservice.crawler.util import LRUCache
-from expungeservice.models.case import CaseCreator, Case, OeciCase, CaseSummary
+from expungeservice.util import LRUCache
+from expungeservice.models.case import CaseCreator, OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
