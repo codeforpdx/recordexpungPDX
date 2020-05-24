@@ -1,5 +1,5 @@
 from dataclasses import replace
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 
 from expungeservice.models.disposition import DispositionStatus, DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus

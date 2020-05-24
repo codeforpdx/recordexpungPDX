@@ -1,5 +1,3 @@
-from datetime import date
-
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.record_merger import RecordMerger
 from expungeservice.record_summarizer import RecordSummarizer
@@ -7,7 +5,7 @@ from expungeservice.expunger import Expunger
 from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
-from tests.time import Time
+from expungeservice.util import DateWithFuture as date
 
 
 def test_record_summarizer_multiple_cases():

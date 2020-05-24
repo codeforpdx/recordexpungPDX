@@ -1,6 +1,12 @@
-from expungeservice.models.expungement_result import *
+from expungeservice.models.expungement_result import (
+    TypeEligibility,
+    EligibilityStatus,
+    TimeEligibility,
+    ChargeEligibilityStatus,
+)
 from expungeservice.record_merger import RecordMerger
 from tests.time import Time
+from expungeservice.util import DateWithFuture as date
 
 
 def test_eligible():
@@ -26,7 +32,7 @@ def test_will_be_eligible():
 def test_possibly_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
     time_eligibility = TimeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under for some reason", date.today())
-    time_eligibility_2 = TimeEligibility(EligibilityStatus.INELIGIBLE, "Ineligible under some statute", date.max)
+    time_eligibility_2 = TimeEligibility(EligibilityStatus.INELIGIBLE, "Ineligible under some statute", date.max())
     charge_eligibility = RecordMerger.compute_charge_eligibility(
         type_eligibility, [time_eligibility, time_eligibility_2]
     )
@@ -40,7 +46,7 @@ def test_possibly_will_be_eligible():
     time_eligibility = TimeEligibility(
         EligibilityStatus.INELIGIBLE, "Ineligible for some reason", Time.ONE_YEARS_FROM_NOW
     )
-    time_eligibility_2 = TimeEligibility(EligibilityStatus.INELIGIBLE, "Ineligible under some statute", date.max)
+    time_eligibility_2 = TimeEligibility(EligibilityStatus.INELIGIBLE, "Ineligible under some statute", date.max())
     charge_eligibility = RecordMerger.compute_charge_eligibility(
         type_eligibility, [time_eligibility, time_eligibility_2]
     )
@@ -73,7 +79,7 @@ def test_ineligible():
 
 def test_type_eligible_never_becomes_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.ELIGIBLE, "Eligible under some statute")
-    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max)
+    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max())
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [time_eligibility])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
@@ -82,7 +88,7 @@ def test_type_eligible_never_becomes_eligible():
 
 def test_type_possibly_eligible_never_becomes_eligible():
     type_eligibility = TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, "Unrecognized charge")
-    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max)
+    time_eligibility = TimeEligibility(EligibilityStatus.INELIGIBLE, "Never eligible under some statute", date.max())
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [time_eligibility])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE

@@ -2,7 +2,7 @@ from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record import Record, Question
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
 from typing import Dict, List, Tuple
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 
 
 class RecordSummarizer:

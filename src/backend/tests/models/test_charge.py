@@ -1,7 +1,7 @@
 import unittest
 from dataclasses import replace
 
-from datetime import date, datetime, timedelta
+from expungeservice.util import DateWithFuture as date
 from dateutil.relativedelta import relativedelta
 from typing import Type
 
@@ -14,7 +14,7 @@ from tests.factories.case_factory import CaseSummaryFactory, CaseFactory
 
 
 class Dispositions:
-    LAST_WEEK = datetime.today() - timedelta(days=7)
+    LAST_WEEK = date.today() - relativedelta(days=7)
     CONVICTED = DispositionCreator.create(ruling="Convicted", date=LAST_WEEK)
     DISMISSED = DispositionCreator.create(ruling="Dismissed", date=LAST_WEEK)
     UNRECOGNIZED_DISPOSITION = DispositionCreator.create(ruling="Something unrecognized", date=LAST_WEEK)

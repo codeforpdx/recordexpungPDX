@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from expungeservice.util import DateWithFuture as date
+from dateutil.relativedelta import relativedelta
 
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
@@ -8,7 +9,7 @@ from tests.factories.charge_factory import ChargeFactory
 
 
 def build_charges(statute, disposition_ruling):
-    last_week = datetime.today() - timedelta(days=7)
+    last_week = date.today() - relativedelta(days=7)
     return ChargeFactory.create_ambiguous_charge(
         statute=statute, disposition=DispositionCreator.create(ruling=disposition_ruling, date=last_week)
     )

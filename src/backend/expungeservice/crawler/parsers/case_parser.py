@@ -1,11 +1,12 @@
 import re
 from dataclasses import dataclass
-from datetime import datetime, date
+from datetime import datetime
 from typing import List, Dict, Optional, Tuple
 
 from bs4 import BeautifulSoup
 from more_itertools import split_at
 
+from expungeservice.util import DateWithFuture as date
 from expungeservice.crawler.fuzzy_search import FuzzySearch
 
 SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
@@ -33,7 +34,7 @@ class CaseParser:
         ) = CaseParser.__build_hashed_dispo_data_and_probation_revoked(soup)
         balance_due = CaseParser.__build_balance_due(soup)
         if probation_revoked_date_string:
-            probation_revoked = datetime.date(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
+            probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
         return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)

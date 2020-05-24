@@ -1,4 +1,4 @@
-from datetime import date as date_class, datetime, date
+from expungeservice.util import DateWithFuture as date
 
 import pytest
 from dateutil.relativedelta import relativedelta
@@ -10,9 +10,9 @@ from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 from tests.fixtures.young_doe import YoungDoe
 
-ONE_YEAR_AGO = date_class.today() + relativedelta(years=-1)
-TWO_YEARS_AGO = date_class.today() + relativedelta(years=-2)
-FIFTEEN_YEARS_AGO = date_class.today() + relativedelta(years=-15)
+ONE_YEAR_AGO = date.today() + relativedelta(years=-1)
+TWO_YEARS_AGO = date.today() + relativedelta(years=-2)
+FIFTEEN_YEARS_AGO = date.today() + relativedelta(years=-15)
 
 
 @pytest.fixture
@@ -210,9 +210,7 @@ def test_probation_revoked_affects_time_eligibility(record_with_revoked_probatio
     expunger_result = Expunger.run(record)
 
     assert len(expunger_result) == 6
-    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].date_will_be_eligible == date_class(
-        2020, 11, 9
-    )
+    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].date_will_be_eligible == date(2020, 11, 9)
 
 
 @pytest.fixture
@@ -228,12 +226,12 @@ def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event
         "CASEJD1-1": TimeEligibility(
             status=EligibilityStatus.INELIGIBLE,
             reason="Never. Type ineligible charges are always time ineligible.",
-            date_will_be_eligible=date.max,
+            date_will_be_eligible=date.max(),
         ),
         "CASEJD1-2": TimeEligibility(
             status=EligibilityStatus.INELIGIBLE,
             reason="Never. Type ineligible charges are always time ineligible.",
-            date_will_be_eligible=date.max,
+            date_will_be_eligible=date.max(),
         ),
     }
 
@@ -250,7 +248,7 @@ def test_expunger_for_record_with_mj_under_21(record_with_mj_under_21):
     expunger_result = Expunger.run(record_with_mj_under_21)
     assert expunger_result == {
         "CASEJD1-1": TimeEligibility(
-            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date_class(1999, 3, 3)
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(1999, 3, 3)
         )
     }
 
@@ -264,6 +262,6 @@ def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
     expunger_result = Expunger.run(record_with_mj_over_21)
     assert expunger_result == {
         "CASEJD1-1": TimeEligibility(
-            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date_class(2001, 3, 3)
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2001, 3, 3)
         )
     }

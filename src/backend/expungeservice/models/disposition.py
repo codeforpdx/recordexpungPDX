@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from datetime import date, datetime
 from enum import Enum
+from expungeservice.util import DateWithFuture as date
 
 
 class DispositionStatus(str, Enum):
@@ -23,7 +23,7 @@ class Disposition:
 class DispositionCreator:
     @staticmethod
     def empty():
-        return Disposition(datetime.today(), "missing", DispositionStatus.UNKNOWN)
+        return Disposition(date.today(), "missing", DispositionStatus.UNKNOWN)
 
     @staticmethod
     def create(date: date, ruling: str, amended: bool = False) -> Disposition:

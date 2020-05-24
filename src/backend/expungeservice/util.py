@@ -41,8 +41,8 @@ class DateWithFuture:
             self.date = date_class(*args)
             self.relative = relativedelta()
         else:
-            self.date = kwargs.get("date")
-            self.relative = kwargs.get("relative") if kwargs.get("relative") else relativedelta()
+            self.date = kwargs["date"]
+            self.relative = kwargs["relative"] if kwargs.get("relative") else relativedelta()
 
     @staticmethod
     def future():

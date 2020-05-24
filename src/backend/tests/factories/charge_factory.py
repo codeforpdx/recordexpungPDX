@@ -1,5 +1,4 @@
-from datetime import date as date_class
-
+from expungeservice.util import DateWithFuture as date_class
 from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.models.charge import Charge
 from expungeservice.charge_creator import ChargeCreator

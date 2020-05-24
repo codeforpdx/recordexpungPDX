@@ -1,10 +1,10 @@
 from dataclasses import replace
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 from functools import lru_cache
-from typing import Set, List, Iterator, Tuple, Dict
+from typing import Set, List, Tuple, Dict
 
 from dateutil.relativedelta import relativedelta
-from more_itertools import flatten, padnone, take
+from more_itertools import padnone, take
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
@@ -57,7 +57,7 @@ class Expunger:
                 raise ValueError("Charge should always convicted or dismissed at this point.")
 
             if charge.type_eligibility.status == EligibilityStatus.INELIGIBLE:
-                eligibility_dates.append((date.max, "Never. Type ineligible charges are always time ineligible."))
+                eligibility_dates.append((date.max(), "Never. Type ineligible charges are always time ineligible."))
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
@@ -93,7 +93,7 @@ class Expunger:
                 if Expunger._calculate_has_subsequent_charge(charge, other_charges):
                     eligibility_dates.append(
                         (
-                            date.max,
+                            date.max(),
                             "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))",
                         )
                     )

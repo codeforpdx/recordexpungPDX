@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 
-from datetime import date as date_class
 from typing import Optional
 
 from dateutil.relativedelta import relativedelta
 
+from expungeservice.util import DateWithFuture as date_class
 from expungeservice.models.disposition import Disposition, DispositionStatus
 from expungeservice.models.expungement_result import (
     ExpungementResult,

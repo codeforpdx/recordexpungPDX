@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 from enum import Enum
 from typing import Optional
 

@@ -1,5 +1,5 @@
 import flask
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 
 from expungeservice.models.record import Record
 from expungeservice.models.record_summary import RecordSummary
