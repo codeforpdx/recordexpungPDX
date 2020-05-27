@@ -1,12 +1,9 @@
-import unittest
-
-from datetime import datetime
-
 from expungeservice.models.disposition import DispositionStatus
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
 from expungeservice.models.record import Record
+from expungeservice.util import DateWithFuture as date_class
 
 
 def test_search_function():
@@ -27,14 +24,14 @@ def test_search_function():
     assert len(record.cases[0].charges) == 3
 
     assert record.cases[2].charges[0].disposition.ruling == "Convicted - Failure to Appear"
-    assert record.cases[2].charges[0].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[0].disposition.date == date_class(2017, 6, 12)
     assert record.cases[2].charges[1].disposition.ruling == "Dismissed"
-    assert record.cases[2].charges[1].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[1].disposition.date == date_class(2017, 6, 12)
     assert record.cases[2].charges[2].disposition.ruling == "Dismissed"
-    assert record.cases[2].charges[2].disposition.date == datetime.date(datetime.strptime("06/12/2017", "%m/%d/%Y"))
+    assert record.cases[2].charges[2].disposition.date == date_class(2017, 6, 12)
 
     assert record.cases[1].charges[0].disposition.ruling == "Dismissed"
-    assert record.cases[1].charges[0].disposition.date == datetime.date(datetime.strptime("04/30/1992", "%m/%d/%Y"))
+    assert record.cases[1].charges[0].disposition.date == date_class(1992, 4, 30)
 
     assert record.cases[0].charges[0].disposition.status == DispositionStatus.UNKNOWN
     assert record.cases[0].charges[0].disposition.status == DispositionStatus.UNKNOWN
@@ -59,9 +56,9 @@ def test_single_charge_conviction():
     assert record.cases[0].charges[0].name == "Loading Zone"
     assert record.cases[0].charges[0].statute == "29"
     assert record.cases[0].charges[0].level == "Violation Unclassified"
-    assert record.cases[0].charges[0].date == datetime.date(datetime.strptime("09/04/2008", "%m/%d/%Y"))
+    assert record.cases[0].charges[0].date == date_class(2008, 9, 4)
     assert record.cases[0].charges[0].disposition.ruling == "Convicted"
-    assert record.cases[0].charges[0].disposition.date == datetime.date(datetime.strptime("11/18/2008", "%m/%d/%Y"))
+    assert record.cases[0].charges[0].disposition.date == date_class(2008, 11, 18)
 
 
 def test_nonzero_balance_due_on_case():

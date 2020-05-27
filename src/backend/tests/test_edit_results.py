@@ -1,5 +1,5 @@
 from typing import List, Any, Callable, Tuple
-from datetime import datetime, date
+from expungeservice.util import DateWithFuture as date
 
 from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
@@ -162,7 +162,7 @@ def test_add_new_charge():
                     "X0001-3": {
                         "charge_type": "Misdemeanor",
                         "date": "1/1/2001",
-                        "disposition": {"date": "2/1/2001", "ruling": "Convicted"},
+                        "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
                     }
                 },
             }

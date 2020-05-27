@@ -1,17 +1,16 @@
 import unittest
-import datetime
-
-from ..fixtures.john_doe import JohnDoe
+from expungeservice.util import DateWithFuture as date
 from expungeservice.crawler.parsers.record_parser import RecordParser
+from tests.fixtures.john_doe import JohnDoe
 
 
 class TestRecordParser(unittest.TestCase):
     def setUp(self):
         self.parser = RecordParser()
         self.parser.feed(JohnDoe.RECORD)
-        self.case1_date = datetime.date(1963, 3, 23)
-        self.case2_date = datetime.date(1963, 4, 11)
-        self.case3_date = datetime.date(2012, 4, 1)
+        self.case1_date = date(1963, 3, 23)
+        self.case2_date = date(1963, 4, 11)
+        self.case3_date = date(2012, 4, 1)
         self.base_uri = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID="
 
     def test_non_empty_record(self):

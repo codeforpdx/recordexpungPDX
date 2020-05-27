@@ -1,6 +1,6 @@
 from dataclasses import replace
-from datetime import date
-from typing import List, Dict, Set, Optional
+from expungeservice.util import DateWithFuture as date
+from typing import List, Dict, Optional
 
 from more_itertools import flatten, unique_everseen
 
@@ -131,13 +131,13 @@ class RecordMerger:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
             return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing")
-        elif all([time_eligibility.date_will_be_eligible == date.max for time_eligibility in time_eligibilities]):
+        elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
-        elif any([time_eligibility.date_will_be_eligible == date.max for time_eligibility in time_eligibilities]):
+        elif any([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             at_least_will_be_eligibles = [
                 time_eligibility
                 for time_eligibility in time_eligibilities
-                if time_eligibility.date_will_be_eligible != date.max
+                if time_eligibility.date_will_be_eligible != date.max()
             ]
             will_be_eligibles = [
                 time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")

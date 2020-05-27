@@ -1,7 +1,7 @@
 import unittest
 from dataclasses import replace
 
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
@@ -82,7 +82,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
             expunger_result[mrc.ambiguous_charge_id].reason
             == "Never. Type ineligible charges are always time ineligible."
         )
-        assert expunger_result[mrc.ambiguous_charge_id].date_will_be_eligible == date.max
+        assert expunger_result[mrc.ambiguous_charge_id].date_will_be_eligible == date.max()
 
     def test_more_than_ten_year_old_conviction(self):
         charge = ChargeFactory.create(
@@ -201,7 +201,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
             expunger_result[charge.ambiguous_charge_id].reason
             == "Never. Type ineligible charges are always time ineligible."
         )
-        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible is date.max
+        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == date.max()
 
     def test_no_complaint_is_based_on_arrest_date(self):
         charge = ChargeFactory.create(
@@ -407,7 +407,7 @@ def test_felony_class_b_with_subsequent_conviction():
         expunger_result[b_felony_charge.ambiguous_charge_id].reason
         == "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))"
     )
-    assert expunger_result[b_felony_charge.ambiguous_charge_id].date_will_be_eligible == date.max
+    assert expunger_result[b_felony_charge.ambiguous_charge_id].date_will_be_eligible == date.max()
 
     # The Class B felony does not affect eligibility of another charge that is otherwise eligible
     assert expunger_result[subsequent_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
@@ -603,7 +603,7 @@ def test_nonblocking_charge_is_not_skipped_and_does_not_block():
         expunger_result[civil_offense.ambiguous_charge_id].reason
         == "Never. Type ineligible charges are always time ineligible."
     )
-    assert expunger_result[civil_offense.ambiguous_charge_id].date_will_be_eligible == date.max
+    assert expunger_result[civil_offense.ambiguous_charge_id].date_will_be_eligible == date.max()
 
     assert expunger_result[violation_charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
@@ -615,7 +615,7 @@ def test_marijuana_violation_eligible_with_prior_conviction():
         statute="4758643",
         level="Violation Unclassified",
         date=date.today(),
-        disposition=DispositionCreator.create(ruling="Convicted", date=date.today() + relativedelta(days=-1))
+        disposition=DispositionCreator.create(ruling="Convicted", date=date.today() + relativedelta(days=-1)),
     )
     case_1 = CaseFactory.create(case_number="1", charges=tuple([marijuana_violation]))
 
@@ -625,7 +625,7 @@ def test_marijuana_violation_eligible_with_prior_conviction():
         statute="165.800",
         level="Felony Class C",
         date=Time.FIVE_YEARS_AGO,
-        disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO)
+        disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO),
     )
     case_2 = CaseFactory.create(case_number="2", charges=tuple([prior_conviction]))
 

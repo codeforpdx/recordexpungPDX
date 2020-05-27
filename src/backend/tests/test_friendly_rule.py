@@ -1,4 +1,3 @@
-import pytest
 from dateutil.relativedelta import relativedelta
 
 from expungeservice.expunger import Expunger
@@ -9,7 +8,7 @@ from expungeservice.models.record import Record
 from tests.factories.case_factory import CaseFactory
 from tests.factories.charge_factory import ChargeFactory
 from tests.time import Time
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 
 
 def test_eligible_mrc_with_single_arrest():

@@ -1,4 +1,3 @@
-import copy
 import json
 from typing import List, Any, Callable, Tuple
 
@@ -6,9 +5,7 @@ import pytest
 
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.endpoints import search
-from expungeservice.models.ambiguous import AmbiguousCase
 from expungeservice.models.case import Case
-from expungeservice.models.record import Question
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.record_creator import RecordCreator

@@ -1,4 +1,4 @@
-from datetime import date
+from expungeservice.util import DateWithFuture as date
 from dateutil.relativedelta import relativedelta
 
 

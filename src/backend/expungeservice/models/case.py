@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from datetime import datetime, date as date_class
+from datetime import datetime
+from expungeservice.util import DateWithFuture as date_class
 from typing import Optional, Tuple, Any
 
 from expungeservice.models.charge import OeciCharge, Charge
@@ -54,7 +55,7 @@ class CaseCreator:
         birth_year = CaseSummary._parse_birth_year(info)
         citation_number = citation_number[0] if citation_number else ""
         date, location = date_location
-        date = datetime.date(datetime.strptime(date, "%m/%d/%Y"))
+        date = date_class.fromdatetime(datetime.strptime(date, "%m/%d/%Y"))
         violation_type, current_status = type_status
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(balance)
         return CaseSummary(

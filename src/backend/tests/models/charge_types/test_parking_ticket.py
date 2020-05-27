@@ -1,4 +1,4 @@
-from datetime import date as date_class
+from expungeservice.util import DateWithFuture as date
 
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
@@ -16,7 +16,7 @@ def test_parking_ticket_conviction():
         name="Unknown",
         statute="109",
         level="Violation Unclassified",
-        date=date_class(1901, 1, 1),
+        date=date(1901, 1, 1),
         disposition=Dispositions.CONVICTED,
         violation_type=case.violation_type,
     )
@@ -34,7 +34,7 @@ def test_parking_ticket_dismissal():
         name="Unknown",
         statute="109",
         level="Violation Unclassified",
-        date=date_class(1901, 1, 1),
+        date=date(1901, 1, 1),
         disposition=Dispositions.DISMISSED,
         violation_type=case.violation_type,
     )
@@ -52,7 +52,7 @@ def test_parking_ticket_no_disposition():
         name="Unknown",
         statute="109",
         level="Violation Unclassified",
-        date=date_class(1901, 1, 1),
+        date=date(1901, 1, 1),
         disposition=DispositionCreator.empty(),
         violation_type=case.violation_type,
     )
@@ -73,7 +73,7 @@ def test_parking_ticket_unrecognized_disposition():
         name="Unknown",
         statute="109",
         level="Violation Unclassified",
-        date=date_class(1901, 1, 1),
+        date=date(1901, 1, 1),
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
         violation_type=case.violation_type,
     )

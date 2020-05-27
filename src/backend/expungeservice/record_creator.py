@@ -3,6 +3,7 @@ from functools import lru_cache
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable, Type
 from datetime import datetime
+from expungeservice.util import DateWithFuture as date_class
 
 import requests
 from dacite import from_dict
@@ -162,7 +163,7 @@ class RecordCreator:
             case_summary_edits: Dict[str, Any] = {}
             for key, value in case_edits["summary"].items():
                 if key == "date":
-                    case_summary_edits["date"] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+                    case_summary_edits["date"] = date_class.fromdatetime(datetime.strptime(value, "%m/%d/%Y"))
                 elif key == "balance_due":
                     case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
                 elif key == "birth_year":
@@ -239,14 +240,14 @@ class RecordCreator:
             if key == "disposition":
                 if value:
                     charge_dict["disposition"] = DispositionCreator.create(
-                        datetime.date(datetime.strptime(charge_edits["disposition"]["date"], "%m/%d/%Y")),
+                        date_class.fromdatetime(datetime.strptime(charge_edits["disposition"]["date"], "%m/%d/%Y")),
                         charge_edits["disposition"]["ruling"],
                     )
                 else:
                     charge_dict["disposition"] = None
             elif key in ("date", "probation_revoked"):
                 if value:
-                    charge_dict[key] = datetime.date(datetime.strptime(value, "%m/%d/%Y"))
+                    charge_dict[key] = date_class.fromdatetime(datetime.strptime(value, "%m/%d/%Y"))
             else:
                 charge_dict[key] = value
         return charge_dict

@@ -16,6 +16,7 @@ from importlib import import_module
 from expungeservice.models.charge import Charge
 from expungeservice.models import charge_types
 import inspect
+from expungeservice.util import DateWithFuture
 
 
 def _is_proper_charge_subclass(attr):
@@ -32,26 +33,34 @@ def get_charge_classes() -> List[Type[Charge]]:
     return charge_classes
 
 
-def _build_charge_strategy(charge_class: Type[Charge], case: CaseSummary) -> SearchStrategy[Charge]:
+@composite
+def _build_charge_strategy(
+    draw: Callable[[SearchStrategy], Any], charge_class: Type[Charge], case: CaseSummary
+) -> SearchStrategy[Charge]:
     if charge_class == DismissedCharge:
         disposition_status = one_of(
             just(DispositionStatus.DISMISSED), just(DispositionStatus.NO_COMPLAINT), just(DispositionStatus.DIVERTED)
         )
     else:
         disposition_status = one_of(just(DispositionStatus.CONVICTED), just(DispositionStatus.UNRECOGNIZED))
-    disposition = builds(Disposition, status=disposition_status, date=dates(max_value=date(9000, 12, 31)))
-    return builds(
-        charge_class,
-        case_number=just(case.case_number),
-        disposition=disposition,
-        date=dates(max_value=date(9000, 12, 31)),
-        probation_revoked=one_of(none(), dates(max_value=date(9000, 12, 31))),
+    disposition_date = just(DateWithFuture(date=draw(dates(max_value=date(9000, 12, 31)))))
+    disposition = builds(Disposition, status=disposition_status, date=disposition_date)
+    arrest_date = just(DateWithFuture(date=draw(dates(max_value=date(9000, 12, 31)))))
+    probation_revoked_date = one_of(none(), just(DateWithFuture(date=draw(dates(max_value=date(9000, 12, 31))))))
+    return draw(
+        builds(
+            charge_class,
+            case_number=just(case.case_number),
+            disposition=disposition,
+            date=arrest_date,
+            probation_revoked=probation_revoked_date,
+        )
     )
 
 
 @composite
 def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size=0) -> Case:
-    case_summary = draw(builds(CaseSummary))
+    case_summary = draw(builds(CaseSummary, date=just(DateWithFuture(date=draw(dates())))))
     charge_classes = get_charge_classes()
     charge_strategy_choices = list(
         map(lambda charge_class: _build_charge_strategy(charge_class, case_summary), charge_classes)

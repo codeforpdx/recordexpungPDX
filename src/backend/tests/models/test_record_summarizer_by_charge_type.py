@@ -1,4 +1,4 @@
-from datetime import date as date_class
+from expungeservice.util import DateWithFuture as date_class
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.duii import DivertedDuii

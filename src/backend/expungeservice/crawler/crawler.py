@@ -7,9 +7,10 @@ from datetime import datetime
 
 from requests import Session
 
+from expungeservice.util import DateWithFuture as date_class
 from expungeservice.crawler.request import Payload, URL
-from expungeservice.crawler.util import LRUCache
-from expungeservice.models.case import CaseCreator, Case, OeciCase, CaseSummary
+from expungeservice.util import LRUCache
+from expungeservice.models.case import CaseCreator, OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
@@ -122,7 +123,7 @@ class Crawler:
     @staticmethod
     def _build_oeci_charge(charge_id, ambiguous_charge_id, charge_dict, case_parser_data) -> OeciCharge:
         probation_revoked = case_parser_data.probation_revoked
-        charge_dict["date"] = datetime.date(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
+        charge_dict["date"] = date_class.fromdatetime(datetime.strptime(charge_dict["date"], "%m/%d/%Y"))
         disposition = Crawler._build_disposition(case_parser_data, charge_id)
         return OeciCharge(
             ambiguous_charge_id, disposition=disposition, probation_revoked=probation_revoked, **charge_dict
@@ -132,11 +133,11 @@ class Crawler:
     def _build_disposition(case_parser_data, charge_id):
         disposition_data = case_parser_data.hashed_dispo_data.get(charge_id)
         if disposition_data:
-            date = datetime.date(
+            date = date_class.fromdatetime(
                 datetime.strptime(disposition_data.get("date"), "%m/%d/%Y")
             )  # TODO: Log error if format is not correct
             ruling = disposition_data.get("ruling")
             disposition = DispositionCreator.create(date, ruling, "amended" in disposition_data["event"].lower())
         else:
-            disposition = DispositionCreator.create(datetime.today(), "missing")
+            disposition = DispositionCreator.create(date_class.today(), "missing")
         return disposition
