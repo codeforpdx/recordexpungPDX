@@ -175,7 +175,7 @@ class RecordCreator:
             edited_summary = case.summary
         new_charges: List[Charge] = []
         if "charges" in case_edits.keys():
-            edited_charges, new_charges = RecordCreator._edit_charges(
+            edited_charges, new_charges = RecordCreator._update_charges(
                 case.summary.case_number, case.charges, case_edits["charges"]
             )
         else:
@@ -183,9 +183,17 @@ class RecordCreator:
         return OeciCase(edited_summary, edited_charges), new_charges
 
     @staticmethod
-    def _edit_charges(
+    def _update_charges(
         case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
     ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
+        edited_charges, new_charges = RecordCreator._edit_charges(case_number, charges, charges_edits)
+        new_charges += RecordCreator._add_charges(case_number, charges, charges_edits)
+        return tuple(edited_charges), new_charges
+
+    @staticmethod
+    def _edit_charges(
+        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
+    ) -> Tuple[List[OeciCharge], List[Charge]]:
         edited_charges, new_charges = [], []
         for charge in charges:
             # TODO: deleting charges not supported yet
@@ -207,6 +215,11 @@ class RecordCreator:
                     edited_charges.append(edited_oeci_charge)
             else:
                 edited_charges.append(charge)
+        return edited_charges, new_charges
+
+    @staticmethod
+    def _add_charges(case_number, charges, charges_edits) -> List[Charge]:
+        new_charges = []
         for ambiguous_charge_id, charge_edits in charges_edits.items():
             charge_ids = [charge.ambiguous_charge_id for charge in charges]
             if ambiguous_charge_id not in charge_ids:
@@ -225,7 +238,7 @@ class RecordCreator:
                 }
                 new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
                 new_charges.append(new_charge)
-        return tuple(edited_charges), new_charges
+        return new_charges
 
     @staticmethod
     def _get_charge_type(charge_type: str) -> ChargeType:
