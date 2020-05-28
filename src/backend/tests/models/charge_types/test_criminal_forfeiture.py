@@ -7,4 +7,4 @@ def test_criminal_forfeiture():
     charge = ChargeFactory.create(
         name="Criminal Forfeiture", statute="131582", level="N/A", disposition=Dispositions.UNRECOGNIZED_DISPOSITION
     )
-    assert isinstance(charge, CriminalForfeiture)
+    assert isinstance(charge.charge_type, CriminalForfeiture)

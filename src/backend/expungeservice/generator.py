@@ -13,18 +13,18 @@ from expungeservice.models.disposition import DispositionStatus, Disposition
 from expungeservice.models.record import Record
 
 from importlib import import_module
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, ChargeType
 from expungeservice.models import charge_types
 import inspect
 from expungeservice.util import DateWithFuture
 
 
 def _is_proper_charge_subclass(attr):
-    return inspect.isclass(attr) and issubclass(attr, Charge) and attr != Charge
+    return inspect.isclass(attr) and issubclass(attr, ChargeType) and attr != ChargeType
 
 
-def get_charge_classes() -> List[Type[Charge]]:
-    charge_classes: List[Type[Charge]] = []
+def get_charge_classes() -> List[Type[ChargeType]]:
+    charge_classes: List[Type[ChargeType]] = []
     for _, module_name, _ in pkgutil.iter_modules(charge_types.__path__):  # type: ignore  # mypy issue #1422
         module = import_module(f"{charge_types.__name__}.{module_name}")
         attrs = list(module.__dict__.values())
@@ -35,9 +35,9 @@ def get_charge_classes() -> List[Type[Charge]]:
 
 @composite
 def _build_charge_strategy(
-    draw: Callable[[SearchStrategy], Any], charge_class: Type[Charge], case: CaseSummary
+    draw: Callable[[SearchStrategy], Any], charge_type: ChargeType, case: CaseSummary
 ) -> SearchStrategy[Charge]:
-    if charge_class == DismissedCharge:
+    if charge_type == DismissedCharge():
         disposition_status = one_of(
             just(DispositionStatus.DISMISSED), just(DispositionStatus.NO_COMPLAINT), just(DispositionStatus.DIVERTED)
         )
@@ -49,7 +49,8 @@ def _build_charge_strategy(
     probation_revoked_date = one_of(none(), just(DateWithFuture(date=draw(dates(max_value=date(9000, 12, 31))))))
     return draw(
         builds(
-            charge_class,
+            Charge,
+            charge_type=just(charge_type),
             case_number=just(case.case_number),
             disposition=disposition,
             date=arrest_date,
@@ -63,7 +64,7 @@ def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size
     case_summary = draw(builds(CaseSummary, date=just(DateWithFuture(date=draw(dates())))))
     charge_classes = get_charge_classes()
     charge_strategy_choices = list(
-        map(lambda charge_class: _build_charge_strategy(charge_class, case_summary), charge_classes)
+        map(lambda charge_class: _build_charge_strategy(charge_class(), case_summary), charge_classes)
     )
     charge_strategy = one_of(charge_strategy_choices)
     charges = draw(lists(charge_strategy, min_charges_size))

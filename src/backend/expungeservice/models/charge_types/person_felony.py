@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 from typing import List
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class PersonFelonyClassB(Charge):
+class PersonFelonyClassB(ChargeType):
     type_name: str = "Person Felony Class B"
     expungement_rules: str = (
         """If a [Class B Felony](#FelonyClassB) is also defined as a person felony under Oregon law, it is type-ineligible.
@@ -128,8 +129,8 @@ A person felony that is below a class B felony is not considered under this subs
         # "8373652C", # [contains subsection] # Unlawful Operation of Weaponized Unmanned Aircraft System;
     ]
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(5)(a)")

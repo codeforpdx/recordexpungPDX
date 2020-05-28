@@ -5,6 +5,7 @@ from dacite import from_dict
 
 from expungeservice.models.ambiguous import AmbiguousCharge
 from expungeservice.charge_classifier import ChargeClassifier
+from expungeservice.models.charge import Charge
 from expungeservice.models.record import Question
 
 
@@ -32,8 +33,8 @@ class ChargeCreator:
         options_dict = {}
         for i, classification in enumerate(classifications):
             uid = f"{ambiguous_charge_id}-{i}"
-            charge_dict = {**kwargs, "id": uid}
-            charge = from_dict(data_class=classification, data=charge_dict)
+            charge_dict = {**kwargs, "id": uid, "charge_type": classification}
+            charge = from_dict(data_class=Charge, data=charge_dict)
             ambiguous_charge.append(charge)
             if options:
                 options_dict[options[i]] = uid

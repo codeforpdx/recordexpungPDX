@@ -32,8 +32,8 @@ def test_civil_offense_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, CivilOffense)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, CivilOffense)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_duii_hidden_in_summary():
@@ -47,10 +47,10 @@ def test_duii_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charges[0], DivertedDuii)
-    assert charges[0].hidden_in_record_summary() == False
-    assert isinstance(charges[1], DismissedCharge)
-    assert charges[1].hidden_in_record_summary() == False
+    assert isinstance(charges[0].charge_type, DivertedDuii)
+    assert charges[0].charge_type.hidden_in_record_summary() == False
+    assert isinstance(charges[1].charge_type, DismissedCharge)
+    assert charges[1].charge_type.hidden_in_record_summary() == False
 
 
 def test_felony_class_a_hidden_in_summary():
@@ -65,8 +65,8 @@ def test_felony_class_a_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, FelonyClassA)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, FelonyClassA)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_felony_class_b_hidden_in_summary():
@@ -81,8 +81,8 @@ def test_felony_class_b_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, FelonyClassB)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, FelonyClassB)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_felony_class_c_hidden_in_summary():
@@ -97,8 +97,8 @@ def test_felony_class_c_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, FelonyClassC)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, FelonyClassC)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_juvenile_charge_hidden_in_summary():
@@ -113,8 +113,8 @@ def test_juvenile_charge_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, JuvenileCharge)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, JuvenileCharge)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_marijuana_eligible_hidden_in_summary():
@@ -124,8 +124,8 @@ def test_marijuana_eligible_hidden_in_summary():
         level="Felony Class A",
         disposition=Dispositions.DISMISSED,
     )
-    assert isinstance(charge, DismissedCharge)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, DismissedCharge)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_marijuana_ineligible_hidden_in_summary():
@@ -140,8 +140,8 @@ def test_marijuana_ineligible_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, MarijuanaIneligible)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, MarijuanaIneligible)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_misdemeanor_hidden_in_summary():
@@ -156,8 +156,8 @@ def test_misdemeanor_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, Misdemeanor)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, Misdemeanor)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_parking_ticket_hidden_in_summary():
@@ -172,8 +172,8 @@ def test_parking_ticket_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, ParkingTicket)
-    assert charge.hidden_in_record_summary() == True
+    assert isinstance(charge.charge_type, ParkingTicket)
+    assert charge.charge_type.hidden_in_record_summary() == True
 
 
 def test_person_felony_hidden_in_summary():
@@ -188,8 +188,8 @@ def test_person_felony_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, PersonFelonyClassB)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, PersonFelonyClassB)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_sex_crimes_hidden_in_summary():
@@ -204,8 +204,8 @@ def test_sex_crimes_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, SexCrime)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, SexCrime)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_subsection_6_hidden_in_summary():
@@ -220,10 +220,10 @@ def test_subsection_6_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charges[0], Subsection6)
-    assert charges[0].hidden_in_record_summary() == False
-    assert isinstance(charges[1], Misdemeanor)
-    assert charges[1].hidden_in_record_summary() == False
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert charges[0].charge_type.hidden_in_record_summary() == False
+    assert isinstance(charges[1].charge_type, Misdemeanor)
+    assert charges[1].charge_type.hidden_in_record_summary() == False
 
 
 def test_traffic_offense_hidden_in_summary():
@@ -238,8 +238,8 @@ def test_traffic_offense_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, TrafficOffense)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, TrafficOffense)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_traffic_violation_hidden_in_summary():
@@ -254,8 +254,8 @@ def test_traffic_violation_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, TrafficViolation)
-    assert charge.hidden_in_record_summary() == True
+    assert isinstance(charge.charge_type, TrafficViolation)
+    assert charge.charge_type.hidden_in_record_summary() == True
 
 
 def test_unclassified_charge_hidden_in_summary():
@@ -270,8 +270,8 @@ def test_unclassified_charge_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, UnclassifiedCharge)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, UnclassifiedCharge)
+    assert charge.charge_type.hidden_in_record_summary() == False
 
 
 def test_violation_hidden_in_summary():
@@ -286,5 +286,5 @@ def test_violation_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, UnclassifiedCharge)
-    assert charge.hidden_in_record_summary() == False
+    assert isinstance(charge.charge_type, UnclassifiedCharge)
+    assert charge.charge_type.hidden_in_record_summary() == False

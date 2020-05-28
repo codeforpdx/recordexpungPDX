@@ -10,7 +10,7 @@ def test_violation_convicted():
         name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.CONVICTED
     )
 
-    assert isinstance(charge, Violation)
+    assert isinstance(charge.charge_type, Violation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"
 
@@ -20,6 +20,6 @@ def test_violation_dismissed():
         name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.DISMISSED
     )
 
-    assert isinstance(charge, Violation)
+    assert isinstance(charge.charge_type, Violation)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"

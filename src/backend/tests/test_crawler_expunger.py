@@ -244,7 +244,7 @@ def record_with_mj_under_21():
 
 
 def test_expunger_for_record_with_mj_under_21(record_with_mj_under_21):
-    assert isinstance(record_with_mj_under_21.charges[0], MarijuanaUnder21)
+    assert isinstance(record_with_mj_under_21.charges[0].charge_type, MarijuanaUnder21)
     expunger_result = Expunger.run(record_with_mj_under_21)
     assert expunger_result == {
         "CASEJD1-1": TimeEligibility(

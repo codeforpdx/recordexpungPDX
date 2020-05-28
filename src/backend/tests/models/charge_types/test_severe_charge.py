@@ -10,7 +10,7 @@ def test_murder_charge():
         name="Aggravated Murder", statute="163.095", level="Felony Unclassified", disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(murder_convicted, SevereCharge)
+    assert isinstance(murder_convicted.charge_type, SevereCharge)
     assert murder_convicted.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert murder_convicted.type_eligibility.reason == "Ineligible by omission from statute"
 
@@ -20,6 +20,6 @@ def test_treason_charge():
         name="Treason", statute="166.005", level="Felony Unclassified", disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(treason_convicted, SevereCharge)
+    assert isinstance(treason_convicted.charge_type, SevereCharge)
     assert treason_convicted.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert treason_convicted.type_eligibility.reason == "Ineligible by omission from statute"

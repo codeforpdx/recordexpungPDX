@@ -13,7 +13,7 @@ def test_delivery_to_minor_4758604A():
         level="Felony Class A",
         disposition=Dispositions.DISMISSED,
     )
-    assert isinstance(marijuana_eligible_charge, DismissedCharge)
+    assert isinstance(marijuana_eligible_charge.charge_type, DismissedCharge)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert marijuana_eligible_charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
@@ -26,7 +26,7 @@ def test_marijuana_eligible_convicted():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(marijuana_eligible_charge, MarijuanaEligible)
+    assert isinstance(marijuana_eligible_charge.charge_type, MarijuanaEligible)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert marijuana_eligible_charge.type_eligibility.reason == "Eligible under 137.226"
 
@@ -39,7 +39,7 @@ def test_marijuana_eligible_missing_dispo():
         disposition=DispositionCreator.empty(),
     )
 
-    assert isinstance(marijuana_eligible_charge, MarijuanaEligible)
+    assert isinstance(marijuana_eligible_charge.charge_type, MarijuanaEligible)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         marijuana_eligible_charge.type_eligibility.reason
@@ -55,7 +55,7 @@ def test_marijuana_eligible_unrecognized_dispo():
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
     )
 
-    assert isinstance(marijuana_eligible_charge, MarijuanaEligible)
+    assert isinstance(marijuana_eligible_charge.charge_type, MarijuanaEligible)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         marijuana_eligible_charge.type_eligibility.reason
@@ -71,4 +71,4 @@ def test_delivery_4758602():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(marijuana_eligible_charge, MarijuanaEligible)
+    assert isinstance(marijuana_eligible_charge.charge_type, MarijuanaEligible)

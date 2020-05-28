@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class SexCrime(Charge):
+class SexCrime(ChargeType):
     type_name: str = "Sex Crime"
     expungement_rules: str = (
         """Sex Crimes are type-ineligible for expungement other than a narrow exception for "Romeo and Juliet" cases.
@@ -57,23 +58,24 @@ For further detail, see 137.225(6)(a)"""
         "163445",  # Sexual Misconduct
     ]
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)(a)")
 
 
 @dataclass(frozen=True)
-class RomeoAndJulietNMASexCrime(Charge):
+class RomeoAndJulietNMASexCrime(ChargeType):
     type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = (
-        """In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis.""")
+        """In some cases, a statutory rape charge may be eligible for a young offender. Please contact michael@qiu-qiulaw.com for manual analysis."""
+    )
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE,
                 reason="Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis",
@@ -81,14 +83,14 @@ class RomeoAndJulietNMASexCrime(Charge):
 
 
 @dataclass(frozen=True)
-class RomeoAndJulietIneligibleSexCrime(Charge):
+class RomeoAndJulietIneligibleSexCrime(ChargeType):
     type_name: str = "137.225(6)(f) related sex crime"
     expungement_rules: str = ("""See other entry for this charge type""")
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE, reason="Fails to meet requirements under 137.225(6)(f)"
             )

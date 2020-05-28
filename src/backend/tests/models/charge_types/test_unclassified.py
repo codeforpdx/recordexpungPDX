@@ -13,10 +13,10 @@ def test_unclassified_charge():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(unclassified_dismissed, UnclassifiedCharge)
+    assert isinstance(unclassified_dismissed.charge_type, UnclassifiedCharge)
     assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dismissed.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
-    assert not unclassified_dismissed.blocks_other_charges
+    assert not unclassified_dismissed.charge_type.blocks_other_charges
 
 
 def test_charge_that_falls_through():
@@ -27,7 +27,7 @@ def test_charge_that_falls_through():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(charge, UnclassifiedCharge)
+    assert isinstance(charge.charge_type, UnclassifiedCharge)
     assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert charge.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
@@ -36,7 +36,7 @@ def test_unrecognized_disposition():
     unclassified_dismissed = ChargeFactory.create(
         name="Unknown", statute="333.333", level="Felony Class F", disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
     )
-    assert isinstance(unclassified_dismissed, UnclassifiedCharge)
+    assert isinstance(unclassified_dismissed.charge_type, UnclassifiedCharge)
     assert unclassified_dismissed.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dismissed.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
@@ -46,7 +46,7 @@ def test_convicted_disposition():
         name="Unknown", statute="333.333", level="Felony Class F", disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(unclassified_convicted, UnclassifiedCharge)
+    assert isinstance(unclassified_convicted.charge_type, UnclassifiedCharge)
     assert unclassified_convicted.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_convicted.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"
 
@@ -56,6 +56,6 @@ def test_no_disposition():
         name="Unknown", statute="333.333", level="Felony Class F", disposition=DispositionCreator.empty(),
     )
 
-    assert isinstance(unclassified_dispo_none, UnclassifiedCharge)
+    assert isinstance(unclassified_dispo_none.charge_type, UnclassifiedCharge)
     assert unclassified_dispo_none.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert unclassified_dispo_none.type_eligibility.reason == "Unrecognized Charge : Further Analysis Needed"

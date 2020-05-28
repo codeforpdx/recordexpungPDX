@@ -11,7 +11,10 @@ class RecordSummarizer:
         return [
             (c.ambiguous_charge_id, c.to_one_line())
             for c in charges
-            if (c.expungement_result.charge_eligibility.status == eligibility and not c.hidden_in_record_summary())
+            if (
+                c.expungement_result.charge_eligibility.status == eligibility
+                and not c.charge_type.hidden_in_record_summary()
+            )
         ]
 
     @staticmethod
@@ -45,7 +48,7 @@ class RecordSummarizer:
             elif all(
                 [
                     c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
-                    and not c.hidden_in_record_summary()
+                    and not c.charge_type.hidden_in_record_summary()
                     for c in case.charges
                 ]
             ):

@@ -14,7 +14,7 @@ from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.generator import get_charge_classes
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case, OeciCase, CaseCreator
-from expungeservice.models.charge import OeciCharge, Charge
+from expungeservice.models.charge import OeciCharge, Charge, ChargeType
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Question, Alias
@@ -195,13 +195,13 @@ class RecordCreator:
                 charge_type_string = charge_dict.pop("charge_type", None)
                 edited_oeci_charge = replace(charge, **charge_dict)
                 if charge_type_string:
-                    charge_type = RecordCreator._get_charge_type(charge_type_string)
                     charge_type_data = {
                         "id": f"{charge.ambiguous_charge_id}-0",
                         "case_number": case_number,
+                        "charge_type": RecordCreator._get_charge_type(charge_type_string),
                         **asdict(edited_oeci_charge),
                     }
-                    new_charge = from_dict(data_class=charge_type, data=charge_type_data)
+                    new_charge = from_dict(data_class=Charge, data=charge_type_data)
                     new_charges.append(new_charge)
                 else:
                     edited_charges.append(edited_oeci_charge)
@@ -212,9 +212,9 @@ class RecordCreator:
             if ambiguous_charge_id not in charge_ids:
                 charge_dict = RecordCreator._parse_charge_edits(charge_edits)
                 charge_type_string = charge_dict.pop("charge_type", None)
-                charge_type = RecordCreator._get_charge_type(charge_type_string)
                 charge_edits_with_defaults = {
                     **charge_dict,
+                    "charge_type": RecordCreator._get_charge_type(charge_type_string),
                     "ambiguous_charge_id": ambiguous_charge_id,
                     "case_number": case_number,
                     "id": f"{ambiguous_charge_id}-0",
@@ -223,15 +223,15 @@ class RecordCreator:
                     "level": "N/A",
                     "type_name": "N/A",
                 }
-                new_charge = from_dict(data_class=charge_type, data=charge_edits_with_defaults)
+                new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
                 new_charges.append(new_charge)
         return tuple(edited_charges), new_charges
 
     @staticmethod
-    def _get_charge_type(charge_type: str) -> Type[Charge]:
+    def _get_charge_type(charge_type: str) -> ChargeType:
         charge_types = get_charge_classes()
-        charge_types_dict = {charge_type.__name__: charge_type for charge_type in charge_types}
-        return charge_types_dict.get(charge_type, UnclassifiedCharge)
+        charge_types_dict = {charge_type.__name__: charge_type() for charge_type in charge_types}
+        return charge_types_dict.get(charge_type, UnclassifiedCharge())
 
     @staticmethod
     def _parse_charge_edits(charge_edits):
@@ -266,6 +266,6 @@ class RecordCreator:
         unknown_dispositions = []
         for case in cases:
             for charge in case.charges:
-                if charge.ambiguous_charge_id in charge_ids and charge.blocks_other_charges:
+                if charge.ambiguous_charge_id in charge_ids and charge.charge_type.blocks_other_charges:
                     unknown_dispositions.append(charge.ambiguous_charge_id)
         return unknown_dispositions

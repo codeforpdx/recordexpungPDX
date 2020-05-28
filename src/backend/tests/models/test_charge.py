@@ -1,13 +1,14 @@
 import unittest
 from dataclasses import replace
 
+from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.util import DateWithFuture as date
 from dateutil.relativedelta import relativedelta
 from typing import Type
 
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.generator import get_charge_classes
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, ChargeType
 from expungeservice.models.disposition import DispositionCreator
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseSummaryFactory, CaseFactory
@@ -126,13 +127,16 @@ class TestChargeStatuteSectionAssignment(unittest.TestCase):
 
 def test_nonblocking_charges_are_never_type_eligible():
     for charge_class in get_charge_classes():
-        if not charge_class.blocks_other_charges:
-            assert_charge_class_is_never_type_eligible(charge_class)
+        if not charge_class().blocks_other_charges:
+            assert_charge_class_is_never_type_eligible(charge_class())
 
 
-def assert_charge_class_is_never_type_eligible(charge_class: Type[Charge]):
-    # This is a hack that introspects the code to see if EligibilityStatus.ELIGIBLE is ever referenced.
-    # A proper test would probably involve generating random instances of this charge class and seeing
-    # that they all resolve to a type eligibility of NEEDS_MORE_ANALYSIS or INELIGIBLE.
-    type_eligibility_func = next((f for name, f in charge_class.__dict__.items() if name == "_type_eligibility"), None)
-    assert "ELIGIBLE" not in type_eligibility_func.__code__.co_names
+def assert_charge_class_is_never_type_eligible(charge_type: ChargeType):
+    for disposition in [
+        Dispositions.CONVICTED,
+        Dispositions.DISMISSED,
+        Dispositions.UNRECOGNIZED_DISPOSITION,
+        Dispositions.NO_COMPLAINT,
+    ]:
+        type_eligibility = charge_type.type_eligibility(disposition)
+        assert type_eligibility.status != EligibilityStatus.ELIGIBLE

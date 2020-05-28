@@ -1,3 +1,5 @@
+from dataclasses import asdict
+
 import flask
 from expungeservice.util import DateWithFuture as date
 
@@ -33,7 +35,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def case_to_json(self, case):
         return {
             **self.case_summary_to_json(case.summary),
-            "charges": case.charges,
+            "charges": [self.charge_to_json(charge) for charge in case.charges],
         }
 
     def case_summary_to_json(self, case):
@@ -48,6 +50,21 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "current_status": case.current_status,
             "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link,
+        }
+
+    def charge_to_json(self, charge):
+        return {
+            "ambiguous_charge_id": charge.ambiguous_charge_id,
+            "case_number": charge.case_number,
+            "date": charge.date,
+            "disposition": charge.disposition,
+            "expungement_result": charge.expungement_result,
+            "id": charge.id,
+            "level": charge.level,
+            "name": charge.name,
+            "probation_revoked": charge.probation_revoked,
+            "statute": charge.statute,
+            "type_name": charge.charge_type.type_name,
         }
 
     def default(self, o):

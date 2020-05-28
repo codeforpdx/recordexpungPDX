@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 
 
 @dataclass(frozen=True)
-class ParkingTicket(Charge):
+class ParkingTicket(ChargeType):
     """
     This is a civil offense, and it is also a traffic offense.
     """
@@ -17,12 +18,12 @@ class ParkingTicket(Charge):
     )
     blocks_other_charges: bool = False
 
-    def _type_eligibility(self):
-        if self.convicted():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
-        elif self.dismissed():
+        elif ChargeUtil.dismissed(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
-        elif self.disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
+        elif disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE,
                 reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",

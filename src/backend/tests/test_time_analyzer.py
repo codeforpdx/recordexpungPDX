@@ -631,6 +631,6 @@ def test_marijuana_violation_eligible_with_prior_conviction():
 
     expunger_result = Expunger.run(Record(tuple([case_1, case_2])))
 
-    assert isinstance(marijuana_violation, MarijuanaViolation)
+    assert isinstance(marijuana_violation.charge_type, MarijuanaViolation)
     assert expunger_result[marijuana_violation.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[prior_conviction.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE

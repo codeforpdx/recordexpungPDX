@@ -13,7 +13,7 @@ def test_juvenile_charge_dismissed():
         case_number=case.case_number, disposition=Dispositions.DISMISSED, violation_type=case.violation_type
     )
 
-    assert isinstance(juvenile_charge, JuvenileCharge)
+    assert isinstance(juvenile_charge.charge_type, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"
 
@@ -24,7 +24,7 @@ def test_juvenile_charge_convicted():
         case_number=case.case_number, disposition=Dispositions.CONVICTED, violation_type=case.violation_type
     )
 
-    assert isinstance(juvenile_charge, JuvenileCharge)
+    assert isinstance(juvenile_charge.charge_type, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"
 
@@ -35,7 +35,7 @@ def test_juvenile_charge_no_disposition():
         case_number=case.case_number, disposition=DispositionCreator.empty(), violation_type=case.violation_type
     )
 
-    assert isinstance(juvenile_charge, JuvenileCharge)
+    assert isinstance(juvenile_charge.charge_type, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"
 
@@ -48,6 +48,6 @@ def test_juvenile_charge_unrecognized():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(juvenile_charge, JuvenileCharge)
+    assert isinstance(juvenile_charge.charge_type, JuvenileCharge)
     assert juvenile_charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert juvenile_charge.type_eligibility.reason == "Potentially eligible under 419A.262"

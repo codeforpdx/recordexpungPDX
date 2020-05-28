@@ -12,7 +12,7 @@ def test_marijuana_violation_conviction():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(marijuana_violation, MarijuanaViolation)
+    assert isinstance(marijuana_violation.charge_type, MarijuanaViolation)
     assert marijuana_violation.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert marijuana_violation.type_eligibility.reason == "Eligible under 475B.401"
 
@@ -25,6 +25,6 @@ def test_marijuana_violation_dismissal():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(marijuana_violation, MarijuanaViolation)
+    assert isinstance(marijuana_violation.charge_type, MarijuanaViolation)
     assert marijuana_violation.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert marijuana_violation.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"

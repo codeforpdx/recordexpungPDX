@@ -13,7 +13,7 @@ def test_class_b_felony_164057():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charge, FelonyClassB)
+    assert isinstance(charge.charge_type, FelonyClassB)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
 
@@ -23,4 +23,4 @@ def test_class_felony_is_added_to_b_felony_attribute():
         name="Aggravated theft in the first degree", statute="164.057", level="Felony Class B"
     )
 
-    assert isinstance(charge, FelonyClassB)
+    assert isinstance(charge.charge_type, FelonyClassB)

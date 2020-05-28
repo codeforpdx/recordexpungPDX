@@ -12,7 +12,7 @@ def test_felony_c_conviction():
         name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=Dispositions.CONVICTED
     )
 
-    assert isinstance(charge, FelonyClassC)
+    assert isinstance(charge.charge_type, FelonyClassC)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
@@ -22,7 +22,7 @@ def test_felony_c_dismissal():
         name="Theft in the first degree", statute="164.055", level="Felony Class C", disposition=Dispositions.DISMISSED
     )
 
-    assert isinstance(charge, DismissedCharge)
+    assert isinstance(charge.charge_type, DismissedCharge)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
@@ -35,7 +35,7 @@ def test_felony_c_no_disposition():
         disposition=DispositionCreator.empty(),
     )
 
-    assert isinstance(charge, FelonyClassC)
+    assert isinstance(charge.charge_type, FelonyClassC)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.type_eligibility.reason
@@ -51,7 +51,7 @@ def test_felony_c_unrecognized_disposition():
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
     )
 
-    assert isinstance(charge, FelonyClassC)
+    assert isinstance(charge.charge_type, FelonyClassC)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.type_eligibility.reason
