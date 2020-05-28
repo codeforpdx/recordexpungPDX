@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from math import ceil
-from typing import List, Iterator, Type, Optional
+from typing import Iterator, Type, Optional, Dict
 
 from expungeservice.models.ambiguous import AmbiguousChargeTypeWithQuestion
 from expungeservice.models.charge import Charge
@@ -141,8 +141,8 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([FelonyClassA])
         if level == "Felony Unclassified":
             question_string = "Was the charge for an A Felony, B Felony, or C Felony?"
-            options = ["A Felony", "B Felony", "C Felony"]
-            return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB, FelonyClassC], question_string, options)
+            options = {"A Felony": FelonyClassA, "B Felony": FelonyClassB, "C Felony": FelonyClassC}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     @staticmethod
     def _marijuana_ineligible(statute, section):
@@ -170,28 +170,30 @@ class ChargeClassifier:
             if any([schedule_2_keyword in name for schedule_2_keyword in ["2", "ii", "heroin", "cocaine", "meth"]]):
                 if level == "Felony Unclassified":
                     question_string = "Was the charge for an A Felony or B Felony?"
-                    options = ["A Felony", "B Felony"]
-                    return AmbiguousChargeTypeWithQuestion([FelonyClassA, FelonyClassB], question_string, options)
+                    options = {"A Felony": FelonyClassA, "B Felony": FelonyClassB}
+                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
             elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]):
                 return ChargeClassifier._classification_by_level(level, statute)
             else:
                 # The name contains either a "1" or no schedule number, and is possibly a marijuana charge.
                 if level == "Felony Unclassified":
                     question_string = "Was the underlying substance marijuana, and if not, was the charge for an A Felony, B Felony, or C Felony?"
-                    options = ["Yes", "No: A Felony", "No: B Felony", "No: C Felony"]
-                    return AmbiguousChargeTypeWithQuestion(
-                        [MarijuanaEligible, FelonyClassA, FelonyClassB, FelonyClassC], question_string, options
-                    )
+                    options = {
+                        "Yes": MarijuanaEligible,
+                        "No: A Felony": FelonyClassA,
+                        "No: B Felony": FelonyClassB,
+                        "No: C Felony": FelonyClassC,
+                    }
+                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
                 elif level == "Felony Class A" or level == "Felony Class B":
-                    question_string = "Was the underlying substance marijuana?"
-                    options = ["Yes", "No"]
                     charge_type_by_level = ChargeClassifier._classification_by_level(
                         level, statute
-                    ).ambiguous_charge_type
-                    return AmbiguousChargeTypeWithQuestion(
-                        [MarijuanaEligible] + charge_type_by_level, question_string, options
-                    )
+                    ).ambiguous_charge_type[0]
+                    question_string = "Was the underlying substance marijuana?"
+                    options = {"Yes": MarijuanaEligible, "No": charge_type_by_level}
+                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
+    # TODO: Assert for when Felony Unclassified
     @staticmethod
     def _subsection_6(section, level, statute):
         mistreatment_one = "163205"  #  (Criminal mistreatment in the second degree) if the victim at the time of the crime was 65 years of age or older.
@@ -202,25 +204,25 @@ class ChargeClassifier:
         )
         assault_three = "163165"  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         if section == mistreatment_one:
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             question_string = "Was the victim between the ages of 18 and 65?"
-            options = ["Yes", "No"]
-            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
-            return AmbiguousChargeTypeWithQuestion(charge_type_by_level + [Subsection6], question_string, options)
+            options = {"Yes": charge_type_by_level, "No": Subsection6}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == mistreatment_two:
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             question_string = "Was the victim older than 65?"
-            options = ["Yes", "No"]
-            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
-            return AmbiguousChargeTypeWithQuestion([Subsection6] + charge_type_by_level, question_string, options)
+            options = {"Yes": Subsection6, "No": charge_type_by_level}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == endangering_welfare:
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             question_string = "Was the charge for physical abuse?"
-            options = ["Yes", "No"]
-            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
-            return AmbiguousChargeTypeWithQuestion([Subsection6] + charge_type_by_level, question_string, options)
+            options = {"Yes": Subsection6, "No": charge_type_by_level}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == assault_three:
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             question_string = "Was the victim more than ten years old?"
-            options = ["Yes", "No"]
-            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type
-            return AmbiguousChargeTypeWithQuestion(charge_type_by_level + [Subsection6], question_string, options)
+            options = {"Yes": charge_type_by_level, "No": Subsection6}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == negligent_homicide and level == "Felony Class C":
             return AmbiguousChargeTypeWithQuestion([Subsection6])
 
@@ -233,8 +235,8 @@ class ChargeClassifier:
             if chapter_num == 813:
                 if ChargeClassifier._is_dimissed(disposition):
                     question_string = "Was the charge dismissed pursuant to a court-ordered diversion program?"
-                    options = ["Yes", "No"]
-                    return AmbiguousChargeTypeWithQuestion([DivertedDuii, DismissedCharge], question_string, options)
+                    options = {"Yes": DivertedDuii, "No": DismissedCharge}
+                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
                 else:
                     return AmbiguousChargeTypeWithQuestion([Duii])
             if chapter_num in statute_range:
@@ -309,10 +311,11 @@ class ChargeClassifier:
             2. You were under 23 years old when the act occurred AND
             3. The victim was less than five years younger than you when the act occurred
             """
-            options = ["Yes (Rare, contact michael@qiu-qiulaw.com)", "No"]
-            return AmbiguousChargeTypeWithQuestion(
-                [RomeoAndJulietNMASexCrime, RomeoAndJulietIneligibleSexCrime], question_string, options
-            )
+            options = {
+                "Yes (Rare, contact michael@qiu-qiulaw.com)": RomeoAndJulietNMASexCrime,
+                "No": RomeoAndJulietIneligibleSexCrime,
+            }
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     # TODO: Deduplicate with charge.dismissed()
     @staticmethod
@@ -322,3 +325,14 @@ class ChargeClassifier:
             DispositionStatus.DISMISSED,
             DispositionStatus.DIVERTED,
         ]
+
+    @staticmethod
+    def _build_ambiguous_charge_type_with_question(
+        question: str, options: Dict[str, Type[Charge]]
+    ) -> AmbiguousChargeTypeWithQuestion:
+        options_list = []
+        charge_types = []
+        for key, value in options.items():
+            charge_types.append(value)
+            options_list.append(key)
+        return AmbiguousChargeTypeWithQuestion(charge_types, question, options_list)
