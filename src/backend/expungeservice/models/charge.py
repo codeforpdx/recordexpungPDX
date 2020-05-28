@@ -13,6 +13,17 @@ from expungeservice.models.expungement_result import (
 )
 
 
+class ChargeUtil:
+    @staticmethod
+    def dismissed(disposition):
+        dismissal_status = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]
+        return disposition.status in dismissal_status
+
+    @staticmethod
+    def convicted(disposition):
+        return disposition.status == DispositionStatus.CONVICTED
+
+
 @dataclass(frozen=True)
 class OeciCharge:
     ambiguous_charge_id: str
@@ -25,17 +36,31 @@ class OeciCharge:
 
 
 @dataclass(frozen=True)
-class Charge(OeciCharge):
-    id: str
-    case_number: str
-    expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
+class ChargeType:
     type_name: str = "Unknown"
     expungement_rules: str = "\\[rules documentation not added yet\\]"
     blocks_other_charges: bool = True
 
+    def type_eligibility(self, disposition):
+        """If the disposition is present and recognized, this should always return a TypeEligibility.
+It may also return the eligibility without a known disposition (this works for some types).
+If the type eligibility is unknown, the method can return None. """
+        raise NotImplementedError
+
+    def hidden_in_record_summary(self):
+        return False
+
+
+@dataclass(frozen=True)
+class Charge(OeciCharge):
+    id: str
+    case_number: str
+    charge_type: ChargeType
+    expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
+
     @property
     def type_eligibility(self) -> TypeEligibility:
-        type_eligibility = self._type_eligibility()
+        type_eligibility = self.charge_type.type_eligibility(self.disposition)
         if type_eligibility:
             return type_eligibility
         else:
@@ -55,21 +80,14 @@ class Charge(OeciCharge):
                 "This block should never run, because we assume the charge disposition is always convicted, dismissed, unrecognized, or missing."
             )
 
-    def _type_eligibility(self):
-        """If the disposition is present and recognized, this should always return a TypeEligibility.
-It may also return the eligibility without a known disposition (this works for some types).
-If the type eligibility is unknown, the method can return None. """
-        raise NotImplementedError
-
     def case(self, cases):
         return next(case for case in cases if case.summary.case_number == self.case_number)
 
     def dismissed(self):
-        dismissal_status = [DispositionStatus.NO_COMPLAINT, DispositionStatus.DISMISSED, DispositionStatus.DIVERTED]
-        return self.disposition.status in dismissal_status
+        return ChargeUtil.dismissed(self.disposition)
 
     def convicted(self):
-        return self.disposition.status == DispositionStatus.CONVICTED
+        return ChargeUtil.convicted(self.disposition)
 
     def recent_conviction(self):
         ten_years_ago = date_class.today() + relativedelta(years=-10)
@@ -81,9 +99,6 @@ If the type eligibility is unknown, the method can return None. """
     def recent_dismissal(self):
         three_years_ago = date_class.today() + relativedelta(years=-3)
         return self.dismissed() and self.date > three_years_ago
-
-    def hidden_in_record_summary(self):
-        return False
 
     def to_one_line(self) -> str:
         short_name = self.name.split("(")[0]

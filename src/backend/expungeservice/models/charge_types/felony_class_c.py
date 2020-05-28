@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 
 
 @dataclass(frozen=True)
-class FelonyClassC(Charge):
+class FelonyClassC(ChargeType):
     type_name: str = "Felony Class C"
     expungement_rules: str = (
         """There are certain types of Class C felony which are generally ineligible, including sex crimes, child
@@ -15,12 +16,12 @@ always eligible under 137.225(5)(b).
 Class C felony dismissals are always eligible under 137.225(1)(b)."""
     )
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(b)")
-        elif self.disposition.status in [DispositionStatus.UNKNOWN, DispositionStatus.UNRECOGNIZED]:
+        elif disposition.status in [DispositionStatus.UNKNOWN, DispositionStatus.UNRECOGNIZED]:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
                 reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",

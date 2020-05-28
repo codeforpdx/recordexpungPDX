@@ -20,7 +20,6 @@ DUII_SEARCH_RESPONSE = {
                 "charges": [
                     {
                         "ambiguous_charge_id": "CASEJD1-1",
-                        "blocks_other_charges": True,
                         "case_number": "CASEJD1",
                         "date": "Nov 7, 1997",
                         "disposition": {
@@ -45,7 +44,6 @@ DUII_SEARCH_RESPONSE = {
                                 "status": "Needs more analysis",
                             },
                         },
-                        "expungement_rules": "\\[rules documentation not added yet\\]",
                         "id": "CASEJD1-1-0",
                         "level": "Misdemeanor Class A",
                         "name": "DUII",
@@ -105,7 +103,6 @@ DIVERTED_RESPONSE = {
                 "charges": [
                     {
                         "ambiguous_charge_id": "CASEJD1-1",
-                        "blocks_other_charges": True,
                         "case_number": "CASEJD1",
                         "date": "Nov 7, 1997",
                         "disposition": {
@@ -127,7 +124,6 @@ DIVERTED_RESPONSE = {
                                 "status": "Ineligible",
                             },
                         },
-                        "expungement_rules": "\\[rules documentation not added yet\\]",
                         "id": "CASEJD1-1-0",
                         "level": "Misdemeanor Class A",
                         "name": "DUII",

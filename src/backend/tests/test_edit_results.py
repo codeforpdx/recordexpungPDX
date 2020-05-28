@@ -146,7 +146,7 @@ def test_edit_charge_type_of_charge():
         (),
         {"X0001": {"action": "edit", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
     )
-    assert isinstance(record.cases[0].charges[1], Misdemeanor)
+    assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
 
 
 def test_add_new_charge():
@@ -168,5 +168,5 @@ def test_add_new_charge():
             }
         },
     )
-    assert isinstance(record.cases[0].charges[2], Misdemeanor)
+    assert isinstance(record.cases[0].charges[2].charge_type, Misdemeanor)
     assert record.cases[0].charges[2].date == date(2001, 1, 1)

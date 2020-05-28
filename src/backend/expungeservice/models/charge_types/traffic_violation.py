@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class TrafficViolation(Charge):
+class TrafficViolation(ChargeType):
     type_name: str = "Traffic Violation"
     expungement_rules: str = (
         """Convictions for traffic-related offenses are not eligible for expungement under ORS 137.225(7)(a). This includes Violations, Misdemeanors, and Felonies. Traffic-related charges include Reckless Driving, Driving While Suspended, DUII, Failure to Perform Duties of a Driver, Giving False Information to a Police Officer (when in a car), Fleeing/Attempting to Elude a Police Officer, Possession of a Stolen Vehicle
@@ -15,12 +16,12 @@ HOWEVER, dismissed traffic-related Misdemeanors and Felonies, like all dismissed
     )
     blocks_other_charges: bool = False
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE, reason="Dismissed violations are ineligible by omission from statute"
             )
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         else:
             return TypeEligibility(

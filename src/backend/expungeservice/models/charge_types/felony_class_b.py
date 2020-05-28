@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class FelonyClassB(Charge):
+class FelonyClassB(ChargeType):
     type_name: str = "Felony Class B"
     expungement_rules: str = (
         """Class B felony dismissals are always eligible under 137.225(5)(a).
@@ -19,10 +20,10 @@ If a class B felony is eligible under any other subsection of the statute, that 
  * If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b)."""
     )
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
                 reason="Convictions that fulfill the conditions of 137.225(5)(a) are eligible",

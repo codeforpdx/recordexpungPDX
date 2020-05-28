@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class Duii(Charge):
+class Duii(ChargeType):
     type_name: str = "DUII"
     expungement_rules: str = (
         """A DUII conviction is not eligible for expungement, as it is considered a traffic violation.
@@ -15,18 +16,19 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
 """
     )
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
                 EligibilityStatus.INELIGIBLE, reason="137.225(7)(a) - Traffic offenses are ineligible"
             )
 
 
 @dataclass(frozen=True)
-class DivertedDuii(Charge):
+class DivertedDuii(ChargeType):
     type_name: str = "Diverted DUII"
     expungement_rules = "A DUII dismissal resulting from completion of diversion is ineligible under ORS 137.225(8)(b)."
-    def _type_eligibility(self):
+
+    def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",)

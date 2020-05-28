@@ -18,7 +18,7 @@ def test_subsection_6_dismissed():
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
-    assert isinstance(charges[0], DismissedCharge)
+    assert isinstance(charges[0].charge_type, DismissedCharge)
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
 
@@ -32,8 +32,8 @@ def test_subsection_6_163165():
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
-    assert isinstance(charges[0], FelonyClassC)
-    assert isinstance(charges[1], Subsection6)
+    assert isinstance(charges[0].charge_type, FelonyClassC)
+    assert isinstance(charges[1].charge_type, Subsection6)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert type_eligibility.reason == "Eligible under 137.225(5)(b) ⬥ Ineligible under 137.225(6)"
 
@@ -47,8 +47,8 @@ def test_subsection_6_163200():
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
-    assert isinstance(charges[0], Subsection6)
-    assert isinstance(charges[1], Misdemeanor)
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert isinstance(charges[1].charge_type, Misdemeanor)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert type_eligibility.reason == "Ineligible under 137.225(6) ⬥ Eligible under 137.225(5)(b)"
 
@@ -61,8 +61,8 @@ def test_subsection_6_163575():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0], Subsection6)
-    assert isinstance(charges[1], Misdemeanor)
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert isinstance(charges[1].charge_type, Misdemeanor)
 
 
 def test_subsection_6_163205():
@@ -73,8 +73,8 @@ def test_subsection_6_163205():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0], FelonyClassC)
-    assert isinstance(charges[1], Subsection6)
+    assert isinstance(charges[0].charge_type, FelonyClassC)
+    assert isinstance(charges[1].charge_type, Subsection6)
 
 
 def test_subsection_6_163145():
@@ -85,7 +85,7 @@ def test_subsection_6_163145():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0], Misdemeanor)
+    assert isinstance(charges[0].charge_type, Misdemeanor)
 
 
 def test_163575_is_still_subsection_6_if_b_felony():
@@ -96,8 +96,8 @@ def test_163575_is_still_subsection_6_if_b_felony():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0], Subsection6)
-    assert isinstance(charges[1], FelonyClassB)  # TODO: Should this be a person felony?
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert isinstance(charges[1].charge_type, FelonyClassB)  # TODO: Should this be a person felony?
 
 
 def test_163200_is_still_subsection_6_if_b_felony():
@@ -108,5 +108,5 @@ def test_163200_is_still_subsection_6_if_b_felony():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0], Subsection6)
-    assert isinstance(charges[1], FelonyClassB)  # TODO: Should this be a person felony?
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert isinstance(charges[1].charge_type, FelonyClassB)  # TODO: Should this be a person felony?

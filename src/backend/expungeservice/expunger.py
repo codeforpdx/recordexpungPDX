@@ -30,14 +30,16 @@ class Expunger:
         cases = analyzable_record.cases
         for charge in analyzable_record.charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [c for c in analyzable_record.charges if c.blocks_other_charges and c.id != charge.id]
+            other_charges = [
+                c for c in analyzable_record.charges if c.charge_type.blocks_other_charges and c.id != charge.id
+            ]
             dismissals, convictions = Expunger._categorize_charges(other_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
             other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
 
             if charge.convicted():
-                if isinstance(charge, MarijuanaUnder21) and other_convictions_all_traffic:
+                if isinstance(charge.charge_type, MarijuanaUnder21) and other_convictions_all_traffic:
                     eligibility_dates.append(
                         (
                             charge.disposition.date + relativedelta(years=1),
@@ -89,7 +91,7 @@ class Expunger:
                     )
                 )
 
-            if charge.convicted() and isinstance(charge, FelonyClassB):
+            if charge.convicted() and isinstance(charge.charge_type, FelonyClassB):
                 if Expunger._calculate_has_subsequent_charge(charge, other_charges):
                     eligibility_dates.append(
                         (
@@ -105,7 +107,7 @@ class Expunger:
                         )
                     )
 
-            if isinstance(charge, MarijuanaViolation):
+            if isinstance(charge.charge_type, MarijuanaViolation):
                 date_will_be_eligible = charge.disposition.date
                 reason = "Eligible immediately (475B.401)"
             else:
@@ -192,7 +194,7 @@ class Expunger:
     @staticmethod
     def _is_other_convictions_all_traffic(convictions):
         for charge in convictions:
-            if not isinstance(charge, TrafficViolation):
+            if not isinstance(charge.charge_type, TrafficViolation):
                 return False
         return True
 
@@ -214,7 +216,7 @@ class Expunger:
         for case in record.cases:
             updated_charges = []
             for charge in case.charges:
-                if (charge.convicted() or charge.dismissed()) and not isinstance(charge, JuvenileCharge):
+                if (charge.convicted() or charge.dismissed()) and not isinstance(charge.charge_type, JuvenileCharge):
                     updated_charges.append(charge)
             updated_case = replace(case, charges=tuple(updated_charges))
             updated_cases.append(updated_case)
@@ -244,12 +246,12 @@ class ErrorChecker:
 
     @staticmethod
     def is_meaningfully_open_charge(charge: Charge) -> bool:
-        is_not_violation = not isinstance(charge, Violation)
+        is_not_violation = not isinstance(charge.charge_type, Violation)
         charge_with_invalid_disposition = charge.disposition.status in [
             DispositionStatus.UNKNOWN,
             DispositionStatus.UNRECOGNIZED,
         ]
-        return charge.blocks_other_charges and is_not_violation and charge_with_invalid_disposition
+        return charge.charge_type.blocks_other_charges and is_not_violation and charge_with_invalid_disposition
 
     @staticmethod
     def _build_disposition_errors(charges: List[Charge], cases: List[Case]):
@@ -270,7 +272,7 @@ class ErrorChecker:
         cases_with_missing_disposition: Set[str] = set()
         cases_with_unrecognized_disposition: Set[Tuple[str, str]] = set()
         for charge in charges:
-            if charge.blocks_other_charges:
+            if charge.charge_type.blocks_other_charges:
                 case_number = f"[{charge.case(cases).summary.case_number}]"
                 if charge.disposition.status == DispositionStatus.UNKNOWN:
                     cases_with_missing_disposition.add(case_number)

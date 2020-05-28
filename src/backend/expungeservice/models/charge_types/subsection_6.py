@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
+from expungeservice.models.charge import ChargeUtil
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class Subsection6(Charge):
+class Subsection6(ChargeType):
     type_name: str = "Subsection 6"
 
     expungement_rules: str = (
@@ -19,8 +20,8 @@ The three remaining specifications in the statute are:
  * 163.145 (Criminally negligent homicide) is ineligible when that offense was punishable as a Class C felony."""
     )
 
-    def _type_eligibility(self):
-        if self.dismissed():
+    def type_eligibility(self, disposition):
+        if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
-        elif self.convicted():
+        elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)",)

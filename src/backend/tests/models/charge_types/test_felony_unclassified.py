@@ -27,6 +27,6 @@ def test_felony_class_a_charge():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(felony_class_a_convicted, FelonyClassA)
+    assert isinstance(felony_class_a_convicted.charge_type, FelonyClassA)
     assert felony_class_a_convicted.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert felony_class_a_convicted.type_eligibility.reason == "Ineligible by omission from statute"

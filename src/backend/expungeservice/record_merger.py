@@ -51,8 +51,13 @@ class RecordMerger:
                     time_eligibility=merged_time_eligibility,
                     charge_eligibility=charge_eligibility,
                 )
-                merged_type_name = " ⬥ ".join(list(unique_everseen([charge.type_name for charge in same_charges])))
-                new_charge: Charge = replace(charge, type_name=merged_type_name, expungement_result=expungement_result)
+                merged_type_name = " ⬥ ".join(
+                    list(unique_everseen([charge.charge_type.type_name for charge in same_charges]))
+                )
+                merged_charge_type = replace(charge.charge_type, type_name=merged_type_name)
+                new_charge: Charge = replace(
+                    charge, charge_type=merged_charge_type, expungement_result=expungement_result
+                )
                 new_charges.append(new_charge)
             new_case = replace(case, charges=tuple(new_charges))
             new_case_list.append(new_case)
@@ -193,6 +198,6 @@ class RecordMerger:
     @staticmethod
     def _is_romeo_and_juliet_exception(same_charges: List[Charge]) -> bool:
         for charge in same_charges:
-            if isinstance(charge, RomeoAndJulietNMASexCrime):
+            if isinstance(charge.charge_type, RomeoAndJulietNMASexCrime):
                 return True
         return False

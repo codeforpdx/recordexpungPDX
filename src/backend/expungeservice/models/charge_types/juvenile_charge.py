@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import ChargeType
 from expungeservice.models.expungement_result import TypeEligibility, EligibilityStatus
 
 
 @dataclass(frozen=True)
-class JuvenileCharge(Charge):
+class JuvenileCharge(ChargeType):
     type_name: str = "Juvenile"
     expungement_rules: str = (
         """Juvenile records do not follow the general expungement rules. They are governed by a completely separate statute, ORS 419A.260 and 419A.262. We do not include them in our expungement analysis because information related to the cases is generally not available online, and the process for expunging these records is very different. Below is a summary of the juvenile expungement law.
@@ -26,5 +26,5 @@ The list of charges in ORS 419A.260(1)(d)(J) excludes certain charges from expun
     )
     blocks_other_charges: bool = False
 
-    def _type_eligibility(self):
+    def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.NEEDS_MORE_ANALYSIS, reason="Potentially eligible under 419A.262")

@@ -8,25 +8,25 @@ from tests.models.test_charge import Dispositions
 def test_00_is_not_a_civil_offense():
     charge = ChargeFactory.create(statute="00", level="N/A", disposition=Dispositions.CONVICTED)
 
-    assert not isinstance(charge, CivilOffense)
+    assert not isinstance(charge.charge_type, CivilOffense)
 
 
 def test_100_is_not_a_civil_offense():
     charge = ChargeFactory.create(statute="100", level="N/A", disposition=Dispositions.CONVICTED)
 
-    assert not isinstance(charge, CivilOffense)
+    assert not isinstance(charge.charge_type, CivilOffense)
 
 
 def test_99_is_a_civil_offense():
     charge = ChargeFactory.create(statute="99", level="N/A", disposition=Dispositions.CONVICTED)
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
 
 
 def test_55_is_a_civil_offense():
     charge = ChargeFactory.create(statute="55", level="N/A", disposition=Dispositions.CONVICTED)
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
 
 
 def test_fugitive_complaint():
@@ -34,7 +34,7 @@ def test_fugitive_complaint():
         statute="0", level="N/A", name="Fugitive Complaint", disposition=Dispositions.CONVICTED
     )
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
 
 
 def test_contempt_of_court():
@@ -48,7 +48,7 @@ def test_contempt_of_court():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
@@ -64,7 +64,7 @@ def test_contempt_of_court_convicted():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
@@ -79,7 +79,7 @@ def test_contempt_of_court_no_disposition():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible by omission from statute"
 
@@ -95,6 +95,6 @@ def test_contempt_of_court_unrecognized_disposition():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge, CivilOffense)
+    assert isinstance(charge.charge_type, CivilOffense)
     assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert charge.type_eligibility.reason == "Ineligible by omission from statute"

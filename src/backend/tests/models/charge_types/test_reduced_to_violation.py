@@ -13,7 +13,7 @@ def test_reduced_to_violation_convicted():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charge, ReducedToViolation)
+    assert isinstance(charge.charge_type, ReducedToViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"
 
@@ -26,7 +26,7 @@ def test_reduced_to_violation_dismissed():
         disposition=Dispositions.DISMISSED,
     )
 
-    assert isinstance(charge, ReducedToViolation)
+    assert isinstance(charge.charge_type, ReducedToViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Dismissed criminal charge eligible under 137.225(1)(b)"
 
@@ -39,7 +39,7 @@ def test_reduced_to_violation_unrecognized_disposition():
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
     )
 
-    assert isinstance(charge, ReducedToViolation)
+    assert isinstance(charge.charge_type, ReducedToViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.type_eligibility.reason
@@ -52,4 +52,4 @@ def test_reduced_violation_ineligible_under_other_criterion():
         name="Criminal Driving While Suspended\n (Reduced - DA Elected)", statute="8111824", level="Violation Class A",
     )
 
-    assert not isinstance(charge, ReducedToViolation)
+    assert not isinstance(charge.charge_type, ReducedToViolation)
