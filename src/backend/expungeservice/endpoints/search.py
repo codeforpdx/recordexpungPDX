@@ -30,7 +30,7 @@ class Search(MethodView):
     @staticmethod
     def _build_response(username, password, aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
-        record, ambiguous_record, questions, disposition_was_unknown = RecordCreator.build_record(
+        record, questions, disposition_was_unknown = RecordCreator.build_record(
             RecordCreator.build_search_results, username, password, tuple(aliases), edits_data
         )
         if questions_data:

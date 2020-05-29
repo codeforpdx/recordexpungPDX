@@ -22,12 +22,11 @@ class RecordCreator:
     @staticmethod
     def build_record(
         search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
-    ) -> Tuple[Record, AmbiguousRecord, Dict[str, QuestionSummary], List[str]]:
+    ) -> Tuple[Record, Dict[str, QuestionSummary], List[str]]:
         search_results, errors = search(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
-            ambiguous_record = [record]
-            return record, ambiguous_record, {}, []
+            return record, {}, []
         else:
             cases_with_unique_case_number: List[OeciCase] = [
                 list(group)[0]
@@ -46,7 +45,7 @@ class RecordCreator:
                 record.cases, unknown_dispositions
             )
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, ambiguous_record, questions_as_dict, updated_unknown_dispositions
+            return record, questions_as_dict, updated_unknown_dispositions
 
     @staticmethod
     @lru_cache(maxsize=4)

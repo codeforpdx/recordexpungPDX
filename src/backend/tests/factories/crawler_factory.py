@@ -24,7 +24,7 @@ class CrawlerFactory:
     def create_ambiguous_record_with_questions(
         record=JohnDoe.RECORD_WITH_CLOSED_CASES,
         cases={"X0001": CaseDetails.case_x(), "X0002": CaseDetails.case_x(), "X0003": CaseDetails.case_x()},
-    ) -> Tuple[Record, AmbiguousRecord, Dict[str, QuestionSummary], List[str]]:
+    ) -> Tuple[Record, Dict[str, QuestionSummary], List[str]]:
         base_url = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/"
         with requests_mock.Mocker() as m:
             m.post(URL.login_url(), text=PostLoginPage.POST_LOGIN_PAGE)
