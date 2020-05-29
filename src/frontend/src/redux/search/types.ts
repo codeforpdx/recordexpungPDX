@@ -45,9 +45,11 @@ interface SearchRecordAction {
 }
 
 interface QuestionsAction {
-  ambiguous_charge_id: string;
   type: typeof SELECT_ANSWER;
+  ambiguous_charge_id: string;
+  case_number: string;
   answer: string;
+  edit: any;
 }
 
 interface AnswerDispositionAction {

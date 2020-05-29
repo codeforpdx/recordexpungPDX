@@ -1,7 +1,7 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Dict, Tuple
 
-from expungeservice.models.record import Record, Question
+from expungeservice.models.record import Record, QuestionSummary
 
 
 @dataclass
@@ -13,11 +13,11 @@ class CountyBalance:
 @dataclass
 class RecordSummary:
     record: Record
-    questions: Dict[str, Question]
+    questions: Dict[str, QuestionSummary]
     disposition_was_unknown: List[str]
     total_charges: int
     cases_sorted: Dict[str, List[str]]
-    eligible_charges_by_date: List[Tuple[str, List[Tuple[str,str]]]]
+    eligible_charges_by_date: List[Tuple[str, List[Tuple[str, str]]]]
     county_balances: List[CountyBalance]
 
     @property

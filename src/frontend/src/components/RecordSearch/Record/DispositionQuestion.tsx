@@ -137,19 +137,19 @@ class DispositionQuestion extends React.Component<Props, State> {
             <legend className="fw7 mb2">Choose a disposition</legend>
             <div className="radio">
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" checked={this.state.status==="Dismissed"} onChange={this.handleDismissedClick} />
+                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" defaultChecked={this.state.status==="Dismissed"} onChange={this.handleDismissedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-dis"}>Dismissed</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" checked={this.state.status==="Convicted"} onChange={this.handleConvictedClick} />
+                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" defaultChecked={this.state.status==="Convicted"} onChange={this.handleConvictedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-con"}>Convicted</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" checked={this.state.status==="revoked"} onChange={this.handleRevokedClick} />
+                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" defaultChecked={this.state.status==="revoked"} onChange={this.handleRevokedClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-rev"}>Probation Revoked</label>
                 </div>
                 <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-unknown"} name="status" type="radio" value="Unknown" checked={this.state && this.state.status==="Unknown"} onChange={this.handleUnknownClick} />
+                    <input id={this.props.ambiguous_charge_id + "-unknown"} name="status" type="radio" value="Unknown" defaultChecked={this.state && this.state.status==="Unknown"} onChange={this.handleUnknownClick} />
                     <label htmlFor={this.props.ambiguous_charge_id + "-unknown"}>Unknown</label>
                 </div>
             </div>

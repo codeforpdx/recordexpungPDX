@@ -47,7 +47,7 @@ class RecordEditor:
             edited_summary = case.summary
         new_charges: List[Charge] = []
         if "charges" in case_edits.keys():
-            edited_charges, new_charges = RecordEditor._update_charges(
+            edited_charges, new_charges = RecordEditor._edit_charges(
                 case.summary.case_number, case.charges, case_edits["charges"]
             )
         else:
@@ -55,18 +55,20 @@ class RecordEditor:
         return OeciCase(edited_summary, edited_charges), new_charges
 
     @staticmethod
-    def _update_charges(
-        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
-    ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
-        edited_charges, new_charges = RecordEditor._edit_charges(case_number, charges, charges_edits)
-        new_charges += RecordEditor._add_charges(case_number, charges, charges_edits)
-        return tuple(edited_charges), new_charges
-
-    @staticmethod
     def _edit_charges(
         case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
+    ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
+        charges_without_charge_type, charges_with_charge_type = RecordEditor._update_charges(
+            case_number, charges, charges_edits
+        )
+        charges_with_charge_type += RecordEditor._add_charges(case_number, charges, charges_edits)
+        return tuple(charges_without_charge_type), charges_with_charge_type
+
+    @staticmethod
+    def _update_charges(
+        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
     ) -> Tuple[List[OeciCharge], List[Charge]]:
-        edited_charges, new_charges = [], []
+        charges_without_charge_type, charges_with_charge_type = [], []
         for charge in charges:
             # TODO: deleting charges not supported yet
             if charge.ambiguous_charge_id in charges_edits.keys():
@@ -82,12 +84,12 @@ class RecordEditor:
                         **asdict(edited_oeci_charge),
                     }
                     new_charge = from_dict(data_class=Charge, data=charge_type_data)
-                    new_charges.append(new_charge)
+                    charges_with_charge_type.append(new_charge)
                 else:
-                    edited_charges.append(edited_oeci_charge)
+                    charges_without_charge_type.append(edited_oeci_charge)
             else:
-                edited_charges.append(charge)
-        return edited_charges, new_charges
+                charges_without_charge_type.append(charge)
+        return charges_without_charge_type, charges_with_charge_type
 
     @staticmethod
     def _add_charges(case_number, charges, charges_edits) -> List[Charge]:

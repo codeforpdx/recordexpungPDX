@@ -13,7 +13,7 @@ from expungeservice.models.case import Case, OeciCase
 from expungeservice.models.charge import Charge
 from expungeservice.record_editor import RecordEditor
 from expungeservice.record_merger import RecordMerger
-from expungeservice.models.record import Record, Question, Alias
+from expungeservice.models.record import Record, Alias, QuestionSummary
 from expungeservice.request import error
 from expungeservice.models.disposition import DispositionStatus
 
@@ -22,12 +22,11 @@ class RecordCreator:
     @staticmethod
     def build_record(
         search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
-    ) -> Tuple[Record, AmbiguousRecord, Dict[str, Question], List[str]]:
+    ) -> Tuple[Record, Dict[str, QuestionSummary], List[str]]:
         search_results, errors = search(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
-            ambiguous_record = [record]
-            return record, ambiguous_record, {}, []
+            return record, {}, []
         else:
             cases_with_unique_case_number: List[OeciCase] = [
                 list(group)[0]
@@ -46,7 +45,7 @@ class RecordCreator:
                 record.cases, unknown_dispositions
             )
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, ambiguous_record, questions_as_dict, updated_unknown_dispositions
+            return record, questions_as_dict, updated_unknown_dispositions
 
     @staticmethod
     @lru_cache(maxsize=4)
@@ -76,9 +75,9 @@ class RecordCreator:
     @staticmethod
     def build_ambiguous_record(
         search_result: List[OeciCase], new_charges: List[Charge]
-    ) -> Tuple[AmbiguousRecord, List[Question]]:
+    ) -> Tuple[AmbiguousRecord, List[QuestionSummary]]:
         ambiguous_record: AmbiguousRecord = []
-        questions_accumulator: List[Question] = []
+        questions_accumulator: List[QuestionSummary] = []
         ambiguous_cases: List[AmbiguousCase] = []
         for oeci_case in search_result:
             new_charges_in_case = list(
@@ -110,9 +109,9 @@ class RecordCreator:
         return replace(record, cases=tuple(sorted_cases))
 
     @staticmethod
-    def _build_case(oeci_case: OeciCase, new_charges: List[Charge]) -> Tuple[AmbiguousCase, List[Question]]:
+    def _build_case(oeci_case: OeciCase, new_charges: List[Charge]) -> Tuple[AmbiguousCase, List[QuestionSummary]]:
         ambiguous_charges: List[AmbiguousCharge] = []
-        questions: List[Question] = []
+        questions: List[QuestionSummary] = []
         for oeci_charge in oeci_case.charges:
             ambiguous_charge_id = oeci_charge.ambiguous_charge_id
             charge_dict = {
@@ -129,7 +128,8 @@ class RecordCreator:
             ambiguous_charge, question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
             ambiguous_charges.append(ambiguous_charge)
             if question:
-                questions.append(question)
+                question_summary = QuestionSummary(ambiguous_charge_id, oeci_case.summary.case_number, question)
+                questions.append(question_summary)
         ambiguous_charges += [[charge] for charge in new_charges]
         ambiguous_case: AmbiguousCase = []
         for charges in product(*ambiguous_charges):

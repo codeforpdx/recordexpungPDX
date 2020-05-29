@@ -4,8 +4,7 @@ from flask import request, current_app, json
 from flask_login import login_required
 import logging
 
-from expungeservice.record_merger import RecordMerger
-from expungeservice.models.record import Question, Alias
+from expungeservice.models.record import QuestionSummary, Alias
 from expungeservice.record_creator import RecordCreator
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
@@ -30,11 +29,11 @@ class Search(MethodView):
     @staticmethod
     def _build_response(username, password, aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
-        record, ambiguous_record, questions, disposition_was_unknown = RecordCreator.build_record(
+        record, questions, disposition_was_unknown = RecordCreator.build_record(
             RecordCreator.build_search_results, username, password, tuple(aliases), edits_data
         )
         if questions_data:
-            questions, record = Search.disambiguate_record(ambiguous_record, questions_data)
+            questions = Search._build_questions(questions_data)
         try:
             save_search_event(aliases_data)
         except Exception as ex:
@@ -44,12 +43,11 @@ class Search(MethodView):
         return json.dumps(response_data, cls=ExpungeModelEncoder)
 
     @staticmethod
-    def disambiguate_record(ambiguous_record, questions_data):
-        questions_as_list = [from_dict(data_class=Question, data=question) for id, question in questions_data.items()]
-        questions = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_as_list)))
-        updated_ambiguous_record = RecordMerger.filter_ambiguous_record(ambiguous_record, questions_as_list)
-        record = RecordCreator.analyze_ambiguous_record(updated_ambiguous_record)
-        return questions, record
+    def _build_questions(questions_data):
+        questions_as_list = [
+            from_dict(data_class=QuestionSummary, data=question) for id, question in questions_data.items()
+        ]
+        return dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions_as_list)))
 
     @staticmethod
     def _oeci_login_params(request):
@@ -64,6 +62,7 @@ class Search(MethodView):
         check_data_fields(request_data, ["aliases"])
         for alias in request_data["aliases"]:
             check_data_fields(alias, ["first_name", "last_name", "middle_name", "birth_date"])
+
 
 def register(app):
     app.add_url_rule("/api/search", view_func=Search.as_view("search"))

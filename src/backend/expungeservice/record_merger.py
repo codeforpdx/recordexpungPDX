@@ -16,7 +16,7 @@ from expungeservice.models.expungement_result import (
     ChargeEligibility,
     ChargeEligibilityStatus,
 )
-from expungeservice.models.record import Record, Question
+from expungeservice.models.record import Record
 import collections
 
 
@@ -62,26 +62,6 @@ class RecordMerger:
             new_case = replace(case, charges=tuple(new_charges))
             new_case_list.append(new_case)
         return replace(record, cases=tuple(new_case_list))
-
-    @staticmethod
-    def filter_ambiguous_record(ambiguous_record: AmbiguousRecord, questions: List[Question]) -> AmbiguousRecord:
-        records = []
-        for record in ambiguous_record:
-            if RecordMerger._is_possible_record(record, questions):
-                records.append(record)
-        return records
-
-    @staticmethod
-    def _is_possible_record(record: Record, questions: List[Question]):
-        charges = record.charges
-        charge_ids = list(map(lambda c: c.id, charges))
-        for question in questions:
-            if question.answer:
-                not_answer_ids = [option_id for option_id in question.options.values() if option_id != question.answer]
-                for not_answer_id in not_answer_ids:
-                    if not_answer_id in charge_ids:
-                        return False
-        return True
 
     @staticmethod
     def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:

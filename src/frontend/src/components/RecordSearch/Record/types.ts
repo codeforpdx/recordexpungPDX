@@ -71,13 +71,22 @@ export interface ChargeEligibilityData {
 }
 
 export interface QuestionsData {
-  [ambiguous_charge_id: string]: QuestionData
+  [ambiguous_charge_id: string]: QuestionSummaryData
+}
+
+export interface QuestionSummaryData {
+  case_number: string;
+  ambiguous_charge_id: string;
+  root: QuestionData;
 }
 
 export interface QuestionData {
-  case_number: string;
-  ambiguous_charge_id: string;
-  question: string;
-  options: { [option: string]: string; };
-  answer: string;
+  text: string;
+  options: { [option: string]: AnswerData; };
+  selection: string;
+}
+
+export interface AnswerData {
+  question?: QuestionData,
+  edit?: { [key: string]: string };
 }

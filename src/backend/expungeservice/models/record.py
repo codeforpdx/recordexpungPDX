@@ -1,5 +1,6 @@
-from dataclasses import dataclass, field
-from typing import List, Dict, Tuple
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import List, Dict, Tuple, Optional
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
@@ -14,12 +15,23 @@ class Alias:
 
 
 @dataclass
-class Question:
+class QuestionSummary:
     ambiguous_charge_id: str
     case_number: str
-    question: str
-    options: Dict[str, str]
-    answer: str = ""
+    root: Question
+
+
+@dataclass
+class Question:
+    text: str
+    options: Dict[str, Answer]
+    selection: str = ""
+
+
+@dataclass
+class Answer:
+    question: Optional[Question] = None
+    edit: Optional[Dict[str, str]] = None
 
 
 @dataclass(frozen=True)
