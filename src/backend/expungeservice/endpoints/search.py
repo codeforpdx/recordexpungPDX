@@ -4,7 +4,6 @@ from flask import request, current_app, json
 from flask_login import login_required
 import logging
 
-from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import QuestionSummary, Alias
 from expungeservice.record_creator import RecordCreator
 from expungeservice.request import check_data_fields
