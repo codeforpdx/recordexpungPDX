@@ -35,6 +35,7 @@ from expungeservice.models.charge_types.sex_crimes import (
     RomeoAndJulietNMASexCrime,
 )
 from expungeservice.models.disposition import DispositionStatus, Disposition
+from expungeservice.models.record import Question, Answer
 
 
 @dataclass
@@ -330,9 +331,9 @@ class ChargeClassifier:
     def _build_ambiguous_charge_type_with_question(
         question: str, options: Dict[str, ChargeType]
     ) -> AmbiguousChargeTypeWithQuestion:
-        options_list = []
+        options_dict = {}
         charge_types = []
         for key, value in options.items():
             charge_types.append(value)
-            options_list.append(key)
-        return AmbiguousChargeTypeWithQuestion(charge_types, question, options_list)
+            options_dict[key] = Answer(edit={"charge_type": value.__class__.__name__})
+        return AmbiguousChargeTypeWithQuestion(charge_types, Question(question, options_dict))

@@ -12,7 +12,6 @@ from expungeservice.models.record import Question
 class ChargeCreator:
     @staticmethod
     def create(ambiguous_charge_id, **kwargs) -> Tuple[AmbiguousCharge, Optional[Question]]:
-        case_number = kwargs["case_number"]
         violation_type = kwargs["violation_type"]
         name = kwargs["name"]
         level = kwargs["level"]
@@ -27,20 +26,14 @@ class ChargeCreator:
         kwargs["ambiguous_charge_id"] = ambiguous_charge_id
         classifications = ambiguous_charge_type_with_questions.ambiguous_charge_type
         question = ambiguous_charge_type_with_questions.question
-        options = ambiguous_charge_type_with_questions.options
-        assert len(classifications) == len(options) if options else True
         ambiguous_charge = []
-        options_dict = {}
         for i, classification in enumerate(classifications):
             uid = f"{ambiguous_charge_id}-{i}"
             charge_dict = {**kwargs, "id": uid, "charge_type": classification}
             charge = from_dict(data_class=Charge, data=charge_dict)
             ambiguous_charge.append(charge)
-            if options:
-                options_dict[options[i]] = uid
         if question:
-            ambiguous_charge_id = ambiguous_charge[0].ambiguous_charge_id
-            return ambiguous_charge, Question(ambiguous_charge_id, case_number, question, options_dict)
+            return ambiguous_charge, question
         else:
             return ambiguous_charge, None
 

@@ -1,5 +1,5 @@
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
-from expungeservice.models.record import Record, Question
+from expungeservice.models.record import QuestionSummary
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
 from typing import Dict, List, Tuple
 from expungeservice.util import DateWithFuture as date
@@ -18,7 +18,7 @@ class RecordSummarizer:
         ]
 
     @staticmethod
-    def summarize(record, questions: Dict[str, Question], disposition_was_unknown: List[str]) -> RecordSummary:
+    def summarize(record, questions: Dict[str, QuestionSummary], disposition_was_unknown: List[str]) -> RecordSummary:
         fully_eligible_cases = []
         fully_ineligible_cases = []
         partially_eligible_cases = []

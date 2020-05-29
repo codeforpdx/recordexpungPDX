@@ -99,13 +99,17 @@ export function clearRecord() {
 
 export function selectAnswer(
   ambiguous_charge_id: string,
-  answer: string
+  case_number: string,
+  answer: string,
+  edit: any,
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_ANSWER,
       ambiguous_charge_id: ambiguous_charge_id,
-      answer: answer
+      case_number: case_number,
+      answer: answer,
+      edit: edit
     });
     return buildAndSendSearchRequest(dispatch);
 

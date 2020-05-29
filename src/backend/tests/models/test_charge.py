@@ -4,11 +4,10 @@ from dataclasses import replace
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.util import DateWithFuture as date
 from dateutil.relativedelta import relativedelta
-from typing import Type
 
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.generator import get_charge_classes
-from expungeservice.models.charge import Charge, ChargeType
+from expungeservice.models.charge import ChargeType
 from expungeservice.models.disposition import DispositionCreator
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseSummaryFactory, CaseFactory
