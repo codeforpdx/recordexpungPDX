@@ -36,7 +36,7 @@ def example_record():
 
 
 def test_pdf_print(example_record):
-    record_summary = RecordSummarizer.summarize(example_record, {}, [])
+    record_summary = RecordSummarizer.summarize(example_record, {})
     record = json.loads(json.dumps(record_summary, cls=ExpungeModelEncoder))
     aliases = [
         {"first_name": "john", "middle_name": "", "last_name": "smith", "birth_date": "2/2/2020"},

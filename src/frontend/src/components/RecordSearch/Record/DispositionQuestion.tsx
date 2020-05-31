@@ -1,203 +1,124 @@
-import React from 'react';
-import {answerDisposition} from '../../../redux/search/actions';
-import {connect} from 'react-redux';
-import store, {AppState} from '../../../redux/store';
-import moment from 'moment';
+import React, {useState} from "react";
+import {QuestionData} from "./types";
+import store from "../../../redux/store";
+import moment from "moment";
+import {DispositionAnswer} from "./DispositionAnswer";
 
 interface Props {
-  case_number: string;
-  ambiguous_charge_id: string;
-  disposition: any;
-  loading?: boolean;
+  question: QuestionData,
+  selectFunction: Function,
 }
 
-interface State {
-  status: string;
-  conviction_date: string;
-  probation_revoked_date: string;
-  missingFields: boolean;
-  invalidDate: boolean;
-  submitClickPending: boolean;
-}
-
-class DispositionQuestion extends React.Component<Props, State> {
-  state: State  = {
-    status: "Unknown",
-    conviction_date: "",
-    probation_revoked_date: "",
+export function DispositionQuestion(props: Props) {
+  const [questionState, setQuestionState] = useState<any>({
+    dispositionAnswer: props.question.selection,
+    conviction_date: props.question.convicted_date_string,
+    probation_revoked_date: props.question.probation_revoked_date_string,
     missingFields: false,
     invalidDate: false,
-    submitClickPending: false
-  };
+  });
 
-  componentDidMount() {
-    this.setState({
-      status: this.props.disposition.status,
-      conviction_date: (this.props.disposition ? this.props.disposition.date : ""),
+  function handleDateFieldChange(e: React.BaseSyntheticEvent) {
+    const dateFieldName = e.target.name;
+    const dateFieldValue = e.target.value;
+    return setQuestionState((questionState: any) => {
+      return {
+        ...questionState,
+        [dateFieldName]: dateFieldValue
       }
-    )
+    });
   }
 
-  handleDismissedClick = () => {
-    this.setState<any>({
-      status: "Dismissed",
-      conviction_date: "",
-      probation_revoked_date: "",
-      missingFields: false,
-      invalidDate: false,
-      submitClickPending: false
-    }, this.dispatchAnswer);
-  };
-
-  handleConvictedClick = () => {
-    this.setState<any>({
-      status: "Convicted",
-      probation_revoked_date: "",
-      missingFields: false,
-      invalidDate: false,
-      submitClickPending: true
-    });
-  };
-
-  handleRevokedClick = () => {
-    this.setState<any>({
-      status: "revoked",
-      submitClickPending : true
-    });
-  };
-
-  handleUnknownClick = () => {
-    this.setState<any>({
-      status: "Unknown",
-      submitClickPending: false,
-      conviction_date: "",
-      probation_revoked_date: "",
-      missingFields: false,
-      invalidDate: false
-    }, this.dispatchAnswer);
-  };
-
-  handleDateFieldChange = (e: React.BaseSyntheticEvent) => {
-    this.setState<any>({
-      submitClickPending: true,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    this.validateForm().then(() => {
-      if (!this.state.missingFields && !this.state.invalidDate) {
-        this.setState<any>({
-          submitClickPending : false
+  function handleSubmit(question_id: string, question: QuestionData) {
+    return () => {
+      const [missingFields, invalidDate] = validateForm();
+      if (missingFields || invalidDate) {
+        return setQuestionState((questionState:any) => {
+          return {
+            ...questionState,
+            missingFields: missingFields,
+            invalidDate: invalidDate
+          }
         });
-        this.dispatchAnswer();
+      } else {
+        setQuestionState((questionState:any) => {
+          return {
+            ...questionState,
+            missingFields: false,
+            invalidDate: false
+          }
+        });
+        const answerData = question.options[questionState.dispositionAnswer];
+        return store.dispatch(
+          props.selectFunction(question_id, questionState.dispositionAnswer, answerData.edit, questionState.conviction_date, questionState.probation_revoked_date)
+        );
       }
-    });
-  };
+    }
+  }
 
-  dispatchAnswer = () => {
-    store.dispatch(
-      answerDisposition(
-        this.props.case_number,
-        this.props.ambiguous_charge_id,
-        this.state.status,
-        this.state.conviction_date || "1/1/2020", // The date for a dismissal doesn't matter, but the backend expects something so here we are.
-        this.state.probation_revoked_date
-      )
-    )
-  };
+  function validateForm() {
+    let missingFields = false;
+    if (questionState.dispositionAnswer === "Convicted") {
+      missingFields = questionState.conviction_date === "";
+    } else if (questionState.dispositionAnswer === "Probation Revoked") {
+      missingFields = questionState.conviction_date === "" || questionState.probation_revoked_date === "";
+    }
+    let invalidDate = (questionState.dispositionAnswer === "Convicted" || questionState.dispositionAnswer === "Probation Revoked") &&
+      (questionState.conviction_date.length !== 0 && !moment(questionState.conviction_date, 'M/D/YYYY', true).isValid()) ||
+      (questionState.probation_revoked_date.length !== 0 && !moment(questionState.probation_revoked_date, 'M/D/YYYY', true).isValid());
+    return [missingFields, invalidDate];
+  }
 
-  validateForm = () => {
-    return new Promise(resolve => {
-      let missingFields = false;
-      if (this.state.status === "Convicted") {
-        missingFields = this.state.conviction_date === "";
-      } else if (this.state.status === "revoked") {
-        missingFields = this.state.conviction_date === "" || this.state.probation_revoked_date === "";
-      }
-
-      let invalidDate = (this.state.status === "Convicted" || this.state.status === "revoked") &&
-        (this.state.conviction_date.length !== 0 && !moment(this.state.conviction_date, 'M/D/YYYY', true).isValid()) ||
-        (this.state.probation_revoked_date.length !== 0 && !moment(this.state.probation_revoked_date, 'M/D/YYYY', true).isValid());
-      this.setState(
-        {
-          missingFields: missingFields ,
-          invalidDate: invalidDate
-        },
-        resolve
-      );
-    });
-  };
-
-  render() {
-    return (
-      <form className="w-100 bl bw3 b--light-purple pa3 pb1" onSubmit={this.handleSubmit}>
+    const render = () => {
+      return (
         <fieldset className="relative mb4">
-            <legend className="fw7 mb2">Choose a disposition</legend>
-            <div className="radio">
-                <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-dis"} name="status" type="radio" value="Dismissed" defaultChecked={this.state.status==="Dismissed"} onChange={this.handleDismissedClick} />
-                    <label htmlFor={this.props.ambiguous_charge_id + "-dis"}>Dismissed</label>
-                </div>
-                <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-con"} name="status" type="radio" value="Convicted" defaultChecked={this.state.status==="Convicted"} onChange={this.handleConvictedClick} />
-                    <label htmlFor={this.props.ambiguous_charge_id + "-con"}>Convicted</label>
-                </div>
-                <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-rev"} name="status" type="radio" value="revoked" defaultChecked={this.state.status==="revoked"} onChange={this.handleRevokedClick} />
-                    <label htmlFor={this.props.ambiguous_charge_id + "-rev"}>Probation Revoked</label>
-                </div>
-                <div className="dib">
-                    <input id={this.props.ambiguous_charge_id + "-unknown"} name="status" type="radio" value="Unknown" defaultChecked={this.state && this.state.status==="Unknown"} onChange={this.handleUnknownClick} />
-                    <label htmlFor={this.props.ambiguous_charge_id + "-unknown"}>Unknown</label>
-                </div>
-            </div>
-            <div className={this.state && (this.state.status === "Convicted" || this.state.status === "revoked") ? "" : "visually-hidden"}>
-              <label className="db fw6 mt3 mb1" htmlFor="n">Date Convicted <span className="f6 fw4">mm/dd/yyyy</span></label>
-              <input value={this.state.conviction_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="conviction_date"/>
-            </div>
-            <div className={this.state && this.state.status === "revoked" ? "" : "visually-hidden"}>
-              <label className="db fw6 mt3 mb1" htmlFor="n">Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
-              <input value={this.state.probation_revoked_date} onChange={this.handleDateFieldChange} className="w5 br2 b--black-20 pa3" id="n" type="text" name="probation_revoked_date"/>
-            </div>
-            {
-              this.state.submitClickPending ?
-                <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3">Submit</button> :
-                null
+          <legend className="fw7 mb2">{props.question.text}</legend>
+          <div className="radio">
+          {Object.keys(props.question.options).map((answer: string) => {
+              const id = props.question.question_id + answer;
+              return (
+                <DispositionAnswer key={id} question={props.question} selectFunction={props.selectFunction} answer={answer} questionState={questionState} setQuestionState={setQuestionState}/>
+              );
             }
-            {
-              this.props.loading ?
-                <div className="radio-spinner absolute" role="status">
-                  <span className="spinner spinner--sm mr1"></span>
-                  <span className="f6 fw5">Updating&#8230;</span>
-                </div> :
-                null
-            }
-            <div role="alert">
-              <p className={(this.state && this.state.missingFields ? "" : "visually-hidden " ) + "dib bg-washed-red fw6 br3 pa3 mt3"}>Please complete all fields</p>
-            </div>
-            <div role="alert">
-              <p className={(this.state && this.state.invalidDate ? "" : "visually-hidden " ) + "dib bg-washed-red fw6 br3 pa3 mt3"}>The date format must be MM/DD/YYYY</p>
-            </div>
+          )}
+          </div>
+          {
+            (questionState.dispositionAnswer === "Convicted" || questionState.dispositionAnswer === "Probation Revoked") ?
+              <div>
+              <label className="db fw6 mt3 mb1" htmlFor={props.question.question_id + "convicted"}>Date Convicted <span className="f6 fw4">mm/dd/yyyy</span></label>
+              <input value={questionState.conviction_date} onChange={handleDateFieldChange} className="w5 br2 b--black-20 pa3" id={props.question.question_id + "-convicted-textfield"} type="text" name="conviction_date"/>
+              </div> : null
+          }
+          {
+            questionState.dispositionAnswer === "Probation Revoked" ?
+              <div>
+              <label className="db fw6 mt3 mb1" htmlFor={props.question.question_id + "revoked"}>Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span></label>
+              <input value={questionState.probation_revoked_date} onChange={handleDateFieldChange} className="w5 br2 b--black-20 pa3" id={props.question.question_id + "-revoked-textfield"} type="text" name="probation_revoked_date"/>
+              </div> : null
+          }
+          {
+            (questionState.dispositionAnswer === "Convicted" || questionState.dispositionAnswer === "Probation Revoked") ?
+              <button className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3" onClick={handleSubmit(props.question.question_id, props.question)}>Submit</button> :
+              null
+          }
+          {
+            (
+              questionState.missingFields && (questionState.dispositionAnswer === "Convicted" || questionState.dispositionAnswer === "Probation Revoked") ?
+                <div role="alert">
+                <p className="dib bg-washed-red fw6 br3 pa3 mt3">Please complete all fields</p>
+                </div> : null
+            )
+          }
+          {
+            (
+              questionState.invalidDate && (questionState.dispositionAnswer === "Convicted" || questionState.dispositionAnswer === "Probation Revoked") ?
+                <div role="alert">
+                <p className="dib bg-washed-red fw6 br3 pa3 mt3">The date format must be MM/DD/YYYY</p>
+                </div> : null
+            )
+          }
         </fieldset>
-      </form>
-    )
-  }
-}
-
-function mapStateToProps(state: AppState, ownProps: Props) {
-  return {
-      case_number: ownProps.case_number,
-      ambiguous_charge_id: ownProps.ambiguous_charge_id,
-      disposition: ownProps.disposition,
-      loading: state.search.loading
+      )
     };
-
+    return render();
 }
-
-export default connect(
-  mapStateToProps,
-  {
-  }
-)(DispositionQuestion);

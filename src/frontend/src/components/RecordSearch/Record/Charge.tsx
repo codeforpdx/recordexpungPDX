@@ -2,13 +2,11 @@ import React from 'react';
 import Eligibility from './Eligibility';
 import TimeEligibility from './TimeEligibility';
 import TypeEligibility from './TypeEligibility';
-import Question from './Question';
+import Questions from './Questions';
 import { ChargeData } from './types';
-import DispositionQuestion from "./DispositionQuestion";
 
 interface Props {
   charge: ChargeData;
-  showDispositionQuestion: boolean;
 }
 
 export default class Charge extends React.Component<Props> {
@@ -63,14 +61,6 @@ export default class Charge extends React.Component<Props> {
       }
     };
 
-    const dispositionQuestionRender = () => {
-      if (this.props.showDispositionQuestion) {
-        return (
-          <DispositionQuestion case_number={case_number} ambiguous_charge_id={ambiguous_charge_id} disposition={disposition}/>
-        )
-      }
-    };
-
     return (
       <div className="br3 ma2 bg-white" id={ambiguous_charge_id}>
         <Eligibility expungement_result={expungement_result} />
@@ -95,8 +85,7 @@ export default class Charge extends React.Component<Props> {
             </ul>
           </div>
         </div>
-        <Question ambiguous_charge_id= {ambiguous_charge_id}/>
-        {dispositionQuestionRender()}
+        <Questions ambiguous_charge_id={ambiguous_charge_id}/>
       </div>
     );
   }

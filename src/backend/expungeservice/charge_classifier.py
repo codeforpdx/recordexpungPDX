@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from math import ceil
 from typing import Iterator, Optional, Dict
 
@@ -180,9 +180,15 @@ class ChargeClassifier:
                 question_string = "Was the underlying substance marijuana?"
                 charge_types_with_question = ChargeClassifier._classification_by_level(level, statute)
                 if level == "Felony Unclassified":
-                    felony_unclassified_question = charge_types_with_question.question
+                    felony_unclassified_question_id = (
+                        f"{question_string}-No-{charge_types_with_question.question.question_id}"
+                    )
+                    felony_unclassified_question = replace(
+                        charge_types_with_question.question, question_id=felony_unclassified_question_id
+                    )
                     charge_types = [MarijuanaEligible()] + charge_types_with_question.ambiguous_charge_type
                     question = Question(
+                        question_string,
                         question_string,
                         {
                             "Yes": Answer(edit={"charge_type": MarijuanaEligible.__name__}),
@@ -337,4 +343,4 @@ class ChargeClassifier:
         for key, value in options.items():
             charge_types.append(value)
             options_dict[key] = Answer(edit={"charge_type": value.__class__.__name__})
-        return AmbiguousChargeTypeWithQuestion(charge_types, Question(question, options_dict))
+        return AmbiguousChargeTypeWithQuestion(charge_types, Question(question, question, options_dict))

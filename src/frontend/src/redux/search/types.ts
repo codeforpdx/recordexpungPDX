@@ -15,14 +15,12 @@ export interface RecordEndpointData {
   errors: string[];
   summary: RecordSummaryData;
   questions: QuestionsData;
-  disposition_was_unknown: string[];
 }
 
 export const DISPLAY_RECORD = 'DISPLAY_RECORD';
 export const RECORD_LOADING = 'RECORD_LOADING';
 export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_ANSWER = 'SELECT_ANSWER';
-export const ANSWER_DISPOSITION = 'ANSWER_DISPOSITION';
 
 export interface SearchRecordState {
   loading: boolean;
@@ -30,7 +28,6 @@ export interface SearchRecordState {
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
-  dispositionWasUnknown: string[];
 }
 
 interface SearchRecordAction {
@@ -41,23 +38,17 @@ interface SearchRecordAction {
   aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;
-  dispositionWasUnknown: string[];
 }
 
-interface QuestionsAction {
+export interface QuestionsAction {
   type: typeof SELECT_ANSWER;
   ambiguous_charge_id: string;
   case_number: string;
+  question_id: string;
   answer: string;
   edit: any;
+  date: string;
+  probation_revoked_date: string;
 }
 
-interface AnswerDispositionAction {
-  type: typeof ANSWER_DISPOSITION;
-  case_number: string;
-  ambiguous_charge_id: string;
-  probation_revoked_edit: string;
-  disposition_edit: any; // TODO: Properly type
-}
-
-export type SearchRecordActionType = SearchRecordAction | QuestionsAction | AnswerDispositionAction;
+export type SearchRecordActionType = SearchRecordAction | QuestionsAction;

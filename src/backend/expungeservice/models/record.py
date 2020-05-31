@@ -1,6 +1,6 @@
 from __future__ import annotations
-from dataclasses import dataclass
-from typing import List, Dict, Tuple, Optional
+from dataclasses import dataclass, field
+from typing import List, Dict, Tuple, Optional, Any
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
@@ -23,15 +23,18 @@ class QuestionSummary:
 
 @dataclass
 class Question:
+    question_id: str
     text: str
     options: Dict[str, Answer]
     selection: str = ""
+    convicted_date_string: str = ""
+    probation_revoked_date_string: str = ""
 
 
 @dataclass
 class Answer:
     question: Optional[Question] = None
-    edit: Optional[Dict[str, str]] = None
+    edit: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)

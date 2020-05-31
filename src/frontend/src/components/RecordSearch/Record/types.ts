@@ -81,9 +81,12 @@ export interface QuestionSummaryData {
 }
 
 export interface QuestionData {
+  question_id: string;
   text: string;
   options: { [option: string]: AnswerData; };
   selection: string;
+  convicted_date_string: string;
+  probation_revoked_date_string: string;
 }
 
 export interface AnswerData {

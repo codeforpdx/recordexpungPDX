@@ -125,10 +125,11 @@ class RecordEditor:
         charge_dict: Dict[str, Any] = {}
         for key, value in charge_edits.items():
             if key == "disposition":
-                if value:
+                disposition = value
+                if disposition:
                     charge_dict["disposition"] = DispositionCreator.create(
-                        date_class.fromdatetime(datetime.strptime(charge_edits["disposition"]["date"], "%m/%d/%Y")),
-                        charge_edits["disposition"]["ruling"],
+                        date_class.fromdatetime(datetime.strptime(disposition["date"], "%m/%d/%Y")),
+                        disposition["ruling"],
                     )
                 else:
                     charge_dict["disposition"] = None
