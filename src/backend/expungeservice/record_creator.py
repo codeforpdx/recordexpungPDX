@@ -143,24 +143,30 @@ class RecordCreator:
                     **charge_dict,
                     disposition=DispositionCreator.create(date_class.future(), "convicted"),
                 )
-                ambiguous_charges.append(ambiguous_charge_dismissed + ambiguous_charge_convicted)
-                disposition_question_text = "Choose the disposition"
-                question_id_prefix = ambiguous_charge_id + disposition_question_text
-                dismissed_option = RecordCreator._build_option(
-                    question_dismissed, "Dismissed", f"{question_id_prefix}-dismissed"
-                )
-                convicted_option = RecordCreator._build_option(
-                    question_convicted, "Convicted", f"{question_id_prefix}-convicted"
-                )
-                probation_revoked_option = RecordCreator._build_probation_revoked_option(
-                    question_convicted, f"{question_id_prefix}-revoked"
-                )
-                unknown_option = {"Unknown": Answer()}
-                question = Question(
-                    question_id_prefix,
-                    disposition_question_text,
-                    {**dismissed_option, **convicted_option, **probation_revoked_option, **unknown_option},
-                )
+                if RecordCreator._disposition_question_is_irrelevant(
+                    ambiguous_charge_convicted, ambiguous_charge_dismissed
+                ):
+                    ambiguous_charges.append(ambiguous_charge_dismissed)
+                    question = replace(question_dismissed, question_id=f"{ambiguous_charge_id}-{question_dismissed.question_id}") if question_dismissed else None  # type: ignore # TODO: Fix type
+                else:
+                    ambiguous_charges.append(ambiguous_charge_dismissed + ambiguous_charge_convicted)
+                    disposition_question_text = "Choose the disposition"
+                    question_id_prefix = ambiguous_charge_id + disposition_question_text
+                    dismissed_option = RecordCreator._build_option(
+                        question_dismissed, "Dismissed", f"{question_id_prefix}-dismissed"
+                    )
+                    convicted_option = RecordCreator._build_option(
+                        question_convicted, "Convicted", f"{question_id_prefix}-convicted"
+                    )
+                    probation_revoked_option = RecordCreator._build_probation_revoked_option(
+                        question_convicted, f"{question_id_prefix}-revoked"
+                    )
+                    unknown_option = {"Unknown": Answer()}
+                    question = Question(
+                        question_id_prefix,
+                        disposition_question_text,
+                        {**dismissed_option, **convicted_option, **probation_revoked_option, **unknown_option},
+                    )
             else:
                 ambiguous_charge, maybe_question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
                 ambiguous_charges.append(ambiguous_charge)
@@ -210,3 +216,12 @@ class RecordCreator:
             updated_answer = replace(answer, question=updated_question, edit={**answer.edit, **edits})
             updated_options[answer_string] = updated_answer
         return replace(question, question_id=f"{question_id_prefix}-{question.question_id}", options=updated_options)
+
+    @staticmethod
+    def _disposition_question_is_irrelevant(ambiguous_charge_convicted, ambiguous_charge_dismissed):
+        return (
+            len(ambiguous_charge_convicted) == 1
+            and len(ambiguous_charge_dismissed) == 1
+            and ambiguous_charge_convicted[0].charge_type == ambiguous_charge_dismissed[0].charge_type
+            and not ambiguous_charge_dismissed[0].charge_type.blocks_other_charges
+        )  # TODO: Make assumption more explicit
