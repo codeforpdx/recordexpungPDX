@@ -237,6 +237,7 @@ class ChargeClassifier:
     @staticmethod
     def _traffic_crime(statute, name, level, disposition):
         chapter = statute[:3]
+        level_str = level.lower()
         if chapter.isdigit():
             statute_range = [481, 482, 483] + list(range(801, 826))
             chapter_num = int(chapter)
@@ -248,7 +249,6 @@ class ChargeClassifier:
                 else:
                     return AmbiguousChargeTypeWithQuestion([Duii()])
             if chapter_num in statute_range:
-                level_str = level.lower()
                 if "felony" in level_str or "misdemeanor" in level_str:
                     if ChargeClassifier._is_dimissed(disposition):
                         return AmbiguousChargeTypeWithQuestion([DismissedCharge()])
@@ -257,6 +257,8 @@ class ChargeClassifier:
                 else:
                     return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
         if name == "pedestrian j-walking":
+            return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
+        if "infraction" in level_str:
             return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
 
     @staticmethod
