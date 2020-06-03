@@ -8,7 +8,7 @@ import {DispositionQuestion} from "./DispositionQuestion";
 
 interface Props {
   ambiguous_charge_id: string;
-  loading?: boolean;
+  loading?: string;
   question_summary?: QuestionSummaryData;
 }
 
@@ -27,7 +27,7 @@ function Questions(props: Props) {
         <div className="w-100 bl bw3 b--light-purple pa3 pb1">
           {renderQuestions(question_summary.root, selectFunction)}
           {
-            (props.loading ?
+            (props.loading == props.question_summary.ambiguous_charge_id ?
                 <div className="radio-spinner" role="status">
                 <span className="spinner spinner--sm mr1"></span>
                 <span className="f6 fw5">Updating&#8230;</span>

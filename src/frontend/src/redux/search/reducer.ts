@@ -12,7 +12,7 @@ import {
 } from '../../components/RecordSearch/Record/types'
 
 const initalState: SearchRecordState = {
-  loading: false,
+  loading: "",
   aliases: [],
   edits: {}
 };
@@ -86,12 +86,12 @@ export function searchReducer(
         ...state,
         record: action.record,
         questions: action.questions,
-        loading: false,
+        loading: "",
       };
     case RECORD_LOADING:
-      return {...state, record: {}, aliases: JSON.parse(JSON.stringify(action.aliases)), questions: {}, edits: {}, loading: true};
+      return {...state, record: {}, aliases: JSON.parse(JSON.stringify(action.aliases)), questions: {}, edits: {}, loading: "loading"};
     case CLEAR_RECORD:
-      return {...state, record: {}, aliases: [], questions: {}, edits: {}, loading: false};
+      return {...state, record: {}, aliases: [], questions: {}, edits: {}, loading: ""};
     case SELECT_ANSWER: {
       let questions: QuestionsData = JSON.parse(JSON.stringify(state.questions));
       if (questions && questions[action.ambiguous_charge_id]) {
@@ -113,7 +113,7 @@ export function searchReducer(
       edits[action.case_number]["charges"] = edits[action.case_number]["charges"] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = edits[action.case_number]["charges"][action.ambiguous_charge_id] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = edit;
-      return {...state, questions: questions, edits: edits, loading: true};
+      return {...state, questions: questions, edits: edits, loading: action.ambiguous_charge_id};
     }
     default:
       return state;

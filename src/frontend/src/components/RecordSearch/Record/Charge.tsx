@@ -38,6 +38,7 @@ export default class Charge extends React.Component<Props> {
       return dispositionEvent;
     };
 
+    // TODO: Fix render name
     const dispositionRender = (disposition: any, date: any) => {
       return (
         <li className="mb2">

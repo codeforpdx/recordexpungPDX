@@ -5,14 +5,14 @@ import LoadingSpinner from '../../LoadingSpinner';
 import NoSearchResults from './NoSearchResults';
 
 type Props = {
-  loading: boolean;
+  loading: string;
 };
 
 class Status extends React.Component<Props> {
   render() {
     return (
       <section>
-        {this.props.loading ? (
+        {this.props.loading === "loading" ? (
           <LoadingSpinner inputString={'your search results'} />
         ) : (
           <NoSearchResults />

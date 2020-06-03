@@ -23,7 +23,7 @@ export const CLEAR_RECORD = 'CLEAR_RECORD';
 export const SELECT_ANSWER = 'SELECT_ANSWER';
 
 export interface SearchRecordState {
-  loading: boolean;
+  loading: string;
   aliases: AliasData[];
   record?: RecordData;
   questions?: QuestionsData;
