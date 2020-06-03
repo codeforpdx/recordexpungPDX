@@ -13,20 +13,25 @@ export default class ChargesList extends React.Component<Props> {
       const chargesNames = chargeGroup[1];
       const listItems = this.buildListItems(chargesNames);
       const labelColor = (eligibilityDate==="Eligible now" ? "green" : eligibilityDate==="Ineligible" ? "red" : eligibilityDate==="Need more analysis" ? "purple" : "dark-blue");
-      return (
-        <div key={index}>
-          <div className="mb1">
-            <span className={"fw7 ttc mb2 " + labelColor}> {eligibilityDate} </span> <span>{(chargesNames.length > 0 ? "(" + chargesNames.length + ")" : "" )}</span>
+      if (eligibilityDate==="Need more analysis" && listItems.length == 0) {
+        return (<></>);
+      } else {
+        return (
+          <div key={index}>
+            <div className="mb1">
+              <span className={"fw7 ttc mb2 " + labelColor}> {eligibilityDate} </span>
+              <span> {(chargesNames.length > 0 ? `(${chargesNames.length})` : "" )} </span>
+            </div>
+            <p className="f6 mb2">{
+              eligibilityDate==="Ineligible" ? "Excludes traffic violations, which are always ineligible" :
+              eligibilityDate==="Need more analysis" ? "These charges need clarification before an accurate analysis can be determined" :
+              ""}</p>
+            <ul className="list mb3">
+             {listItems.length > 0 ? listItems : "None"}
+            </ul>
           </div>
-          <p className="f6 mb2">{
-            eligibilityDate==="Ineligible" ? "Excludes traffic violations, which are always ineligible" :
-            eligibilityDate==="Need more analysis" ? "These charges need clarification before an accurate analysis can be determined" :
-            ""}</p>
-          <ul className="list mb3">
-           {listItems}
-          </ul>
-        </div>
-      )
+        )
+      }
     }));
 
     return (
@@ -44,11 +49,6 @@ export default class ChargesList extends React.Component<Props> {
             <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2"><a href={"#" + chargeName[0]} className="link hover-blue">{chargeName[1]}</a></li>
         )
       }));
-    if (listItems.length === 0) {
-      return "None";
-    } else {
-      return listItems;
-    }
-
+    return listItems;
   }
 }
