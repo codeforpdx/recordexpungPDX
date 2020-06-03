@@ -89,7 +89,7 @@ class DateWithFuture:
             years = f"{self.relative.years} year(s) " if self.relative.years else ""
             months = f"{self.relative.months} month(s) " if self.relative.months else ""
             days = f"{self.relative.days - 1} day(s) " if self.relative.days - 1 > 0 else ""
-            return years + months + days
+            return years + months + days + " from conviction of open case(s)"
         else:
             return self.date.strftime(fmt)
 
