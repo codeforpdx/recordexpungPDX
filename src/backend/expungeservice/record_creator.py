@@ -13,20 +13,21 @@ from expungeservice.models.case import Case, OeciCase
 from expungeservice.models.charge import Charge
 from expungeservice.record_editor import RecordEditor
 from expungeservice.record_merger import RecordMerger
-from expungeservice.models.record import Record, Alias, QuestionSummary
+from expungeservice.models.record import Record, Alias, QuestionSummary, Question, Answer
 from expungeservice.request import error
-from expungeservice.models.disposition import DispositionStatus
+from expungeservice.models.disposition import DispositionStatus, DispositionCreator
+from expungeservice.util import DateWithFuture as date_class
 
 
 class RecordCreator:
     @staticmethod
     def build_record(
         search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
-    ) -> Tuple[Record, Dict[str, QuestionSummary], List[str]]:
+    ) -> Tuple[Record, Dict[str, QuestionSummary]]:
         search_results, errors = search(username, password, aliases)
         if errors:
             record = Record((), tuple(errors))
-            return record, {}, []
+            return record, {}
         else:
             cases_with_unique_case_number: List[OeciCase] = [
                 list(group)[0]
@@ -35,17 +36,13 @@ class RecordCreator:
                     lambda case: case.summary.case_number,
                 )
             ]
-            unknown_dispositions = RecordCreator._find_unknown_dispositions(cases_with_unique_case_number)
             user_edited_search_results, new_charges = RecordEditor.edit_search_results(
                 cases_with_unique_case_number, edits
             )
             ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results, new_charges)
             record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-            updated_unknown_dispositions = RecordCreator._filter_for_blocking_charges(
-                record.cases, unknown_dispositions
-            )
             questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, questions_as_dict, updated_unknown_dispositions
+            return record, questions_as_dict
 
     @staticmethod
     @lru_cache(maxsize=4)
@@ -95,13 +92,22 @@ class RecordCreator:
         charge_id_to_time_eligibilities = []
         ambiguous_record_with_errors = []
         for record in ambiguous_record:
-            record_with_errors = replace(record, errors=tuple(ErrorChecker.check(record)))
-            charge_id_to_time_eligibility = Expunger.run(record_with_errors)
+            charge_id_to_time_eligibility = Expunger.run(record)
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
-            ambiguous_record_with_errors.append(record_with_errors)
+            ambiguous_record_with_errors.append(record)
         record = RecordMerger.merge(ambiguous_record_with_errors, charge_id_to_time_eligibilities)
-        sorted_record = RecordCreator.sort_record_by_case_date(record)
-        return sorted_record
+        sorted_record = RecordCreator.sort_record(record)
+        return replace(sorted_record, errors=tuple(ErrorChecker.check(sorted_record)))
+
+    @staticmethod
+    def sort_record(record):
+        updated_cases = []
+        for case in record.cases:
+            sorted_charges = sorted(case.charges, key=lambda charge: charge.ambiguous_charge_id)
+            updated_case = replace(case, charges=tuple(sorted_charges))
+            updated_cases.append(updated_case)
+        record_with_sorted_charges = replace(record, cases=tuple(updated_cases))
+        return RecordCreator.sort_record_by_case_date(record_with_sorted_charges)
 
     @staticmethod
     def sort_record_by_case_date(record):
@@ -125,8 +131,46 @@ class RecordCreator:
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
             }
-            ambiguous_charge, question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
-            ambiguous_charges.append(ambiguous_charge)
+            if oeci_charge.disposition.status == DispositionStatus.UNKNOWN:
+                charge_dict.pop("disposition")
+                ambiguous_charge_dismissed, question_dismissed = ChargeCreator.create(
+                    ambiguous_charge_id,
+                    **charge_dict,
+                    disposition=DispositionCreator.create(date_class.today(), "dismissed"),
+                )
+                ambiguous_charge_convicted, question_convicted = ChargeCreator.create(
+                    ambiguous_charge_id,
+                    **charge_dict,
+                    disposition=DispositionCreator.create(date_class.future(), "convicted"),
+                )
+                if RecordCreator._disposition_question_is_irrelevant(
+                    ambiguous_charge_convicted, ambiguous_charge_dismissed
+                ):
+                    ambiguous_charges.append(ambiguous_charge_dismissed)
+                    question = replace(question_dismissed, question_id=f"{ambiguous_charge_id}-{question_dismissed.question_id}") if question_dismissed else None  # type: ignore # TODO: Fix type
+                else:
+                    ambiguous_charges.append(ambiguous_charge_dismissed + ambiguous_charge_convicted)
+                    disposition_question_text = "Choose the disposition"
+                    question_id_prefix = ambiguous_charge_id + disposition_question_text
+                    dismissed_option = RecordCreator._build_option(
+                        question_dismissed, "Dismissed", f"{question_id_prefix}-dismissed"
+                    )
+                    convicted_option = RecordCreator._build_option(
+                        question_convicted, "Convicted", f"{question_id_prefix}-convicted"
+                    )
+                    probation_revoked_option = RecordCreator._build_probation_revoked_option(
+                        question_convicted, f"{question_id_prefix}-revoked"
+                    )
+                    unknown_option = {"Unknown": Answer()}
+                    question = Question(
+                        question_id_prefix,
+                        disposition_question_text,
+                        {**dismissed_option, **convicted_option, **probation_revoked_option, **unknown_option},
+                    )
+            else:
+                ambiguous_charge, maybe_question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
+                ambiguous_charges.append(ambiguous_charge)
+                question = replace(maybe_question, question_id=f"{ambiguous_charge_id}-{maybe_question.question_id}") if maybe_question else None  # type: ignore # TODO: Fix type
             if question:
                 question_summary = QuestionSummary(ambiguous_charge_id, oeci_case.summary.case_number, question)
                 questions.append(question_summary)
@@ -138,19 +182,46 @@ class RecordCreator:
         return ambiguous_case, questions
 
     @staticmethod
-    def _find_unknown_dispositions(cases: List[OeciCase]) -> List[str]:
-        unknown_dispositions = []
-        for case in cases:
-            for charge in case.charges:
-                if charge.disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
-                    unknown_dispositions.append(charge.ambiguous_charge_id)
-        return unknown_dispositions
+    def _build_option(question, ruling, question_id_prefix):
+        disposition = {"disposition": {"date": "__DATE__", "ruling": ruling.lower()}}
+        if question:
+            updated_question = RecordCreator._append_edits_to_question(question, disposition, question_id_prefix)
+            option = {ruling: Answer(question=updated_question)}
+        else:
+            option = {ruling: Answer(edit=disposition)}
+        return option
 
     @staticmethod
-    def _filter_for_blocking_charges(cases: Tuple[Case, ...], charge_ids: List[str]) -> List[str]:
-        unknown_dispositions = []
-        for case in cases:
-            for charge in case.charges:
-                if charge.ambiguous_charge_id in charge_ids and charge.charge_type.blocks_other_charges:
-                    unknown_dispositions.append(charge.ambiguous_charge_id)
-        return unknown_dispositions
+    def _build_probation_revoked_option(question, question_id_prefix):
+        edits = {
+            "disposition": {"date": "__DATE__", "ruling": "convicted"},
+            "probation_revoked": "__PROBATION_REVOKED_DATE__",
+        }
+        if question:
+            updated_question = RecordCreator._append_edits_to_question(question, edits, question_id_prefix)
+            option = {"Probation Revoked": Answer(question=updated_question)}
+        else:
+            option = {"Probation Revoked": Answer(edit=edits)}
+        return option
+
+    @staticmethod
+    def _append_edits_to_question(question: Question, edits: Dict[str, Any], question_id_prefix: str) -> Question:
+        updated_options = {}
+        for answer_string, answer in question.options.items():
+            updated_question = (
+                RecordCreator._append_edits_to_question(answer.question, edits, question_id_prefix)
+                if answer.question
+                else None
+            )
+            updated_answer = replace(answer, question=updated_question, edit={**answer.edit, **edits})
+            updated_options[answer_string] = updated_answer
+        return replace(question, question_id=f"{question_id_prefix}-{question.question_id}", options=updated_options)
+
+    @staticmethod
+    def _disposition_question_is_irrelevant(ambiguous_charge_convicted, ambiguous_charge_dismissed):
+        return (
+            len(ambiguous_charge_convicted) == 1
+            and len(ambiguous_charge_dismissed) == 1
+            and ambiguous_charge_convicted[0].charge_type == ambiguous_charge_dismissed[0].charge_type
+            and not ambiguous_charge_dismissed[0].charge_type.blocks_other_charges
+        )  # TODO: Make assumption more explicit

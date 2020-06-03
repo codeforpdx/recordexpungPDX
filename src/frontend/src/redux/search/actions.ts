@@ -10,7 +10,6 @@ import {
   SearchResponse,
   CLEAR_RECORD,
   SELECT_ANSWER,
-  ANSWER_DISPOSITION
 } from './types';
 import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
 import {RecordData} from '../../components/RecordSearch/Record/types'
@@ -28,7 +27,6 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       type: DISPLAY_RECORD,
       record: record,
       questions: receivedRecord.questions,
-      dispositionWasUnknown: receivedRecord.disposition_was_unknown
     });
   } else {
     alert('Response data has unexpected format.');
@@ -100,45 +98,24 @@ export function clearRecord() {
 export function selectAnswer(
   ambiguous_charge_id: string,
   case_number: string,
+  question_id: string,
   answer: string,
   edit: any,
+  date: string,
+  probation_revoked_date: string = ""
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
       type: SELECT_ANSWER,
       ambiguous_charge_id: ambiguous_charge_id,
       case_number: case_number,
+      question_id: question_id,
       answer: answer,
-      edit: edit
+      edit: edit,
+      date: date,
+      probation_revoked_date: probation_revoked_date
     });
     return buildAndSendSearchRequest(dispatch);
 
-  };
-}
-
-export function answerDisposition(
-  case_number: string,
-  ambiguous_charge_id: string,
-  ruling: string,
-  date: string,
-  probation_revoked_date: string): any {
-  return (dispatch: Dispatch) => {
-    const disposition = () => {
-      if (ruling === "Unknown") {
-        return;
-      } else if (ruling === "revoked") {
-        return {"date": date, "ruling": "Convicted"};
-      } else {
-        return {"date": date, "ruling": ruling};
-      }
-    };
-    dispatch({
-      type: ANSWER_DISPOSITION,
-      case_number: case_number,
-      ambiguous_charge_id: ambiguous_charge_id,
-      probation_revoked_edit: probation_revoked_date,
-      disposition_edit: disposition()
-    });
-    return buildAndSendSearchRequest(dispatch);
   };
 }

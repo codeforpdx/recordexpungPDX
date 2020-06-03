@@ -8,6 +8,7 @@ from expungeservice.models.ambiguous import AmbiguousRecord
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge
 from expungeservice.models.charge_types.sex_crimes import RomeoAndJulietNMASexCrime
+from expungeservice.models.disposition import Disposition, DispositionCreator
 from expungeservice.models.expungement_result import (
     TimeEligibility,
     ExpungementResult,
@@ -55,8 +56,12 @@ class RecordMerger:
                     list(unique_everseen([charge.charge_type.type_name for charge in same_charges]))
                 )
                 merged_charge_type = replace(charge.charge_type, type_name=merged_type_name)
+                merged_disposition = RecordMerger.merge_dispositions(same_charges)
                 new_charge: Charge = replace(
-                    charge, charge_type=merged_charge_type, expungement_result=expungement_result
+                    charge,
+                    charge_type=merged_charge_type,
+                    expungement_result=expungement_result,
+                    disposition=merged_disposition,
                 )
                 new_charges.append(new_charge)
             new_case = replace(case, charges=tuple(new_charges))
@@ -181,3 +186,10 @@ class RecordMerger:
             if isinstance(charge.charge_type, RomeoAndJulietNMASexCrime):
                 return True
         return False
+
+    @staticmethod
+    def merge_dispositions(same_charges: List[Charge]) -> Disposition:
+        if len(list(unique_everseen([charge.disposition for charge in same_charges]))) == 2:
+            return DispositionCreator.empty()
+        else:
+            return same_charges[0].disposition

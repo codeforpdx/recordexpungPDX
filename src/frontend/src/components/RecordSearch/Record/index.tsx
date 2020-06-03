@@ -5,7 +5,6 @@ import { RecordData } from './types';
 
 interface Props {
   record: RecordData;
-  dispositionWasUnknown: string[];
 }
 
 export default class Record extends React.Component<Props> {
@@ -40,7 +39,7 @@ export default class Record extends React.Component<Props> {
           <RecordSummary summary={this.props.record.summary}/>
           ) : null }
         {this.props.record.cases ? (
-          <Cases cases={this.props.record.cases} dispositionWasUnknown={this.props.dispositionWasUnknown} />
+          <Cases cases={this.props.record.cases} />
         ) : null}
       </section>
       </>
