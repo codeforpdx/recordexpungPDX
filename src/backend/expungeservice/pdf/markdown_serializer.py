@@ -72,7 +72,7 @@ class MarkdownSerializer:
     @staticmethod
     def _gen_needs_more_analysis_block(record):
         needs_more_analysis_charges = [
-            charge_tuple[1] for charge_tuple in record["summary"]["eligible_charges_by_date"][-2][1]
+            charge_tuple[1] for charge_tuple in record["summary"]["eligible_charges_by_date"][-1][1]
         ]
         text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"
         if needs_more_analysis_charges:
