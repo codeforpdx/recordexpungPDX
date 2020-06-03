@@ -150,5 +150,5 @@ src/backend/tests/endpoints/flask_session
 src/backend/flask_session
 src/ops/docker
 src/pdf-frontend/source
-src/pdf-frontend/output
+src/pdf-frontend/output*
 reports.zip
