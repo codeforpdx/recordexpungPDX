@@ -27,7 +27,13 @@ export default class Cases extends React.Component<Props> {
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-            <a href={prefix + "/api/case_detail_page/" + link_id} target="_blank">{case_number}</a>
+            <a 
+              href={prefix + "/api/case_detail_page/" + link_id} 
+              target="_blank"
+              className="link bb hover-blue"
+              >
+              {case_number}
+            </a>
           </div>
           <div className="fl ph3 pv1">
             <div className="fw7">Status </div>
