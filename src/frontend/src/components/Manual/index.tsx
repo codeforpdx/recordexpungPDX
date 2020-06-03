@@ -15,67 +15,61 @@ class Landing extends React.Component {
       <main className="flex-l mw8 center ph4">
         <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 pb4 mb4 ml5-l">
           <ul className="list">
-            <div>
-              <li className="mb3">
-                <a href="#intro" className="link hover-blue">
-                  Introduction
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#generalinfo" className="link hover-blue">
-                  General Info
-                </a>
-              </li>
-            </div>
-            <div className="bt bw1 b--light-gray pt2">
-              <li className="mb3">
-                <a href="#overview" className="link hover-blue">
-                  Use RecordSponge
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#assumption1" className="link hover-blue">
-                  Assumption 1
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#search" className="link hover-blue">
-                  Search
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#assumption2" className="link hover-blue">
-                  Assumption 2
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#file" className="link hover-blue">
-                  File for Expungement
-                </a>
-              </li>
-            </div>
-            <div className="bt bw1 b--light-gray pt2">
-              <li className="mb3">
-                <a href="#FAQ" className="link hover-blue">
-                  FAQ
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#appendix" className="link hover-blue">
-                  Appendix
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#license" className="link hover-blue">
-                  Privacy Policy
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#license" className="link hover-blue">
-                  License
-                </a>
-              </li>
-            </div>
+            <li className="mb3">
+              <a href="#intro" className="link hover-blue">
+                Introduction
+              </a>
+            </li>
+            <li className="mb3">
+              <a href="#generalinfo" className="link hover-blue">
+                General Info
+              </a>
+            </li>
+            <li className="bt bw1 b--light-gray pt2 mb3">
+              <a href="#overview" className="link hover-blue">
+                Use RecordSponge
+              </a>
+            </li>
+            <li className="mb3 ml3">
+              <a href="#assumption1" className="link hover-blue">
+                Assumption 1
+              </a>
+            </li>
+            <li className="mb3 ml3">
+              <a href="#search" className="link hover-blue">
+                Search
+              </a>
+            </li>
+            <li className="mb3 ml3">
+              <a href="#assumption2" className="link hover-blue">
+                Assumption 2
+              </a>
+            </li>
+            <li className="mb3 ml3">
+              <a href="#file" className="link hover-blue">
+                File for Expungement
+              </a>
+            </li>
+            <li className="bt bw1 b--light-gray pt2 mb3">
+              <a href="#FAQ" className="link hover-blue">
+                FAQ
+              </a>
+            </li>
+            <li className="mb3">
+              <a href="#appendix" className="link hover-blue">
+                Appendix
+              </a>
+            </li>
+            <li className="mb3">
+              <a href="#privacypolicy" className="link hover-blue">
+                Privacy Policy
+              </a>
+            </li>
+            <li className="mb3">
+              <a href="#license" className="link hover-blue">
+                License
+              </a>
+            </li>
           </ul>
         </nav>
         <article className="order-1 lh-copy">
