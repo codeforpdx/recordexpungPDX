@@ -15,9 +15,8 @@ There are three services configured in [/docker-compose.yml](/docker-compose.yml
 
  - **node** react-scripts/webpack dev server (port 3000)
  - **expungeservice** uwsgi server hosting Flask [app](../src/backend/expungservice/app.py) (port 5000)
- - **postgres** postgres database
 
-Named Docker volumes provide persistent storage of database and node\_modules files. To update node dependencies, edit [package.json](../src/frontend/package.json), and restart the container with `make frontend_restart`. Use `make frontend_logs` to watch the NPM install output, and use CTRL-C to stop watching once you see something like:
+Named Docker volumes provide persistent storage of node\_modules files. To update node dependencies, edit [package.json](../src/frontend/package.json), and restart the container with `make frontend_restart`. Use `make frontend_logs` to watch the NPM install output, and use CTRL-C to stop watching once you see something like:
 
 ```
 node_1            | You can now view record-expunge-pdx in the browser.
@@ -61,7 +60,7 @@ Launch the docker-compose services with:
 make up
 ```
 
-The services are specified in the file [`docker-compose.yml`](../docker-compose.yml). This target first pulls the dev-tagged docker image, and official images for postgres and ndoe. It then creates and launches a new docker container for each service. It runs the docker stack in detached mode, so you can follow the set of container logs with `docker-compose logs`, or each specific one with `make backend_logs` or `make frontend_logs`. `make backend_build` will build the image `recordsponge/expungeservice:dev` if it can't pull or python dependencies change.
+The services are specified in the file [`docker-compose.yml`](../docker-compose.yml). This target first pulls the dev-tagged docker image, and official image for node. It then creates and launches a new docker container for each service. It runs the docker stack in detached mode, so you can follow the set of container logs with `docker-compose logs`, or each specific one with `make backend_logs` or `make frontend_logs`. `make backend_build` will build the image `recordsponge/expungeservice:dev` if it can't pull or python dependencies change.
 
 Stop the running containers with:
 
@@ -110,12 +109,6 @@ To see which containers are running (and with the optional flag to see stopped c
 
         docker-compose ps
 
-
-To start a PostgreSQL interactive terminal to access the database:
-
-        docker-compose exec --user=postgres postgres psql record_expunge_dev
-
-Exit the psql terminal with `\q`.
 
 More Reading
 ------------

@@ -22,9 +22,7 @@ FRONTEND_SERVICE := node
 
 # one step target for a new dev env
 new: up
-	@echo waiting for database...
-	@sleep 10
-	@make initdb
+	@echo TODO: Remove this make target
 
 # pulls the necessary images for the local dev services
 pull:

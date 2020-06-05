@@ -25,7 +25,6 @@ The local developer environment for this project relies on 3 containers:
 
 * Node to run react-scripts, handle HMR dev server
 * Python 3.7 to serve the Flask app (API & static files)
-* PostgreSQL 10 to be the database
 
 We only customize the Python container and use published base images for Node
 and Postgres directly. The Python container is configured to have all the
@@ -81,16 +80,6 @@ NOTE: `node_modules` is a named volume, mounted into the node container at the
 path `/src/frontend/node_modules`. This keeps the node\_modules tree off of the
 local filesystem, and preserves it across container lifecycles.
 
-#### PostgreSQL volumes
-
-`postgres_data` is a named volume, mounted into the postgres container at the
-path `/var/lib/postgresql/data`. This keeps the data tree off of the local
-filesystem, and preserves it across container lifecycles.
-
-The local path `config/postgres` is bind-mounted into the postgres container at
-the path `/var/lib/postgresql/config`. This allows the `initdb` make target to
-run the seeding SQL scripts therein.
-
 ##
 
 ## Deploys
@@ -104,8 +93,7 @@ bind-mounted into a container running this image.
 Conversely, we use the `:staging` (and soon `:prod`) tags to denote images that
 are based on `:dev` but have full backend source & frontend build artifacts
 copied into the image. These images are fully-contained, and deployable on
-any platform, using only ENV variables to configure database connections and
-TIER.
+any platform, using only ENV variables to configure TIER.
 
 ### hub.docker.com ID and config
 
@@ -157,18 +145,6 @@ LetsEncrypt is fully configured. See:
 | recordpsonge.com | `/etc/nginx/sites-available/recordexpunge-nginx.conf` |
 | dev.recordpsonge.com | `/etc/nginx/sites-available/dev.recordsponge.com.conf` |
 |-|-|
-
-#### PostgreSQL config
-
-PostgreSQL is configured to listen on `localhost` *and* the interface of the
-"Docker" host: `172.17.0.1` (see `/etc/postgresql/10/main/postgresql.conf`). It
-also allows password authenticated connections on that interface (see
-`/etc/postgresql/10/main/pg_hba.conf`).
-
-For connection credentails, see:
-
-* `/home/kent/recordexpungPDX/config/expungeservice/expungeservice.production.env`
-* `/home/kenichi/staging.env`
 
 ### DNS config
 
