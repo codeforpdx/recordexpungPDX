@@ -1,5 +1,6 @@
+import operator
 from dataclasses import replace
-from functools import lru_cache
+from functools import lru_cache, reduce
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable
 
@@ -39,10 +40,14 @@ class RecordCreator:
             user_edited_search_results, new_charges = RecordEditor.edit_search_results(
                 cases_with_unique_case_number, edits
             )
-            ambiguous_record, questions = RecordCreator.build_ambiguous_record(user_edited_search_results, new_charges)
-            record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
-            questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
-            return record, questions_as_dict
+            ambiguous_cases, questions = RecordCreator._build_ambiguous_cases(user_edited_search_results, new_charges)
+            ambiguous_record, overflow_error = RecordCreator._build_ambiguous_record(ambiguous_cases)
+            if overflow_error:
+                return Record((), tuple(overflow_error)), {}
+            else:
+                record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+                questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
+                return record, questions_as_dict
 
     @staticmethod
     @lru_cache(maxsize=4)
@@ -70,10 +75,9 @@ class RecordCreator:
         return search_results, errors
 
     @staticmethod
-    def build_ambiguous_record(
+    def _build_ambiguous_cases(
         search_result: List[OeciCase], new_charges: List[Charge]
-    ) -> Tuple[AmbiguousRecord, List[QuestionSummary]]:
-        ambiguous_record: AmbiguousRecord = []
+    ) -> Tuple[List[AmbiguousCase], List[QuestionSummary]]:
         questions_accumulator: List[QuestionSummary] = []
         ambiguous_cases: List[AmbiguousCase] = []
         for oeci_case in search_result:
@@ -83,9 +87,22 @@ class RecordCreator:
             ambiguous_case, questions = RecordCreator._build_case(oeci_case, new_charges_in_case)
             questions_accumulator += questions
             ambiguous_cases.append(ambiguous_case)
-        for cases in product(*ambiguous_cases):
-            ambiguous_record.append(Record(tuple(cases)))
-        return ambiguous_record, questions_accumulator
+        return ambiguous_cases, questions_accumulator
+
+    @staticmethod
+    def _build_ambiguous_record(ambiguous_cases: List[AmbiguousCase]) -> Tuple[AmbiguousRecord, List[str]]:
+        ambiguous_record_length = reduce(
+            operator.mul, [len(ambiguous_case) for ambiguous_case in ambiguous_cases], 1
+        )  # TODO: Replace with math.prod([len(ambiguous_case) for ambiguous_case in ambiguous_cases]) in Python 3.8
+        MAX_EXPUNGER_RUNS = 50
+        if ambiguous_record_length > MAX_EXPUNGER_RUNS:
+            error_message = f"The resulting record found was too large to analyze (record with {ambiguous_record_length} combinations of ambiguities exceeds the processable {MAX_EXPUNGER_RUNS} combination of ambiguities). The record most likely has open cases, and thus does not have any charges eligible to be expunged."
+            return [], [error_message]
+        else:
+            ambiguous_record: AmbiguousRecord = []
+            for cases in product(*ambiguous_cases):
+                ambiguous_record.append(Record(tuple(cases)))
+            return ambiguous_record, []
 
     @staticmethod
     def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):

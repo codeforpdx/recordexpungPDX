@@ -78,7 +78,7 @@ class Crawler:
     @staticmethod
     def _search_record(session: Session, node_response, search_url, first_name, last_name, middle_name, birth_date):
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
-        response = session.post(search_url, data=payload)
+        response = session.post(search_url, data=payload, timeout=30)
         record_parser = RecordParser()
         record_parser.feed(response.text)
         return record_parser
