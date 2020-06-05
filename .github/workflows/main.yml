@@ -18,38 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: recordsponge/expungeservice:dev
-      env:
-        PGUSER: postgres
-        PGDATABASE: record_expunge_test
-        PGHOST: postgres
-        PGPORT: 5432
-        PGPASSWORD: testing
 
-    services:
-      postgres:
-        image: postgres:10-alpine
-        env:
-          POSTGRES_PASSWORD: testing
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: copy to pipenv project dir
         run: cp -R src/backend/* /src/backend && ls -l /src/backend
-
-      - name: add pg client
-        run: apk add postgresql-client
-      - name: create database
-        run: createdb ${PGDATABASE}
-      - name: create tables
-        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/create-tables.sql
-      - name: create functions
-        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/create-functions.sql
-      - name: create credentials
-        run: psql -v ON_ERROR_STOP=1 -f config/postgres/initdb/scripts/initial_credentials.dev.sql
-
       - name: run backend tests
         run: cd /src/backend && pipenv run mypy && pipenv run pytest
