@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1711c5f7a45c9ce78047a038d6e3de8b0214f8a85e60f7db5d54d890e593ec2f"
+            "sha256": "847e8d1ac653ebb1748cc76eac0ba7aa0155b7c657a4c0359d38e0b942205ceb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -187,7 +187,6 @@
             "hashes": [
                 "sha256:c815c1ac7b3e35e2081685e389a665f2c74d7e077cb93cecabaea352da4752ec"
             ],
-            "index": "pypi",
             "version": "==0.4.1"
         },
         "flask-script": {
@@ -794,10 +793,10 @@
         },
         "requirementslib": {
             "hashes": [
-                "sha256:52783b0e4f1fe813106166debb2421330e6936f682a0f037ac31a1169f98db36",
-                "sha256:b933bda8510e1f760888dc801696dd3bec7928b6f032e998384d2b2e8a94b069"
+                "sha256:3dea8f577be1f7f5aafb66007cb49ef659f9249649aa11312a903fa4205a7350",
+                "sha256:6acae5ba27c9a1a45d120d74e0b922b202e0c614591880ae060d06c1e77eff66"
             ],
-            "version": "==1.5.8"
+            "version": "==1.5.11"
         },
         "six": {
             "hashes": [
@@ -863,10 +862,10 @@
         },
         "vistir": {
             "hashes": [
-                "sha256:73f4fd1555f9d04e0eb0f3adcebce19217d2790ce46b318ec132b52799108982",
-                "sha256:e3f20f6b9ed6ccf52d48008e45d581923a687ff48cc792e1c35da64ca76c9ee6"
+                "sha256:a37079cdbd85d31a41cdd18457fe521e15ec08b255811e81aa061fd5f48a20fb",
+                "sha256:eff1d19ef50c703a329ed294e5ec0b0fbb35b96c1b3ee6dcdb266dddbe1e935a"
             ],
-            "version": "==0.5.1"
+            "version": "==0.5.2"
         },
         "wheel": {
             "hashes": [

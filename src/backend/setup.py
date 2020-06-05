@@ -16,7 +16,6 @@ setup(
         "decorator==4.4.2",
         "flask==1.1.2",
         "flask-bcrypt==0.7.1",
-        "flask-login==0.4.1",
         "flask-script==2.0.6",
         "hypothesis==4.50.8",
         "idna==2.9",
