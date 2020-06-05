@@ -14,7 +14,7 @@ class Landing extends React.Component {
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
 
-            <div className="mw8 center ph4 pb6">
+            <div className="mw8 center ph4 pb5">
               <h1 className="f3 f2-ns fw9 mw7 mt5 mb3">
                 Technology to make record expungement accessible for everyone
               </h1>
@@ -22,6 +22,41 @@ class Landing extends React.Component {
                 RecordSponge helps expungement providers quickly analyze an
                 individual’s criminal history to determine if they qualify to
                 have their records sealed (expunged).
+              </p>
+            </div>
+
+            <div className="pa3 mw8 center bg-gray-blue-2 shadow ">
+              <h2 className="f3 fw6 mb3">
+                <span className="red">Emergency Update: </span> Protests against Police Violence
+              </h2>
+              <p className="lh-copy mw8">
+                Due to ongoing events we are to making all of our expungement help free to any protesters arrested during this fight. Anyone can register directly to see if you qualify for expungement
+                <a
+                  className="fw6 link hover-dark-blue no-wrap"
+                  href="https://www.qiu-qiulaw.com/register"
+                > here </a>
+                and a lawyer will return your inquiry within 48 hours.
+                <p className="mb2 pv2">
+                  For other communication (to learn more, help out, etc.) you can also contact:
+                </p>
+                <ul className="list mb3 pl4">
+                  <li className="mb2">
+                    Michael Zhang, expungement attorney at Qiu-Qiu Law: <a
+                      className="fw6 link hover-dark-blue no-wrap"
+                      href="mailto:michael@qiu-qiulaw.com"
+                    >
+                      michael@qiu-qiulaw.com
+                    </a>
+                  </li>
+                  <li className="mb2">
+                    Jordan Witte, project manager at Code for PDX: <a
+                      className="fw6 link hover-dark-blue no-wrap"
+                      href="mailto:jordan.witte@codeforpdx.org"
+                    >
+                      jordan.witte@codeforpdx.org
+                    </a>
+                  </li>
+                </ul>
               </p>
             </div>
 
@@ -103,10 +138,10 @@ class Landing extends React.Component {
                     $1,000 to $3,000 when performed by private attorneys.
                   </p>
                   <p className="lh-copy mb5">
-                    And so we created RecordSponge to greatly increase access to 
-                    expungement by automating the legal analysis. We still need 
-                    partners to administer RecordSponge. Please contact 
-                    <a className="link hover-blue" href="mailto:michael@qiu-qiulaw.com"> michael@qiu-qiulaw.com </a> 
+                    And so we created RecordSponge to greatly increase access to
+                    expungement by automating the legal analysis. We still need
+                    partners to administer RecordSponge. Please contact
+                    <a className="link hover-blue" href="mailto:michael@qiu-qiulaw.com"> michael@qiu-qiulaw.com </a>
                     if you would like to set up RecordSponge at your organization.
                   </p>
                 </div>
