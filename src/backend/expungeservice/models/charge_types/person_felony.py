@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 from expungeservice.models.charge import ChargeType
 from expungeservice.models.charge import ChargeUtil

@@ -1,14 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { AppState } from '../../redux/store';
-import { oeciLogIn } from '../../redux/system/actions';
-import { SystemState } from '../../redux/system/types';
 import Header from '../Header';
+import oeciLogIn from "../../service/oeci";
 
-interface Props {
-  system: SystemState;
-  oeciLogIn: typeof oeciLogIn;
-}
 interface State {
   userId: string;
   password: string;
@@ -20,7 +13,7 @@ interface State {
   missingInputs: null | boolean;
 }
 
-class OeciLogin extends React.Component<Props, State> {
+export default class OeciLogin extends React.Component<State> {
   state: State = {
     userId: '',
     password: '',
@@ -35,7 +28,7 @@ class OeciLogin extends React.Component<Props, State> {
   handleChange = (e: React.BaseSyntheticEvent) => {
     // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
     // using the "any" type.
-    this.setState<any>({
+    this.setState({
       [e.target.id]: e.target.value
     });
   };
@@ -53,9 +46,7 @@ class OeciLogin extends React.Component<Props, State> {
       },
       () => {
         if (this.state.missingInputs === false) {
-          this.props
-            .oeciLogIn(this.state.userId, this.state.password)
-            .catch((error: any) => {
+          oeciLogIn(this.state.userId, this.state.password).catch((error: any) => {
               (error.response.status === 401 || error.response.status === 404)
                 ? // error: 40x
                   this.setState({ expectedFailure: true, expectedFailureMessage: error.response.data.message })
@@ -177,12 +168,3 @@ class OeciLogin extends React.Component<Props, State> {
     );
   }
 }
-
-const mapStateToProps = (state: AppState) => ({
-  system: state.system
-});
-
-export default connect(
-  mapStateToProps,
-  { oeciLogIn }
-)(OeciLogin);

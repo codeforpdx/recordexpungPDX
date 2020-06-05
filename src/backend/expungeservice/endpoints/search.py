@@ -1,8 +1,6 @@
 from dacite import from_dict
 from flask.views import MethodView
 from flask import request, current_app, json
-from flask_login import login_required
-import logging
 
 from expungeservice.models.record import QuestionSummary, Alias
 from expungeservice.record_creator import RecordCreator
@@ -11,11 +9,9 @@ from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.record_summarizer import RecordSummarizer
-from expungeservice.database.db_util import save_search_event
 
 
 class Search(MethodView):
-    @login_required
     def post(self):
         request_data = request.get_json()
 
@@ -34,10 +30,6 @@ class Search(MethodView):
         )
         if questions_data:
             questions = Search._build_questions(questions_data)
-        try:
-            save_search_event(aliases_data)
-        except Exception as ex:
-            logging.error("Saving search result failed with exception: %s" % ex, stack_info=True)
         record_summary = RecordSummarizer.summarize(record, questions)
         response_data = {"record": record_summary}
         return json.dumps(response_data, cls=ExpungeModelEncoder)

@@ -37,6 +37,5 @@ export function isAdmin() {
 export function checkOeciRedirect() {
   if (!hasOeciToken()) {
     history.push('/oeci');
-    alert('You must sign into the OECI database before performing a search.');
   }
 }
