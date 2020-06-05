@@ -38,7 +38,6 @@ setup(
         "pickleshare==0.7.5",
         "pluggy==0.13.1",
         "prompt-toolkit==3.0.5",
-        "psycopg2==2.8.5",
         "ptyprocess==0.6.0",
         "py==1.8.1",
         "pycparser==2.20",
