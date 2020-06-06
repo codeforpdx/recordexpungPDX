@@ -25,20 +25,15 @@ class Landing extends React.Component {
               </p>
             </div>
 
-            <div className="pa3 mw8 center bg-gray-blue-2 shadow ">
+            <div className="pa4 mw8 center bg-gray-blue-2 shadow ">
               <h2 className="f3 fw6 mb3">
                 <span className="red">Emergency Update: </span> Protests against Police Violence
               </h2>
-              <p className="lh-copy mw8">
-                Due to ongoing events we are to making all of our expungement help free to any protesters arrested during this fight. Anyone can register directly to see if you qualify for expungement
-                <a
-                  className="fw6 link hover-dark-blue no-wrap"
-                  href="https://www.qiu-qiulaw.com/register"
-                > here </a>
-                and a lawyer will return your inquiry within 48 hours.
-                <p className="mb2 pv2">
-                  For other communication (to learn more, help out, etc.) you can also contact:
-                </p>
+              <p className="lh-copy mw8 mb3">
+                Due to ongoing events we are making all of our expungement help free to any protesters arrested during this fight. Anyone can register directly to <a className="link bb hover-dark-blue" href="https://www.qiu-qiulaw.com/register">see if you qualify for expungement here</a> and a lawyer will return your inquiry within 48 hours.
+              </p>
+            <p className="mb2 pv2">
+              For other communication (to learn more, help out, etc.) you can also contact:
                 <ul className="list mb3 pl4">
                   <li className="mb2">
                     Michael Zhang, expungement attorney at Qiu-Qiu Law: <a
