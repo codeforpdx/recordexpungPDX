@@ -19,16 +19,10 @@ endif
 
 BACKEND_SERVICE := expungeservice
 FRONTEND_SERVICE := node
-DB_SERVICE := postgres
-
-# currently, only used for PGDATABASE var in 'dropdb' target
-include config/postgres/client.env
 
 # one step target for a new dev env
 new: up
-	@echo waiting for database...
-	@sleep 10
-	@make initdb
+	@echo TODO: Remove this make target
 
 # pulls the necessary images for the local dev services
 pull:
@@ -45,15 +39,6 @@ up: pull
 # brings down local dev services
 down:
 	docker-compose down
-
-# runs database initialization scripts - run at first creation or if database
-# data volume is removed
-initdb:
-	docker-compose exec --user=postgres $(DB_SERVICE) /var/lib/postgresql/config/initdb/init-db.dev.sh
-
-# drop database
-dropdb:
-	docker-compose exec --user=postgres $(DB_SERVICE) sh -l -c "dropdb $(PGDATABASE)"
 
 # run all tests
 test: frontend_test_no_watch backend_test
@@ -112,19 +97,3 @@ frontend_test:
 # run frontend tests without watching enabled
 frontend_test_no_watch:
 	docker-compose exec $(FRONTEND_SERVICE) sh -c 'cd /src/frontend && CI=true npm test'
-
-# pull a database backup from production
-#
-# expects:
-#   * 'Host recordsponge' section in _local_ ~/.ssh/config (see /src/ops/README.md#SSH_Config)
-#   * 'prod.env' with database credentials and TIER in _remote_ /etc/recordsponge/
-#
-prod_db_sync:
-	@ssh recordsponge -C \
-		'docker pull postgres:10-alpine; \
-		 docker run --rm --user=`id -u` --env-file /etc/recordsponge/prod.env --name backup -v /var/tmp:/var/tmp postgres:10-alpine pg_dump -Fc -f /var/tmp/backup-prod.psql'
-	@scp recordsponge:/var/tmp/backup-prod.psql config/postgres/backup-prod.psql
-	@make dropdb
-	@docker-compose exec --user=postgres $(DB_SERVICE) sh -l -c "createdb $(PGDATABASE) && pg_restore -O -d $(PGDATABASE) /var/lib/postgresql/config/backup-prod.psql"
-	@rm config/postgres/backup-prod.psql
-	@ssh recordsponge -C 'rm /var/tmp/backup-prod.psql'

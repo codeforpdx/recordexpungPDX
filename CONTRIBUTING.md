@@ -81,13 +81,11 @@ and
 
 If you're wondering where to get started, the answer may best depend on what skills you want to use and/or develop:
 
-If you're interested in frontend development, there are several core app components that are still missing or in progress. We're using React for page rendering and Redux and Typescript to manage the app. Many of us are quite new to these tools and we're learning as we go! Talk to Max or Forrest.
+If you're interested in frontend development, there are several core app components that are still missing or in progress. We're using React for page rendering and Redux and Typescript to manage the app. Many of us are quite new to these tools and we're learning as we go! Talk to Jordan or Forrest.
 
 Python is used for the backend, and can be broken down further: if you're interested in working on implementing functional logic programming, check out the Expunger. It's this is the core of the app that deals with the individual criminal records and checks eligibilty rules. It has been mostly completed according to the client specification, but there are a few bugs and additional features still on the todo list. Ask Jordan or Kent about this.
 
-
-Python is also used to expose our backend API, and to connect to the database. This is mostly for basic user account management, like changing user account settings or password. We don't save any collected or analyzed record data, but we plan to store some really basic usage statistics to report on the impact of our app. Ask Erik or Jordan.
-
+Python is also used to expose our backend API. We don't save any collected or analyzed record data, but we store some really basic usage statistics gathered from our nginx logs to report on the impact of our app. Ask Kent or Jordan.
 
 Tech documentation: A lot of us dive in to just work on, and learn, one part of the app. Documentation would be great not just for new contributors, but to help us with the full stack integration too! We could use docstrings on the various components of our app, both frontend and backend. And, if you're a bit lost looking at our project, consider the folks who might want to join and help next month :)
 

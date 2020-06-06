@@ -1,10 +1,9 @@
 import json
-from typing import List, Any, Callable, Tuple
+from typing import List, Any, Callable
 
 import pytest
 
 from expungeservice.crawler.crawler import Crawler
-from expungeservice.endpoints import search
 from expungeservice.models.case import Case
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
@@ -18,14 +17,11 @@ def service():
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown(service):
-    service.setup()
-
     service.mock_record = {"john_doe": CrawlerFactory.create()}
     service.search_request_data = {
         "aliases": [{"first_name": "John", "last_name": "Doe", "middle_name": "", "birth_date": "02/02/1990"}]
     }
     yield
-    service.teardown()
 
 
 def mock_login(return_value):
@@ -40,10 +36,6 @@ def mock_search(service, mocked_record_name) -> Callable[[Any, Any, Any, Any, An
     return compute_cases
 
 
-def mock_save_search_event_fail(aliases_data):
-    raise Exception("Exception to test failing save_search_event")
-
-
 def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
     # response data is now sorted by date just before return in search.py
     # so test cases should be sorted with same method when testing against search.py
@@ -55,21 +47,13 @@ def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
 
 
 def test_search(service, monkeypatch):
-    service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
     monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
-    """
-    A separate test, below, verifies that the save-search-event step
-    also works. Here, we mock the function to reduce the scope of the test.
-    """
-    monkeypatch.setattr(search, "save_search_event", lambda aliases_data: None)
-
     """
     as a more unit-y unit test, we could make the encrypted cookie
     ""manually" in the test code ...
     But attaching a cookie client-side isn't really a thing. So, use the oeci endpoint.
     """
-
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
     )
@@ -84,7 +68,6 @@ def test_search(service, monkeypatch):
 
 
 def test_search_fails_without_oeci_token(service):
-    service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
     response = service.client.post("/api/search", json=service.search_request_data)
     assert response.status_code == 401
 
@@ -94,7 +77,6 @@ def test_search_creates_save_search_event(service, monkeypatch):
     This is the same test as above except it includes the save-results step. Less unit-y,
     more of a vertical test.
     """
-    service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
     monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
     service.client.post(
@@ -109,17 +91,13 @@ def test_search_creates_save_search_event(service, monkeypatch):
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
-    service.check_search_event_saved(service.user_data["user1"]["user_id"], service.search_request_data)
-
 
 def test_search_with_failing_save_event(service, monkeypatch):
     """
     The search endpoint should succeed even if something goes wrong with the save-result step.
     """
-    service.login(service.user_data["user1"]["email"], service.user_data["user1"]["password"])
     monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
-    monkeypatch.setattr(search, "save_search_event", mock_save_search_event_fail)
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
     )

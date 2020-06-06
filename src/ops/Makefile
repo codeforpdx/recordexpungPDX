@@ -63,7 +63,7 @@ endif
 #
 # expects:
 #   * 'Host recordsponge' section in _local_ ~/.ssh/config (see /src/ops/README.md#SSH_Config)
-#   * '*.env' with database credentials and TIER in _remote_ /etc/recordsponge/
+#   * '*.env' with TIER in _remote_ /etc/recordsponge/
 #
 ssh_deploy: env_check port_check
 	@ssh recordsponge -C \

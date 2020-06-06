@@ -4,8 +4,6 @@ from flask import request, make_response, current_app
 import time
 import os
 
-from flask_login import login_required
-
 from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.request import check_data_fields
 from expungeservice.request import error
@@ -13,7 +11,6 @@ from expungeservice.crypto import DataCipher
 
 
 class OeciLogin(MethodView):
-    @login_required
     def post(self):
         """
         Attempts to log in to the OECI web site using the provided username

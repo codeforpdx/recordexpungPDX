@@ -20,7 +20,7 @@ RUN apk add --update --no-cache \
 
 FROM base AS build
 
-RUN apk add build-base git libffi-dev openssl-dev postgresql-dev
+RUN apk add build-base git libffi-dev openssl-dev
 
 COPY Pipfile* setup.py /src/backend/
 RUN cd /src/backend && pipenv install

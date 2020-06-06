@@ -5,16 +5,10 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
 // Reducers:
-import { usersReducer } from './users/reducer';
 import { searchReducer } from './search/reducer';
-import { systemReducer } from './system/reducer';
-import { groupsReducer } from './groups/reducer';
 
 const rootReducer = combineReducers({
-  system: systemReducer,
-  search: searchReducer,
-  users: usersReducer,
-  groups: groupsReducer
+  search: searchReducer
 });
 
 const store = configureStore({

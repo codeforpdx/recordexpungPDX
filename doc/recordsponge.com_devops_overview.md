@@ -4,8 +4,6 @@ Our domain https://recordsponge.com/ is registered through [Namecheap](https://w
 
 We have a single [Nginx](https://www.nginx.com/) file at `/etc/nginx/sites-available/recordexpunge-nginx.conf` that proxies frontend requests to `/usr/share/nginx/html` where the statically packaged [React](https://reactjs.org/) app files exist and backend requests to `localhost:3031` where we serve our [Flask](https://flask.palletsprojects.com) app through [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/).
 
-Through [Psycopg](https://www.psycopg.org/), the backend communicates with the [psql](https://www.postgresql.org/) DB and stores authentication details and anonymized statistics in a database `record_sponge_db`.
-
 We use [LetsEncrypt](https://letsencrypt.org/) for our SSL certificate. We have them set to autorenew as follows:
 
 ```

@@ -1,15 +1,14 @@
 from flask.views import MethodView
 from flask import request, json, make_response
-from flask_login import login_required
 
 from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.endpoints.search import Search
 
+
 class Pdf(MethodView):
-    @login_required
     def post(self):
-        response = Search.post(self)
+        response = Search().post()
         record = json.loads(response)["record"]
         request_data = request.get_json()
         aliases = request_data["aliases"]

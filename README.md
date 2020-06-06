@@ -18,9 +18,9 @@ If you're interested in learning more about our project and getting involved, pl
 
 ## Tech Overview
 
-This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python. The backend app connects to a [Postgres database](https://www.postgresql.org/).
+This is a web app built using [React](https://reactjs.org/) for the in-browser interface, and a backend web service implemented with the [Flask](https://palletsprojects.com/p/flask/) web framework in Python.
 
-**Our dev environment** is entirely containerized with Docker, and no other dependencies need to be installed natively. We use Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies. We use [mypy](http://mypy-lang.org/) to type check any optional typings and [pytest](https://pytest.org/en/latest/) to test backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web. A postgres database runs as a service within the docker stack, which exposes a connection locally for development and testing.
+**Our dev environment** is entirely containerized with Docker, and no other dependencies need to be installed natively. We use Python's [pipenv](https://docs.pipenv.org/en/latest/) for maintaining backend dependencies. We use [mypy](http://mypy-lang.org/) to type check any optional typings and [pytest](https://pytest.org/en/latest/) to test backend code. We use [NPM](https://www.npmjs.com/) to develop and build the frontend code. Docker is used to build and deploy the app stack for both local development and for deployment to the web.
 
 ## Installation
 
@@ -65,10 +65,7 @@ You can get your dev environment up and running with installing only Docker and 
 
 In the project's root directory, run `make new`. This pulls the dev-tagged "expungeservice" image and launches the containers using docker-compose. Start and stop the running stack with `make up` and `make down`.
 
-After this target completes, you can navigate to [http://localhost:3000](http://localhost:3000) in the browser and connect to the React dev server with full hot-module reloading. This may take a minute or two to come up before it is available while it installs node modules. Check the service with `make frontend_logs`. Once everything is up, you can log in using either of the following credentials:
-
-* Email: admin@email.com, Password: admin
-* Email: user@email.com, Password: user
+After this target completes, you can navigate to [http://localhost:3000](http://localhost:3000) in the browser and connect to the React dev server with full hot-module reloading. This may take a minute or two to come up before it is available while it installs node modules. Check the service with `make frontend_logs`.
 
 In the course of backend development, one may not need to be running the React/HMR dev server. To build the frontend static files, and use Flask to serve them, run the following command:
 
@@ -141,8 +138,6 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
  - Project technical design: [doc/design.md](doc/design.md)
  - Additional frontend docs, mostly design patterns: [src/frontend/README.md](src/frontend/README.md).
- - Some support docs for doing development:
-   - [doc/development.md](doc/development.md)
 
 ## License
 

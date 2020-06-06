@@ -7,20 +7,6 @@ class Auth:
     def get_authenticated_client() -> Session:
         client = Session()
 
-        logged_in = False
-        while not logged_in:
-            credentials = {}
-            credentials["email"] = input("RecordSponge email address: ")
-            credentials["password"] = getpass.getpass("Password: ")
-
-            auth_token_response = client.post("http://localhost:5000/api/auth_token", json=credentials)
-
-            if auth_token_response.status_code == 200:
-                logged_in = True
-            else:
-                print("Invalid login credentials.")
-                continue
-
         oeci_logged_in = False
         while not oeci_logged_in:
             oeci_credentials = {

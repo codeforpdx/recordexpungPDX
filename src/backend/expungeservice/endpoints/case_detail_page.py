@@ -2,13 +2,11 @@ from os import path
 from pathlib import Path
 
 from flask.views import MethodView
-from flask_login import login_required
 
 from expungeservice.crawler.crawler import Crawler
 
 
 class CaseDetailPage(MethodView):
-    @login_required
     def get(self, id):
         url = f"https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID={id}"
         html = Crawler.fetch_link(url)

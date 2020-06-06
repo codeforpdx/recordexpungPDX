@@ -1,6 +1,4 @@
 import React from 'react';
-import Logo from '../Logo';
-import history from '../../service/history';
 import Header from '../Header';
 
 class Landing extends React.Component {
