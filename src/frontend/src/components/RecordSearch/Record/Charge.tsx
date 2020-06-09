@@ -38,8 +38,7 @@ export default class Charge extends React.Component<Props> {
       return dispositionEvent;
     };
 
-    // TODO: Fix render name
-    const dispositionRender = (disposition: any, date: any) => {
+    const buildDisposition = (disposition: any, date: any) => {
       return (
         <li className="mb2">
           <span className="fw7">Disposition: </span> {dispositionEvent(disposition, date)}
@@ -48,7 +47,7 @@ export default class Charge extends React.Component<Props> {
 
     };
 
-    const recordTimeRender = () => {
+    const buildRecordTime = () => {
       if (
            (
              expungement_result.type_eligibility.status === "Eligible" ||
@@ -67,7 +66,7 @@ export default class Charge extends React.Component<Props> {
         <Eligibility expungement_result={expungement_result} />
         <div className="flex-l ph3 pb3">
           <div className="w-100 w-40-l pr3">
-            {recordTimeRender()}
+            {buildRecordTime()}
             <TypeEligibility
               type_eligibility={expungement_result.type_eligibility}
               type_name={type_name}
@@ -79,7 +78,7 @@ export default class Charge extends React.Component<Props> {
                 <span className="fw7">Charge: </span>
                 {`${statute}-${name}`}
               </li>
-              {dispositionRender(disposition, date)}
+              {buildDisposition(disposition, date)}
               <li className="mb2">
                 <span className="fw7">Charged: </span> {date}
               </li>
