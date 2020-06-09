@@ -15,7 +15,7 @@ def test_eligible():
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [time_eligibility])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-    assert charge_eligibility.label == "Eligible"
+    assert charge_eligibility.label == "Eligible now"
 
 
 def test_will_be_eligible():
@@ -38,7 +38,7 @@ def test_possibly_eligible():
     )
 
     assert charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
-    assert charge_eligibility.label == "Possibly Eligible Now (review)"
+    assert charge_eligibility.label == "Possibly Eligible Now"
 
 
 def test_possibly_will_be_eligible():
@@ -52,7 +52,7 @@ def test_possibly_will_be_eligible():
     )
 
     assert charge_eligibility.status == ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE
-    assert charge_eligibility.label == f"Possibly Eligible {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')} (review)"
+    assert charge_eligibility.label == f"Possibly Eligible {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')}"
 
 
 def test_multiple_will_be_eligible():

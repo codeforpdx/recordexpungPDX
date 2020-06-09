@@ -98,54 +98,41 @@ def test_record_summarizer_multiple_cases():
     )
     expunger_result = Expunger.run(record)
 
-    merged_record = RecordMerger.merge([record], [expunger_result])
+    merged_record = RecordMerger.merge([record], [expunger_result], [])
     record_summary = RecordSummarizer.summarize(merged_record, {})
 
     assert record_summary.total_balance_due == 1000.00
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
-    assert record_summary.eligible_charges_by_date == [
-        (
-            "Eligible now",
-            [
-                (
-                    case_all_eligible.charges[0].ambiguous_charge_id,
-                    "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010",
-                ),
-                (
-                    case_partially_eligible.charges[0].ambiguous_charge_id,
-                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
-                ),
-            ],
-        ),
-        (
-            "Eligible Jan 1, 2030",
-            [
-                (
-                    case_possibly_eligible.charges[0].ambiguous_charge_id,
-                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
-                )
-            ],
-        ),
-        (
-            "Ineligible",
-            [
-                (
-                    case_partially_eligible.charges[1].ambiguous_charge_id,
-                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
-                ),
-                (
-                    case_all_ineligible.charges[0].ambiguous_charge_id,
-                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
-                ),
-                (
-                    case_all_ineligible_2.charges[0].ambiguous_charge_id,
-                    "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
-                ),
-            ],
-        ),
-        ("Need more analysis", []),
-    ]
+    assert record_summary.eligible_charges_by_date == {
+        "Eligible Jan 1, 2030": [
+            (
+                case_possibly_eligible.charges[0].ambiguous_charge_id,
+                "Theft of services (CONVICTED) - Arrested Jan 1, " "2010",
+            )
+        ],
+        "Eligible now": [
+            (case_all_eligible.charges[0].ambiguous_charge_id, "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010"),
+            (
+                case_partially_eligible.charges[0].ambiguous_charge_id,
+                "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+            ),
+        ],
+        "Ineligible": [
+            (
+                case_partially_eligible.charges[1].ambiguous_charge_id,
+                "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+            ),
+            (
+                case_all_ineligible.charges[0].ambiguous_charge_id,
+                "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+            ),
+            (
+                case_all_ineligible_2.charges[0].ambiguous_charge_id,
+                "Theft of services (CONVICTED) - Arrested Jan 1, 2010",
+            ),
+        ],
+    }
 
     """
     assert record_summary.county_balances["Baker"] == 700.00
@@ -162,8 +149,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.total_cases == 0
     assert record_summary.total_charges == 0
     assert record_summary.county_balances == []
-    assert record_summary.eligible_charges_by_date == [
-        ("Eligible now", []),
-        ("Ineligible", []),
-        ("Need more analysis", []),
-    ]
+    assert record_summary.eligible_charges_by_date == {}

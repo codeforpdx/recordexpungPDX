@@ -19,13 +19,15 @@ export default class Eligibility extends React.Component<Props> {
       case "Eligible now":
         return "green bg-washed-green";
       case "Possibly eligible":
-        return "purple bg-washed-purple"
+        return "purple bg-washed-purple";
       case "Will be eligible":
-        return "dark-blue bg-washed-blue"
+        return "dark-blue bg-washed-blue";
       case "Possibly will be eligible":
-        return "purple bg-washed-purple"
+        return "purple bg-washed-purple";
       case "Ineligible":
-        return "red bg-washed-red"
+        return "red bg-washed-red";
+      case "Needs more analysis":
+        return "purple bg-washed-purple";
     }
   };
 

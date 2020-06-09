@@ -27,6 +27,7 @@ class RecordMerger:
     def merge(
         ambiguous_record: AmbiguousRecord,
         ambiguous_charge_id_to_time_eligibility_list: List[Dict[str, TimeEligibility]],
+        charge_ids_with_question: List[str],
     ) -> Record:
         ambiguous_charge_id_to_time_eligibilities: Dict[str, List[TimeEligibility]] = collections.defaultdict(list)
         for charge_id_to_time_eligibility in ambiguous_charge_id_to_time_eligibility_list:
@@ -44,9 +45,14 @@ class RecordMerger:
                 romeo_and_juliet_exception = RecordMerger._is_romeo_and_juliet_exception(same_charges)
                 merged_type_eligibility = RecordMerger.merge_type_eligibilities(same_charges)
                 merged_time_eligibility = RecordMerger.merge_time_eligibilities(time_eligibilities)
-                charge_eligibility = RecordMerger.compute_charge_eligibility(
-                    merged_type_eligibility, time_eligibilities, romeo_and_juliet_exception
-                )
+                if charge.ambiguous_charge_id in charge_ids_with_question:
+                    charge_eligibility = ChargeEligibility(
+                        ChargeEligibilityStatus.NEEDS_MORE_ANALYSIS, "Needs more analysis"
+                    )
+                else:
+                    charge_eligibility = RecordMerger.compute_charge_eligibility(
+                        merged_type_eligibility, time_eligibilities, romeo_and_juliet_exception
+                    )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
                     time_eligibility=merged_time_eligibility,
@@ -120,6 +126,7 @@ class RecordMerger:
         elif type_eligibility.status == EligibilityStatus.INELIGIBLE:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
+            # TODO: Rethink if this is possible
             return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing")
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
@@ -141,7 +148,7 @@ class RecordMerger:
                     for time_eligibility in at_least_will_be_eligibles
                 ]
             ):
-                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible Now (review)")
+                return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible Now")
             elif any(
                 [
                     time_eligibility.status == EligibilityStatus.ELIGIBLE
@@ -150,16 +157,15 @@ class RecordMerger:
             ):
                 return ChargeEligibility(
                     ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible Now ⬥ {will_be_eligibles_string} (review)",
+                    f"Possibly Eligible Now ⬥ {will_be_eligibles_string}",
                 )
             else:
                 return ChargeEligibility(
-                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible {will_be_eligibles_string} (review)",
+                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE, f"Possibly Eligible {will_be_eligibles_string}",
                 )
         elif all([time_eligibility.date_will_be_eligible != date.max for time_eligibility in time_eligibilities]):
             if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]):
-                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible")
+                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible now")
             else:
                 will_be_eligibles = [
                     time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")

@@ -45,7 +45,8 @@ class RecordCreator:
             if overflow_error:
                 return Record((), tuple(overflow_error)), {}
             else:
-                record = RecordCreator.analyze_ambiguous_record(ambiguous_record)
+                charge_ids_with_question = [question.ambiguous_charge_id for question in questions]
+                record = RecordCreator._analyze_ambiguous_record(ambiguous_record, charge_ids_with_question)
                 questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
                 return record, questions_as_dict
 
@@ -105,14 +106,16 @@ class RecordCreator:
             return ambiguous_record, []
 
     @staticmethod
-    def analyze_ambiguous_record(ambiguous_record: AmbiguousRecord):
+    def _analyze_ambiguous_record(ambiguous_record: AmbiguousRecord, charge_ids_with_question: List[str]):
         charge_id_to_time_eligibilities = []
         ambiguous_record_with_errors = []
         for record in ambiguous_record:
             charge_id_to_time_eligibility = Expunger.run(record)
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
             ambiguous_record_with_errors.append(record)
-        record = RecordMerger.merge(ambiguous_record_with_errors, charge_id_to_time_eligibilities)
+        record = RecordMerger.merge(
+            ambiguous_record_with_errors, charge_id_to_time_eligibilities, charge_ids_with_question
+        )
         sorted_record = RecordCreator.sort_record(record)
         return replace(sorted_record, errors=tuple(ErrorChecker.check(sorted_record)))
 

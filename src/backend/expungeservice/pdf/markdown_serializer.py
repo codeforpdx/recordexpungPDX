@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict
 
 
@@ -40,43 +41,62 @@ class MarkdownSerializer:
 
     @staticmethod
     def _gen_eligible_charges_block(record):
-        eligible_charges = [charge_tuple[1] for charge_tuple in record["summary"]["eligible_charges_by_date"][0][1]]
+        eligible_charges = record["summary"]["eligible_charges_by_date"].get("Eligible now")
         if eligible_charges:
-            listed_charges = " - " + " \n - ".join(eligible_charges)
+            charges = [charge_tuple[1] for charge_tuple in eligible_charges]
+            listed_charges = " - " + " \n - ".join(charges)
         else:
             listed_charges = "This client is not currently eligible to expunge any charges."
         return "## Charges Eligible Now  \n" + listed_charges + "  \n"
 
     @staticmethod
     def _gen_ineligible_charges_block(record):
-        ineligible_charges = [charge_tuple[1] for charge_tuple in record["summary"]["eligible_charges_by_date"][-2][1]]
+        ineligible_charges = record["summary"]["eligible_charges_by_date"].get("Ineligible")
         if ineligible_charges:
-            ineligible_charges_string = " - " + "  \n - ".join(ineligible_charges)
-            return f"## Ineligible Charges  \nThese convictions are not eligible for expungement at any time under the current law.  \n\n{ineligible_charges_string}  \n"
+            charges = [charge_tuple[1] for charge_tuple in ineligible_charges]
+            charges_string = " - " + "  \n - ".join(charges)
+            return f"## Ineligible Charges  \nThese convictions are not eligible for expungement at any time under the current law.  \n\n{charges_string}  \n"
         else:
             return ""
 
     @staticmethod
     def _gen_future_eligible_block(record):
-        future_eligible_charges = record["summary"]["eligible_charges_by_date"][1:-2]
-        text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates.  \n"
+        eligible_charges_by_date = record["summary"]["eligible_charges_by_date"]
+        future_eligible_charges = [
+            (key, eligible_charges_by_date[key])
+            for key in eligible_charges_by_date.keys()
+            if key not in ["Eligible now", "Ineligible", "Needs more analysis"]
+        ]
         if future_eligible_charges:
-            for section in future_eligible_charges:
-                charges = [charge_tuple[1] for charge_tuple in section[1]]
+            text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates.  \n"
+            for label, section in sorted(future_eligible_charges, key=MarkdownSerializer._sort_future_eligible):
+                charges = [charge_tuple[1] for charge_tuple in section]
                 listed_charges = " - " + "  \n - ".join(charges)
-                text_block += "### Eligible " + section[0] + "  \n" + listed_charges + "  \n\n"
+                text_block += "### " + label + "  \n" + listed_charges + "  \n\n"
             return text_block
         else:
             return ""
 
     @staticmethod
+    def _sort_future_eligible(group):
+        label = group[0]
+        split = label.split(" ")
+        for date_parts in zip(split, split[1:], split[2:]):
+            date_string = " ".join(date_parts)
+            try:
+                date = datetime.strptime(date_string, "%b %d, %Y")
+                return date.isoformat()
+            except ValueError:
+                pass
+        return label
+
+    @staticmethod
     def _gen_needs_more_analysis_block(record):
-        needs_more_analysis_charges = [
-            charge_tuple[1] for charge_tuple in record["summary"]["eligible_charges_by_date"][-1][1]
-        ]
-        text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"
+        needs_more_analysis_charges = record["summary"]["eligible_charges_by_date"].get("Needs more analysis")
         if needs_more_analysis_charges:
-            listed_charges = " - " + "  \n - ".join(needs_more_analysis_charges)
+            charges = [charge_tuple[1] for charge_tuple in needs_more_analysis_charges]
+            text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"
+            listed_charges = " - " + "  \n - ".join(charges)
             text_block += listed_charges + "  \n\n"
             return text_block
         else:

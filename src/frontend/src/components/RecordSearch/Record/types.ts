@@ -36,7 +36,7 @@ export interface RecordData {
 
 export interface RecordSummaryData {
   total_charges: number;
-  eligible_charges_by_date: any[];
+  eligible_charges_by_date: { [label: string]: any[]; };
   county_balances: CountyBalanceData[];
   total_balance_due: number;
   total_cases: number;

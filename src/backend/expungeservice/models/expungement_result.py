@@ -17,6 +17,7 @@ class ChargeEligibilityStatus(str, Enum):
     WILL_BE_ELIGIBLE = "Will be eligible"
     POSSIBLY_WILL_BE_ELIGIBLE = "Possibly will be eligible"
     INELIGIBLE = "Ineligible"
+    NEEDS_MORE_ANALYSIS = "Needs more analysis"
 
 
 @dataclass(frozen=True)

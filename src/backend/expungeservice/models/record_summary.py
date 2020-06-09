@@ -15,7 +15,7 @@ class RecordSummary:
     record: Record
     questions: Dict[str, QuestionSummary]
     total_charges: int
-    eligible_charges_by_date: List[Tuple[str, List[Tuple[str, str]]]]
+    eligible_charges_by_date: Dict[str, List[Tuple[str, str]]]  # TODO: Change to OrderedDict in Python 3.7.2+
     county_balances: List[CountyBalance]
 
     @property
