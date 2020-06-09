@@ -19,49 +19,12 @@ class RecordSummarizer:
 
     @staticmethod
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
-        fully_eligible_cases = []
-        fully_ineligible_cases = []
-        partially_eligible_cases = []
-        other_cases = []
-
         county_balances: Dict[str, float] = {}
         for case in record.cases:
             if not case.summary.location in county_balances.keys():
                 county_balances[case.summary.location] = case.summary.get_balance_due()
             else:
                 county_balances[case.summary.location] += case.summary.get_balance_due()
-
-            if all(
-                [
-                    c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-                    for c in case.charges
-                ]
-            ):
-                fully_eligible_cases.append(case.summary.case_number)
-            elif any(
-                [
-                    c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-                    for c in case.charges
-                ]
-            ):
-                partially_eligible_cases.append(case.summary.case_number)
-            elif all(
-                [
-                    c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
-                    and not c.charge_type.hidden_in_record_summary()
-                    for c in case.charges
-                ]
-            ):
-                fully_ineligible_cases.append(case.summary.case_number)
-            else:
-                other_cases.append(case.summary.case_number)
-
-        cases_sorted = {
-            "fully_eligible": fully_eligible_cases,
-            "fully_ineligible": fully_ineligible_cases,
-            "partially_eligible": partially_eligible_cases,
-            "other": other_cases,
-        }
         county_balances_list: List[CountyBalance] = []
         for county, balance in county_balances.items():
             county_balances_list.append(CountyBalance(county, round(balance, 2)))
@@ -102,7 +65,6 @@ class RecordSummarizer:
         return RecordSummary(
             record=record,
             questions=questions,
-            cases_sorted=cases_sorted,
             eligible_charges_by_date=eligible_charges_by_date,
             total_charges=total_charges,
             county_balances=county_balances_list,

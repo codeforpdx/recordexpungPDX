@@ -16,7 +16,6 @@ export default class RecordSummary extends React.Component<Props> {
   render() {
     const {
       total_charges,
-      cases_sorted,
       eligible_charges_by_date,
       county_balances,
       total_balance_due,

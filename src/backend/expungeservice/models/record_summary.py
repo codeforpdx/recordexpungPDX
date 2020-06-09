@@ -15,7 +15,6 @@ class RecordSummary:
     record: Record
     questions: Dict[str, QuestionSummary]
     total_charges: int
-    cases_sorted: Dict[str, List[str]]
     eligible_charges_by_date: List[Tuple[str, List[Tuple[str, str]]]]
     county_balances: List[CountyBalance]
 
@@ -25,4 +24,4 @@ class RecordSummary:
 
     @property
     def total_cases(self):
-        return sum([len(cases) for cases in self.cases_sorted.values()])
+        return len(self.record.cases)

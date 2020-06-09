@@ -104,10 +104,6 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.total_balance_due == 1000.00
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
-    assert record_summary.cases_sorted["fully_eligible"] == ["1"]
-    assert record_summary.cases_sorted["fully_ineligible"] == ["4", "5"]
-    assert record_summary.cases_sorted["partially_eligible"] == ["2"]
-    assert record_summary.cases_sorted["other"] == ["3"]
     assert record_summary.eligible_charges_by_date == [
         (
             "Eligible now",
@@ -165,10 +161,6 @@ def test_record_summarizer_no_cases():
     assert record_summary.total_balance_due == 0.00
     assert record_summary.total_cases == 0
     assert record_summary.total_charges == 0
-    assert record_summary.cases_sorted["fully_eligible"] == []
-    assert record_summary.cases_sorted["fully_ineligible"] == []
-    assert record_summary.cases_sorted["partially_eligible"] == []
-    assert record_summary.cases_sorted["other"] == []
     assert record_summary.county_balances == []
     assert record_summary.eligible_charges_by_date == [
         ("Eligible now", []),
