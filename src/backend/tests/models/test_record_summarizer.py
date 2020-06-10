@@ -111,7 +111,7 @@ def test_record_summarizer_multiple_cases():
                 "Theft of services (CONVICTED) - Arrested Jan 1, " "2010",
             )
         ],
-        "Eligible now": [
+        "Eligible Now": [
             (case_all_eligible.charges[0].ambiguous_charge_id, "Theft of dignity (CONVICTED) - Arrested Jan 1, 2010"),
             (
                 case_partially_eligible.charges[0].ambiguous_charge_id,

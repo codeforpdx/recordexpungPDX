@@ -40,19 +40,28 @@ class RecordMerger:
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
-                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(charge.ambiguous_charge_id)
+                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(
+                    charge.ambiguous_charge_id
+                )  # TODO: Review whether this can return None
+                sorted_time_eligibility = (
+                    sorted(time_eligibilities, key=lambda e: e.date_will_be_eligible) if time_eligibilities else None
+                )
                 same_charges = list(filter(lambda c: c.ambiguous_charge_id == charge.ambiguous_charge_id, charges))
                 romeo_and_juliet_exception = RecordMerger._is_romeo_and_juliet_exception(same_charges)
                 merged_type_eligibility = RecordMerger.merge_type_eligibilities(same_charges)
-                merged_time_eligibility = RecordMerger.merge_time_eligibilities(time_eligibilities)
+                merged_time_eligibility = RecordMerger.merge_time_eligibilities(sorted_time_eligibility)
                 if charge.ambiguous_charge_id in charge_ids_with_question:
                     charge_eligibility = ChargeEligibility(
-                        ChargeEligibilityStatus.NEEDS_MORE_ANALYSIS, "Needs more analysis"
+                        ChargeEligibilityStatus.NEEDS_MORE_ANALYSIS, "Needs More Analysis"
                     )
                 else:
                     charge_eligibility = RecordMerger.compute_charge_eligibility(
-                        merged_type_eligibility, time_eligibilities, romeo_and_juliet_exception
+                        merged_type_eligibility, sorted_time_eligibility, romeo_and_juliet_exception
                     )
+                    if "open" in charge_eligibility.label.lower():
+                        charge_eligibility = replace(
+                            charge_eligibility, label=f"If All Cases Are Closed, {charge_eligibility.label}"
+                        )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
                     time_eligibility=merged_time_eligibility,
@@ -114,7 +123,7 @@ class RecordMerger:
         else:
             return EligibilityStatus.INELIGIBLE
 
-    # TODO: Think about if it is possible for a NEEDS_MORE_ANALYSIS type eligibility charge to have no disposition and handle.
+    # TODO: Sort labels
     @staticmethod
     def compute_charge_eligibility(
         type_eligibility: TypeEligibility,
@@ -127,7 +136,7 @@ class RecordMerger:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
             # TODO: Rethink if this is possible
-            return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly eligible but time analysis is missing")
+            return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly Eligible But Time Analysis Is Missing")
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif any([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
@@ -165,7 +174,7 @@ class RecordMerger:
                 )
         elif all([time_eligibility.date_will_be_eligible != date.max for time_eligibility in time_eligibilities]):
             if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]):
-                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible now")
+                return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible Now")
             else:
                 will_be_eligibles = [
                     time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")

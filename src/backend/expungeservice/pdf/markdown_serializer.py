@@ -41,7 +41,7 @@ class MarkdownSerializer:
 
     @staticmethod
     def _gen_eligible_charges_block(record):
-        eligible_charges = record["summary"]["eligible_charges_by_date"].get("Eligible now")
+        eligible_charges = record["summary"]["eligible_charges_by_date"].get("Eligible Now")
         if eligible_charges:
             charges = [charge_tuple[1] for charge_tuple in eligible_charges]
             listed_charges = " - " + " \n - ".join(charges)
@@ -65,7 +65,7 @@ class MarkdownSerializer:
         future_eligible_charges = [
             (key, eligible_charges_by_date[key])
             for key in eligible_charges_by_date.keys()
-            if key not in ["Eligible now", "Ineligible", "Needs more analysis"]
+            if key not in ["Eligible Now", "Ineligible", "Needs More Analysis"]
         ]
         if future_eligible_charges:
             text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates.  \n"
@@ -92,7 +92,7 @@ class MarkdownSerializer:
 
     @staticmethod
     def _gen_needs_more_analysis_block(record):
-        needs_more_analysis_charges = record["summary"]["eligible_charges_by_date"].get("Needs more analysis")
+        needs_more_analysis_charges = record["summary"]["eligible_charges_by_date"].get("Needs More Analysis")
         if needs_more_analysis_charges:
             charges = [charge_tuple[1] for charge_tuple in needs_more_analysis_charges]
             text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"

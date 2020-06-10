@@ -49,7 +49,7 @@ export default class RecordType extends React.Component<Props> {
 
     if (status === 'Eligible') {
       return eligible(reason);
-    } else if (status === 'Needs more analysis') {
+    } else if (status === 'Needs More Analysis') {
       return review;
     } else if (status === 'Ineligible') {
       return ineligible(reason);

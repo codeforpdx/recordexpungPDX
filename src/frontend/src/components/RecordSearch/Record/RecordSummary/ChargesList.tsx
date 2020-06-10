@@ -12,7 +12,7 @@ export default class ChargesList extends React.Component<Props> {
       .sort((a, b) => this.extractLabel(a).localeCompare(this.extractLabel(b)))
       .map((([eligibilityDate, chargesNames]: [string, any]) => {
       const listItems = this.buildListItems(chargesNames);
-      const labelColor = (eligibilityDate==="Eligible now" ? "green" : eligibilityDate==="Ineligible" ? "red" : eligibilityDate==="Needs more analysis" ? "purple" : "dark-blue");
+      const labelColor = (eligibilityDate==="Eligible Now" ? "green" : eligibilityDate==="Ineligible" ? "red" : eligibilityDate==="Needs More Analysis" ? "purple" : "dark-blue");
       return (
         <div key={eligibilityDate}>
           <div className="mb1">
@@ -21,7 +21,7 @@ export default class ChargesList extends React.Component<Props> {
           </div>
           <p className="f6 mb2">{
             eligibilityDate==="Ineligible" ? "Excludes traffic violations, which are always ineligible" :
-            eligibilityDate==="Needs more analysis" ? "These charges need clarification before an accurate analysis can be determined" :
+            eligibilityDate==="Needs More Analysis" ? "These charges need clarification before an accurate analysis can be determined" :
             ""}</p>
           <ul className="list mb3">
              {listItems}
@@ -60,11 +60,11 @@ export default class ChargesList extends React.Component<Props> {
     }
 
     switch (label) {
-      case "Needs more analysis":
+      case "Needs More Analysis":
         return "zzz";
       case "Ineligible":
         return "zz";
-      case "Eligible now":
+      case "Eligible Now":
         return "";
       default:
         const label_split = label.split(" ");
