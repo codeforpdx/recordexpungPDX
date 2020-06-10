@@ -24,7 +24,11 @@ class RecordSummarizer:
         def group(charge: Charge):
             return charge.expungement_result.charge_eligibility.label  # type: ignore
 
-        visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
+        SHOW_ALL_CHARGES_THRESHOLD = 20
+        if len(record.charges) <= SHOW_ALL_CHARGES_THRESHOLD:
+            visible_charges = record.charges
+        else:
+            visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
         eligible_charges_by_date: Dict[str, List[Tuple[str, str]]] = {}
         for label, charges in groupby(sorted(visible_charges, key=group), key=group):
             charges_tuples = [(charge.ambiguous_charge_id, charge.to_one_line()) for charge in charges]
