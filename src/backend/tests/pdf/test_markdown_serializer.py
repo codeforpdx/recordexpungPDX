@@ -21,7 +21,7 @@ Name: JOHN  DOE
   
 ## Future Eligible Charges  
 The following charges (dismissed and convicted) are eligible at the designated dates.  
-### Eligible Eligible Nov 9, 2020  
+### Eligible Nov 9, 2020  
  - Possession of Cocaine (CONVICTED) - Arrested Jun 13, 2009  
 
   

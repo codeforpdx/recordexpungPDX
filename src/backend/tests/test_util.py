@@ -51,4 +51,4 @@ def test_futures_are_equivalent():
 
 def test_strftime():
     assert DateWithFuture(2020, 5, 24).strftime("%b %-d, %Y") == "May 24, 2020"
-    assert DateWithFuture.future().strftime("%b %-d, %Y") == " from conviction of open case(s)"
+    assert DateWithFuture.future().strftime("%b %-d, %Y") == " From Conviction Of Open Charge"

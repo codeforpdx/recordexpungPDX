@@ -51,7 +51,7 @@ export default class Charge extends React.Component<Props> {
       if (
            (
              expungement_result.type_eligibility.status === "Eligible" ||
-             expungement_result.type_eligibility.status === "Needs more analysis"
+             expungement_result.type_eligibility.status === "Needs More Analysis"
            )
            &&
            expungement_result.time_eligibility) {

@@ -16,16 +16,18 @@ export default class Eligibility extends React.Component<Props> {
     switch (charge_eligibility_status) {
       case "Unknown":
         return "purple bg-washed-purple";
-      case "Eligible now":
+      case "Eligible Now":
         return "green bg-washed-green";
-      case "Possibly eligible":
-        return "purple bg-washed-purple"
-      case "Will be eligible":
-        return "dark-blue bg-washed-blue"
-      case "Possibly will be eligible":
-        return "purple bg-washed-purple"
+      case "Possibly Eligible":
+        return "purple bg-washed-purple";
+      case "Will Be Eligible":
+        return "dark-blue bg-washed-blue";
+      case "Possibly Will Be Eligible":
+        return "purple bg-washed-purple";
       case "Ineligible":
-        return "red bg-washed-red"
+        return "red bg-washed-red";
+      case "Needs More Analysis":
+        return "purple bg-washed-purple";
     }
   };
 

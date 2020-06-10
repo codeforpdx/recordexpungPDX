@@ -33,18 +33,18 @@ def test_eligible_mrc_with_single_arrest():
     assert expunger_result[three_yr_mrc.ambiguous_charge_id].reason == "Eligible now"
     assert expunger_result[three_yr_mrc.ambiguous_charge_id].date_will_be_eligible == date.today()
 
-    merged_record = RecordMerger.merge([record], [expunger_result])
+    merged_record = RecordMerger.merge([record], [expunger_result], [])
     assert (
         merged_record.cases[0].charges[0].expungement_result.charge_eligibility.status  # type: ignore
         == ChargeEligibilityStatus.ELIGIBLE_NOW
     )
-    assert merged_record.cases[0].charges[0].expungement_result.charge_eligibility.label == "Eligible"  # type: ignore
+    assert merged_record.cases[0].charges[0].expungement_result.charge_eligibility.label == "Eligible Now"  # type: ignore
 
     assert (
         merged_record.cases[0].charges[1].expungement_result.charge_eligibility.status  # type: ignore
         == ChargeEligibilityStatus.ELIGIBLE_NOW
     )
-    assert merged_record.cases[0].charges[1].expungement_result.charge_eligibility.label == "Eligible"  # type: ignore
+    assert merged_record.cases[0].charges[1].expungement_result.charge_eligibility.label == "Eligible Now"  # type: ignore
 
 
 def test_arrest_is_unaffected_if_conviction_eligibility_is_older():

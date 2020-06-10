@@ -1,37 +1,34 @@
 import React from 'react';
 
 interface Props {
-  eligibleChargesByDate: string[];
+  eligibleChargesByDate: { [label: string]: any[]; };
   totalCases: number;
   totalCharges: number;
 }
 
 export default class ChargesList extends React.Component<Props> {
   render() {
-    const summarizedCharges = this.props.eligibleChargesByDate.map(((chargeGroup:any, index:number) => {
-      const eligibilityDate = chargeGroup[0];
-      const chargesNames = chargeGroup[1];
+    const summarizedCharges = Object.entries(this.props.eligibleChargesByDate)
+      .sort((a, b) => this.extractLabel(a).localeCompare(this.extractLabel(b)))
+      .map((([eligibilityDate, chargesNames]: [string, any]) => {
       const listItems = this.buildListItems(chargesNames);
-      const labelColor = (eligibilityDate==="Eligible now" ? "green" : eligibilityDate==="Ineligible" ? "red" : eligibilityDate==="Need more analysis" ? "purple" : "dark-blue");
-      if (eligibilityDate==="Need more analysis" && listItems.length == 0) {
-        return (<></>);
-      } else {
-        return (
-          <div key={index}>
-            <div className="mb1">
-              <span className={"fw7 ttc mb2 " + labelColor}> {eligibilityDate} </span>
-              <span> {(chargesNames.length > 0 ? `(${chargesNames.length})` : "" )} </span>
-            </div>
-            <p className="f6 mb2">{
-              eligibilityDate==="Ineligible" ? "Excludes traffic violations, which are always ineligible" :
-              eligibilityDate==="Need more analysis" ? "These charges need clarification before an accurate analysis can be determined" :
-              ""}</p>
-            <ul className="list mb3">
-             {listItems.length > 0 ? listItems : "None"}
-            </ul>
+      const labelColor = (eligibilityDate==="Eligible Now" ? "green" : eligibilityDate==="Ineligible" ? "red" : eligibilityDate==="Needs More Analysis" ? "purple" : "dark-blue");
+      const SHOW_ALL_CHARGES_THRESHOLD = 20;
+      return (
+        <div key={eligibilityDate}>
+          <div className="mb1">
+            <span className={"fw7 ttc mb2 " + labelColor}> {eligibilityDate} </span>
+            <span> {(chargesNames.length > 0 ? `(${chargesNames.length})` : "" )} </span>
           </div>
-        )
-      }
+          <p className="f6 mb2">{
+            eligibilityDate==="Ineligible" && this.props.totalCharges > SHOW_ALL_CHARGES_THRESHOLD ? "Excludes traffic violations, which are always ineligible" :
+            eligibilityDate==="Needs More Analysis" ? "These charges need clarification before an accurate analysis can be determined" :
+            ""}</p>
+          <ul className="list mb3">
+             {listItems}
+          </ul>
+        </div>
+      )
     }));
 
     return (
@@ -43,12 +40,43 @@ export default class ChargesList extends React.Component<Props> {
     );
   }
 
-  buildListItems(chargesNames: string[]) {
-    const listItems = chargesNames.map(((chargeName: string, index:number) => {
+  buildListItems(chargesNames: any[]) {
+    const listItems = chargesNames.map((([id, chargeName]: [string, string], index:number) => {
         return (
-            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2"><a href={"#" + chargeName[0]} className="link hover-blue">{chargeName[1]}</a></li>
+            <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2"><a href={"#" + id} className="link hover-blue">{chargeName}</a></li>
         )
       }));
     return listItems;
+  }
+
+  // TODO: This is kind of a hack
+  extractLabel([label, _]: [string, any[]]): string {
+    // Adapted from https://stackoverflow.com/a/62283763/2750819
+    function* zip(array: any, n: number): any {
+      let i = 0;
+      while (i + n <= array.length) {
+          yield array.slice(i, i + n);
+          i++;
+      }
+    }
+
+    switch (label) {
+      case "Needs More Analysis":
+        return "zzz";
+      case "Ineligible":
+        return "zz";
+      case "Eligible Now":
+        return "";
+      default:
+        const label_split = label.split(" ");
+        for (let date_parts of zip(label_split, 3)) {
+          const date_string = date_parts.join(" ");
+          const epoch = Date.parse(date_string);
+          if (!Object.is(epoch, NaN)) {
+            return new Date(epoch).toISOString();
+          }
+        }
+        return "z";
+    }
   }
 }

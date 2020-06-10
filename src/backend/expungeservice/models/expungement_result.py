@@ -6,17 +6,18 @@ from typing import Optional
 
 class EligibilityStatus(str, Enum):
     ELIGIBLE = "Eligible"
-    NEEDS_MORE_ANALYSIS = "Needs more analysis"
+    NEEDS_MORE_ANALYSIS = "Needs More Analysis"
     INELIGIBLE = "Ineligible"
 
 
 class ChargeEligibilityStatus(str, Enum):
     UNKNOWN = "Unknown"
-    ELIGIBLE_NOW = "Eligible now"
-    POSSIBLY_ELIGIBILE = "Possibly eligible"
-    WILL_BE_ELIGIBLE = "Will be eligible"
-    POSSIBLY_WILL_BE_ELIGIBLE = "Possibly will be eligible"
+    ELIGIBLE_NOW = "Eligible Now"
+    POSSIBLY_ELIGIBILE = "Possibly Eligible"
+    WILL_BE_ELIGIBLE = "Will Be Eligible"
+    POSSIBLY_WILL_BE_ELIGIBLE = "Possibly Will Be Eligible"
     INELIGIBLE = "Ineligible"
+    NEEDS_MORE_ANALYSIS = "Needs More Analysis"
 
 
 @dataclass(frozen=True)
