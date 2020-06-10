@@ -72,13 +72,13 @@ export default class SearchPanel extends React.Component<Props, State> {
   }
 
   addAlias = () => {
-    const first_alias: AliasData = this.state.aliases[0];
+    const firstAlias: AliasData = this.state.aliases[this.state.aliases.length-1];
     let updatedAliases = this.state.aliases;
     updatedAliases.push({
-        first_name: first_alias.first_name,
-        middle_name: first_alias.middle_name,
-        last_name: first_alias.last_name,
-        birth_date: first_alias.birth_date
+        first_name: firstAlias.first_name,
+        middle_name: firstAlias.middle_name,
+        last_name: firstAlias.last_name,
+        birth_date: firstAlias.birth_date
       })
     this.setState({aliases: updatedAliases})
   }
