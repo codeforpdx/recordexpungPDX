@@ -8,6 +8,6 @@ export default class Footer extends React.Component {
           Privacy Policy
         </a>
       </footer>
-    )
+    );
   }
 }

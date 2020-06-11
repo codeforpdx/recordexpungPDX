@@ -42,17 +42,20 @@ def attach_logger(app):
     else:
         stdout_handler(app.logger)
 
+
 def colored_stdout_handler(logger):
     stdout_handler = logging.StreamHandler()
     stdout_handler.setLevel(logging.DEBUG)
     stdout_handler.setFormatter(ColoredFormatter())
     logger.addHandler(stdout_handler)
 
+
 def file_handler(logger):
     log_file_handler = logging.FileHandler("logs/expungeservice_log.txt")
     log_file_handler.setLevel(logging.DEBUG)
     log_file_handler.setFormatter(DetailedFormatter())
     logger.addHandler(log_file_handler)
+
 
 def stdout_handler(logger):
     stdout_handler = logging.StreamHandler()

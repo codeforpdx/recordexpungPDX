@@ -1,6 +1,6 @@
 import React from 'react';
-import {QuestionData} from "./types";
-import store from "../../../redux/store";
+import { QuestionData } from './types';
+import store from '../../../redux/store';
 
 interface Props {
   question: QuestionData;
@@ -24,10 +24,16 @@ export function Answer(props: Props) {
   }
 
   return (
-    <div className="dib" key={"div-" + answerId}>
-      <input type="radio" name={props.question.question_id} id={"radio-" + answerId}
-             value={props.answer} onChange={handleRadioChange} checked={isChecked} />
-      <label htmlFor={"radio-" + answerId}>{props.answer}</label>
+    <div className="dib" key={'div-' + answerId}>
+      <input
+        type="radio"
+        name={props.question.question_id}
+        id={'radio-' + answerId}
+        value={props.answer}
+        onChange={handleRadioChange}
+        checked={isChecked}
+      />
+      <label htmlFor={'radio-' + answerId}>{props.answer}</label>
     </div>
   );
 }

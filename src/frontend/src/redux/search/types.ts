@@ -1,9 +1,9 @@
 import {
   RecordData,
   RecordSummaryData,
-  QuestionsData
-} from '../../components/RecordSearch/Record/types'
-import {AliasData} from "../../components/RecordSearch/SearchPanel/types";
+  QuestionsData,
+} from '../../components/RecordSearch/Record/types';
+import { AliasData } from '../../components/RecordSearch/SearchPanel/types';
 
 export interface SearchResponse {
   record: RecordEndpointData;
@@ -31,10 +31,7 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordAction {
-  type:
-    | typeof DISPLAY_RECORD
-    | typeof RECORD_LOADING
-    | typeof CLEAR_RECORD;
+  type: typeof DISPLAY_RECORD | typeof RECORD_LOADING | typeof CLEAR_RECORD;
   aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;

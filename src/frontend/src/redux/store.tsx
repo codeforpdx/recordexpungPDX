@@ -8,12 +8,12 @@ import { combineReducers } from 'redux';
 import { searchReducer } from './search/reducer';
 
 const rootReducer = combineReducers({
-  search: searchReducer
+  search: searchReducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [...getDefaultMiddleware()]
+  middleware: [...getDefaultMiddleware()],
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

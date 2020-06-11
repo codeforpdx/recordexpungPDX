@@ -4,7 +4,7 @@ export default function apiService<T>(
   dispatch: Function,
   request: AxiosRequestConfig
 ): AxiosPromise {
-  return axios.request<T>(request).catch(error => {
+  return axios.request<T>(request).catch((error) => {
     return Promise.reject(error);
   });
 }

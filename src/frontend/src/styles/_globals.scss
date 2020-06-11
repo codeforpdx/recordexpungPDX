@@ -4,7 +4,7 @@ $green: #007b4b;
 $washed-green: #e5f1ed;
 $blue: #2b74d2;
 $washed-blue: #e0e7f0;
-$dark-blue: #00449E;
+$dark-blue: #00449e;
 $purple: #9619ff;
 $washed-purple: #f4e8ff;
 $red: #a0004b;
@@ -112,9 +112,9 @@ fieldset {
 }
 @media screen and (min-width: 60em) {
   .sticky-l {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
   }
 }
 
@@ -133,7 +133,7 @@ fieldset {
   border: 3px solid rgba(53, 126, 221, 0.2);
 }
 .spinner--sm {
-  width:16px;
+  width: 16px;
   height: 16px;
 }
 .spinner--light {

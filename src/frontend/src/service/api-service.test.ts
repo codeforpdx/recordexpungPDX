@@ -10,19 +10,19 @@ describe('API SERVICE TEST', () => {
   it('returns data with get', () => {
     const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/hello',
-      method: 'get'
+      method: 'get',
     };
     apiService(mockStore.dispatch, request).then((response: any) => {
       expect(response).toEqual({
-        data: 'Hello, world!'
+        data: 'Hello, world!',
       });
     });
   });
 
-  it('returns with error on bad base url', done => {
+  it('returns with error on bad base url', (done) => {
     const request: AxiosRequestConfig = {
       url: 'http://:5000/api/',
-      method: 'get'
+      method: 'get',
     };
     apiService(mockStore.dispatch, request).catch((error: any) => {
       expect(error.error.message).toEqual(
@@ -32,10 +32,10 @@ describe('API SERVICE TEST', () => {
     });
   });
 
-  it('returns with 404 error on bad route', done => {
+  it('returns with 404 error on bad route', (done) => {
     const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/ello',
-      method: 'get'
+      method: 'get',
     };
     apiService(mockStore.dispatch, request).catch((error: any) => {
       expect(error.error.message).toEqual(
@@ -45,18 +45,18 @@ describe('API SERVICE TEST', () => {
     });
   });
 
-  it('returns search in JSON', done => {
+  it('returns search in JSON', (done) => {
     const request: AxiosRequestConfig = {
       url: 'http://localhost:5000/api/search',
-      method: 'post'
+      method: 'post',
     };
     apiService(mockStore.dispatch, request).then((response: any) => {
       expect(response).toEqual({
         data: {
           data: {
-            record: fakeRecord
-          }
-        }
+            record: fakeRecord,
+          },
+        },
       });
       done();
     });
@@ -85,20 +85,20 @@ const fakeRecord = {
             date: '09/04/2008',
             disposition: {
               date: '11/18/2008',
-              ruling: 'Convicted'
+              ruling: 'Convicted',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Ineligible',
-                reason: 'Ineligible under 137.225(5)'
+                reason: 'Ineligible under 137.225(5)',
               },
-              time_eligibility: null
-            }
-          }
+              time_eligibility: null,
+            },
+          },
         ],
         balance_due: 199.99,
         case_detail_link:
-          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=11918348'
+          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=11918348',
       },
       {
         name: 'Doe, John',
@@ -117,19 +117,19 @@ const fakeRecord = {
             date: '03/06/2018',
             disposition: {
               date: '04/02/2018',
-              ruling: 'Dismissed'
+              ruling: 'Dismissed',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Eligible',
-                reason: 'Eligible under 137.225(1)(b)'
+                reason: 'Eligible under 137.225(1)(b)',
               },
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_will_be_eligible: '2/11/2020'
-              }
-            }
+                date_will_be_eligible: '2/11/2020',
+              },
+            },
           },
           {
             name: 'Violation Driving While Suspended or Revoked',
@@ -138,25 +138,25 @@ const fakeRecord = {
             date: '03/06/2018',
             disposition: {
               date: '04/02/2018',
-              ruling: 'Dismissed'
+              ruling: 'Dismissed',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Eligible',
-                reason: 'Eligible under 137.225(1)(b)'
+                reason: 'Eligible under 137.225(1)(b)',
               },
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_will_be_eligible: '2/11/2020'
-              }
-            }
-          }
+                date_will_be_eligible: '2/11/2020',
+              },
+            },
+          },
         ],
         balance_due: 0.0,
         case_detail_link:
-          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555'
-      }
-    ]
-  }
+          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555',
+      },
+    ],
+  },
 };

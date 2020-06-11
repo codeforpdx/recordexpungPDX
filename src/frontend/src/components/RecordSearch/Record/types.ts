@@ -36,7 +36,7 @@ export interface RecordData {
 
 export interface RecordSummaryData {
   total_charges: number;
-  eligible_charges_by_date: { [label: string]: any[]; };
+  eligible_charges_by_date: { [label: string]: any[] };
   county_balances: CountyBalanceData[];
   total_balance_due: number;
   total_cases: number;
@@ -70,7 +70,7 @@ export interface ChargeEligibilityData {
 }
 
 export interface QuestionsData {
-  [ambiguous_charge_id: string]: QuestionSummaryData
+  [ambiguous_charge_id: string]: QuestionSummaryData;
 }
 
 export interface QuestionSummaryData {
@@ -82,13 +82,13 @@ export interface QuestionSummaryData {
 export interface QuestionData {
   question_id: string;
   text: string;
-  options: { [option: string]: AnswerData; };
+  options: { [option: string]: AnswerData };
   selection: string;
   convicted_date_string: string;
   probation_revoked_date_string: string;
 }
 
 export interface AnswerData {
-  question?: QuestionData,
+  question?: QuestionData;
   edit?: { [key: string]: string };
 }

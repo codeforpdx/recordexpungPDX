@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { RecordData } from './Record/types';
-import {
-  searchRecord,
-  clearRecord
-} from '../../redux/search/actions';
+import { searchRecord, clearRecord } from '../../redux/search/actions';
 import SearchPanel from './SearchPanel';
 import Record from './Record';
 import Status from './Status';
@@ -30,31 +27,47 @@ class RecordSearch extends Component<Props> {
   render() {
     return (
       <>
-      <Header/>
-      <main className="mw8 center ph2">
-        <SearchPanel searchRecord={this.props.searchRecord} />
-        {this.props.record &&
-        ((this.props.record.cases &&
-        this.props.record.cases.length > 0) || this.props.record.errors) ? (
-          <Record record={this.props.record} />
-        ) : (
-          <Status />
-        )}
-        <div className="bg-white shadow mv4 pa4 br3">
-          <h2 className="fw6 mb3">Assumptions</h2>
-          <p className="mb3">We are only able to access your public Oregon records.</p>
-          <p className="mb2">Your analysis may be different if you have had cases which were:</p>
-          <ul className="lh-copy pl4 mw6 mb3">
-            <li className="mb2">Previously expunged</li>
-            <li className="mb2">From States besides Oregon within the last ten years</li>
-            <li className="mb2">From Federal Court within the last ten years</li>
-            <li className="mb2">From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years</li>
-          </ul>
-          <p>
-            <a className="link hover-blue underline" href="/manual#assumption1">Learn more in the Manual</a>
-          </p>
-        </div>
-      </main>
+        <Header />
+        <main className="mw8 center ph2">
+          <SearchPanel searchRecord={this.props.searchRecord} />
+          {this.props.record &&
+          ((this.props.record.cases && this.props.record.cases.length > 0) ||
+            this.props.record.errors) ? (
+            <Record record={this.props.record} />
+          ) : (
+            <Status />
+          )}
+          <div className="bg-white shadow mv4 pa4 br3">
+            <h2 className="fw6 mb3">Assumptions</h2>
+            <p className="mb3">
+              We are only able to access your public Oregon records.
+            </p>
+            <p className="mb2">
+              Your analysis may be different if you have had cases which were:
+            </p>
+            <ul className="lh-copy pl4 mw6 mb3">
+              <li className="mb2">Previously expunged</li>
+              <li className="mb2">
+                From States besides Oregon within the last ten years
+              </li>
+              <li className="mb2">
+                From Federal Court within the last ten years
+              </li>
+              <li className="mb2">
+                From local District Courts, e.g. Medford Municipal Court (not
+                Jackson County Circuit Court) from within the last ten years
+              </li>
+            </ul>
+            <p>
+              <a
+                className="link hover-blue underline"
+                href="/manual#assumption1"
+              >
+                Learn more in the Manual
+              </a>
+            </p>
+          </div>
+        </main>
       </>
     );
   }
@@ -66,10 +79,7 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    searchRecord: searchRecord,
-    clearRecord: clearRecord
-  }
-)(RecordSearch);
+export default connect(mapStateToProps, {
+  searchRecord: searchRecord,
+  clearRecord: clearRecord,
+})(RecordSearch);

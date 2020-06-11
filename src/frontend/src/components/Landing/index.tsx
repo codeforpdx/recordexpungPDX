@@ -10,10 +10,9 @@ class Landing extends React.Component {
 
           <title>RecordSponge Oregon</title>
         </div>
-        <Header/>
+        <Header />
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
-
             <div className="mw8 center ph4 pb5">
               <h1 className="f3 f2-ns fw9 mw7 mt5 mb3">
                 Technology to make record expungement accessible for everyone
@@ -27,16 +26,28 @@ class Landing extends React.Component {
 
             <div className="pa4 mw8 center bg-gray-blue-2 shadow ">
               <h2 className="f3 fw6 mb3">
-                <span className="red">Emergency Update: </span> Protests against Police Violence
+                <span className="red">Emergency Update: </span> Protests against
+                Police Violence
               </h2>
               <p className="lh-copy mw8 mb3">
-                Due to ongoing events we are making all of our expungement help free to any protesters arrested during this fight. Anyone can register directly to <a className="link bb hover-dark-blue" href="https://www.qiu-qiulaw.com/register">see if you qualify for expungement here</a> and a lawyer will return your inquiry within 48 hours.
+                Due to ongoing events we are making all of our expungement help
+                free to any protesters arrested during this fight. Anyone can
+                register directly to{' '}
+                <a
+                  className="link bb hover-dark-blue"
+                  href="https://www.qiu-qiulaw.com/register"
+                >
+                  see if you qualify for expungement here
+                </a>{' '}
+                and a lawyer will return your inquiry within 48 hours.
               </p>
-            <p className="mb2 pv2">
-              For other communication (to learn more, help out, etc.) you can also contact:
+              <p className="mb2 pv2">
+                For other communication (to learn more, help out, etc.) you can
+                also contact:
                 <ul className="list mb3 pl4">
                   <li className="mb2">
-                    Michael Zhang, expungement attorney at Qiu-Qiu Law: <a
+                    Michael Zhang, expungement attorney at Qiu-Qiu Law:{' '}
+                    <a
                       className="fw6 link hover-dark-blue no-wrap"
                       href="mailto:michael@qiu-qiulaw.com"
                     >
@@ -44,7 +55,8 @@ class Landing extends React.Component {
                     </a>
                   </li>
                   <li className="mb2">
-                    Jordan Witte, project manager at Code for PDX: <a
+                    Jordan Witte, project manager at Code for PDX:{' '}
+                    <a
                       className="fw6 link hover-dark-blue no-wrap"
                       href="mailto:jordan.witte@codeforpdx.org"
                     >
@@ -56,48 +68,48 @@ class Landing extends React.Component {
             </div>
 
             <div className="relative top-2 z-2 mh3">
-            <div className="flex-l justify-between mw8 bg-white ba bw3 b--lightest-blue1 center br4">
-              <div className="w-50-l pa4 pa5-l">
-                <h2 className="f3 fw7 mb3">
-                  Are you interested in providing expungement help with this tool?
-                </h2>
-                <p className="lh-copy mb3">
-                  Provide your name and your
-                  organization to request access:{' '}
-                  <a
-                    className="fw6 link hover-dark-blue no-wrap"
-                    href="mailto:michael@qiu-qiulaw.com"
-                  >
-                    michael@qiu-qiulaw.com
-                  </a>
-                  .
-                </p>
-                <p className="mb4">
-                  <a href="/manual" className="link bb hover-dark-blue">
-                    Learn more in the Manual
-                  </a>
-                </p>
+              <div className="flex-l justify-between mw8 bg-white ba bw3 b--lightest-blue1 center br4">
+                <div className="w-50-l pa4 pa5-l">
+                  <h2 className="f3 fw7 mb3">
+                    Are you interested in providing expungement help with this
+                    tool?
+                  </h2>
+                  <p className="lh-copy mb3">
+                    Provide your name and your organization to request access:{' '}
+                    <a
+                      className="fw6 link hover-dark-blue no-wrap"
+                      href="mailto:michael@qiu-qiulaw.com"
+                    >
+                      michael@qiu-qiulaw.com
+                    </a>
+                    .
+                  </p>
+                  <p className="mb4">
+                    <a href="/manual" className="link bb hover-dark-blue">
+                      Learn more in the Manual
+                    </a>
+                  </p>
+                </div>
+                <div className="w-50-l pa4 pa5-l">
+                  <h2 className="f3 fw7 mb3">
+                    Are you looking to clear your&nbsp;record?
+                  </h2>
+                  <p className="lh-copy">
+                    Check at{' '}
+                    <a
+                      className="link bb hover-dark-blue"
+                      href="https://www.qiu-qiulaw.com"
+                      target="blank"
+                    >
+                      Qiu-qiu Law
+                    </a>{' '}
+                    to see if you are eligible and if there is an upcoming
+                    expungement clinic in your&nbsp;area. If there are none in
+                    your area reach out to them and they may be able to organize
+                    one near you.
+                  </p>
+                </div>
               </div>
-              <div className="w-50-l pa4 pa5-l">
-                <h2 className="f3 fw7 mb3">
-                  Are you looking to clear your&nbsp;record?
-                </h2>
-                <p className="lh-copy">
-                  Check at{' '}
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="https://www.qiu-qiulaw.com"
-                    target="blank"
-                  >
-                    Qiu-qiu Law
-                  </a>{' '}
-                  to see if you are eligible and if there is an upcoming
-                  expungement clinic in your&nbsp;area. If there are none in
-                  your area reach out to them and they may be able to organize
-                  one near you.
-                </p>
-              </div>
-            </div>
             </div>
 
             <div className="relative bottom-6 bg-lightest-blue1 pt7 pb6">
@@ -105,39 +117,46 @@ class Landing extends React.Component {
                 <div className="mw7 center">
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">
-                    For many folks who have had run-ins with the criminal justice
-                    system, punishment doesn't end with the end of their sentence.
-                    A criminal conviction or arrest can follow a person around for
-                    the rest of their life, well past the period of incarceration,
-                    probation, and financial penalty. This prevents them from
-                    accessing education, employment, housing, and services which
-                    might otherwise help them integrate back into society.
+                    For many folks who have had run-ins with the criminal
+                    justice system, punishment doesn't end with the end of their
+                    sentence. A criminal conviction or arrest can follow a
+                    person around for the rest of their life, well past the
+                    period of incarceration, probation, and financial penalty.
+                    This prevents them from accessing education, employment,
+                    housing, and services which might otherwise help them
+                    integrate back into society.
                   </p>
                 </div>
                 <div className="mw9 tc mb5">
-
                   <img
                     className="wipe-illustrations"
                     alt=""
                     src="/img/wipe-illustrations-v2.jpg"
                   />
-
                 </div>
                 <div className="mw7 center">
                   <p className="lh-copy mb4">
-                    The State of Oregon provides a way for people to seal certain
-                    items from their records (effectively removing them), but the
-                    rules for determining which items are eligible are complex and
-                    prone to error when applying them by hand. As a result,
-                    expungement analysis is expensive in Portland - ranging from
-                    $1,000 to $3,000 when performed by private attorneys.
+                    The State of Oregon provides a way for people to seal
+                    certain items from their records (effectively removing
+                    them), but the rules for determining which items are
+                    eligible are complex and prone to error when applying them
+                    by hand. As a result, expungement analysis is expensive in
+                    Portland - ranging from $1,000 to $3,000 when performed by
+                    private attorneys.
                   </p>
                   <p className="lh-copy mb5">
                     And so we created RecordSponge to greatly increase access to
                     expungement by automating the legal analysis. We still need
                     partners to administer RecordSponge. Please contact
-                    <a className="link hover-blue" href="mailto:michael@qiu-qiulaw.com"> michael@qiu-qiulaw.com </a>
-                    if you would like to set up RecordSponge at your organization.
+                    <a
+                      className="link hover-blue"
+                      href="mailto:michael@qiu-qiulaw.com"
+                    >
+                      {' '}
+                      michael@qiu-qiulaw.com{' '}
+                    </a>
+                    if you would like to set up RecordSponge at your
+                    organization.
                   </p>
                 </div>
               </div>
@@ -194,11 +213,7 @@ class Landing extends React.Component {
               </div>
 
               <div className="w-50-l tc pa5-l pa3 mb5">
-                <img
-                  className="ui-sample"
-                  alt=""
-                  src="/img/ui-sample2.png"
-                />
+                <img className="ui-sample" alt="" src="/img/ui-sample2.png" />
               </div>
             </div>
 

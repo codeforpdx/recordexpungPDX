@@ -32,7 +32,6 @@ export default class RecordType extends React.Component<Props> {
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> {this.props.type_name + ' '}
           <div>({reason})</div>
-
         </div>
       </div>
     );
