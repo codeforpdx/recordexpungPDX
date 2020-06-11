@@ -12,10 +12,7 @@ export default class RecordType extends React.Component<Props> {
 
     const eligible = (reason: string) => (
       <div className="relative mb3">
-        <i
-          aria-hidden="true"
-          className="absolute fas fa-check-circle green"
-        ></i>
+        
         <div className="ml3 pl1">
           <span className="fw7">Type:</span> {this.props.type_name + " "}
           <div>({reason})</div>
