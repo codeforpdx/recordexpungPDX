@@ -52,7 +52,7 @@ export default class OeciLogin extends React.Component<State> {
                 ? // error: 40x
                   this.setState({
                     expectedFailure: true,
-                    expectedFailureMessage: error.response.data.message,
+                    expectedFailureMessage: error.response.data.message
                   })
                 : // error: technical difficulties
                   this.setState({ invalidResponse: true });
@@ -157,7 +157,13 @@ export default class OeciLogin extends React.Component<State> {
                     id="no_match_msg"
                     className="bg-washed-red mv4 pa3 br3 fw6"
                   >
-                    Technical difficulties, please contact system administrator.
+                    We're experiencing technical difficulties, please contact{' '}
+                    <a
+                      className="link underline hover-blue"
+                      href="mailto:help@recordsponge.com"
+                    >
+                      help@recordsponge.com
+                    </a>
                   </p>
                 ) : null}
               </div>
