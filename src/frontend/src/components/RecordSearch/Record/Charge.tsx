@@ -19,21 +19,21 @@ export default class Charge extends React.Component<Props> {
       statute,
       name,
       type_name,
-      expungement_result
+      expungement_result,
     } = this.props.charge;
 
     const dispositionEvent = (disposition: any, date: any) => {
       let dispositionEvent;
       dispositionEvent = disposition.status;
-      if (disposition.status === "Convicted") {
-        dispositionEvent += " - " + disposition.date;
-      } else if (disposition.status === "Unrecognized") {
-        dispositionEvent += " (\"" + disposition.ruling + "\")";
-      } else if (disposition.status === "Unknown") {
-        dispositionEvent = "Unknown";
+      if (disposition.status === 'Convicted') {
+        dispositionEvent += ' - ' + disposition.date;
+      } else if (disposition.status === 'Unrecognized') {
+        dispositionEvent += ' ("' + disposition.ruling + '")';
+      } else if (disposition.status === 'Unknown') {
+        dispositionEvent = 'Unknown';
       }
       if (disposition.amended) {
-        dispositionEvent += " (Amended)"
+        dispositionEvent += ' (Amended)';
       }
       return dispositionEvent;
     };
@@ -41,22 +41,23 @@ export default class Charge extends React.Component<Props> {
     const buildDisposition = (disposition: any, date: any) => {
       return (
         <li className="mb2">
-          <span className="fw7">Disposition: </span> {dispositionEvent(disposition, date)}
+          <span className="fw7">Disposition: </span>{' '}
+          {dispositionEvent(disposition, date)}
         </li>
       );
-
     };
 
     const buildRecordTime = () => {
       if (
-           (
-             expungement_result.type_eligibility.status === "Eligible" ||
-             expungement_result.type_eligibility.status === "Needs More Analysis"
-           )
-           &&
-           expungement_result.time_eligibility) {
+        (expungement_result.type_eligibility.status === 'Eligible' ||
+          expungement_result.type_eligibility.status ===
+            'Needs More Analysis') &&
+        expungement_result.time_eligibility
+      ) {
         return (
-          <TimeEligibility time_eligibility={expungement_result.time_eligibility} />
+          <TimeEligibility
+            time_eligibility={expungement_result.time_eligibility}
+          />
         );
       }
     };
@@ -85,7 +86,7 @@ export default class Charge extends React.Component<Props> {
             </ul>
           </div>
         </div>
-        <Questions ambiguous_charge_id={ambiguous_charge_id}/>
+        <Questions ambiguous_charge_id={ambiguous_charge_id} />
       </div>
     );
   }

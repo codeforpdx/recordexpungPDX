@@ -4,11 +4,10 @@ interface Cookie {
   [key: string]: string;
 }
 
-const getKeyValue = (inputCookie: string) =>
-  [
-    inputCookie.substring(0, inputCookie.indexOf('=')),
-    inputCookie.substring(inputCookie.indexOf('=') + 1, inputCookie.length)
-  ];
+const getKeyValue = (inputCookie: string) => [
+  inputCookie.substring(0, inputCookie.indexOf('=')),
+  inputCookie.substring(inputCookie.indexOf('=') + 1, inputCookie.length),
+];
 
 export function decodeCookie() {
   return document.cookie
@@ -31,7 +30,7 @@ export function hasOeciToken() {
 }
 
 export function isAdmin() {
-  return document.cookie.includes("is_admin");
+  return document.cookie.includes('is_admin');
 }
 
 export function checkOeciRedirect() {

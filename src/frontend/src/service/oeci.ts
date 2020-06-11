@@ -7,7 +7,7 @@ export default function oeciLogIn(username: string, password: string): any {
     url: '/api/oeci_login',
     data: { oeci_username: username, oeci_password: password },
     method: 'post',
-    withCredentials: true
+    withCredentials: true,
   }).then((response: any) => {
     if (hasOeciToken()) {
       history.push('/record-search');

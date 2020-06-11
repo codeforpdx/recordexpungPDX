@@ -5,4 +5,8 @@ export interface AliasData {
   last_name: string;
   birth_date: string;
 }
-export type AliasFieldNames = "first_name" | "middle_name" | "last_name" | "birth_date";
+export type AliasFieldNames =
+  | 'first_name'
+  | 'middle_name'
+  | 'last_name'
+  | 'birth_date';

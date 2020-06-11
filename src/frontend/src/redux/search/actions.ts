@@ -1,7 +1,7 @@
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 import store from '../store';
 import apiService from '../../service/api-service';
-import {AxiosError, AxiosResponse} from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import fileDownload from 'js-file-download';
 
 import {
@@ -11,8 +11,8 @@ import {
   CLEAR_RECORD,
   SELECT_ANSWER,
 } from './types';
-import {AliasData} from '../../components/RecordSearch/SearchPanel/types'
-import {RecordData} from '../../components/RecordSearch/Record/types'
+import { AliasData } from '../../components/RecordSearch/SearchPanel/types';
+import { RecordData } from '../../components/RecordSearch/Record/types';
 
 function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
@@ -41,19 +41,19 @@ function buildSearchRequest() {
   return {
     aliases: store.getState().search.aliases,
     questions: store.getState().search.questions,
-    edits: store.getState().search.edits
+    edits: store.getState().search.edits,
   };
 }
 
-function buildAndSendSearchRequest(dispatch: any) : any {
+function buildAndSendSearchRequest(dispatch: any): any {
   return apiService<SearchResponse>(dispatch, {
     url: '/api/search',
     data: buildSearchRequest(),
     method: 'post',
-    withCredentials: true
+    withCredentials: true,
   })
     .then((response: AxiosResponse<SearchResponse>) => {
-      storeSearchResponse(response.data, dispatch)
+      storeSearchResponse(response.data, dispatch);
     })
     .catch((error: AxiosError<SearchResponse>) => {
       alert(error.message);
@@ -61,29 +61,29 @@ function buildAndSendSearchRequest(dispatch: any) : any {
 }
 
 export function downloadPdf() {
-  return apiService(()=>{}, {
+  return apiService(() => {}, {
     url: '/api/pdf',
     data: buildSearchRequest(),
     method: 'post',
     withCredentials: true,
-    responseType: 'blob'
+    responseType: 'blob',
   })
     .then((response: AxiosResponse) => {
-      const filename = response.headers["content-disposition"].split("filename=")[1].split(" ")[0];
-      fileDownload(response.data, filename)
+      const filename = response.headers['content-disposition']
+        .split('filename=')[1]
+        .split(' ')[0];
+      fileDownload(response.data, filename);
     })
     .catch((error: AxiosError) => {
       alert(error.message);
     });
 }
 
-export function searchRecord(
-  aliases: AliasData[]
-): any {
+export function searchRecord(aliases: AliasData[]): any {
   return (dispatch: Dispatch) => {
     dispatch({
       type: RECORD_LOADING,
-      aliases: aliases
+      aliases: aliases,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -91,7 +91,7 @@ export function searchRecord(
 
 export function clearRecord() {
   return {
-    type: CLEAR_RECORD
+    type: CLEAR_RECORD,
   };
 }
 
@@ -102,7 +102,7 @@ export function selectAnswer(
   answer: string,
   edit: any,
   date: string,
-  probation_revoked_date: string = ""
+  probation_revoked_date: string = ''
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -113,9 +113,8 @@ export function selectAnswer(
       answer: answer,
       edit: edit,
       date: date,
-      probation_revoked_date: probation_revoked_date
+      probation_revoked_date: probation_revoked_date,
     });
     return buildAndSendSearchRequest(dispatch);
-
   };
 }

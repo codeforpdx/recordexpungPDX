@@ -17,21 +17,24 @@ export default class Cases extends React.Component<Props> {
       balance_due,
       charges,
       location,
-      current_status
+      current_status,
     } = this.props.case;
-    const prefix = window.location.href.includes("localhost") ? "http://localhost:5000" : ""; // Hack so we do not have to use nginx for dev
-    const case_detail_base = "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
+    const prefix = window.location.href.includes('localhost')
+      ? 'http://localhost:5000'
+      : ''; // Hack so we do not have to use nginx for dev
+    const case_detail_base =
+      'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=';
     const link_id = case_detail_link.substring(case_detail_base.length);
     return (
       <div id={case_number} className="mb3">
         <div className="cf pv2 br3 br--top shadow-case">
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
-            <a 
-              href={prefix + "/api/case_detail_page/" + link_id} 
+            <a
+              href={prefix + '/api/case_detail_page/' + link_id}
               target="_blank"
               className="link bb hover-blue"
-              >
+            >
               {case_number}
             </a>
           </div>

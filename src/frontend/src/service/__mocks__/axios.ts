@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 export default {
-  request: requestMock
+  request: requestMock,
 };
 
 function requestMock<T>(request: AxiosRequestConfig): Promise<any> {
@@ -10,7 +10,7 @@ function requestMock<T>(request: AxiosRequestConfig): Promise<any> {
     request.method === 'get'
   ) {
     return Promise.resolve({
-      data: 'Hello, world!'
+      data: 'Hello, world!',
     });
   } else if (
     request.url === 'http://localhost:5000/api/search' &&
@@ -19,9 +19,9 @@ function requestMock<T>(request: AxiosRequestConfig): Promise<any> {
     return Promise.resolve({
       data: {
         data: {
-          record: fakeRecord
-        }
-      }
+          record: fakeRecord,
+        },
+      },
     });
   } else if (
     request.url &&
@@ -29,20 +29,22 @@ function requestMock<T>(request: AxiosRequestConfig): Promise<any> {
     request.method === 'get'
   ) {
     return Promise.reject({
-      error: new Error('Request failed with status code 404')
+      error: new Error('Request failed with status code 404'),
     });
   } else if (
     request.url &&
     !request.url.includes('http://localhost:5000/api/')
   ) {
     return Promise.reject({
-      error: new Error('bad base url, it should be: http://localhost:5000/api/')
+      error: new Error(
+        'bad base url, it should be: http://localhost:5000/api/'
+      ),
     });
   } else {
     return Promise.reject({
       error: new Error(
         `mock API doesn't recognize the request.  Please check your code, or update the mock API`
-      )
+      ),
     });
   }
 }
@@ -69,20 +71,20 @@ const fakeRecord = {
             date: '09/04/2008',
             disposition: {
               date: '11/18/2008',
-              ruling: 'Convicted'
+              ruling: 'Convicted',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Ineligible',
-                reason: 'Ineligible under 137.225(5)'
+                reason: 'Ineligible under 137.225(5)',
               },
-              time_eligibility: null
-            }
-          }
+              time_eligibility: null,
+            },
+          },
         ],
         balance_due: 199.99,
         case_detail_link:
-          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=11918348'
+          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=11918348',
       },
       {
         name: 'Doe, John',
@@ -101,19 +103,19 @@ const fakeRecord = {
             date: '03/06/2018',
             disposition: {
               date: '04/02/2018',
-              ruling: 'Dismissed'
+              ruling: 'Dismissed',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Eligible',
-                reason: 'Eligible under 137.225(1)(b)'
+                reason: 'Eligible under 137.225(1)(b)',
               },
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_will_be_eligible: '2/11/2020'
-              }
-            }
+                date_will_be_eligible: '2/11/2020',
+              },
+            },
           },
           {
             name: 'Violation Driving While Suspended or Revoked',
@@ -122,25 +124,25 @@ const fakeRecord = {
             date: '03/06/2018',
             disposition: {
               date: '04/02/2018',
-              ruling: 'Dismissed'
+              ruling: 'Dismissed',
             },
             expungement_result: {
               type_eligibility: {
                 status: 'Eligible',
-                reason: 'Eligible under 137.225(1)(b)'
+                reason: 'Eligible under 137.225(1)(b)',
               },
               time_eligibility: {
                 status: 'Ineligible',
                 reason: '',
-                date_will_be_eligible: '2/11/2020'
-              }
-            }
-          }
+                date_will_be_eligible: '2/11/2020',
+              },
+            },
+          },
         ],
         balance_due: 0.0,
         case_detail_link:
-          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555'
-      }
-    ]
-  }
+          'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=55555555',
+      },
+    ],
+  },
 };

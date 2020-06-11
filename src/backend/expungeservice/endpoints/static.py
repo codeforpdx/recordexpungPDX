@@ -1,6 +1,7 @@
 import os.path
 from flask import abort
 
+
 def register(app):
     # mimic nginx 'try_files' directive for react
     #

@@ -12,7 +12,7 @@ class Status extends React.Component<Props> {
   render() {
     return (
       <section>
-        {this.props.loading === "loading" ? (
+        {this.props.loading === 'loading' ? (
           <LoadingSpinner inputString={'your search results'} />
         ) : (
           <NoSearchResults />
@@ -24,7 +24,7 @@ class Status extends React.Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    loading: state.search.loading
+    loading: state.search.loading,
   };
 };
 
