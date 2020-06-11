@@ -33,6 +33,7 @@ class OeciCharge:
     date: date_class
     disposition: Disposition
     probation_revoked: Optional[date_class]
+    balance_due_in_cents: int
 
 
 @dataclass(frozen=True)

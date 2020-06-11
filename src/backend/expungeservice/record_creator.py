@@ -147,6 +147,7 @@ class RecordCreator:
                 "date": oeci_charge.date,
                 "disposition": oeci_charge.disposition,
                 "probation_revoked": oeci_charge.probation_revoked,
+                "balance_due_in_cents": oeci_charge.balance_due_in_cents,
                 "case_number": oeci_case.summary.case_number,
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
