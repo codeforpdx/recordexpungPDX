@@ -1,7 +1,7 @@
-import React from 'react';
-import Cases from './Cases';
-import RecordSummary from './RecordSummary';
-import { RecordData } from './types';
+import React from "react";
+import Cases from "./Cases";
+import RecordSummary from "./RecordSummary";
+import { RecordData } from "./types";
 
 interface Props {
   record: RecordData;
@@ -12,7 +12,7 @@ export default class Record extends React.Component<Props> {
     const errors = this.props.record.errors
       ? this.props.record.errors.map(
           (errorMessage: string, errorIndex: number) => {
-            const id = 'record_error_' + errorIndex;
+            const id = "record_error_" + errorIndex;
 
             const errorMessageArray = errorMessage.split(/(\[.*?\])/g);
             const errorMessageHTML = errorMessageArray.map(function (element) {
@@ -21,7 +21,7 @@ export default class Record extends React.Component<Props> {
                 return (
                   <a
                     className="underline"
-                    href={'#' + caseNumber}
+                    href={"#" + caseNumber}
                     key={caseNumber}
                   >
                     {caseNumber}

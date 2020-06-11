@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { CountyBalanceData } from '../types';
-import currencyFormat from '../../../../service/currency-format';
+import { CountyBalanceData } from "../types";
+import currencyFormat from "../../../../service/currency-format";
 
 interface Props {
   balances: CountyBalanceData[];
@@ -14,7 +14,7 @@ export default class CountyBalances extends React.Component<Props> {
       (pair: CountyBalanceData, i: number) => {
         return (
           <li className="mb2" key={i}>
-            <span className="break-all">{pair.county_name} </span>{' '}
+            <span className="break-all">{pair.county_name} </span>{" "}
             <span className="fr">{currencyFormat(pair.balance)}</span>
           </li>
         );
@@ -24,7 +24,7 @@ export default class CountyBalances extends React.Component<Props> {
       <div className="w-100 w-33-l ph3-l mb3">
         <h3 className="fw7 bt b--light-gray pt2 mb3">Balance Due by County</h3>
         <ul className="mw5 list">
-          {listItems.length > 0 ? listItems : 'None'}
+          {listItems.length > 0 ? listItems : "None"}
         </ul>
         <div className="mw5 bt b--light-gray pt2">
           <span className="fw6">Total</span>

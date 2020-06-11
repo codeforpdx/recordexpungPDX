@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from '../Header';
+import React from "react";
+import Header from "../Header";
 
 class Landing extends React.Component {
   render() {
@@ -77,18 +77,18 @@ class Landing extends React.Component {
               <p className="mb3">
                 RecordSponge is a volunteer-built web application used to
                 facilitate the expungement process in Oregon. It is a
-                collaboration between{' '}
+                collaboration between{" "}
                 <a
                   className="bb hover-blue"
                   href="https://brigade.codeforamerica.org/brigades/Code-for-PDX"
                 >
                   Code for PDX
-                </a>{' '}
-                and{' '}
+                </a>{" "}
+                and{" "}
                 <a className="bb hover-blue" href="https://www.qiu-qiulaw.com">
                   Qiu-Qiu Law
                 </a>
-                . The codebase is published under an open source{' '}
+                . The codebase is published under an open source{" "}
                 <a
                   className="bb hover-blue"
                   href="https://opensource.org/licenses/MIT"
@@ -103,13 +103,13 @@ class Landing extends React.Component {
                 license.
               </p>
               <p className="mb3">
-                As of this writing, it is likely that fewer than{' '}
+                As of this writing, it is likely that fewer than{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.aclu.org/press-releases/trenton-marijuana-hearing-advocates-call-automatic-expungement-legalization"
                 >
                   2%
-                </a>{' '}
+                </a>{" "}
                 of Oregonians who are eligible to expunge their records have
                 done so. Let’s get to work.
               </p>
@@ -120,14 +120,14 @@ class Landing extends React.Component {
               </h2>
               <p className="mb3">
                 Every State has different expungement rules. Oregon’s adult
-                expungement law is ORS{' '}
+                expungement law is ORS{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.oregonlaws.org/ors/137.225"
                 >
                   137.225
-                </a>{' '}
-                and{' '}
+                </a>{" "}
+                and{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.oregonlaws.org/ors/137.226"
@@ -136,7 +136,7 @@ class Landing extends React.Component {
                 </a>
                 . These statutes are 2,000+ words long and are often misleading
                 and contradictory. As a result of this complexity, the market
-                rate for lawyers to perform expungement services is over $1,400{' '}
+                rate for lawyers to perform expungement services is over $1,400{" "}
                 <em>per case</em>.
               </p>
               <p className="mb3">
@@ -154,7 +154,7 @@ class Landing extends React.Component {
                 </h3>
                 <p className="mb3">
                   RecordSponge only deals with adult criminal records. Juvenile
-                  records are eligible on a different basis,{' '}
+                  records are eligible on a different basis,{" "}
                   <a
                     className="bb hover-blue"
                     href="https://www.osbar.org/public/legalinfo/1081_ClearingRecord.htm"
@@ -193,14 +193,14 @@ class Landing extends React.Component {
                         href="https://recordsponge.com/login"
                       >
                         Log in
-                      </a>{' '}
+                      </a>{" "}
                       and input your login credentials composed of an email
                       address and password. To receive login credentials,
                       contact michael@qiu-qiulaw.com.
                     </li>
                     <li className="mb2">
                       You should now see a second login page for “Oregon eCourt
-                      Case Information.” Input your OECI login credentials.{' '}
+                      Case Information.” Input your OECI login credentials.{" "}
                       <a
                         className="bb hover-blue"
                         href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
@@ -212,23 +212,23 @@ class Landing extends React.Component {
                   </ul>
                 </li>
                 <li className="mb3">
-                  Ensure that{' '}
+                  Ensure that{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption1">
                     Assumption 1
-                  </a>{' '}
+                  </a>{" "}
                   is met
                 </li>
                 <li className="mb3">
                   <a className="bb-dotted-2 hover-blue" href="#search">
                     Search records
-                  </a>{' '}
+                  </a>{" "}
                   by name and date of birth
                 </li>
                 <li className="mb3">
-                  Ensure that{' '}
+                  Ensure that{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption2">
                     Assumption 2
-                  </a>{' '}
+                  </a>{" "}
                   is met for eligible records (if any)
                 </li>
                 <li className="mb3">
@@ -236,26 +236,26 @@ class Landing extends React.Component {
                   michael@qiu-qiulaw.com
                 </li>
                 <li className="mb3">
-                  Use the{' '}
+                  Use the{" "}
                   <a className="bb-dotted-2 hover-blue" href="#appendix">
                     Appendix
-                  </a>{' '}
+                  </a>{" "}
                   or search online for expungement forms
                 </li>
                 <li className="mb3">
                   <a className="bb-dotted-2 hover-blue" href="#file">
                     Complete forms
                   </a>
-                  ,{' '}
+                  ,{" "}
                   <a className="bb-dotted-2 hover-blue" href="#fingerprints">
                     obtain fingerprints
                   </a>
                 </li>
                 <li className="mb3">
-                  Instruct clients to{' '}
+                  Instruct clients to{" "}
                   <a className="bb-dotted-2 hover-blue" href="#filepaperwork">
                     file paperwork
-                  </a>{' '}
+                  </a>{" "}
                   in appropriate courts
                 </li>
               </ol>
@@ -271,7 +271,7 @@ class Landing extends React.Component {
               <p></p>
               <p className="mb3">
                 RecordSponge only has access to online records of Oregon’s
-                Circuit courts. However, having an open case or a conviction{' '}
+                Circuit courts. However, having an open case or a conviction{" "}
                 <strong>anywhere</strong> within the last 10 years makes a
                 person ineligible (until the conviction is 10 years old). The
                 accuracy of the expungement analysis depends on the assumptions:
@@ -413,14 +413,14 @@ class Landing extends React.Component {
                   Eligible
                 </div>
                 <p className="mb3">
-                  The specific charge is eligible for expungement if{' '}
+                  The specific charge is eligible for expungement if{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption1">
                     Assumption 1
-                  </a>{' '}
-                  and{' '}
+                  </a>{" "}
+                  and{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption2">
                     Assumption 2
-                  </a>{' '}
+                  </a>{" "}
                   are true.
                 </p>
               </div>
@@ -431,10 +431,10 @@ class Landing extends React.Component {
                 </div>
                 <p className="mb3">
                   The specific charge is eligible for expungement on the date
-                  specified. This is also conditional on{' '}
+                  specified. This is also conditional on{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption1">
                     Assumption 1
-                  </a>{' '}
+                  </a>{" "}
                   being true. Having other cases could push out the eligibility
                   date further.
                 </p>
@@ -536,7 +536,7 @@ class Landing extends React.Component {
                 Not all counties will have their own form, but at least the
                 following do: Multnomah, Washington, Clackamas, Lane, Jackson,
                 Josephine, Tillamook, Marion, Baker, Coos, Curry, Lincoln, Linn,
-                Umatilla, Yamhill.{' '}
+                Umatilla, Yamhill.{" "}
                 <a className="bb-dotted-2 hover-blue" href="#appendix">
                   Find these forms in the Appendix.
                 </a>
@@ -546,7 +546,7 @@ class Landing extends React.Component {
                 “[county name] expungement form.”
               </p>
               <p className="mb3">
-                If a county does not have its own paperwork, use the{' '}
+                If a county does not have its own paperwork, use the{" "}
                 <a className="bb-dotted-2 hover-blue" href="#stockforms">
                   Stock Forms
                 </a>
@@ -652,11 +652,11 @@ class Landing extends React.Component {
                   State Police.”
                 </li>
                 <li className="mb2">
-                  Each conviction requires a $281 fee.{' '}
+                  Each conviction requires a $281 fee.{" "}
                   <strong className="fw7">
                     This fee is subject to waiver for income-qualified
                     individuals who complete the waiver form.
-                  </strong>{' '}
+                  </strong>{" "}
                   You get this from the Clerk of Court.
                 </li>
                 <li className="mb2">
@@ -856,7 +856,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20A%20Forms%20and%20Instructions.pdf"
                     >
-                      Arrest but no charge ever filed in Court{' '}
+                      Arrest but no charge ever filed in Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -950,7 +950,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/JAC-PktA-CrimSetAside-Arrest.pdf"
                     >
-                      Arrest but no charges or cases were filed with the Court{' '}
+                      Arrest but no charges or cases were filed with the Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -960,7 +960,7 @@ class Landing extends React.Component {
                       href="https://www.courts.oregon.gov/forms/Documents/JAC-PktB-CrimSetAside-DismissalAcquittal.pdf"
                     >
                       Arrested and a case filed with the Court but later
-                      charge(s) were dismissed or acquitted{' '}
+                      charge(s) were dismissed or acquitted{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1066,7 +1066,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketA.pdf"
                     >
-                      Arrest but no charges or cases were filed with the Court{' '}
+                      Arrest but no charges or cases were filed with the Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1076,7 +1076,7 @@ class Landing extends React.Component {
                       href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketB.pdf"
                     >
                       Arrested and a case filed with the Court, but later
-                      charge(s) were dismissed or acquitted{' '}
+                      charge(s) were dismissed or acquitted{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1140,7 +1140,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETA.pdf"
                     >
-                      Arrest but no charges or cases were filed with the Court{' '}
+                      Arrest but no charges or cases were filed with the Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1150,7 +1150,7 @@ class Landing extends React.Component {
                       href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETB.pdf"
                     >
                       Arrested and a case filed with the court, but later
-                      charge(s) were dismissed or acquitted{' '}
+                      charge(s) were dismissed or acquitted{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1172,7 +1172,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementArrest.pdf"
                     >
-                      Arrest but no charge ever filed in Court{' '}
+                      Arrest but no charge ever filed in Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1245,7 +1245,7 @@ class Landing extends React.Component {
                       className="bb hover-blue"
                       href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketA.pdf"
                     >
-                      Arrest only no charge ever filed in Court{' '}
+                      Arrest only no charge ever filed in Court{" "}
                       <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
@@ -1310,7 +1310,7 @@ class Landing extends React.Component {
                 preferences, and more. You can adjust cookie retention settings
                 in your own browser. To learn more about cookies, including how
                 to see which cookies have been set and how to manage and delete
-                them, please visit:{' '}
+                them, please visit:{" "}
                 <a
                   href="https://www.allaboutcookies.org"
                   className="bb hover-blue"
@@ -1345,14 +1345,14 @@ class Landing extends React.Component {
                 servers to your browser.
               </p>
               <h3>
-                Adapted from the{' '}
+                Adapted from the{" "}
                 <a
                   href="https://github.com/basecamp/policies"
                   className="bb hover-blue"
                 >
                   Basecamp open-source policies
-                </a>{' '}
-                /{' '}
+                </a>{" "}
+                /{" "}
                 <a
                   href="https://creativecommons.org/licenses/by/4.0"
                   className="bb hover-blue"

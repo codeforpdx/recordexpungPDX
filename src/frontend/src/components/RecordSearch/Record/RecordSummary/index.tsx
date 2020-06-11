@@ -1,8 +1,8 @@
-import React from 'react';
-import ChargesList from './ChargesList';
-import CountyBalances from './CountyBalances';
-import { RecordSummaryData } from '../types';
-import { downloadPdf } from '../../../../redux/search/actions';
+import React from "react";
+import ChargesList from "./ChargesList";
+import CountyBalances from "./CountyBalances";
+import { RecordSummaryData } from "../types";
+import { downloadPdf } from "../../../../redux/search/actions";
 
 interface Props {
   summary: RecordSummaryData;

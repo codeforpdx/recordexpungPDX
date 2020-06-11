@@ -6,7 +6,7 @@ export interface AliasData {
   birth_date: string;
 }
 export type AliasFieldNames =
-  | 'first_name'
-  | 'middle_name'
-  | 'last_name'
-  | 'birth_date';
+  | "first_name"
+  | "middle_name"
+  | "last_name"
+  | "birth_date";

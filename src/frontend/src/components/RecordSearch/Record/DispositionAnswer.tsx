@@ -1,6 +1,6 @@
-import React from 'react';
-import { QuestionData } from './types';
-import store from '../../../redux/store';
+import React from "react";
+import { QuestionData } from "./types";
+import store from "../../../redux/store";
 
 interface Props {
   question: QuestionData;
@@ -36,33 +36,33 @@ export function DispositionAnswer(props: Props) {
         props.question.question_id,
         props.answer,
         answerData.edit || {},
-        '06/01/2020'
+        "06/01/2020"
       )
     );
   }
 
   function onChangeHandler() {
     switch (props.answer) {
-      case 'Convicted':
-      case 'Probation Revoked':
+      case "Convicted":
+      case "Probation Revoked":
         return handleOptionRequiringTextInputFollowUp();
-      case 'Dismissed':
-      case 'Unknown':
+      case "Dismissed":
+      case "Unknown":
         return handleOtherDisposition();
     }
   }
 
   return (
-    <div className="dib" key={'div-' + answerId}>
+    <div className="dib" key={"div-" + answerId}>
       <input
         type="radio"
         name={props.question.question_id}
-        id={'radio-' + answerId}
+        id={"radio-" + answerId}
         value={props.answer}
         onChange={onChangeHandler}
         checked={isChecked}
       />
-      <label htmlFor={'radio-' + answerId}>{props.answer}</label>
+      <label htmlFor={"radio-" + answerId}>{props.answer}</label>
     </div>
   );
 }

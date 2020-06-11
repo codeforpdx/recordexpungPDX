@@ -1,6 +1,6 @@
-import { Answer } from './Answer';
-import React from 'react';
-import { QuestionData } from './types';
+import { Answer } from "./Answer";
+import React from "react";
+import { QuestionData } from "./types";
 
 interface Props {
   question: QuestionData;

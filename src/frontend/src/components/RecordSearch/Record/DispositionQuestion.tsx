@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { QuestionData } from './types';
-import store from '../../../redux/store';
-import moment from 'moment';
-import { DispositionAnswer } from './DispositionAnswer';
+import React, { useState } from "react";
+import { QuestionData } from "./types";
+import store from "../../../redux/store";
+import moment from "moment";
+import { DispositionAnswer } from "./DispositionAnswer";
 
 interface Props {
   question: QuestionData;
@@ -64,22 +64,22 @@ export function DispositionQuestion(props: Props) {
 
   function validateForm() {
     let missingFields = false;
-    if (questionState.dispositionAnswer === 'Convicted') {
-      missingFields = questionState.conviction_date === '';
-    } else if (questionState.dispositionAnswer === 'Probation Revoked') {
+    if (questionState.dispositionAnswer === "Convicted") {
+      missingFields = questionState.conviction_date === "";
+    } else if (questionState.dispositionAnswer === "Probation Revoked") {
       missingFields =
-        questionState.conviction_date === '' ||
-        questionState.probation_revoked_date === '';
+        questionState.conviction_date === "" ||
+        questionState.probation_revoked_date === "";
     }
     let invalidDate =
-      ((questionState.dispositionAnswer === 'Convicted' ||
-        questionState.dispositionAnswer === 'Probation Revoked') &&
+      ((questionState.dispositionAnswer === "Convicted" ||
+        questionState.dispositionAnswer === "Probation Revoked") &&
         questionState.conviction_date.length !== 0 &&
-        !moment(questionState.conviction_date, 'M/D/YYYY', true).isValid()) ||
+        !moment(questionState.conviction_date, "M/D/YYYY", true).isValid()) ||
       (questionState.probation_revoked_date.length !== 0 &&
         !moment(
           questionState.probation_revoked_date,
-          'M/D/YYYY',
+          "M/D/YYYY",
           true
         ).isValid());
     return [missingFields, invalidDate];
@@ -104,12 +104,12 @@ export function DispositionQuestion(props: Props) {
             );
           })}
         </div>
-        {questionState.dispositionAnswer === 'Convicted' ||
-        questionState.dispositionAnswer === 'Probation Revoked' ? (
+        {questionState.dispositionAnswer === "Convicted" ||
+        questionState.dispositionAnswer === "Probation Revoked" ? (
           <div>
             <label
               className="db fw6 mt3 mb1"
-              htmlFor={props.question.question_id + 'convicted'}
+              htmlFor={props.question.question_id + "convicted"}
             >
               Date Convicted <span className="f6 fw4">mm/dd/yyyy</span>
             </label>
@@ -117,17 +117,17 @@ export function DispositionQuestion(props: Props) {
               value={questionState.conviction_date}
               onChange={handleDateFieldChange}
               className="w5 br2 b--black-20 pa3"
-              id={props.question.question_id + '-convicted-textfield'}
+              id={props.question.question_id + "-convicted-textfield"}
               type="text"
               name="conviction_date"
             />
           </div>
         ) : null}
-        {questionState.dispositionAnswer === 'Probation Revoked' ? (
+        {questionState.dispositionAnswer === "Probation Revoked" ? (
           <div>
             <label
               className="db fw6 mt3 mb1"
-              htmlFor={props.question.question_id + 'revoked'}
+              htmlFor={props.question.question_id + "revoked"}
             >
               Date Probation Revoked <span className="f6 fw4">mm/dd/yyyy</span>
             </label>
@@ -135,14 +135,14 @@ export function DispositionQuestion(props: Props) {
               value={questionState.probation_revoked_date}
               onChange={handleDateFieldChange}
               className="w5 br2 b--black-20 pa3"
-              id={props.question.question_id + '-revoked-textfield'}
+              id={props.question.question_id + "-revoked-textfield"}
               type="text"
               name="probation_revoked_date"
             />
           </div>
         ) : null}
-        {questionState.dispositionAnswer === 'Convicted' ||
-        questionState.dispositionAnswer === 'Probation Revoked' ? (
+        {questionState.dispositionAnswer === "Convicted" ||
+        questionState.dispositionAnswer === "Probation Revoked" ? (
           <button
             className="db bg-blue white bg-animate hover-bg-dark-blue fw6 br2 pv3 ph4 mt3"
             onClick={handleSubmit(props.question.question_id, props.question)}
@@ -151,8 +151,8 @@ export function DispositionQuestion(props: Props) {
           </button>
         ) : null}
         {questionState.missingFields &&
-        (questionState.dispositionAnswer === 'Convicted' ||
-          questionState.dispositionAnswer === 'Probation Revoked') ? (
+        (questionState.dispositionAnswer === "Convicted" ||
+          questionState.dispositionAnswer === "Probation Revoked") ? (
           <div role="alert">
             <p className="dib bg-washed-red fw6 br3 pa3 mt3">
               Please complete all fields
@@ -160,8 +160,8 @@ export function DispositionQuestion(props: Props) {
           </div>
         ) : null}
         {questionState.invalidDate &&
-        (questionState.dispositionAnswer === 'Convicted' ||
-          questionState.dispositionAnswer === 'Probation Revoked') ? (
+        (questionState.dispositionAnswer === "Convicted" ||
+          questionState.dispositionAnswer === "Probation Revoked") ? (
           <div role="alert">
             <p className="dib bg-washed-red fw6 br3 pa3 mt3">
               The date format must be MM/DD/YYYY

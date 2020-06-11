@@ -1,9 +1,9 @@
-import React from 'react';
-import Eligibility from './Eligibility';
-import TimeEligibility from './TimeEligibility';
-import TypeEligibility from './TypeEligibility';
-import Questions from './Questions';
-import { ChargeData } from './types';
+import React from "react";
+import Eligibility from "./Eligibility";
+import TimeEligibility from "./TimeEligibility";
+import TypeEligibility from "./TypeEligibility";
+import Questions from "./Questions";
+import { ChargeData } from "./types";
 
 interface Props {
   charge: ChargeData;
@@ -25,15 +25,15 @@ export default class Charge extends React.Component<Props> {
     const dispositionEvent = (disposition: any, date: any) => {
       let dispositionEvent;
       dispositionEvent = disposition.status;
-      if (disposition.status === 'Convicted') {
-        dispositionEvent += ' - ' + disposition.date;
-      } else if (disposition.status === 'Unrecognized') {
+      if (disposition.status === "Convicted") {
+        dispositionEvent += " - " + disposition.date;
+      } else if (disposition.status === "Unrecognized") {
         dispositionEvent += ' ("' + disposition.ruling + '")';
-      } else if (disposition.status === 'Unknown') {
-        dispositionEvent = 'Unknown';
+      } else if (disposition.status === "Unknown") {
+        dispositionEvent = "Unknown";
       }
       if (disposition.amended) {
-        dispositionEvent += ' (Amended)';
+        dispositionEvent += " (Amended)";
       }
       return dispositionEvent;
     };
@@ -41,7 +41,7 @@ export default class Charge extends React.Component<Props> {
     const buildDisposition = (disposition: any, date: any) => {
       return (
         <li className="mb2">
-          <span className="fw7">Disposition: </span>{' '}
+          <span className="fw7">Disposition: </span>{" "}
           {dispositionEvent(disposition, date)}
         </li>
       );
@@ -49,9 +49,9 @@ export default class Charge extends React.Component<Props> {
 
     const buildRecordTime = () => {
       if (
-        (expungement_result.type_eligibility.status === 'Eligible' ||
+        (expungement_result.type_eligibility.status === "Eligible" ||
           expungement_result.type_eligibility.status ===
-            'Needs More Analysis') &&
+            "Needs More Analysis") &&
         expungement_result.time_eligibility
       ) {
         return (

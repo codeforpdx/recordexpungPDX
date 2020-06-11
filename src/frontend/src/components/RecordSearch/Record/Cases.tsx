@@ -1,6 +1,6 @@
-import React from 'react';
-import Case from './Case';
-import { CaseData } from './types';
+import React from "react";
+import Case from "./Case";
+import { CaseData } from "./types";
 
 interface Props {
   cases: CaseData[];

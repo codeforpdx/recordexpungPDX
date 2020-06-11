@@ -1,5 +1,5 @@
-import React from 'react';
-import { TimeEligibilityData } from './types';
+import React from "react";
+import { TimeEligibilityData } from "./types";
 
 interface Props {
   time_eligibility: TimeEligibilityData;
@@ -31,7 +31,7 @@ export default class TimeEligibility extends React.Component<Props> {
     );
 
     const time = () => {
-      if (status === 'Eligible') {
+      if (status === "Eligible") {
         return timeNow;
       } else {
         return timeLater(reason);

@@ -5,14 +5,14 @@ import {
   SELECT_ANSWER,
   SearchRecordState,
   SearchRecordActionType,
-} from './types';
+} from "./types";
 import {
   QuestionData,
   QuestionsData,
-} from '../../components/RecordSearch/Record/types';
+} from "../../components/RecordSearch/Record/types";
 
 const initalState: SearchRecordState = {
-  loading: '',
+  loading: "",
   aliases: [],
   edits: {},
 };
@@ -37,7 +37,7 @@ function findQuestion(
 }
 
 function clearSelection(question: QuestionData) {
-  question.selection = '';
+  question.selection = "";
   for (const answer of Object.values(question.options)) {
     if (answer.question) {
       clearSelection(answer.question);
@@ -49,7 +49,7 @@ function replaceDispositionDate(question: QuestionData, date: string) {
   for (const answer of Object.values(question.options)) {
     if (answer.edit && answer.edit.disposition) {
       // @ts-ignore
-      answer.edit['disposition']['date'] = date;
+      answer.edit["disposition"]["date"] = date;
     }
     if (answer.question) {
       replaceDispositionDate(answer.question, date);
@@ -63,7 +63,7 @@ function replaceProbationRevokedDate(
 ) {
   for (const answer of Object.values(question.options)) {
     if (answer.edit && answer.edit.probation_revoked) {
-      answer.edit['probation_revoked'] = probation_revoked_date;
+      answer.edit["probation_revoked"] = probation_revoked_date;
     }
     if (answer.question) {
       replaceProbationRevokedDate(answer.question, probation_revoked_date);
@@ -76,11 +76,11 @@ function replaceDatesInEdit(
   date: string,
   probation_revoked_date: string
 ) {
-  if (edit && edit.disposition && date !== '') {
-    edit['disposition']['date'] = date;
+  if (edit && edit.disposition && date !== "") {
+    edit["disposition"]["date"] = date;
   }
-  if (edit && edit.probation_revoked && probation_revoked_date !== '') {
-    edit['probation_revoked'] = probation_revoked_date;
+  if (edit && edit.probation_revoked && probation_revoked_date !== "") {
+    edit["probation_revoked"] = probation_revoked_date;
   }
   return edit;
 }
@@ -95,7 +95,7 @@ export function searchReducer(
         ...state,
         record: action.record,
         questions: action.questions,
-        loading: '',
+        loading: "",
       };
     case RECORD_LOADING:
       return {
@@ -104,7 +104,7 @@ export function searchReducer(
         aliases: JSON.parse(JSON.stringify(action.aliases)),
         questions: {},
         edits: {},
-        loading: 'loading',
+        loading: "loading",
       };
     case CLEAR_RECORD:
       return {
@@ -113,7 +113,7 @@ export function searchReducer(
         aliases: [],
         questions: {},
         edits: {},
-        loading: '',
+        loading: "",
       };
     case SELECT_ANSWER: {
       let questions: QuestionsData = JSON.parse(
@@ -127,10 +127,10 @@ export function searchReducer(
         if (question) {
           clearSelection(question);
           question.selection = action.answer;
-          if (action.date !== '') {
+          if (action.date !== "") {
             replaceDispositionDate(question, action.date);
           }
-          if (action.probation_revoked_date !== '') {
+          if (action.probation_revoked_date !== "") {
             replaceProbationRevokedDate(
               question,
               action.probation_revoked_date
@@ -145,13 +145,13 @@ export function searchReducer(
       );
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {
-        action: 'edit',
+        action: "edit",
       };
-      edits[action.case_number]['charges'] =
-        edits[action.case_number]['charges'] || {};
-      edits[action.case_number]['charges'][action.ambiguous_charge_id] =
-        edits[action.case_number]['charges'][action.ambiguous_charge_id] || {};
-      edits[action.case_number]['charges'][action.ambiguous_charge_id] = edit;
+      edits[action.case_number]["charges"] =
+        edits[action.case_number]["charges"] || {};
+      edits[action.case_number]["charges"][action.ambiguous_charge_id] =
+        edits[action.case_number]["charges"][action.ambiguous_charge_id] || {};
+      edits[action.case_number]["charges"][action.ambiguous_charge_id] = edit;
       return {
         ...state,
         questions: questions,

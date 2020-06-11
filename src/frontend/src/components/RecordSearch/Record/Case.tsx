@@ -1,7 +1,7 @@
-import React from 'react';
-import { CaseData } from './types';
-import Charges from './Charges';
-import currencyFormat from '../../../service/currency-format';
+import React from "react";
+import { CaseData } from "./types";
+import Charges from "./Charges";
+import currencyFormat from "../../../service/currency-format";
 
 interface Props {
   case: CaseData;
@@ -19,11 +19,11 @@ export default class Cases extends React.Component<Props> {
       location,
       current_status,
     } = this.props.case;
-    const prefix = window.location.href.includes('localhost')
-      ? 'http://localhost:5000'
-      : ''; // Hack so we do not have to use nginx for dev
+    const prefix = window.location.href.includes("localhost")
+      ? "http://localhost:5000"
+      : ""; // Hack so we do not have to use nginx for dev
     const case_detail_base =
-      'https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=';
+      "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
     const link_id = case_detail_link.substring(case_detail_base.length);
     return (
       <div id={case_number} className="mb3">
@@ -31,7 +31,7 @@ export default class Cases extends React.Component<Props> {
           <div className="fl ph3 pv1">
             <div className="fw7">Case </div>
             <a
-              href={prefix + '/api/case_detail_page/' + link_id}
+              href={prefix + "/api/case_detail_page/" + link_id}
               target="_blank"
               className="link bb hover-blue"
             >

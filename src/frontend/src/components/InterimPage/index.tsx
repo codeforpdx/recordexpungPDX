@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // placeholder page to use while there is no specific page in place
 

@@ -140,7 +140,7 @@ fieldset {
   border: 3px solid rgba(186, 216, 255, 0.2);
 }
 .spinner:after {
-  content: '';
+  content: "";
   position: absolute;
   top: -3px;
   right: -3px;
@@ -186,7 +186,7 @@ fieldset {
   }
 }
 .loading-btn:before {
-  content: '';
+  content: "";
   position: absolute;
   height: 60px;
   width: 60px;
@@ -220,7 +220,7 @@ footer {
 // Radio buttons and checkbox from https://a11y-style-guide.com
 // Checkbox
 
-.checkbox input[type='checkbox'] {
+.checkbox input[type="checkbox"] {
   opacity: 0;
 }
 
@@ -233,7 +233,7 @@ footer {
 .checkbox label::before,
 .checkbox label::after {
   position: absolute;
-  content: '';
+  content: "";
   display: inline-block;
 }
 
@@ -259,26 +259,26 @@ footer {
   transform: rotate(45deg);
 }
 
-.checkbox input[type='checkbox'] + label::after {
+.checkbox input[type="checkbox"] + label::after {
   content: none;
 }
 
-.checkbox input[type='checkbox']:checked + label::after {
-  content: '';
+.checkbox input[type="checkbox"]:checked + label::after {
+  content: "";
 }
 
-.checkbox input[type='checkbox']:checked + label::before {
+.checkbox input[type="checkbox"]:checked + label::before {
   background: $blue;
 }
 
-.checkbox input[type='checkbox']:focus + label::before {
+.checkbox input[type="checkbox"]:focus + label::before {
   outline: auto 2px Highlight;
   outline: auto 5px -webkit-focus-ring-color;
 }
 
 // Radio
 
-.radio input[type='radio'] {
+.radio input[type="radio"] {
   opacity: 0;
   display: block;
   position: relative;
@@ -293,7 +293,7 @@ footer {
 .radio label::before,
 .radio label::after {
   position: absolute;
-  content: '';
+  content: "";
   display: inline-block;
 }
 .radio label::before {
@@ -313,13 +313,13 @@ footer {
   background: $blue;
   border-radius: 50%;
 }
-.radio input[type='radio'] + label::after {
+.radio input[type="radio"] + label::after {
   content: none;
 }
-.radio input[type='radio']:checked + label::after {
-  content: '';
+.radio input[type="radio"]:checked + label::after {
+  content: "";
 }
-.radio input[type='radio']:focus + label::before {
+.radio input[type="radio"]:focus + label::before {
   outline: 0;
   border: 2px solid $blue;
 }

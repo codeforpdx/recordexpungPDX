@@ -1,6 +1,6 @@
-import React from 'react';
-import { AliasData, AliasFieldNames } from './types';
-import Field from './Field';
+import React from "react";
+import { AliasData, AliasFieldNames } from "./types";
+import Field from "./Field";
 
 interface Props {
   ind: number;
@@ -34,7 +34,7 @@ export default class Alias extends React.Component<Props, State> {
           content={this.props.aliasData.first_name}
           inputMarkup="br-0-ns br--left-ns"
           onChange={(fieldValue: string) => {
-            this.handleFieldChange('first_name', fieldValue);
+            this.handleFieldChange("first_name", fieldValue);
           }}
           required={true}
           errorMessage="name_msg"
@@ -46,7 +46,7 @@ export default class Alias extends React.Component<Props, State> {
           inputMarkup="br0-ns"
           coda="(Optional)"
           onChange={(fieldValue: string) => {
-            this.handleFieldChange('middle_name', fieldValue);
+            this.handleFieldChange("middle_name", fieldValue);
           }}
           required={false}
           errorMessage="name_msg"
@@ -57,7 +57,7 @@ export default class Alias extends React.Component<Props, State> {
           content={this.props.aliasData.last_name}
           inputMarkup="bl-0-ns br--right-ns"
           onChange={(fieldValue: string) => {
-            this.handleFieldChange('last_name', fieldValue);
+            this.handleFieldChange("last_name", fieldValue);
           }}
           required={true}
           errorMessage="name_msg"
@@ -69,15 +69,15 @@ export default class Alias extends React.Component<Props, State> {
           content={this.props.aliasData.birth_date}
           coda="mm/dd/yyyy"
           onChange={(fieldValue: string) => {
-            this.handleFieldChange('birth_date', fieldValue);
+            this.handleFieldChange("birth_date", fieldValue);
           }}
           required={false}
           errorMessage="dob_msg"
         />
         <div
           className={
-            (this.props.hideRemoveButton ? 'visually-hidden ' : '') +
-            'flex items-center pb1 mb3 ml3-ns ml0-l'
+            (this.props.hideRemoveButton ? "visually-hidden " : "") +
+            "flex items-center pb1 mb3 ml3-ns ml0-l"
           }
         >
           {

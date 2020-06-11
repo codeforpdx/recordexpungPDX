@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   eligibleChargesByDate: { [label: string]: any[] };
@@ -13,33 +13,33 @@ export default class ChargesList extends React.Component<Props> {
       .map(([eligibilityDate, chargesNames]: [string, any]) => {
         const listItems = this.buildListItems(chargesNames);
         const labelColor =
-          eligibilityDate === 'Eligible Now'
-            ? 'green'
-            : eligibilityDate === 'Ineligible'
-            ? 'red'
-            : eligibilityDate === 'Needs More Analysis'
-            ? 'purple'
-            : 'dark-blue';
+          eligibilityDate === "Eligible Now"
+            ? "green"
+            : eligibilityDate === "Ineligible"
+            ? "red"
+            : eligibilityDate === "Needs More Analysis"
+            ? "purple"
+            : "dark-blue";
         const SHOW_ALL_CHARGES_THRESHOLD = 20;
         return (
           <div key={eligibilityDate}>
             <div className="mb1">
-              <span className={'fw7 ttc mb2 ' + labelColor}>
-                {' '}
-                {eligibilityDate}{' '}
+              <span className={"fw7 ttc mb2 " + labelColor}>
+                {" "}
+                {eligibilityDate}{" "}
               </span>
               <span>
-                {' '}
-                {chargesNames.length > 0 ? `(${chargesNames.length})` : ''}{' '}
+                {" "}
+                {chargesNames.length > 0 ? `(${chargesNames.length})` : ""}{" "}
               </span>
             </div>
             <p className="f6 mb2">
-              {eligibilityDate === 'Ineligible' &&
+              {eligibilityDate === "Ineligible" &&
               this.props.totalCharges > SHOW_ALL_CHARGES_THRESHOLD
-                ? 'Excludes traffic violations, which are always ineligible'
-                : eligibilityDate === 'Needs More Analysis'
-                ? 'These charges need clarification before an accurate analysis can be determined'
-                : ''}
+                ? "Excludes traffic violations, which are always ineligible"
+                : eligibilityDate === "Needs More Analysis"
+                ? "These charges need clarification before an accurate analysis can be determined"
+                : ""}
             </p>
             <ul className="list mb3">{listItems}</ul>
           </div>
@@ -63,8 +63,8 @@ export default class ChargesList extends React.Component<Props> {
     const listItems = chargesNames.map(
       ([id, chargeName]: [string, string], index: number) => {
         return (
-          <li key={'chargeItem' + index} className="bt b--light-gray pt1 mb2">
-            <a href={'#' + id} className="link hover-blue">
+          <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2">
+            <a href={"#" + id} className="link hover-blue">
               {chargeName}
             </a>
           </li>
@@ -86,22 +86,22 @@ export default class ChargesList extends React.Component<Props> {
     }
 
     switch (label) {
-      case 'Needs More Analysis':
-        return 'zzz';
-      case 'Ineligible':
-        return 'zz';
-      case 'Eligible Now':
-        return '';
+      case "Needs More Analysis":
+        return "zzz";
+      case "Ineligible":
+        return "zz";
+      case "Eligible Now":
+        return "";
       default:
-        const label_split = label.split(' ');
+        const label_split = label.split(" ");
         for (let date_parts of zip(label_split, 3)) {
-          const date_string = date_parts.join(' ');
+          const date_string = date_parts.join(" ");
           const epoch = Date.parse(date_string);
           if (!Object.is(epoch, NaN)) {
             return new Date(epoch).toISOString();
           }
         }
-        return 'z';
+        return "z";
     }
   }
 }

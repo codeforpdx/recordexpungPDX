@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { AppState } from '../../redux/store';
-import { RecordData } from './Record/types';
-import { searchRecord, clearRecord } from '../../redux/search/actions';
-import SearchPanel from './SearchPanel';
-import Record from './Record';
-import Status from './Status';
-import Header from '../Header';
-import { checkOeciRedirect } from '../../service/cookie-service';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { AppState } from "../../redux/store";
+import { RecordData } from "./Record/types";
+import { searchRecord, clearRecord } from "../../redux/search/actions";
+import SearchPanel from "./SearchPanel";
+import Record from "./Record";
+import Status from "./Status";
+import Header from "../Header";
+import { checkOeciRedirect } from "../../service/cookie-service";
 
 type Props = {
   searchRecord: Function;

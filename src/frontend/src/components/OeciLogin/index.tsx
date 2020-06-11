@@ -1,6 +1,6 @@
-import React from 'react';
-import Header from '../Header';
-import oeciLogIn from '../../service/oeci';
+import React from "react";
+import Header from "../Header";
+import oeciLogIn from "../../service/oeci";
 
 interface State {
   userId: string;
@@ -15,8 +15,8 @@ interface State {
 
 export default class OeciLogin extends React.Component<State> {
   state: State = {
-    userId: '',
-    password: '',
+    userId: "",
+    password: "",
     missingUserId: false, // Initially set to false for aria-invalid
     missingPassword: false, // Initially set to false for aria-invalid
     expectedFailure: null,
@@ -112,7 +112,7 @@ export default class OeciLogin extends React.Component<State> {
                     className="w-100 mb4 pa3 br2 b--black-20"
                     required
                     aria-describedby={
-                      this.state.missingUserId ? 'inputs_msg' : undefined
+                      this.state.missingUserId ? "inputs_msg" : undefined
                     }
                     aria-invalid={this.state.missingUserId}
                     onChange={this.handleChange}
@@ -129,7 +129,7 @@ export default class OeciLogin extends React.Component<State> {
                   className="w-100 mb4 pa3 br2 b--black-20"
                   required
                   aria-describedby={
-                    this.state.missingPassword ? 'inputs_msg' : undefined
+                    this.state.missingPassword ? "inputs_msg" : undefined
                   }
                   aria-invalid={this.state.missingPassword}
                   onChange={this.handleChange}
