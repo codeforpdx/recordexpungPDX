@@ -66,7 +66,7 @@ def test_multiple_will_be_eligible():
     )
 
     assert charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
-    assert charge_eligibility.label == f"Eligible Now ⬥ {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')}"
+    assert charge_eligibility.label == f"Eligible Now or {Time.ONE_YEARS_FROM_NOW.strftime('%b %-d, %Y')}"
 
 
 def test_ineligible():
