@@ -4,3 +4,11 @@ repos:
     hooks:
       - id: black
         language_version: python3.7
+  - repo: https://github.com/prettier/prettier
+    rev: '2.0.5'
+    hooks:
+      - id: prettier
+        name: prettier
+        args: ['--single-quote', '--write']
+        files: "src/frontend/src/"
+
