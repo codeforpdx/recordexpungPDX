@@ -1,5 +1,5 @@
-import React from 'react';
-import { TypeEligibilityData } from './types';
+import React from "react";
+import { TypeEligibilityData } from "./types";
 
 interface Props {
   type_eligibility: TypeEligibilityData;
@@ -17,7 +17,7 @@ export default class RecordType extends React.Component<Props> {
           className="absolute fas fa-check-circle green"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + ' '}
+          <span className="fw7">Type:</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>
@@ -30,7 +30,7 @@ export default class RecordType extends React.Component<Props> {
           className="absolute fas fa-question-circle purple"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + ' '}
+          <span className="fw7">Type:</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>
@@ -40,20 +40,20 @@ export default class RecordType extends React.Component<Props> {
       <div className="relative mb3">
         <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + ' '}
+          <span className="fw7">Type:</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>
     );
 
-    if (status === 'Eligible') {
+    if (status === "Eligible") {
       return eligible(reason);
-    } else if (status === 'Needs More Analysis') {
+    } else if (status === "Needs More Analysis") {
       return review;
-    } else if (status === 'Ineligible') {
+    } else if (status === "Ineligible") {
       return ineligible(reason);
     } else {
-      return 'Unknown type eligibility';
+      return "Unknown type eligibility";
     }
   }
 }

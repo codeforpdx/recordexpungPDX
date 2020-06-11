@@ -1,11 +1,11 @@
-import React from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import history from '../../service/history';
+import React from "react";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
+import history from "../../service/history";
 
-import RecordSearch from '../RecordSearch';
-import OeciLogin from '../OeciLogin';
-import Landing from '../Landing';
-import Manual from '../Manual';
+import RecordSearch from "../RecordSearch";
+import OeciLogin from "../OeciLogin";
+import Landing from "../Landing";
+import Manual from "../Manual";
 
 class AppRouter extends React.Component {
   public redirect = () => <Redirect to="/" />;

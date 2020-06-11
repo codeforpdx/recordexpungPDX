@@ -1,17 +1,17 @@
-import history from '../service/history';
+import history from "../service/history";
 
 interface Cookie {
   [key: string]: string;
 }
 
 const getKeyValue = (inputCookie: string) => [
-  inputCookie.substring(0, inputCookie.indexOf('=')),
-  inputCookie.substring(inputCookie.indexOf('=') + 1, inputCookie.length),
+  inputCookie.substring(0, inputCookie.indexOf("=")),
+  inputCookie.substring(inputCookie.indexOf("=") + 1, inputCookie.length),
 ];
 
 export function decodeCookie() {
   return document.cookie
-    .split(';')
+    .split(";")
     .reduce((returnObject: Cookie, currentCookie) => {
       const [key, value] = getKeyValue(currentCookie);
       returnObject[key.trim()] = value;
@@ -20,9 +20,9 @@ export function decodeCookie() {
 }
 
 export function removeCookie() {
-  document.cookie = 'remember_token=; max-age=0;';
-  document.cookie = 'oeci_token=; max-age=0;';
-  document.cookie = 'is_admin=; max-age=0;';
+  document.cookie = "remember_token=; max-age=0;";
+  document.cookie = "oeci_token=; max-age=0;";
+  document.cookie = "is_admin=; max-age=0;";
 }
 
 export function hasOeciToken() {
@@ -30,11 +30,11 @@ export function hasOeciToken() {
 }
 
 export function isAdmin() {
-  return document.cookie.includes('is_admin');
+  return document.cookie.includes("is_admin");
 }
 
 export function checkOeciRedirect() {
   if (!hasOeciToken()) {
-    history.push('/oeci');
+    history.push("/oeci");
   }
 }

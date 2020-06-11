@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from '../Header';
+import React from "react";
+import Header from "../Header";
 
 class Landing extends React.Component {
   render() {
@@ -32,13 +32,13 @@ class Landing extends React.Component {
               <p className="lh-copy mw8 mb3">
                 Due to ongoing events we are making all of our expungement help
                 free to any protesters arrested during this fight. Anyone can
-                register directly to{' '}
+                register directly to{" "}
                 <a
                   className="link bb hover-dark-blue"
                   href="https://www.qiu-qiulaw.com/register"
                 >
                   see if you qualify for expungement here
-                </a>{' '}
+                </a>{" "}
                 and a lawyer will return your inquiry within 48 hours.
               </p>
               <p className="mb2 pv2">
@@ -46,7 +46,7 @@ class Landing extends React.Component {
                 also contact:
                 <ul className="list mb3 pl4">
                   <li className="mb2">
-                    Michael Zhang, expungement attorney at Qiu-Qiu Law:{' '}
+                    Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
                     <a
                       className="fw6 link hover-dark-blue no-wrap"
                       href="mailto:michael@qiu-qiulaw.com"
@@ -55,7 +55,7 @@ class Landing extends React.Component {
                     </a>
                   </li>
                   <li className="mb2">
-                    Jordan Witte, project manager at Code for PDX:{' '}
+                    Jordan Witte, project manager at Code for PDX:{" "}
                     <a
                       className="fw6 link hover-dark-blue no-wrap"
                       href="mailto:jordan.witte@codeforpdx.org"
@@ -75,7 +75,7 @@ class Landing extends React.Component {
                     tool?
                   </h2>
                   <p className="lh-copy mb3">
-                    Provide your name and your organization to request access:{' '}
+                    Provide your name and your organization to request access:{" "}
                     <a
                       className="fw6 link hover-dark-blue no-wrap"
                       href="mailto:michael@qiu-qiulaw.com"
@@ -95,14 +95,14 @@ class Landing extends React.Component {
                     Are you looking to clear your&nbsp;record?
                   </h2>
                   <p className="lh-copy">
-                    Check at{' '}
+                    Check at{" "}
                     <a
                       className="link bb hover-dark-blue"
                       href="https://www.qiu-qiulaw.com"
                       target="blank"
                     >
                       Qiu-qiu Law
-                    </a>{' '}
+                    </a>{" "}
                     to see if you are eligible and if there is an upcoming
                     expungement clinic in your&nbsp;area. If there are none in
                     your area reach out to them and they may be able to organize
@@ -152,8 +152,8 @@ class Landing extends React.Component {
                       className="link hover-blue"
                       href="mailto:michael@qiu-qiulaw.com"
                     >
-                      {' '}
-                      michael@qiu-qiulaw.com{' '}
+                      {" "}
+                      michael@qiu-qiulaw.com{" "}
                     </a>
                     if you would like to set up RecordSponge at your
                     organization.
@@ -172,15 +172,15 @@ class Landing extends React.Component {
                     target="blank"
                   >
                     Code for PDX
-                  </a>{' '}
-                  and{' '}
+                  </a>{" "}
+                  and{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://www.qiu-qiulaw.com"
                     target="blank"
                   >
                     Qiu-qiu Law
-                  </a>{' '}
+                  </a>{" "}
                   are actively developing analytical software to help
                   expungement providers quickly determine which items on an
                   applicant's record are eligible for expungement.
@@ -192,15 +192,15 @@ class Landing extends React.Component {
                   them the most.
                 </p>
                 <p className="lh-copy">
-                  The project continues to need contributors. Visit the{' '}
+                  The project continues to need contributors. Visit the{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://github.com/codeforpdx/recordexpungPDX/wiki"
                     target="blank"
                   >
                     GitHub project wiki
-                  </a>{' '}
-                  if you are interested. Here are more details on our{' '}
+                  </a>{" "}
+                  if you are interested. Here are more details on our{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://www.meetup.com/Code-for-PDX"
@@ -239,8 +239,8 @@ class Landing extends React.Component {
                     target="blank"
                   >
                     Code for PDX
-                  </a>{' '}
-                  in collaboration with{' '}
+                  </a>{" "}
+                  in collaboration with{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://www.qiu-qiulaw.com"

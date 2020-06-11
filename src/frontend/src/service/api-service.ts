@@ -1,4 +1,4 @@
-import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 
 export default function apiService<T>(
   dispatch: Function,

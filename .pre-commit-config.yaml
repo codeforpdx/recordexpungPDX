@@ -9,6 +9,6 @@ repos:
     hooks:
       - id: prettier
         name: prettier
-        args: ['--single-quote', '--write']
+        args: ['--write']
         files: "src/frontend/src/"
 

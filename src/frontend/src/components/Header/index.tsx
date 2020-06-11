@@ -1,7 +1,7 @@
-import React from 'react';
-import Logo from '../Logo';
-import history from '../../service/history';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Logo from "../Logo";
+import history from "../../service/history";
+import { Link } from "react-router-dom";
 
 export default class Header extends React.Component {
   public render() {
@@ -16,13 +16,13 @@ export default class Header extends React.Component {
 
           <div className="dib mb3">
             <button
-              onClick={() => history.push('/record-search')}
+              onClick={() => history.push("/record-search")}
               className="link mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Search
             </button>
             <button
-              onClick={() => history.push('/manual')}
+              onClick={() => history.push("/manual")}
               className="link mid-gray hover-blue f6 f5-ns dib pa3"
             >
               Manual

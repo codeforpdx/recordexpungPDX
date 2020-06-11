@@ -1,7 +1,7 @@
-import React from 'react';
-import { AliasData, AliasFieldNames } from './types';
-import moment from 'moment';
-import Alias from './Alias';
+import React from "react";
+import { AliasData, AliasFieldNames } from "./types";
+import moment from "moment";
+import Alias from "./Alias";
 
 interface Props {
   searchRecord: Function;
@@ -17,10 +17,10 @@ export default class SearchPanel extends React.Component<Props, State> {
   state: State = {
     aliases: [
       {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-        birth_date: '',
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        birth_date: "",
       },
     ],
     missingInputs: null,
@@ -54,7 +54,7 @@ export default class SearchPanel extends React.Component<Props, State> {
           invalidDate:
             moment(
               this.state.aliases[0].birth_date,
-              'M/D/YYYY',
+              "M/D/YYYY",
               true
             ).isValid() === false &&
             this.state.aliases[0].birth_date.length !== 0,
@@ -138,7 +138,7 @@ export default class SearchPanel extends React.Component<Props, State> {
                 }}
                 type="button"
               >
-                <i aria-hidden={'true'} className="fas fa-plus-circle pr1"></i>
+                <i aria-hidden={"true"} className="fas fa-plus-circle pr1"></i>
                 Alias
               </button>
               <button

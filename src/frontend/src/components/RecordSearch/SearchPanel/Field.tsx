@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   name: string;
@@ -21,9 +21,9 @@ export default class Field extends React.Component<Props, State> {
     hasInput: false,
   };
   public static defaultProps = {
-    coda: '',
-    divMarkup: '',
-    inputMarkup: '',
+    coda: "",
+    divMarkup: "",
+    inputMarkup: "",
   };
 
   handleInputChange = (e: React.BaseSyntheticEvent) => {
@@ -36,8 +36,8 @@ export default class Field extends React.Component<Props, State> {
   };
 
   render() {
-    const sharedDivMarkup = 'w-100 w-third-ns w-25-l mb3 ';
-    const sharedInputMarkup = 'w-100 br2 b--black-20 pa3 ';
+    const sharedDivMarkup = "w-100 w-third-ns w-25-l mb3 ";
+    const sharedInputMarkup = "w-100 br2 b--black-20 pa3 ";
     return (
       <div className={sharedDivMarkup + this.props.divMarkup}>
         <label htmlFor={this.props.name} className="db mb1 fw6">

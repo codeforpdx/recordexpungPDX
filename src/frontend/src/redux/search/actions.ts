@@ -1,8 +1,8 @@
-import { Dispatch } from 'redux';
-import store from '../store';
-import apiService from '../../service/api-service';
-import { AxiosError, AxiosResponse } from 'axios';
-import fileDownload from 'js-file-download';
+import { Dispatch } from "redux";
+import store from "../store";
+import apiService from "../../service/api-service";
+import { AxiosError, AxiosResponse } from "axios";
+import fileDownload from "js-file-download";
 
 import {
   DISPLAY_RECORD,
@@ -10,9 +10,9 @@ import {
   SearchResponse,
   CLEAR_RECORD,
   SELECT_ANSWER,
-} from './types';
-import { AliasData } from '../../components/RecordSearch/SearchPanel/types';
-import { RecordData } from '../../components/RecordSearch/Record/types';
+} from "./types";
+import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
+import { RecordData } from "../../components/RecordSearch/Record/types";
 
 function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
@@ -29,12 +29,12 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       questions: receivedRecord.questions,
     });
   } else {
-    alert('Response data has unexpected format.');
+    alert("Response data has unexpected format.");
   }
 }
 
 function validateSearchResponseData(data: SearchResponse): boolean {
-  return data.hasOwnProperty('record');
+  return data.hasOwnProperty("record");
 }
 
 function buildSearchRequest() {
@@ -47,9 +47,9 @@ function buildSearchRequest() {
 
 function buildAndSendSearchRequest(dispatch: any): any {
   return apiService<SearchResponse>(dispatch, {
-    url: '/api/search',
+    url: "/api/search",
     data: buildSearchRequest(),
-    method: 'post',
+    method: "post",
     withCredentials: true,
   })
     .then((response: AxiosResponse<SearchResponse>) => {
@@ -62,16 +62,16 @@ function buildAndSendSearchRequest(dispatch: any): any {
 
 export function downloadPdf() {
   return apiService(() => {}, {
-    url: '/api/pdf',
+    url: "/api/pdf",
     data: buildSearchRequest(),
-    method: 'post',
+    method: "post",
     withCredentials: true,
-    responseType: 'blob',
+    responseType: "blob",
   })
     .then((response: AxiosResponse) => {
-      const filename = response.headers['content-disposition']
-        .split('filename=')[1]
-        .split(' ')[0];
+      const filename = response.headers["content-disposition"]
+        .split("filename=")[1]
+        .split(" ")[0];
       fileDownload(response.data, filename);
     })
     .catch((error: AxiosError) => {
@@ -102,7 +102,7 @@ export function selectAnswer(
   answer: string,
   edit: any,
   date: string,
-  probation_revoked_date: string = ''
+  probation_revoked_date: string = ""
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({

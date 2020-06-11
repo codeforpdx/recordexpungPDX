@@ -2,8 +2,8 @@ import {
   RecordData,
   RecordSummaryData,
   QuestionsData,
-} from '../../components/RecordSearch/Record/types';
-import { AliasData } from '../../components/RecordSearch/SearchPanel/types';
+} from "../../components/RecordSearch/Record/types";
+import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 
 export interface SearchResponse {
   record: RecordEndpointData;
@@ -17,10 +17,10 @@ export interface RecordEndpointData {
   questions: QuestionsData;
 }
 
-export const DISPLAY_RECORD = 'DISPLAY_RECORD';
-export const RECORD_LOADING = 'RECORD_LOADING';
-export const CLEAR_RECORD = 'CLEAR_RECORD';
-export const SELECT_ANSWER = 'SELECT_ANSWER';
+export const DISPLAY_RECORD = "DISPLAY_RECORD";
+export const RECORD_LOADING = "RECORD_LOADING";
+export const CLEAR_RECORD = "CLEAR_RECORD";
+export const SELECT_ANSWER = "SELECT_ANSWER";
 
 export interface SearchRecordState {
   loading: string;

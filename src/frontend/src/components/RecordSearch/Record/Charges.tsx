@@ -1,6 +1,6 @@
-import React from 'react';
-import Charge from './Charge';
-import { ChargeData } from './types';
+import React from "react";
+import Charge from "./Charge";
+import { ChargeData } from "./types";
 
 interface Props {
   charges: ChargeData[];

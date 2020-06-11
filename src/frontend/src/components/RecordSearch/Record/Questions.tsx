@@ -1,10 +1,10 @@
-import React from 'react';
-import { AnswerData, QuestionData, QuestionSummaryData } from './types';
-import { selectAnswer } from '../../../redux/search/actions';
-import { AppState } from '../../../redux/store';
-import { connect } from 'react-redux';
-import { Question } from './Question';
-import { DispositionQuestion } from './DispositionQuestion';
+import React from "react";
+import { AnswerData, QuestionData, QuestionSummaryData } from "./types";
+import { selectAnswer } from "../../../redux/search/actions";
+import { AppState } from "../../../redux/store";
+import { connect } from "react-redux";
+import { Question } from "./Question";
+import { DispositionQuestion } from "./DispositionQuestion";
 
 interface Props {
   ambiguous_charge_id: string;
@@ -18,8 +18,8 @@ function Questions(props: Props) {
       question_id: string,
       answer: string,
       edit: any,
-      date: string = '',
-      probation_revoked_date: string = ''
+      date: string = "",
+      probation_revoked_date: string = ""
     ) => {
       return selectAnswer(
         ambiguous_charge_id,
@@ -69,7 +69,7 @@ function Questions(props: Props) {
   };
 
   const renderQuestion = (question: QuestionData, selectFunction: Function) => {
-    if (question.text === 'Choose the disposition') {
+    if (question.text === "Choose the disposition") {
       return (
         <DispositionQuestion
           question={question}
