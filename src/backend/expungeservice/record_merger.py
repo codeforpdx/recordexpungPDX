@@ -60,7 +60,8 @@ class RecordMerger:
                     )
                     if "open" in charge_eligibility.label.lower():
                         charge_eligibility = replace(
-                            charge_eligibility, label=f"If All Cases Are Closed, {charge_eligibility.label}"
+                            charge_eligibility,
+                            label=f"Eligibility Timeframe Dependent On Open Charge: {charge_eligibility.label}",
                         )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
@@ -150,7 +151,7 @@ class RecordMerger:
                 for time_eligibility in at_least_will_be_eligibles
                 if time_eligibility.status != EligibilityStatus.ELIGIBLE
             ]
-            will_be_eligibles_string = " ⬥ ".join(will_be_eligibles)
+            will_be_eligibles_string = " or ".join(will_be_eligibles)
             if all(
                 [
                     time_eligibility.status == EligibilityStatus.ELIGIBLE
@@ -166,7 +167,7 @@ class RecordMerger:
             ):
                 return ChargeEligibility(
                     ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible Now ⬥ {will_be_eligibles_string}",
+                    f"Possibly Eligible Now or {will_be_eligibles_string}",
                 )
             else:
                 return ChargeEligibility(
@@ -181,12 +182,12 @@ class RecordMerger:
                     for time_eligibility in time_eligibilities
                     if time_eligibility.status != EligibilityStatus.ELIGIBLE
                 ]
-                eligible_date_string = " ⬥ ".join(will_be_eligibles)
+                eligible_date_string = " or ".join(will_be_eligibles)
                 if any(
                     [time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]
                 ):
                     return ChargeEligibility(
-                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible Now ⬥ {eligible_date_string}"
+                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible Now or {eligible_date_string}"
                     )
                 else:
                     return ChargeEligibility(
