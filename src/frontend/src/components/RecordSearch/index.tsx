@@ -37,7 +37,7 @@ class RecordSearch extends Component<Props> {
           ) : (
             <Status />
           )}
-          <div className="bg-white shadow mv4 pa4 br3">
+          <div className="bg-white shadow mt4 mb6 pa4 br3">
             <h2 className="fw6 mb3">Assumptions</h2>
             <p className="mb3">
               We are only able to access your public Oregon records.

@@ -183,31 +183,18 @@ class Landing extends React.Component {
                 Use RecordSponge
               </h2>
               <h3 className="fw7 mb2">Overview</h3>
+              <p className="mb3">
+                We ask anyone using the software to be in touch so that we can better maintain, scale, and improve our work and community. <a href="http://eepurl.com/g6N3Bn" className="bb hover-blue">Please complete this contact form</a>.
+              </p>
               <ol className="ml4">
                 <li className="mb3">
-                  Log in and search records
+                  <p className="mb2">Log in and search records</p>
                   <ul className="fw4 ml4">
                     <li className="mb2">
-                      <a
-                        className="bb hover-blue"
-                        href="https://recordsponge.com/login"
-                      >
-                        Log in
-                      </a>{" "}
-                      and input your login credentials composed of an email
-                      address and password. To receive login credentials,
-                      contact michael@qiu-qiulaw.com.
+                      You will need an Oregon eCourt Case Information (OECI) account to use RecordSponge. <a className="bb hover-blue" href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx">You can purchase a subscription here</a>.
                     </li>
                     <li className="mb2">
-                      You should now see a second login page for “Oregon eCourt
-                      Case Information.” Input your OECI login credentials.{" "}
-                      <a
-                        className="bb hover-blue"
-                        href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
-                      >
-                        Purchase OECI login credentials here
-                      </a>
-                      .
+                      Go to <a className="bb hover-blue" href="/record-search">recordsponge.com/record-search</a> and log in with your OECI account.
                     </li>
                   </ul>
                 </li>
