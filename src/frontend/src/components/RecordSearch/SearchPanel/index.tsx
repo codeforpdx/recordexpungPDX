@@ -1,6 +1,7 @@
 import React from "react";
 import { AliasData, AliasFieldNames } from "./types";
 import moment from "moment";
+import { isValidWildcard } from './validators';
 import Alias from "./Alias";
 import InvalidInputs from "../../InvalidInputs";
 
@@ -12,6 +13,7 @@ interface State {
   aliases: AliasData[];
   missingInputs: boolean;
   invalidDate: boolean;
+  invalidWildcard: boolean;
 }
 
 export default class SearchPanel extends React.Component<Props, State> {
@@ -26,12 +28,17 @@ export default class SearchPanel extends React.Component<Props, State> {
     ],
     missingInputs: false,
     invalidDate: false,
+    invalidWildcard: false,
   };
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     this.validateForm().then(() => {
-      if (!this.state.missingInputs && !this.state.invalidDate) {
+      if (
+        !this.state.missingInputs &&
+        !this.state.invalidDate &&
+        !this.state.invalidWildcard
+      ) {
         this.props.searchRecord(this.state.aliases);
       }
     });
@@ -40,6 +47,7 @@ export default class SearchPanel extends React.Component<Props, State> {
   validateForm = () => {
     return new Promise((resolve) => {
       let missingInputs: boolean = false;
+      let invalidWildcard: boolean = false;
       for (let i: number = 0; i < this.state.aliases.length; i++) {
         if (
           this.state.aliases[i].first_name.trim().length === 0 ||
@@ -48,10 +56,20 @@ export default class SearchPanel extends React.Component<Props, State> {
           missingInputs = true;
           break;
         }
+        if (
+          (this.state.aliases[i].first_name.indexOf('*') > -1 &&
+            !isValidWildcard(this.state.aliases[i].first_name, 'first')) ||
+          (this.state.aliases[i].last_name.indexOf('*') > -1 &&
+            !isValidWildcard(this.state.aliases[i].last_name, 'last'))
+        ) {
+            invalidWildcard = true;
+            break;
+        }
       }
       this.setState(
         {
-          missingInputs: missingInputs,
+          missingInputs,
+          invalidWildcard,
           invalidDate:
             moment(
               this.state.aliases[0].birth_date,
@@ -149,10 +167,11 @@ export default class SearchPanel extends React.Component<Props, State> {
               </button>
             </div>
             <InvalidInputs
-              conditions={[this.state.missingInputs, this.state.invalidDate]}
+              conditions={[this.state.missingInputs, this.state.invalidDate, this.state.invalidWildcard]}
               contents={[
                 <span>First and last name are required.</span>,
                 <span>The date format must be MM/DD/YYYY.</span>,
+                <span>Wildcards must be at the end of the search term and contain 3 or more characters.</span>
               ]}
             />
           </form>
