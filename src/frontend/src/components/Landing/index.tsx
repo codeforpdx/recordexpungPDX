@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header";
+import { Link } from "react-router-dom";
 
 class Landing extends React.Component {
   render() {
@@ -80,9 +81,9 @@ class Landing extends React.Component {
                     We only ask that you <a href="http://eepurl.com/g6N3Bn" className="link bb hover-dark-blue">provide your contact details</a>. You will also need OECI credentials.
                   </p>
                   <p className="mb4">
-                    <a href="/manual#overview" className="link bb hover-dark-blue">
+                    <Link to="/manual#overview" className="link bb hover-dark-blue">
                       Learn more in the Manual
-                    </a>
+                    </Link>
                   </p>
                 </div>
                 <div className="w-50-l pa4 pa5-l">

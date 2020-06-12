@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header";
+import { Link } from "react-router-dom";
 
 class Landing extends React.Component {
   render() {
@@ -194,7 +195,7 @@ class Landing extends React.Component {
                       You will need an Oregon eCourt Case Information (OECI) account to use RecordSponge. <a className="bb hover-blue" href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx">You can purchase a subscription here</a>.
                     </li>
                     <li className="mb2">
-                      Go to <a className="bb hover-blue" href="/record-search">recordsponge.com/record-search</a> and log in with your OECI account.
+                      Go to <Link className="bb hover-blue" to="/record-search">recordsponge.com/record-search</Link> and log in with your OECI account.
                     </li>
                   </ul>
                 </li>
