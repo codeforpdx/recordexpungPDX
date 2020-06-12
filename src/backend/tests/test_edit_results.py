@@ -33,6 +33,7 @@ case_1 = OeciCase(
                 date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
             ),
             probation_revoked=None,
+            balance_due_in_cents=0,
         ),
         OeciCharge(
             ambiguous_charge_id="X0001-2",
@@ -42,6 +43,7 @@ case_1 = OeciCase(
             date=date(2001, 1, 1),
             disposition=DispositionCreator.empty(),
             probation_revoked=None,
+            balance_due_in_cents=0,
         ),
     ),
 )
@@ -69,6 +71,7 @@ case_2 = OeciCase(
                 date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
             ),
             probation_revoked=None,
+            balance_due_in_cents=0,
         ),
         OeciCharge(
             ambiguous_charge_id="X0002-2",
@@ -78,6 +81,7 @@ case_2 = OeciCase(
             date=date(2001, 1, 1),
             disposition=DispositionCreator.empty(),
             probation_revoked=None,
+            balance_due_in_cents=0,
         ),
     ),
 )

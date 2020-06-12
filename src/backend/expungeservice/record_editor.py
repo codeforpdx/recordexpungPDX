@@ -109,6 +109,7 @@ class RecordEditor:
                     "statute": "N/A",
                     "level": "N/A",
                     "type_name": "N/A",
+                    "balance_due_in_cents": 0,
                 }
                 new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
                 new_charges.append(new_charge)

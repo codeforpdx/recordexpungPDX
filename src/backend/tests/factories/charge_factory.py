@@ -53,6 +53,7 @@ class ChargeFactory:
             "date": updated_date,
             "disposition": disposition,
             "violation_type": violation_type,
+            "balance_due_in_cents": 0,
         }
         charges = ChargeCreator.create(str(cls.charge_count), **kwargs)[0]
         return charges
@@ -77,6 +78,7 @@ class ChargeFactory:
             "date": date,
             "disposition": disposition,
             "violation_type": violation_type,
+            "balance_due_in_cents": 0,
         }
 
         charges = ChargeCreator.create(str(cls.charge_count), **kwargs)[0]

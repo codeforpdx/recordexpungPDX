@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from expungeservice.util import DateWithFuture as date_class
-from typing import Optional, Tuple, Any
+from typing import Optional, Tuple
 
 from expungeservice.models.charge import OeciCharge, Charge
 
@@ -17,7 +17,7 @@ class CaseSummary:
     violation_type: str
     current_status: str
     case_detail_link: str
-    balance_due_in_cents: int = 0
+    balance_due_in_cents: int
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
