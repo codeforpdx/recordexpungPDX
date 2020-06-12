@@ -85,21 +85,22 @@ fieldset {
 }
 
 .logo {
-  width: 140px;
+  width: 164px;
   height: auto;
-  margin: 0.7rem 0 0.7rem 1rem;
+  margin: 0.4rem 0 .02rem 0;
 
-  @media screen and (min-width: 60em) {
+/*  @media screen and (min-width: 60em) {
     width: 164px;
     margin: 0.7rem 0 0 1rem;
-  }
+  }*/
 }
 
-.logo--login {
+// For when we have multiple navs again
+/*.logo--login {
   width: 210px;
   height: auto;
   margin: 1.25rem auto 3rem auto;
-}
+}*/
 
 // For Manual internal links
 .bb-dotted-2 {

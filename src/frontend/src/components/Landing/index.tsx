@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header";
+import { Link } from "react-router-dom";
 
 class Landing extends React.Component {
   render() {
@@ -18,34 +19,36 @@ class Landing extends React.Component {
                 Technology to make record expungement accessible for everyone
               </h1>
               <p className="lh-copy mw6">
-                RecordSponge helps expungement providers quickly analyze an
-                individual’s criminal history to determine if they qualify to
-                have their records sealed (expunged).
+                RecordSponge is a nonprofit service that helps  
+                providers quickly analyze an individual’s criminal history to 
+                determine if they qualify to have their records sealed (expunged).
               </p>
             </div>
 
-            <div className="pa4 mw8 center bg-gray-blue-2 shadow ">
-              <h2 className="f3 fw6 mb3">
-                <span className="red">Emergency Update: </span> Protests against
-                Police Violence
-              </h2>
-              <p className="lh-copy mw8 mb3">
-                Due to ongoing events we are making all of our expungement help
-                free to any protesters arrested during this fight. Anyone can
-                register directly to{" "}
-                <a
-                  className="link bb hover-dark-blue"
-                  href="https://www.qiu-qiulaw.com/register"
-                >
-                  see if you qualify for expungement here
-                </a>{" "}
-                and a lawyer will return your inquiry within 48 hours.
-              </p>
-              <p className="mb2 pv2">
-                For other communication (to learn more, help out, etc.) you can
-                also contact:
+            <div className="mh3">
+              <div className="mw8 center bg-gray-blue-2 shadow br4 pa4 ph5-l mb5">
+                <h2 className="f3 fw6 mb3">
+                  <span className="red">Emergency Update: </span> Protests against
+                  Police Violence
+                </h2>
+                <p className="lh-copy mw8 mb3">
+                  Due to ongoing events Qiu-Qiu Law is making all expungement help
+                  free to any protesters arrested during this fight. Anyone can
+                  register directly to{" "}
+                  <a
+                    className="link bb hover-dark-blue"
+                    href="https://www.qiu-qiulaw.com/register"
+                  >
+                    see if you qualify for expungement here
+                  </a>{" "}
+                  and a lawyer will return your inquiry within 48 hours.
+                </p>
+                <p className="mb2 pv2">
+                  For other communication (to learn more, help out, etc.) you can
+                  also contact:
+                </p>
                 <ul className="list mb3 pl4">
-                  <li className="mb2">
+                  <li className="mb3">
                     Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
                     <a
                       className="fw6 link hover-dark-blue no-wrap"
@@ -64,7 +67,7 @@ class Landing extends React.Component {
                     </a>
                   </li>
                 </ul>
-              </p>
+              </div>
             </div>
 
             <div className="relative top-2 z-2 mh3">
@@ -75,19 +78,12 @@ class Landing extends React.Component {
                     tool?
                   </h2>
                   <p className="lh-copy mb3">
-                    Provide your name and your organization to request access:{" "}
-                    <a
-                      className="fw6 link hover-dark-blue no-wrap"
-                      href="mailto:michael@qiu-qiulaw.com"
-                    >
-                      michael@qiu-qiulaw.com
-                    </a>
-                    .
+                    We only ask that you <a href="http://eepurl.com/g6N3Bn" className="link bb hover-dark-blue">provide your contact details</a>. You will also need OECI credentials.
                   </p>
                   <p className="mb4">
-                    <a href="/manual" className="link bb hover-dark-blue">
+                    <Link to="/manual#overview" className="link bb hover-dark-blue">
                       Learn more in the Manual
-                    </a>
+                    </Link>
                   </p>
                 </div>
                 <div className="w-50-l pa4 pa5-l">
@@ -95,18 +91,14 @@ class Landing extends React.Component {
                     Are you looking to clear your&nbsp;record?
                   </h2>
                   <p className="lh-copy">
-                    Check at{" "}
+                    Check your eligibility at{" "}
                     <a
                       className="link bb hover-dark-blue"
                       href="https://www.qiu-qiulaw.com"
                       target="blank"
                     >
                       Qiu-qiu Law
-                    </a>{" "}
-                    to see if you are eligible and if there is an upcoming
-                    expungement clinic in your&nbsp;area. If there are none in
-                    your area reach out to them and they may be able to organize
-                    one near you.
+                    </a> or contact one of our partners below.
                   </p>
                 </div>
               </div>
@@ -115,6 +107,76 @@ class Landing extends React.Component {
             <div className="relative bottom-6 bg-lightest-blue1 pt7 pb6">
               <div className="ph4">
                 <div className="mw7 center">
+
+                  <h3 className="f3 f2-ns fw9 tc mb4">Our Partners Include</h3>
+                  <div className="f5 mb7">
+                    <ul className="list lh-copy">
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://www.pcc.edu/programs/paralegal" className="link bb hover-dark-blue">
+                            Portland Community College
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Northeast Portland</div>
+                        <div className="w-25-ns pa2">Leni Tupper</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://jacksoncountyor.org/community-justice" className="link bb hover-dark-blue">
+                            Probation and Parole, Community Justice Center
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Medford</div>
+                        <div className="w-25-ns pa2">Eric Guyer</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://crimanon.org" className="link bb hover-dark-blue">
+                            Criminals Anonymous
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">East Portland</div>
+                        <div className="w-25-ns pa2">Bear Cubbedge</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://www.facebook.com/OregonHousingWorks" className="link bb hover-dark-blue">
+                            Redmond Housing Works
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Redmond</div>
+                        <div className="w-25-ns pa2">Andy Hall</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://www.facebook.com/Ruraloregonexpungement" className="link bb hover-dark-blue">
+                            Signs of Hope
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Medford</div>
+                        <div className="w-25-ns pa2">Sarah Kolb</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="http://www.lanepds.org" className="link bb hover-dark-blue">
+                            Lane Public Defender Services
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Eugene</div>
+                        <div className="w-25-ns pa2">Zara Lukens</div>
+                      </li>
+                      <li className="flex-ns bg-white br4 pa3 mb1">
+                        <div className="w-50-ns pa2 pr3">
+                          <a href="https://www.clackamasworkforce.org" className="link bb hover-dark-blue">
+                            Clackamas Workforce Partnership
+                          </a>
+                        </div>
+                        <div className="w-25-ns pa2 pr3">Oregon City</div>
+                        <div className="w-25-ns pa2">Amanda Wall</div>
+                      </li>
+                    </ul>
+                  </div>
+
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">
                     For many folks who have had run-ins with the criminal
@@ -127,7 +189,7 @@ class Landing extends React.Component {
                     integrate back into society.
                   </p>
                 </div>
-                <div className="mw9 tc mb5">
+                <div className="mw9 center tc mb5">
                   <img
                     className="wipe-illustrations"
                     alt=""
@@ -217,9 +279,9 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <footer className="bg-lightest-blue1 pt6 pb7">
-              <div className="mw7 center ph4">
-                <p className="lh-copy mb4">
+            <footer className="bg-lightest-blue1 pv6">
+              <div className="mw8 center ph4">
+                <p className="mw6 lh-copy mb4">
                   RecordSponge Oregon is a nonprofit service delivered by
                   <svg
                     className="code-for-pdx--logo-icon"
@@ -250,16 +312,10 @@ class Landing extends React.Component {
                   </a>
                   .
                 </p>
-                <p className="lh-copy mb4">
+                <p className="mw6 lh-copy mb4">
                   The service is intended to be accompanied by legal advice. The
                   service is not standalone legal advice.
                 </p>
-                <a
-                  className="link bb hover-dark-blue"
-                  href="/manual#privacypolicy"
-                >
-                  Privacy Policy
-                </a>
               </div>
             </footer>
           </div>
