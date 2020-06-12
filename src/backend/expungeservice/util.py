@@ -86,12 +86,21 @@ class DateWithFuture:
 
     def strftime(self, fmt):
         if self.relative:
-            years = f"{self.relative.years} year(s) " if self.relative.years else ""
-            months = f"{self.relative.months} month(s) " if self.relative.months else ""
-            days = f"{self.relative.days - 1} day(s) " if self.relative.days - 1 > 0 else ""
+            years = DateWithFuture._build_strftime_part(self.relative.years, "year")
+            months = DateWithFuture._build_strftime_part(self.relative.months, "month")
+            days = DateWithFuture._build_strftime_part(self.relative.days - 1, "day")
             return years + months + days + " From Conviction Of Open Charge"
         else:
             return self.date.strftime(fmt)
+
+    @staticmethod
+    def _build_strftime_part(number: int, name: str):
+        if number == 1:
+            return f"{number} {name}"
+        elif number > 0:
+            return f"{number} {name}s"
+        else:
+            return ""
 
     def __add__(self, other):
         if isinstance(other, relativedelta):
