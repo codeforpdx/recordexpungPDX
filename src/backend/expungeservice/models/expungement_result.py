@@ -9,6 +9,9 @@ class EligibilityStatus(str, Enum):
     NEEDS_MORE_ANALYSIS = "Needs More Analysis"
     INELIGIBLE = "Ineligible"
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}.{self.name}"
+
 
 class ChargeEligibilityStatus(str, Enum):
     UNKNOWN = "Unknown"
@@ -18,6 +21,9 @@ class ChargeEligibilityStatus(str, Enum):
     POSSIBLY_WILL_BE_ELIGIBLE = "Possibly Will Be Eligible"
     INELIGIBLE = "Ineligible"
     NEEDS_MORE_ANALYSIS = "Needs More Analysis"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}.{self.name}"
 
 
 @dataclass(frozen=True)
