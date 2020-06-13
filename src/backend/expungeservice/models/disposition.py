@@ -11,6 +11,9 @@ class DispositionStatus(str, Enum):
     UNKNOWN = "Unknown"
     UNRECOGNIZED = "Unrecognized"
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}.{self.name}"
+
 
 @dataclass(frozen=True)
 class Disposition:

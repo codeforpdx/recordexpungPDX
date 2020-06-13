@@ -132,7 +132,7 @@ class DateWithFuture:
         return NotImplemented
 
     def __repr__(self):
-        return f"DateWithFuture{repr((self.date, self.relative))}"
+        return f"DateWithFuture(date={repr(self.date)}, relative={repr(self.relative)})"
 
     def __hash__(self):
         return hash((self.date, self.relative))
