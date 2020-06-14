@@ -10,19 +10,18 @@ interface Props {
 
 export default class BalanceList extends React.Component<Props> {
   render() {
+    const { displayTotal, listItems, title, totalBalance } = this.props;
+
     return (
       <>
-        <h3 className="fw7 bt b--light-gray pt2 mb3">{this.props.title}</h3>
+        <h3 className="fw7 bt b--light-gray pt2 mb3">{title}</h3>
         <ul className="mw5 list">
-          {this.props.listItems.length > 0 ? this.props.listItems : "None"}
+          {listItems.length > 0 ? listItems : "None"}
         </ul>
-        {this.props.displayTotal && (
+        {displayTotal && (
           <div className="mw5 bt b--light-gray pt2">
             <span className="fw6">Total</span>
-            <span className="fr">
-              {" "}
-              {currencyFormat(this.props.totalBalance)}
-            </span>
+            <span className="fr">{currencyFormat(totalBalance)}</span>
           </div>
         )}
       </>
