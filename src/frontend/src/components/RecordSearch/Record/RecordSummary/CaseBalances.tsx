@@ -37,7 +37,6 @@ export default class CaseBalances extends React.Component<Props> {
     return (
       <div className="mb4">
         <BalanceList
-          displayTotal
           listItems={listItems}
           title="Balance Due by Case"
           totalBalance={this.props.totalBalance}
