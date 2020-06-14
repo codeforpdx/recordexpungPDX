@@ -75,6 +75,7 @@ class RecordParser(HTMLParser):
     def __record_case(self):
         self.cases.append(
             CaseCreator.create(
+                "", # versus
                 self.info,
                 self.case_number,
                 self.citation_number,

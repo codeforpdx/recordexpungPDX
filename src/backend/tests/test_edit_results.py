@@ -11,6 +11,7 @@ from expungeservice.record_creator import RecordCreator
 
 case_1 = OeciCase(
     CaseSummary(
+        versus="John Doe",
         name="John Doe",
         birth_year=1980,
         case_number="X0001",
@@ -49,6 +50,7 @@ case_1 = OeciCase(
 )
 case_2 = OeciCase(
     CaseSummary(
+        versus="John Albert Doe",
         name="John Albert Doe",
         birth_year=1970,
         case_number="X0002",

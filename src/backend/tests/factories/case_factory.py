@@ -4,6 +4,7 @@ from expungeservice.models.case import Case, CaseCreator, CaseSummary
 class CaseSummaryFactory:
     @staticmethod
     def create(
+        versus="John Doe",
         info=["John Doe", "1990"],
         case_number="1",
         citation_number=None,
@@ -13,13 +14,14 @@ class CaseSummaryFactory:
         balance="0",
     ) -> CaseSummary:
         return CaseCreator.create(
-            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
+            versus, info, case_number, citation_number, date_location, type_status, case_detail_link, balance, 
         )
 
 
 class CaseFactory:
     @staticmethod
     def create(
+        versus="John Doe",
         info=["John Doe", "1990"],
         case_number="1",
         citation_number=None,
@@ -30,6 +32,6 @@ class CaseFactory:
         balance="0",
     ) -> Case:
         case_summary = CaseSummaryFactory.create(
-            info, case_number, citation_number, date_location, type_status, case_detail_link, balance
+            versus, info, case_number, citation_number, date_location, type_status, case_detail_link, balance, 
         )
         return Case(case_summary, tuple(charges))

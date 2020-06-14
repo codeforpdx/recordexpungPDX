@@ -8,6 +8,7 @@ from expungeservice.models.charge import OeciCharge, Charge
 
 @dataclass(frozen=True)
 class CaseSummary:
+    versus: str
     name: str
     birth_year: Optional[int]
     case_number: str
@@ -49,7 +50,7 @@ class Case(OeciCase):
 class CaseCreator:
     @staticmethod
     def create(
-        info, case_number, citation_number, date_location, type_status, case_detail_link, balance="0"
+         versus, info, case_number, citation_number, date_location, type_status, case_detail_link, balance="0",
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -59,6 +60,7 @@ class CaseCreator:
         violation_type, current_status = type_status
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(balance)
         return CaseSummary(
+            versus,
             name,
             birth_year,
             case_number,

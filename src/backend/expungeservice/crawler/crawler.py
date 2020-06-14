@@ -95,6 +95,7 @@ class Crawler:
             )
             charges.append(charge)
         updated_case_summary = replace(case_summary, balance_due_in_cents=balance_due_in_cents)
+        updated_case_summary = replace(case_summary, versus=case_parser_data.versus)
         return OeciCase(updated_case_summary, charges=tuple(charges))
 
     @staticmethod

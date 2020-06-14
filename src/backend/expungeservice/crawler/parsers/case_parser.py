@@ -21,12 +21,14 @@ class CaseParserData:
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
     probation_revoked: Optional[date]
+    versus: str
 
 
 class CaseParser:
     @staticmethod
     def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
+        versus = CaseParser.__build_post_vs(soup)
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         (
             hashed_dispo_data,
@@ -37,7 +39,20 @@ class CaseParser:
             probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
-        return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
+        return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked, versus)
+
+    @staticmethod
+    def __build_post_vs(soup) -> str:
+        case_find = soup.find('b') # bold tag
+        if case_find:
+            case_name = case_find.text
+            versus_pattern = re.compile("State of Oregon[\s]+vs[.]?[\s]+(.*)", re.IGNORECASE)
+            versus_match = versus_pattern.match(case_name)
+            if versus_match:
+                versus = versus_match.group(1)
+                return versus
+
+        return ""
 
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
