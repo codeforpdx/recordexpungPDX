@@ -1,10 +1,12 @@
 import React from "react";
+import CaseBalances from "./CaseBalances";
 import ChargesList from "./ChargesList";
 import CountyBalances from "./CountyBalances";
-import { RecordSummaryData } from "../types";
+import { CaseData, RecordSummaryData } from "../types";
 import { downloadPdf } from "../../../../redux/search/actions";
 
 interface Props {
+  cases?: CaseData[];
   summary: RecordSummaryData;
 }
 
@@ -38,10 +40,13 @@ export default class RecordSummary extends React.Component<Props> {
             totalCases={total_cases}
             totalCharges={total_charges}
           />
-          <CountyBalances
-            totalBalance={total_balance_due}
-            balances={county_balances}
-          />
+          <div className="w-100 w-33-l ph3-l mb3">
+            <CaseBalances cases={this.props.cases} />
+            <CountyBalances
+              totalBalance={total_balance_due}
+              balances={county_balances}
+            />
+          </div>
         </div>
       </div>
     );
