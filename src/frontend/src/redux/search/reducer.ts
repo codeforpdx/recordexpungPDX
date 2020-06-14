@@ -15,6 +15,7 @@ import {
   DONE_EDITING,
   SearchRecordState,
   SearchRecordActionType,
+  DOWNLOAD_EXPUNGEMENT_PACKET,
 } from "./types";
 import {
   QuestionData,
@@ -27,6 +28,7 @@ const initalState: SearchRecordState = {
   aliases: [],
   edits: {},
   editingRecord: false,
+  userInformation: {},
 };
 
 function findQuestion(
@@ -203,7 +205,6 @@ export function searchReducer(
         ...state,
         loadingPdf: false,
       };
-
     case EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {};
@@ -387,7 +388,20 @@ export function searchReducer(
     case DONE_EDITING: {
       return { ...state, editingRecord: false };
     }
-
+    case DOWNLOAD_EXPUNGEMENT_PACKET:
+      const information = {
+        full_name: action.name,
+        date_of_birth: action.dob,
+        mailing_address: action.mailingAddress,
+        phone_number: action.phoneNumber,
+        city: action.city,
+        state: action.state,
+        zip_code: action.zipCode,
+      };
+      return {
+        ...state,
+        userInformation: information,
+      };
     default:
       return state;
   }

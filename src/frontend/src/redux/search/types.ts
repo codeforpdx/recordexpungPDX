@@ -31,6 +31,7 @@ export const DELETE_CHARGE = "DELETE_CHARGE";
 export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
 export const START_EDITING = "START_EDITING";
 export const DONE_EDITING = "DONE_EDITING";
+export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 
 export interface SearchRecordState {
   loading: string;
@@ -40,6 +41,7 @@ export interface SearchRecordState {
   questions?: QuestionsData;
   edits?: any;
   editingRecord: boolean;
+  userInformation?: any;
 }
 
 interface SearchRecordAction {
@@ -118,6 +120,17 @@ interface DoneEditingAction {
   type: typeof DONE_EDITING;
 }
 
+export interface ExpungementPacketAction {
+  type: typeof DOWNLOAD_EXPUNGEMENT_PACKET;
+  name: string;
+  dob: string;
+  mailingAddress: string;
+  phoneNumber: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
 export type SearchRecordActionType =
   | SearchRecordAction
   | QuestionsAction
@@ -128,4 +141,5 @@ export type SearchRecordActionType =
   | DeleteChargeAction
   | UndoEditChargeAction
   | StartEditingAction
-  | DoneEditingAction;
+  | DoneEditingAction
+  | ExpungementPacketAction;

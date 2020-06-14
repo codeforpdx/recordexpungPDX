@@ -130,7 +130,7 @@ def test_search_cache(service, monkeypatch):
         {"first_name": "john", "last_name": "deer", "middle_name": "", "birth_date": ""},
     ]
 
-    Search._build_response("username", "password", test_alias_dictionary, {}, {})
+    Search._build_record_summary("username", "password", test_alias_dictionary, {}, {})
     assert Search.search_cache[test_alias]
 
 
@@ -144,6 +144,6 @@ def test_search_cache_error(service, monkeypatch):
         {"first_name": "jane", "last_name": "doe", "middle_name": "q", "birth_date": "June 29th"},
     ]
 
-    Search._build_response("username", "password", test_fail_alias_dictionary, {}, {})
+    Search._build_record_summary("username", "password", test_fail_alias_dictionary, {}, {})
 
     assert not Search.search_cache[test_fail_alias]
