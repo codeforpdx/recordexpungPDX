@@ -60,8 +60,8 @@ export default class Cases extends React.Component<Props> {
           </div>
         </div>
         <div id="priceBanner"
-        ><strong>Becomes Eligible when balance is paid</strong>
-        <a href="www.google.com"> paying balances</a>
+        ><strong>Becomes eligible when balance is paid</strong>
+        <a href="#"> Paying Balances</a>
         </div>
         <Charges charges={charges} />
       </div>
