@@ -5,6 +5,7 @@ import currencyFormat from "../../../../service/currency-format";
 
 interface Props {
   cases?: CaseData[];
+  totalBalance: number;
 }
 
 const hasBalanceDue = (element: CaseData) => {
@@ -13,8 +14,6 @@ const hasBalanceDue = (element: CaseData) => {
 
 export default class CaseBalances extends React.Component<Props> {
   render() {
-    let totalBalanceDue = 0;
-
     if (!this.props.cases) {
       return null;
     }
@@ -22,11 +21,14 @@ export default class CaseBalances extends React.Component<Props> {
     const listItems = this.props.cases
       .filter(hasBalanceDue)
       .map((element: CaseData, i: number) => {
-        totalBalanceDue += element.balance_due;
-
         return (
           <li className="mb2" key={i}>
-            <span className="break-all">{element.case_number} </span>{" "}
+            <a
+              className="link underline hover-blue break-all"
+              href={`#${element.case_number}-1`}
+            >
+              {element.case_number}
+            </a>{" "}
             <span className="fr">{currencyFormat(element.balance_due)}</span>
           </li>
         );
@@ -38,7 +40,7 @@ export default class CaseBalances extends React.Component<Props> {
           displayTotal
           listItems={listItems}
           title="Balance Due by Case"
-          totalBalance={totalBalanceDue}
+          totalBalance={this.props.totalBalance}
         />
       </div>
     );

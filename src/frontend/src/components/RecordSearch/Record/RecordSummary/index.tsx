@@ -41,11 +41,13 @@ export default class RecordSummary extends React.Component<Props> {
             totalCharges={total_charges}
           />
           <div className="w-100 w-33-l ph3-l mb3">
-            <CaseBalances cases={this.props.cases} />
-            <CountyBalances
+            <CaseBalances
+              cases={this.props.cases}
               totalBalance={total_balance_due}
-              balances={county_balances}
             />
+            {total_balance_due > 0 && (
+              <CountyBalances balances={county_balances} />
+            )}
           </div>
         </div>
       </div>

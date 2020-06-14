@@ -5,7 +5,7 @@ interface Props {
   displayTotal?: boolean;
   listItems: any[];
   title: string;
-  totalBalance: number;
+  totalBalance?: number;
 }
 
 export default class BalanceList extends React.Component<Props> {
@@ -21,7 +21,9 @@ export default class BalanceList extends React.Component<Props> {
         {displayTotal && (
           <div className="mw5 bt b--light-gray pt2">
             <span className="fw6">Total</span>
-            <span className="fr">{currencyFormat(totalBalance)}</span>
+            <span className="fr">
+              {currencyFormat(totalBalance !== undefined ? totalBalance : 0)}
+            </span>
           </div>
         )}
       </>

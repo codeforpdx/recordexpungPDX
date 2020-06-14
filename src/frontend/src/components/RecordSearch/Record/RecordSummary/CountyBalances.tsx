@@ -5,7 +5,6 @@ import currencyFormat from "../../../../service/currency-format";
 
 interface Props {
   balances: CountyBalanceData[];
-  totalBalance: number;
 }
 
 export default class CountyBalances extends React.Component<Props> {
@@ -21,12 +20,6 @@ export default class CountyBalances extends React.Component<Props> {
       }
     );
 
-    return (
-      <BalanceList
-        listItems={listItems}
-        title="Balance Due by County"
-        totalBalance={this.props.totalBalance}
-      />
-    );
+    return <BalanceList listItems={listItems} title="Balance Due by County" />;
   }
 }
