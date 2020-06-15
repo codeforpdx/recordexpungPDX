@@ -20,12 +20,12 @@ export default class CaseBalances extends React.Component<Props> {
 
     const listItems = this.props.cases
       .filter(hasBalanceDue)
-      .map((element: CaseData, i: number) => {
+      .map((element: CaseData) => {
         return (
-          <li className="mb2" key={i}>
+          <li className="mb2" key={element.case_number}>
             <a
               className="link underline hover-blue break-all"
-              href={`#${element.case_number}-1`}
+              href={`#${element.case_number}`}
             >
               {element.case_number}
             </a>{" "}
