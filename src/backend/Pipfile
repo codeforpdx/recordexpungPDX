@@ -25,6 +25,7 @@ beautifulsoup4 = "==4.8.1"
 ipdb = "==0.13.2"
 markdown2 = "==2.3.9"
 pdfkit = "==0.6.1"
+pytest-cov = "==2.10.0"
 
 [dev-packages]
 pipenv-setup = "*"
