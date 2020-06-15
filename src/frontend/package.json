@@ -58,6 +58,8 @@
     ]
   },
   "jest": {
-    "coverageReporters": ["text-summary"]
+    "coverageReporters": [
+      "text"
+    ]
   }
 }
