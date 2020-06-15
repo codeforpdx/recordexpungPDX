@@ -58,11 +58,11 @@ export default class Cases extends React.Component<Props> {
             <div className="fw7">DOB </div>
             {birth_year}
           </div>
-        </div>
+        </div> {
+          balance_due>0?
         <div id="priceBanner"
-        ><strong>Becomes eligible when balance is paid</strong>
-        <a href="#"> Paying Balances</a>
-        </div>
+        ><strong>Becomes eligible when balance is paid </strong>
+        </div>:""}
         <Charges charges={charges} />
       </div>
     );
