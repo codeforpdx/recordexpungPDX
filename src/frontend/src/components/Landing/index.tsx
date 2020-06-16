@@ -14,21 +14,22 @@ class Landing extends React.Component {
         <Header />
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
-            <div className="mw8 center ph4 pb5">
-              <h1 className="f3 f2-ns fw9 mw7 mt5 mb3">
-                Technology to make record expungement accessible for everyone
+            <div className="mw8 center flex-l ph4 pb5 mt5">
+              <h1 className="f3 f2-ns fw9 mw6 mr5-l mt0 mb3">
+                Software to make record expungement affordable
               </h1>
-              <p className="lh-copy mw6">
-                RecordSponge is a nonprofit service that helps  
+              <p className="f5 lh-copy mw6">
+                <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
+                RecordSponge is a product that helps  
                 providers quickly analyze an individual’s criminal history to 
-                determine if they qualify to have their records sealed (expunged).
+                determine if they qualify to have their records expunged.
               </p>
             </div>
 
-            <div className="mh3">
+            <div className="f5 mh3">
               <div className="mw8 center bg-gray-blue-2 shadow br4 pa4 ph5-l mb5">
                 <h2 className="f3 fw6 mb3">
-                  <span className="red">Emergency Update: </span> Protests against
+                  <span className="red">Emergency Update: </span> Protests Against
                   Police Violence
                 </h2>
                 <p className="lh-copy mw8 mb3">
@@ -70,30 +71,29 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <div className="relative top-2 z-2 mh3">
-              <div className="flex-l justify-between mw8 bg-white ba bw3 b--lightest-blue1 center br4">
+            <div className="relative top-2 z-2 mh3 mb5">
+              <div className="flex-l justify-between mw8 white bg-navy center br4">
                 <div className="w-50-l pa4 pa5-l">
-                  <h2 className="f3 fw7 mb3">
-                    Are you interested in providing expungement help with this
-                    tool?
+                  <h2 className="f3 fw9 mb3">
+                    Are you interested in providing expungement help?
                   </h2>
                   <p className="lh-copy mb3">
-                    We only ask that you <a href="http://eepurl.com/g6N3Bn" className="link bb hover-dark-blue">provide your contact details</a>. You will also need OECI credentials.
+                    We only ask that you <a href="http://eepurl.com/g6N3Bn" className="link bb hover-lightest-blue">provide your contact details</a> and obtain OECI credentials.
                   </p>
                   <p className="mb4">
-                    <Link to="/manual#overview" className="link bb hover-dark-blue">
-                      Learn more in the Manual
+                    <Link to="/manual#overview" className="link bb hover-lightest-blue">
+                      Learn More
                     </Link>
                   </p>
                 </div>
                 <div className="w-50-l pa4 pa5-l">
-                  <h2 className="f3 fw7 mb3">
+                  <h2 className="f3 fw9 mb3">
                     Are you looking to clear your&nbsp;record?
                   </h2>
                   <p className="lh-copy">
                     Check your eligibility at{" "}
                     <a
-                      className="link bb hover-dark-blue"
+                      className="link bb hover-lightest-blue"
                       href="https://www.qiu-qiulaw.com"
                       target="blank"
                     >
@@ -104,75 +104,75 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <div className="relative bottom-6 bg-lightest-blue1 pt7 pb6">
+            <div className="relative bottom-6 bg-lightest-blue1 pt6 pb6">
               <div className="ph4">
                 <div className="mw7 center">
 
-                  <h3 className="f3 f2-ns fw9 tc mb4">Our Partners Include</h3>
+                  <h3 className="f3 fw9 tc mb4">Our Partners Include</h3>
                   <div className="f5 mb7">
                     <ul className="list lh-copy">
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://www.pcc.edu/programs/paralegal" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://www.pcc.edu/programs/paralegal" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Portland Community College
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Northeast Portland</div>
-                        <div className="w-25-ns pa2">Leni Tupper</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Northeast Portland</div>
+                          <div className="w-25-ns pa2">Leni Tupper</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://jacksoncountyor.org/community-justice" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://jacksoncountyor.org/community-justice" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Probation and Parole, Community Justice Center
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Medford</div>
-                        <div className="w-25-ns pa2">Eric Guyer</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Medford</div>
+                          <div className="w-25-ns pa2">Eric Guyer</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://crimanon.org" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://crimanon.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Criminals Anonymous
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">East Portland</div>
-                        <div className="w-25-ns pa2">Bear Cubbedge</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">East Portland</div>
+                          <div className="w-25-ns pa2">Bear Cubbedge</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://www.facebook.com/OregonHousingWorks" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://www.facebook.com/OregonHousingWorks" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Redmond Housing Works
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Redmond</div>
-                        <div className="w-25-ns pa2">Andy Hall</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Redmond</div>
+                          <div className="w-25-ns pa2">Andy Hall</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://www.facebook.com/Ruraloregonexpungement" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://www.facebook.com/Ruraloregonexpungement" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Signs of Hope
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Medford</div>
-                        <div className="w-25-ns pa2">Sarah Kolb</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Medford</div>
+                          <div className="w-25-ns pa2">Sarah Kolb</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="http://www.lanepds.org" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="http://www.lanepds.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Lane Public Defender Services
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Eugene</div>
-                        <div className="w-25-ns pa2">Zara Lukens</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Eugene</div>
+                          <div className="w-25-ns pa2">Zara Lukens</div>
+                        </a>
                       </li>
-                      <li className="flex-ns bg-white br4 pa3 mb1">
-                        <div className="w-50-ns pa2 pr3">
-                          <a href="https://www.clackamasworkforce.org" className="link bb hover-dark-blue">
+                      <li className="mb1">
+                        <a href="https://www.clackamasworkforce.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                          <div className="w-50-ns fw6 pa2 pr3">
                             Clackamas Workforce Partnership
-                          </a>
-                        </div>
-                        <div className="w-25-ns pa2 pr3">Oregon City</div>
-                        <div className="w-25-ns pa2">Amanda Wall</div>
+                          </div>
+                          <div className="w-25-ns pa2 pr3">Oregon City</div>
+                          <div className="w-25-ns pa2">Amanda Wall</div>
+                        </a>
                       </li>
                     </ul>
                   </div>
