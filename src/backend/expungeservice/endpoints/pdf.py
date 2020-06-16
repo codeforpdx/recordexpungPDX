@@ -79,7 +79,7 @@ class FormFilling(MethodView):
 
     @staticmethod
     def build_pdf_for_case(case, user_information):
-        county = "multnomah"  # TODO: Swap with case.location
+        county = "clackamas"  # TODO: Swap with case.location
         dismissals, convictions = Expunger._categorize_charges(case.charges)
         arrest_dates = [conviction.date.strftime("%b %-d, %Y") for conviction in convictions]
         conviction_dates = [conviction.disposition.date.strftime("%b %-d, %Y") for conviction in convictions]
@@ -97,7 +97,7 @@ class FormFilling(MethodView):
             "defendant_name": case.summary.name,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        pdf_path = path.join(Path(__file__).parent.parent, "files", f"{county}_conviction.pdf")
+        pdf_path = path.join(Path(__file__).parent.parent, "files", f"{county}_arrest.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
