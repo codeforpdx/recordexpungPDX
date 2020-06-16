@@ -243,7 +243,7 @@ class Landing extends React.Component {
                   >
                     Qiu-qiu Law
                   </a>{" "}
-                  are actively developing open-spource analytical software to help
+                  are actively developing analytical software to help
                   expungement providers quickly determine which items on an
                   applicant's record are eligible for expungement.
                 </p>
