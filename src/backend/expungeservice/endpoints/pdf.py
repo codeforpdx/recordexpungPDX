@@ -40,8 +40,9 @@ class Pdf(MethodView):
 
 @dataclass
 class FormData:
-    court: str
-    da: str
+    case_name: str
+    case_number: str
+    da_number: str
     full_name: str
     date_of_birth: str
     mailing_address: str
@@ -52,7 +53,8 @@ class FormData:
     arresting_agency: str
     arrest_date: str
     conviction_date: str
-    convicted_charges_1: str
+    disposition_date: str  # This is for acquittals
+    convicted_charges: str
     defendant_name: str
 
 
@@ -84,12 +86,14 @@ class FormFilling(MethodView):
         conviction_names = [conviction.name for conviction in convictions]
         form_data_dict = {
             **user_information,
-            "court": case.summary.case_number,
-            "da": "N/A",
+            "case_name": case.summary.name,
+            "case_number": case.summary.case_number,
+            "da_number": "N/A",
             "arresting_agency": "N/A",
             "arrest_date": ";".join(arrest_dates),
             "conviction_date": ";".join(conviction_dates),
-            "convicted_charges_1": ";".join(conviction_names),
+            "convicted_charges": ";".join(conviction_names),
+            "disposition_date": "N/A",
             "defendant_name": case.summary.name,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
@@ -99,6 +103,11 @@ class FormFilling(MethodView):
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
             field.V = field_value
+        for page in pdf.pages:
+            annotations = page.get("/Annots")
+            if annotations:
+                for annotation in annotations:
+                    annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
         return pdf
 
