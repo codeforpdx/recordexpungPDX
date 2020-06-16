@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 from io import BytesIO
 from os import path
+from pathlib import Path
+from tempfile import mkdtemp
+import tarfile
 
 from dacite import from_dict
+from expungeservice.expunger import Expunger
 from flask.views import MethodView
-from flask import request, json, make_response
+from flask import request, json, make_response, send_file
 
 from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
@@ -57,42 +61,46 @@ class FormFilling(MethodView):
         request_data = request.get_json()
         user_information = request_data.get("userInformation")
         record_summary = Search().build_response()
-        charge = record_summary.record.cases[0].charges[0]
+        temp_dir = mkdtemp()
+        tar_dir = mkdtemp()
+        tar_name = "expungement_packet.tar"
+        tar_path = path.join(tar_dir, tar_name)
+        tar = tarfile.open(tar_path, "w")
+        for case in record_summary.record.cases:
+            pdf = FormFilling.build_pdf_for_case(case, user_information)
+            file_name = f"{case.summary.name}_{case.summary.case_number}.pdf"
+            file_path = path.join(temp_dir, file_name)
+            PdfWriter().write(file_path, pdf)
+            tar.add(file_path)
+        tar.close()
+        return send_file(tar_path, as_attachment=True, attachment_filename=tar_name)
+
+    @staticmethod
+    def build_pdf_for_case(case, user_information):
+        county = "multnomah"  # TODO: Swap with case.location
+        dismissals, convictions = Expunger._categorize_charges(case.charges)
+        arrest_dates = [conviction.date.strftime("%b %-d, %Y") for conviction in convictions]
+        conviction_dates = [conviction.disposition.date.strftime("%b %-d, %Y") for conviction in convictions]
+        conviction_names = [conviction.name for conviction in convictions]
         form_data_dict = {
             **user_information,
-            "court": charge.case_number,
-            "da": "",
-            "arresting_agency": "",
-            "arrest_date": charge.date.strftime("%b %-d, %Y"),
-            "conviction_date": "",
-            "convicted_charges_1": "",
-            "defendant_name": "Test",
+            "court": case.summary.case_number,
+            "da": "N/A",
+            "arresting_agency": "N/A",
+            "arrest_date": ";".join(arrest_dates),
+            "conviction_date": ";".join(conviction_dates),
+            "convicted_charges_1": ";".join(conviction_names),
+            "defendant_name": case.summary.name,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        from pathlib import Path
-
-        pdf_path = path.join(Path(__file__).parent.parent, "files", "form.pdf")
+        pdf_path = path.join(Path(__file__).parent.parent, "files", f"{county}_conviction.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
             field.V = field_value
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
-        # TODO: Write out to temp file
-        # File name: NAME_CASE_{Convicted/Dismissed}.pdf
-        # Create tar
-        #
-        # import tarfile
-        # tar = tarfile.open("sample.tar", "w")
-        # for name in ["foo", "bar", "quux"]:
-        #     tar.add(name)
-        # tar.close()
-        data = FormFilling.to_bytes(pdf)
-        response = make_response(data)
-        response.headers["Content-Type"] = "application/pdf"
-        filename = "test.pdf"
-        response.headers["Content-Disposition"] = f"inline; filename={filename}"
-        return response
+        return pdf
 
     @staticmethod
     def to_bytes(pdf):
