@@ -38,6 +38,12 @@ $washed-red: #f0e0e8;
   background-color: $washed-blue;
 }
 
+.hover-b-blue:hover,
+.hover-b-blue:focus {
+  border-color: $blue;
+  transition: border-color .15s ease-in;
+}
+
 .purple {
   color: $purple;
 }

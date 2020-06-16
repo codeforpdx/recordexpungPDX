@@ -609,8 +609,10 @@ class Landing extends React.Component {
                 Obtain Fingerprints
               </h3>
               <p className="mb3">
-                Fingerprints they can be obtained at the sheriff’s office or
-                private fingerprinting service.
+                Obtain fingerprints printed out or inked directly onto cardstock. 
+                Digital fingerprints are not accepted as part of this process. 
+                Fingerprints printed onto cardstock can be obtained at sheriff's 
+                offices or fingerprinting services.
               </p>
               <p className="mb3">
                 Another option is to do it yourself with the following
