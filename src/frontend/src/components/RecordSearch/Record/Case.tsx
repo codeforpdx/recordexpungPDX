@@ -59,6 +59,10 @@ export default class Cases extends React.Component<Props> {
             {birth_year}
           </div>
         </div>
+        {
+          balance_due>0?
+        <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">Charges are ineligible until balance is paid 
+        </div>:""}
         <Charges charges={charges} />
       </div>
     );
