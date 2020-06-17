@@ -19,6 +19,17 @@ export default class Cases extends React.Component<Props> {
       location,
       current_status,
     } = this.props.case;
+    let ineligibleCharges = 0; 
+    let allIneligible = 0
+    for (let i = 0; i < charges.length; i++){ 
+      let typeEligibility = charges[i].expungement_result.type_eligibility.status
+      if (typeEligibility == "Ineligible") {
+        ineligibleCharges++
+      }
+    }
+    if (ineligibleCharges == charges.length) {
+        allIneligible=1
+      }
     const prefix = window.location.href.includes("localhost")
       ? "http://localhost:5000"
       : ""; // Hack so we do not have to use nginx for dev
@@ -60,7 +71,7 @@ export default class Cases extends React.Component<Props> {
           </div>
         </div>
         {
-          balance_due>0?
+          balance_due > 0 && !allIneligible?
         <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">Charges are ineligible until balance is paid 
         </div>:""}
         <Charges charges={charges} />
