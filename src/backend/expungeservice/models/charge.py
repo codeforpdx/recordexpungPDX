@@ -103,7 +103,7 @@ class Charge(OeciCharge):
 
     def to_one_line(self) -> str:
         short_name = self.name.split("(")[0]
-        arrested_date = self.date.strftime("%b %-d, %Y")
+        charged_date = self.date.strftime("%b %-d, %Y")
         disposition = str(self.disposition.status.name)
         owed = f" $ owed" if self.balance_due_in_cents > 0 else ""
-        return f"{short_name} ({disposition}) - Arrested {arrested_date}{owed}"
+        return f"{short_name} ({disposition}) - Charged {charged_date}{owed}"
