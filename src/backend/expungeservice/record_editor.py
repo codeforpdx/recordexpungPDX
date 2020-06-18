@@ -10,6 +10,14 @@ from expungeservice.models.case import OeciCase, CaseCreator
 from expungeservice.models.charge import Charge, OeciCharge, ChargeType
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.disposition import DispositionCreator
+from enum import Enum
+
+
+class EditStatus(str, Enum):
+    UNCHANGED = "UNCHANGED"
+    EDITED = "EDITED"
+    ADDED = "ADDED"
+    DELETED = "DELETED"
 
 
 class RecordEditor:

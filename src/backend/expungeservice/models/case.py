@@ -4,6 +4,7 @@ from expungeservice.util import DateWithFuture as date_class
 from typing import Optional, Tuple
 
 from expungeservice.models.charge import OeciCharge, Charge
+from expungeservice.record_editor import EditStatus
 
 
 @dataclass(frozen=True)
@@ -18,6 +19,7 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int
+    edit_status: EditStatus = EditStatus.UNCHANGED
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100

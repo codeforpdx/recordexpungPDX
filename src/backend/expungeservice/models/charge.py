@@ -11,6 +11,7 @@ from expungeservice.models.expungement_result import (
     TypeEligibility,
     EligibilityStatus,
 )
+from expungeservice.record_editor import EditStatus
 
 
 class ChargeUtil:
@@ -58,6 +59,7 @@ class Charge(OeciCharge):
     case_number: str
     charge_type: ChargeType
     expungement_result: ExpungementResult = ExpungementResult()  # TODO: Remove default value
+    edit_status: EditStatus = EditStatus.UNCHANGED
 
     @property
     def type_eligibility(self) -> TypeEligibility:

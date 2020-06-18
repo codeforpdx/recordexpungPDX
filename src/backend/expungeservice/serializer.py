@@ -48,6 +48,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "current_status": case.current_status,
             "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link,
+            "edit_status": case.edit_status,
         }
 
     def charge_to_json(self, charge):
@@ -63,6 +64,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "probation_revoked": charge.probation_revoked,
             "statute": charge.statute,
             "type_name": charge.charge_type.type_name,
+            "edit_status": charge.edit_status,
         }
 
     def default(self, o):

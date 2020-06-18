@@ -108,7 +108,7 @@ def test_edit_some_fields_on_case():
         "username",
         "password",
         (),
-        {"X0002": {"action": "edit", "summary": {"location": "ocean", "balance_due": "100", "date": "1/1/1001",}}},
+        {"X0002": {"action": "update", "summary": {"location": "ocean", "balance_due": "100", "date": "1/1/1001",}}},
     )
     assert len(record.cases) == 2
     assert record.cases[0].summary.location == "earth"
@@ -132,7 +132,7 @@ def test_add_disposition():
         (),
         {
             "X0001": {
-                "action": "edit",
+                "action": "update",
                 "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
             }
         },
@@ -146,7 +146,7 @@ def test_edit_charge_type_of_charge():
         "username",
         "password",
         (),
-        {"X0001": {"action": "edit", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
+        {"X0001": {"action": "update", "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
     )
     assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
 
@@ -159,7 +159,7 @@ def test_add_new_charge():
         (),
         {
             "X0001": {
-                "action": "edit",
+                "action": "update",
                 "charges": {
                     "X0001-3": {
                         "charge_type": "Misdemeanor",
