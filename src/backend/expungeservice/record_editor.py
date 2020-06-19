@@ -6,55 +6,63 @@ from expungeservice.util import DateWithFuture as date_class
 from dacite import from_dict
 
 from expungeservice.generator import get_charge_classes
+from expungeservice.models.charge import Charge, OeciCharge, ChargeType, EditStatus
 from expungeservice.models.case import OeciCase, CaseCreator
-from expungeservice.models.charge import Charge, OeciCharge, ChargeType
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.disposition import DispositionCreator
-from enum import Enum
-
-
-class EditStatus(str, Enum):
-    UNCHANGED = "UNCHANGED"
-    EDITED = "EDITED"
-    ADDED = "ADDED"
-    DELETED = "DELETED"
 
 
 class RecordEditor:
     @staticmethod
     def edit_search_results(search_result_cases: List[OeciCase], edits) -> Tuple[List[OeciCase], List[Charge]]:
+        next_new_case_number = 1
         edited_cases: List[OeciCase] = []
-        new_charges_acc: List[Charge] = []
+        new_charges_accumulator: List[Charge] = []
         for case in search_result_cases:
-            case_number = case.summary.case_number
-            if case_number in edits.keys():
-                if edits[case_number]["action"] == "edit":
-                    edited_case, new_charges = RecordEditor._edit_case(case, edits[case_number])
-                    edited_cases.append(edited_case)
-                    new_charges_acc += new_charges
-                # else: if the action name for this case_number isn't "edit", assume it is "delete" and skip it
-            else:
+            if case.summary.case_number not in edits.keys():
                 edited_cases.append(case)
-        return edited_cases, new_charges_acc
+        for edit_action_case_number, edit in edits.items():
+            if edit["summary"]["edit_status"] == EditStatus.ADD:
+                case = OeciCase.empty(case_number=str(next_new_case_number))
+                next_new_case_number += 1
+                edited_case, new_charges = RecordEditor._edit_case(case, edit)
+                edited_cases.append(edited_case)
+                new_charges_accumulator += new_charges
+            elif edit["summary"]["edit_status"] == EditStatus.UPDATE:
+                for case in search_result_cases:
+                    case_number = case.summary.case_number
+                    if case_number == edit_action_case_number:
+                        edited_case, new_charges = RecordEditor._edit_case(case, edit)
+                        edited_cases.append(edited_case)
+                        new_charges_accumulator += new_charges
+            elif edit["summary"]["edit_status"] == EditStatus.DELETE:
+                for case in search_result_cases:
+                    case_number = case.summary.case_number
+                    if case.summary.case_number == edit_action_case_number:
+                        edited_case, new_charges = RecordEditor._edit_case(case, edit)
+                        edited_cases.append(edited_case)
+                        new_charges_accumulator += new_charges
+        return edited_cases, new_charges_accumulator
 
     @staticmethod
     def _edit_case(case: OeciCase, case_edits) -> Tuple[OeciCase, List[Charge]]:
-        if "summary" in case_edits.keys():
-            case_summary_edits: Dict[str, Any] = {}
-            for key, value in case_edits["summary"].items():
-                if key == "date":
-                    case_summary_edits["date"] = date_class.fromdatetime(datetime.strptime(value, "%m/%d/%Y"))
-                elif key == "balance_due":
-                    case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
-                elif key == "birth_year":
-                    case_summary_edits["birth_year"] = int(value)
-                else:
-                    case_summary_edits[key] = value
-            edited_summary = replace(case.summary, **case_summary_edits)
-        else:
-            edited_summary = case.summary
+        case_summary_edits: Dict[str, Any] = {}
+        for key, value in case_edits["summary"].items():
+            if key == "edit_status":
+                case_summary_edits["edit_status"] = EditStatus(value)
+            if key == "date":
+                case_summary_edits["date"] = date_class.fromdatetime(datetime.strptime(value, "%m/%d/%Y"))
+            elif key == "balance_due":
+                case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
+            elif key == "birth_year":
+                case_summary_edits["birth_year"] = int(value)
+            else:
+                case_summary_edits[key] = value
+        edited_summary = replace(case.summary, **case_summary_edits)
         new_charges: List[Charge] = []
-        if "charges" in case_edits.keys():
+        if case_summary_edits["edit_status"] == EditStatus.DELETE:
+            edited_charges = RecordEditor._delete_all_charges(case.summary.case_number, case.charges,)
+        elif "charges" in case_edits.keys():
             edited_charges, new_charges = RecordEditor._edit_charges(
                 case.summary.case_number, case.charges, case_edits["charges"]
             )
@@ -63,25 +71,37 @@ class RecordEditor:
         return OeciCase(edited_summary, edited_charges), new_charges
 
     @staticmethod
+    def _delete_all_charges(case_number: str, charges: Tuple[OeciCharge, ...]) -> Tuple[OeciCharge, ...]:
+        deleted_charges = []
+        for charge in charges:
+            deleted_charge = replace(charge, edit_status=EditStatus.DELETE)
+            deleted_charges.append(deleted_charge)
+        return tuple(deleted_charges)
+
+    @staticmethod
     def _edit_charges(
         case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
     ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
-        charges_without_charge_type, charges_with_charge_type = RecordEditor._update_charges(
+
+        charges_without_charge_type, charges_with_charge_type = RecordEditor._update_and_delete_charges(
             case_number, charges, charges_edits
         )
         charges_with_charge_type += RecordEditor._add_charges(case_number, charges, charges_edits)
         return tuple(charges_without_charge_type), charges_with_charge_type
 
     @staticmethod
-    def _update_charges(
+    def _update_and_delete_charges(
         case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
     ) -> Tuple[List[OeciCharge], List[Charge]]:
+        # Deleting a charge does nothing except set its edit_status to DELETED,
+        # so it is performed by just updating that field.
         charges_without_charge_type, charges_with_charge_type = [], []
         for charge in charges:
-            # TODO: deleting charges not supported yet
             if charge.ambiguous_charge_id in charges_edits.keys():
                 charge_edits = charges_edits[charge.ambiguous_charge_id]
                 charge_dict = RecordEditor._parse_charge_edits(charge_edits)
+                if charge_dict.pop("edit_status", None) != EditStatus.DELETE:
+                    charge_dict["edit_status"] = EditStatus.UPDATE
                 charge_type_string = charge_dict.pop("charge_type", None)
                 edited_oeci_charge = replace(charge, **charge_dict)
                 if charge_type_string:
@@ -118,6 +138,7 @@ class RecordEditor:
                     "level": "N/A",
                     "type_name": "N/A",
                     "balance_due_in_cents": 0,
+                    "edit_status": EditStatus.ADD,
                 }
                 new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
                 new_charges.append(new_charge)
