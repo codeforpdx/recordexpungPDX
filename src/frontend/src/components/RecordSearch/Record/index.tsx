@@ -50,10 +50,7 @@ export default class Record extends React.Component<Props> {
         {errors}
         <section>
           {this.props.record.summary ? (
-            <RecordSummary
-              cases={this.props.record.cases}
-              summary={this.props.record.summary}
-            />
+            <RecordSummary summary={this.props.record.summary} />
           ) : null}
           {this.props.record.cases ? (
             <Cases cases={this.props.record.cases} />
