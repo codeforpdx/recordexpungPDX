@@ -22,10 +22,13 @@ export default class Charge extends React.Component<Props> {
       expungement_result,
     } = this.props.charge;
 
-    const dispositionEvent = (disposition: any, date: any) => {
+    const dispositionEvent = (disposition: any) => {
       let dispositionEvent;
       dispositionEvent = disposition.status;
-      if (disposition.status === "Convicted") {
+      if (
+        disposition.status === "Convicted" ||
+        disposition.status === "Dismissed"
+      ) {
         dispositionEvent += " - " + disposition.date;
       } else if (disposition.status === "Unrecognized") {
         dispositionEvent += ' ("' + disposition.ruling + '")';
@@ -38,11 +41,11 @@ export default class Charge extends React.Component<Props> {
       return dispositionEvent;
     };
 
-    const buildDisposition = (disposition: any, date: any) => {
+    const buildDisposition = (disposition: any) => {
       return (
         <li className="mb2">
           <span className="fw7">Disposition: </span>{" "}
-          {dispositionEvent(disposition, date)}
+          {dispositionEvent(disposition)}
         </li>
       );
     };
@@ -79,7 +82,7 @@ export default class Charge extends React.Component<Props> {
                 <span className="fw7">Charge: </span>
                 {`${statute}-${name}`}
               </li>
-              {buildDisposition(disposition, date)}
+              {buildDisposition(disposition)}
               <li className="mb2">
                 <span className="fw7">Charged: </span> {date}
               </li>
