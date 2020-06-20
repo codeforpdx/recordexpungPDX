@@ -153,7 +153,7 @@ class RecordCreator:
                 "case_number": oeci_case.summary.case_number,
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
-                "edit_status": EditStatus(oeci_case.summary.edit_status),
+                "edit_status": EditStatus(oeci_charge.edit_status),
             }
             if oeci_charge.disposition.status == DispositionStatus.UNKNOWN:
                 charge_dict.pop("disposition")

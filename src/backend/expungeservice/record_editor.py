@@ -23,8 +23,7 @@ class RecordEditor:
                 edited_cases.append(case)
         for edit_action_case_number, edit in edits.items():
             if edit["summary"]["edit_status"] == EditStatus.ADD:
-                case = OeciCase.empty(case_number=str(next_new_case_number))
-                next_new_case_number += 1
+                case = OeciCase.empty(case_number=str(edit["summary"]["case_number"]))
                 edited_case, new_charges = RecordEditor._edit_case(case, edit)
                 edited_cases.append(edited_case)
                 new_charges_accumulator += new_charges
@@ -61,7 +60,7 @@ class RecordEditor:
         edited_summary = replace(case.summary, **case_summary_edits)
         new_charges: List[Charge] = []
         if case_summary_edits["edit_status"] == EditStatus.DELETE:
-            edited_charges = RecordEditor._delete_all_charges(case.summary.case_number, case.charges,)
+            edited_charges = RecordEditor._mark_charges_as_deleted(case.charges,)
         elif "charges" in case_edits.keys():
             edited_charges, new_charges = RecordEditor._edit_charges(
                 case.summary.case_number, case.charges, case_edits["charges"]
@@ -71,7 +70,7 @@ class RecordEditor:
         return OeciCase(edited_summary, edited_charges), new_charges
 
     @staticmethod
-    def _delete_all_charges(case_number: str, charges: Tuple[OeciCharge, ...]) -> Tuple[OeciCharge, ...]:
+    def _mark_charges_as_deleted(charges: Tuple[OeciCharge, ...]) -> Tuple[OeciCharge, ...]:
         deleted_charges = []
         for charge in charges:
             deleted_charge = replace(charge, edit_status=EditStatus.DELETE)
@@ -80,7 +79,7 @@ class RecordEditor:
 
     @staticmethod
     def _edit_charges(
-        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
+        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
     ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
 
         charges_without_charge_type, charges_with_charge_type = RecordEditor._update_and_delete_charges(
@@ -91,7 +90,7 @@ class RecordEditor:
 
     @staticmethod
     def _update_and_delete_charges(
-        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits
+        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
     ) -> Tuple[List[OeciCharge], List[Charge]]:
         # Deleting a charge does nothing except set its edit_status to DELETED,
         # so it is performed by just updating that field.
@@ -100,7 +99,7 @@ class RecordEditor:
             if charge.ambiguous_charge_id in charges_edits.keys():
                 charge_edits = charges_edits[charge.ambiguous_charge_id]
                 charge_dict = RecordEditor._parse_charge_edits(charge_edits)
-                if charge_dict.pop("edit_status", None) != EditStatus.DELETE:
+                if charge_dict.get("edit_status", None) != EditStatus.DELETE:
                     charge_dict["edit_status"] = EditStatus.UPDATE
                 charge_type_string = charge_dict.pop("charge_type", None)
                 edited_oeci_charge = replace(charge, **charge_dict)
@@ -120,7 +119,9 @@ class RecordEditor:
         return charges_without_charge_type, charges_with_charge_type
 
     @staticmethod
-    def _add_charges(case_number, charges, charges_edits) -> List[Charge]:
+    def _add_charges(
+        case_number, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
+    ) -> List[Charge]:
         new_charges = []
         for ambiguous_charge_id, charge_edits in charges_edits.items():
             charge_ids = [charge.ambiguous_charge_id for charge in charges]
@@ -166,6 +167,8 @@ class RecordEditor:
             elif key in ("date", "probation_revoked"):
                 if value:
                     charge_dict[key] = date_class.fromdatetime(datetime.strptime(value, "%m/%d/%Y"))
+            elif key == "edit_status":
+                charge_dict[key] = EditStatus(value)
             else:
                 charge_dict[key] = value
         return charge_dict

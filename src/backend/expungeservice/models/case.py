@@ -42,18 +42,21 @@ class OeciCase:
 
     @staticmethod
     def empty(case_number: str):
-        summary = CaseSummary(
-            name="",
-            birth_year=1900,
-            case_number=case_number,
-            citation_number="",
-            location="",
-            date=date_class.today(),
-            violation_type="",
-            current_status="",
-            case_detail_link="",
-            balance_due_in_cents=0,
-            edit_status=EditStatus.UNCHANGED,
+        return OeciCase(
+            CaseSummary(
+                name="",
+                birth_year=1900,
+                case_number=case_number,
+                citation_number="",
+                location="",
+                date=date_class.today(),
+                violation_type="",
+                current_status="",
+                case_detail_link="",
+                balance_due_in_cents=0,
+                edit_status=EditStatus.UNCHANGED,
+            ),
+            (),
         )
 
 
