@@ -51,7 +51,7 @@ class RecordCreator:
                 return record, questions_as_dict
 
     @staticmethod
-    @lru_cache(maxsize=4)
+    @lru_cache(maxsize=4,timeout=1)
     def build_search_results(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[List[OeciCase], List[str]]:
