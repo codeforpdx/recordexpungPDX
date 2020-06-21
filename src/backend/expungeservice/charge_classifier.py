@@ -59,7 +59,7 @@ class ChargeClassifier:
         return AmbiguousChargeTypeWithQuestion([UnclassifiedCharge()])
 
     def __classifications_list(self) -> Iterator[AmbiguousChargeTypeWithQuestion]:
-        name = self.name.lower()  # TODO: Fix name.lower() redundancies and do same with level.lower()
+        name = self.name.lower()  # TODO: Do a similar with level.lower()
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
@@ -72,7 +72,7 @@ class ChargeClassifier:
             (
                 c
                 for c in ChargeClassifier._criminal_charge(
-                    self.statute, self.section, self.name, self.level, self.birth_year, self.disposition
+                    self.statute, self.section, name, self.level, self.birth_year, self.disposition
                 )
                 if c
             ),
@@ -87,9 +87,9 @@ class ChargeClassifier:
     def _criminal_charge(
         statute, section, name, level, birth_year, disposition
     ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
-        yield from ChargeClassifier._drug_crime(statute, section, name.lower(), level, birth_year, disposition)
+        yield from ChargeClassifier._drug_crime(statute, section, name, level, birth_year, disposition)
         yield ChargeClassifier._subsection_6(section, level, statute)
-        yield ChargeClassifier._severe_unclassified_charges(name.lower(), statute)
+        yield ChargeClassifier._severe_unclassified_charges(name, statute)
         yield ChargeClassifier._other_criminal_charges(statute)
         yield ChargeClassifier._classification_by_level(level, statute)
 
