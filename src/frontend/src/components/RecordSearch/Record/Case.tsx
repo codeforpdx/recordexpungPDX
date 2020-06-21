@@ -19,7 +19,7 @@ export default class Cases extends React.Component<Props> {
       location,
       current_status,
     } = this.props.case;
-    let allIneligible = charges.every(charge => charge.expungement_result.type_eligibility.status === "Ineligible");
+    const allIneligible = charges.every(charge => charge.expungement_result.type_eligibility.status === "Ineligible");
     const prefix = window.location.href.includes("localhost")
       ? "http://localhost:5000"
       : ""; // Hack so we do not have to use nginx for dev
