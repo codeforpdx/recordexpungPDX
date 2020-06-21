@@ -78,7 +78,7 @@ class RecordEditor:
         ]
         charges_with_charge_type = []
         for edit_action_ambiguous_charge_id, edit in charges_edits.items():
-            if edit["edit_status"] == EditStatus.ADD:
+            if edit.get("edit_status", None) == EditStatus.ADD:
                 charge_dict = RecordEditor._parse_charge_edits(edit)
                 charge_type_string = charge_dict.pop("charge_type", None)
                 charge_edits_with_defaults = {
@@ -96,7 +96,7 @@ class RecordEditor:
                 }
                 new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
                 charges_with_charge_type.append(new_charge)
-            elif edit["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
+            else:  # edit["edit_status"] is either UPDATE or DELETE
                 charge = next(
                     (charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id)
                 )

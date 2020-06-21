@@ -145,12 +145,10 @@ export function searchReducer(
       );
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {
-        action: "edit",
+        summary: { edit_status: "UPDATE" },
       };
       edits[action.case_number]["charges"] =
         edits[action.case_number]["charges"] || {};
-      edits[action.case_number]["charges"][action.ambiguous_charge_id] =
-        edits[action.case_number]["charges"][action.ambiguous_charge_id] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = edit;
       return {
         ...state,
