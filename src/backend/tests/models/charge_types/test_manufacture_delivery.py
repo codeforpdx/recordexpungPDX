@@ -126,3 +126,42 @@ def test_manufacture_delivery_heroin():
         type_eligibility.reason
         == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
+
+
+def test_pcs():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="PCS", statute="4759924A", level="Felony Class B", disposition=Dispositions.CONVICTED,
+    )
+    type_eligibility = RecordMerger.merge_type_eligibilities(charges)
+
+    assert type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert (
+        type_eligibility.reason
+        == "Eligible under 137.226 ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+    )
+
+
+def test_pcs_heroin():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="POSS CONTROLLED SUB HEROIN",
+        statute="4757521A",
+        level="Felony Unclassified",
+        disposition=Dispositions.CONVICTED,
+    )
+    type_eligibility = RecordMerger.merge_type_eligibilities(charges)
+
+    assert type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert (
+        type_eligibility.reason
+        == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b)"
+    )
+
+
+def test_pcs_class_c():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="PCS", statute="4759924A", level="Felony Class C", disposition=Dispositions.CONVICTED,
+    )
+    type_eligibility = RecordMerger.merge_type_eligibilities(charges)
+
+    assert type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert type_eligibility.reason == "Eligible under 137.225(5)(b)"
