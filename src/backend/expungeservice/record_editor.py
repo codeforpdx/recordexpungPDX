@@ -28,7 +28,7 @@ class RecordEditor:
                 new_charges_accumulator += new_charges
             elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
                 case = next(
-                    (case for case in search_result_cases if case.summary.case_number == edit_action_case_number), None
+                    (case for case in search_result_cases if case.summary.case_number == edit_action_case_number)
                 )
                 edited_case, new_charges = RecordEditor._edit_case(case, edit)
                 edited_cases.append(edited_case)
@@ -98,8 +98,7 @@ class RecordEditor:
                 charges_with_charge_type.append(new_charge)
             elif edit["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
                 charge = next(
-                    (charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id),
-                    None,
+                    (charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id)
                 )
                 charge_edits = charges_edits[charge.ambiguous_charge_id]
                 charge_dict = RecordEditor._parse_charge_edits(edit)
