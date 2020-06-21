@@ -1,6 +1,6 @@
 from dataclasses import replace, asdict
 from datetime import datetime
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple, Dict, Any, Optional
 from expungeservice.util import DateWithFuture as date_class
 
 from dacite import from_dict
@@ -23,16 +23,15 @@ class RecordEditor:
         for edit_action_case_number, edit in edits.items():
             if edit["summary"]["edit_status"] == EditStatus.ADD:
                 case = OeciCase.empty(case_number=str(edit["summary"]["case_number"]))
-                edited_case, new_charges = RecordEditor._edit_case(case, edit)
-                edited_cases.append(edited_case)
-                new_charges_accumulator += new_charges
             elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
                 case = next(
                     (case for case in search_result_cases if case.summary.case_number == edit_action_case_number)
                 )
-                edited_case, new_charges = RecordEditor._edit_case(case, edit)
-                edited_cases.append(edited_case)
-                new_charges_accumulator += new_charges
+            else:
+                raise ValueError(f"Unknown edit status for case {case.summary.case_number}")
+            edited_case, new_charges = RecordEditor._edit_case(case, edit)
+            edited_cases.append(edited_case)
+            new_charges_accumulator += new_charges
         return edited_cases, new_charges_accumulator
 
     @staticmethod
@@ -79,43 +78,56 @@ class RecordEditor:
         charges_with_charge_type = []
         for edit_action_ambiguous_charge_id, edit in charges_edits.items():
             if edit.get("edit_status", None) == EditStatus.ADD:
-                charge_dict = RecordEditor._parse_charge_edits(edit)
-                charge_type_string = charge_dict.pop("charge_type", None)
-                charge_edits_with_defaults = {
-                    **charge_dict,
-                    "charge_type": RecordEditor._get_charge_type(charge_type_string),
-                    "ambiguous_charge_id": edit_action_ambiguous_charge_id,
-                    "case_number": case_number,
-                    "id": f"{edit_action_ambiguous_charge_id}-0",
-                    "name": "N/A",
-                    "statute": "N/A",
-                    "level": "N/A",
-                    "type_name": "N/A",
-                    "balance_due_in_cents": 0,
-                    "edit_status": EditStatus.ADD,
-                }
-                new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
+                new_charge = RecordEditor._add_charge(case_number, edit_action_ambiguous_charge_id, edit)
                 charges_with_charge_type.append(new_charge)
             else:  # edit["edit_status"] is either UPDATE or DELETE
-                charge = next(
-                    (charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id)
+                updated_charge_without_type, updated_charge_with_type = RecordEditor._update_or_delete_charge(
+                    charges, case_number, edit_action_ambiguous_charge_id, edit
                 )
-                charge_edits = charges_edits[charge.ambiguous_charge_id]
-                charge_dict = RecordEditor._parse_charge_edits(edit)
-                charge_type_string = charge_dict.pop("charge_type", None)
-                edited_oeci_charge = replace(charge, **charge_dict)
-                if charge_type_string:
-                    charge_type_data = {
-                        "id": f"{charge.ambiguous_charge_id}-0",
-                        "case_number": case_number,
-                        "charge_type": RecordEditor._get_charge_type(charge_type_string),
-                        **asdict(edited_oeci_charge),
-                    }
-                    new_charge = from_dict(data_class=Charge, data=charge_type_data)
-                    charges_with_charge_type.append(new_charge)
-                else:
-                    charges_without_charge_type.append(edited_oeci_charge)
+                if updated_charge_without_type:
+                    charges_without_charge_type.append(updated_charge_without_type)
+                elif updated_charge_with_type:
+                    charges_with_charge_type.append(updated_charge_with_type)
         return tuple(charges_without_charge_type), charges_with_charge_type
+
+    @staticmethod
+    def _add_charge(case_number, ambiguous_charge_id, edit) -> Charge:
+        charge_dict = RecordEditor._parse_charge_edits(edit)
+        charge_type_string = charge_dict.pop("charge_type", None)
+        charge_edits_with_defaults = {
+            **charge_dict,
+            "charge_type": RecordEditor._get_charge_type(charge_type_string),
+            "ambiguous_charge_id": ambiguous_charge_id,
+            "case_number": case_number,
+            "id": f"{ambiguous_charge_id}-0",
+            "name": "N/A",
+            "statute": "N/A",
+            "level": "N/A",
+            "type_name": "N/A",
+            "balance_due_in_cents": 0,
+            "edit_status": EditStatus.ADD,
+        }
+        return from_dict(data_class=Charge, data=charge_edits_with_defaults)
+
+    @staticmethod
+    def _update_or_delete_charge(
+        charges, case_number, edit_action_ambiguous_charge_id, edit
+    ) -> Tuple[Optional[OeciCharge], Optional[Charge]]:
+        charge = next((charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id))
+        charge_dict = RecordEditor._parse_charge_edits(edit)
+        charge_type_string = charge_dict.pop("charge_type", None)
+        edited_oeci_charge = replace(charge, **charge_dict)
+        if charge_type_string:
+            charge_type_data = {
+                "id": f"{charge.ambiguous_charge_id}-0",
+                "case_number": case_number,
+                "charge_type": RecordEditor._get_charge_type(charge_type_string),
+                **asdict(edited_oeci_charge),
+            }
+            new_charge = from_dict(data_class=Charge, data=charge_type_data)
+            return (None, new_charge)
+        else:
+            return (edited_oeci_charge, None)
 
     @staticmethod
     def _get_charge_type(charge_type: str) -> ChargeType:
