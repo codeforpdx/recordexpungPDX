@@ -59,7 +59,7 @@ class ChargeClassifier:
         return AmbiguousChargeTypeWithQuestion([UnclassifiedCharge()])
 
     def __classifications_list(self) -> Iterator[AmbiguousChargeTypeWithQuestion]:
-        name = self.name.lower()
+        name = self.name.lower()  # TODO: Fix name.lower() redundancies and do same with level.lower()
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
@@ -112,7 +112,7 @@ class ChargeClassifier:
     ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
         yield ChargeClassifier._marijuana_eligible(section, name, birth_year, disposition)
-        yield ChargeClassifier._manufacture_delivery(name, level, statute)
+        yield ChargeClassifier._pcs_and_manufacture_delivery(section, name, level, statute)
         yield ChargeClassifier._sex_crime(statute)
 
     @staticmethod
@@ -166,40 +166,64 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([MarijuanaEligible()])
 
     @staticmethod
-    def _manufacture_delivery(name, level, statute):
-        if any([manu_del_keyword in name for manu_del_keyword in ["delivery", "manu/del", "manufactur"]]):
-            if any([schedule_2_keyword in name for schedule_2_keyword in ["2", "ii", "heroin", "cocaine", "meth"]]):
-                if level == "Felony Unclassified":
-                    question_string = "Was the charge for an A Felony or B Felony?"
-                    options = {"A Felony": FelonyClassA(), "B Felony": FelonyClassB()}
-                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
-            elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]):
-                return ChargeClassifier._classification_by_level(level, statute)
-            else:
-                # The name contains either a "1" or no schedule number, and thus is possibly a marijuana charge.
-                question_string = "Was the underlying substance marijuana?"
-                charge_types_with_question = ChargeClassifier._classification_by_level(level, statute)
-                if level == "Felony Unclassified":
-                    felony_unclassified_question_id = (
-                        f"{question_string}-No-{charge_types_with_question.question.question_id}"
-                    )
-                    felony_unclassified_question = replace(
-                        charge_types_with_question.question, question_id=felony_unclassified_question_id
-                    )
-                    charge_types = [MarijuanaEligible()] + charge_types_with_question.ambiguous_charge_type
-                    question = Question(
-                        question_string,
-                        question_string,
-                        {
-                            "Yes": Answer(edit={"charge_type": MarijuanaEligible.__name__}),
-                            "No": Answer(question=felony_unclassified_question),
-                        },
-                    )
-                    return AmbiguousChargeTypeWithQuestion(charge_types, question)
-                elif level == "Felony Class A" or level == "Felony Class B":
-                    charge_type = charge_types_with_question.ambiguous_charge_type[0]
-                    options = {"Yes": MarijuanaEligible(), "No": charge_type}
-                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+    def _pcs_and_manufacture_delivery(section, name, level, statute):
+        is_manudel = any([manu_del_keyword in name for manu_del_keyword in ["delivery", "manu/del", "manufactur"]])
+        pcs_in_name = all(c in name for c in ["poss", "sub"]) or "pcs" in name
+        is_pcs = section == "4759924A" or section == "4757521A" or pcs_in_name
+        if is_manudel:
+            return ChargeClassifier._handle_pcs_and_manufacture_delivery(
+                name, level, statute, ChargeClassifier._manudel_schedule_2_handler
+            )
+        elif is_pcs:
+            return ChargeClassifier._handle_pcs_and_manufacture_delivery(
+                name, level, statute, ChargeClassifier._pcs_schedule_2_handler
+            )
+
+    @staticmethod
+    def _manudel_schedule_2_handler(level):
+        if level == "Felony Unclassified":
+            question_string = "Was the charge for an A Felony or B Felony?"
+            options = {"A Felony": FelonyClassA(), "B Felony": FelonyClassB()}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+
+    @staticmethod
+    def _pcs_schedule_2_handler(level):
+        if level == "Felony Unclassified":
+            question_string = "Was the charge for a B Felony or C Felony?"
+            options = {"B Felony": FelonyClassB(), "C Felony": FelonyClassC()}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+
+    @staticmethod
+    def _handle_pcs_and_manufacture_delivery(name, level, statute, schedule_2_handler):
+        if any([schedule_2_keyword in name for schedule_2_keyword in ["2", "ii", "heroin", "cocaine", "meth"]]):
+            return schedule_2_handler(level)
+        elif any([schedule_3_keyword in name for schedule_3_keyword in ["3", "iii", "4", " iv"]]):
+            return ChargeClassifier._classification_by_level(level, statute)
+        else:
+            # The name contains either a "1" or no schedule number, and thus is possibly a marijuana charge.
+            question_string = "Was the underlying substance marijuana?"
+            charge_types_with_question = ChargeClassifier._classification_by_level(level, statute)
+            if level == "Felony Unclassified":
+                felony_unclassified_question_id = (
+                    f"{question_string}-No-{charge_types_with_question.question.question_id}"
+                )
+                felony_unclassified_question = replace(
+                    charge_types_with_question.question, question_id=felony_unclassified_question_id
+                )
+                charge_types = [MarijuanaEligible()] + charge_types_with_question.ambiguous_charge_type
+                question = Question(
+                    question_string,
+                    question_string,
+                    {
+                        "Yes": Answer(edit={"charge_type": MarijuanaEligible.__name__}),
+                        "No": Answer(question=felony_unclassified_question),
+                    },
+                )
+                return AmbiguousChargeTypeWithQuestion(charge_types, question)
+            elif level == "Felony Class A" or level == "Felony Class B":
+                charge_type = charge_types_with_question.ambiguous_charge_type[0]
+                options = {"Yes": MarijuanaEligible(), "No": charge_type}
+                return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     # TODO: Assert for when Felony Unclassified
     @staticmethod
