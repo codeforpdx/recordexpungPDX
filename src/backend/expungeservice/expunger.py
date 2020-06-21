@@ -30,12 +30,12 @@ class Expunger:
         cases = analyzable_record.cases
         for charge in analyzable_record.charges:
             eligibility_dates: List[Tuple[date, str]] = []
-            other_charges = [
+            other_blocking_charges = [
                 c
                 for c in analyzable_record.charges
                 if c.charge_type.blocks_other_charges and c.id != charge.id and charge.edit_status != EditStatus.DELETE
             ]
-            dismissals, convictions = Expunger._categorize_charges(other_charges)
+            dismissals, convictions = Expunger._categorize_charges(other_blocking_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions)
             other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
@@ -94,7 +94,7 @@ class Expunger:
                 )
 
             if charge.convicted() and isinstance(charge.charge_type, FelonyClassB):
-                if Expunger._calculate_has_subsequent_charge(charge, other_charges):
+                if Expunger._calculate_has_subsequent_charge(charge, other_blocking_charges):
                     eligibility_dates.append(
                         (
                             date.max(),

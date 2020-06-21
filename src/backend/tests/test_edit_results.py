@@ -172,6 +172,7 @@ def test_add_case():
                 },
                 "charges": {
                     "5-1": {
+                        "edit_status": "ADD",
                         "charge_type": "FelonyClassC",
                         "date": "1/1/2001",
                         "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
@@ -217,7 +218,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
                     },
                     "X0001-2": {"edit_status": "DELETE"},
                     "X0001-3": {
-                        # "edit_status": "ADD",
+                        "edit_status": "ADD",
                         "charge_type": "FelonyClassC",
                         "date": "1/1/1900",
                         "disposition": {"date": "2/1/1910", "ruling": "Convicted"},
@@ -246,7 +247,9 @@ def test_add_disposition():
         {
             "X0001": {
                 "summary": {"edit_status": "UPDATE"},
-                "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
+                "charges": {
+                    "X0001-2": {"edit_status": "UPDATE", "disposition": {"date": "1/1/2001", "ruling": "Convicted"}}
+                },
             }
         },
     )
@@ -259,7 +262,12 @@ def test_edit_charge_type_of_charge():
         "username",
         "password",
         (),
-        {"X0001": {"summary": {"edit_status": "UPDATE"}, "charges": {"X0001-2": {"charge_type": "Misdemeanor"}},}},
+        {
+            "X0001": {
+                "summary": {"edit_status": "UPDATE"},
+                "charges": {"X0001-2": {"edit_status": "UPDATE", "charge_type": "Misdemeanor"}},
+            }
+        },
     )
     assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
 
@@ -275,6 +283,7 @@ def test_add_new_charge():
                 "summary": {"edit_status": "UPDATE"},
                 "charges": {
                     "X0001-3": {
+                        "edit_status": "ADD",
                         "charge_type": "Misdemeanor",
                         "date": "1/1/2001",
                         "disposition": {"date": "2/1/2020", "ruling": "Convicted"},

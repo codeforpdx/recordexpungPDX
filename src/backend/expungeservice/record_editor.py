@@ -15,7 +15,6 @@ from expungeservice.models.disposition import DispositionCreator
 class RecordEditor:
     @staticmethod
     def edit_search_results(search_result_cases: List[OeciCase], edits) -> Tuple[List[OeciCase], List[Charge]]:
-        next_new_case_number = 1
         edited_cases: List[OeciCase] = []
         new_charges_accumulator: List[Charge] = []
         for case in search_result_cases:
@@ -27,20 +26,13 @@ class RecordEditor:
                 edited_case, new_charges = RecordEditor._edit_case(case, edit)
                 edited_cases.append(edited_case)
                 new_charges_accumulator += new_charges
-            elif edit["summary"]["edit_status"] == EditStatus.UPDATE:
-                for case in search_result_cases:
-                    case_number = case.summary.case_number
-                    if case_number == edit_action_case_number:
-                        edited_case, new_charges = RecordEditor._edit_case(case, edit)
-                        edited_cases.append(edited_case)
-                        new_charges_accumulator += new_charges
-            elif edit["summary"]["edit_status"] == EditStatus.DELETE:
-                for case in search_result_cases:
-                    case_number = case.summary.case_number
-                    if case.summary.case_number == edit_action_case_number:
-                        edited_case, new_charges = RecordEditor._edit_case(case, edit)
-                        edited_cases.append(edited_case)
-                        new_charges_accumulator += new_charges
+            elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
+                case = next(
+                    (case for case in search_result_cases if case.summary.case_number == edit_action_case_number), None
+                )
+                edited_case, new_charges = RecordEditor._edit_case(case, edit)
+                edited_cases.append(edited_case)
+                new_charges_accumulator += new_charges
         return edited_cases, new_charges_accumulator
 
     @staticmethod
@@ -60,7 +52,7 @@ class RecordEditor:
         edited_summary = replace(case.summary, **case_summary_edits)
         new_charges: List[Charge] = []
         if case_summary_edits["edit_status"] == EditStatus.DELETE:
-            edited_charges = RecordEditor._mark_charges_as_deleted(case.charges,)
+            edited_charges = RecordEditor._mark_charges_as_deleted(case.charges)
         elif "charges" in case_edits.keys():
             edited_charges, new_charges = RecordEditor._edit_charges(
                 case.summary.case_number, case.charges, case_edits["charges"]
@@ -81,26 +73,36 @@ class RecordEditor:
     def _edit_charges(
         case_number: str, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
     ) -> Tuple[Tuple[OeciCharge, ...], List[Charge]]:
-
-        charges_without_charge_type, charges_with_charge_type = RecordEditor._update_and_delete_charges(
-            case_number, charges, charges_edits
-        )
-        charges_with_charge_type += RecordEditor._add_charges(case_number, charges, charges_edits)
-        return tuple(charges_without_charge_type), charges_with_charge_type
-
-    @staticmethod
-    def _update_and_delete_charges(
-        case_number: str, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
-    ) -> Tuple[List[OeciCharge], List[Charge]]:
-        # Deleting a charge does nothing except set its edit_status to DELETED,
-        # so it is performed by just updating that field.
-        charges_without_charge_type, charges_with_charge_type = [], []
-        for charge in charges:
-            if charge.ambiguous_charge_id in charges_edits.keys():
+        charges_without_charge_type = [
+            charge for charge in charges if charge.ambiguous_charge_id not in charges_edits.keys()
+        ]
+        charges_with_charge_type = []
+        for edit_action_ambiguous_charge_id, edit in charges_edits.items():
+            if edit["edit_status"] == EditStatus.ADD:
+                charge_dict = RecordEditor._parse_charge_edits(edit)
+                charge_type_string = charge_dict.pop("charge_type", None)
+                charge_edits_with_defaults = {
+                    **charge_dict,
+                    "charge_type": RecordEditor._get_charge_type(charge_type_string),
+                    "ambiguous_charge_id": edit_action_ambiguous_charge_id,
+                    "case_number": case_number,
+                    "id": f"{edit_action_ambiguous_charge_id}-0",
+                    "name": "N/A",
+                    "statute": "N/A",
+                    "level": "N/A",
+                    "type_name": "N/A",
+                    "balance_due_in_cents": 0,
+                    "edit_status": EditStatus.ADD,
+                }
+                new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
+                charges_with_charge_type.append(new_charge)
+            elif edit["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
+                charge = next(
+                    (charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id),
+                    None,
+                )
                 charge_edits = charges_edits[charge.ambiguous_charge_id]
-                charge_dict = RecordEditor._parse_charge_edits(charge_edits)
-                if charge_dict.get("edit_status", None) != EditStatus.DELETE:
-                    charge_dict["edit_status"] = EditStatus.UPDATE
+                charge_dict = RecordEditor._parse_charge_edits(edit)
                 charge_type_string = charge_dict.pop("charge_type", None)
                 edited_oeci_charge = replace(charge, **charge_dict)
                 if charge_type_string:
@@ -114,36 +116,7 @@ class RecordEditor:
                     charges_with_charge_type.append(new_charge)
                 else:
                     charges_without_charge_type.append(edited_oeci_charge)
-            else:
-                charges_without_charge_type.append(charge)
-        return charges_without_charge_type, charges_with_charge_type
-
-    @staticmethod
-    def _add_charges(
-        case_number, charges: Tuple[OeciCharge, ...], charges_edits: Dict[str, Dict[str, str]]
-    ) -> List[Charge]:
-        new_charges = []
-        for ambiguous_charge_id, charge_edits in charges_edits.items():
-            charge_ids = [charge.ambiguous_charge_id for charge in charges]
-            if ambiguous_charge_id not in charge_ids:
-                charge_dict = RecordEditor._parse_charge_edits(charge_edits)
-                charge_type_string = charge_dict.pop("charge_type", None)
-                charge_edits_with_defaults = {
-                    **charge_dict,
-                    "charge_type": RecordEditor._get_charge_type(charge_type_string),
-                    "ambiguous_charge_id": ambiguous_charge_id,
-                    "case_number": case_number,
-                    "id": f"{ambiguous_charge_id}-0",
-                    "name": "N/A",
-                    "statute": "N/A",
-                    "level": "N/A",
-                    "type_name": "N/A",
-                    "balance_due_in_cents": 0,
-                    "edit_status": EditStatus.ADD,
-                }
-                new_charge = from_dict(data_class=Charge, data=charge_edits_with_defaults)
-                new_charges.append(new_charge)
-        return new_charges
+        return tuple(charges_without_charge_type), charges_with_charge_type
 
     @staticmethod
     def _get_charge_type(charge_type: str) -> ChargeType:
