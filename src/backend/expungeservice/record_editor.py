@@ -81,13 +81,13 @@ class RecordEditor:
                 new_charge = RecordEditor._add_charge(case_number, edit_action_ambiguous_charge_id, edit)
                 charges_with_charge_type.append(new_charge)
             else:  # edit["edit_status"] is either UPDATE or DELETE
-                updated_charge_without_type, updated_charge_with_type = RecordEditor._update_or_delete_charge(
+                updated_charge = RecordEditor._update_or_delete_charge(
                     charges, case_number, edit_action_ambiguous_charge_id, edit
                 )
-                if updated_charge_without_type:
-                    charges_without_charge_type.append(updated_charge_without_type)
-                elif updated_charge_with_type:
-                    charges_with_charge_type.append(updated_charge_with_type)
+                if isinstance(updated_charge, Charge):
+                    charges_with_charge_type.append(updated_charge)
+                else:
+                    charges_without_charge_type.append(updated_charge)
         return tuple(charges_without_charge_type), charges_with_charge_type
 
     @staticmethod
@@ -110,9 +110,7 @@ class RecordEditor:
         return from_dict(data_class=Charge, data=charge_edits_with_defaults)
 
     @staticmethod
-    def _update_or_delete_charge(
-        charges, case_number, edit_action_ambiguous_charge_id, edit
-    ) -> Tuple[Optional[OeciCharge], Optional[Charge]]:
+    def _update_or_delete_charge(charges, case_number, edit_action_ambiguous_charge_id, edit) -> OeciCharge:
         charge = next((charge for charge in charges if charge.ambiguous_charge_id == edit_action_ambiguous_charge_id))
         charge_dict = RecordEditor._parse_charge_edits(edit)
         charge_type_string = charge_dict.pop("charge_type", None)
@@ -125,9 +123,9 @@ class RecordEditor:
                 **asdict(edited_oeci_charge),
             }
             new_charge = from_dict(data_class=Charge, data=charge_type_data)
-            return (None, new_charge)
+            return new_charge
         else:
-            return (edited_oeci_charge, None)
+            return edited_oeci_charge
 
     @staticmethod
     def _get_charge_type(charge_type: str) -> ChargeType:
