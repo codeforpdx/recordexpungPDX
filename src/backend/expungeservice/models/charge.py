@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from dateutil.relativedelta import relativedelta
+from enum import Enum
 
 from expungeservice.util import DateWithFuture as date_class
 from expungeservice.models.disposition import Disposition, DispositionStatus
@@ -11,6 +12,13 @@ from expungeservice.models.expungement_result import (
     TypeEligibility,
     EligibilityStatus,
 )
+
+
+class EditStatus(str, Enum):
+    UNCHANGED = "UNCHANGED"
+    UPDATE = "UPDATE"
+    ADD = "ADD"
+    DELETE = "DELETE"
 
 
 class ChargeUtil:
@@ -34,6 +42,7 @@ class OeciCharge:
     disposition: Disposition
     probation_revoked: Optional[date_class]
     balance_due_in_cents: int
+    edit_status: EditStatus
 
 
 @dataclass(frozen=True)

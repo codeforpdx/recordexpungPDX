@@ -1,6 +1,6 @@
 from expungeservice.util import DateWithFuture as date_class
 from expungeservice.models.ambiguous import AmbiguousCharge
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.models.disposition import Disposition, DispositionCreator, DispositionStatus
 
@@ -54,6 +54,7 @@ class ChargeFactory:
             "disposition": disposition,
             "violation_type": violation_type,
             "balance_due_in_cents": 0,
+            "edit_status": EditStatus.UNCHANGED,
         }
         charges = ChargeCreator.create(str(cls.charge_count), **kwargs)[0]
         return charges
@@ -79,6 +80,7 @@ class ChargeFactory:
             "disposition": disposition,
             "violation_type": violation_type,
             "balance_due_in_cents": 0,
+            "edit_status": EditStatus.UNCHANGED,
         }
 
         charges = ChargeCreator.create(str(cls.charge_count), **kwargs)[0]

@@ -11,7 +11,7 @@ from expungeservice.util import DateWithFuture as date_class
 from expungeservice.crawler.request import Payload, URL
 from expungeservice.util import LRUCache
 from expungeservice.models.case import CaseCreator, OeciCase, CaseSummary
-from expungeservice.models.charge import OeciCharge
+from expungeservice.models.charge import OeciCharge, EditStatus
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.crawler.parsers.param_parser import ParamParser
 from expungeservice.crawler.parsers.node_parser import NodeParser
@@ -94,7 +94,9 @@ class Crawler:
                 charge_id, ambiguous_charge_id, charge_dict, case_parser_data, balance_due_in_cents
             )
             charges.append(charge)
-        updated_case_summary = replace(case_summary, balance_due_in_cents=balance_due_in_cents)
+        updated_case_summary = replace(
+            case_summary, balance_due_in_cents=balance_due_in_cents, edit_status=EditStatus.UNCHANGED
+        )
         return OeciCase(updated_case_summary, charges=tuple(charges))
 
     @staticmethod
@@ -134,6 +136,7 @@ class Crawler:
             disposition=disposition,
             probation_revoked=probation_revoked,
             balance_due_in_cents=balance_due_in_cents,
+            edit_status=EditStatus.UNCHANGED,
             **charge_dict,
         )
 

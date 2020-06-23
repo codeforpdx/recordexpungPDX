@@ -11,7 +11,7 @@ from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword,
 from expungeservice.expunger import ErrorChecker, Expunger
 from expungeservice.models.ambiguous import AmbiguousCharge, AmbiguousCase, AmbiguousRecord
 from expungeservice.models.case import Case, OeciCase
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.record_editor import RecordEditor
 from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Alias, QuestionSummary, Question, Answer
@@ -40,7 +40,9 @@ class RecordCreator:
             user_edited_search_results, new_charges = RecordEditor.edit_search_results(
                 cases_with_unique_case_number, edits
             )
+
             ambiguous_cases, questions = RecordCreator._build_ambiguous_cases(user_edited_search_results, new_charges)
+
             ambiguous_record, overflow_error = RecordCreator._build_ambiguous_record(ambiguous_cases)
             if overflow_error:
                 return Record((), tuple(overflow_error)), {}
@@ -151,6 +153,7 @@ class RecordCreator:
                 "case_number": oeci_case.summary.case_number,
                 "violation_type": oeci_case.summary.violation_type,
                 "birth_year": oeci_case.summary.birth_year,
+                "edit_status": EditStatus(oeci_charge.edit_status),
             }
             if oeci_charge.disposition.status == DispositionStatus.UNKNOWN:
                 charge_dict.pop("disposition")

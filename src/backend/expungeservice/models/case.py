@@ -3,7 +3,7 @@ from datetime import datetime
 from expungeservice.util import DateWithFuture as date_class
 from typing import Optional, Tuple
 
-from expungeservice.models.charge import OeciCharge, Charge
+from expungeservice.models.charge import OeciCharge, Charge, EditStatus
 
 
 @dataclass(frozen=True)
@@ -18,6 +18,7 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int
+    edit_status: EditStatus
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -38,6 +39,25 @@ class CaseSummary:
 class OeciCase:
     summary: CaseSummary
     charges: Tuple[OeciCharge, ...]
+
+    @staticmethod
+    def empty(case_number: str):
+        return OeciCase(
+            CaseSummary(
+                name="",
+                birth_year=1900,
+                case_number=case_number,
+                citation_number="",
+                location="",
+                date=date_class.today(),
+                violation_type="",
+                current_status="",
+                case_detail_link="",
+                balance_due_in_cents=0,
+                edit_status=EditStatus.UNCHANGED,
+            ),
+            (),
+        )
 
 
 @dataclass(frozen=True)
@@ -69,6 +89,7 @@ class CaseCreator:
             current_status,
             case_detail_link,
             balance_due_in_cents,
+            EditStatus.UNCHANGED,
         )
 
     @staticmethod
