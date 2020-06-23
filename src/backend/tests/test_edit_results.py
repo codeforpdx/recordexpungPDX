@@ -323,6 +323,7 @@ def test_deleted_charge_does_not_block():
 
 
 # More thoughts on using / testing Edits:
-# If an ambiguous_charge_id isn't recognized, that automatically creates a new charge and the edit_status is automatically ADD.
-# If a new charge is being added, the charge_type must be provided. Otherwise it will just break. there is no check for this.
-# If an ambiguous_charge_id IS recognized, and the edit_status isn't DELETE, it automatically is set to UPDATED.
+# Edits to a case MUST include "case_number": {"summary":{"edit_status":[something]}}. Without the edit_status it will break.
+# Edits to an existing charge don't need to include edit_status. This allows the frontend to edit the disposition (answering a  DispositionQuestion) without adding the UPDATED badge.
+# If an ambiguous_charge_id isn't recognized, its edit_status must be ADD. Otherwise it will break
+# If a new charge is being added, the charge_type must be provided. Otherwise it will break. there is no check for this.
