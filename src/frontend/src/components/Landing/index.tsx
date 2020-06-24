@@ -13,198 +13,366 @@ class Landing extends React.Component {
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
             <div className="mw8 center flex-l ph4 pb5 mt5">
-              <h1 className="f3 f2-ns fw9 mw6 mr5-l mt0 mb3">
-                Software to make record expungement affordable
+              <h1 className="f3 f2-ns fw9 w-80-l mr5-l mt0 mb3">
+                Making Record <br/>Expungement Affordable
               </h1>
-              <p className="f5 lh-copy mw6">
+              <p className="f5 lh-title mw6">
                 <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                RecordSponge is a product that helps providers quickly analyze
-                an individual’s criminal history to determine if they qualify to
-                have their records expunged.
+                RecordSponge is software that helps community organizations quickly 
+                analyze an individual’s criminal history to determine if they qualify 
+                to have their records expunged.
               </p>
             </div>
 
-            <div className="f5 mh3">
-              <div className="mw8 center bg-gray-blue-2 shadow br4 pa4 ph5-l mb5">
-                <h2 className="f3 fw6 mb3">
-                  <span className="red">Emergency Update: </span> Protests
-                  Against Police Violence
+            <div className="bg-navy pv6">
+              <div className="mw7 center">
+                <div className="mh4">
+                  <h2 className="white tc f3 f2-ns fw9 mb3">
+                    Are you looking to clear your record?
+                  </h2>
+                  <p className="white tc center mw6 mb4">
+                    Select a partner below near you. They can provide your analysis and help you file for expungement.
+                  </p>
+                </div>
+                <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
+                  <h3 className="f3 fw9 pa4">
+                    Partners
+                  </h3>
+                  <ul className="list">
+
+                    <li className="bt bw2 b--lightest-blue1">
+                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
+                          Portland Community College
+                        </span>
+                        <span className="w-30 pr3">
+                          Northeast Portland
+                        </span>
+                        <span className="absolute top-0 right-0 pt3 ph3">
+                          <span aria-hidden="true" className="fas fa-angle-down"></span>
+                        </span>
+                      </button>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
+                        Here I am! I am the buried treasure!
+                      </div>
+                    </li>
+
+                    <li className="bt bw2 b--lightest-blue1">
+                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
+                          Qiu-qiu Law
+                        </span>
+                        <span className="w-30 pr3">
+                          Portland
+                        </span>
+                        <span className="absolute top-0 right-0 pt3 ph3">
+                          <span aria-hidden="true" className="fas fa-angle-up"></span>
+                        </span>
+                      </button>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns">
+                        <ul className="list mb3">
+                          <li className="flex-ns mb3">
+                            <span className="w4-ns db fw6 mr3">Analysis Cost</span>
+                            <span>Free</span>
+                          </li>
+                          <li className="flex-ns mb3">
+                            <span className="w4-ns db fw6 mr3">Filing Cost</span>
+                            <span>NA</span>
+                          </li>
+                          <li className="flex-ns mb3">
+                            <span className="w4-ns db fw6 mr3">Court Fees</span>
+                            <span>Not Included</span>
+                          </li>
+                          <li className="flex-ns mb3">
+                            <span className="w4-ns db fw6 mr3">Income Restrictions</span>
+                            <span>Under 45k Annual</span>
+                          </li>
+                          <li className="flex-ns mb3">
+                            <span className="w4-ns db fw6 mr3">Locations</span>
+                            <span>Portland Metro</span>
+                          </li>
+                        </ul>
+                        <p className="mw6 bt b--black-10 pv3">
+                          Send an email with your full name, previous names (including aliases and maiden names), and date of birth.
+                        </p>
+                        <ul className="list mb3">
+                          <li className="fw6 mb3">
+                            email@domain.com
+                          </li>
+                          <li className="fw6 mb2">
+                            555-555-5555
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+
+                    <li className="bt bw2 b--lightest-blue1">
+                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
+                          Criminals Anonymous
+                        </span>
+                        <span className="w-30 pr3">
+                          East Portland
+                        </span>
+                        <span className="absolute top-0 right-0 pt3 ph3">
+                          <span aria-hidden="true" className="fas fa-angle-down"></span>
+                        </span>
+                      </button>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
+                        Here I am! I am the buried treasure!
+                      </div>
+                    </li>
+
+                    <li className="bt bw2 b--lightest-blue1">
+                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
+                          Probation and Parole, Community Justice Center
+                        </span>
+                        <span className="w-30 pr3">
+                          Medford
+                        </span>
+                        <span className="absolute top-0 right-0 pt3 ph3">
+                          <span aria-hidden="true" className="fas fa-angle-down"></span>
+                        </span>
+                      </button>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
+                        Here I am! I am the buried treasure!
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+
+                <span className="db w4 center bb bw2 b--blue mb3"></span>
+                <p className="tc white mw7 mh4">Over 1,060 analyses delivered as of June 11, 2020</p>
+
+              </div>
+            </div>
+
+            <div className="bg-lightest-blue1 pv6">
+              <div className="mw7 center">
+                <div className="mh4">
+                  <h2 className="tc f3 f2-ns fw9 mb3">
+                    Are you interested in providing expungement help with this tool?
+                  </h2>
+                  <p className="tc center mw6 mb4">
+                    We only ask that you provide your contact details and obtain OECI credentials.
+                  </p>
+                  <div className="tc mb6">
+                    <a className="inline-flex items-center f3 blue hover-navy fw7" href="/manual#overview">
+                      <span>Learn More</span>
+                      <span className="fas fa-arrow-right lh-solid pt1 pl2" aria-hidden="true"></span>
+                    </a>
+                  </div>
+                  <span className="db w4 center bb bw2 b--blue mb3"></span>
+                  <p className="mw7 tc f4 f3-ns fw6 center mb3">
+                    “RecordSponge has enabled me to help five times as many 
+                    people clear their record.”
+                  </p>
+                  <p className="mw7 tc center">
+                    Jane Doe, Signs of Hope
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mw8 flex-l center ph4 pv6">
+              <div className="w-50-l mb5">
+                <h2 className="f3 f2-ns fw9 mb3">
+                  Who We Are
                 </h2>
-                <p className="lh-copy mw8 mb3">
-                  Due to ongoing events Qiu-Qiu Law is making all expungement
-                  help free to any protesters arrested during this fight. Anyone
-                  can register directly to{" "}
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="https://www.qiu-qiulaw.com/register"
+                <p className="lh-copy mb3">
+                  <a className="link bb hover-dark-blue" 
+                    href="http://www.codeforpdx.org">
+                    Code for PDX
+                  </a> and{" "}
+                  <a className="link bb hover-dark-blue" 
+                    href="https://www.qiu-qiulaw.com">
+                    Qiu-qiu Law
+                  </a> are actively developing analytical software to help 
+                  expungement providers quickly determine which items on an 
+                  applicant's record are eligible for expungement.
+                </p>
+                <p className="lh-copy mb3">
+                  The goal of this project is to make expungement available 
+                  to all Oregonians, regardless of their ability to pay. 
+                  It further seeks to provide these services in the communities 
+                  that need them the most.
+                </p>
+                <p className="lh-copy mb3">
+                  <a className="link bb hover-dark-blue"
+                    href="/about"
                   >
-                    see if you qualify for expungement here
-                  </a>{" "}
-                  and a lawyer will return your inquiry within 48 hours.
+                    More About Us
+                  </a>
                 </p>
-                <p className="mb2 pv2">
-                  For other communication (to learn more, help out, etc.) you
-                  can also contact:
-                </p>
-                <ul className="list mb3 pl4">
-                  <li className="mb3">
-                    Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
-                    <a
-                      className="fw6 link hover-dark-blue no-wrap"
-                      href="mailto:michael@qiu-qiulaw.com"
-                    >
-                      michael@qiu-qiulaw.com
-                    </a>
-                  </li>
-                  <li className="mb2">
-                    Jordan Witte, project manager at Code for PDX:{" "}
-                    <a
-                      className="fw6 link hover-dark-blue no-wrap"
-                      href="mailto:jordan.witte@codeforpdx.org"
-                    >
-                      jordan.witte@codeforpdx.org
-                    </a>
-                  </li>
-                </ul>
+              </div>
+              <div className="w-50-l tc pa5-l pa3 mb5 ml4-l">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 257 243"
+                  aria-hidden="true"
+                  className="who-we-are-logos"
+                >
+                  <defs>
+                    <path id="a" d="M.453.556H21.55v13.803H.453z"></path>
+                    <path
+                      id="c"
+                      d="M47.382.31c-.422.179-.771.43-1.047.757a2.998 2.998 0 00-.601 1.16 5.46 5.46 0 00-.187 1.462v1.058l-1.369.104v1.783h1.369v8.294h2.385V6.634h1.99V4.747h-1.99v-1.1c0-1.146.428-1.72 1.285-1.72.373 0 .747.083 1.12.249l.457-1.784a4.953 4.953 0 00-.84-.249A4.968 4.968 0 0048.926.04c-.608 0-1.123.09-1.545.27zM28.222.289v3.69l.083 1.639a5.902 5.902 0 00-1.203-.819c-.4-.2-.891-.3-1.472-.3a3.67 3.67 0 00-1.607.372c-.519.25-.978.602-1.379 1.058-.401.456-.722 1.016-.964 1.68-.242.663-.363 1.41-.363 2.24 0 1.686.376 2.996 1.13 3.929.753.933 1.773 1.4 3.059 1.4.552 0 1.078-.132 1.576-.395.497-.263.933-.58 1.306-.954h.083l.166 1.1h1.97V.288h-2.385zm-3.847 12.058c-.393-.574-.59-1.414-.59-2.519 0-1.08.228-1.908.684-2.489.456-.58 1.016-.87 1.68-.87.346 0 .687.061 1.026.186.339.124.688.346 1.047.663v4.749c-.663.76-1.376 1.14-2.135 1.14-.748 0-1.318-.287-1.712-.86zM4.006 1.596c-.754.317-1.41.78-1.97 1.388-.56.609-1.002 1.351-1.327 2.23-.325.878-.487 1.87-.487 2.975 0 1.12.159 2.116.476 2.986.319.871.751 1.604 1.297 2.199a5.347 5.347 0 001.939 1.347 6.306 6.306 0 002.405.456c.87 0 1.662-.17 2.374-.507a5.825 5.825 0 001.897-1.463l-1.286-1.514a5.05 5.05 0 01-1.285 1.006c-.47.256-1.009.383-1.617.383-1.148 0-2.057-.438-2.727-1.316-.67-.877-1.006-2.09-1.006-3.639 0-.76.093-1.445.28-2.052.187-.61.45-1.124.788-1.545.339-.423.74-.747 1.202-.975a3.409 3.409 0 011.525-.342c.525 0 .995.107 1.41.321.415.214.802.5 1.161.86l1.286-1.555c-.43-.456-.975-.856-1.638-1.202-.664-.346-1.424-.52-2.281-.52-.857 0-1.663.16-2.416.479zm96.097-.23l-1.43 3.007c-.153.319-.3.643-.446.976-.145.331-.3.697-.467 1.098h-.083c-.207-.4-.39-.767-.55-1.098a34.69 34.69 0 00-.486-.976l-1.493-3.006h-2.675L96.08 7.94l-3.857 6.987h2.55l1.618-3.193a91.628 91.628 0 00.995-2.218h.083c.207.414.397.798.57 1.15.173.353.35.709.53 1.068l1.658 3.193h2.675l-3.857-6.884 3.608-6.677h-2.551zm-18.334 0v13.562h3.754c1.008 0 1.911-.145 2.705-.435a5.362 5.362 0 002.032-1.296c.561-.574.99-1.29 1.286-2.146.298-.857.446-1.845.446-2.966 0-2.239-.58-3.919-1.742-5.039-1.161-1.119-2.778-1.68-4.852-1.68h-3.629zm2.405 1.95h1.058c1.369 0 2.427.38 3.172 1.14.747.761 1.121 1.971 1.121 3.63 0 1.672-.37 2.906-1.11 3.7-.74.796-1.8 1.193-3.183 1.193h-1.058V3.316zm-13.42-1.95v13.562h2.407V9.952h1.949c.732 0 1.414-.087 2.042-.259a4.554 4.554 0 001.638-.81 3.826 3.826 0 001.09-1.378c.262-.553.393-1.203.393-1.95 0-.787-.131-1.448-.394-1.98a3.397 3.397 0 00-1.1-1.295 4.479 4.479 0 00-1.668-.705 9.889 9.889 0 00-2.084-.208h-4.272zm2.407 1.93h1.679c1.01 0 1.773.161 2.291.487.519.324.778.916.778 1.773 0 1.645-.996 2.467-2.986 2.467H73.16V3.295zm-8.862 1.731c-.51.352-.947.86-1.306 1.524h-.083l-.166-1.804h-1.97v10.181h2.385v-6.22c.318-.775.698-1.318 1.14-1.628.443-.312.864-.466 1.265-.466a3.113 3.113 0 011.057.165l.416-2.073c-.29-.139-.678-.208-1.162-.208-.539 0-1.064.177-1.576.529zm-11.511-.166a4.678 4.678 0 00-1.546 1.047 4.967 4.967 0 00-1.067 1.68c-.263.664-.394 1.417-.394 2.26s.13 1.597.394 2.26a4.967 4.967 0 001.067 1.68c.45.456.964.801 1.546 1.036.58.236 1.188.353 1.824.353.636 0 1.248-.117 1.835-.353a4.41 4.41 0 001.545-1.036 5.187 5.187 0 001.068-1.68c.27-.663.405-1.416.405-2.26 0-.843-.136-1.596-.405-2.26a5.187 5.187 0 00-1.068-1.68 4.544 4.544 0 00-1.545-1.047 4.778 4.778 0 00-1.835-.363 4.7 4.7 0 00-1.824.363zm.072 7.444c-.421-.615-.633-1.434-.633-2.457 0-1.037.212-1.863.633-2.477.422-.616 1.005-.924 1.752-.924.746 0 1.334.308 1.763.924.428.614.643 1.44.643 2.477 0 1.023-.215 1.842-.643 2.457-.429.615-1.017.923-1.763.923-.747 0-1.33-.308-1.752-.923zM34.861 4.871a4.653 4.653 0 00-1.504 1.058c-.435.456-.784 1.016-1.047 1.68-.262.663-.393 1.41-.393 2.24 0 .843.127 1.592.383 2.25a4.771 4.771 0 001.068 1.668c.457.456.989.805 1.597 1.047a5.272 5.272 0 001.97.363 5.62 5.62 0 001.866-.311 7.316 7.316 0 001.617-.788l-.808-1.493a5.47 5.47 0 01-1.13.55 3.75 3.75 0 01-1.234.197c-.83 0-1.51-.245-2.043-.736-.532-.491-.854-1.192-.964-2.105h6.47a4.23 4.23 0 00.073-.498c.02-.207.03-.429.03-.663 0-.705-.09-1.355-.27-1.95a4.405 4.405 0 00-.797-1.534 3.56 3.56 0 00-1.317-.995c-.526-.235-1.133-.353-1.825-.353-.594 0-1.175.124-1.742.373zm.208 2.116a2.258 2.258 0 011.596-.643c.705 0 1.227.224 1.566.673.338.45.508 1.068.508 1.857h-4.521c.11-.83.394-1.459.85-1.887zM13.952 4.86a4.67 4.67 0 00-1.544 1.047 4.96 4.96 0 00-1.069 1.68c-.262.664-.394 1.417-.394 2.26s.132 1.597.394 2.26a4.96 4.96 0 001.069 1.68c.449.456.963.801 1.544 1.036.581.236 1.19.353 1.826.353.635 0 1.247-.117 1.835-.353a4.41 4.41 0 001.544-1.036 5.169 5.169 0 001.068-1.68c.27-.663.404-1.416.404-2.26 0-.843-.135-1.596-.404-2.26a5.169 5.169 0 00-1.068-1.68 4.544 4.544 0 00-1.544-1.047 4.783 4.783 0 00-1.835-.363c-.636 0-1.245.121-1.826.363zm.073 7.444c-.422-.615-.633-1.434-.633-2.457 0-1.037.21-1.863.633-2.477.421-.616 1.005-.924 1.753-.924.745 0 1.332.308 1.761.924.429.614.644 1.44.644 2.477 0 1.023-.215 1.842-.644 2.457-.429.615-1.016.923-1.761.923-.748 0-1.332-.308-1.753-.923z"
+                    ></path>
+                    <path
+                      id="e"
+                      d="M3.888 1.358C2.411 1.97 1.597 2.604.648 3.052c-.948.449-.777 1.877 0 2.26.778.381.485-.082 2.519 1.046 1.122.622 3.937.991 4.946 2.603 4.257 6.799 2.16 1.61 2.237.53.17-2.41-2.3-2.672-3.536-3.452-1.237-.779-2.4-.862-2.926-1.926-.525-1.063.361-.893 1.357-1.647.995-.755 2.007-.779 1.57-1.87C6.688.284 6.515.162 6.3.162c-.54 0-1.358.757-2.412 1.196z"
+                    ></path>
+                    <path
+                      id="g"
+                      d="M.57 3.016c-.305 2.47 2.23 2.871 3.463 3.74 1.235.868 3.176 1.053 3.66 2.174.485 1.122-1.164.863-2.233 1.585-1.068.722-1.129 1.04-.957 1.402.17.362.74.362 2.298-.19 1.556-.55 2.432-1.158 3.434-1.567 1.002-.409.903-1.888.122-2.322-.781-.435-.505.058-2.542-1.211-1.125-.701-4.01-1.233-4.964-2.945C1.305.911.629.006.377.006c-.405 0 .278 2.329.194 3.01z"
+                    ></path>
+                    <path
+                      id="i"
+                      d="M15.027.777c-1.852.933-3.832 2.46-4.57 2.716-.736.258-4.817.414-5.72 1.258-.902.844-.937 1.849-.975 2.931-.037 1.085 0 1.65-1.418 2.218-1.42.569-1.511 4.53-1.868 6.55-.357 2.018-.44 4.41.806 6.915 1.247 2.505 3.034 2.657 5.112 3.098 2.078.441 3.78.462 5.195 1.71 1.416 1.25 3.693 3.175 5.564 3.24 1.87.065 4.357-.495 5.602-1.65 1.245-1.156 1.72-2.832 1.746-3.583.027-.751 1.787-2.012 1.82-2.99.035-.977-.907-1.649.878-2.459 1.785-.81 2.082-3.052 1.859-4.94-.224-1.888-.974-5.472-.912-7.257.062-1.784-1.558-2.349-3.558-3.465-2-1.116-2.556-2.703-3.913-4.025-.7-.683-1.69-.98-2.737-.98-.982 0-2.016.262-2.91.713zm-9.732 9.5c.279-.671-1.423-2.582-.273-3.75 1.284-1.305 3.495-.573 5.077-1.333a46.987 46.987 0 003.665-1.992c1.19-.707 1.452-1.113 2.914-1.588.805-.26 1.585-.26 2.546.71.274.278.525.566.788.848.616.658 1.476 1.433 2.58 2.323 1.657 1.336 3.607 2.3 3.883 3.541.276 1.24.547 3.405.916 4.816.37 1.412.664 3.892.226 4.988-.438 1.096-1.243 1.656-2.46 1.613-1.216-.042-1.115.57-.805.984.31.414 1.501 1.14.7 2.057-.803.915-1.644 1.547-1.693 2.957-.049 1.411-1.332 2.262-2.18 2.797-.847.535-3.561.637-5.493-.497-1.933-1.133-3.223-3.287-7.452-3.9-2.819-.408-4.48-1.23-4.985-2.467-1.098-1.57-1.27-3.417-1.148-5.318.1-1.57.298-1.017.281-2.267-.01-.717-.347-2.363.128-3.27.363-.693.798-.98 1.545-.958.292.008.542.11.754.11.193 0 .354-.084.486-.403z"
+                    ></path>
+                    <path
+                      id="k"
+                      d="M2.152 1.537C.96 3.008.462 5.35.352 8.475c-.108 3.125.854 4.514 1.95 5.698 1.098 1.185 2.83 1.898 5.431 2.83 2.6.931 8.922 1.365 12.014-1.954 3.094-3.32 3.048-7.927 2.973-9.14-.074-1.214-.68-1.912-1.132-1.155-.452.757-.056 1.606-.106 3.017-.049 1.412-1.511 4.796-2.492 6.057-.98 1.26-3.488 2.148-6.033 2.06-2.543-.089-7.043-1.588-9.18-2.591-2.136-1.004-1.602-4.388-1.54-6.198.064-1.81.448-3.851.856-4.687C3.5 1.576 4.587.934 4.229.374 4.114.195 3.983.099 3.817.099c-.35 0-.854.437-1.665 1.438z"
+                    ></path>
+                    <path
+                      id="m"
+                      d="M.653 1.752c-.905.792.085 1.578.521.986.435-.592.667-.519 1.23-.925.563-.405 1.252-.45 1.89-.428.638.022 3.17 1.277 4.081 1.85.91.57 3.948 2.726 4.167 4.925.219 2.2-1.004 3.684-1.349 4.504-.343.82-.789 1.565-.055 1.591.734.026.834-.576 1.872-1.886 1.039-1.31.717-5.427.571-6.54-.147-1.112-.721-1.553-1.565-2.189-.844-.636-2.699-1.408-3.298-1.787C8.12 1.473 6.758.804 4.803.409a4.524 4.524 0 00-.899-.093c-1.464 0-2.493.772-3.251 1.436z"
+                    ></path>
+                    <path
+                      id="o"
+                      d="M1.527.266C.41.749.573 2.844.291 4.11c-.28 1.266-.603 3.93.317 5.305.918 1.375 4.623 1.858 5.29 1.6.667-.259 1.375-1.206 2.622-1.243 1.246-.037 3.213-.566 3.961-2.106.748-1.54.555-1.881.074-2.123-.48-.242-1.049 1.493-1.714 2.066-.665.573-2.553.783-3.708.945-1.154.16-1.786 1.107-3.04.579-1.255-.528-2.164-1.765-2.299-3.665-.134-1.901-.353-3.642.348-3.992.596-.298.543-1.314-.174-1.314-.126 0-.273.031-.44.104z"
+                    ></path>
+                    <path
+                      id="q"
+                      d="M1.316 1.73c1.078.637 1.651.739 2.019 1.078.368.34 1.366 1.033 1.157 1.617-.209.584-1.003.905-1.033 1.761-.03.856 1.105 1.57 1.656.603.55-.969 2.176-1.375 2.733-2.042.558-.667-.152-1.814-1.013-1.962-.86-.148-2.55.03-2.773-.96C3.837.839 2.178.332.96.29L.874.288c-1.108 0-.612.822.442 1.442z"
+                    ></path>
+                    <path
+                      id="s"
+                      d="M.71.522c-.368.52-.694 1.436-.585 2.51.11 1.075.32 2.131.997 2.5.678.368 1.61-.055 1.384-.806-.226-.75-.872-1.422-.999-2.029-.127-.608.203-1.044.48-1.73.177-.441-.25-.714-.675-.714C1.076.253.84.336.71.522z"
+                    ></path>
+                  </defs>
+                  <g fill="none" fillRule="evenodd">
+                    <path
+                      fill="#F3F8FF"
+                      fillRule="nonzero"
+                      d="M241.5 0h-226C7.216 0 .5 6.716.5 15v213c0 8.284 6.716 15 15 15h226c8.284 0 15-6.716 15-15V15c0-8.284-6.716-15-15-15zm0 9a6 6 0 016 6v213a6 6 0 01-6 6h-226a6 6 0 01-6-6V15a6 6 0 016-6h226z"
+                    ></path>
+                    <path
+                      fill="#002656"
+                      d="M101.3 176.633c0-7.098-3.845-10.015-7.631-10.015-3.732 0-7.435 2.833-7.435 9.846 0 6.762 3.34 9.707 7.435 9.707 4.235 0 7.63-3.057 7.63-9.538zm2.804 11.782c-.448.533-1.065.785-1.767.785-1.374 0-3.141-.981-5.105-3a10.569 10.569 0 01-3.563.616c-6.229 0-10.044-5.106-10.044-10.267 0-5.303 3.9-10.548 10.268-10.548 5.499 0 9.987 4.46 9.987 10.463 0 3.675-1.795 6.902-4.628 8.753.785.87 2.917 3.31 4.291 3.31a.924.924 0 00.533-.168l.028.056zm19.579-11.782c0-7.098-3.844-10.015-7.63-10.015-3.733 0-7.435 2.833-7.435 9.846 0 6.762 3.339 9.707 7.434 9.707 4.236 0 7.63-3.057 7.63-9.538zm2.805 11.782c-.449.533-1.066.785-1.767.785-1.375 0-3.142-.981-5.105-3a10.569 10.569 0 01-3.564.616c-6.228 0-10.043-5.106-10.043-10.267 0-5.303 3.899-10.548 10.267-10.548 5.5 0 9.988 4.46 9.988 10.463 0 3.675-1.796 6.902-4.629 8.753.786.87 2.918 3.31 4.292 3.31a.924.924 0 00.533-.168l.028.056zm20.728-5.498c-.028 2.356-.169 2.468-.169 3.702-2.61-.084-3.17-.084-5.78-.084-2.131 0-5.048.028-5.637.056v-.14c1.346-.224 1.599-.645 1.599-2.552v-15.065c0-2.245-.365-2.385-1.404-2.553v-.14a53.855 53.855 0 004.882 0v.14c-1.038.168-1.403.308-1.403 2.553v16.691c.309.113 1.066.169 2.384.169 4.378 0 4.967 0 5.387-2.777h.14zm8.862-1.319c-.589-.56-1.626-.897-2.692-.897-2.02 0-3.06 1.458-3.06 2.86 0 1.263.842 2.47 2.555 2.47 1.29 0 2.384-.618 3.197-1.544v-2.889zm3.59 3.787c-.42.674-1.037 1.432-2.019 1.432-1.01 0-1.57-.758-1.57-1.767-1.095 1.064-2.581 1.767-4.18 1.767-2.386 0-3.592-1.488-3.592-3.087 0-1.963 1.74-3.562 4.518-3.562 1.15 0 2.412.336 3.253.925v-4.741c0-1.768-.673-2.777-2.552-2.777-1.515 0-3.171 1.122-3.255 3.534h-1.43c.392-2.525 2.496-4.04 4.91-4.04 2.019 0 4.123.646 4.123 3.647v7.379c0 1.15.196 1.57.813 1.57.253 0 .533-.056.926-.42l.056.14z"
+                    ></path>
+                    <g transform="translate(158.85 172.626)">
+                      <mask id="b" fill="#fff">
+                        <use xlinkHref="#a"></use>
+                      </mask>
+                      <path
+                        fill="#002656"
+                        d="M13.835 14.359L10.72 5.297 6.794 14.36h-.198L1.968 2.043C1.548.92 1.183.837.453.697V.556c.392 0 1.319.028 2.329.028 1.065 0 2.02-.028 2.412-.028v.141c-.842.112-1.262.251-1.262.756 0 .198.084.477.196.815l3.226 8.977 3.002-6.958L9.6 2.043C9.262 1.06 8.84.92 7.804.697V.556a70.4 70.4 0 003.31.084c1.122 0 1.739-.056 2.777-.084v.141c-.702.168-1.29.477-1.992 1.992l2.72 8.556 3.255-7.126c.505-1.094.814-1.88.814-2.384 0-.618-.42-.954-1.458-1.038V.556c.393 0 1.038.028 2.272.028.926 0 1.655-.028 2.048-.028v.141c-.954.223-1.487.335-3.114 3.927l-4.405 9.735h-.196z"
+                        mask="url(#b)"
+                      ></path>
+                    </g>
+                    <path fill="#F3F8FF" fillRule="nonzero" d="M252 117v9H5v-9z"></path>
+                    <g transform="translate(77 70.61)">
+                      <mask id="d" fill="#fff">
+                        <use xlinkHref="#c"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.218 16.617h105.561V-1.4H-1.218z"
+                        mask="url(#d)"
+                      ></path>
+                    </g>
+                    <g transform="translate(105.44 46.85)">
+                      <mask id="f" fill="#fff">
+                        <use xlinkHref="#e"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.8 14.202h14.4v-15.84H-1.8z"
+                        mask="url(#f)"
+                      ></path>
+                    </g>
+                    <g transform="translate(140.72 42.17)">
+                      <mask id="h" fill="#fff">
+                        <use xlinkHref="#g"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M13.3-1.12l-14.74-.772-.812 15.483 14.74.772z"
+                        mask="url(#h)"
+                      ></path>
+                    </g>
+                    <g transform="translate(113.72 35.33)">
+                      <mask id="j" fill="#fff">
+                        <use xlinkHref="#i"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-.82-2.395l32.38 1.13-1.22 34.94-32.38-1.13z"
+                        mask="url(#j)"
+                      ></path>
+                    </g>
+                    <g transform="translate(117.32 42.53)">
+                      <mask id="l" fill="#fff">
+                        <use xlinkHref="#k"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.087-1.874l25.904.905-.728 20.867-25.904-.905z"
+                        mask="url(#l)"
+                      ></path>
+                    </g>
+                    <g transform="translate(123.44 40.37)">
+                      <mask id="n" fill="#fff">
+                        <use xlinkHref="#m"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.375-1.671l17.27.603-.604 17.27-17.269-.604z"
+                        mask="url(#n)"
+                      ></path>
+                    </g>
+                    <g transform="translate(120.92 44.33)">
+                      <mask id="p" fill="#fff">
+                        <use xlinkHref="#o"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.512-1.762l16.55.578-.502 14.391-16.55-.577z"
+                        mask="url(#p)"
+                      ></path>
+                    </g>
+                    <g transform="translate(125.6 43.25)">
+                      <mask id="r" fill="#fff">
+                        <use xlinkHref="#q"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.477-1.598l11.513.402-.364 10.434-11.513-.402z"
+                        mask="url(#r)"
+                      ></path>
+                    </g>
+                    <g transform="translate(124.16 45.41)">
+                      <mask id="t" fill="#fff">
+                        <use xlinkHref="#s"></use>
+                      </mask>
+                      <path
+                        fill="#052A59"
+                        d="M-1.551-1.65l6.116.214-.314 8.995-6.117-.214z"
+                        mask="url(#t)"
+                      ></path>
+                    </g>
+                  </g>
+                </svg>
               </div>
             </div>
 
-            <div className="relative top-2 z-2 mh3 mb5">
-              <div className="flex-l justify-between mw8 white bg-navy center br4">
-                <div className="w-50-l pa4 pa5-l">
-                  <h2 className="f3 fw9 mb3">
-                    Are you interested in providing expungement help?
-                  </h2>
-                  <p className="lh-copy mb3">
-                    We are looking for new partners to use RecordSponge to
-                    provide reliable and accessible expungement help across
-                    Oregon. We charge nothing for using the software, but OECI
-                    credentials are required. We ask only that you get in touch.
-                  </p>
-                  <p className="mb4">
-                    <Link
-                      to="/partner-interest"
-                      className="link bb hover-lightest-blue"
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      Learn More
-                    </Link>
-                  </p>
-                </div>
-                <div className="w-50-l pa4 pa5-l">
-                  <h2 className="f3 fw9 mb3">
-                    Are you looking to clear your&nbsp;record?
-                  </h2>
-                  <p className="lh-copy">
-                    Check your eligibility at{" "}
-                    <a
-                      className="link bb hover-lightest-blue"
-                      href="https://www.qiu-qiulaw.com"
-                      target="blank"
-                    >
-                      Qiu-qiu Law
-                    </a>{" "}
-                    or contact one of our partners below.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bottom-6 bg-lightest-blue1 pt6 pb6">
+            <div className="bg-lightest-blue1 pv6">
               <div className="ph4">
                 <div className="mw7 center">
-                  <h3 className="f3 fw9 tc mb4">Our Partners Include</h3>
-                  <div className="f5 mb7">
-                    <ul className="list lh-copy">
-                      <li className="mb1">
-                        <a
-                          href="https://www.pcc.edu/programs/paralegal"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Portland Community College
-                          </div>
-                          <div className="w-25-ns pa2 pr3">
-                            Northeast Portland
-                          </div>
-                          <div className="w-25-ns pa2">Leni Tupper</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="https://jacksoncountyor.org/community-justice"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Probation and Parole, Community Justice Center
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Medford</div>
-                          <div className="w-25-ns pa2">Eric Guyer</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="https://crimanon.org"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Criminals Anonymous
-                          </div>
-                          <div className="w-25-ns pa2 pr3">East Portland</div>
-                          <div className="w-25-ns pa2">Bear Cubbedge</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="https://www.facebook.com/OregonHousingWorks"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Redmond Housing Works
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Redmond</div>
-                          <div className="w-25-ns pa2">Andy Hall</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="https://www.facebook.com/Ruraloregonexpungement"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Signs of Hope
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Medford</div>
-                          <div className="w-25-ns pa2">Sarah Kolb</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="http://www.lanepds.org"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Lane Public Defender Services
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Eugene</div>
-                          <div className="w-25-ns pa2">Zara Lukens</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a
-                          href="https://www.clackamasworkforce.org"
-                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
-                        >
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Clackamas Workforce Partnership
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Oregon City</div>
-                          <div className="w-25-ns pa2">Amanda Wall</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">
                     For many folks who have had run-ins with the criminal
@@ -252,97 +420,29 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <div className="mw8 flex-l center ph4 pv6">
-              <div className="w-50-l mb4">
-                <h3 className="f3 f2-ns fw9 mb3">The Technology</h3>
-                <p className="lh-copy mb4">
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="http://www.codeforpdx.org"
-                    target="blank"
-                  >
-                    Code for PDX
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="https://www.qiu-qiulaw.com"
-                    target="blank"
-                  >
-                    Qiu-qiu Law
-                  </a>{" "}
-                  are actively developing analytical software to help
-                  expungement providers quickly determine which items on an
-                  applicant's record are eligible for expungement.
-                </p>
-                <p className="lh-copy mb4">
-                  The goal of this project is to make expungement available to
-                  all Oregonians, regardless of their ability to pay. It further
-                  seeks to provide these services in the communities that need
-                  them the most.
-                </p>
-                <p className="lh-copy">
-                  The project continues to need contributors. Visit the{" "}
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="https://github.com/codeforpdx/recordexpungPDX/wiki"
-                    target="blank"
-                  >
-                    GitHub project wiki
-                  </a>{" "}
-                  if you are interested. Here are more details on our{" "}
-                  <a
-                    className="link bb hover-dark-blue"
-                    href="https://www.meetup.com/Code-for-PDX"
-                    target="blank"
-                  >
-                    next meetup
-                  </a>
-                  . All are welcome!
-                </p>
-              </div>
-
-              <div className="w-50-l tc pa5-l pa3 mb5">
-                <img className="ui-sample" alt="" src="/img/ui-sample2.png" />
-              </div>
-            </div>
-
-            <footer className="bg-lightest-blue1 pv6">
+            <footer className="f5 pt6 pb5">
               <div className="mw8 center ph4">
                 <p className="mw6 lh-copy mb4">
-                  RecordSponge Oregon is a nonprofit service delivered by
-                  <svg
-                    className="code-for-pdx--logo-icon"
-                    viewBox="0 0 73 46"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g fill="none" fillRule="evenodd">
-                      <path
-                        d="M43.25 1.438c2.01 1.939 2.833 4.268 5.793 5.905l.758.41 1.127.598c1.912 1.03 3.29 1.938 3.379 3.744l.002.332c-.092 2.617 1.02 7.876 1.35 10.645.33 2.77-.108 6.06-2.751 7.249-2.643 1.188-1.248 2.173-1.299 3.607-.05 1.434-2.656 3.284-2.695 4.387-.04 1.102-.742 3.56-2.585 5.256-1.842 1.696-5.525 2.517-8.293 2.421-2.768-.095-6.14-2.92-8.236-4.752-1.965-1.718-4.3-1.852-7.12-2.395l-2.361-.484c-2.311-.506-4.3-1.236-5.775-4.176-1.743-3.47-1.73-6.794-1.278-9.648l.084-.498c.529-2.961.665-8.774 2.765-9.609 1.75-.695 2.002-1.386 2.07-2.518l.042-1.073c.058-1.46.191-2.813 1.431-3.963 1.336-1.238 7.377-1.467 8.468-1.845 1.091-.377 4.022-2.617 6.763-3.986 2.742-1.368 6.352-1.546 8.361.393zM18.648 15.414c-1.105-.032-1.75.39-2.287 1.406-.703 1.33-.204 3.746-.19 4.797.026 1.834-.267 1.023-.416 3.327-.18 2.789.075 5.5 1.7 7.802.71 1.728 2.976 2.904 6.795 3.53l.584.09c6.26.898 8.17 4.058 11.03 5.72 2.861 1.664 6.878 1.515 8.133.73l.496-.317c1.119-.736 2.46-1.808 2.696-3.408l.034-.378c.073-2.07 1.317-2.996 2.505-4.34 1.188-1.343-.575-2.41-1.035-3.016a1.735 1.735 0 01-.218-.372c-.373.537-.796 1.06-1.269 1.562-4.578 4.87-13.935 4.234-17.784 2.867l-1.384-.5c-3.093-1.14-5.234-2.13-6.655-3.65l-.401-.443-.388-.462c-1.265-1.584-2.232-3.637-2.097-7.456.103-2.925.44-5.382 1.129-7.339-.28-.027-.606-.139-.978-.15zm18.686-13.14c-2.164.696-2.553 1.292-4.314 2.33-1.77 1.041-3.57 2.04-5.425 2.923-2.342 1.114-5.615.04-7.516 1.954-1.271 1.28-.187 3.169.27 4.453.241-.44.51-.843.81-1.21 1.765-2.158 2.544-2.528 3.075-1.707.531.822-1.078 1.766-1.682 2.991-.566 1.15-1.1 3.854-1.243 6.375l-.07 1.427-.078 1.352c-.118 2.597.016 5.702 2.405 6.814 3.163 1.472 9.824 3.672 13.59 3.802 3.765.13 7.479-1.172 8.93-3.022 1.45-1.85 3.615-6.815 3.688-8.886.073-2.07-.514-3.315.156-4.426.67-1.111 1.567-.086 1.678 1.693l.018.365.013.763c-.006 2.13-.354 6.079-2.49 9.69.129-.024.28-.04.453-.044l.283.002c1.8.062 2.993-.759 3.641-2.367.608-1.508.263-4.8-.233-6.912l-.1-.405c-.546-2.07-.948-5.247-1.357-7.067-.409-1.82-3.296-3.235-5.747-5.194-1.634-1.306-2.908-2.443-3.821-3.41-.389-.413-.76-.836-1.165-1.241-1.423-1.426-2.578-1.426-3.77-1.043zm20.305 14.348c.634 0 2.723.69 6.02 2.564l2.216 1.302c2.303 1.376 3.313 2.05 3.955 2.363.784.383 2.011.355 2.722 1.274.71.918.695 2.5-.925 3.227l-2.836 1.293c-1.706.77-3.61 1.59-4.653 1.858-1.74.448-3.795.8-4.769.8-.596 0-.112-.398.453-.78l.92-.604c.398-.296 2.444-1.203 3.228-1.688l.168-.112c.532-.393 1.642-.978 2.463-1.234l.292-.08c.826-.187 1.825-1.224.569-2.033-.628-.405-2.22-1.258-3.731-2.052l-3.254-1.696c-.619-.335-2.196-.981-2.543-1.753l-.139-.335c-.34-.877-.736-2.314-.156-2.314zm-47.525.973c.184.651.264 2.137-.7 2.85L7.56 21.802l-.192.146c-.5.386-1.892.779-2.398 1.176-.505.398-1.09 1.333-.451 2.053.638.72 1.832 1.646 3.036 1.98 1.204.334 2.024.893 2.56 1.474.536.58.035 1.44-1.356 1.44s-3.228-.03-4.24-.735c-.886-.617-1.613-1.289-2.343-1.603l-.314-.111C1.021 27.389.01 26.565.01 25.575L0 24.634c.015-.714.147-1.418.848-1.937l.984-.71c.49-.345 1.047-.731 1.674-1.157l.704-.49c.989-.677 1.674-1.105 2.054-1.283.698-.327 2.045-1.643 2.494-1.885.449-.242 1.173-.227 1.356.423zm15.45-4.096c1.657-.71 1.948 1.261.91 1.775-.726.36-.785 1.72-.687 3.46l.024.378.149 2.02c.198 2.789 1.544 4.602 3.401 5.377 1.858.775 2.792-.614 4.502-.85l1.663-.231c1.495-.226 3.123-.555 3.825-1.155.985-.84 1.826-3.385 2.538-3.03.711.354.997.855-.11 3.114-1.108 2.26-4.019 3.036-5.864 3.09-1.846.054-2.893 1.443-3.88 1.822-.989.38-6.472-.33-7.833-2.346-1.28-1.898-.933-5.472-.541-7.435l.134-.65c.335-1.872.2-4.666 1.77-5.339zm8.58-5.598c2.894.58 4.91 1.56 5.796 2.117.886.557 3.632 1.689 4.88 2.622l.548.415c.949.741 1.586 1.417 1.769 2.798l.06.52.067.725c.195 2.41.292 6.77-.971 8.349-1.538 1.921-1.686 2.805-2.772 2.767-1.086-.038-.427-1.13.082-2.334.509-1.203 2.32-3.38 1.996-6.607-.323-3.228-4.82-6.39-6.168-7.228-1.348-.839-5.097-2.68-6.041-2.713-.944-.033-1.964.033-2.797.628-.833.595-1.177.489-1.822 1.358-.645.869-2.11-.285-.771-1.448l.468-.393c1.308-1.053 3.103-2.091 5.676-1.576zM29.15 15.46c.545-.763 2.299-.354 1.89.653-.409 1.007-.898 1.646-.71 2.538.188.892 1.143 1.876 1.479 2.978.335 1.1-1.046 1.72-2.048 1.18s-1.314-2.089-1.476-3.666c-.163-1.576.32-2.92.865-3.683zm2.502-3.511c1.697.058 3.972.72 4.51 2.007l.081.249c.332 1.45 2.832 1.19 4.106 1.407 1.275.217 2.325 1.899 1.5 2.878-.825.98-3.233 1.574-4.047 2.995-.814 1.42-2.495.373-2.45-.883.044-1.257 1.22-1.728 1.53-2.584.309-.857-1.17-1.875-1.714-2.373-.544-.497-1.392-.647-2.99-1.581-1.597-.934-2.33-2.178-.526-2.115z"
-                        fill="#052A59"
-                      />
-                    </g>
-                  </svg>
+                  RecordSponge Oregon is a nonprofit service delivered by{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="http://www.codeforpdx.org"
-                    target="blank"
                   >
-                    Code for PDX
+                    Code&nbsp;for&nbsp;PDX
                   </a>{" "}
                   in collaboration with{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://www.qiu-qiulaw.com"
-                    target="blank"
                   >
                     Qiu-qiu Law
                   </a>
                   .
                 </p>
                 <p className="mw6 lh-copy mb4">
-                  The service is intended to be accompanied by legal advice. The
-                  service is not standalone legal advice.
+                  The service is intended to be accompanied by legal advice.
+                  <br/>
+                  The service is not standalone legal advice.
                 </p>
               </div>
             </footer>

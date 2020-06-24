@@ -27,6 +27,10 @@ $washed-red: #f0e0e8;
 .bg-blue {
   background-color: $blue;
 }
+.hover-blue:focus,
+.hover-blue:hover {
+  color: $blue;
+}
 .hover-bg-blue:focus,
 .hover-bg-blue:hover {
   background-color: $blue;
@@ -439,26 +443,9 @@ $lightest-blue2: #e8f2ff;
   white-space: nowrap;
 }
 
-.logo--landing-page {
-  width: 180px;
-  height: auto;
-
-  @media screen and (min-width: 30em) {
-    width: 208px;
-  }
-}
-
 .wipe-illustrations {
   max-width: 100%;
   width: 840px;
-  height: auto;
-}
-.key--bkg-sm {
-  position: absolute;
-  display: block;
-  top: -50px;
-  left: 47.5%;
-  width: 40px;
   height: auto;
 }
 .ui-sample {
@@ -466,12 +453,10 @@ $lightest-blue2: #e8f2ff;
   width: 400px;
   height: auto;
 }
-.code-for-pdx--logo-icon {
-  width: 48px;
+.who-we-are-logos {
+  max-width: 100%;
+  width: 280px;
   height: auto;
-  padding: 0 4px 0 8px;
-  position: relative;
-  top: 4px;
 }
 
 .bs2-inset-gray {
