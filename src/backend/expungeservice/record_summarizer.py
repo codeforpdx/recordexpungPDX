@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from itertools import groupby
 
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import QuestionSummary
 from expungeservice.models.record_summary import RecordSummary, CountyBalance
 from typing import Dict, List, Tuple
@@ -31,7 +31,11 @@ class RecordSummarizer:
             visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
         eligible_charges_by_date: Dict[str, List[Tuple[str, str]]] = {}
         for label, charges in groupby(sorted(visible_charges, key=group), key=group):
-            charges_tuples = [(charge.ambiguous_charge_id, charge.to_one_line()) for charge in charges]
+            charges_tuples = [
+                (charge.ambiguous_charge_id, charge.to_one_line())
+                for charge in charges
+                if charge.edit_status != EditStatus.DELETE
+            ]
             eligible_charges_by_date[label] = charges_tuples
 
         return RecordSummary(
