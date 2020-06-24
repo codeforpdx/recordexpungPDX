@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Header";
-import InvalidInput from "../InvalidInput";
+import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
 
 interface State {
@@ -137,35 +137,33 @@ export default class OeciLogin extends React.Component<State> {
                     onChange={this.handleChange}
                   />
                   <button
-                    className="bg-blue white bg-animate hover-bg-dark-blue ba b--blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+                    className="bg-blue white bg-animate hover-bg-dark-blue ba b--blue fw6 db w-100 br2 pv3 ph4 tc"
                     type="submit"
                   >
                     Log in to OECI
                   </button>
                 </fieldset>
-                <InvalidInput
-                  message="All fields are required."
-                  condition={this.state.missingInputs}
+                <InvalidInputs
+                  conditions={[
+                    this.state.missingInputs,
+                    this.state.invalidResponse,
+                    this.state.expectedFailure,
+                  ]}
+                  contents={[
+                    <span>All fields are required.</span>,
+                    <>
+                      We're experiencing technical difficulties, please contact{" "}
+                      <a
+                        className="link underline hover-blue"
+                        href="mailto:help@recordsponge.com"
+                      >
+                        help@recordsponge.com
+                      </a>
+                    </>,
+                    <span>{this.state.expectedFailureMessage}</span>,
+                  ]}
                 />
-                <InvalidInput
-                  message={""}
-                  condition={this.state.invalidResponse}
-                >
-                  <>
-                    We're experiencing technical difficulties, please contact{" "}
-                    <a
-                      className="link underline hover-blue"
-                      href="mailto:help@recordsponge.com"
-                    >
-                      help@recordsponge.com
-                    </a>
-                  </>
-                </InvalidInput>
-                <InvalidInput
-                  message={this.state.expectedFailureMessage}
-                  condition={this.state.expectedFailure}
-                />
-                <p className="lh-copy mt4">
+                <p className="lh-copy mt5">
                   The{" "}
                   <a
                     className="link underline hover-light-blue"

@@ -2,7 +2,7 @@ import React from "react";
 import { AliasData, AliasFieldNames } from "./types";
 import moment from "moment";
 import Alias from "./Alias";
-import InvalidInput from "../../InvalidInput";
+import InvalidInputs from "../../InvalidInputs";
 
 interface Props {
   searchRecord: Function;
@@ -150,13 +150,12 @@ export default class SearchPanel extends React.Component<Props, State> {
                 <span className="fw7">Search</span>
               </button>
             </div>
-            <InvalidInput
-              message="First and last name are required."
-              condition={this.state.missingInputs}
-            />
-            <InvalidInput
-              message="The date format must be MM/DD/YYYY."
-              condition={this.state.invalidDate}
+            <InvalidInputs
+              contents={[
+                <span>First and last name are required.</span>,
+                <span>The date format must be MM/DD/YYYY.</span>,
+              ]}
+              conditions={[this.state.missingInputs, this.state.invalidDate]}
             />
           </form>
         </section>
