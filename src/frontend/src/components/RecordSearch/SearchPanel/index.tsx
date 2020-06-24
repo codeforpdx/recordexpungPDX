@@ -151,11 +151,11 @@ export default class SearchPanel extends React.Component<Props, State> {
               </button>
             </div>
             <InvalidInputs
+              conditions={[this.state.missingInputs, this.state.invalidDate]}
               contents={[
                 <span>First and last name are required.</span>,
                 <span>The date format must be MM/DD/YYYY.</span>,
               ]}
-              conditions={[this.state.missingInputs, this.state.invalidDate]}
             />
           </form>
         </section>
