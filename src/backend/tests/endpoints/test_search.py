@@ -8,6 +8,7 @@ from expungeservice.models.case import Case
 from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.record_creator import RecordCreator
+from expungeservice.models.record import Alias
 
 
 @pytest.fixture
@@ -34,6 +35,11 @@ def mock_search(service, mocked_record_name) -> Callable[[Any, Any, Any, Any, An
         return record.cases
 
     return compute_cases
+
+def mock_search_fail() -> Callable[[Any, Any, Any, Any, Any, Any], List[Case]]:
+    def throw_error(s, login_response, first_name, last_name, middle_name, birth_date):
+        raise Exception() 
+    return throw_error 
 
 
 def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
@@ -109,3 +115,33 @@ def test_search_with_failing_save_event(service, monkeypatch):
     data = json.loads(response.data)
 
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
+
+
+def test_search_cache(service, monkeypatch): 
+    """
+    successful search results should cache
+    """
+    monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
+    monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
+
+    test_alias=(Alias("john","deer", "",""),)
+
+    RecordCreator.build_search_results("username", "password", test_alias )
+
+    assert RecordCreator.search_cache.__getitem__(test_alias)
+
+
+def test_search_cache_error(service, monkeypatch): 
+    """
+    Search shouldn't cache when there is an error
+    """
+
+    monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
+    monkeypatch.setattr(Crawler, "search", mock_search_fail())
+
+    test_fail_alias = (Alias("jake","doe", "",""),)
+
+    RecordCreator.build_search_results("username","password", test_fail_alias)
+
+    assert not RecordCreator.search_cache.__getitem__(test_fail_alias)
+
