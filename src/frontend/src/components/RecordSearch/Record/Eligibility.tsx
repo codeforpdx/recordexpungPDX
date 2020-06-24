@@ -3,6 +3,7 @@ import { ExpungementResultData } from "./types";
 
 interface Props {
   expungement_result: ExpungementResultData;
+  removed: boolean;
 }
 
 export default class Eligibility extends React.Component<Props> {

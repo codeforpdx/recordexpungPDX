@@ -12,7 +12,9 @@ export default class InvalidInputs extends React.Component<Props> {
         {this.props.contents.map((content: JSX.Element, i: number) => {
           return (
             this.props.conditions[i] && (
-              <p className="bg-washed-red mv3 pa3 br3 fw6">{content}</p>
+              <p key={i} className="bg-washed-red mv3 pa3 br3 fw6">
+                {content}{" "}
+              </p>
             )
           );
         })}
