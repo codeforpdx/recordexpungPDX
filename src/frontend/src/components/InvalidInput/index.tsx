@@ -7,15 +7,15 @@ interface Props {
 
 export default class InvalidInput extends React.Component<Props> {
   render() {
-    return this.props.condition ? (
+    return (
       <div role="alert" className="black-70 w-100">
-        <p className="bg-washed-red mb3 pa3 br3 fw6">
-          {this.props.message}
-          {this.props.children}
-        </p>
+        {this.props.condition && (
+          <p className="bg-washed-red mv4 pa3 br3 fw6">
+            {this.props.message}
+            {this.props.children}
+          </p>
+        )}
       </div>
-    ) : (
-      <></>
     );
   }
 }

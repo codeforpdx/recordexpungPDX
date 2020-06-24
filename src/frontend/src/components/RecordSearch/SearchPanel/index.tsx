@@ -128,7 +128,7 @@ export default class SearchPanel extends React.Component<Props, State> {
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
             {aliasComponents}
-            <div className="flex mb4">
+            <div className="flex">
               {
                 // Row containing The +Alias and Search buttons.
               }
