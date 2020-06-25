@@ -33,7 +33,7 @@ class Expunger:
             other_blocking_charges = [
                 c
                 for c in analyzable_record.charges
-                if c.charge_type.blocks_other_charges and c.id != charge.id and charge.edit_status != EditStatus.DELETE
+                if c.charge_type.blocks_other_charges and c.id != charge.id and c.edit_status != EditStatus.DELETE
             ]
             dismissals, convictions = Expunger._categorize_charges(other_blocking_charges)
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals)

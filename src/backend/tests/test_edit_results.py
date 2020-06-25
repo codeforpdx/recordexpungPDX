@@ -212,7 +212,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
                 "charges": {
                     "X0001-1": {
                         "edit_status": "UPDATE",
-                        "charge_type": "FelonyClassC",
+                        "charge_type": "FelonyClassB",
                         "date": "1/1/2001",
                         "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
                     },
@@ -232,6 +232,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
     assert record.cases[0].summary.edit_status == EditStatus.UPDATE
     assert record.cases[0].charges[0].ambiguous_charge_id == "X0001-1"
     assert record.cases[0].charges[0].edit_status == EditStatus.UPDATE
+    assert isinstance(record.cases[0].charges[0].charge_type, FelonyClassB)
     assert record.cases[0].charges[1].ambiguous_charge_id == "X0001-2"
     assert record.cases[0].charges[1].edit_status == EditStatus.DELETE
     assert record.cases[0].charges[2].ambiguous_charge_id == "X0001-3"
@@ -297,6 +298,35 @@ def test_add_new_charge():
 
 
 def test_deleted_charge_does_not_block():
+    """
+
+    """
+    record, questions = RecordCreator.build_record(
+        search("two_cases_two_charges_each"),
+        "username",
+        "password",
+        (),
+        {
+            "X0001": {
+                "summary": {"edit_status": "UPDATE"},
+                "charges": {
+                    "X0001-1": {
+                        "edit_status": "UPDATE",
+                        "date": "1/1/2020",
+                        "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
+                    }
+                },
+            },
+        },
+    )
+    assert record.cases[0].summary.case_number == "X0001"
+    assert record.cases[0].summary.edit_status == EditStatus.UPDATE
+    assert record.cases[0].charges[0].edit_status == EditStatus.UPDATE
+    assert record.cases[0].charges[1].edit_status == EditStatus.UNCHANGED
+
+    assert record.cases[1].summary.case_number == "X0002"
+    assert record.cases[1].charges[0].expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
+
     record, questions = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
         "username",
@@ -309,16 +339,16 @@ def test_deleted_charge_does_not_block():
             }
         },
     )
+
     assert record.cases[0].summary.case_number == "X0001"
     assert record.cases[0].summary.edit_status == EditStatus.UPDATE
     assert record.cases[0].charges[0].edit_status == EditStatus.DELETE
     assert record.cases[0].charges[1].edit_status == EditStatus.DELETE
 
     assert record.cases[1].summary.case_number == "X0002"
-    assert record.cases[1].summary.edit_status == EditStatus.UNCHANGED
     assert (
-        record.cases[1].charges[1].expungement_result.charge_eligibility.status
-        == ChargeEligibilityStatus.NEEDS_MORE_ANALYSIS
+        record.cases[1].charges[0].expungement_result.charge_eligibility.status
+        == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
     )
 
 
