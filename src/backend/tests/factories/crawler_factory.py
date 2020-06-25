@@ -38,5 +38,5 @@ class CrawlerFactory:
 
             aliases = (Alias(first_name="John", last_name="Doe", middle_name="", birth_date=""),)
             return RecordCreator.build_record(
-                RecordCreator.build_search_results.__wrapped__, "username", "password", aliases, {}
+                RecordCreator.build_search_results, "username", "password", aliases, {}
             )
