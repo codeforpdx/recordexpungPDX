@@ -59,8 +59,7 @@ class RecordCreator:
     ) -> Tuple[List[OeciCase], List[str]]:
         errors = []
         search_results: List[OeciCase] = []
-        alias_key = hash(tuple(aliases))
-        alias_match = RecordCreator.search_cache.__getitem__(alias_key)
+        alias_match = RecordCreator.search_cache.__getitem__(aliases)
         if alias_match: 
             return alias_match
         else: 
@@ -81,7 +80,7 @@ class RecordCreator:
                 finally:
                     session.close()
             if not errors:  
-                RecordCreator.search_cache[alias_key] = search_results, errors 
+                RecordCreator.search_cache[aliases] = search_results, errors 
             return search_results, errors
 
     @staticmethod
