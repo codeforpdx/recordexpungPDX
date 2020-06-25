@@ -5,7 +5,6 @@ from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable
 
 import requests
-
 from expungeservice.charge_creator import ChargeCreator
 from expungeservice.crawler.crawler import Crawler, InvalidOECIUsernamePassword, OECIUnavailable
 from expungeservice.expunger import ErrorChecker, Expunger
@@ -55,15 +54,14 @@ class RecordCreator:
                 return record, questions_as_dict
 
     @staticmethod
-    @lru_cache(maxsize=4)
     def build_search_results(
         username: str, password: str, aliases: Tuple[Alias, ...]
     ) -> Tuple[List[OeciCase], List[str]]:
         errors = []
         search_results: List[OeciCase] = []
         alias_match = RecordCreator.search_cache.__getitem__(aliases)
-        if alias_match:
-             return alias_match
+        if alias_match: 
+            return alias_match
         else: 
             for alias in aliases:
                 session = requests.Session()
@@ -81,8 +79,9 @@ class RecordCreator:
                     errors.append(str(e))
                 finally:
                     session.close()
-            if not errors:
-                RecordCreator.search_cache[aliases] = search_results,errors
+
+            if not errors:  
+                RecordCreator.search_cache[aliases] = search_results, errors 
             return search_results, errors
 
     @staticmethod

@@ -16,7 +16,6 @@ class Alias:
         return hash((self.first_name, self.middle_name, self.last_name, self.birth_date))
 
 
-
 @dataclass
 class QuestionSummary:
     ambiguous_charge_id: str

@@ -1,6 +1,8 @@
 import React from "react";
 import Header from "../Header";
+import PartnerTable from "../PartnerTable"
 import { Link } from "react-router-dom";
+
 
 class Landing extends React.Component {
   render() {
@@ -109,73 +111,7 @@ class Landing extends React.Component {
                 <div className="mw7 center">
 
                   <h3 className="f3 fw9 tc mb4">Our Partners Include</h3>
-                  <div className="f5 mb7">
-                    <ul className="list lh-copy">
-                      <li className="mb1">
-                        <a href="https://www.pcc.edu/programs/paralegal" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Portland Community College
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Northeast Portland</div>
-                          <div className="w-25-ns pa2">Leni Tupper</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="https://jacksoncountyor.org/community-justice" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Probation and Parole, Community Justice Center
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Medford</div>
-                          <div className="w-25-ns pa2">Eric Guyer</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="https://crimanon.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Criminals Anonymous
-                          </div>
-                          <div className="w-25-ns pa2 pr3">East Portland</div>
-                          <div className="w-25-ns pa2">Bear Cubbedge</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="https://www.facebook.com/OregonHousingWorks" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Redmond Housing Works
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Redmond</div>
-                          <div className="w-25-ns pa2">Andy Hall</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="https://www.facebook.com/Ruraloregonexpungement" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Signs of Hope
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Medford</div>
-                          <div className="w-25-ns pa2">Sarah Kolb</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="http://www.lanepds.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Lane Public Defender Services
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Eugene</div>
-                          <div className="w-25-ns pa2">Zara Lukens</div>
-                        </a>
-                      </li>
-                      <li className="mb1">
-                        <a href="https://www.clackamasworkforce.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
-                          <div className="w-50-ns fw6 pa2 pr3">
-                            Clackamas Workforce Partnership
-                          </div>
-                          <div className="w-25-ns pa2 pr3">Oregon City</div>
-                          <div className="w-25-ns pa2">Amanda Wall</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+              <PartnerTable />
 
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">

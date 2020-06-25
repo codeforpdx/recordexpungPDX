@@ -10,6 +10,7 @@ from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.record_creator import RecordCreator
 from expungeservice.models.record import Alias
 
+
 @pytest.fixture
 def service():
     return EndpointShared()
@@ -143,3 +144,4 @@ def test_search_cache_error(service, monkeypatch):
     RecordCreator.build_search_results("username","password", test_fail_alias)
 
     assert not RecordCreator.search_cache.__getitem__(test_fail_alias)
+
