@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header";
+import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
 
 interface State {
@@ -7,22 +8,22 @@ interface State {
   password: string;
   missingUserId: boolean;
   missingPassword: boolean;
-  expectedFailure: null | boolean;
-  expectedFailureMessage: null | string;
-  invalidResponse: null | boolean;
-  missingInputs: null | boolean;
+  expectedFailure: boolean;
+  expectedFailureMessage: string;
+  invalidResponse: boolean;
+  missingInputs: boolean;
 }
 
 export default class OeciLogin extends React.Component<State> {
   state: State = {
     userId: "",
     password: "",
-    missingUserId: false, // Initially set to false for aria-invalid
-    missingPassword: false, // Initially set to false for aria-invalid
-    expectedFailure: null,
-    expectedFailureMessage: null,
-    invalidResponse: null,
-    missingInputs: null,
+    missingUserId: false,
+    missingPassword: false,
+    expectedFailure: false,
+    expectedFailureMessage: "",
+    invalidResponse: false,
+    missingInputs: false,
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -52,7 +53,7 @@ export default class OeciLogin extends React.Component<State> {
                 ? // error: 40x
                   this.setState({
                     expectedFailure: true,
-                    expectedFailureMessage: error.response.data.message
+                    expectedFailureMessage: error.response.data.message,
                   })
                 : // error: technical difficulties
                   this.setState({ invalidResponse: true });
@@ -136,52 +137,66 @@ export default class OeciLogin extends React.Component<State> {
                     onChange={this.handleChange}
                   />
                   <button
-                    className="bg-blue white bg-animate hover-bg-dark-blue ba b--blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+                    className="bg-blue white bg-animate hover-bg-dark-blue ba b--blue fw6 db w-100 br2 pv3 ph4 tc"
                     type="submit"
                   >
                     Log in to OECI
                   </button>
                 </fieldset>
-                <div className="black-70" role="alert">
-                  {this.state.missingInputs === true ? (
-                    <p id="inputs_msg" className="bg-washed-red mb3 pa3 br3 fw6">
-                      All fields are required.
-                    </p>
-                  ) : null}
-                  {this.state.expectedFailure === true ? (
-                    <p className="bg-washed-red mb3 pa3 br3 fw6">
-                      {this.state.expectedFailureMessage}
-                    </p>
-                  ) : null}
-                  {this.state.invalidResponse === true ? (
-                    <p
-                      id="no_match_msg"
-                      className="bg-washed-red mv4 pa3 br3 fw6"
-                    >
-                      We're experiencing technical difficulties, please contact{' '}
+                <InvalidInputs
+                  conditions={[
+                    this.state.missingInputs,
+                    this.state.invalidResponse,
+                    this.state.expectedFailure,
+                  ]}
+                  contents={[
+                    <span>All fields are required.</span>,
+                    <>
+                      We're experiencing technical difficulties, please contact{" "}
                       <a
                         className="link underline hover-blue"
                         href="mailto:help@recordsponge.com"
                       >
                         help@recordsponge.com
                       </a>
-                    </p>
-                  ) : null}
-                </div>
-                <p className="lh-copy mt4">
-                  The <a className="link underline hover-light-blue" href="https://publicaccess.courts.oregon.gov/PublicAccessLogin/Login.aspx">eCourt site</a> is offline during the 4th weekend of each month
-                  between 6 PM PST on Friday until noon on Sunday. During this
-                  time, record search will not&nbsp;function.
+                    </>,
+                    <span>{this.state.expectedFailureMessage}</span>,
+                  ]}
+                />
+                <p className="lh-copy mt5">
+                  The{" "}
+                  <a
+                    className="link underline hover-light-blue"
+                    href="https://publicaccess.courts.oregon.gov/PublicAccessLogin/Login.aspx"
+                  >
+                    eCourt site
+                  </a>{" "}
+                  is offline during the 4th weekend of each month between 6 PM
+                  PST on Friday until noon on Sunday. During this time, record
+                  search will not&nbsp;function.
                 </p>
               </form>
             </div>
             <p className="lh-copy mb4">
-              We ask anyone using the software to be in touch so that we can better maintain, scale, and improve our work and community. Please <a href="http://eepurl.com/g6N3Bn" className="link bb hover-dark-blue">complete this contact form</a> if you haven’t already.
+              We ask anyone using the software to be in touch so that we can
+              better maintain, scale, and improve our work and community. Please{" "}
+              <a
+                href="http://eepurl.com/g6N3Bn"
+                className="link bb hover-dark-blue"
+              >
+                complete this contact form
+              </a>{" "}
+              if you haven’t already.
             </p>
             <p className="lh-copy mb3">
               An OECI account is required to use RecordSponge.
-              <br/>
-              <a className="bb hover-blue" href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx">You can purchase an OECI subscription here.</a>
+              <br />
+              <a
+                className="bb hover-blue"
+                href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
+              >
+                You can purchase an OECI subscription here.
+              </a>
             </p>
           </section>
         </main>
