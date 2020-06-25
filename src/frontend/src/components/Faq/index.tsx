@@ -5,15 +5,12 @@ class Faq extends React.Component {
   render() {
     return (
       <>
-        <div className="flex-l mw8 center ph4">
-          <h1 className="f3 fw6 mv4 visually-hidden">FAQ</h1>
-        </div>
         <main className="flex-l mw8 center ph4 mt5">
           <article className="order-1 lh-copy">
             <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="FAQ">
+              <h1 className="f2 fw9 mb3 mt4" id="FAQ">
                 FAQ
-              </h2>
+              </h1>
               <p className="mb3">
                 Due to the complexity of the Oregon expungement laws, incorrect
                 information proliferates from State actors at all levels of the

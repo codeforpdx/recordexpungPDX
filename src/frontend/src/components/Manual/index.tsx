@@ -5,11 +5,11 @@ class Manual extends React.Component {
   render() {
     return (
       <>
-        <div className="mw8 center ph4">
-          <h1 className="f3 fw6 mv4 visually-hidden">Manual</h1>
+        <div className="mw8 center ph4 visually-hidden">
+          <h1 className="f3 fw6 mv4">Manual</h1>
         </div>
         <main className="flex-l mw8 center ph4 mt5">
-          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mb4 ml5-l">
+          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l">
             <ul className="list">
               <li className="mb3">
                 <a href="#intro" className="link hover-blue">
@@ -21,7 +21,7 @@ class Manual extends React.Component {
                   General Info
                 </a>
               </li>
-              <li className="bt bw1 b--light-gray pt3 mb3">
+              <li className="bt b--light-gray pt3 mb3 ">
                 <a href="#overview" className="link hover-blue">
                   Use RecordSponge
                 </a>
@@ -41,7 +41,7 @@ class Manual extends React.Component {
                   Assumption 2
                 </a>
               </li>
-              <li className="mb3 ml3">
+              <li className="ml3">
                 <a href="#file" className="link hover-blue">
                   File for Expungement
                 </a>
@@ -49,8 +49,8 @@ class Manual extends React.Component {
             </ul>
           </nav>
           <article className="order-1 lh-copy">
-            <section className="mb4">
-              <h2 className="f2 fw9 mb3" id="intro">
+            <section className="mb5">
+              <h2 className="f2 fw9 mb3 mt4" id="intro">
                 Introduction
               </h2>
               <p className="mb3">

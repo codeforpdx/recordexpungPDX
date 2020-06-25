@@ -5,15 +5,12 @@ class PrivacyPolicy extends React.Component {
   render() {
     return (
       <>
-        <div className="mw8 center ph4">
-          <h1 className="f3 fw6 mv4 visually-hidden">Privacy Policy</h1>
-        </div>
         <main className="flex-l mw8 center ph4 mt5">
           <article className="order-1 lh-copy">
             <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="privacypolicy">
+              <h1 className="f2 fw9 mb3 mt4" id="privacypolicy">
                 Privacy Policy
-              </h2>
+              </h1>
               <p className="mb3">
                 Our privacy policy is simple and meant to be read by all of our
                 users. Please email michael@qiu-qiulaw.com if anything is

@@ -5,15 +5,12 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <div className="mw8 center ph4">
-          <h1 className="f3 fw6 mv4 visually-hidden">Appendix</h1>
-        </div>
         <main className="flex-l mw8 center ph4 mt5">
           <article className="order-1 lh-copy">
             <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="appendix">
+              <h1 className="f2 fw9 mb3 mt4" id="appendix">
                 Appendix
-              </h2>
+              </h1>
               <h3 className="fw7 tl mb2">Forms to file for expungement</h3>
               <div className="bg-white shadow pa3">
                 <h4 className="fw7 mb2">Baker</h4>
