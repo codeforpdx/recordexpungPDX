@@ -111,13 +111,6 @@ class FormFilling(MethodView):
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
         return pdf
 
-    @staticmethod
-    def to_bytes(pdf):
-        output = BytesIO()
-        PdfWriter().write(output, pdf)
-        output.seek(0)
-        return output.read()
-
 
 def register(app):
     app.add_url_rule("/api/pdf", view_func=Pdf.as_view("pdf"))
