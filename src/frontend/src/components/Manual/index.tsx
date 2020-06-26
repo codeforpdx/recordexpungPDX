@@ -157,7 +157,7 @@ class Manual extends React.Component {
                 </ol>
               </div>
             </section>
-            <section className="bt bw1 b--light-gray pt2 mb5">
+            <section className="mb5">
               <h2 className="f2 fw9 mb3" id="overview">
                 Use RecordSponge
               </h2>
@@ -220,7 +220,7 @@ class Manual extends React.Component {
                 </li>
                 <li className="mb3">
                   Use the{" "}
-                  <a className="bb-dotted-2 hover-blue" href="/appendix">
+                  <a className="bb hover-blue" href="/appendix">
                     Appendix
                   </a>{" "}
                   or search online for expungement forms
@@ -520,7 +520,7 @@ class Manual extends React.Component {
                 following do: Multnomah, Washington, Clackamas, Lane, Jackson,
                 Josephine, Tillamook, Marion, Baker, Coos, Curry, Lincoln, Linn,
                 Umatilla, Yamhill.{" "}
-                <a className="bb-dotted-2 hover-blue" href="/appendix">
+                <a className="bb hover-blue" href="/appendix">
                   Find these forms in the Appendix.
                 </a>
               </p>
@@ -530,7 +530,7 @@ class Manual extends React.Component {
               </p>
               <p className="mb3">
                 If a county does not have its own paperwork, use the{" "}
-                <a className="bb-dotted-2 hover-blue" href="#stockforms">
+                <a className="bb hover-blue" href="/appendix#stockforms">
                   Stock Forms
                 </a>
                 . At least the following counties do not have their own
