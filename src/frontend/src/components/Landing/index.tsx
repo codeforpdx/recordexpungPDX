@@ -1,6 +1,11 @@
 import React from "react";
 import Header from "../Header";
 import { Link } from "react-router-dom";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@reach/disclosure";
 
 class Landing extends React.Component {
   render() {
@@ -88,9 +93,9 @@ class Landing extends React.Component {
                     Partners
                   </h3>
                   <ul className="list">
-
                     <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                    <Disclosure>
+                      <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
                         <span className="w-70 db fw7 pr3 mb2 mb0-ns">
                           Portland Community College
                         </span>
@@ -100,14 +105,16 @@ class Landing extends React.Component {
                         <span className="absolute top-0 right-0 pt3 ph3">
                           <span aria-hidden="true" className="fas fa-angle-down"></span>
                         </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
+                        </DisclosureButton>
+                        <DisclosurePanel>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" >
                         Here I am! I am the buried treasure!
-                      </div>
-                    </li>
-
+                      </div></DisclosurePanel>
+                   </Disclosure> </li>
+                    
                     <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                    <Disclosure>
+                      <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
                         <span className="w-70 db fw7 pr3 mb2 mb0-ns">
                           Qiu-qiu Law
                         </span>
@@ -117,7 +124,8 @@ class Landing extends React.Component {
                         <span className="absolute top-0 right-0 pt3 ph3">
                           <span aria-hidden="true" className="fas fa-angle-up"></span>
                         </span>
-                      </button>
+                      </DisclosureButton>
+                        <DisclosurePanel>
                       <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns">
                         <ul className="list mb3">
                           <li className="flex-ns mb3">
@@ -152,11 +160,13 @@ class Landing extends React.Component {
                             555-555-5555
                           </li>
                         </ul>
-                      </div>
-                    </li>
+                          </div>
+                          </DisclosurePanel></Disclosure></li>
+                    
 
                     <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                      <Disclosure>
+                      <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
                         <span className="w-70 db fw7 pr3 mb2 mb0-ns">
                           Criminals Anonymous
                         </span>
@@ -166,29 +176,35 @@ class Landing extends React.Component {
                         <span className="absolute top-0 right-0 pt3 ph3">
                           <span aria-hidden="true" className="fas fa-angle-down"></span>
                         </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
-                        Here I am! I am the buried treasure!
-                      </div>
+                        </DisclosureButton>
+                        <DisclosurePanel>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" >
+                          Here I am! I am the buried treasure!
+                      </div></DisclosurePanel>
+                      </Disclosure>
                     </li>
 
                     <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
+                      <Disclosure>
+                      <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
                         <span className="w-70 db fw7 pr3 mb2 mb0-ns">
-                          Probation and Parole, Community Justice Center
+                        Probation and Parole, Community Justice Center
                         </span>
                         <span className="w-30 pr3">
-                          Medford
+                        Medford
                         </span>
                         <span className="absolute top-0 right-0 pt3 ph3">
                           <span aria-hidden="true" className="fas fa-angle-down"></span>
                         </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
-                        Here I am! I am the buried treasure!
-                      </div>
+                        </DisclosureButton>
+                        <DisclosurePanel>
+                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" >
+                          Here I am! I am the buried treasure!
+                      </div></DisclosurePanel>
+                      </Disclosure>
                     </li>
 
+                  
                   </ul>
                 </div>
 
