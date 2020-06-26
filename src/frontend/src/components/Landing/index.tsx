@@ -1,5 +1,12 @@
 import React from "react";
+import Header from "../Header";
+import PartnerTable from "../PartnerTable";
 import { Link } from "react-router-dom";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@reach/disclosure";
 
 class Landing extends React.Component {
   render() {
@@ -14,13 +21,14 @@ class Landing extends React.Component {
           <div className="overflow-x-hidden relative">
             <div className="mw8 center flex-l ph4 pb5 mt5">
               <h1 className="f3 f2-ns fw9 w-80-l mr5-l mt0 mb3">
-                Making Record <br/>Expungement Affordable
+                Making Record <br />
+                Expungement Affordable
               </h1>
               <p className="f5 lh-title mw6">
                 <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                RecordSponge is software that helps community organizations quickly 
-                analyze an individual’s criminal history to determine if they qualify 
-                to have their records expunged.
+                RecordSponge is software that helps community organizations
+                quickly analyze an individual’s criminal history to determine if
+                they qualify to have their records expunged.
               </p>
             </div>
 
@@ -31,121 +39,47 @@ class Landing extends React.Component {
                     Are you looking to clear your record?
                   </h2>
                   <p className="white tc center mw6 mb4">
-                    Select a partner below near you. They can provide your analysis and help you file for expungement.
+                    Select a partner below near you. They can provide your
+                    analysis and help you file for expungement.
                   </p>
                 </div>
-                <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
-                  <h3 className="f3 fw9 pa4">
-                    Partners
-                  </h3>
-                  <ul className="list">
+                <PartnerTable />
 
-                    <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
-                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
-                          Portland Community College
+                <Disclosure>
+                  <div className="bg-white br3 bl bw3 b--red pa4 mb6">
+                    <DisclosureButton>
+                      <span className="navy fw7 hover-dark-blue">
+                        Emergency Update: Protests Against Police Violence
+                        <span className="nowrap fw4 hover-dark-blue pl3">
+                          Learn More
                         </span>
-                        <span className="w-30 pr3">
-                          Northeast Portland
-                        </span>
-                        <span className="absolute top-0 right-0 pt3 ph3">
-                          <span aria-hidden="true" className="fas fa-angle-down"></span>
-                        </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
-                        Here I am! I am the buried treasure!
-                      </div>
-                    </li>
-
-                    <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
-                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
-                          Qiu-qiu Law
-                        </span>
-                        <span className="w-30 pr3">
-                          Portland
-                        </span>
-                        <span className="absolute top-0 right-0 pt3 ph3">
-                          <span aria-hidden="true" className="fas fa-angle-up"></span>
-                        </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns">
-                        <ul className="list mb3">
-                          <li className="flex-ns mb3">
-                            <span className="w4-ns db fw6 mr3">Analysis Cost</span>
-                            <span>Free</span>
+                      </span>
+                    </DisclosureButton>
+                    <DisclosurePanel>
+                      <p className="lh-copy pt3">
+                        Due to ongoing events our partner Qiu-Qiu Law is making all expungement help free to any protesters arrested during this fight. Anyone can register directly to <a href="https://www.qiu-qiulaw.com/register" className="link hover-dark-blue bb">see if you qualify for expungement here</a> and a lawyer will return your inquiry within 48 hours.
+                      </p>
+                      <p className="lh-copy pt3">
+                        For other communication (to learn more, help out, etc.) you can also contact:
+                        <ul className="ml4 mt2">
+                          <li className="mb2">
+                            Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
+                            <span className="nowrap">michael@qiu-qiulaw.com</span>
                           </li>
-                          <li className="flex-ns mb3">
-                            <span className="w4-ns db fw6 mr3">Filing Cost</span>
-                            <span>NA</span>
-                          </li>
-                          <li className="flex-ns mb3">
-                            <span className="w4-ns db fw6 mr3">Court Fees</span>
-                            <span>Not Included</span>
-                          </li>
-                          <li className="flex-ns mb3">
-                            <span className="w4-ns db fw6 mr3">Income Restrictions</span>
-                            <span>Under 45k Annual</span>
-                          </li>
-                          <li className="flex-ns mb3">
-                            <span className="w4-ns db fw6 mr3">Locations</span>
-                            <span>Portland Metro</span>
+                          <li>
+                            Jordan Witte, project manager at Code for PDX:{" "}
+                            <span className="nowrap">jordan.witte@codeforpdx.org</span>
                           </li>
                         </ul>
-                        <p className="mw6 bt b--black-10 pv3">
-                          Send an email with your full name, previous names (including aliases and maiden names), and date of birth.
-                        </p>
-                        <ul className="list mb3">
-                          <li className="fw6 mb3">
-                            email@domain.com
-                          </li>
-                          <li className="fw6 mb2">
-                            555-555-5555
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-
-                    <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
-                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
-                          Criminals Anonymous
-                        </span>
-                        <span className="w-30 pr3">
-                          East Portland
-                        </span>
-                        <span className="absolute top-0 right-0 pt3 ph3">
-                          <span aria-hidden="true" className="fas fa-angle-down"></span>
-                        </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
-                        Here I am! I am the buried treasure!
-                      </div>
-                    </li>
-
-                    <li className="bt bw2 b--lightest-blue1">
-                      <button className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
-                        <span className="w-70 db fw7 pr3 mb2 mb0-ns">
-                          Probation and Parole, Community Justice Center
-                        </span>
-                        <span className="w-30 pr3">
-                          Medford
-                        </span>
-                        <span className="absolute top-0 right-0 pt3 ph3">
-                          <span aria-hidden="true" className="fas fa-angle-down"></span>
-                        </span>
-                      </button>
-                      <div className="bl bw2 f5 b--blue pb3 ph3 ml3 ml4-ns" hidden>
-                        Here I am! I am the buried treasure!
-                      </div>
-                    </li>
-
-                  </ul>
-                </div>
+                      </p>
+                    </DisclosurePanel>
+                  </div>
+                </Disclosure>
 
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
-                <p className="tc white mw7 mh4">Over 1,060 analyses delivered as of June 11, 2020</p>
-
+                <p className="tc fw7 white mw7 mh4">
+                  Over 1,239 analyses delivered as of July 2020
+                </p>
               </div>
             </div>
 
@@ -153,58 +87,63 @@ class Landing extends React.Component {
               <div className="mw7 center">
                 <div className="mh4">
                   <h2 className="tc f3 f2-ns fw9 mb3">
-                    Are you interested in providing expungement help with this tool?
+                    Are you interested in providing expungement help with this
+                    tool?
                   </h2>
-                  <p className="tc center mw6 mb4">
-                    We only ask that you provide your contact details and obtain OECI credentials.
+                  <p className="tc center mw7 mb2">
+                    We only ask that you provide your contact details and obtain an OECI account.
+                  </p>
+                  <p className="tc center mw7 fw7 mb3">
+                    You can now demo the tool without OECI access!
                   </p>
                   <div className="tc mb6">
-                    <a className="inline-flex items-center f3 blue hover-navy fw7" href="/manual#overview">
-                      <span>Learn More</span>
-                      <span className="fas fa-arrow-right lh-solid pt1 pl2" aria-hidden="true"></span>
+                    <a
+                      className="inline-flex items-center f3 blue hover-dark-blue fw7"
+                      href="/partner-interest"
+                    >
+                      <span>Check it out</span>
+                      <span
+                        className="fas fa-arrow-right lh-solid pt1 pl2"
+                        aria-hidden="true"
+                      ></span>
                     </a>
                   </div>
                   <span className="db w4 center bb bw2 b--blue mb3"></span>
                   <p className="mw7 tc f4 f3-ns fw6 center mb3">
-                    “RecordSponge has enabled me to help five times as many 
+                    “RecordSponge has enabled me to help five times as many
                     people clear their record.”
                   </p>
-                  <p className="mw7 tc center">
-                    Jane Doe, Signs of Hope
-                  </p>
+                  <p className="mw7 tc center">Jane Doe, Signs of Hope</p>
                 </div>
               </div>
             </div>
 
             <div className="mw8 flex-l center ph4 pv6">
               <div className="w-50-l mb5">
-                <h2 className="f3 f2-ns fw9 mb3">
-                  Who We Are
-                </h2>
+                <h2 className="f3 f2-ns fw9 mb3">Who We Are</h2>
                 <p className="lh-copy mb3">
-                  <a className="link bb hover-dark-blue" 
-                    href="http://www.codeforpdx.org">
+                  <a
+                    className="link bb hover-dark-blue"
+                    href="http://www.codeforpdx.org"
+                  >
                     Code for PDX
-                  </a> and{" "}
-                  <a className="link bb hover-dark-blue" 
-                    href="https://www.qiu-qiulaw.com">
-                    Qiu-qiu Law
-                  </a> are actively developing analytical software to help 
-                  expungement providers quickly determine which items on an 
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    className="link bb hover-dark-blue"
+                    href="https://www.qiu-qiulaw.com"
+                  >
+                    Qiu-Qiu Law
+                  </a>{" "}
+                  have developed and continue to improve analytical software to 
+                  help expungement providers quickly determine which items on an
                   applicant's record are eligible for expungement.
                 </p>
                 <p className="lh-copy mb3">
-                  The goal of this project is to make expungement available 
-                  to all Oregonians, regardless of their ability to pay. 
-                  It further seeks to provide these services in the communities 
-                  that need them the most.
-                </p>
-                <p className="lh-copy mb3">
-                  <a className="link bb hover-dark-blue"
-                    href="/about"
-                  >
-                    More About Us
-                  </a>
+                  The goal of this project is to make expungement available to
+                  all Oregonians, regardless of their ability to pay. It further
+                  seeks to provide these services in the communities that need
+                  them the most.
                 </p>
               </div>
               <div className="w-50-l tc pa5-l pa3 mb5 ml4-l">
@@ -274,7 +213,11 @@ class Landing extends React.Component {
                         mask="url(#b)"
                       ></path>
                     </g>
-                    <path fill="#F3F8FF" fillRule="nonzero" d="M252 117v9H5v-9z"></path>
+                    <path
+                      fill="#F3F8FF"
+                      fillRule="nonzero"
+                      d="M252 117v9H5v-9z"
+                    ></path>
                     <g transform="translate(77 70.61)">
                       <mask id="d" fill="#fff">
                         <use xlinkHref="#c"></use>
@@ -404,25 +347,23 @@ class Landing extends React.Component {
                   </p>
                   <p className="lh-copy mb5">
                     And so we created RecordSponge to greatly increase access to
-                    expungement by automating the legal analysis. We still need
-                    partners to administer RecordSponge. Please contact
+                    expungement by automating the legal analysis. We are seeking 
+                    more partners to administer RecordSponge,{" "}
                     <a
-                      className="link hover-blue"
-                      href="mailto:michael@qiu-qiulaw.com"
+                      className="link hover-dark-blue bb"
+                      href="/partner-interest"
                     >
-                      {" "}
-                      michael@qiu-qiulaw.com{" "}
+                      learn more
                     </a>
-                    if you would like to set up RecordSponge at your
-                    organization.
+                    .
                   </p>
                 </div>
               </div>
             </div>
 
             <footer className="f5 pt6 pb5">
-              <div className="mw8 center ph4">
-                <p className="mw6 lh-copy mb4">
+              <div className="flex-l mw8 center ph4">
+                <p className="mw6 lh-copy mr3-l mb4">
                   RecordSponge Oregon is a nonprofit service delivered by{" "}
                   <a
                     className="link bb hover-dark-blue"
@@ -435,13 +376,13 @@ class Landing extends React.Component {
                     className="link bb hover-dark-blue"
                     href="https://www.qiu-qiulaw.com"
                   >
-                    Qiu-qiu Law
+                    Qiu-Qiu Law
                   </a>
                   .
                 </p>
                 <p className="mw6 lh-copy mb4">
                   The service is intended to be accompanied by legal advice.
-                  <br/>
+                  <br />
                   The service is not standalone legal advice.
                 </p>
               </div>
