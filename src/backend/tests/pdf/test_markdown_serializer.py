@@ -16,13 +16,13 @@ Name: JOHN  DOE
   
   
 ## Charges Eligible Now  
- - Possession of Cocaine (DISMISSED) - Charged Feb 17, 2009 $ owed  
+ - Possession of Cocaine (DISMISSED) - Charged Feb 17, 2009 - $ owed  
   
   
 ## Future Eligible Charges  
 The following charges (dismissed and convicted) are eligible at the designated dates.  
 ### Eligible Nov 9, 2020  
- - Possession of Cocaine (CONVICTED) - Charged Jun 13, 2009 $ owed  
+ - Possession of Cocaine (CONVICTED) - Charged Jun 13, 2009 - $ owed  
 
   
 """
