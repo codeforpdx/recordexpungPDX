@@ -1,29 +1,27 @@
 import React from "react";
-import Header from "../Header";
 import { Link } from "react-router-dom";
 
-class Landing extends React.Component {
+class Manual extends React.Component {
   render() {
     return (
       <>
-        <Header />
-        <div className="mw8 center ph4">
+        <div className="mw8 center ph4 visually-hidden">
           <h1 className="f3 fw6 mv4">Manual</h1>
         </div>
-        <main className="flex-l mw8 center ph4">
-          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 pb4 mb4 ml5-l">
+        <main className="flex-l mw8 center ph4 mt5">
+          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l">
             <ul className="list">
               <li className="mb3">
                 <a href="#intro" className="link hover-blue">
                   Introduction
                 </a>
               </li>
-              <li className="mb3">
+              <li className="mb3 pb1">
                 <a href="#generalinfo" className="link hover-blue">
                   General Info
                 </a>
               </li>
-              <li className="bt bw1 b--light-gray pt2 mb3">
+              <li className="bt b--light-gray pt3 mb3 ">
                 <a href="#overview" className="link hover-blue">
                   Use RecordSponge
                 </a>
@@ -43,36 +41,16 @@ class Landing extends React.Component {
                   Assumption 2
                 </a>
               </li>
-              <li className="mb3 ml3">
+              <li className="ml3">
                 <a href="#file" className="link hover-blue">
                   File for Expungement
-                </a>
-              </li>
-              <li className="bt bw1 b--light-gray pt2 mb3">
-                <a href="#FAQ" className="link hover-blue">
-                  FAQ
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#appendix" className="link hover-blue">
-                  Appendix
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#privacypolicy" className="link hover-blue">
-                  Privacy Policy
-                </a>
-              </li>
-              <li className="mb3">
-                <a href="#license" className="link hover-blue">
-                  License
                 </a>
               </li>
             </ul>
           </nav>
           <article className="order-1 lh-copy">
-            <section className="mb4">
-              <h2 className="f2 fw9 mb3" id="intro">
+            <section className="mb5">
+              <h2 className="f2 fw9 mb3 mt4" id="intro">
                 Introduction
               </h2>
               <p className="mb3">
@@ -179,23 +157,40 @@ class Landing extends React.Component {
                 </ol>
               </div>
             </section>
-            <section className="bt bw1 b--light-gray pt2 mb5">
+            <section className="mb5">
               <h2 className="f2 fw9 mb3" id="overview">
                 Use RecordSponge
               </h2>
               <h3 className="fw7 mb2">Overview</h3>
               <p className="mb3">
-                We ask anyone using the software to be in touch so that we can better maintain, scale, and improve our work and community. <a href="http://eepurl.com/g6N3Bn" className="bb hover-blue">Please complete this contact form</a>.
+                We ask anyone using the software to be in touch so that we can
+                better maintain, scale, and improve our work and community.{" "}
+                <a href="http://eepurl.com/g6N3Bn" className="bb hover-blue">
+                  Please complete this contact form
+                </a>
+                .
               </p>
               <ol className="ml4">
                 <li className="mb3">
                   <p className="mb2">Log in and search records</p>
                   <ul className="fw4 ml4">
                     <li className="mb2">
-                      You will need an Oregon eCourt Case Information (OECI) account to use RecordSponge. <a className="bb hover-blue" href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx">You can purchase a subscription here</a>.
+                      You will need an Oregon eCourt Case Information (OECI)
+                      account to use RecordSponge.{" "}
+                      <a
+                        className="bb hover-blue"
+                        href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
+                      >
+                        You can purchase a subscription here
+                      </a>
+                      .
                     </li>
                     <li className="mb2">
-                      Go to <Link className="bb hover-blue" to="/record-search">recordsponge.com/record-search</Link> and log in with your OECI account.
+                      Go to{" "}
+                      <Link className="bb hover-blue" to="/record-search">
+                        recordsponge.com/record-search
+                      </Link>{" "}
+                      and log in with your OECI account.
                     </li>
                   </ul>
                 </li>
@@ -225,7 +220,7 @@ class Landing extends React.Component {
                 </li>
                 <li className="mb3">
                   Use the{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#appendix">
+                  <a className="bb hover-blue" href="/appendix">
                     Appendix
                   </a>{" "}
                   or search online for expungement forms
@@ -525,7 +520,7 @@ class Landing extends React.Component {
                 following do: Multnomah, Washington, Clackamas, Lane, Jackson,
                 Josephine, Tillamook, Marion, Baker, Coos, Curry, Lincoln, Linn,
                 Umatilla, Yamhill.{" "}
-                <a className="bb-dotted-2 hover-blue" href="#appendix">
+                <a className="bb hover-blue" href="/appendix">
                   Find these forms in the Appendix.
                 </a>
               </p>
@@ -535,7 +530,7 @@ class Landing extends React.Component {
               </p>
               <p className="mb3">
                 If a county does not have its own paperwork, use the{" "}
-                <a className="bb-dotted-2 hover-blue" href="#stockforms">
+                <a className="bb hover-blue" href="/appendix#stockforms">
                   Stock Forms
                 </a>
                 . At least the following counties do not have their own
@@ -609,10 +604,10 @@ class Landing extends React.Component {
                 Obtain Fingerprints
               </h3>
               <p className="mb3">
-                Obtain fingerprints printed out or inked directly onto cardstock. 
-                Digital fingerprints are not accepted as part of this process. 
-                Fingerprints printed onto cardstock can be obtained at sheriff's 
-                offices or fingerprinting services.
+                Obtain fingerprints printed out or inked directly onto
+                cardstock. Digital fingerprints are not accepted as part of this
+                process. Fingerprints printed onto cardstock can be obtained at
+                sheriff's offices or fingerprinting services.
               </p>
               <p className="mb3">
                 Another option is to do it yourself with the following
@@ -687,718 +682,6 @@ class Landing extends React.Component {
                 </li>
               </ul>
             </section>
-            <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="FAQ">
-                FAQ
-              </h2>
-              <p className="mb3">
-                Due to the complexity of the Oregon expungement laws, incorrect
-                information proliferates from State actors at all levels of the
-                justice system.
-              </p>
-              <p className="mb3">
-                Below are some common myths overheard in courtrooms all over
-                Oregon.
-              </p>
-              <ol className="ml4 mb4">
-                <li className="mb2">
-                  <p className="fw7 mb3">
-                    Myth: “After you complete this diversion program, there will
-                    be no record of your case.”
-                  </p>
-                  <p className="fw7 mb3">
-                    Fact 1: Without affirmatively expunging your case, it will
-                    still appear on your record.
-                  </p>
-                  <p className="mb3">
-                    Oregon courts
-                    <strong> never </strong>
-                    expunge adult criminal records on their own.
-                  </p>
-                  <p className="mb3">
-                    When you successfully complete a diversion program,
-                    oftentimes your case is dismissed - but that doesn’t mean it
-                    “goes away.” Your entire case file – including records of
-                    arrest, police reports, pleadings – are still publicly
-                    available. Records of arrest are potentially just as
-                    damaging on a housing or job application as records of
-                    conviction.
-                  </p>
-                  <p className="mb3">
-                    Moreover, a dismissed case is not even eligible if you have
-                    a conviction within the last ten years, or an un-expunged
-                    dismissed case from the last three years.
-                  </p>
-                  <p className="fw7 mb3">
-                    Fact 2: DUII diversion dismissals are specifically
-                    ineligible for expungement.
-                  </p>
-                  <p className="mb3">
-                    Judges, DAs, and defense attorneys administering the DUII
-                    diversion program sometimes say outright that successful
-                    completion means that the case will disappear from your
-                    record. This is not true under current law, which
-                    specifically makes completion of DUII diversion ineligible
-                    for expungement.
-                  </p>
-                </li>
-                <li className="mb2">
-                  <p className="fw7 mb3">
-                    Myth: “Your record will be eligible after seven years.”
-                  </p>
-                  <p className="fw7 mb3">
-                    Fact: Time-eligibility is complicated but in general has
-                    nothing to do with “seven years.”
-                  </p>
-                  <p className="mb3">
-                    The “seven-year” rule is thrown around a lot and has no
-                    basis in law or practice.
-                  </p>
-                  <p className="mb2">
-                    There are many concurrent rules governing time-eligibility.
-                    Here are a few:
-                  </p>
-                  <ul className="ml4 mb3">
-                    <li className="mb2">
-                      A case is not eligible unless you have no other
-                      convictions from the last ten (10) years
-                    </li>
-                    <li className="mb2">
-                      A conviction is not eligible unless the case is, itself,
-                      at least three (3) years old
-                    </li>
-                    <li className="mb2">
-                      A dismissal is not eligible unless you have no other
-                      arrests from the last three (3) years
-                    </li>
-                    <li className="mb2">
-                      A B felony is not eligible until twenty (20) years from
-                      the date of conviction
-                    </li>
-                  </ul>
-                </li>
-                <li className="mb2">
-                  <p className="fw7 mb3">
-                    Myth: “No one is ever eligible for expungement.”
-                  </p>
-                  <p className="fw7 mb3">
-                    Fact: About 25% of people with criminal records are
-                    currently eligible to expunge their entire records, and many
-                    more are eligible at a future date.
-                  </p>
-                  <p className="mb3">
-                    From my (Michael Zhang) experience, about one quarter of
-                    people who inquire into their eligibility are already
-                    eligible, and in fact have been for a long time. From my
-                    conversations with people, it seems that so few people take
-                    the initiative to inquire into their eligibility because
-                    they either assume that expungement is unavailable or
-                    because fees for expungement lawyers are so high.
-                  </p>
-                  <p className="mb3">
-                    In fact, Oregon has one of the most permissive expungement
-                    statutes in the country. Yet the complexity of the law and
-                    the filing procedures effectively bar most people from
-                    accessing its benefits.
-                  </p>
-                </li>
-              </ol>
-            </section>
-            <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="appendix">
-                Appendix
-              </h2>
-              <h3 className="fw7 tl mb2">Forms to file for expungement</h3>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Baker</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/baker/help/Pages/forms.aspx"
-                    >
-                      Conviction
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/baker/help/Pages/forms.aspx"
-                    >
-                      Arrest
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Benton</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20C%20Forms%20and%20Instructions.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20A%20Forms%20and%20Instructions.pdf"
-                    >
-                      Arrest but no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20B%20Forms%20and%20Instructions.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Clackamas</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Clackamas-Conviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Clackamas-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Coos</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/COO-ExpungementAffidavitMotionOrderSetAsideConvictionCoos.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/COO-ExpungementAffidavitMotionOrderSetAsideArrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Curry</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/CUR-ExpungementAffidavitMotionOrderSetAsideConviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/CUR-ExpungementAffidavitMotionOrdeSetAsideArrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Jackson</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktC-CrimSetAside-Conviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktA-CrimSetAside-Arrest.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktB-CrimSetAside-DismissalAcquittal.pdf"
-                    >
-                      Arrested and a case filed with the Court but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Josephine</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="http://www.co.josephine.or.us/Files/Setting%20Aside%20Conviction%20Form.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="http://www.co.josephine.or.us/Files/Setting%20Aside%20Arrest%20Form.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Lane</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Motion%20and%20Affidavit%20to%20Set%20Aside%20Conviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Motion%20and%20Affidavit%20to%20Set%20Aside%20Charges.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Lincoln</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Lincoln%20Set%20Aside%20Conviction%20-%20PACKET.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Lincoln%20Set%20Aside%20Arrest%20-%20PACKET.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Linn</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/LIN-Criminal-SetAsideRecordsOfConviction-C.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/LIN-Criminal-SetAsideRecordsOfCharge-B.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Marion</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAside-PacketC.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketA.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketB.pdf"
-                    >
-                      Arrested and a case filed with the Court, but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Morrow</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Conviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Multnomah</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.mcda.us/index.php/documents/conviction-motion-and-affidavit-form.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.mcda.us/index.php/documents/arrest-motion-and-affidavit-form.pdf"
-                    >
-                      Arrest
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Polk</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETC.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETA.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETB.pdf"
-                    >
-                      Arrested and a case filed with the court, but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Tillamook</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementConviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementArrest.pdf"
-                    >
-                      Arrest but no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementCharge.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Umatilla</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Conviction.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Washington</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/washington/programs-services/Documents/WSH-ConvictionRecordExpungementPacket.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/washington/programs-services/Documents/WSH-ArrestRecordExpungementPacket.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3">
-                <h4 className="fw7 mb2">Yamhill</h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketC.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketA.pdf"
-                    >
-                      Arrest only no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketB.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white shadow pa3" id="stockforms">
-                <h4 className="fw7 mb2">
-                  Stock Form (if county is not listed above)
-                </h4>
-                <ul className="list ml2">
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Stock-Conviction-HM.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a className="bb hover-blue" href="/docs/Stock-Arrest.pdf">
-                      Arrest <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </section>
-
-            <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="privacypolicy">
-                Privacy Policy
-              </h2>
-              <p className="mb3">
-                Our privacy policy is simple and meant to be read by all of our
-                users. Please email michael@qiu-qiulaw.com if anything is
-                unclear.
-              </p>
-              <h3 className="f4 fw7 mb2">What we collect and why</h3>
-              <p className="mb3">
-                Our guiding principle is to collect only what we need, and we
-                will not sell your data. Here’s what that means in practice:
-              </p>
-              <h4 className="fw7 mb2">Search “pings” to track usage</h4>
-              <p className="mb3">
-                The only information we collect are user search “pings,” which
-                tells us when (and only when) a user has made a search. We
-                collect this information to track usage rates. That’s it.
-              </p>
-              <h4 className="fw7 mb2">Cookies</h4>
-              <p className="mb3">
-                We use persistent first-party cookies to support necessary
-                functions of the application. A cookie is a piece of text stored
-                by your browser to help it remember your login information, site
-                preferences, and more. You can adjust cookie retention settings
-                in your own browser. To learn more about cookies, including how
-                to see which cookies have been set and how to manage and delete
-                them, please visit:{" "}
-                <a
-                  href="https://www.allaboutcookies.org"
-                  className="bb hover-blue"
-                >
-                  allaboutcookies.org
-                </a>
-                .
-              </p>
-              <h4 className="fw7 mb2">Voluntary correspondence</h4>
-              <p className="mb3">
-                When you write RecordSponge with a question or to ask for help,
-                we keep that correspondence, including the email address, so
-                that we have a history of past correspondences to reference if
-                you reach out in the future.
-              </p>
-              <h3 className="f4 fw7 mb2">What we don't collect</h3>
-              <p className="mb3">
-                We care about the privacy of your clients’ criminal records.
-                Indeed, this project’s purpose is to make these records more
-                private. Therefore, RecordSponge does not record or collect
-                search information. If you are using this software for clients,
-                we have no way of identifying who they are.
-              </p>
-              <p className="mb3">
-                We do not save your Oregon eCourt Case Information (OECI) login
-                credentials. That’s why we must separately log in to OECI every
-                time you use RecordSponge.
-              </p>
-              <h3 className="f4 fw7 mb2">How we secure your data</h3>
-              <p className="mb3">
-                All data is encrypted via SSL/TLS when transmitted from our
-                servers to your browser.
-              </p>
-              <h3>
-                Adapted from the{" "}
-                <a
-                  href="https://github.com/basecamp/policies"
-                  className="bb hover-blue"
-                >
-                  Basecamp open-source policies
-                </a>{" "}
-                /{" "}
-                <a
-                  href="https://creativecommons.org/licenses/by/4.0"
-                  className="bb hover-blue"
-                >
-                  CC BY 4.0
-                </a>
-              </h3>
-            </section>
-
-            <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="license">
-                License
-              </h2>
-              <p className="mb3">Copyright 2020 Michael Zhang, Qiu-Qiu Law</p>
-              <p className="mb3">
-                Permission is hereby granted, free of charge, to any person
-                obtaining a copy of this manual and associated documentation
-                files (the "Manual"), to deal in the Manual without restriction,
-                including without limitation the rights to use, copy, modify,
-                merge, publish, distribute, sublicense, and/or sell copies of
-                the Manual, and to permit persons to whom the Software is
-                furnished to do so, subject to the following conditions:
-              </p>
-              <p className="mb3">
-                The above copyright notice and this permission notice shall be
-                included in all copies or substantial portions of the Manual.
-              </p>
-              <p className="mb4">
-                THE MANUAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-                EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-                OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-                NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-                HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-                WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-                FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-                OTHER DEALINGS IN THE MANUAL.
-              </p>
-              <p className="fw7 mb2">Short list of Credits</p>
-              <ul className="list mb3">
-                <li className="mb2">Adam Emrich, software developer</li>
-                <li className="mb2">Dana Danger, contributor to Manual</li>
-                <li className="mb2">Forrest Longanecker, software developer</li>
-                <li className="mb2">Hunter Marcks, designer</li>
-                <li className="mb2">Kent Shikama, software developer</li>
-                <li className="mb2">
-                  Jordan Witte, current project manager, software developer
-                </li>
-                <li className="mb2">
-                  Nick Schimek, former project manager, software developer
-                </li>
-                <li className="mb2">
-                  Michael Zhang, product manager and creator of RecordSponge,
-                  contributor to Manual
-                </li>
-              </ul>
-            </section>
           </article>
         </main>
       </>
@@ -1406,4 +689,4 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+export default Manual;
