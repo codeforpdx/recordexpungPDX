@@ -6,7 +6,6 @@ import { searchRecord, clearRecord } from "../../redux/search/actions";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
-import Header from "../Header";
 import { checkOeciRedirect } from "../../service/cookie-service";
 
 type Props = {
@@ -27,7 +26,6 @@ class RecordSearch extends Component<Props> {
   render() {
     return (
       <>
-        <Header />
         <main className="mw8 center ph2">
           <SearchPanel searchRecord={this.props.searchRecord} />
           {this.props.record &&
