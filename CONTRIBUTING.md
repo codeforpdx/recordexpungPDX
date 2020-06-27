@@ -9,7 +9,7 @@ This document provides some overall guidelines and suggestions for how to get st
 
 - [Where to contribute](#where-to-contribute)
 
-- [How to use the Project board](#how-to-use-the-project-board)
+- [How to use the Issues board](#how-to-use-the-issues-board)
 
 ### First steps
 
@@ -58,16 +58,10 @@ At this point you should now be in your new branch and can begin working on the 
 
 ![image](https://user-images.githubusercontent.com/42503418/72772654-589e9d80-3bb9-11ea-9ef8-cadd69c836cc.png)
 
-* When you have merged the branch, if the issue is fully resolved move close it and move it into the done column.
+* When you have merged the branch, close the issue if it is fully resolved.
 
 
 ![image](https://user-images.githubusercontent.com/42503418/72772728-8d125980-3bb9-11ea-8364-37f076f36fc8.png)
-
-
-and
-
-
-![image](https://user-images.githubusercontent.com/42503418/72772744-a0bdc000-3bb9-11ea-975a-8dcb2a6a3aa5.png)
 
 
 ##### More information on general GitHub commands and tutorials:
@@ -89,7 +83,7 @@ Python is also used to expose our backend API. We don't save any collected or an
 
 Tech documentation: A lot of us dive in to just work on, and learn, one part of the app. Documentation would be great not just for new contributors, but to help us with the full stack integration too! We could use docstrings on the various components of our app, both frontend and backend. And, if you're a bit lost looking at our project, consider the folks who might want to join and help next month :)
 
-### How to use the project board
+### How to use the issues board
 
 #### There are two different ratings systems to think about before choosing an issue to work on:
 
@@ -139,27 +133,13 @@ Tech documentation: A lot of us dive in to just work on, and learn, one part of 
 ---------
 #### How to track the issue you are working on:
 
-##### Assign yourself to the issue
-
 * Under the `Assignees` section select yourself.
 
-
+* If you have any questions that will help you progress on the issue, please comment on the issue, or post to the Slack channel #recordsponge-dev
 ![image](https://user-images.githubusercontent.com/42503418/72772304-630c6780-3bb8-11ea-88d8-cde32f5488d8.png)
 
-##### Move the issue to the `In Progress` column
+* if you are unable to complete an issue or do not have time to work on it within a few days, please remove yourself from the `Assignees` section. This ensures that we are able to consistently move forward with the current issues at hand. 
 
-* Drag the issue in to the column, or change it under the `Project` section, change it to `In Progress` in the drop down menu.
-
-
-![image](https://user-images.githubusercontent.com/42503418/72772366-8800da80-3bb8-11ea-8151-4017aedeb632.png)
-
-
-or
-
-
-![image](https://user-images.githubusercontent.com/42503418/72772880-17f35400-3bba-11ea-8641-c879167f592a.png)
-
-
-> Note: if you are unable to complete an issue or do not have time to work on it within a few days, please remove yourself from the `Assignees` section and move the issue back to the `Ready to Start` Column. This ensures that we are able to consistently move forward with the current issues at hand. We appreciate any and all help with this Volunteer based project, and may check in on issues that are assigned to individuals or remain in the `In Progress` column for an extended period of time.
+> We appreciate any and all help with this Volunteer based project, and may check in on issues that are assigned to individuals and that have not been updated in some time.
 
 ---
