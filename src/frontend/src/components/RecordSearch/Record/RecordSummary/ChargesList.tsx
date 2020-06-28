@@ -63,8 +63,8 @@ export default class ChargesList extends React.Component<Props> {
     const listItems = chargesNames.map(
       ([id, chargeName]: [string, string], index: number) => {
         const highlightMoneyOwed = (chargeName: string) => {
-          if (chargeName.includes("$ owed")) {
-            const text = chargeName.replace("$ owed", "");
+          if (chargeName.includes(" - $ owed")) {
+            const text = chargeName.replace(" - $ owed", "");
             return (
               <span>
                 {text}
