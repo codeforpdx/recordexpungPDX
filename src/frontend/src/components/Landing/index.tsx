@@ -34,6 +34,7 @@ class Landing extends React.Component {
             </div>
 
             {/*
+
             <div className="f5 mh3">
               <div className="mw8 center bg-gray-blue-2 shadow br4 pa4 ph5-l mb5">
                 <h2 className="f3 fw6 mb3">
@@ -102,12 +103,14 @@ class Landing extends React.Component {
                         className="fas fa-arrow-right lh-solid pt1 pl2"
                         aria-hidden="true"
                       ></span>
+
                     </a>
                   </div>
                   <span className="db w4 center bb bw2 b--blue mb3"></span>
                   <p className="mw7 tc f4 f3-ns fw6 center mb3">
                     “RecordSponge has enabled me to help five times as many
                     people clear their record.”
+
                   </p>
                   <p className="mw7 tc center">Jane Doe, Signs of Hope</p>
                 </div>
@@ -143,6 +146,7 @@ class Landing extends React.Component {
                 </p>
                 <p className="lh-copy mb3">
                   <a className="link bb hover-dark-blue" href="/about">
+
                     More About Us
                   </a>
                 </p>
@@ -219,6 +223,7 @@ class Landing extends React.Component {
                       fillRule="nonzero"
                       d="M252 117v9H5v-9z"
                     ></path>
+
                     <g transform="translate(77 70.61)">
                       <mask id="d" fill="#fff">
                         <use xlinkHref="#c"></use>
@@ -317,6 +322,7 @@ class Landing extends React.Component {
             <div className="bg-lightest-blue1 pv6">
               <div className="ph4">
                 <div className="mw7 center">
+
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">
                     For many folks who have had run-ins with the criminal
@@ -386,6 +392,7 @@ class Landing extends React.Component {
                 <p className="mw6 lh-copy mb4">
                   The service is intended to be accompanied by legal advice.
                   <br />
+
                   The service is not standalone legal advice.
                 </p>
               </div>
