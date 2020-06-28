@@ -19,6 +19,7 @@ class CaseSummary:
     case_detail_link: str
     balance_due_in_cents: int
     edit_status: EditStatus
+    distr_atty: str=""
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -46,6 +47,7 @@ class OeciCase:
             CaseSummary(
                 name="",
                 birth_year=1900,
+                # distr_atty="",
                 case_number=case_number,
                 citation_number="",
                 location="",
@@ -90,6 +92,7 @@ class CaseCreator:
             case_detail_link,
             balance_due_in_cents,
             EditStatus.UNCHANGED,
+            "", # distr_atty
         )
 
     @staticmethod
