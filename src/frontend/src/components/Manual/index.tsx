@@ -308,20 +308,25 @@ class Manual extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="fw7 mb3">
+                <li className="fw7 mb3" id="payBalances">
                   The client does not owe money to the State, including
                   probation fees, child support, traffic tickets.
                   <ul className="list fw4 mt1">
                     <li className="mb2">
-                      A person is not eligible for expungement if they owe money
-                      in the case they are trying to expunge. If a person owes
-                      money on any matter - including traffic violations, child
-                      support, and probation supervision - district attorneys
-                      will object in at least the following counties: Multnomah,
-                      Douglas. The Balance shows money the person owes to
-                      Circuit courts, but does not show balances in Municipal
-                      courts, or for child support, or probation supervision
-                      fees.
+                      A personal is not eligible for expungement if they owe
+                      money in the case they are trying to expunge. If a person
+                      owes money on any matter - including traffic violations,
+                      child support, and probation supervision - district
+                      attorneys will object in at least the following counties:
+                      Multnomah, Douglas. The Balance shows money the person
+                      owes to the Circuit courts, but does not show balances in
+                      Municipal courts, or for child support, or probation
+                      supervision fees. It does not matter if a debt is “in
+                      collections.”
+                    </li>
+                    <li className="mb3">
+                      Court debt can be paid directly to the clerk’s window in
+                      the Circuit Court in which the debt is owed.
                     </li>
                   </ul>
                 </li>

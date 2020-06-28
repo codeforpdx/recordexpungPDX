@@ -36,6 +36,14 @@ const CaseBalances: React.FunctionComponent<Props> = (props) => {
         title="Balance Due by Case"
         totalBalance={props.totalBalance}
       />
+      <div className="mt2">
+        <a
+          className="link underline hover-blue break-all f6"
+          href="/manual#payBalances"
+        >
+          Paying Balances
+        </a>
+      </div>
     </div>
   );
 };
