@@ -17,18 +17,18 @@ EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
 @dataclass
 class CaseParserData:
+    district_attorney_number: str
     hashed_charge_data: Dict[int, Dict[str, str]]
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
     probation_revoked: Optional[date]
-    distr_atty: str
 
 
 class CaseParser:
     @staticmethod
     def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
-        distr_atty = CaseParser.__parse_distr_atty(soup)
+        district_attorney_number = CaseParser.__parse_district_attorney_number(soup)
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         (
             hashed_dispo_data,
@@ -39,18 +39,19 @@ class CaseParser:
             probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
-        return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked, distr_atty)
+        return CaseParserData(district_attorney_number, hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
 
     @staticmethod
-    def __parse_distr_atty(soup) -> str:
-        distr_atty_key = "District Attorney Number:"
+    def __parse_district_attorney_number(soup) -> str:
+        district_attorney_key = "District Attorney Number:"
         labels = soup.find_all("th", "ssTableHeaderLabel", limit=10)
         table = {}
         for tag in labels:
             table[tag.string] = tag.parent.find("td").string
-        if distr_atty_key in table:
-            return table[distr_atty_key]
-        return ""
+        if district_attorney_key in table:
+            return table[district_attorney_key]
+        else:
+            return ""
     
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:

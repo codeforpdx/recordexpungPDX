@@ -11,6 +11,7 @@ class CaseSummary:
     name: str
     birth_year: Optional[int]
     case_number: str
+    district_attorney_number: str
     citation_number: str
     location: str
     date: date_class
@@ -19,7 +20,6 @@ class CaseSummary:
     case_detail_link: str
     balance_due_in_cents: int
     edit_status: EditStatus
-    distr_atty: str=""
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -47,8 +47,8 @@ class OeciCase:
             CaseSummary(
                 name="",
                 birth_year=1900,
-                # distr_atty="",
                 case_number=case_number,
+                district_attorney_number="",
                 citation_number="",
                 location="",
                 date=date_class.today(),
@@ -71,7 +71,7 @@ class Case(OeciCase):
 class CaseCreator:
     @staticmethod
     def create(
-        info, case_number, citation_number, date_location, type_status, case_detail_link, balance="0"
+        info, case_number, district_attorney_number, citation_number, date_location, type_status, case_detail_link, balance="0"
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -84,6 +84,7 @@ class CaseCreator:
             name,
             birth_year,
             case_number,
+            district_attorney_number,
             citation_number,
             location,
             date,
@@ -92,7 +93,6 @@ class CaseCreator:
             case_detail_link,
             balance_due_in_cents,
             EditStatus.UNCHANGED,
-            "", # distr_atty
         )
 
     @staticmethod
