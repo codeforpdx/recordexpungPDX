@@ -97,7 +97,7 @@ class RecordCreator:
         ambiguous_record_length = reduce(
             operator.mul, [len(ambiguous_case) for ambiguous_case in ambiguous_cases], 1
         )  # TODO: Replace with math.prod([len(ambiguous_case) for ambiguous_case in ambiguous_cases]) in Python 3.8
-        MAX_EXPUNGER_RUNS = 50
+        MAX_EXPUNGER_RUNS = 128
         if ambiguous_record_length > MAX_EXPUNGER_RUNS:
             error_message = f"The resulting record found was too large to analyze (record with {ambiguous_record_length} combinations of ambiguities exceeds the processable {MAX_EXPUNGER_RUNS} combination of ambiguities). The record most likely has open cases, and thus does not have any charges eligible to be expunged."
             return [], [error_message]
