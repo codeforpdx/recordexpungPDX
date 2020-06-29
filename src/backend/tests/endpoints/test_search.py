@@ -9,6 +9,7 @@ from tests.endpoints.endpoint_util import EndpointShared
 from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.record_creator import RecordCreator
 from expungeservice.models.record import Alias
+from expungeservice.endpoints.search import Search
 
 
 @pytest.fixture
@@ -36,11 +37,12 @@ def mock_search(service, mocked_record_name) -> Callable[[Any, Any, Any, Any, An
 
     return compute_cases
 
+
 def mock_search_fail() -> Callable[[Any, Any, Any, Any, Any, Any], List[Case]]:
     def throw_error(s, login_response, first_name, last_name, middle_name, birth_date):
-        raise Exception() 
-    return throw_error 
+        raise Exception()
 
+    return throw_error
 
 
 def check_response_record_matches_mock_crawler_search(record_dict, mock_record):
@@ -118,30 +120,30 @@ def test_search_with_failing_save_event(service, monkeypatch):
     check_response_record_matches_mock_crawler_search(data["record"], service.mock_record["john_doe"])
 
 
-def test_search_cache(service, monkeypatch): 
-    """
-    successful search results should cache
-    """
+def test_search_cache(service, monkeypatch):
+
     monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
     monkeypatch.setattr(Crawler, "search", mock_search(service, "john_doe"))
 
-    test_alias=(Alias("john","deer", "",""),)
+    test_alias = (Alias("john", "deer", "", ""),)
+    test_alias_dictionary = [
+        {"first_name": "john", "last_name": "deer", "middle_name": "", "birth_date": ""},
+    ]
 
-    RecordCreator.build_search_results("username", "password", test_alias )
+    Search._build_response("username", "password", test_alias_dictionary, {}, {})
+    assert Search.search_cache[test_alias]
 
-    assert RecordCreator.search_cache.__getitem__(test_alias)
 
-
-def test_search_cache_error(service, monkeypatch): 
-    """
-    Search shouldn't cache when there is an error
-    """
+def test_search_cache_error(service, monkeypatch):
 
     monkeypatch.setattr(Crawler, "attempt_login", mock_login("Successful login response"))
     monkeypatch.setattr(Crawler, "search", mock_search_fail())
+    test_fail_alias = (Alias("jane", "doe", "q", "June 29th"),)
 
-    test_fail_alias = (Alias("jake","doe", "",""),)
+    test_fail_alias_dictionary = [
+        {"first_name": "jane", "last_name": "doe", "middle_name": "q", "birth_date": "June 29th"},
+    ]
 
-    RecordCreator.build_search_results("username","password", test_fail_alias)
+    Search._build_response("username", "password", test_fail_alias_dictionary, {}, {})
 
-    assert not RecordCreator.search_cache.__getitem__(test_fail_alias)
+    assert not Search.search_cache[test_fail_alias]

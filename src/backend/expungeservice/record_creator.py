@@ -1,6 +1,6 @@
 import operator
 from dataclasses import replace
-from functools import lru_cache, reduce
+from functools import reduce
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable
 
@@ -17,18 +17,20 @@ from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Alias, QuestionSummary, Question, Answer
 from expungeservice.request import error
 from expungeservice.models.disposition import DispositionStatus, DispositionCreator
-from expungeservice.util import DateWithFuture as date_class,  LRUCache
+from expungeservice.util import DateWithFuture as date_class, LRUCache
 
 
 class RecordCreator:
-    search_cache = LRUCache(4)
-
-
     @staticmethod
     def build_record(
-        search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
+        search: Callable,
+        username: str,
+        password: str,
+        aliases: Tuple[Alias, ...],
+        edits: Dict[str, Dict[str, Any]],
+        search_cache: LRUCache,
     ) -> Tuple[Record, Dict[str, QuestionSummary]]:
-        search_results, errors = search(username, password, aliases)
+        search_results, errors = search(username, password, aliases, search_cache)
         if errors:
             record = Record((), tuple(errors))
             return record, {}
@@ -56,16 +58,15 @@ class RecordCreator:
                 return record, questions_as_dict
 
     @staticmethod
-    @lru_cache(maxsize=4)
     def build_search_results(
-        username: str, password: str, aliases: Tuple[Alias, ...]
+        username: str, password: str, aliases: Tuple[Alias, ...], search_cache: LRUCache
     ) -> Tuple[List[OeciCase], List[str]]:
         errors = []
         search_results: List[OeciCase] = []
-        alias_match = RecordCreator.search_cache.__getitem__(aliases)
-        if alias_match: 
+        alias_match = search_cache[aliases]
+        if alias_match:
             return alias_match
-        else:    
+        else:
             for alias in aliases:
                 session = requests.Session()
                 try:
@@ -82,8 +83,8 @@ class RecordCreator:
                     errors.append(str(e))
                 finally:
                     session.close()
-            if not errors: 
-                RecordCreator.search_cache[aliases] = search_results,errors
+            if not errors:
+                search_cache[aliases] = search_results, errors
             return search_results, errors
 
     @staticmethod

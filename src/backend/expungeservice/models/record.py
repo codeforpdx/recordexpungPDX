@@ -12,8 +12,6 @@ class Alias:
     last_name: str
     middle_name: str
     birth_date: str
-    def __hash__(self) -> int: 
-        return hash((self.first_name, self.middle_name, self.last_name, self.birth_date))
 
 
 @dataclass
