@@ -97,7 +97,7 @@ case_2 = OeciCase(
 mock_search_results = {"empty": [], "single_case_two_charges": [case_1], "two_cases_two_charges_each": [case_1, case_2]}
 
 
-def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase], List[str]]]:
+def search(mocked_record_name) -> Callable[[Any, Any, Any, Any], Tuple[List[OeciCase], List[str]]]:
     def _build_search_results(username, password, aliases, lru_cache):
         return mock_search_results[mocked_record_name], []
 
