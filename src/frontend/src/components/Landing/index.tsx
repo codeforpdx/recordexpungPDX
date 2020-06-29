@@ -80,8 +80,25 @@ class Landing extends React.Component {
               </div>
             </div>
 */}
+            <div className="bg-navy pv6">
+              <div className="mw7 center">
+                <div className="mh4">
+                  <h2 className="white tc f3 f2-ns fw9 mb3">
+                    Are you looking to clear your record?
+                  </h2>
+                  <p className="white tc center mw6 mb4">
+                    Select a partner below near you. They can provide your
+                    analysis and help you file for expungement.
+                  </p>
+                </div>
+                <PartnerTable></PartnerTable>
+                <span className="db w4 center bb bw2 b--blue mb3"></span>
+                <p className="tc white mw7 mh4">
+                  Over 1,060 analyses delivered as of June 11, 2020
+                </p>
+              </div>
+            </div>
 
-            <PartnerTable></PartnerTable>
             <div className="bg-lightest-blue1 pv6">
               <div className="mw7 center">
                 <div className="mh4">
@@ -103,14 +120,12 @@ class Landing extends React.Component {
                         className="fas fa-arrow-right lh-solid pt1 pl2"
                         aria-hidden="true"
                       ></span>
-
                     </a>
                   </div>
                   <span className="db w4 center bb bw2 b--blue mb3"></span>
                   <p className="mw7 tc f4 f3-ns fw6 center mb3">
                     “RecordSponge has enabled me to help five times as many
                     people clear their record.”
-
                   </p>
                   <p className="mw7 tc center">Jane Doe, Signs of Hope</p>
                 </div>
@@ -146,7 +161,6 @@ class Landing extends React.Component {
                 </p>
                 <p className="lh-copy mb3">
                   <a className="link bb hover-dark-blue" href="/about">
-
                     More About Us
                   </a>
                 </p>
@@ -322,7 +336,6 @@ class Landing extends React.Component {
             <div className="bg-lightest-blue1 pv6">
               <div className="ph4">
                 <div className="mw7 center">
-
                   <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                   <p className="lh-copy mb5">
                     For many folks who have had run-ins with the criminal
@@ -392,7 +405,6 @@ class Landing extends React.Component {
                 <p className="mw6 lh-copy mb4">
                   The service is intended to be accompanied by legal advice.
                   <br />
-
                   The service is not standalone legal advice.
                 </p>
               </div>

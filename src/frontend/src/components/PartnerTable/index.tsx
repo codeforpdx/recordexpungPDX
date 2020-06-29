@@ -71,27 +71,9 @@ class PartnerTable extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="bg-navy pv6">
-          <div className="mw7 center">
-            <div className="mh4">
-              <h2 className="white tc f3 f2-ns fw9 mb3">
-                Are you looking to clear your record?
-              </h2>
-              <p className="white tc center mw6 mb4">
-                Select a partner below near you. They can provide your analysis
-                and help you file for expungement.
-              </p>
-            </div>
-            <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
-              <h3 className="f3 fw9 pa4">Partners</h3>
-              <ul className="list">{partners}</ul>
-            </div>
-
-            <span className="db w4 center bb bw2 b--blue mb3"></span>
-            <p className="tc white mw7 mh4">
-              Over 1,060 analyses delivered as of June 11, 2020
-            </p>
-          </div>
+        <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
+          <h3 className="f3 fw9 pa4">Partners</h3>
+          <ul className="list">{partners}</ul>
         </div>
       </React.Fragment>
     );
