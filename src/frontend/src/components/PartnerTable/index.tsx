@@ -70,12 +70,10 @@ class PartnerTable extends React.Component {
     ));
 
     return (
-      <React.Fragment>
-        <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
-          <h3 className="f3 fw9 pa4">Partners</h3>
-          <ul className="list">{partners}</ul>
-        </div>
-      </React.Fragment>
+      <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
+        <h3 className="f3 fw9 pa4">Partners</h3>
+        <ul className="list">{partners}</ul>
+      </div>
     );
   }
 }

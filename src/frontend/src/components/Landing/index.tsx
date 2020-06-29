@@ -91,7 +91,7 @@ class Landing extends React.Component {
                     analysis and help you file for expungement.
                   </p>
                 </div>
-                <PartnerTable></PartnerTable>
+                <PartnerTable />
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc white mw7 mh4">
                   Over 1,060 analyses delivered as of June 11, 2020
