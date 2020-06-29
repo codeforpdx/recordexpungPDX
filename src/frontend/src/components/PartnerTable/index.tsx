@@ -59,8 +59,9 @@ class PartnerTable extends React.Component {
               </ul>
               <p className="mw6 bt b--black-10 pv3">{partner.instructions}</p>
               <ul className="list mb3">
-                <li className="fw6 mb3">{partner.contacts[0]}</li>
-                <li className="fw6 mb2">{partner.contacts[1]}</li>
+                {partner.contacts.map((contact, index) => (
+                  <li className="fw6 mb3">{contact}</li>
+                ))}
               </ul>
             </div>
           </DisclosurePanel>
