@@ -9,9 +9,12 @@ from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.record_summarizer import RecordSummarizer
+from expungeservice.util import LRUCache
 
 
 class Search(MethodView):
+    search_cache = LRUCache(4)
+
     def post(self):
         request_data = request.get_json()
 
@@ -26,7 +29,7 @@ class Search(MethodView):
     def _build_response(username, password, aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, questions = RecordCreator.build_record(
-            RecordCreator.build_search_results, username, password, tuple(aliases), edits_data
+            RecordCreator.build_search_results, username, password, tuple(aliases), edits_data, Search.search_cache
         )
         if questions_data:
             questions = Search._build_questions(questions_data)

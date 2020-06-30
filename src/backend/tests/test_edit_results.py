@@ -1,5 +1,5 @@
 from typing import List, Any, Callable, Tuple
-from expungeservice.util import DateWithFuture as date
+from expungeservice.util import DateWithFuture as date, LRUCache
 from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge, EditStatus
 from expungeservice.models.charge_types.misdemeanor import Misdemeanor
@@ -97,15 +97,17 @@ case_2 = OeciCase(
 mock_search_results = {"empty": [], "single_case_two_charges": [case_1], "two_cases_two_charges_each": [case_1, case_2]}
 
 
-def search(mocked_record_name) -> Callable[[Any, Any, Any], Tuple[List[OeciCase], List[str]]]:
-    def _build_search_results(username, password, aliases):
+def search(mocked_record_name) -> Callable[[Any, Any, Any, Any], Tuple[List[OeciCase], List[str]]]:
+    def _build_search_results(username, password, aliases, lru_cache):
         return mock_search_results[mocked_record_name], []
 
     return _build_search_results
 
 
 def test_no_op():
-    record, questions = RecordCreator.build_record(search("two_cases_two_charges_each"), "username", "password", (), {})
+    record, questions = RecordCreator.build_record(
+        search("two_cases_two_charges_each"), "username", "password", (), {}, LRUCache(4)
+    )
     assert len(record.cases) == 2
     assert len(record.cases[0].charges) == 2
     assert record.cases[1].charges[1].ambiguous_charge_id == "X0002-2"
@@ -127,6 +129,7 @@ def test_edit_some_fields_on_case():
                 "summary": {"edit_status": "UPDATE", "location": "ocean", "balance_due": "100", "date": "1/1/1981",}
             }
         },
+        LRUCache(4),
     )
     assert len(record.cases) == 2
     assert record.cases[0].summary.location == "earth"
@@ -144,6 +147,7 @@ def test_delete_case():
         "password",
         (),
         {"X0001": {"summary": {"edit_status": "DELETE"}}},
+        LRUCache(4),
     )
 
     assert record.cases[0].summary.case_number == "X0001"
@@ -180,6 +184,7 @@ def test_add_case():
                 },
             }
         },
+        LRUCache(4),
     )
     assert len(record.cases) == 2
     assert record.cases[0].summary.location == "earth"
@@ -226,6 +231,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
                 },
             }
         },
+        LRUCache(4),
     )
     assert len(record.cases) == 1
     assert record.cases[0].summary.location == "ocean"
@@ -251,6 +257,7 @@ def test_add_disposition():
                 "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
             }
         },
+        LRUCache(4),
     )
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.CONVICTED
     assert record.cases[0].charges[1].edit_status == EditStatus.UNCHANGED
@@ -268,6 +275,7 @@ def test_edit_charge_type_of_charge():
                 "charges": {"X0001-2": {"edit_status": "UPDATE", "charge_type": "Misdemeanor"}},
             }
         },
+        LRUCache(4),
     )
     assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
 
@@ -291,6 +299,7 @@ def test_add_new_charge():
                 },
             }
         },
+        LRUCache(4),
     )
     assert isinstance(record.cases[0].charges[2].charge_type, Misdemeanor)
     assert record.cases[0].charges[2].date == date(2001, 1, 1)
@@ -318,6 +327,7 @@ def test_deleted_charge_does_not_block():
                 },
             },
         },
+        LRUCache(4),
     )
     assert record.cases[0].summary.case_number == "X0001"
     assert record.cases[0].summary.edit_status == EditStatus.UPDATE
@@ -338,6 +348,7 @@ def test_deleted_charge_does_not_block():
                 "charges": {"X0001-1": {"edit_status": "DELETE"}, "X0001-2": {"edit_status": "DELETE"},},
             }
         },
+        LRUCache(4),
     )
 
     assert record.cases[0].summary.case_number == "X0001"

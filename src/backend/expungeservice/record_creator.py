@@ -1,6 +1,6 @@
 import operator
 from dataclasses import replace
-from functools import lru_cache, reduce
+from functools import reduce
 from itertools import product, groupby
 from typing import List, Dict, Tuple, Any, Callable
 
@@ -17,15 +17,20 @@ from expungeservice.record_merger import RecordMerger
 from expungeservice.models.record import Record, Alias, QuestionSummary, Question, Answer
 from expungeservice.request import error
 from expungeservice.models.disposition import DispositionStatus, DispositionCreator
-from expungeservice.util import DateWithFuture as date_class
+from expungeservice.util import DateWithFuture as date_class, LRUCache
 
 
 class RecordCreator:
     @staticmethod
     def build_record(
-        search: Callable, username: str, password: str, aliases: Tuple[Alias, ...], edits: Dict[str, Dict[str, Any]],
+        search: Callable,
+        username: str,
+        password: str,
+        aliases: Tuple[Alias, ...],
+        edits: Dict[str, Dict[str, Any]],
+        search_cache: LRUCache,
     ) -> Tuple[Record, Dict[str, QuestionSummary]]:
-        search_results, errors = search(username, password, aliases)
+        search_results, errors = search(username, password, aliases, search_cache)
         if errors:
             record = Record((), tuple(errors))
             return record, {}
@@ -53,29 +58,34 @@ class RecordCreator:
                 return record, questions_as_dict
 
     @staticmethod
-    @lru_cache(maxsize=4)
     def build_search_results(
-        username: str, password: str, aliases: Tuple[Alias, ...]
+        username: str, password: str, aliases: Tuple[Alias, ...], search_cache: LRUCache
     ) -> Tuple[List[OeciCase], List[str]]:
         errors = []
         search_results: List[OeciCase] = []
-        for alias in aliases:
-            session = requests.Session()
-            try:
-                login_response = Crawler.attempt_login(session, username, password)
-                alias_search_result = Crawler.search(
-                    session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
-                )
-                search_results += alias_search_result
-            except InvalidOECIUsernamePassword as e:
-                error(401, str(e))
-            except OECIUnavailable as e:
-                error(404, str(e))
-            except Exception as e:
-                errors.append(str(e))
-            finally:
-                session.close()
-        return search_results, errors
+        alias_match = search_cache[aliases]
+        if alias_match:
+            return alias_match
+        else:
+            for alias in aliases:
+                session = requests.Session()
+                try:
+                    login_response = Crawler.attempt_login(session, username, password)
+                    alias_search_result = Crawler.search(
+                        session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
+                    )
+                    search_results += alias_search_result
+                except InvalidOECIUsernamePassword as e:
+                    error(401, str(e))
+                except OECIUnavailable as e:
+                    error(404, str(e))
+                except Exception as e:
+                    errors.append(str(e))
+                finally:
+                    session.close()
+            if not errors:
+                search_cache[aliases] = search_results, errors
+            return search_results, errors
 
     @staticmethod
     def _build_ambiguous_cases(
