@@ -21,9 +21,12 @@ export const DISPLAY_RECORD = "DISPLAY_RECORD";
 export const RECORD_LOADING = "RECORD_LOADING";
 export const CLEAR_RECORD = "CLEAR_RECORD";
 export const SELECT_ANSWER = "SELECT_ANSWER";
+export const LOADING_PDF = "LOADING_PDF";
+export const LOADING_PDF_COMPLETE = "LOADING_PDF_COMPLETE";
 
 export interface SearchRecordState {
   loading: string;
+  loadingPdf: boolean;
   aliases: AliasData[];
   record?: RecordData;
   questions?: QuestionsData;
@@ -31,7 +34,12 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordAction {
-  type: typeof DISPLAY_RECORD | typeof RECORD_LOADING | typeof CLEAR_RECORD;
+  type:
+    | typeof DISPLAY_RECORD
+    | typeof RECORD_LOADING
+    | typeof CLEAR_RECORD
+    | typeof LOADING_PDF
+    | typeof LOADING_PDF_COMPLETE;
   aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;

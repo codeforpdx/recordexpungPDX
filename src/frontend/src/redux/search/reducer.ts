@@ -3,6 +3,8 @@ import {
   RECORD_LOADING,
   CLEAR_RECORD,
   SELECT_ANSWER,
+  LOADING_PDF,
+  LOADING_PDF_COMPLETE,
   SearchRecordState,
   SearchRecordActionType,
 } from "./types";
@@ -13,6 +15,7 @@ import {
 
 const initalState: SearchRecordState = {
   loading: "",
+  loadingPdf: false,
   aliases: [],
   edits: {},
 };
@@ -157,6 +160,16 @@ export function searchReducer(
         loading: action.ambiguous_charge_id,
       };
     }
+    case LOADING_PDF:
+      return {
+        ...state,
+        loadingPdf: true,
+      };
+    case LOADING_PDF_COMPLETE:
+      return {
+        ...state,
+        loadingPdf: false,
+      };
     default:
       return state;
   }
