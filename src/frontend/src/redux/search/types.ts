@@ -29,6 +29,8 @@ export const UNDO_EDIT_CASE = "UNDO_EDIT_CASE";
 export const EDIT_CHARGE = "EDIT_CHARGE";
 export const DELETE_CHARGE = "DELETE_CHARGE";
 export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
+export const START_EDITING = "START_EDITING";
+export const DONE_EDITING = "DONE_EDITING";
 
 export interface SearchRecordState {
   loading: string;
@@ -37,6 +39,7 @@ export interface SearchRecordState {
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
+  editingRecord: boolean;
 }
 
 interface SearchRecordAction {
@@ -107,6 +110,14 @@ interface UndoEditChargeAction {
   ambiguous_charge_id: string;
 }
 
+interface StartEditingAction {
+  type: typeof START_EDITING;
+}
+
+interface DoneEditingAction {
+  type: typeof DONE_EDITING;
+}
+
 export type SearchRecordActionType =
   | SearchRecordAction
   | QuestionsAction
@@ -115,4 +126,6 @@ export type SearchRecordActionType =
   | UndoEditCaseAction
   | EditChargeAction
   | DeleteChargeAction
-  | UndoEditChargeAction;
+  | UndoEditChargeAction
+  | StartEditingAction
+  | DoneEditingAction;

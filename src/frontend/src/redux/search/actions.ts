@@ -18,6 +18,8 @@ import {
   EDIT_CHARGE,
   DELETE_CHARGE,
   UNDO_EDIT_CHARGE,
+  START_EDITING,
+  DONE_EDITING,
 } from "./types";
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import { RecordData } from "../../components/RecordSearch/Record/types";
@@ -235,5 +237,17 @@ export function undoEditCharge(
       ambiguous_charge_id: ambiguous_charge_id,
     });
     return buildAndSendSearchRequest(dispatch);
+  };
+}
+
+export function startEditing() {
+  return {
+    type: START_EDITING,
+  };
+}
+
+export function doneEditing() {
+  return {
+    type: DONE_EDITING,
   };
 }

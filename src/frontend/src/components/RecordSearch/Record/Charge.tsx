@@ -162,7 +162,10 @@ export default class Charge extends React.Component<Props, State> {
             }}
           />
         )}
-        <Questions ambiguous_charge_id={ambiguous_charge_id} />
+
+        {this.props.charge.edit_status === "UNCHANGED" && (
+          <Questions ambiguous_charge_id={ambiguous_charge_id} />
+        )}
       </div>
     );
   }

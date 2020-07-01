@@ -11,6 +11,8 @@ import {
   DELETE_CHARGE,
   UNDO_EDIT_CASE,
   UNDO_EDIT_CHARGE,
+  START_EDITING,
+  DONE_EDITING,
   SearchRecordState,
   SearchRecordActionType,
 } from "./types";
@@ -24,6 +26,7 @@ const initalState: SearchRecordState = {
   loadingPdf: false,
   aliases: [],
   edits: {},
+  editingRecord: false,
 };
 
 function findQuestion(
@@ -105,6 +108,7 @@ export function searchReducer(
         record: action.record,
         questions: action.questions,
         loading: "",
+        editingRecord: false,
       };
     case RECORD_LOADING:
       return {
@@ -114,6 +118,7 @@ export function searchReducer(
         questions: {},
         edits: {},
         loading: "loading",
+        editingRecord: false,
       };
     case CLEAR_RECORD:
       return {
@@ -154,7 +159,7 @@ export function searchReducer(
       );
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {
-        summary: { edit_status: "UPDATE" },
+        summary: { edit_status: "UNCHANGED" },
       };
       edits[action.case_number]["charges"] =
         edits[action.case_number]["charges"] || {};
@@ -179,9 +184,9 @@ export function searchReducer(
 
     case EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
-      if (!edits[action.case_number]) {
-        edits[action.case_number] = {};
-      } // This check lets edits merge and not overwrite each other (e.g. AnswerDisposition vs EditCase)
+      edits[action.case_number] = edits[action.case_number] || {};
+
+      // This check lets edits merge and not overwrite each other (e.g. AnswerDisposition vs EditCase)
       edits[action.case_number]["summary"] = {
         case_number: action.case_number,
         current_status: action.status,
@@ -215,12 +220,13 @@ export function searchReducer(
       const edits = JSON.parse(JSON.stringify(state.edits));
       if (!edits[action.case_number]) {
         edits[action.case_number] = {
-          summary: { edit_status: "UPDATE" },
+          summary: {},
         };
       }
-      if (!edits[action.case_number]["charges"]) {
-        edits[action.case_number]["charges"] = {};
-      }
+      edits[action.case_number]["summary"]["edit_status"] = "UPDATE";
+      edits[action.case_number]["charges"] =
+        edits[action.case_number]["charges"] || {};
+
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = {
         edit_status: action.edit_status,
         date: action.charge_date,
@@ -241,13 +247,11 @@ export function searchReducer(
 
     case DELETE_CHARGE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
-      if (!edits[action.case_number]) {
-        edits[action.case_number] = { summary: { edit_status: "UPDATE" } };
-      } // This check lets edits merge and not overwrite each other (e.g. AnswerDisposition vs EditCase)
-      //edits[action.case_number]["summary"]["edit_status"] = "UPDATE";
-      if (!edits[action.case_number]["charges"]) {
-        edits[action.case_number]["charges"] = {};
-      }
+      edits[action.case_number] = edits[action.case_number] || {
+        summary: { edit_status: "UPDATE" },
+      };
+      edits[action.case_number]["charges"] =
+        edits[action.case_number]["charges"] || {};
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = {
         edit_status: "DELETE",
       };
@@ -269,14 +273,16 @@ export function searchReducer(
                   )
               : [];
           if (ambiguous_charge_ids_on_case.length === 1) {
-            /*Undo only deleted charge on case means undo the deleted case.*/
+            /*Undoing the only deleted charge on a deleted case means undo the entire delete action on the case.*/
             edits = Object.keys(edits)
               .filter((key) => action.case_number !== key)
               .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
             return { ...state, edits: edits };
           } else {
-            /*Undo deleted charge on a deleted case that has other charges means
-          we must mark the other charges as deleted.*/
+            /*If the case was deleted, but we are undoing the delete on one charge,
+            and the case has other charges, they should remain deleted. That means we
+            now mark the case as "updated" and we need to explicitly mark the other charges as deleted.
+            */
             const delete_charge_edits = ambiguous_charge_ids_on_case
               .filter((val: string) => val !== action.ambiguous_charge_id)
               .reduce(
@@ -294,8 +300,7 @@ export function searchReducer(
           /* This charge update gets filtered out; otherwise the edit on that case
         is unchanged. */
 
-          /* Todo: if the case status is UPDATE,
-          and the undo reverts the last charge edit,
+          /* If the case status is UPDATE, and the undo reverts the last charge edit,
           and there are no other updates to the case summary, then remove the case edit entry entirely.*/
           if (
             Object.keys(edits[action.case_number]["summary"]).length === 1 &&
@@ -318,12 +323,18 @@ export function searchReducer(
               ),
               {}
             );
-          //edits[action.case_number] ["summary"]["edit_status"] = "UPDATE";
           edits[action.case_number]["charges"] = filtered_charge_edits;
           return { ...state, edits: edits };
         }
       }
     }
+    case START_EDITING: {
+      return { ...state, editingRecord: true };
+    }
+    case DONE_EDITING: {
+      return { ...state, editingRecord: false };
+    }
+
     default:
       return state;
   }

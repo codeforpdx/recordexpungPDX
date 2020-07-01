@@ -156,7 +156,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
   handleBalanceChange = (e: React.BaseSyntheticEvent) => {
     const parsed = this.balancePattern.exec(e.target.value);
     this.setState<any>({
-      balance: parsed ? parsed[0] : "",
+      balance_due: parsed ? parsed[0] : "",
     });
   };
 

@@ -24,7 +24,6 @@ interface State {
   editing: Boolean;
   addingNewCharge: boolean;
   nextNewChargeNum: number;
-  //nextBlankCharge?: ChargeData;
 }
 export default class Case extends React.Component<Props, State> {
   createNextBlankCharge = (nextNum: number) => {
@@ -53,11 +52,11 @@ export default class Case extends React.Component<Props, State> {
   };
 
   handleCaseEditSubmit = () => {
+    this.props.whenDoneEditing();
     this.setState({
       editing: false,
       nextNewChargeNum: this.state.nextNewChargeNum + 1,
     });
-    this.props.whenDoneEditing();
   };
 
   handleUndoEditClick = () => {
@@ -143,8 +142,8 @@ export default class Case extends React.Component<Props, State> {
                 <EditButton
                   actionName="Edit Case"
                   onClick={() => {
-                    this.setState({ editing: true });
                     this.props.whenEditing();
+                    this.setState({ editing: true });
                   }}
                   ariaControls={"case-edit-" + this.props.case.case_number}
                 />

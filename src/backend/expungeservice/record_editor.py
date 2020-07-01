@@ -23,7 +23,7 @@ class RecordEditor:
         for edit_action_case_number, edit in edits.items():
             if edit["summary"]["edit_status"] == EditStatus.ADD:
                 case = OeciCase.empty(case_number=str(edit["summary"]["case_number"]))
-            elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
+            elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE, EditStatus.UNCHANGED):
                 case = next(
                     (case for case in search_result_cases if case.summary.case_number == edit_action_case_number)
                 )

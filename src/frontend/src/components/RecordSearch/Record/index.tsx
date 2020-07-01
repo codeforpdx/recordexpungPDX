@@ -1,27 +1,31 @@
 import React from "react";
+import { connect } from "react-redux";
 import Cases from "./Cases";
 import Case from "./Case";
 import RecordSummary from "./RecordSummary";
 import { RecordData, CaseData } from "./types";
 import AddButton from "./AddButton";
+import { startEditing, doneEditing } from "../../../redux/search/actions";
+import { AppState } from "../../../redux/store";
 
 interface Props {
   record?: RecordData;
+  editingRecord: boolean;
+  startEditing: Function;
+  doneEditing: Function;
 }
 
 interface State {
   enableEditing: boolean;
-  editingRecord: boolean;
   addingNewCase: boolean;
   blankCase?: CaseData;
   nextNewCaseNum: number;
 }
 
-export default class Record extends React.Component<Props, State> {
+class Record extends React.Component<Props, State> {
   state: State = {
     enableEditing: false,
     addingNewCase: false,
-    editingRecord: false,
     nextNewCaseNum: 1,
   };
 
@@ -45,7 +49,6 @@ export default class Record extends React.Component<Props, State> {
   handleAddCaseClick = () => {
     this.setState({
       addingNewCase: true,
-      editingRecord: true,
     });
   };
 
@@ -101,12 +104,12 @@ export default class Record extends React.Component<Props, State> {
             <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">
               <Case
                 whenEditing={() => {
-                  this.setState({ editingRecord: true });
+                  this.props.startEditing();
                 }}
                 whenDoneEditing={() => {
+                  this.props.doneEditing();
                   this.setState({
                     addingNewCase: false,
-                    editingRecord: false,
                     nextNewCaseNum: this.state.nextNewCaseNum + 1,
                   });
                 }}
@@ -114,7 +117,7 @@ export default class Record extends React.Component<Props, State> {
                 editing={true}
                 isNewCase={true}
                 showEditButtons={
-                  !this.state.editingRecord && this.state.enableEditing
+                  !this.props.editingRecord && this.state.enableEditing
                 }
                 customElementId="new-case"
               />
@@ -122,7 +125,7 @@ export default class Record extends React.Component<Props, State> {
           )}
           <div className="tr">
             {this.state.enableEditing ? (
-              !this.state.editingRecord && (
+              !this.props.editingRecord && (
                 <>
                   <AddButton
                     onClick={this.handleAddCaseClick}
@@ -149,13 +152,13 @@ export default class Record extends React.Component<Props, State> {
             <Cases
               cases={this.props.record.cases}
               showEditButtons={
-                !this.state.editingRecord && this.state.enableEditing
+                !this.props.editingRecord && this.state.enableEditing
               }
               whenEditing={() => {
-                this.setState({ editingRecord: true });
+                this.props.startEditing();
               }}
               whenDoneEditing={() => {
-                this.setState({ editingRecord: false });
+                this.props.doneEditing();
               }}
             />
           )}
@@ -164,3 +167,14 @@ export default class Record extends React.Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    editingRecord: state.search.editingRecord,
+  };
+};
+
+export default connect(mapStateToProps, {
+  startEditing: startEditing,
+  doneEditing: doneEditing,
+})(Record);
