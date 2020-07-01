@@ -1,17 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
 import CaseBalances from "./CaseBalances";
 import ChargesList from "./ChargesList";
 import CountyBalances from "./CountyBalances";
+import { AppState } from "../../../../redux/store";
 import { RecordSummaryData } from "../types";
 import { downloadPdf } from "../../../../redux/search/actions";
 
 interface Props {
+  downloadPdf: Function;
+  loadingPdf?: boolean;
   summary: RecordSummaryData;
 }
 
-export default class RecordSummary extends React.Component<Props> {
+class RecordSummary extends React.Component<Props> {
   handleDownloadClick = () => {
-    downloadPdf();
+    this.props.downloadPdf();
   };
   render() {
     const {
@@ -28,8 +32,11 @@ export default class RecordSummary extends React.Component<Props> {
           <h2 className="mv3 f5 fw7">Search Summary</h2>
           <button
             onClick={this.handleDownloadClick}
-            className="ma2 ba bw1 b--light-gray mid-gray bg-white link hover-blue fw6 br3 pv1 ph2"
+            className={`ma2 ba bw1 b--light-gray mid-gray bg-white link hover-blue fw6 br3 pv1 ph2${
+              this.props.loadingPdf ? " loading-btn" : ""
+            }`}
           >
+            <i aria-hidden="true" className="fas fa-download pr2" />
             Download as PDF
           </button>
         </div>
@@ -50,3 +57,11 @@ export default class RecordSummary extends React.Component<Props> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => ({
+  loadingPdf: state.search.loadingPdf,
+});
+
+export default connect(mapStateToProps, {
+  downloadPdf: downloadPdf,
+})(RecordSummary);

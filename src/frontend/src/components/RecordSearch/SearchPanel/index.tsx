@@ -106,7 +106,7 @@ export default class SearchPanel extends React.Component<Props, State> {
       const separator =
         i > 0 ? <hr className="bb b--black-05 mt2 mt3-ns mb3 mb4-ns" /> : null;
       return (
-        <div key={i}>
+        <React.Fragment key={i}>
           {separator}
           <Alias
             ind={i}
@@ -119,11 +119,11 @@ export default class SearchPanel extends React.Component<Props, State> {
             }}
             hideRemoveButton={this.state.aliases.length === 1}
           />
-        </div>
+        </React.Fragment>
       );
     });
     return (
-      <div>
+      <>
         <h1 className="visually-hidden">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
@@ -134,9 +134,7 @@ export default class SearchPanel extends React.Component<Props, State> {
               }
               <button
                 className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
-                onClick={() => {
-                  this.addAlias();
-                }}
+                onClick={this.addAlias}
                 type="button"
               >
                 <i aria-hidden={"true"} className="fas fa-plus-circle pr1"></i>
@@ -159,7 +157,7 @@ export default class SearchPanel extends React.Component<Props, State> {
             />
           </form>
         </section>
-      </div>
+      </>
     );
   }
 }
