@@ -3,7 +3,6 @@ import React from "react";
 interface Props {
   onClick: Function;
   actionName: string;
-  ariaControls: string;
 }
 
 export default class EditButton extends React.Component<Props> {
@@ -11,8 +10,6 @@ export default class EditButton extends React.Component<Props> {
     return (
       <button
         className="mid-gray hover-blue ph2"
-        aria-expanded="false" // This is never true because the button disappears when clicked, unless we create it anyway and just make it visually-hidden.
-        aria-controls={this.props.ariaControls}
         onClick={() => {
           this.props.onClick();
         }}

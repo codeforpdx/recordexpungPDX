@@ -145,7 +145,6 @@ export default class Case extends React.Component<Props, State> {
                     this.props.whenEditing();
                     this.setState({ editing: true });
                   }}
-                  ariaControls={"case-edit-" + this.props.case.case_number}
                 />
                 <AddButton
                   actionName="Add Charge"

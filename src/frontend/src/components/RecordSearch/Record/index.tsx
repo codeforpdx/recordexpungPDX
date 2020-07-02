@@ -132,7 +132,6 @@ class Record extends React.Component<Props, State> {
                     onClick={this.handleAddCaseClick}
                     actionName={"Add"}
                     text={"Case"}
-                    ariaControls="new-case"
                   />
                   <div className="pb3" />
                 </>

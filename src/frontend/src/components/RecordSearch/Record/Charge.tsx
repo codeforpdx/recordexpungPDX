@@ -120,7 +120,6 @@ export default class Charge extends React.Component<Props, State> {
                     this.props.whenEditing();
                     this.setState({ editing: true });
                   }}
-                  ariaControls={"edit-charge-panel-" + ambiguous_charge_id}
                 />
               )}
             </div>

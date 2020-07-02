@@ -111,7 +111,9 @@ export default class EditChargePanel extends React.Component<Props, State> {
   dispatchEdit = () => {
     store.dispatch(
       editCharge(
-        this.props.isNewCharge ? "ADD" : "UPDATE",
+        this.props.isNewCharge || this.props.charge.edit_status === "ADD"
+          ? "ADD"
+          : "UPDATE",
         this.props.charge.case_number,
         this.props.charge.ambiguous_charge_id,
         this.state.date,
@@ -157,7 +159,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
       missingProbationRevoked: false,
       invalidProbationRevoked: false,
       disposition_date:
-        e.target.value === "Dismissed"
+        e.target.value === "Dismissed" || e.target.value === "Convicted"
           ? ""
           : shortToMMDDYYYY(this.props.charge.disposition.date),
       probation_revoked_date: "",
