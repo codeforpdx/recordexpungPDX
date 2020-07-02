@@ -130,7 +130,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
 
   handleRemove = (e: React.FormEvent) => {
     e.preventDefault();
-    if (this.props.editStatus == "ADD") {
+    if (this.props.editStatus === "ADD") {
       if (window.confirm("This data will be lost. Remove anyway?")) {
         store.dispatch(undoEditCase(this.props.case.case_number));
         this.props.whenDoneEditing();
@@ -176,7 +176,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
           missingLocation: this.state.location === "",
           missingBalance: this.state.balance_due.length === 0,
           missingBirthYear:
-            this.state.birth_year.length === 0 || this.state.birth_year == "0",
+            this.state.birth_year.length === 0 || this.state.birth_year === "0",
           invalidBirthYear:
             this.state.birth_year !== "" &&
             this.state.birth_year !== "0" &&
@@ -303,7 +303,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
               <input
                 name="birth_year"
                 value={
-                  this.props.isNewCase && this.state.birth_year == "0"
+                  this.props.isNewCase && this.state.birth_year === "0"
                     ? ""
                     : this.state.birth_year
                 }

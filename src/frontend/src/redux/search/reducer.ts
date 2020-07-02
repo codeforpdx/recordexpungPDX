@@ -33,7 +33,7 @@ function findQuestion(
   question: QuestionData,
   question_id: string
 ): null | QuestionData {
-  if (question.question_id == question_id) {
+  if (question.question_id === question_id) {
     return question;
   } else {
     for (const answer of Object.values(question.options)) {
@@ -95,6 +95,28 @@ function replaceDatesInEdit(
     edit["probation_revoked"] = probation_revoked_date;
   }
   return edit;
+}
+
+function clearAnswersForCaseOrCharge(
+  questions_state_data: any,
+  case_number: string,
+  ambiguous_charge_id: string
+) {
+  let questions: QuestionsData = JSON.parse(
+    JSON.stringify(questions_state_data)
+  );
+
+  if (questions) {
+    Object.keys(questions).map((key: string) => {
+      if (case_number === questions[key].case_number) {
+        clearSelection(questions[key].root);
+      }
+      if (ambiguous_charge_id === questions[key].ambiguous_charge_id) {
+        clearSelection(questions[key].root);
+      }
+    });
+  }
+  return questions;
 }
 
 export function searchReducer(
@@ -185,8 +207,6 @@ export function searchReducer(
     case EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {};
-
-      // This check lets edits merge and not overwrite each other (e.g. AnswerDisposition vs EditCase)
       edits[action.case_number]["summary"] = {
         case_number: action.case_number,
         current_status: action.status,
@@ -205,25 +225,47 @@ export function searchReducer(
     case DELETE_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = { summary: { edit_status: "DELETE" } };
-      return { ...state, edits: edits, loading: "edit" };
+      return {
+        ...state,
+        edits: edits,
+        questions: clearAnswersForCaseOrCharge(
+          state.questions,
+          action.case_number,
+          ""
+        ),
+        loading: "edit",
+      };
     }
 
     case UNDO_EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
+      const editsFromQuestions =
+        edits[action.case_number]["charges"] &&
+        Object.entries(edits[action.case_number]["charges"])
+          .filter((entry: [string, any]) => !entry[1]["edit_status"])
+          .reduce((res: any, entry) => ((res[entry[0]] = entry[1]), res), {});
+
       const filtered_edits = Object.keys(edits)
         .filter((key) => action.case_number !== key)
         .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
+      if (editsFromQuestions) {
+        filtered_edits[action.case_number] = {
+          summary: { edit_status: "UNCHANGED" },
+          charges: editsFromQuestions,
+        };
+      }
+
       return { ...state, edits: filtered_edits };
     }
 
     case EDIT_CHARGE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
+
       if (!edits[action.case_number]) {
         edits[action.case_number] = {
-          summary: {},
+          summary: { edit_status: "UPDATE" },
         };
       }
-      edits[action.case_number]["summary"]["edit_status"] = "UPDATE";
       edits[action.case_number]["charges"] =
         edits[action.case_number]["charges"] || {};
 
@@ -241,6 +283,11 @@ export function searchReducer(
       return {
         ...state,
         edits: edits,
+        questions: clearAnswersForCaseOrCharge(
+          state.questions,
+          "",
+          action.ambiguous_charge_id
+        ),
         loading: "edit",
       };
     }
@@ -255,13 +302,22 @@ export function searchReducer(
       edits[action.case_number]["charges"][action.ambiguous_charge_id] = {
         edit_status: "DELETE",
       };
-      return { ...state, edits: edits };
+      return {
+        ...state,
+        edits: edits,
+        questions: clearAnswersForCaseOrCharge(
+          state.questions,
+          action.case_number,
+          ""
+        ),
+        loading: "edit",
+      };
     }
 
     case UNDO_EDIT_CHARGE: {
       {
         let edits = JSON.parse(JSON.stringify(state.edits));
-        if (edits[action.case_number]["summary"]["edit_status"] == "DELETE") {
+        if (edits[action.case_number]["summary"]["edit_status"] === "DELETE") {
           const ambiguous_charge_ids_on_case =
             state && state.record && state.record.cases
               ? state.record.cases
@@ -277,7 +333,6 @@ export function searchReducer(
             edits = Object.keys(edits)
               .filter((key) => action.case_number !== key)
               .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
-            return { ...state, edits: edits };
           } else {
             /*If the case was deleted, but we are undoing the delete on one charge,
             and the case has other charges, they should remain deleted. That means we
@@ -293,7 +348,6 @@ export function searchReducer(
               );
             edits[action.case_number]["summary"]["edit_status"] = "UPDATE";
             edits[action.case_number]["charges"] = delete_charge_edits;
-            return { ...state, edits: edits };
           }
         } else {
           /* The case edit status is "ADD" or "UPDATE" */
@@ -309,23 +363,22 @@ export function searchReducer(
             edits = Object.keys(edits)
               .filter((key) => action.case_number !== key)
               .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
-            return { ...state, edits: edits };
+          } else {
+            /* otherwise just remove the charge edit and leave the rest intact.*/
+            const filtered_charge_edits = Object.keys(
+              edits[action.case_number]["charges"]
+            )
+              .filter((key) => key !== action.ambiguous_charge_id)
+              .reduce(
+                (res: any, key) => (
+                  (res[key] = edits[action.case_number]["charges"][key]), res
+                ),
+                {}
+              );
+            edits[action.case_number]["charges"] = filtered_charge_edits;
           }
-
-          /* otherwise just remove the charge edit and leave the rest intact.*/
-          const filtered_charge_edits = Object.keys(
-            edits[action.case_number]["charges"]
-          )
-            .filter((key) => key !== action.ambiguous_charge_id)
-            .reduce(
-              (res: any, key) => (
-                (res[key] = edits[action.case_number]["charges"][key]), res
-              ),
-              {}
-            );
-          edits[action.case_number]["charges"] = filtered_charge_edits;
-          return { ...state, edits: edits };
         }
+        return { ...state, edits: edits };
       }
     }
     case START_EDITING: {

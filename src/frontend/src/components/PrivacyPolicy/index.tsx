@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 class PrivacyPolicy extends React.Component {
   render() {

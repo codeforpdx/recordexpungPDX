@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
-import store from "../../redux/store";
-import { RecordData, CaseData } from "./Record/types";
+import { RecordData } from "./Record/types";
 import { searchRecord, clearRecord } from "../../redux/search/actions";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";

@@ -1,6 +1,5 @@
 import React from "react";
 import Logo from "../Logo";
-import history from "../../service/history";
 
 export default class Header extends React.Component {
   public render() {

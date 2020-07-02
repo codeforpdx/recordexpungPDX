@@ -59,7 +59,9 @@ export default class EditChargePanel extends React.Component<Props, State> {
       this.props.charge.probation_revoked
     ),
     name: this.props.charge.name,
-    type_name: this.props.charge.type_name,
+    type_name: CHARGE_TYPES.includes(this.props.charge.type_name)
+      ? this.props.charge.type_name
+      : "",
     missingDate: false,
     invalidDate: false,
     missingDisposition: false,
@@ -150,6 +152,15 @@ export default class EditChargePanel extends React.Component<Props, State> {
 
   handleDispositionStatusChange = (e: React.BaseSyntheticEvent) => {
     this.setState<any>({
+      missingDispositionDate: false,
+      invalidDispositionDate: false,
+      missingProbationRevoked: false,
+      invalidProbationRevoked: false,
+      disposition_date:
+        e.target.value === "Dismissed"
+          ? ""
+          : shortToMMDDYYYY(this.props.charge.disposition.date),
+      probation_revoked_date: "",
       [e.target.name]: e.target.value,
       type_name:
         (e.target.value === "Dismissed" &&
@@ -213,7 +224,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
             <fieldset className="mb3 pa0">
               <legend className="fw7">Disposition</legend>
               <div className="radio">
-                {["Dismissed", "Convicted", "Probation Revoked", "Missing"].map(
+                {["Convicted", "Dismissed", "Probation Revoked", "Missing"].map(
                   (status: string, index: number) => {
                     const id =
                       this.props.charge.ambiguous_charge_id + "-edit-" + status;
@@ -229,7 +240,9 @@ export default class EditChargePanel extends React.Component<Props, State> {
                           value={status}
                           onChange={this.handleDispositionStatusChange}
                         />
-                        <label htmlFor={id}>{status}</label>
+                        <label htmlFor={id}>
+                          {status === "Missing" ? "Unknown" : status}
+                        </label>
                       </div>
                     );
                   }
@@ -284,12 +297,11 @@ export default class EditChargePanel extends React.Component<Props, State> {
                   required
                   aria-invalid="false"
                 >
-                  <option value="" disabled>
-                    Select...
-                  </option>
-                  {CHARGE_TYPES.map((type_name) => (
+                  <option value="">Select...</option>
+                  {CHARGE_TYPES.map((type_name, i) => (
                     <option
                       value={type_name}
+                      key={i}
                       disabled={
                         (this.state.disposition_status === "Dismissed" &&
                           CHARGE_TYPES_CONVICTED_ONLY.includes(type_name)) ||
@@ -322,9 +334,6 @@ export default class EditChargePanel extends React.Component<Props, State> {
                   aria-invalid="false"
                   onChange={this.handleChange}
                 />
-                <div className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none">
-                  <i aria-hidden="true" className="fas fa-angle-down"></i>
-                </div>
               </div>
             </div>
             <div className="mw5 mb4">

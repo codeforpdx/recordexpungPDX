@@ -47,6 +47,7 @@ class Record extends React.Component<Props, State> {
   }
 
   handleAddCaseClick = () => {
+    this.props.startEditing();
     this.setState({
       addingNewCase: true,
     });

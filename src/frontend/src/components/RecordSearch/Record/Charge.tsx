@@ -43,7 +43,6 @@ export default class Charge extends React.Component<Props, State> {
   render() {
     const {
       edit_status,
-      case_number,
       ambiguous_charge_id,
       date,
       disposition,
@@ -163,9 +162,10 @@ export default class Charge extends React.Component<Props, State> {
           />
         )}
 
-        {this.props.charge.edit_status === "UNCHANGED" && (
-          <Questions ambiguous_charge_id={ambiguous_charge_id} />
-        )}
+        {!this.state.editing &&
+          this.props.charge.edit_status === "UNCHANGED" && (
+            <Questions ambiguous_charge_id={ambiguous_charge_id} />
+          )}
       </div>
     );
   }

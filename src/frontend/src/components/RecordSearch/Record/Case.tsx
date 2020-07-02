@@ -1,5 +1,5 @@
 import React from "react";
-import { CaseData, ChargeData } from "./types";
+import { CaseData } from "./types";
 import Charges from "./Charges";
 import Charge from "./Charge";
 import EditCasePanel from "./EditCasePanel";
@@ -153,8 +153,6 @@ export default class Case extends React.Component<Props, State> {
                     this.props.whenEditing();
                     this.setState({ addingNewCharge: true });
                   }}
-                  // ariaControls={this.state.nextBlankCharge.ambiguous_charge_id}
-                  // TODO: the thing this button controls is a charge that doesn't exist yet.
                 />
               </div>
             ) : null)}
