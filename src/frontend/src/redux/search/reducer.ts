@@ -378,7 +378,7 @@ export function searchReducer(
             edits[action.case_number]["charges"] = filtered_charge_edits;
           }
         }
-        return { ...state, edits: edits };
+        return { ...state, edits };
       }
     }
     case START_EDITING: {

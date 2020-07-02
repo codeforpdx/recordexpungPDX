@@ -175,6 +175,6 @@ const mapStateToProps = (state: AppState) => {
 };
 
 export default connect(mapStateToProps, {
-  startEditing: startEditing,
-  doneEditing: doneEditing,
+  startEditing,
+  doneEditing,
 })(Record);

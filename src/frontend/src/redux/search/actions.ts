@@ -155,12 +155,12 @@ export function editCase(
   return (dispatch: Dispatch) => {
     dispatch({
       type: EDIT_CASE,
-      edit_status: edit_status,
-      case_number: case_number,
-      status: status,
-      county: county,
-      balance: balance,
-      birth_year: birth_year,
+      edit_status,
+      case_number,
+      status,
+      county,
+      balance,
+      birth_year,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -170,7 +170,7 @@ export function deleteCase(case_number: string) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: DELETE_CASE,
-      case_number: case_number,
+      case_number,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -180,7 +180,7 @@ export function undoEditCase(case_number: string) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: UNDO_EDIT_CASE,
-      case_number: case_number,
+      case_number,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -200,16 +200,16 @@ export function editCharge(
   return (dispatch: Dispatch) => {
     dispatch({
       type: EDIT_CHARGE,
-      edit_status: edit_status,
-      case_number: case_number,
-      ambiguous_charge_id: ambiguous_charge_id,
-      charge_date: charge_date,
-      ruling: ruling,
+      edit_status,
+      case_number,
+      ambiguous_charge_id,
+      charge_date,
+      ruling,
       disposition_date:
         disposition_date === "" ? charge_date : disposition_date,
-      probation_revoked_date: probation_revoked_date,
-      charge_type: charge_type,
-      charge_name: charge_name,
+      probation_revoked_date,
+      charge_type,
+      charge_name,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -219,8 +219,8 @@ export function deleteCharge(case_number: string, ambiguous_charge_id: string) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: DELETE_CHARGE,
-      case_number: case_number,
-      ambiguous_charge_id: ambiguous_charge_id,
+      case_number,
+      ambiguous_charge_id,
     });
     return buildAndSendSearchRequest(dispatch);
   };
@@ -233,8 +233,8 @@ export function undoEditCharge(
   return (dispatch: Dispatch) => {
     dispatch({
       type: UNDO_EDIT_CHARGE,
-      case_number: case_number,
-      ambiguous_charge_id: ambiguous_charge_id,
+      case_number,
+      ambiguous_charge_id,
     });
     return buildAndSendSearchRequest(dispatch);
   };

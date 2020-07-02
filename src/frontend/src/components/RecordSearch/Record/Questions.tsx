@@ -105,7 +105,7 @@ function mapStateToProps(state: AppState, ownProps: Props) {
       state.search.questions[ownProps.ambiguous_charge_id]) ||
     undefined;
   return {
-    question_summary: question_summary,
+    question_summary,
     loading: state.search.loading,
   };
 }
