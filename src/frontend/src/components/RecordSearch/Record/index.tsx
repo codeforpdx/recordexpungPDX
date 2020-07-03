@@ -138,12 +138,12 @@ class Record extends React.Component<Props, State> {
               )
             ) : (
               <button
-                className="inline-flex bs2-inset-gray bg-white fw6 br3 mb2  "
+                className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
                 onClick={() => {
                   this.setState({ enableEditing: true });
                 }}
               >
-                <span className="mid-gray bs2-r-gray pa2">Enable Editing</span>
+                Enable Editing
               </button>
             )}
           </div>

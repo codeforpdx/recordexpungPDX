@@ -112,7 +112,7 @@ export default class Charge extends React.Component<Props, State> {
                 showEditButtons={this.props.showEditButtons}
               />
             )}
-            <div className="dib fr-ns ph3 pv3">
+            <div className="dib fr-ns ph2 pv3">
               {this.props.showEditButtons && (
                 <EditButton
                   actionName="Edit Case"

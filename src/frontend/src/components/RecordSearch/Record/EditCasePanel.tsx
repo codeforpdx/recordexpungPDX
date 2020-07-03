@@ -201,7 +201,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
           <fieldset className="mw6 pa0">
             <legend className="visually-hidden">Edit Case</legend>
             <fieldset className="mb3 pa0">
-              <legend className="fw7">Current Status</legend>
+              <legend className="fw6">Current Status</legend>
               <div className="radio">
                 <div className="dib">
                   <input
@@ -244,7 +244,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
             <div className="mw5 mb3">
               <label
                 htmlFor={"case_edit_location_" + this.props.case.case_number}
-                className="db mb1 fw7"
+                className="db mb1 fw6"
               >
                 County
               </label>
@@ -273,7 +273,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
             <div className="mw5 mb3">
               <label
                 htmlFor={"case_edit_balance_" + this.props.case.case_number}
-                className="db fw7 mb1"
+                className="db fw6 mb1"
               >
                 Balance
               </label>
@@ -296,7 +296,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
             <div className="mw5 mb4">
               <label
                 htmlFor={"case_edit_birthyear_" + this.props.case.case_number}
-                className="db fw7 mb1"
+                className="db fw6 mb1"
               >
                 Birth Year <span className="normal">yyyy</span>
               </label>

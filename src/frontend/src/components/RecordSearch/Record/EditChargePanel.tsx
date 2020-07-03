@@ -224,7 +224,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
             <legend className="visually-hidden">Edit Charge</legend>
             {/*<div className="mw7 pa3"> */}
             <fieldset className="mb3 pa0">
-              <legend className="fw7">Disposition</legend>
+              <legend className="fw6">Disposition</legend>
               <div className="radio">
                 {["Convicted", "Dismissed", "Probation Revoked", "Missing"].map(
                   (status: string, index: number) => {
@@ -253,36 +253,40 @@ export default class EditChargePanel extends React.Component<Props, State> {
             </fieldset>
             {(this.state.disposition_status === "Convicted" ||
               this.state.disposition_status === "Probation Revoked") && (
-              <DateField
-                fieldLabel="Conviction Date"
-                onChange={(dateVal: string) => {
-                  this.setState({ disposition_date: dateVal });
-                }}
-                inputId={
-                  "edit-dispo-date-" + this.props.charge.ambiguous_charge_id
-                }
-                value={this.state.disposition_date}
-              />
+              <div className="mb3">
+                <DateField
+                  fieldLabel="Conviction Date"
+                  onChange={(dateVal: string) => {
+                    this.setState({ disposition_date: dateVal });
+                  }}
+                  inputId={
+                    "edit-dispo-date-" + this.props.charge.ambiguous_charge_id
+                  }
+                  value={this.state.disposition_date}
+                />
+              </div>
             )}
             {this.state.disposition_status === "Probation Revoked" && (
-              <DateField
-                fieldLabel="Probation Revoked"
-                onChange={(dateVal: string) => {
-                  this.setState({ probation_revoked_date: dateVal });
-                }}
-                inputId={
-                  "edit-probation-revoked-" +
-                  this.props.charge.ambiguous_charge_id
-                }
-                value={this.state.probation_revoked_date}
-              />
+              <div className="mb3">
+                <DateField
+                  fieldLabel="Probation Revoked"
+                  onChange={(dateVal: string) => {
+                    this.setState({ probation_revoked_date: dateVal });
+                  }}
+                  inputId={
+                    "edit-probation-revoked-" +
+                    this.props.charge.ambiguous_charge_id
+                  }
+                  value={this.state.probation_revoked_date}
+                />
+              </div>
             )}
             <div className="mw6 mb3">
               <label
                 htmlFor={
                   this.props.charge.ambiguous_charge_id + "-select-charge-type"
                 }
-                className="db mb1 fw7"
+                className="db mb1 fw6"
               >
                 Charge Type
               </label>
@@ -323,7 +327,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
               </div>
             </div>
             <div className="mw6 mb3">
-              <label htmlFor="charge-name" className="db mb1 fw7">
+              <label htmlFor="charge-name" className="db mb1 fw6">
                 Charge Name <span className="fw3">(Optional)</span>
               </label>
               <div className="relative mb3">
@@ -339,7 +343,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
               </div>
             </div>
             <div className="mw5 mb4">
-              <label htmlFor="date-charged" className="db fw7 mb1">
+              <label htmlFor="date-charged" className="db fw6 mb1">
                 Date Charged <span className="normal">mm/dd/yyyy</span>
               </label>
               <input
