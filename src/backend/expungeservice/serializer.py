@@ -45,7 +45,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "location": case.location,
             "date": case.date,
             "violation_type": case.violation_type,
-            "current_status": case.current_status,
+            "current_status": case.current_status + " (Closed)" if case.closed() else " (Open)",
             "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link,
             "edit_status": case.edit_status,
