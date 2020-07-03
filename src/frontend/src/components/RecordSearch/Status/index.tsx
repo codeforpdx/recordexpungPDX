@@ -17,13 +17,11 @@ class Status extends React.Component<Props> {
         {this.props.loading === "loading" ? (
           <LoadingSpinner inputString={"your search results"} />
         ) : (
-          null
-        )}
-
-        {this.props.record ? (
-          <NoSearchResults />
-        ) : (
-          null
+          this.props.record ? (
+            <NoSearchResults />
+          ) : (
+            null
+          )
         )}
       </section>
     );
