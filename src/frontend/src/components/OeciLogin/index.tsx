@@ -1,6 +1,12 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
+import { startDemo } from "../../redux/search/actions";
+import store from "../../redux/store";
+import history from "../../service/history";
+
+import { connect } from "react-redux";
+import { AppState } from "../../redux/store";
 
 interface State {
   userId: string;
@@ -13,7 +19,7 @@ interface State {
   missingInputs: boolean;
 }
 
-export default class OeciLogin extends React.Component<State> {
+class OeciLogin extends React.Component<State> {
   state: State = {
     userId: "",
     password: "",
@@ -196,9 +202,32 @@ export default class OeciLogin extends React.Component<State> {
                 You can purchase an OECI subscription here.
               </a>
             </p>
+            <p className="lh-copy mb3">
+              Or, you can try the{" "}
+              <button
+                className="link hover-blue underline"
+                onClick={() => {
+                  store.dispatch(startDemo());
+                  history.push("/record-search");
+                  window.scrollTo(0, 0);
+                }}
+              >
+                {" "}
+                Demo version of RecordSponge
+              </button>
+              .
+            </p>
           </section>
         </main>
       </>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return {};
+};
+
+export default connect(mapStateToProps, {
+  startDemo,
+})(OeciLogin);

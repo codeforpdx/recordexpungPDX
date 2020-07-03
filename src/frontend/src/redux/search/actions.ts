@@ -20,6 +20,8 @@ import {
   UNDO_EDIT_CHARGE,
   START_EDITING,
   DONE_EDITING,
+  START_DEMO,
+  STOP_DEMO,
 } from "./types";
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import { RecordData } from "../../components/RecordSearch/Record/types";
@@ -57,7 +59,7 @@ function buildSearchRequest() {
 
 function buildAndSendSearchRequest(dispatch: any): any {
   return apiService<SearchResponse>(dispatch, {
-    url: "/api/search",
+    url: store.getState().search.demo ? "api/demo" : "/api/search",
     data: buildSearchRequest(),
     method: "post",
     withCredentials: true,
@@ -93,6 +95,18 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
       });
       alert(error.message);
     });
+}
+
+export function startDemo() {
+  return {
+    type: START_DEMO,
+  };
+}
+
+export function stopDemo() {
+  return {
+    type: STOP_DEMO,
+  };
 }
 
 export function downloadPdf() {
