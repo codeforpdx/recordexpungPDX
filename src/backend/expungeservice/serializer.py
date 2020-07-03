@@ -64,6 +64,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "probation_revoked": charge.probation_revoked,
             "statute": charge.statute,
             "type_name": charge.charge_type.type_name,
+            "expungement_rules": charge.charge_type.expungement_rules,
             "edit_status": charge.edit_status,
         }
 
