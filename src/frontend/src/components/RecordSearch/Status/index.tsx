@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../redux/store";
+import { RecordData } from "../Record/types";
 import LoadingSpinner from "../../LoadingSpinner";
 import NoSearchResults from "./NoSearchResults";
 
 type Props = {
   loading: string;
+  record?: RecordData;
 };
 
 class Status extends React.Component<Props> {
@@ -15,7 +17,13 @@ class Status extends React.Component<Props> {
         {this.props.loading === "loading" ? (
           <LoadingSpinner inputString={"your search results"} />
         ) : (
+          null
+        )}
+
+        {this.props.record ? (
           <NoSearchResults />
+        ) : (
+          null
         )}
       </section>
     );
