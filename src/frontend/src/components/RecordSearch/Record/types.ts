@@ -7,9 +7,12 @@ export interface ChargeData {
   type_name: string;
   date: string;
   disposition: {
+    status: string;
     ruling: string;
     date: string;
   };
+  probation_revoked: string;
+  edit_status: string;
 }
 
 export interface CaseData {
@@ -20,6 +23,7 @@ export interface CaseData {
   charges: ChargeData[];
   citation_number: string;
   current_status: string;
+  edit_status: string;
   date: string;
   location: string;
   name: string;
@@ -92,3 +96,56 @@ export interface AnswerData {
   question?: QuestionData;
   edit?: { [key: string]: string };
 }
+
+export const CHARGE_TYPES = [
+  "Civil Offense",
+  "Criminal Forfeiture",
+  "Dismissed Criminal Charge",
+  "DUII",
+  "Diverted DUII",
+  "FareViolation",
+  "Felony Class A",
+  "Felony Class B",
+  "Felony Class C",
+  "Juvenile",
+  "Marijuana Eligible",
+  "Marijuana Eligible (Below age 21)",
+  "Marijuana Violation",
+  "Marijuana Ineligible",
+  "Misdemeanor",
+  "Parking Ticket",
+  "Person Felony Class B",
+  "Reduced to Violation",
+  "Severe Charge",
+  "Sex Crime",
+  "137.225(6)(f) related sex crime",
+  "137.225(6)(f) related sex crime",
+  "Subsection 6",
+  "Traffic Offense",
+  "Traffic Violation",
+  "Unclassified",
+  "Violation",
+];
+
+export const CHARGE_TYPES_CONVICTED_ONLY = [
+  "Felony Class A",
+  "Felony Class B",
+  "Felony Class C",
+  "DUII",
+  "Marijuana Eligible",
+  "Marijuana Eligible (Below age 21)",
+  "Marijuana Ineligible",
+  "Misdemeanor",
+  "Person Felony Class B",
+  "Severe Charge",
+  "Sex Crime",
+  "137.225(6)(f) related sex crime",
+  "137.225(6)(f) related sex crime",
+  "Subsection 6",
+  "Traffic Offense",
+];
+
+export const CHARGE_TYPES_DISMISSED_ONLY = [
+  "Dismissed Criminal Charge",
+  "Diverted DUII",
+];

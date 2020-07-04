@@ -23,7 +23,7 @@ class RecordEditor:
         for edit_action_case_number, edit in edits.items():
             if edit["summary"]["edit_status"] == EditStatus.ADD:
                 case = OeciCase.empty(case_number=str(edit["summary"]["case_number"]))
-            elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE):
+            elif edit["summary"]["edit_status"] in (EditStatus.UPDATE, EditStatus.DELETE, EditStatus.UNCHANGED):
                 case = next(
                     (case for case in search_result_cases if case.summary.case_number == edit_action_case_number)
                 )
@@ -93,17 +93,17 @@ class RecordEditor:
     @staticmethod
     def _add_charge(case_number, ambiguous_charge_id, edit) -> Charge:
         charge_dict = RecordEditor._parse_charge_edits(edit)
-        charge_type_string = charge_dict.pop("charge_type", None)
+        charge_type = RecordEditor._get_charge_type(charge_dict.pop("charge_type", None))
         charge_edits_with_defaults = {
+            "name": "",
             **charge_dict,
-            "charge_type": RecordEditor._get_charge_type(charge_type_string),
+            "charge_type": charge_type,
             "ambiguous_charge_id": ambiguous_charge_id,
             "case_number": case_number,
             "id": f"{ambiguous_charge_id}-0",
-            "name": "N/A",
-            "statute": "N/A",
-            "level": "N/A",
-            "type_name": "N/A",
+            "statute": "",
+            "level": "",
+            "type_name": charge_type.type_name,
             "balance_due_in_cents": 0,
             "edit_status": EditStatus.ADD,
         }
@@ -130,7 +130,10 @@ class RecordEditor:
     @staticmethod
     def _get_charge_type(charge_type: str) -> ChargeType:
         charge_types = get_charge_classes()
-        charge_types_dict = {charge_type.__name__: charge_type() for charge_type in charge_types}
+        charge_types_dict = {
+            **{charge_type.__name__: charge_type() for charge_type in charge_types},
+            **{charge_type.type_name: charge_type() for charge_type in charge_types},
+        }
         return charge_types_dict.get(charge_type, UnclassifiedCharge())
 
     @staticmethod

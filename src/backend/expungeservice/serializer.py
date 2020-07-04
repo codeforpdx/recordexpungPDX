@@ -39,7 +39,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def case_summary_to_json(self, case):
         return {
             "name": case.name,
-            "birth_year": case.birth_year,
+            "birth_year": case.birth_year if case.birth_year else "",
             "case_number": case.case_number,
             "citation_number": case.citation_number,
             "location": case.location,

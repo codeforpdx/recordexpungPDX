@@ -43,7 +43,7 @@ function Questions(props: Props) {
       return (
         <div className="w-100 bl bw3 b--light-purple pa3 pb1">
           {renderQuestions(question_summary.root, selectFunction)}
-          {props.loading == props.question_summary.ambiguous_charge_id ? (
+          {props.loading === props.question_summary.ambiguous_charge_id ? (
             <div className="radio-spinner" role="status">
               <span className="spinner spinner--sm mr1"></span>
               <span className="f6 fw5">Updating&#8230;</span>
@@ -87,9 +87,11 @@ function Questions(props: Props) {
   ): any {
     return Object.entries(question.options).map(
       ([answer, answerData]: [string, AnswerData]) => {
-        if (question.selection === answer && answerData.question) {
-          return renderQuestions(answerData.question, selectFunction);
-        }
+        return (
+          question.selection === answer &&
+          answerData.question &&
+          renderQuestions(answerData.question, selectFunction)
+        );
       }
     );
   }
@@ -98,17 +100,14 @@ function Questions(props: Props) {
 }
 
 function mapStateToProps(state: AppState, ownProps: Props) {
-  if (
-    state.search.questions &&
-    state.search.questions[ownProps.ambiguous_charge_id]
-  ) {
-    const question_summary =
-      state.search.questions[ownProps.ambiguous_charge_id];
-    return {
-      question_summary: question_summary,
-      loading: state.search.loading,
-    };
-  }
+  const question_summary =
+    (state.search.questions &&
+      state.search.questions[ownProps.ambiguous_charge_id]) ||
+    undefined;
+  return {
+    question_summary,
+    loading: state.search.loading,
+  };
 }
 
 export default connect(mapStateToProps, {

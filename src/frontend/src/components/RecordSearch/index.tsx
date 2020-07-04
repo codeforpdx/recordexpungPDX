@@ -8,11 +8,11 @@ import Record from "./Record";
 import Status from "./Status";
 import { checkOeciRedirect } from "../../service/cookie-service";
 
-type Props = {
+interface Props {
   searchRecord: Function;
   clearRecord: Function;
   record?: RecordData;
-};
+}
 
 class RecordSearch extends Component<Props> {
   componentDidMount() {
@@ -28,13 +28,8 @@ class RecordSearch extends Component<Props> {
       <>
         <main className="mw8 center ph2">
           <SearchPanel searchRecord={this.props.searchRecord} />
-          {this.props.record &&
-          ((this.props.record.cases && this.props.record.cases.length > 0) ||
-            this.props.record.errors) ? (
-            <Record record={this.props.record} />
-          ) : (
-            <Status />
-          )}
+          <Record record={this.props.record} />
+          <Status />
           <div className="bg-white shadow mt4 mb6 pa4 br3">
             <h2 className="fw6 mb3">Assumptions</h2>
             <p className="mb3">

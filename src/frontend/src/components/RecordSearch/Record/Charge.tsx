@@ -2,17 +2,47 @@ import React from "react";
 import Eligibility from "./Eligibility";
 import TimeEligibility from "./TimeEligibility";
 import TypeEligibility from "./TypeEligibility";
+import EditChargePanel from "./EditChargePanel";
+import EditButton from "./EditButton";
+import EditedBadge from "./EditedBadge";
 import Questions from "./Questions";
 import { ChargeData } from "./types";
+import { undoEditCharge } from "../../../redux/search/actions";
+import store from "../../../redux/store";
 
 interface Props {
   charge: ChargeData;
+  editing: boolean;
+  isNewCharge: boolean;
+  showEditButtons: boolean;
+  whenEditing: Function;
+  whenDoneEditing: Function;
 }
+interface State {
+  editing: Boolean;
+}
+export default class Charge extends React.Component<Props, State> {
+  state: State = {
+    editing: this.props.editing,
+  };
 
-export default class Charge extends React.Component<Props> {
+  handleUndoEditClick = () => {
+    if (
+      !(this.props.charge.edit_status === "ADD") ||
+      window.confirm("This data will be lost. Remove anyway?")
+    ) {
+      store.dispatch(
+        undoEditCharge(
+          this.props.charge.case_number,
+          this.props.charge.ambiguous_charge_id
+        )
+      );
+    }
+  };
+
   render() {
     const {
-      case_number,
+      edit_status,
       ambiguous_charge_id,
       date,
       disposition,
@@ -67,29 +97,74 @@ export default class Charge extends React.Component<Props> {
 
     return (
       <div className="br3 ma2 bg-white" id={ambiguous_charge_id}>
-        <Eligibility expungement_result={expungement_result} />
-        <div className="flex-l ph3 pb3">
-          <div className="w-100 w-40-l pr3">
-            {buildRecordTime()}
-            <TypeEligibility
-              type_eligibility={expungement_result.type_eligibility}
-              type_name={type_name}
-            />
-          </div>
-          <div className="w-100 w-60-l pr3">
-            <ul className="list">
-              <li className="mb2">
-                <span className="fw7">Charge: </span>
-                {`${statute}-${name}`}
-              </li>
-              {buildDisposition(disposition)}
-              <li className="mb2">
-                <span className="fw7">Charged: </span> {date}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <Questions ambiguous_charge_id={ambiguous_charge_id} />
+        {this.props.isNewCharge ? null : (
+          <>
+            {edit_status !== "DELETE" && (
+              <Eligibility
+                expungement_result={expungement_result}
+                removed={edit_status === "DELETE"}
+              />
+            )}
+            {edit_status !== "UNCHANGED" && (
+              <EditedBadge
+                editStatus={edit_status}
+                onClick={this.handleUndoEditClick}
+                showEditButtons={this.props.showEditButtons}
+              />
+            )}
+            <div className="dib fr-ns ph2 pv3">
+              {this.props.showEditButtons && (
+                <EditButton
+                  actionName="Edit Case"
+                  onClick={() => {
+                    this.props.whenEditing();
+                    this.setState({ editing: true });
+                  }}
+                />
+              )}
+            </div>
+
+            <div className="flex-l ph3 pb3">
+              <div className="w-100 w-40-l pr3">
+                {buildRecordTime()}
+                <TypeEligibility
+                  type_eligibility={expungement_result.type_eligibility}
+                  type_name={type_name}
+                />
+              </div>
+              <div className="w-100 w-60-l pr3">
+                <ul className="list">
+                  <li className="mb2">
+                    <span className="fw7">Charge: </span>
+                    {`${statute}${statute && "-"}${name}`}
+                  </li>
+                  {buildDisposition(disposition)}
+                  <li className="mb2">
+                    <span className="fw7">Charged: </span> {date}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </>
+        )}
+        {this.state.editing && (
+          <EditChargePanel
+            charge={this.props.charge}
+            isNewCharge={this.props.isNewCharge}
+            whenDoneEditing={() => {
+              this.setState({ editing: false });
+              this.props.whenDoneEditing();
+            }}
+            handleUndoEditClick={() => {
+              this.handleUndoEditClick();
+            }}
+          />
+        )}
+
+        {!this.state.editing &&
+          this.props.charge.edit_status === "UNCHANGED" && (
+            <Questions ambiguous_charge_id={ambiguous_charge_id} />
+          )}
       </div>
     );
   }
