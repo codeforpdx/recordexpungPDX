@@ -12,12 +12,14 @@ type Props = {
 
 class Status extends React.Component<Props> {
   render() {
+    const empty_record = this.props.record &&
+      this.props.record.cases && this.props.record.cases.length === 0
     return (
       <section>
         {this.props.loading === "loading" ? (
           <LoadingSpinner inputString={"your search results"} />
         ) : (
-          this.props.record ? (
+          empty_record ? (
             <NoSearchResults />
           ) : (
             null
