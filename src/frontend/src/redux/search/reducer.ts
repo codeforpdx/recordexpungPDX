@@ -248,7 +248,7 @@ export function searchReducer(
       const filtered_edits = Object.keys(edits)
         .filter((key) => action.case_number !== key)
         .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
-      if (editsFromQuestions) {
+      if (editsFromQuestions && Object.keys(editsFromQuestions).length > 0) {
         filtered_edits[action.case_number] = {
           summary: { edit_status: "UNCHANGED" },
           charges: editsFromQuestions,
