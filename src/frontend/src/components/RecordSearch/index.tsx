@@ -28,8 +28,9 @@ class RecordSearch extends Component<Props> {
       <>
         <main className="mw8 center ph2">
           <SearchPanel searchRecord={this.props.searchRecord} />
+          <Status record={this.props.record} />
           <Record record={this.props.record} />
-          <Status />
+
           <div className="bg-white shadow mt4 mb6 pa4 br3">
             <h2 className="fw6 mb3">Assumptions</h2>
             <p className="mb3">
