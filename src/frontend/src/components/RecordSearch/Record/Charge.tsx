@@ -73,8 +73,8 @@ export default class Charge extends React.Component<Props, State> {
 
     const buildDisposition = (disposition: any) => {
       return (
-        <li className="mb2">
-          <span className="fw7">Disposition: </span>{" "}
+        <li className="flex mb2">
+          <span className="w6rem shrink-none fw7">Disposition</span>{" "}
           {dispositionEvent(disposition)}
         </li>
       );
@@ -125,7 +125,7 @@ export default class Charge extends React.Component<Props, State> {
             </div>
 
             <div className="flex-l ph3 pb3">
-              <div className="w-100 w-40-l pr3">
+              <div className="w-100 w-40-l relative pr3">
                 {buildRecordTime()}
                 <TypeEligibility
                   type_eligibility={expungement_result.type_eligibility}
@@ -134,13 +134,13 @@ export default class Charge extends React.Component<Props, State> {
               </div>
               <div className="w-100 w-60-l pr3">
                 <ul className="list">
-                  <li className="mb2">
-                    <span className="fw7">Charge: </span>
+                  <li className="flex mb2">
+                    <span className="w6rem shrink-none fw7">Charge</span>
                     {`${statute}${statute && "-"}${name}`}
                   </li>
                   {buildDisposition(disposition)}
-                  <li className="mb2">
-                    <span className="fw7">Charged: </span> {date}
+                  <li className="flex mb2">
+                    <span className="w6rem shrink-none fw7">Charged</span> {date}
                   </li>
                 </ul>
               </div>

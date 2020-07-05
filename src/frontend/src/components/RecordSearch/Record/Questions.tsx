@@ -41,7 +41,7 @@ function Questions(props: Props) {
         props.question_summary.case_number
       );
       return (
-        <div className="w-100 bl bw3 b--light-purple pa3 pb1">
+        <div className="w-100 relative bl bw3 b--light-purple pa3 pb1">
           {renderQuestions(question_summary.root, selectFunction)}
           {props.loading === props.question_summary.ambiguous_charge_id ? (
             <div className="radio-spinner" role="status">

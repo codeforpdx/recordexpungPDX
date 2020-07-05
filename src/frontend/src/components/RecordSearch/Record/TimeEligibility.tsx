@@ -10,22 +10,22 @@ export default class TimeEligibility extends React.Component<Props> {
     const { status, reason } = this.props.time_eligibility;
 
     const timeNow = (
-      <div className="relative mb3">
+      <div className="relative mb3 connect connect-time">
         <i
           aria-hidden="true"
           className="absolute fas fa-check-circle green"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Time:</span> Eligible Now
+          <span className="fw7">Time</span> Eligible Now
         </div>
       </div>
     );
 
     const timeLater = (reason: string) => (
-      <div className="relative mb3">
-        <i aria-hidden="true" className="absolute fas fa-clock dark-blue"></i>
+      <div className="relative mb3 connect connect-time">
+        <i aria-hidden="true" className="absolute fas fa-clock dark-blue bg-white z-1"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Time:</span> {reason}
+          <span className="fw7">Time</span> {reason}
         </div>
       </div>
     );

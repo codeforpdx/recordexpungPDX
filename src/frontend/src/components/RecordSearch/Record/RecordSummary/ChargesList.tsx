@@ -73,7 +73,7 @@ export default class ChargesList extends React.Component<Props> {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="fw6 red bg-washed-red br2 ph2 ml2"
+                  className="fw6 red bg-washed-red br2 ph1 ml2"
                 >
                   $
                 </span>
@@ -84,7 +84,7 @@ export default class ChargesList extends React.Component<Props> {
           }
         };
         return (
-          <li key={"chargeItem" + index} className="bt b--light-gray pt1 mb2">
+          <li key={"chargeItem" + index} className="bt b--light-gray pt2 mb2">
             <a href={"#" + id} className="link hover-blue">
               {highlightMoneyOwed(chargeName)}
             </a>
