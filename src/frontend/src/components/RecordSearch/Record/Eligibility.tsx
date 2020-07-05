@@ -34,7 +34,7 @@ export default class Eligibility extends React.Component<Props> {
         <h2
           className={
             label_color(charge_eligibility.status) +
-            " fw6 pv2 ph3 ma2 mb3 dib br3"
+            " fw6 pv2 ph3 ma2 mb3 dib br3 relative z-1"
           }
         >
           {charge_eligibility.label}

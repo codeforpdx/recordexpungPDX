@@ -26,12 +26,12 @@ class RecordSearch extends Component<Props> {
   render() {
     return (
       <>
-        <main className="mw8 center ph2">
+        <main className="mw8 center f6 f5-l ph2">
           <SearchPanel searchRecord={this.props.searchRecord} />
           <Status record={this.props.record} />
           <Record record={this.props.record} />
 
-          <div className="bg-white shadow mt4 mb6 pa4 br3">
+          <div className="bg-white shadow mb6 pa4 br3">
             <h2 className="fw6 mb3">Assumptions</h2>
             <p className="mb3">
               We are only able to access your public Oregon records.

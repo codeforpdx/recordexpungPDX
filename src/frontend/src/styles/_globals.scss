@@ -90,6 +90,50 @@ fieldset {
   padding: 0.01em 0 0 0;
 }
 
+.w6rem {
+  width: 6rem;
+}
+
+// Case header widths
+
+.ch1 {
+  width: 11rem;
+  @media screen and (min-width: 50em) {
+    width: 7.5rem;
+  }
+}
+.ch2 {
+  @media screen and (min-width: 50em) {
+    width: 5.5rem;
+  }
+}
+.ch3 {
+  width: 11rem;
+  clear: left;
+  @media screen and (min-width: 50em) {
+    width: 8rem;
+    clear: none;
+  }
+}
+.ch4 {
+  @media screen and (min-width: 50em) {
+    width: 6.5rem;
+  }
+}
+.ch5 {
+  width: 11rem;
+  clear: left;
+  @media screen and (min-width: 50em) {
+    width: 12rem;
+    clear: none;
+  }
+}
+.ch6 {
+  @media screen and (min-width: 50em) {
+    width: 5.5rem;
+  }
+}
+
 .logo {
   width: 164px;
   height: auto;
@@ -174,8 +218,9 @@ fieldset {
 }
 
 .radio-spinner {
-  bottom: -1.4rem;
-  left: 0.38rem;
+  position: absolute;
+  bottom: 0.7rem;
+  left: 1.4rem;
 }
 
 .loading-btn {
@@ -207,6 +252,36 @@ fieldset {
     transform: scale(1);
     opacity: 0;
   }
+}
+
+.connect:before,
+.connect:after, {
+  content: " ";
+  position: absolute;
+  left: 8px;
+  transform: translate(-50%);
+}
+.connect-time:before {
+  top: -20px;
+  height: 90%;
+  width: 2px;
+  background-color: #dfe2e8;
+}
+.connect-type:before {
+  top: -44px;
+  height: 140%;
+  width: 2px;
+  background-color: #dfe2e8;
+}
+.connect-type:after {
+  content: " ";
+  position: absolute;
+  left: 8px;
+  transform: translate(-50%);
+  bottom: 0;
+  height: 90%;
+  width: 4px;
+  background-color: white;
 }
 
 footer {
