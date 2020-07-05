@@ -13,7 +13,7 @@ export default class TimeEligibility extends React.Component<Props> {
       <div className="relative mb3 connect connect-time">
         <i
           aria-hidden="true"
-          className="absolute fas fa-check-circle green"
+          className="absolute fas fa-check-circle green bg-white z-1"
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Time</span> Eligible Now
