@@ -43,15 +43,10 @@ class CaseParser:
 
     @staticmethod
     def __parse_district_attorney_number(soup) -> str:
-        district_attorney_key = "District Attorney Number:"
+        DISTRICT_ATTORNEY_KEY = "District Attorney Number:"
         labels = soup.find_all("th", "ssTableHeaderLabel", limit=10)
-        table = {}
-        for tag in labels:
-            table[tag.string] = tag.parent.find("td").string
-        if district_attorney_key in table:
-            return table[district_attorney_key]
-        else:
-            return ""
+        table = {tag.string: tag.parent.find("td").string for tag in labels}
+        return table.get(DISTRICT_ATTORNEY_KEY, "")
     
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
