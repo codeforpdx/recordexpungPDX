@@ -58,21 +58,18 @@ export default class SearchPanel extends React.Component<Props, State> {
           this.state.aliases[i].last_name.trim().length === 0
         ) {
           missingInputs = true;
-          break;
         }
         if (
           this.state.aliases[i].first_name.indexOf("*") > -1 &&
           !isValidWildcard(this.state.aliases[i].first_name, 2)
         ) {
           invalidFirstNameWildcard = true;
-          break;
         }
         if (
           this.state.aliases[i].last_name.indexOf("*") > -1 &&
           !isValidWildcard(this.state.aliases[i].last_name, 3)
         ) {
           invalidLastNameWildcard = true;
-          break;
         }
       }
       this.setState(
