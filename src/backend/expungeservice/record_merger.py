@@ -68,7 +68,7 @@ class RecordMerger:
                     time_eligibility=merged_time_eligibility,
                     charge_eligibility=charge_eligibility,
                 )
-                merged_type_name = " ⬥ ".join(
+                merged_type_name = " OR ".join(
                     list(unique_everseen([charge.charge_type.type_name for charge in same_charges]))
                 )
                 merged_charge_type = replace(charge.charge_type, type_name=merged_type_name)
@@ -87,8 +87,11 @@ class RecordMerger:
     @staticmethod
     def merge_type_eligibilities(same_charges: List[Charge]) -> TypeEligibility:
         status = RecordMerger.compute_type_eligibility_status(same_charges)
-        reasons = [charge.type_eligibility.reason for charge in same_charges]
-        reason = " ⬥ ".join(list(unique_everseen(reasons)))
+        reasons = [
+            c.charge_type.type_name + " – " + c.type_eligibility.reason
+            for c in list(unique_everseen(same_charges, lambda c: c.charge_type.type_name))
+        ]
+        reason = " OR ".join(reasons)
         return TypeEligibility(status=status, reason=reason)
 
     @staticmethod
@@ -105,7 +108,7 @@ class RecordMerger:
         if time_eligibilities:
             status = RecordMerger.compute_time_eligibility_status(time_eligibilities)
             reasons = [time_eligibility.reason for time_eligibility in time_eligibilities]
-            reason = " ⬥ ".join(list(unique_everseen(reasons)))
+            reason = " OR ".join(list(unique_everseen(reasons)))
             date_will_be_eligible = time_eligibilities[0].date_will_be_eligible
             if len(set([time_eligibility.date_will_be_eligible for time_eligibility in time_eligibilities])) == 1:
                 unique_date = True

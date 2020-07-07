@@ -31,5 +31,5 @@ def test_sex_crimes_with_romeo_and_juliet_exception(sex_crimes_statute):
     assert type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         type_eligibility.reason
-        == "Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis ⬥ Fails to meet requirements under 137.225(6)(f)"
+        == "137.225(6)(f) related sex crime – Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis"
     )

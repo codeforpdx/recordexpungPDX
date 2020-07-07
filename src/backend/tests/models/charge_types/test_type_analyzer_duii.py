@@ -22,7 +22,7 @@ def test_duii_dismissed():
     assert duii_type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_type_eligibility.reason
-        == "137.225(8)(b) - Diverted DUIIs are ineligible ⬥ Dismissals are generally eligible under 137.225(1)(b)"
+        == "Diverted DUII – Ineligible under 137.225(8)(b) OR Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(b)"
     )
 
 
@@ -33,7 +33,7 @@ def test_duii_diverted():
     assert duii_type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         duii_type_eligibility.reason
-        == "137.225(8)(b) - Diverted DUIIs are ineligible ⬥ Dismissals are generally eligible under 137.225(1)(b)"
+        == "Diverted DUII – Ineligible under 137.225(8)(b) OR Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(b)"
     )
 
 
@@ -42,4 +42,4 @@ def test_duii_convicted():
     duii_type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert duii_type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert duii_type_eligibility.reason == "137.225(7)(a) - Traffic offenses are ineligible"
+    assert duii_type_eligibility.reason == "DUII – Traffic offenses are ineligible under 137.225(7)(a)"
