@@ -1,7 +1,6 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
-import history from "../../service/history";
 
 interface State {
   userId: string;

@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
-import store from "../../redux/store";
 import { RecordData } from "./Record/types";
-import {
-  searchRecord,
-  clearRecord,
-  stopDemo,
-} from "../../redux/search/actions";
+import { searchRecord, clearRecord } from "../../redux/search/actions";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
 import DemoInfo from "./Demo/DemoInfo";
 import { checkOeciRedirect } from "../../service/cookie-service";
-import history from "../../service/history";
 
 interface Props {
   searchRecord: Function;
@@ -35,7 +29,7 @@ class RecordSearch extends Component<Props> {
     return (
       <>
         <main className="mw8 center f6 f5-l ph2">
-          {this.props.demo && <DemoInfo stopDemo={stopDemo} />}
+          {this.props.demo && <DemoInfo />}
           <SearchPanel searchRecord={this.props.searchRecord} />
           <Status record={this.props.record} />
           <Record record={this.props.record} />
