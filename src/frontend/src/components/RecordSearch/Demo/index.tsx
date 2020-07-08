@@ -2,12 +2,18 @@ import React from "react";
 import RecordSearch from "../../RecordSearch";
 import { startDemo } from "../../../redux/search/actions";
 import store from "../../../redux/store";
+import { connect } from "react-redux";
 
-export default class Demo extends React.Component {
+interface Props {
+  startDemo: Function;
+}
+class Demo extends React.Component<Props> {
   componentDidMount() {
-    store.dispatch(startDemo());
+    store.dispatch(this.props.startDemo());
   }
   render() {
     return <RecordSearch demo={true} />;
   }
 }
+
+export default connect(() => {}, { startDemo })(Demo);

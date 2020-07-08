@@ -1,12 +1,6 @@
 import React from "react";
-import store from "../../../redux/store";
-import history from "../../../service/history";
 
-interface Props {
-  stopDemo: Function;
-}
-
-export default class DemoInfo extends React.Component<Props> {
+export default class DemoInfo extends React.Component {
   render() {
     const examples = [
       {
@@ -118,8 +112,8 @@ export default class DemoInfo extends React.Component<Props> {
           </p>
 
           <p className="mb3">
-            Try searching any of the following examples by entering them into
-            the "First Name" and "Last Name" fields in the Search Panel:
+            Try searching any of the following examples by entering them in the
+            Search Panel below:
           </p>
           <div className="pw6">
             {examples.map((examples: any) => (

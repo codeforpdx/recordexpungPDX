@@ -216,9 +216,9 @@ class DemoRecords:
     # "date": date_class.today() - relativedelta(years=3, days=9, months =5),
 
     records = {
-        Alias("common", "name", "", ""): common_name_record_1 + common_name_record_2,
-        Alias("common", "name", "", "1/1/1970"): common_name_record_1,
-        Alias("common", "name", "", "2/2/1985"): common_name_record_2,
+        Alias("john", "common", "", ""): common_name_record_1 + common_name_record_2,
+        Alias("john", "common", "", "1/1/1970"): common_name_record_1,
+        Alias("john", "common", "", "2/2/1985"): common_name_record_2,
         Alias("single", "conviction", "", ""): [
             OeciCase(
                 summary=from_dict(
