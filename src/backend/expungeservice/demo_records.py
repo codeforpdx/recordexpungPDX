@@ -41,32 +41,195 @@ class DemoRecords:
         "edit_status": EditStatus.UNCHANGED,
         "current_status": "Closed",
         "balance_due_in_cents": 0,
-        "birth_year": 980,
-        "location": "Oregon",
+        "birth_year": 1995,
+        "location": "Multnomah",
         "violation_type": "Offense Misdemeanor",
+        "date": date_class.today(),
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,
         "edit_status": EditStatus.UNCHANGED,
         "probation_revoked": None,
-        "level": "Felony Class C",
+        "level": "Misdemeanor Class C",
         "statute": "166.015",
         "name": "Disorderly Conduct",
+        "date": date_class.today(),
+        "disposition": DispositionCreator.empty(),
     }
 
+    common_name_record_1 = [
+        OeciCase(
+            summary=from_dict(
+                data_class=CaseSummary,
+                data={
+                    **shared_case_data,
+                    "name": "COMMON A. NAME",
+                    "birth_year": 1970,
+                    "case_number": "100000",
+                    "location": "Clackamas",
+                    "date": date_class.today() - relativedelta(years=6, days=12, months=4),
+                    "balance_due_in_cents": 0,
+                },
+            ),
+            charges=(
+                from_dict(
+                    data_class=OeciCharge,
+                    data={
+                        **shared_charge_data,
+                        "ambiguous_charge_id": "100000-1",
+                        "name": "Aggravated Theft in the First Degree",
+                        "statute": "164.057",
+                        "level": "Felony Class B",
+                        "date": date_class.today() - relativedelta(years=6, days=12, months=4),
+                        "disposition": DispositionCreator.create(
+                            date=date_class.today() - relativedelta(years=6, days=12, months=3), ruling="Convicted"
+                        ),
+                    },
+                ),
+            ),
+        ),
+        OeciCase(
+            summary=from_dict(
+                data_class=CaseSummary,
+                data={
+                    **shared_case_data,
+                    "name": "COMMON NAME",
+                    "birth_year": 1970,
+                    "case_number": "110000",
+                    "location": "Baker",
+                    "date": date_class.today() - relativedelta(years=7, days=26, months=7),
+                    "balance_due_in_cents": 0,
+                },
+            ),
+            charges=(
+                from_dict(
+                    data_class=OeciCharge,
+                    data={
+                        **shared_charge_data,
+                        "ambiguous_charge_id": "110000-1",
+                        "name": "Theft in the Second Degree",
+                        "statute": "164.057",
+                        "level": "Misdemeanor Class A",
+                        "date": date_class.today() - relativedelta(years=7, days=26, months=7),
+                        "disposition": DispositionCreator.create(
+                            date=date_class.today() - relativedelta(years=7, days=26, months=6), ruling="Convicted"
+                        ),
+                    },
+                ),
+            ),
+        ),
+        OeciCase(
+            summary=from_dict(
+                data_class=CaseSummary,
+                data={
+                    **shared_case_data,
+                    "name": "COMMON A NAME",
+                    "birth_year": 1970,
+                    "case_number": "120000",
+                    "location": "Baker",
+                    "date": date_class.today() - relativedelta(years=7, days=26, months=7),
+                    "balance_due_in_cents": 0,
+                },
+            ),
+            charges=(
+                from_dict(
+                    data_class=OeciCharge,
+                    data={
+                        **shared_charge_data,
+                        "ambiguous_charge_id": "120000-1",
+                        "name": "Poss under oz Marijuana",
+                        "statute": "475.000",
+                        "level": "violation",
+                        "date": date_class.today() - relativedelta(years=8, days=26, months=7),
+                        "disposition": DispositionCreator.create(
+                            date=date_class.today() - relativedelta(years=8, days=26, months=6), ruling="Convicted"
+                        ),
+                    },
+                ),
+            ),
+        ),
+    ]
+
+    common_name_record_2 = [
+        OeciCase(
+            summary=from_dict(
+                data_class=CaseSummary,
+                data={
+                    **shared_case_data,
+                    "name": "COMMON NAME",
+                    "birth_year": 1985,
+                    "case_number": "200000",
+                    "location": "Benton",
+                    "date": date_class.today() - relativedelta(years=3, days=12, months=4),
+                    "balance_due_in_cents": 0,
+                },
+            ),
+            charges=(
+                from_dict(
+                    data_class=OeciCharge,
+                    data={
+                        **shared_charge_data,
+                        "ambiguous_charge_id": "200000-1",
+                        "name": "Obstruction of search warrant",
+                        "statute": "162.247",
+                        "level": "Misdemeanor Class A",
+                        "date": date_class.today() - relativedelta(years=3, days=12, months=4),
+                        "disposition": DispositionCreator.create(
+                            date=date_class.today() - relativedelta(years=3, days=12, months=4), ruling="Dismissed"
+                        ),
+                    },
+                ),
+            ),
+        ),
+        OeciCase(
+            summary=from_dict(
+                data_class=CaseSummary,
+                data={
+                    **shared_case_data,
+                    "name": "COMMON B. NAME",
+                    "birth_year": 1985,
+                    "case_number": "210000",
+                    "location": "Baker",
+                    "date": date_class.today() - relativedelta(years=4, days=5, months=2),
+                    "balance_due_in_cents": 0,
+                },
+            ),
+            charges=(
+                from_dict(
+                    data_class=OeciCharge,
+                    data={
+                        **shared_charge_data,
+                        "ambiguous_charge_id": "210000-1",
+                        "name": "Poss Controlled Sub",
+                        "statute": "475.9924A",
+                        "level": "Felony Unclassified",
+                        "date": date_class.today() - relativedelta(years=4, days=5, months=2),
+                        "disposition": DispositionCreator.create(
+                            date=date_class.today() - relativedelta(years=4), ruling="Convicted"
+                        ),
+                    },
+                ),
+            ),
+        ),
+    ]
+
+    # "date": date_class.today() - relativedelta(years=3, days=9, months =5),
+
     records = {
-        # Source: https://www.papillonfoundation.org/information/notable-criminal-records
-        Alias("rosa", "parks", "", ""): [
+        Alias("common", "name", "", ""): common_name_record_1 + common_name_record_2,
+        Alias("common", "name", "", "1/1/1970"): common_name_record_1,
+        Alias("common", "name", "", "2/2/1985"): common_name_record_2,
+        Alias("single", "conviction", "", ""): [
             OeciCase(
                 summary=from_dict(
                     data_class=CaseSummary,
                     data={
                         **shared_case_data,
-                        "name": "Rosa Parks",
-                        "birth_year": 1913,
-                        "case_number": "1010101",
-                        "location": "Montgomery",
-                        "date": date_class(1955, 12, 1),
+                        "name": "SINGLE OFFENSE",
+                        "birth_year": 1990,
+                        "case_number": "100000",
+                        "location": "Baker",
+                        "date": date_class.today() - relativedelta(years=4),
                         "violation_type": "Offense Misdemeanor",
                     },
                 ),
@@ -75,30 +238,43 @@ class DemoRecords:
                         data_class=OeciCharge,
                         data={
                             **shared_charge_data,
-                            "ambiguous_charge_id": "1",
-                            "name": "Disorderly Conduct",
-                            "statute": "166.225",
+                            "ambiguous_charge_id": "100000-1",
+                            "name": "Disorderly Conduct in the First Degree",
+                            "statute": "166.223",
+                            "level": "Misdemeanor Class A",
+                            "date": date_class.today() - relativedelta(years=4),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=3, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-2",
+                            "name": "Disorderly Conduct in the Second Degree",
+                            "statute": "166.2250A",
                             "level": "Misdemeanor Class B",
-                            "date": date_class(1955, 12, 1),
-                            "disposition": DispositionCreator.create(date=date_class(1956, 2, 1), ruling="Convicted"),
+                            "date": date_class.today() - relativedelta(years=4),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=3, months=9), ruling="Dismissed"
+                            ),
                         },
                     ),
                 ),
-            )
-        ],
-        # Source: https://www.beatlesbible.com/1968/10/18/john-lennon-and-yoko-ono-are-arrested-for-drugs-possession/
-        Alias("john", "lennon", "", ""): [
+            ),
             OeciCase(
                 summary=from_dict(
                     data_class=CaseSummary,
                     data={
                         **shared_case_data,
-                        "name": "John Lennon",
-                        "birth_year": 1913,
-                        "case_number": "420-420",
-                        "location": "London",
-                        "date": date_class(1968, 10, 18),
-                        "balance_due_in_cents": 5000,
+                        "name": "SINGLE OFFENSE",
+                        "birth_year": 1990,
+                        "case_number": "200000",
+                        "location": "Multnomah",
+                        "date": date_class.today() - relativedelta(years=1),
+                        "violation_type": "Offense Misdemeanor",
                     },
                 ),
                 charges=(
@@ -106,341 +282,94 @@ class DemoRecords:
                         data_class=OeciCharge,
                         data={
                             **shared_charge_data,
-                            "ambiguous_charge_id": "1",
-                            "name": "Obstruction of search warrant",
+                            "ambiguous_charge_id": "200000-1",
+                            "name": "Theft in the Third Degree",
+                            "statute": "164.043",
+                            "level": "Misdemeanor Class C",
+                            "date": date_class.today() - relativedelta(years=1),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(months=9), ruling="Dismissed"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+        ],
+        Alias("portland", "protester", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Open",
+                        "name": "DEFUND POLICE",
+                        "case_number": "100000",
+                        "violation_type": "Offense Misdemeanor",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-1",
+                            "name": "Assaulting a Public Safety Officer",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-3",
+                            "name": "Interfering w/ Peace/Parole and Probation Officer",
                             "statute": "162.247",
                             "level": "Misdemeanor Class A",
-                            "date": date_class(1955, 12, 1),
-                            "disposition": DispositionCreator.create(date=date_class(1968, 12, 1), ruling="Convicted"),
+                            "date": date_class.today() + relativedelta(days=1),
                         },
                     ),
                     from_dict(
                         data_class=OeciCharge,
                         data={
                             **shared_charge_data,
-                            "ambiguous_charge_id": "2",
-                            "name": "Poss Controlled Sub",
-                            "statute": "475.9924A",
-                            "level": "Felony Unclassified",
-                            "date": date_class(1955, 12, 1),
-                            "disposition": DispositionCreator.create(date=date_class(1968, 12, 1), ruling="Convicted"),
-                        },
-                    ),
-                ),
-            ),
-        ],
-        Alias("george", "bush", "", ""): [
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "George Walker Bush",
-                        "birth_year": 1946,
-                        "case_number": "43",
-                        "location": "Cumberland County (Maine)",
-                        "date": date_class(1976, 9, 4),
-                        "violation_type": "Offense Misdemeanor",
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "1",
-                            "name": "DUII",
-                            "statute": "813010",
-                            "date": date_class(1976, 9, 4),
-                            "disposition": DispositionCreator.create(date=date_class(1976, 9, 5), ruling="Convicted"),
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "2",
-                            "name": "DUII",
-                            "statute": "813010",
+                            "ambiguous_charge_id": "100000-4",
+                            "name": "Disorderly Conduct in the First Degree",
+                            "statute": "166.0232A",
                             "level": "Misdemeanor Class A",
-                            "date": date_class(1976, 9, 4),
-                            "disposition": DispositionCreator.create(date=date_class(1976, 9, 5), ruling="Dismissed"),
                         },
                     ),
-                ),
-            ),
-        ],
-        Alias("example", "1", "", ""): [
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Peter Protest",
-                        "case_number": "001",
-                        "date": date_class.today() - relativedelta(years=8),
-                    },
-                ),
-                charges=(
                     from_dict(
                         data_class=OeciCharge,
                         data={
                             **shared_charge_data,
-                            "ambiguous_charge_id": "001-1",
-                            "date": date_class.today() - relativedelta(years=8),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=8, months=4, days=15), ruling="Convicted"
-                            ),
+                            "ambiguous_charge_id": "100000-5",
+                            "name": "Resisting Arrest",
+                            "statute": "162.315",
+                            "level": "Misdemeanor Class A",
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-6",
                             "name": "Riot",
+                            "statute": "166.015",
+                            "level": "Felony Class C",
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-7",
+                            "name": "Riot While Masked",
+                            "statute": "166.015A",
+                            "level": "Felony Class B",
                         },
                     ),
                 ),
             ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Peter Protest",
-                        "case_number": "002",
-                        "date": date_class.today() - relativedelta(years=15),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "002-1",
-                            "date": date_class.today() - relativedelta(years=15),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=14, months=4, days=15), ruling="Convicted"
-                            ),
-                            "name": "Unlawful Assembly",
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Peter Protest",
-                        "case_number": "003",
-                        "date": date_class.today() - relativedelta(years=1),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "003-1",
-                            "date": date_class.today() - relativedelta(years=1),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(months=4, days=15), ruling="Dismissed"
-                            ),
-                            "name": "Interfering with a peace officer",
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Peter Protest",
-                        "case_number": "004",
-                        "date": date_class.today() - relativedelta(years=2),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "004-1",
-                            "date": date_class.today() - relativedelta(years=2),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=1, months=4, days=15), ruling="Dismissed"
-                            ),
-                        },
-                    ),
-                ),
-            ),
-        ],
-        Alias("example", "2", "", ""): [
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "001",
-                        "date": date_class.today() - relativedelta(years=16),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "001-1",
-                            "statute": "813010",
-                            "date": date_class.today() - relativedelta(years=15, months=3),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=15, months=3), ruling="Dismissed"
-                            ),
-                            "name": "Driving while Intoxicated",
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "001-2",
-                            "statute": "813010",
-                            "date": date_class.today() - relativedelta(years=15, months=3),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=15, months=3), ruling="Convicted"
-                            ),
-                            "name": "Driving while Intoxicated",
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "002",
-                        "date": date_class.today() - relativedelta(years=15),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "002-1",
-                            "name": "Manufacture/Delivery Controlled Substance",
-                            "statute": "",
-                            "level": "Felony Unclassified",
-                            "date": date_class.today() - relativedelta(years=14, months=3),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=14, months=3), ruling="Convicted"
-                            ),
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "003",
-                        "date": date_class.today() - relativedelta(years=14),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "003-1",
-                            "name": "Criminal mistreatment in the second degree)",
-                            "statute": "163205",
-                            "date": date_class.today() - relativedelta(years=13, months=3),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=13, months=3), ruling="Convicted"
-                            ),
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "004",
-                        "date": date_class.today() - relativedelta(years=13),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "004-1",
-                            "name": "Criminal mistreatment in the first degree)",
-                            "statute": "163200",
-                            "date": date_class.today() - relativedelta(years=12, months=3),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=12, months=3), ruling="Convicted"
-                            ),
-                        },
-                    ),
-                ),
-            ),
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "005",
-                        "date": date_class.today() - relativedelta(years=12),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "005-1",
-                            "name": "(Endangering the welfare of a minor) (1)(a)",
-                            "statute": "163575",
-                            "date": date_class.today() - relativedelta(years=11,),
-                            "disposition": DispositionCreator.create(
-                                date=date_class.today() - relativedelta(years=11, months=3), ruling="Convicted"
-                            ),
-                        },
-                    ),
-                ),
-            ),
-        ],
-        Alias("example", "3", "", ""): [
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "name": "Firstname Lastname",
-                        "case_number": "001",
-                        "date": date_class.today() - relativedelta(years=1),
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "001-1",
-                            "statute": "813010",
-                            "date": date_class.today() - relativedelta(years=1),
-                            "disposition": DispositionCreator.empty(),
-                            "name": "Driving while Intoxicated",
-                        },
-                    ),
-                ),
-            )
         ],
     }

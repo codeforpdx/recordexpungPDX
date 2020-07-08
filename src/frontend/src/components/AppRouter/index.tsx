@@ -3,6 +3,7 @@ import { Redirect, Route, Router, Switch } from "react-router-dom";
 import history from "../../service/history";
 
 import RecordSearch from "../RecordSearch";
+import Demo from "../RecordSearch/Demo";
 import OeciLogin from "../OeciLogin";
 import Landing from "../Landing";
 import Manual from "../Manual";
@@ -21,6 +22,7 @@ class AppRouter extends React.Component {
           <Route component={Landing} exact={true} path="/" />
           <Route component={OeciLogin} path="/oeci" />
           <Route component={RecordSearch} path="/record-search" />
+          <Route component={Demo} path="/demo-record-search" />
           <Route component={Manual} path="/manual" />
           <Route component={Faq} path="/faq" />
           <Route component={Appendix} path="/appendix" />
