@@ -1,12 +1,7 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
-import { startDemo } from "../../redux/search/actions";
-import store from "../../redux/store";
 import history from "../../service/history";
-
-import { connect } from "react-redux";
-import { AppState } from "../../redux/store";
 
 interface State {
   userId: string;
@@ -204,17 +199,10 @@ class OeciLogin extends React.Component<State> {
             </p>
             <p className="lh-copy mb3">
               Or, you can try the{" "}
-              <button
-                className="link hover-blue underline"
-                onClick={() => {
-                  store.dispatch(startDemo());
-                  history.push("/record-search");
-                  window.scrollTo(0, 0);
-                }}
-              >
+              <a className="bb hover-blue" href="/demo-record-search">
                 {" "}
                 Demo version of RecordSponge
-              </button>
+              </a>
               .
             </p>
           </section>
@@ -224,10 +212,4 @@ class OeciLogin extends React.Component<State> {
   }
 }
 
-const mapStateToProps = (state: AppState) => {
-  return {};
-};
-
-export default connect(mapStateToProps, {
-  startDemo,
-})(OeciLogin);
+export default OeciLogin;

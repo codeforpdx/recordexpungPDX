@@ -11,7 +11,7 @@ import {
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
-import DemoInfo from "./DemoInfo";
+import DemoInfo from "./Demo/DemoInfo";
 import { checkOeciRedirect } from "../../service/cookie-service";
 import history from "../../service/history";
 
@@ -78,7 +78,6 @@ class RecordSearch extends Component<Props> {
 const mapStateToProps = (state: AppState) => {
   return {
     record: state.search.record,
-    demo: state.search.demo,
   };
 };
 
