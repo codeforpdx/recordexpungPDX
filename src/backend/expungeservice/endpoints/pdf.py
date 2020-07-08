@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from io import BytesIO
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
@@ -7,6 +6,7 @@ import tarfile
 
 from dacite import from_dict
 from expungeservice.expunger import Expunger
+from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
 
@@ -51,11 +51,20 @@ class FormData:
     state: str
     zip_code: str
     arresting_agency: str
-    arrest_date: str
-    conviction_date: str
-    disposition_date: str  # This is for acquittals
-    convicted_charges: str
+
+    arrest_dates_all: str
+    charges_all: str
+
+    dismissed_charges: str
+    dismissed_arrest_dates: str
+    dismissed_dates: str
+
+    conviction_charges: str
+    conviction_arrest_dates: str
+    conviction_dates: str
+
     defendant_name: str
+    county: str
 
 
 class FormFilling(MethodView):
@@ -69,35 +78,58 @@ class FormFilling(MethodView):
         tar_path = path.join(tar_dir, tar_name)
         tar = tarfile.open(tar_path, "w")
         for case in record_summary.record.cases:
-            pdf = FormFilling.build_pdf_for_case(case, user_information)
-            file_name = f"{case.summary.name}_{case.summary.case_number}.pdf"
-            file_path = path.join(temp_dir, file_name)
-            PdfWriter().write(file_path, pdf)
-            tar.add(file_path)
+            pdf = FormFilling._build_pdf_for_case(case, user_information)
+            if pdf:
+                file_name = f"{case.summary.name}_{case.summary.case_number}.pdf"
+                file_path = path.join(temp_dir, file_name)
+                PdfWriter().write(file_path, pdf)
+                tar.add(file_path)
         tar.close()
         return send_file(tar_path, as_attachment=True, attachment_filename=tar_name)
 
     @staticmethod
-    def build_pdf_for_case(case, user_information):
-        county = "clackamas"  # TODO: Swap with case.location
-        dismissals, convictions = Expunger._categorize_charges(case.charges)
-        arrest_dates = [conviction.date.strftime("%b %-d, %Y") for conviction in convictions]
-        conviction_dates = [conviction.disposition.date.strftime("%b %-d, %Y") for conviction in convictions]
-        conviction_names = [conviction.name for conviction in convictions]
+    def _build_pdf_for_case(case, user_information):
+        eligible_charges = [
+            charge
+            for charge in case.charges
+            if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
+        ]
+        if eligible_charges:
+            return FormFilling._build_pdf_for_eligible_case(case, eligible_charges, user_information)
+
+    @staticmethod
+    def _build_pdf_for_eligible_case(case, eligible_charges, user_information):
+        dismissals, convictions = Expunger._categorize_charges(eligible_charges)
+        dismissed_names = [charge.name for charge in dismissals]
+        dismissed_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in dismissals]
+        dismissed_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]
+        conviction_names = [charge.name for charge in convictions]
+        conviction_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in convictions]
+        conviction_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]
+        arrest_dates_all = dismissed_arrest_dates + conviction_arrest_dates
+        charge_names = dismissed_names + conviction_names
         form_data_dict = {
             **user_information,
             "case_name": case.summary.name,
             "case_number": case.summary.case_number,
             "da_number": "N/A",
             "arresting_agency": "N/A",
-            "arrest_date": ";".join(arrest_dates),
-            "conviction_date": ";".join(conviction_dates),
-            "convicted_charges": ";".join(conviction_names),
-            "disposition_date": "N/A",
+            "arrest_dates_all": ";".join(arrest_dates_all),
+            "charges_all": ";".join(charge_names),
+            "dismissed_charges": ";".join(dismissed_names),
+            "dismissed_arrest_dates": ";".join(dismissed_arrest_dates),
+            "dismissed_dates": ";".join(dismissed_dates),
+            "conviction_charges": ";".join(conviction_names),
+            "conviction_arrest_dates": ";".join(conviction_arrest_dates),
+            "conviction_dates": ";".join(conviction_dates),
             "defendant_name": case.summary.name,
+            "county": case.summary.location,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        pdf_path = path.join(Path(__file__).parent.parent, "files", f"{county}_arrest.pdf")
+        if convictions:
+            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
+        else:
+            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
