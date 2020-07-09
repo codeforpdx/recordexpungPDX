@@ -265,13 +265,13 @@ export function downloadExpungementPacket(
   return (dispatch: Dispatch) => {
     dispatch({
       type: DOWNLOAD_EXPUNGEMENT_PACKET,
-      name: name,
-      dob: dob,
-      mailingAddress: mailingAddress,
-      phoneNumber: phoneNumber,
-      city: city,
-      state: state,
-      zipCode: zipCode,
+      name,
+      dob,
+      mailingAddress,
+      phoneNumber,
+      city,
+      state,
+      zipCode,
     });
     return apiService<SearchResponse>(dispatch, {
       url: "/api/expungement-packet",
