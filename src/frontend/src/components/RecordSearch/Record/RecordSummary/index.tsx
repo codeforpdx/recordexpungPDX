@@ -31,11 +31,6 @@ class RecordSummary extends React.Component<Props> {
       <div className="bg-white shadow br3 mb3 ph3 pb3">
         <div className="flex justify-between">
           <h2 className="mv3 f5 fw7">Search Summary</h2>
-          <Link to="/fill-expungement-forms">
-            <button className="ma2 ba bw1 b--light-gray mid-gray bg-white link hover-blue fw6 br3 pv1 ph2">
-              Fill Expungement Forms
-            </button>
-          </Link>
           <button
             onClick={this.handleDownloadClick}
             className={`ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2${

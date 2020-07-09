@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   eligibleChargesByDate: { [label: string]: any[] };
@@ -42,6 +43,13 @@ export default class ChargesList extends React.Component<Props> {
                 : ""}
             </p>
             <ul className="list mb3">{listItems}</ul>
+            {eligibilityDate === "Eligible Now" && (
+              <Link to="/fill-expungement-forms">
+                <button className="fw7 mb3 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3">
+                  Fill Expungement Forms
+                </button>
+              </Link>
+            )}
           </div>
         );
       });
