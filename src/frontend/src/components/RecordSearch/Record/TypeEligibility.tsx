@@ -11,33 +11,33 @@ export default class RecordType extends React.Component<Props> {
     const { status, reason } = this.props.type_eligibility;
 
     const eligible = (reason: string) => (
-      <div className="relative mb3">
-        
+      <div className="relative mb3 connect connect-type">
+        <i aria-hidden="true" className="absolute fas fa-circle z-1"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + " "}
+          <span className="fw7">Type</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>
     );
 
     const review = (
-      <div className="relative mb3">
+      <div className="relative mb3 connect connect-type">
         <i
           aria-hidden="true"
-          className="absolute fas fa-question-circle purple"
+          className="absolute fas fa-question-circle purple bg-white z-1"
         ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + " "}
+          <span className="fw7">Type</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>
     );
 
     const ineligible = (reason: string) => (
-      <div className="relative mb3">
-        <i aria-hidden="true" className="absolute fas fa-times-circle red"></i>
+      <div className="relative mb3 connect connect-type">
+        <i aria-hidden="true" className="absolute fas fa-times-circle red bg-white z-1"></i>
         <div className="ml3 pl1">
-          <span className="fw7">Type:</span> {this.props.type_name + " "}
+          <span className="fw7">Type</span> {this.props.type_name + " "}
           <div>({reason})</div>
         </div>
       </div>

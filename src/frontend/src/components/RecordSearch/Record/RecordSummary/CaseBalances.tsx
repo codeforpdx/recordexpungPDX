@@ -19,7 +19,7 @@ const CaseBalances: React.FunctionComponent<Props> = (props) => {
     return (
       <li className="mb2" key={element.case_number}>
         <a
-          className="link underline hover-blue break-all"
+          className="link hover-blue"
           href={`#${element.case_number}`}
         >
           {element.case_number}
@@ -36,6 +36,14 @@ const CaseBalances: React.FunctionComponent<Props> = (props) => {
         title="Balance Due by Case"
         totalBalance={props.totalBalance}
       />
+      <div className="mt2">
+        <a
+          className="link bb hover-blue f6"
+          href="/manual#payBalances"
+        >
+          Paying Balances
+        </a>
+      </div>
     </div>
   );
 };

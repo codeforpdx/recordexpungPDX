@@ -114,5 +114,5 @@ class Charge(OeciCharge):
         short_name = self.name.split("(")[0]
         charged_date = self.date.strftime("%b %-d, %Y")
         disposition = str(self.disposition.status.name)
-        owed = f" $ owed" if self.balance_due_in_cents > 0 else ""
+        owed = f" - $ owed" if self.balance_due_in_cents > 0 else ""
         return f"{short_name} ({disposition}) - Charged {charged_date}{owed}"

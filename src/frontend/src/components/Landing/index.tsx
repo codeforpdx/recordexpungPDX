@@ -17,7 +17,6 @@ class Landing extends React.Component {
 
           <title>RecordSponge Oregon</title>
         </div>
-        <Header />
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
             <div className="mw8 center flex-l ph4 pb5 mt5">
@@ -27,9 +26,10 @@ class Landing extends React.Component {
               </h1>
               <p className="f5 lh-title mw6">
                 <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                RecordSponge is software that helps community organizations
-                quickly analyze an individual’s criminal history to determine if
-                they qualify to have their records expunged.
+
+                RecordSponge is a product that helps
+                providers quickly analyze an individual’s criminal history to
+                determine if they qualify to have their records expunged.
               </p>
             </div>
 

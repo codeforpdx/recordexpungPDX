@@ -39,13 +39,16 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
     def case_summary_to_json(self, case):
         return {
             "name": case.name,
-            "birth_year": case.birth_year,
+            "birth_year": case.birth_year if case.birth_year else "",
             "case_number": case.case_number,
             "citation_number": case.citation_number,
             "location": case.location,
             "date": case.date,
             "violation_type": case.violation_type,
-            "current_status": case.current_status,
+            "current_status": case.current_status
+            + (
+                "" if case.current_status.lower() in ["open", "closed"] else " (Closed)" if case.closed() else " (Open)"
+            ),
             "balance_due": case.get_balance_due(),
             "case_detail_link": case.case_detail_link,
             "edit_status": case.edit_status,
@@ -64,6 +67,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "probation_revoked": charge.probation_revoked,
             "statute": charge.statute,
             "type_name": charge.charge_type.type_name,
+            "expungement_rules": charge.charge_type.expungement_rules,
             "edit_status": charge.edit_status,
         }
 

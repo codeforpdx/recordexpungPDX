@@ -6,11 +6,33 @@ class MarkdownSerializer:
     @staticmethod
     def to_markdown(record: Dict, header: str) -> str:
         open_cases_block = MarkdownSerializer._gen_open_cases_block(record)
+        disclaimer = MarkdownSerializer.disclaimer_and_assumptions(open_cases_block)
         eligible_charges_block = MarkdownSerializer._gen_eligible_charges_block(record)
         ineligible_charges_block = MarkdownSerializer._gen_ineligible_charges_block(record)
         future_eligible_block = MarkdownSerializer._gen_future_eligible_block(record)
         needs_more_analysis_block = MarkdownSerializer._gen_needs_more_analysis_block(record)
-        return f"{header}  \n{open_cases_block}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{future_eligible_block}  \n{needs_more_analysis_block}"
+        return f"{header}  \n{disclaimer}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{future_eligible_block}  \n{needs_more_analysis_block}"
+
+    @staticmethod
+    def disclaimer_and_assumptions(open_cases_block):
+        return f"""## PLEASE READ THIS 
+
+### Disclaimer:
+RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.  \n
+
+{open_cases_block}
+
+### Assumptions
+<b>1) Successful completion of court requirements</b> &nbsp; If you are currently on probation or conditional discharge, the analysis below assumes that you will successfully complete those requirements.  \n
+<b>2) Court debt paid off</b> &nbsp; You must pay off all court debt on a case before you file for expungement on any case which you are otherwise eligible to expunge.  \n
+<b>3) No records outside of Oregon State court from last ten years</b> &nbsp; We are only able to access your public Oregon records. Your analysis may be different if you have had cases from <b>within the last ten years</b> which were:  \n
+  * from States besides Oregon
+  * from Federal Court (in any State)
+  * from local District Courts, e.g. Medford Municipal Court (not Jackson Circuit Court)
+  * already expunged 
+
+Below is a summary of your eligibility for expungement based on the assumptions above. 
+If the above assumptions are not true for you and you would like an updated analysis, email roe@qiu-qiulaw.com with your name and date of birth with subject line, “Updated Analysis”."""
 
     @staticmethod
     def default_header(aliases):
@@ -27,15 +49,7 @@ class MarkdownSerializer:
     def _gen_open_cases_block(record):
         has_open_cases = ["open case" in error for error in record["errors"]]
         if has_open_cases:
-            return (
-                "This person has another case open. "
-                "A person is not eligible while they have open cases "
-                "(cases which have yet to be either dismissed or convicted). "
-                "The analysis below assumes that the open cases will be dismissed. "
-                "If the client receives a conviction on the open case, "
-                "the eligibility dates below should be changed to ten years from the date of the conviction in the open case."
-                "  \n\n"
-            )
+            return """<b>You have open charges. You are not eligible to expunge ANY records, including old charges, while you have open charges.</b>"""
         else:
             return ""
 
@@ -46,7 +60,7 @@ class MarkdownSerializer:
             charges = [charge_tuple[1] for charge_tuple in eligible_charges]
             listed_charges = " - " + " \n - ".join(charges)
         else:
-            listed_charges = "This client is not currently eligible to expunge any charges."
+            listed_charges = "You are not currently eligible to expunge any charges."
         return "## Charges Eligible Now  \n" + listed_charges + "  \n"
 
     @staticmethod
@@ -68,7 +82,7 @@ class MarkdownSerializer:
             if key not in ["Eligible Now", "Ineligible", "Needs More Analysis"]
         ]
         if future_eligible_charges:
-            text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates.  \n"
+            text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.  \n"
             for label, section in sorted(future_eligible_charges, key=MarkdownSerializer._sort_future_eligible):
                 charges = [charge_tuple[1] for charge_tuple in section]
                 listed_charges = " - " + "  \n - ".join(charges)
@@ -95,7 +109,7 @@ class MarkdownSerializer:
         needs_more_analysis_charges = record["summary"]["eligible_charges_by_date"].get("Needs More Analysis")
         if needs_more_analysis_charges:
             charges = [charge_tuple[1] for charge_tuple in needs_more_analysis_charges]
-            text_block = "## Charges Needing More Analysis  \nAdditionally, this client has charges for which the online records do not contain enough information to determine eligibility. If the client is curious about the eligibility of these charges, please have them contact michael@qiu-qiulaw.com.  \n\n"
+            text_block = "## Charges Needing More Analysis  \nAdditionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.  \n\n"
             listed_charges = " - " + "  \n - ".join(charges)
             text_block += listed_charges + "  \n\n"
             return text_block

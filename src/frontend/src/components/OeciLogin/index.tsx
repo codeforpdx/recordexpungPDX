@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Header";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
 
@@ -67,7 +66,6 @@ export default class OeciLogin extends React.Component<State> {
   public render() {
     return (
       <>
-        <Header />
         <main className="mw8 center ph2">
           <section className="mw6 center cf mb6">
             <div className="white bg-dark-blue shadow br3 mt4 mb5 pa4 pa5-ns pt4-ns">
