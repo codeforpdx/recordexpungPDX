@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-import tarfile
+from zipfile import ZipFile
 
 from dacite import from_dict
 from expungeservice.expunger import Expunger
@@ -73,19 +73,19 @@ class FormFilling(MethodView):
         user_information = request_data.get("userInformation")
         record_summary = Search().build_response()
         temp_dir = mkdtemp()
-        tar_dir = mkdtemp()
-        tar_name = "expungement_packet.tar"
-        tar_path = path.join(tar_dir, tar_name)
-        tar = tarfile.open(tar_path, "w")
+        zip_dir = mkdtemp()
+        zip_name = "expungement_packet.zip"
+        zip_path = path.join(zip_dir, zip_name)
+        zipfile = ZipFile(zip_path, "w")
         for case in record_summary.record.cases:
             pdf = FormFilling._build_pdf_for_case(case, user_information)
             if pdf:
                 file_name = f"{case.summary.name}_{case.summary.case_number}.pdf"
                 file_path = path.join(temp_dir, file_name)
                 PdfWriter().write(file_path, pdf)
-                tar.add(file_path)
-        tar.close()
-        return send_file(tar_path, as_attachment=True, attachment_filename=tar_name)
+                zipfile.write(file_path, file_name)
+        zipfile.close()
+        return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
 
     @staticmethod
     def _build_pdf_for_case(case, user_information):
