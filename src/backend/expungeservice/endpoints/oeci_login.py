@@ -40,7 +40,6 @@ class OeciLogin(MethodView):
             secure=os.getenv("TIER") == "production",
             httponly=False,
             samesite="strict",
-            expires=time.time() + 2 * 60 * 60,  # type: ignore # 2 hour lifetime
             value=encrypted_credentials,
         )
         return response, 201
