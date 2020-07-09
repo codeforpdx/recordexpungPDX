@@ -86,6 +86,7 @@ class Crawler:
     @staticmethod
     def _read_case(session: Session, case_summary: CaseSummary) -> OeciCase:
         case_parser_data = Crawler._parse_case(session, case_summary)
+        district_attorney_number = case_parser_data.district_attorney_number
         balance_due_in_cents = CaseCreator.compute_balance_due_in_cents(case_parser_data.balance_due)
         charges: List[OeciCharge] = []
         for charge_id, charge_dict in case_parser_data.hashed_charge_data.items():
@@ -95,7 +96,7 @@ class Crawler:
             )
             charges.append(charge)
         updated_case_summary = replace(
-            case_summary, balance_due_in_cents=balance_due_in_cents, edit_status=EditStatus.UNCHANGED
+            case_summary, district_attorney_number=district_attorney_number, balance_due_in_cents=balance_due_in_cents, edit_status=EditStatus.UNCHANGED
         )
         return OeciCase(updated_case_summary, charges=tuple(charges))
 

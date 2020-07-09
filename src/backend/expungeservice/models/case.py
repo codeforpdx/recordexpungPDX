@@ -11,6 +11,7 @@ class CaseSummary:
     name: str
     birth_year: Optional[int]
     case_number: str
+    district_attorney_number: str
     citation_number: str
     location: str
     date: date_class
@@ -47,6 +48,7 @@ class OeciCase:
                 name="",
                 birth_year=1900,
                 case_number=case_number,
+                district_attorney_number="",
                 citation_number="",
                 location="",
                 date=date_class.today(),
@@ -69,7 +71,7 @@ class Case(OeciCase):
 class CaseCreator:
     @staticmethod
     def create(
-        info, case_number, citation_number, date_location, type_status, case_detail_link, balance="0"
+        info, case_number, district_attorney_number, citation_number, date_location, type_status, case_detail_link, balance="0"
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -82,6 +84,7 @@ class CaseCreator:
             name,
             birth_year,
             case_number,
+            district_attorney_number,
             citation_number,
             location,
             date,

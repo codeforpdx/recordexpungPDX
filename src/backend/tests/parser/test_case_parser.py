@@ -49,6 +49,9 @@ class TestCaseWithDisposition(unittest.TestCase):
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
 
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == ""
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
     def setUp(self):
@@ -75,6 +78,10 @@ class TestCaseWithoutFinancialTable(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "01234567"
+
 
 
 class TestCaseWithPartialDisposition(unittest.TestCase):
@@ -117,6 +124,9 @@ class TestCaseWithPartialDisposition(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "555555-1"
 
 
 class TestCaseWithoutDisposition(unittest.TestCase):
@@ -152,6 +162,9 @@ class TestCaseWithoutDisposition(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "2377315-1"
 
 
 class TestParkingViolationCase(unittest.TestCase):
@@ -176,6 +189,9 @@ class TestParkingViolationCase(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == ""
 
 
 class TestCaseWithRelatedCases(unittest.TestCase):
@@ -203,6 +219,9 @@ class TestCaseWithRelatedCases(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "555555-B"
 
 
 class TestFelicia(unittest.TestCase):
@@ -237,6 +256,9 @@ class TestFelicia(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "555555"
 
 
 class TestRevokedProbation(unittest.TestCase):
@@ -271,6 +293,9 @@ class TestRevokedProbation(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert self.parser.probation_revoked
+    
+    def test_district_attorney_number_is_parsed(self):
+        assert self.parser.district_attorney_number == "55555555"
 
 
 class TestSpacesExistingInChargeInfoCells(unittest.TestCase):

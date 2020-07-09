@@ -17,6 +17,7 @@ EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
 @dataclass
 class CaseParserData:
+    district_attorney_number: str
     hashed_charge_data: Dict[int, Dict[str, str]]
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
@@ -27,6 +28,7 @@ class CaseParser:
     @staticmethod
     def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
+        district_attorney_number = CaseParser.__parse_district_attorney_number(soup)
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         (
             hashed_dispo_data,
@@ -37,8 +39,15 @@ class CaseParser:
             probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
-        return CaseParserData(hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
+        return CaseParserData(district_attorney_number, hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
 
+    @staticmethod
+    def __parse_district_attorney_number(soup) -> str:
+        DISTRICT_ATTORNEY_KEY = "District Attorney Number:"
+        labels = soup.find_all("th", "ssTableHeaderLabel", limit=10)
+        table = {tag.string: tag.parent.find("td").string for tag in labels}
+        return table.get(DISTRICT_ATTORNEY_KEY, "")
+    
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
         hashed_charge_data = {}
