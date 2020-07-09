@@ -5,9 +5,18 @@ export default class DemoInfo extends React.Component {
     const examples = [
       {
         name: "Single Conviction",
-        subheader: "(First Name: Single, Last Name: Conviction) ",
         info: (
-          <>
+          <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>Single</div>
+              </div>
+              <div>
+                <div className="fw6">Last Name</div>
+                <div>Conviction</div>
+              </div>
+            </p>
             <p className="pb2">
               As a simple example, if a person's record has only a single
               convicted charge, it is eligible after three years.
@@ -17,14 +26,23 @@ export default class DemoInfo extends React.Component {
               complex rules, depending on whether those dismissals are on the
               same or a different case as the conviction.
             </p>
-          </>
+          </div>
         ),
       },
       {
         name: "John Common",
-        subheader: "(First Name: John, Last Name: Common) ",
         info: (
           <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>John</div>
+              </div>
+              <div>
+                <div className="fw6">Last Name</div>
+                <div>Common</div>
+              </div>
+            </p>
             <p className="pb2">
               Searching for a common name will often bring up records that
               belong to different individuals, leading to an incorrect analysis
@@ -42,36 +60,73 @@ export default class DemoInfo extends React.Component {
         ),
       },
       {
-        name: "John Common (birth date: 1/1/1970)",
-        subheader:
-          "(First Name: John, Last Name: Common, Date of Birth: 1/1/1970)",
+        name: "John Common – Class B Felony and Marijuana",
         info: (
-          <p>
-            Most charges that are eligible are also subject to the same set of
-            time restrictions. There are some exceptions to this, notably Class
-            B Felonies and Possession for under an ounce of marijuana.
-          </p>
+          <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>John</div>
+              </div>
+              <div className="mr4">
+                <div className="fw6">Last Name</div>
+                <div>Common</div>
+              </div>
+              <div>
+                <div className="fw6">Date of Birth</div>
+                <div>1/1/1970</div>
+              </div>
+            </p>
+            <p>
+              Most charges that are eligible are also subject to the same set of
+              time restrictions. There are some exceptions to this, notably Class
+              B Felonies and Possession for under an ounce of marijuana.
+            </p>
+          </div>
         ),
       },
       {
-        name: "John Common (birth date: 2/2/1985)",
-        subheader:
-          "(First Name: John, Last Name: Common, Date of Birth: 2/2/1985)",
+        name: "John Common – Needs More Analysis",
         info: (
-          <p>
-            Some charges cannot be evaluated for eligibility until the user
-            provides some follow-up information about the charge. RecordSponge
-            deals with this ambiguity by showing all possible cases for
-            eligibility, and by asking the user for the required extra
-            information in order to determine an exact analysis.
-          </p>
+          <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>John</div>
+              </div>
+              <div className="mr4">
+                <div className="fw6">Last Name</div>
+                <div>Common</div>
+              </div>
+              <div>
+                <div className="fw6">Date of Birth</div>
+                <div>2/2/1985</div>
+              </div>
+            </p>
+            <p>
+              Some charges cannot be evaluated for eligibility until the user
+              provides some follow-up information about the charge. RecordSponge
+              deals with this ambiguity by showing all possible cases for
+              eligibility, and by asking the user for the required extra
+              information in order to determine an exact analysis.
+            </p>
+          </div>
         ),
       },
       {
         name: "Portland Protester",
-        subheader: "(First Name: Portland, Last Name: Protester)",
         info: (
           <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>Portland</div>
+              </div>
+              <div>
+                <div className="fw6">Last Name</div>
+                <div>Protester</div>
+              </div>
+            </p>
             <p className="pb2">
               Our software is useful for evaluating a record with recent open
               cases, because you can assign rulings manually to consider
@@ -91,19 +146,19 @@ export default class DemoInfo extends React.Component {
       },
     ];
     return (
-      <article className=" lh-copy">
-        <div className="bg-white mt2 mb3 pa5 br3">
-          <h1 className="fw6 mb3">App Demo</h1>
-          <p className="mb3">
-            This demo provides some example records that demonstrate the complex
+      <article className="lh-copy">
+        <div className="bg-gray-blue-2 shadow mv4 pv4 ph4 ph5-l br3">
+          <h1 className="f3 fw9 ma0 mb2">App Demo</h1>
+          <p className="mw7 mb3">
+            This demo provides example records that demonstrate the complex
             rules of expungement and the analysis features of RecordSponge. The
             demo version does not search the OECI database, and thus doesn't
             require an OECI account to use.
           </p>
-          <p className="mb3">
-            You can also click "Enable Editing" to build and evaluate different
-            examples. If you are looking to evaluate your own record for
-            expungement eligibility, we urge you to contact{" "}
+          <p className="mw7 mb3">
+            You can also "Enable Editing" below the search panel to build and 
+            evaluate different examples. If you are looking to evaluate your own 
+            record for expungement eligibility, we urge you to contact{" "}
             <a href="/" className="link bb hover-blue">
               {" "}
               one of our partners{" "}
@@ -111,19 +166,17 @@ export default class DemoInfo extends React.Component {
             for assistance. This software is not standalone legal advice.
           </p>
 
-          <p className="mb3">
+          <p className="mb4">
             Try searching any of the following examples by entering them in the
-            Search Panel below:
+            search panel below:
           </p>
-          <div className="pw6">
+          <div>
             {examples.map((examples: any) => (
               <div>
-                <p className="fw7 f4 ">{examples.name}</p>
-                <p className="pt1 pb2">
-                  {" "}
-                  <span className="">{examples.subheader}</span>
-                </p>
-                <p className="ml3 mr5 mb3">{examples.info}</p>
+                <h2 className="fw9 bt bw1 b--white pt2 mb3">
+                  {examples.name}
+                </h2>
+                <div className="mw7 mb4">{examples.info}</div>
               </div>
             ))}
           </div>
