@@ -32,6 +32,9 @@ export default class ChargesList extends React.Component<Props> {
               <span>
                 {" "}
                 {chargesNames.length > 0 ? `(${chargesNames.length})` : ""}{" "}
+                {eligibilityDate === "Eligible Now" && (
+                  <Link to="/fill-expungement-forms">.</Link>
+                )}
               </span>
             </div>
             <p className="f6 mb2">
@@ -43,13 +46,6 @@ export default class ChargesList extends React.Component<Props> {
                 : ""}
             </p>
             <ul className="list mb3">{listItems}</ul>
-            {eligibilityDate === "Eligible Now" && (
-              <Link to="/fill-expungement-forms">
-                <button className="fw7 mb3 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3">
-                  Fill Expungement Forms (Experimental)
-                </button>
-              </Link>
-            )}
           </div>
         );
       });
