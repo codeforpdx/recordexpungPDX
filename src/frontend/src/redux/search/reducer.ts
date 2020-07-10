@@ -13,6 +13,8 @@ import {
   UNDO_EDIT_CHARGE,
   START_EDITING,
   DONE_EDITING,
+  START_DEMO,
+  STOP_DEMO,
   SearchRecordState,
   SearchRecordActionType,
   DOWNLOAD_EXPUNGEMENT_PACKET,
@@ -23,6 +25,7 @@ import {
 } from "../../components/RecordSearch/Record/types";
 
 const initalState: SearchRecordState = {
+  demo: false,
   loading: "",
   loadingPdf: false,
   aliases: [],
@@ -401,6 +404,16 @@ export function searchReducer(
       return {
         ...state,
         userInformation: information,
+      };
+    case START_DEMO:
+      return {
+        ...state,
+        demo: true,
+      };
+    case STOP_DEMO:
+      return {
+        ...state,
+        demo: false,
       };
     default:
       return state;

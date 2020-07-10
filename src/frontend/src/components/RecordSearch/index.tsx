@@ -6,17 +6,19 @@ import { searchRecord, clearRecord } from "../../redux/search/actions";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
+import DemoInfo from "./Demo/DemoInfo";
 import { checkOeciRedirect } from "../../service/cookie-service";
 
 interface Props {
   searchRecord: Function;
   clearRecord: Function;
+  demo: boolean;
   record?: RecordData;
 }
 
 class RecordSearch extends Component<Props> {
   componentDidMount() {
-    checkOeciRedirect();
+    this.props.demo || checkOeciRedirect();
   }
 
   componentWillUnmount() {
@@ -27,10 +29,10 @@ class RecordSearch extends Component<Props> {
     return (
       <>
         <main className="mw8 center f6 f5-l ph2">
+          {this.props.demo && <DemoInfo />}
           <SearchPanel searchRecord={this.props.searchRecord} />
           <Status record={this.props.record} />
           <Record record={this.props.record} />
-
           <div className="bg-white shadow mb6 pa4 br3">
             <h2 className="fw6 mb3">Assumptions</h2>
             <p className="mb3">

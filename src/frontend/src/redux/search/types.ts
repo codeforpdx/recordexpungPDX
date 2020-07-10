@@ -32,8 +32,11 @@ export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
 export const START_EDITING = "START_EDITING";
 export const DONE_EDITING = "DONE_EDITING";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
+export const START_DEMO = "START_DEMO";
+export const STOP_DEMO = "STOP_DEMO";
 
 export interface SearchRecordState {
+  demo: boolean;
   loading: string;
   loadingPdf: boolean;
   aliases: AliasData[];
@@ -50,10 +53,13 @@ interface SearchRecordAction {
     | typeof RECORD_LOADING
     | typeof CLEAR_RECORD
     | typeof LOADING_PDF
-    | typeof LOADING_PDF_COMPLETE;
+    | typeof LOADING_PDF_COMPLETE
+    | typeof START_DEMO
+    | typeof STOP_DEMO;
   aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;
+  demo: boolean;
 }
 
 export interface QuestionsAction {

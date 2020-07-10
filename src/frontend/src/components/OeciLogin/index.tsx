@@ -13,7 +13,7 @@ interface State {
   missingInputs: boolean;
 }
 
-export default class OeciLogin extends React.Component<State> {
+class OeciLogin extends React.Component<State> {
   state: State = {
     userId: "",
     password: "",
@@ -196,9 +196,19 @@ export default class OeciLogin extends React.Component<State> {
                 You can purchase an OECI subscription here.
               </a>
             </p>
+            <p className="lh-copy mb3">
+              Or, you can try the{" "}
+              <a className="bb hover-blue" href="/demo-record-search">
+                {" "}
+                Demo version of RecordSponge
+              </a>
+              .
+            </p>
           </section>
         </main>
       </>
     );
   }
 }
+
+export default OeciLogin;
