@@ -1,18 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default class Footer extends React.Component {
   public render() {
     return (
       <footer className="mw8 center bg-white pt5 pb6 ph4">
-        <a className="dib link hover-blue bb mr5 mb4" href="/privacy-policy">
+        <Link
+          className="dib link hover-blue bb mr5 mb4"
+          to="/privacy-policy"
+          onClick={() => window.scrollTo(0, 0)}
+        >
           Privacy Policy
-        </a>
-        <a className="dib link hover-blue bb mr5 mb4" href="/faq">
+        </Link>
+        <Link
+          className="dib link hover-blue bb mr5 mb4"
+          to="/faq"
+          onClick={() => window.scrollTo(0, 0)}
+        >
           FAQ
-        </a>
-        <a className="dib link hover-blue bb" href="/appendix">
+        </Link>
+        <Link
+          className="dib link hover-blue bb"
+          to="/appendix"
+          onClick={() => window.scrollTo(0, 0)}
+        >
           Appendix
-        </a>
+        </Link>
       </footer>
     );
   }

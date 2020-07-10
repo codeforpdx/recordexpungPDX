@@ -38,7 +38,7 @@ interface State {
 }
 
 const shortToMMDDYYYY = (shortDate: string) => {
-  if (!shortDate || Date.parse(shortDate) === NaN) return "";
+  if (!shortDate || isNaN(Date.parse(shortDate))) return "";
   const date = new Date(Date.parse(shortDate));
   return (
     (date.getMonth() + 1).toString() +

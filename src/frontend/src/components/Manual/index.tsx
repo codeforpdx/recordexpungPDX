@@ -220,9 +220,13 @@ class Manual extends React.Component {
                 </li>
                 <li className="mb3">
                   Use the{" "}
-                  <a className="bb hover-blue" href="/appendix">
+                  <Link
+                    className="bb hover-blue"
+                    to="/appendix"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
                     Appendix
-                  </a>{" "}
+                  </Link>{" "}
                   or search online for expungement forms
                 </li>
                 <li className="mb3">
@@ -525,9 +529,13 @@ class Manual extends React.Component {
                 following do: Multnomah, Washington, Clackamas, Lane, Jackson,
                 Josephine, Tillamook, Marion, Baker, Coos, Curry, Lincoln, Linn,
                 Umatilla, Yamhill.{" "}
-                <a className="bb hover-blue" href="/appendix">
+                <Link
+                  className="bb hover-blue"
+                  to="/appendix"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
                   Find these forms in the Appendix.
-                </a>
+                </Link>
               </p>
               <p className="mb3">
                 If your county is not listed here, search online using terms:
@@ -535,9 +543,9 @@ class Manual extends React.Component {
               </p>
               <p className="mb3">
                 If a county does not have its own paperwork, use the{" "}
-                <a className="bb hover-blue" href="/appendix#stockforms">
+                <Link className="bb hover-blue" to="/appendix#stockforms">
                   Stock Forms
-                </a>
+                </Link>
                 . At least the following counties do not have their own
                 paperwork: Deschutes, Clatsop, Hood River.
               </p>

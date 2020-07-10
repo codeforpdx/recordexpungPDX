@@ -19,7 +19,6 @@ export interface RecordEndpointData {
 
 export const DISPLAY_RECORD = "DISPLAY_RECORD";
 export const RECORD_LOADING = "RECORD_LOADING";
-export const CLEAR_RECORD = "CLEAR_RECORD";
 export const SELECT_ANSWER = "SELECT_ANSWER";
 export const LOADING_PDF = "LOADING_PDF";
 export const LOADING_PDF_COMPLETE = "LOADING_PDF_COMPLETE";
@@ -51,11 +50,11 @@ interface SearchRecordAction {
   type:
     | typeof DISPLAY_RECORD
     | typeof RECORD_LOADING
-    | typeof CLEAR_RECORD
     | typeof LOADING_PDF
     | typeof LOADING_PDF_COMPLETE
     | typeof START_DEMO
     | typeof STOP_DEMO;
+
   aliases: AliasData[];
   record: RecordData;
   questions: QuestionsData;

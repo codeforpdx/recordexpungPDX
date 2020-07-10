@@ -1,12 +1,16 @@
 import React from "react";
-import { AliasData, AliasFieldNames } from "./types";
 import moment from "moment";
-import { isValidWildcard } from "./validators";
+import { connect } from "react-redux";
+import { AppState } from "../../../redux/store";
+import { AliasData, AliasFieldNames } from "./types";
 import Alias from "./Alias";
 import InvalidInputs from "../../InvalidInputs";
+import { searchRecord } from "../../../redux/search/actions";
+import { isValidWildcard } from "./validators";
 
 interface Props {
   searchRecord: Function;
+  aliases: AliasData[];
 }
 
 interface State {
@@ -17,16 +21,9 @@ interface State {
   invalidLastNameWildcard: boolean;
 }
 
-export default class SearchPanel extends React.Component<Props, State> {
+class SearchPanel extends React.Component<Props, State> {
   state: State = {
-    aliases: [
-      {
-        first_name: "",
-        middle_name: "",
-        last_name: "",
-        birth_date: "",
-      },
-    ],
+    aliases: this.props.aliases,
     missingInputs: false,
     invalidDate: false,
     invalidFirstNameWildcard: false,
@@ -95,11 +92,12 @@ export default class SearchPanel extends React.Component<Props, State> {
     fieldName: AliasFieldNames,
     fieldValue: string
   ) => {
-    let updated_aliases: AliasData[] = this.state.aliases;
-    updated_aliases[ind][fieldName] = fieldValue;
-
-    this.setState<any>({
-      aliases: updated_aliases,
+    let updatedAliases: AliasData[] = JSON.parse(
+      JSON.stringify(this.state.aliases)
+    );
+    updatedAliases[ind][fieldName] = fieldValue;
+    this.setState({
+      aliases: updatedAliases,
     });
   };
 
@@ -107,22 +105,26 @@ export default class SearchPanel extends React.Component<Props, State> {
     const lastAlias: AliasData = this.state.aliases[
       this.state.aliases.length - 1
     ];
-    let updatedAliases = this.state.aliases;
+    let updatedAliases = JSON.parse(JSON.stringify(this.state.aliases));
     updatedAliases.push({
       first_name: lastAlias.first_name,
       middle_name: lastAlias.middle_name,
       last_name: lastAlias.last_name,
       birth_date: lastAlias.birth_date,
     });
-    this.setState({ aliases: updatedAliases });
+
+    this.setState({
+      aliases: updatedAliases,
+    });
   };
 
   handleAliasRemoveClick = (aliasIndex: number) => {
-    let updated_aliases: AliasData[] = this.state.aliases;
-    updated_aliases.splice(aliasIndex, 1);
-
-    this.setState<any>({
-      aliases: updated_aliases,
+    let updatedAliases: AliasData[] = JSON.parse(
+      JSON.stringify(this.state.aliases)
+    );
+    updatedAliases.splice(aliasIndex, 1);
+    this.setState({
+      aliases: updatedAliases,
     });
   };
 
@@ -154,9 +156,6 @@ export default class SearchPanel extends React.Component<Props, State> {
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
             {aliasComponents}
             <div className="flex">
-              {
-                // Row containing The +Alias and Search buttons.
-              }
               <button
                 className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
                 onClick={this.addAlias}
@@ -199,3 +198,13 @@ export default class SearchPanel extends React.Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    aliases: JSON.parse(JSON.stringify(state.search.aliases)),
+  };
+};
+
+export default connect(mapStateToProps, {
+  searchRecord: searchRecord,
+})(SearchPanel);
