@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default class DemoInfo extends React.Component {
   render() {
@@ -186,9 +187,17 @@ export default class DemoInfo extends React.Component {
             for assistance. This software is not standalone legal advice.
           </p>
 
-          <p className="mb4">
+          <p className="mb3 mw7 ">
             Try searching any of the following examples by entering them in the
-            search panel below:
+            search panel below.
+          </p>
+
+          <p className="mb4">
+            Or,{" "}
+            <Link to="/oeci" className="link bb hover-blue">
+              log in to OECI
+            </Link>
+            .
           </p>
           <div>
             {examples.map((examples: any) => (

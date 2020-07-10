@@ -45,6 +45,7 @@ class DemoRecords:
         "location": "Multnomah",
         "violation_type": "Offense Misdemeanor",
         "date": date_class.today(),
+        "district_attorney_number": "01234567",
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,
