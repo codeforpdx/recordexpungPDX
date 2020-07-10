@@ -6,6 +6,7 @@ import CountyBalances from "./CountyBalances";
 import { AppState } from "../../../../redux/store";
 import { RecordSummaryData } from "../types";
 import { downloadPdf } from "../../../../redux/search/actions";
+import { Link } from "react-router-dom";
 
 interface Props {
   downloadPdf: Function;

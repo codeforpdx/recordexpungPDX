@@ -152,3 +152,4 @@ src/ops/docker
 src/pdf-frontend/source
 src/pdf-frontend/output*
 reports.zip
+sources

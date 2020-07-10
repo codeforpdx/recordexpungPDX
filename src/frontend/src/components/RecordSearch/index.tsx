@@ -20,7 +20,7 @@ class RecordSearch extends Component<Props> {
   }
 
   componentWillUnmount() {
-    this.props.clearRecord();
+    //this.props.clearRecord();
   }
 
   render() {

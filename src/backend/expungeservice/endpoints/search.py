@@ -1,4 +1,5 @@
 from dacite import from_dict
+from expungeservice.models.record_summary import RecordSummary
 from flask.views import MethodView
 from flask import request, current_app, json
 
@@ -16,26 +17,27 @@ class Search(MethodView):
     search_cache = LRUCache(4)
 
     def post(self):
-        request_data = request.get_json()
+        record_summary = self.build_response()
+        response_data = {"record": record_summary}
+        return json.dumps(response_data, cls=ExpungeModelEncoder)
 
+    def build_response(self) -> RecordSummary:
+        request_data = request.get_json()
         Search._validate_request(request_data)
         username, password = Search._oeci_login_params(request)
-
-        return Search._build_response(
+        return Search._build_record_summary(
             username, password, request_data["aliases"], request_data.get("questions"), request_data.get("edits", {})
         )
 
     @staticmethod
-    def _build_response(username, password, aliases_data, questions_data, edits_data):
+    def _build_record_summary(username, password, aliases_data, questions_data, edits_data) -> RecordSummary:
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, questions = RecordCreator.build_record(
             RecordCreator.build_search_results, username, password, tuple(aliases), edits_data, Search.search_cache
         )
         if questions_data:
             questions = Search._build_questions(questions_data)
-        record_summary = RecordSummarizer.summarize(record, questions)
-        response_data = {"record": record_summary}
-        return json.dumps(response_data, cls=ExpungeModelEncoder)
+        return RecordSummarizer.summarize(record, questions)
 
     @staticmethod
     def _build_questions(questions_data):

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   eligibleChargesByDate: { [label: string]: any[] };
@@ -31,6 +32,9 @@ export default class ChargesList extends React.Component<Props> {
               <span>
                 {" "}
                 {chargesNames.length > 0 ? `(${chargesNames.length})` : ""}{" "}
+                {eligibilityDate === "Eligible Now" && (
+                  <Link to="/fill-expungement-forms">.</Link>
+                )}
               </span>
             </div>
             <p className="f6 mb2">

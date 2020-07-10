@@ -9,6 +9,7 @@ import Manual from "../Manual";
 import Faq from "../Faq";
 import Appendix from "../Appendix";
 import PrivacyPolicy from "../PrivacyPolicy";
+import UserForm from "../FormFilling";
 
 class AppRouter extends React.Component {
   public redirect = () => <Redirect to="/" />;
@@ -24,6 +25,7 @@ class AppRouter extends React.Component {
           <Route component={Faq} path="/faq" />
           <Route component={Appendix} path="/appendix" />
           <Route component={PrivacyPolicy} path="/privacy-policy" />
+          <Route component={UserForm} path="/fill-expungement-forms" />
 
           {/* This route catches undefined url entries and redirects back to app
               we could put a 404 page in place at some point */}
