@@ -13,7 +13,7 @@ export default class TimeEligibility extends React.Component<Props> {
       <div className="relative mb3 connect connect-time">
         <i
           aria-hidden="true"
-          className="absolute fas fa-check-circle green bg-white z-1"
+          className="absolute fas fa-check-circle green bg-white outline-2-white z-1"
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Time</span> Eligible Now
@@ -23,7 +23,10 @@ export default class TimeEligibility extends React.Component<Props> {
 
     const timeLater = (reason: string) => (
       <div className="relative mb3 connect connect-time">
-        <i aria-hidden="true" className="absolute fas fa-clock dark-blue bg-white z-1"></i>
+        <i 
+          aria-hidden="true" 
+          className="absolute fas fa-clock dark-blue bg-white outline-2-white z-1"
+        ></i>
         <div className="ml3 pl1">
           <span className="fw7">Time</span> {reason}
         </div>

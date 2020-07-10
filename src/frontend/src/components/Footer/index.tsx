@@ -3,7 +3,7 @@ import React from "react";
 export default class Footer extends React.Component {
   public render() {
     return (
-      <footer className="mw8 center bg-white pt5 pb6 ph4">
+      <footer className="mw8 center f6 f5-l bg-white pt5 pb6 ph4">
         <a className="dib link hover-blue bb mr5 mb4" href="/privacy-policy">
           Privacy Policy
         </a>

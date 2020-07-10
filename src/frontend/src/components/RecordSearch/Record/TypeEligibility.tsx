@@ -12,7 +12,10 @@ export default class RecordType extends React.Component<Props> {
 
     const eligible = (reason: string) => (
       <div className="relative mb3 connect connect-type">
-        <i aria-hidden="true" className="absolute fas fa-circle z-1"></i>
+        <i 
+          aria-hidden="true" 
+          className="absolute fas fa-circle outline-2-white z-1"
+        ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type</span> {this.props.type_name + " "}
           <div>({reason})</div>
@@ -24,7 +27,7 @@ export default class RecordType extends React.Component<Props> {
       <div className="relative mb3 connect connect-type">
         <i
           aria-hidden="true"
-          className="absolute fas fa-question-circle purple bg-white z-1"
+          className="absolute fas fa-question-circle purple bg-white outline-2-white z-1"
         ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type</span> {this.props.type_name + " "}
@@ -35,7 +38,10 @@ export default class RecordType extends React.Component<Props> {
 
     const ineligible = (reason: string) => (
       <div className="relative mb3 connect connect-type">
-        <i aria-hidden="true" className="absolute fas fa-times-circle red bg-white z-1"></i>
+        <i 
+          aria-hidden="true" 
+          className="absolute fas fa-times-circle red bg-white outline-2-white z-1"
+        ></i>
         <div className="ml3 pl1">
           <span className="fw7">Type</span> {this.props.type_name + " "}
           <div>({reason})</div>
