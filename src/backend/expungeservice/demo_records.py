@@ -226,6 +226,38 @@ class DemoRecords:
                     data={
                         **shared_case_data,
                         "name": "SINGLE OFFENSE",
+                        "birth_year": 1995,
+                        "case_number": "100000",
+                        "location": "Deschutes",
+                        "date": date_class.today() - relativedelta(years=5),
+                        "violation_type": "Offense Felony",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "100000-1",
+                            "name": "Identity Theft",
+                            "statute": "165.800",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+        ],
+        Alias("multiple", "charges", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "name": "MULTIPLE CHARGES",
                         "birth_year": 1990,
                         "case_number": "100000",
                         "location": "Baker",
@@ -269,9 +301,9 @@ class DemoRecords:
                     data_class=CaseSummary,
                     data={
                         **shared_case_data,
-                        "name": "SINGLE OFFENSE",
+                        "name": "MULTIPLE CHARGES",
                         "birth_year": 1990,
-                        "case_number": "200000",
+                        "case_number": "110000",
                         "location": "Multnomah",
                         "date": date_class.today() - relativedelta(years=1),
                         "violation_type": "Offense Misdemeanor",
@@ -282,13 +314,43 @@ class DemoRecords:
                         data_class=OeciCharge,
                         data={
                             **shared_charge_data,
-                            "ambiguous_charge_id": "200000-1",
+                            "ambiguous_charge_id": "110000-1",
                             "name": "Theft in the Third Degree",
                             "statute": "164.043",
                             "level": "Misdemeanor Class C",
                             "date": date_class.today() - relativedelta(years=1),
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(months=9), ruling="Dismissed"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "name": "MULTIPLE CHARGES",
+                        "birth_year": 1990,
+                        "case_number": "120000",
+                        "location": "Multnomah",
+                        "date": date_class.today() - relativedelta(years=12),
+                        "violation_type": "Offense Violation",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "120000-1",
+                            "name": "Failure to Obey Traffic Control Device",
+                            "statute": "811.265",
+                            "level": "Violation",
+                            "date": date_class.today() - relativedelta(years=12),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=11, months=9), ruling="Dismissed"
                             ),
                         },
                     ),
