@@ -9,8 +9,7 @@ class PartnerTable extends React.Component<{}, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      open: false,
-      active: 0,
+      active: -1,
     };
   }
   render() {
@@ -43,19 +42,22 @@ class PartnerTable extends React.Component<{}, any> {
       },
     ];
     let partners;
-    let toggleOpen = (order: any) => {
-      this.setState({ active: order });
-      this.setState({ open: !this.state.open });
+    const toggleOpen = (order: any) => {
+      this.setState({ active: order === this.state.active ? -1 : order });
     };
 
     partners = partnerData.map((partner, index) => (
       <li className="bt bw2 b--lightest-blue1">
-        <Disclosure id={index} onChange={() => toggleOpen(index)}>
+        <Disclosure
+          open={index === this.state.active}
+          id={index}
+          onChange={() => toggleOpen(index)}
+        >
           <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3 ph4-ns">
             <span className="w-70 db fw7 pr3 mb2 mb0-ns">{partner.name}</span>
             <span className="w-30 pr3"> {partner.area}</span>
             <span className="absolute top-0 right-0 pt3 ph3">
-              {this.state.open && index == this.state.active ? (
+              {index == this.state.active ? (
                 <span aria-hidden="true" className="fas fa-angle-up"></span>
               ) : (
                 <span aria-hidden="true" className="fas fa-angle-down"></span>
