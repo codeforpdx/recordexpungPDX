@@ -1,4 +1,4 @@
-FROM python:3.7-alpine AS base
+FROM python:3.8.3-alpine AS base
 LABEL authors="Kenichi Nakamura <kenichi.nakamura@gmail.com>"
 
 RUN pip install pipenv
