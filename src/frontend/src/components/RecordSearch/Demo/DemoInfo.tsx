@@ -21,10 +21,29 @@ export default class DemoInfo extends React.Component {
               As a simple example, if a person's record has only a single
               convicted charge, it is eligible after three years.
             </p>
-            <p>
-              However, dismissed charges on the same record are subject to more
-              complex rules, depending on whether those dismissals are on the
-              same or a different case as the conviction.
+          </div>
+        ),
+      },
+      {
+        name: "Multiple Charges",
+        info: (
+          <div>
+            <p className="flex lh-title mb3">
+              <div className="mr4">
+                <div className="fw6">First Name</div>
+                <div>Multiple</div>
+              </div>
+              <div>
+                <div className="fw6">Last Name</div>
+                <div>Charges</div>
+              </div>
+            </p>
+            <p className="pb2">
+              If a record has more than one case, the time restrictions quickly
+              get more complex, as this example demonstrates. Eligibility dates
+              depend on whether dismissals are on the same or a different case
+              as a conviction. Searching OECI will also reveal traffic
+              violations, which are always ineligible.
             </p>
           </div>
         ),
@@ -48,7 +67,7 @@ export default class DemoInfo extends React.Component {
               belong to different individuals, leading to an incorrect analysis
               for the set of resulting cases. Another source of confusion is
               that each case may or may not incude a birth year, as well as
-              middle name or middle initial.
+              middle name or initial.
             </p>
             <p>
               It is thus always recommended to provide a birth date in the
@@ -79,8 +98,9 @@ export default class DemoInfo extends React.Component {
             </p>
             <p>
               Most charges that are eligible are also subject to the same set of
-              time restrictions. There are some exceptions to this, notably Class
-              B Felonies and Possession for under an ounce of marijuana.
+              time restrictions. There are some exceptions to this, notably
+              Class B Felonies, and possession of less than an ounce of
+              marijuana.
             </p>
           </div>
         ),
@@ -106,9 +126,9 @@ export default class DemoInfo extends React.Component {
             <p>
               Some charges cannot be evaluated for eligibility until the user
               provides some follow-up information about the charge. RecordSponge
-              deals with this ambiguity by showing all possible cases for
-              eligibility, and by asking the user for the required extra
-              information in order to determine an exact analysis.
+              deals with this ambiguity by showing the different possible
+              outcomes for eligibility, and by asking the user for the required
+              extra information in order to determine an exact analysis.
             </p>
           </div>
         ),
@@ -156,8 +176,8 @@ export default class DemoInfo extends React.Component {
             require an OECI account to use.
           </p>
           <p className="mw7 mb3">
-            You can also "Enable Editing" below the search panel to build and 
-            evaluate different examples. If you are looking to evaluate your own 
+            You can also "Enable Editing" below the search panel to build and
+            evaluate different examples. If you are looking to evaluate your own
             record for expungement eligibility, we urge you to contact{" "}
             <a href="/" className="link bb hover-blue">
               {" "}
@@ -173,9 +193,7 @@ export default class DemoInfo extends React.Component {
           <div>
             {examples.map((examples: any) => (
               <div>
-                <h2 className="fw9 bt bw1 b--white pt2 mb3">
-                  {examples.name}
-                </h2>
+                <h2 className="fw9 bt bw1 b--white pt2 mb3">{examples.name}</h2>
                 <div className="mw7 mb4">{examples.info}</div>
               </div>
             ))}
