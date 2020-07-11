@@ -52,6 +52,7 @@ class RecordSearch extends Component<Props> {
               <Link
                 className="link hover-blue underline"
                 to="/manual#assumption1"
+                onClick={() => window.scrollTo(0, 0)}
               >
                 Learn more in the Manual
               </Link>
