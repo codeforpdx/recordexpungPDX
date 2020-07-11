@@ -9,6 +9,7 @@ import EditedBadge from "./EditedBadge";
 import currencyFormat from "../../../service/currency-format";
 import { undoEditCase } from "../../../redux/search/actions";
 import store from "../../../redux/store";
+import { Link } from "react-router-dom";
 
 interface Props {
   case: CaseData;
@@ -92,7 +93,10 @@ export default class Case extends React.Component<Props, State> {
       "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
     const link_id = case_detail_link.substring(case_detail_base.length);
     return (
-      <div id={this.props.customElementId || case_number} className="mb3 f6 f5-l">
+      <div
+        id={this.props.customElementId || case_number}
+        className="mb3 f6 f5-l"
+      >
         <div className="cf relative br3 br--top shadow-case pv2 pr5">
           {this.props.editing ? null : (
             <>
@@ -160,12 +164,12 @@ export default class Case extends React.Component<Props, State> {
         {balance_due > 0 && !allIneligible && (
           <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">
             Eligible charges are ineligible until balance is paid
-            <a
+            <Link
               className="link nowrap bb hover-blue fw4 ml2"
-              href="/manual#payBalances"
+              to="/manual#payBalances"
             >
               Paying Balances
-            </a>
+            </Link>
           </div>
         )}
         {this.state.editing && (

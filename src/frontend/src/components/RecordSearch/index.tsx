@@ -2,16 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
 import { RecordData } from "./Record/types";
-import { searchRecord, clearRecord } from "../../redux/search/actions";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
 import DemoInfo from "./Demo/DemoInfo";
 import { checkOeciRedirect } from "../../service/cookie-service";
+import { Link } from "react-router-dom";
 
 interface Props {
-  searchRecord: Function;
-  clearRecord: Function;
   demo: boolean;
   record?: RecordData;
 }
@@ -21,16 +19,12 @@ class RecordSearch extends Component<Props> {
     this.props.demo || checkOeciRedirect();
   }
 
-  componentWillUnmount() {
-    //this.props.clearRecord();
-  }
-
   render() {
     return (
       <>
         <main className="mw8 center f6 f5-l ph2">
           {this.props.demo && <DemoInfo />}
-          <SearchPanel searchRecord={this.props.searchRecord} />
+          <SearchPanel />
           <Status record={this.props.record} />
           <Record record={this.props.record} />
           <div className="bg-white shadow mb6 pa4 br3">
@@ -55,12 +49,13 @@ class RecordSearch extends Component<Props> {
               </li>
             </ul>
             <p>
-              <a
+              <Link
                 className="link hover-blue underline"
-                href="/manual#assumption1"
+                to="/manual#assumption1"
+                onClick={() => window.scrollTo(0, 0)}
               >
                 Learn more in the Manual
-              </a>
+              </Link>
             </p>
           </div>
         </main>
@@ -75,7 +70,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  searchRecord: searchRecord,
-  clearRecord: clearRecord,
-})(RecordSearch);
+export default connect(mapStateToProps, {})(RecordSearch);

@@ -180,10 +180,14 @@ export default class DemoInfo extends React.Component {
             You can also "Enable Editing" below the search panel to build and
             evaluate different examples. If you are looking to evaluate your own
             record for expungement eligibility, we urge you to contact{" "}
-            <a href="/" className="link bb hover-blue">
+            <Link
+              to="/"
+              className="link bb hover-blue"
+              onClick={() => window.scrollTo(0, 0)}
+            >
               {" "}
               one of our partners{" "}
-            </a>
+            </Link>
             for assistance. This software is not standalone legal advice.
           </p>
 

@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Header";
 import history from "../../service/history";
 import { downloadExpungementPacket } from "../../redux/search/actions";
 import { connect } from "react-redux";

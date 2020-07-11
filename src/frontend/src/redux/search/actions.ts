@@ -8,7 +8,6 @@ import {
   DISPLAY_RECORD,
   RECORD_LOADING,
   SearchResponse,
-  CLEAR_RECORD,
   SELECT_ANSWER,
   LOADING_PDF,
   LOADING_PDF_COMPLETE,
@@ -60,7 +59,7 @@ function buildSearchRequest() {
 
 function buildAndSendSearchRequest(dispatch: any): any {
   return apiService<SearchResponse>(dispatch, {
-    url: store.getState().search.demo ? "api/demo" : "/api/search",
+    url: store.getState().search.demo ? "/api/demo" : "/api/search",
     data: buildSearchRequest(),
     method: "post",
     withCredentials: true,
@@ -122,16 +121,10 @@ export function downloadPdf() {
 export function searchRecord(aliases: AliasData[]): any {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: RECORD_LOADING,
       aliases: aliases,
+      type: RECORD_LOADING,
     });
     return buildAndSendSearchRequest(dispatch);
-  };
-}
-
-export function clearRecord() {
-  return {
-    type: CLEAR_RECORD,
   };
 }
 
