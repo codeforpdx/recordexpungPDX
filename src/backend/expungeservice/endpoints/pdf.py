@@ -101,12 +101,12 @@ class FormFilling(MethodView):
     def _build_pdf_for_eligible_case(case, eligible_charges, user_information):
         dismissals, convictions = Expunger._categorize_charges(eligible_charges)
         dismissed_names = [charge.name for charge in dismissals]
-        dismissed_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in dismissals]
-        dismissed_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]
+        dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
+        dismissed_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]))
         conviction_names = [charge.name for charge in convictions]
-        conviction_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in convictions]
-        conviction_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]
-        arrest_dates_all = dismissed_arrest_dates + conviction_arrest_dates
+        conviction_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in convictions]))
+        conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
+        arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
         charge_names = dismissed_names + conviction_names
         form_data_dict = {
             **user_information,
