@@ -126,10 +126,7 @@ class FormFilling(MethodView):
             "county": case.summary.location,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        if convictions:
-            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
-        else:
-            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
+        pdf_path = FormFilling.build_pdf_path(case, convictions)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
@@ -142,6 +139,19 @@ class FormFilling(MethodView):
                     annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
         return pdf
+
+    @staticmethod
+    def build_pdf_path(case, convictions):
+        if convictions:
+            if case.summary.location.lower() == "multnomah":
+                return path.join(Path(__file__).parent.parent, "files", f"multnomah_conviction.pdf")
+            else:
+                return path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
+        else:
+            if case.summary.location.lower() == "multnomah":
+                return path.join(Path(__file__).parent.parent, "files", f"multnomah_arrest.pdf")
+            else:
+                return path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
 
 
 def register(app):
