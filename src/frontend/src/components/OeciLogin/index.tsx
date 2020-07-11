@@ -1,6 +1,7 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
+import { Link } from "react-router-dom";
 
 interface State {
   userId: string;
@@ -70,7 +71,9 @@ class OeciLogin extends React.Component<State> {
           <div className="w-50-l bg-navy pt5 pb5 pb7-l ph4 pr5-l">
             <div className="mw6 center mr0-l ml-auto-l">
               <section className="ph3-l ph5-l">
-                <h1 className="visually-hidden">Log in to OECI to search records</h1>
+                <h1 className="visually-hidden">
+                  Log in to OECI to search records
+                </h1>
                 <div className="white">
                   <form
                     onSubmit={this.handleSubmit}
@@ -80,7 +83,7 @@ class OeciLogin extends React.Component<State> {
                     aria-label="OECI Login Form"
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"  
+                      xmlns="http://www.w3.org/2000/svg"
                       className="db center mb3"
                       width="50"
                       height="50"
@@ -100,8 +103,8 @@ class OeciLogin extends React.Component<State> {
                         Oregon eCourt Case Information
                       </legend>
                       <p className="tc mb4">
-                        Log in to OECI to search and analyse criminal records for
-                        expungement.
+                        Log in to OECI to search and analyse criminal records
+                        for expungement.
                       </p>
                       <div className="mt4">
                         <label htmlFor="userId" className="db mb1 fw6">
@@ -153,7 +156,8 @@ class OeciLogin extends React.Component<State> {
                       contents={[
                         <span>All fields are required.</span>,
                         <>
-                          We're experiencing technical difficulties, please contact{" "}
+                          We're experiencing technical difficulties, please
+                          contact{" "}
                           <a
                             className="link underline hover-blue"
                             href="mailto:help@recordsponge.com"
@@ -172,9 +176,9 @@ class OeciLogin extends React.Component<State> {
                       >
                         eCourt site
                       </a>{" "}
-                      is offline during the 4th weekend of each month between 6 PM
-                      PST on Friday until noon on Sunday. During this time, record
-                      search will not&nbsp;function.
+                      is offline during the 4th weekend of each month between 6
+                      PM PST on Friday until noon on Sunday. During this time,
+                      record search will not&nbsp;function.
                     </p>
                   </form>
                 </div>
@@ -187,28 +191,36 @@ class OeciLogin extends React.Component<State> {
                 <span className="db w3 bb bw2 b--blue pt3 mt2 mb2"></span>
                 <h2 className="f4 fw9 mb3">New here?</h2>
                 <p className="mb3">
-                  <a className="link hover-dark-blue bb" href="/partner-interest">
+                  <Link
+                    to="/partner-interest"
+                    className="link hover-dark-blue bb"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
                     Learn more about providing expungement help
-                  </a>
+                  </Link>
                   .
                 </p>
                 <p className="mb3">
-                  <a className="link hover-dark-blue bb" href="/demo-record-search">
+                  <Link
+                    to="/demo-record-search"
+                    className="link hover-dark-blue bb"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
                     {" "}
                     Check out the demo version
-                  </a>
+                  </Link>
                   .
                 </p>
                 <p className="mb3">
                   We ask anyone using the software to be in touch so that we can
-                  better maintain, scale, and improve our work and community.
-                  {" "}
-                  <a
-                    href="/partner-interest"
+                  better maintain, scale, and improve our work and community.{" "}
+                  <Link
+                    to="/partner-interest"
                     className="link hover-dark-blue bb"
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     Please complete this contact form if you haven’t already
-                  </a>
+                  </Link>
                   .
                 </p>
               </section>
