@@ -3,9 +3,10 @@ import history from "../../service/history";
 import { downloadExpungementPacket } from "../../redux/search/actions";
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
+import { AliasData } from "../RecordSearch/SearchPanel/types";
 
 interface Props {
-  aliasInState: boolean;
+  aliases: AliasData[];
   downloadExpungementPacket: Function;
 }
 
@@ -20,9 +21,27 @@ interface State {
 }
 
 class UserForm extends React.Component<Props, State> {
+  private buildName = () => {
+    if (this.props.aliases.length > 0) {
+      const firstAlias = this.props.aliases[0];
+      return `${firstAlias.first_name} ${firstAlias.middle_name} ${firstAlias.last_name}`;
+    } else {
+      return "";
+    }
+  };
+
+  private buildDob = () => {
+    if (this.props.aliases.length > 0) {
+      const firstAlias = this.props.aliases[0];
+      return firstAlias.birth_date;
+    } else {
+      return "";
+    }
+  };
+
   public state: State = {
-    name: "",
-    dob: "",
+    name: this.buildName(),
+    dob: this.buildDob(),
     mailingAddress: "",
     phoneNumber: "",
     city: "",
@@ -52,7 +71,7 @@ class UserForm extends React.Component<Props, State> {
   };
 
   public componentDidMount() {
-    if (!this.props.aliasInState) {
+    if (!(this.props.aliases.length > 0)) {
       history.push("/record-search");
     }
   }
@@ -76,6 +95,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.name}
                 />
               </div>
               <div className="mb4">
@@ -89,6 +109,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.dob}
                 />
               </div>
               <div className="mb4">
@@ -102,6 +123,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.mailingAddress}
                 />
               </div>
               <div className="mb4">
@@ -115,6 +137,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.phoneNumber}
                 />
               </div>
               <div className="mb4">
@@ -128,6 +151,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.city}
                 />
               </div>
               <div className="mb4">
@@ -141,6 +165,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.state}
                 />
               </div>
               <div className="mb4">
@@ -154,6 +179,7 @@ class UserForm extends React.Component<Props, State> {
                   required={true}
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
+                  value={this.state.zipCode}
                 />
               </div>
               <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc">
@@ -168,7 +194,7 @@ class UserForm extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  aliasInState: state.search.aliases.length > 0,
+  aliases: state.search.aliases,
 });
 
 export default connect(mapStateToProps, { downloadExpungementPacket })(
