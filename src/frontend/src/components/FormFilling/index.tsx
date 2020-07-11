@@ -24,7 +24,14 @@ class UserForm extends React.Component<Props, State> {
   private buildName = () => {
     if (this.props.aliases.length > 0) {
       const firstAlias = this.props.aliases[0];
-      return `${firstAlias.first_name} ${firstAlias.middle_name} ${firstAlias.last_name}`;
+      const nameString = `${firstAlias.first_name} ${
+        firstAlias.middle_name ? firstAlias.middle_name + " " : ""
+      }${firstAlias.last_name}`;
+      if (!nameString.includes("*")) {
+        return nameString;
+      } else {
+        return "";
+      }
     } else {
       return "";
     }
