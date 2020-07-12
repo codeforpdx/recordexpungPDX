@@ -7,7 +7,7 @@ interface State {
   invalidEmail: boolean;
 }
 
-class PartnerInterest extends React.Component<State> {
+export default class PartnerInterest extends React.Component<State> {
   state = {
     email: "",
     invalidEmail: false,
@@ -188,5 +188,3 @@ class PartnerInterest extends React.Component<State> {
     );
   }
 }
-
-export default PartnerInterest;
