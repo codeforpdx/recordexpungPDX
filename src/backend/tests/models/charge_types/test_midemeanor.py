@@ -17,7 +17,7 @@ def test_misdemeanor_missing_disposition():
     assert misdemeanor_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         misdemeanor_charge.type_eligibility.reason
-        == "Misdemeanors are always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals"
+        == "Always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals"
     )
 
 

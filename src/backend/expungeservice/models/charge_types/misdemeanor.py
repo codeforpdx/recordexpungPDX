@@ -21,5 +21,5 @@ Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exce
         else:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
-                reason="Misdemeanors are always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals",
+                reason="Always eligible under 137.225(5)(b) for convictions, or 137.225(1)(b) for dismissals",
             )

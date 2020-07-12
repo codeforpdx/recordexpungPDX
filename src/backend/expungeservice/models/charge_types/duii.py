@@ -21,7 +21,7 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
-                EligibilityStatus.INELIGIBLE, reason="137.225(7)(a) - Traffic offenses are ineligible"
+                EligibilityStatus.INELIGIBLE, reason="Traffic offenses are ineligible under 137.225(7)(a)"
             )
 
 
@@ -31,4 +31,4 @@ class DivertedDuii(ChargeType):
     expungement_rules = "A DUII dismissal resulting from completion of diversion is ineligible under ORS 137.225(8)(b)."
 
     def type_eligibility(self, disposition):
-        return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="137.225(8)(b) - Diverted DUIIs are ineligible",)
+        return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(8)(b)",)

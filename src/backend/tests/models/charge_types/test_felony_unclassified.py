@@ -15,7 +15,7 @@ def test_felony_unclassified_charge():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b)"
+        == "Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 

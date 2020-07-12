@@ -12,7 +12,9 @@ def test_manufacture_delivery_dismissed():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
+    assert (
+        type_eligibility.reason == "Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(b)"
+    )
 
 
 def test_manufacture_delivery_missing_disposition():
@@ -24,7 +26,7 @@ def test_manufacture_delivery_missing_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) ⬥ Disposition not found. Needs further analysis"
+        == "Marijuana Eligible – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class A – Disposition not found. Needs further analysis"
     )
 
 
@@ -40,7 +42,7 @@ def test_manufacture_delivery_unrecognized_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) ⬥ Disposition not recognized. Needs further analysis"
+        == "Marijuana Eligible – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class B – Disposition not recognized. Needs further analysis"
     )
 
 
@@ -51,7 +53,10 @@ def test_manufacture_delivery_manudel():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert type_eligibility.reason == "Eligible under 137.226 ⬥ Ineligible by omission from statute"
+    assert (
+        type_eligibility.reason
+        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute"
+    )
 
 
 def test_manufacture_delivery_manudel_felony_unclassified():
@@ -66,7 +71,7 @@ def test_manufacture_delivery_manudel_felony_unclassified():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Eligible under 137.226 ⬥ Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b)"
+        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 
@@ -77,7 +82,7 @@ def test_manufacture_delivery_manudel_felony_c():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert type_eligibility.reason == "Felony Class C – Eligible under 137.225(5)(b)"
 
 
 def test_manufacture_delivery_manufacturing_name():
@@ -92,7 +97,7 @@ def test_manufacture_delivery_manufacturing_name():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Eligible under 137.226 ⬥ Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b)"
+        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 
@@ -108,7 +113,7 @@ def test_manufacture_delivery_2():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+        == "Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
 
 
@@ -124,7 +129,7 @@ def test_manufacture_delivery_heroin():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Ineligible by omission from statute ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+        == "Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
 
 
@@ -137,7 +142,7 @@ def test_pcs():
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         type_eligibility.reason
-        == "Eligible under 137.226 ⬥ Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
 
 
@@ -153,7 +158,7 @@ def test_pcs_heroin():
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         type_eligibility.reason
-        == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible ⬥ Eligible under 137.225(5)(b)"
+        == "Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 
@@ -164,4 +169,4 @@ def test_pcs_class_c():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert type_eligibility.reason == "Felony Class C – Eligible under 137.225(5)(b)"
