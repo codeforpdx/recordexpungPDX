@@ -219,6 +219,8 @@ class FormFilling(MethodView):
         else:
             if case.summary.location.lower() == "multnomah":
                 return path.join(Path(__file__).parent.parent, "files", f"multnomah_arrest.pdf")
+            elif case.summary.location.lower() == "jackson":
+                return path.join(Path(__file__).parent.parent, "files", f"jackson_arrest.pdf")
             else:
                 return path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
 
