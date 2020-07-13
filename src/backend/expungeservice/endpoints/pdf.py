@@ -68,41 +68,41 @@ class FormData:
     defendant_name: str
     county: str
 
-    conviction_1: str
-    conviction_1_arrest_date: str
-    conviction_1_agency: str
-    conviction_1_disposition: str
-    conviction_1_disposition_date: str
+    charge_1: str
+    charge_1_arrest_date: str
+    charge_1_agency: str
+    charge_1_disposition: str
+    charge_1_disposition_date: str
 
-    conviction_2: str
-    conviction_2_arrest_date: str
-    conviction_2_agency: str
-    conviction_2_disposition: str
-    conviction_2_disposition_date: str
+    charge_2: str
+    charge_2_arrest_date: str
+    charge_2_agency: str
+    charge_2_disposition: str
+    charge_2_disposition_date: str
 
-    conviction_3: str
-    conviction_3_arrest_date: str
-    conviction_3_agency: str
-    conviction_3_disposition: str
-    conviction_3_disposition_date: str
+    charge_3: str
+    charge_3_arrest_date: str
+    charge_3_agency: str
+    charge_3_disposition: str
+    charge_3_disposition_date: str
 
-    conviction_4: str
-    conviction_4_arrest_date: str
-    conviction_4_agency: str
-    conviction_4_disposition: str
-    conviction_4_disposition_date: str
+    charge_4: str
+    charge_4_arrest_date: str
+    charge_4_agency: str
+    charge_4_disposition: str
+    charge_4_disposition_date: str
 
-    conviction_5: str
-    conviction_5_arrest_date: str
-    conviction_5_agency: str
-    conviction_5_disposition: str
-    conviction_5_disposition_date: str
+    charge_5: str
+    charge_5_arrest_date: str
+    charge_5_agency: str
+    charge_5_disposition: str
+    charge_5_disposition_date: str
 
-    conviction_6: str
-    conviction_6_arrest_date: str
-    conviction_6_agency: str
-    conviction_6_disposition: str
-    conviction_6_disposition_date: str
+    charge_6: str
+    charge_6_arrest_date: str
+    charge_6_agency: str
+    charge_6_disposition: str
+    charge_6_disposition_date: str
 
 
 class FormFilling(MethodView):
@@ -162,7 +162,7 @@ class FormFilling(MethodView):
             "conviction_dates": "; ".join(conviction_dates),
             "defendant_name": case.summary.name,
             "county": case.summary.location,
-            **FormFilling._build_six_convictions(convictions),
+            **FormFilling._build_six_charges(convictions + dismissals),
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
         pdf_path = FormFilling.build_pdf_path(case, convictions)
@@ -180,30 +180,31 @@ class FormFilling(MethodView):
         return pdf
 
     @staticmethod
-    def _build_six_convictions(charges: List[Charge]):
+    def _build_six_charges(charges: List[Charge]):
         acc: Dict[str, str] = {}
         for i in range(1, 7):
-            acc = {**acc, **FormFilling._build_charge(charges, "conviction", i)}
+            acc = {**acc, **FormFilling._build_charge(charges, i)}
         return acc
 
+    # TODO: Double check case where disposition date is missing
     @staticmethod
-    def _build_charge(charges: List[Charge], category: str, i: int):
+    def _build_charge(charges: List[Charge], i: int):
         if len(charges) > (i - 1):
             charge = charges[i - 1]
             return {
-                f"{category}_{i}": charge.name,
-                f"{category}_{i}_arrest_date": charge.date.strftime("%b %-d, %Y"),
-                f"{category}_{i}_agency": "",
-                f"{category}_{i}_disposition": charge.disposition.ruling,
-                f"{category}_{i}_disposition_date": charge.disposition.date.strftime("%b %-d, %Y"),
+                f"charge_{i}": charge.name,
+                f"charge_{i}_arrest_date": charge.date.strftime("%b %-d, %Y"),
+                f"charge_{i}_agency": "",
+                f"charge_{i}_disposition": charge.disposition.ruling,
+                f"charge_{i}_disposition_date": charge.disposition.date.strftime("%b %-d, %Y"),
             }
         else:
             return {
-                f"{category}_{i}": "",
-                f"{category}_{i}_arrest_date": "",
-                f"{category}_{i}_agency": "",
-                f"{category}_{i}_disposition": "",
-                f"{category}_{i}_disposition_date": "",
+                f"charge_{i}": "",
+                f"charge_{i}_arrest_date": "",
+                f"charge_{i}_agency": "",
+                f"charge_{i}_disposition": "",
+                f"charge_{i}_disposition_date": "",
             }
 
     @staticmethod
