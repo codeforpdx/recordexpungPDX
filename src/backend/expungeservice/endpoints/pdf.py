@@ -222,22 +222,16 @@ class FormFilling(MethodView):
 
     @staticmethod
     def build_pdf_path(case, convictions):
+        SUPPORTED_COUNTIES = ["multnomah", "jackson", "clackamas", "lane"]
+        location = case.summary.location.lower()
         if convictions:
-            if case.summary.location.lower() == "multnomah":
-                return path.join(Path(__file__).parent.parent, "files", f"multnomah_conviction.pdf")
-            elif case.summary.location.lower() == "jackson":
-                return path.join(Path(__file__).parent.parent, "files", "jackson_conviction.pdf")
-            elif case.summary.location.lower() == "clackamas":
-                return path.join(Path(__file__).parent.parent, "files", "clackamas_conviction.pdf")
+            if location in SUPPORTED_COUNTIES:
+                return path.join(Path(__file__).parent.parent, "files", f"{location}_conviction.pdf")
             else:
                 return path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
         else:
-            if case.summary.location.lower() == "multnomah":
-                return path.join(Path(__file__).parent.parent, "files", f"multnomah_arrest.pdf")
-            elif case.summary.location.lower() == "jackson":
-                return path.join(Path(__file__).parent.parent, "files", f"jackson_arrest.pdf")
-            elif case.summary.location.lower() == "clackamas":
-                return path.join(Path(__file__).parent.parent, "files", f"clackamas_arrest.pdf")
+            if location in SUPPORTED_COUNTIES:
+                return path.join(Path(__file__).parent.parent, "files", f"{location}_arrest.pdf")
             else:
                 return path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
 
