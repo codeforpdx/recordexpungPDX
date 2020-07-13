@@ -41,14 +41,16 @@ function Questions(props: Props) {
         props.question_summary.case_number
       );
       return (
-        <div className="w-100 relative bl bw3 b--light-purple pa3 pb1">
-          {renderQuestions(question_summary.root, selectFunction)}
-          {props.loading === props.question_summary.ambiguous_charge_id ? (
-            <div className="radio-spinner" role="status">
-              <span className="spinner spinner--sm mr1"></span>
-              <span className="f6 fw5">Updating&#8230;</span>
-            </div>
-          ) : null}
+        <div className="bt b--light-gray">
+          <div className="w-100 relative bl bw3 b--light-purple pa3 pb1">
+            {renderQuestions(question_summary.root, selectFunction)}
+            {props.loading === props.question_summary.ambiguous_charge_id ? (
+              <div className="radio-spinner" role="status">
+                <span className="spinner spinner--sm mr1"></span>
+                <span className="f6 fw5">Updating&#8230;</span>
+              </div>
+            ) : null}
+          </div>
         </div>
       );
     } else {
