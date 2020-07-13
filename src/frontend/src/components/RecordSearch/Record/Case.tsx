@@ -34,6 +34,7 @@ export default class Case extends React.Component<Props, State> {
         this.props.case.case_number + "-X" + ("00" + nextNum).slice(-2),
       statute: "",
       expungement_result: null,
+      expungement_rules: "",
       name: "",
       type_name: "",
       date: "",

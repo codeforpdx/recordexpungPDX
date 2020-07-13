@@ -3,6 +3,7 @@ import Eligibility from "./Eligibility";
 import TimeEligibility from "./TimeEligibility";
 import TypeEligibility from "./TypeEligibility";
 import EditChargePanel from "./EditChargePanel";
+import ExpungementRules from "./ExpungementRules";
 import EditButton from "./EditButton";
 import EditedBadge from "./EditedBadge";
 import Questions from "./Questions";
@@ -50,6 +51,7 @@ export default class Charge extends React.Component<Props, State> {
       name,
       type_name,
       expungement_result,
+      expungement_rules,
     } = this.props.charge;
 
     const dispositionEvent = (disposition: any) => {
@@ -140,11 +142,13 @@ export default class Charge extends React.Component<Props, State> {
                   </li>
                   {buildDisposition(disposition)}
                   <li className="flex mb2">
-                    <span className="w6rem shrink-none fw7">Charged</span> {date}
+                    <span className="w6rem shrink-none fw7">Charged</span>{" "}
+                    {date}
                   </li>
                 </ul>
               </div>
             </div>
+            <ExpungementRules expungement_rules={expungement_rules} />
           </>
         )}
         {this.state.editing && (
