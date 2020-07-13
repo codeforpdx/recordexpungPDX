@@ -15,6 +15,7 @@ from flask import request, json, make_response, send_file
 from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.endpoints.search import Search
+from more_itertools import partition
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
 
 
@@ -44,6 +45,7 @@ class Pdf(MethodView):
 class FormData:
     case_name: str
     case_number: str
+    case_number_with_comments: str  # Only for Clackamas county so far
     da_number: str
     full_name: str
     date_of_birth: str
@@ -127,16 +129,26 @@ class FormFilling(MethodView):
 
     @staticmethod
     def _build_pdf_for_case(case, user_information):
-        eligible_charges = [
-            charge
-            for charge in case.charges
-            if charge.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-        ]
+        ineligible_charges_generator, eligible_charges_generator = partition(
+            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW,
+            case.charges,
+        )
+        ineligible_charges, eligible_charges = list(ineligible_charges_generator), list(eligible_charges_generator)
+        in_part = ", ".join(
+            [charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges]
+        )  # TODO: Check if compatible with edit feature
+        case_number_with_comments = (
+            f"{case.summary.case_number} (in part - counts {in_part})"
+            if ineligible_charges
+            else case.summary.case_number
+        )
         if eligible_charges:
-            return FormFilling._build_pdf_for_eligible_case(case, eligible_charges, user_information)
+            return FormFilling._build_pdf_for_eligible_case(
+                case, eligible_charges, user_information, case_number_with_comments
+            )
 
     @staticmethod
-    def _build_pdf_for_eligible_case(case, eligible_charges, user_information):
+    def _build_pdf_for_eligible_case(case, eligible_charges, user_information, case_number_with_comments):
         dismissals, convictions = Expunger._categorize_charges(eligible_charges)
         dismissed_names = [charge.name for charge in dismissals]
         dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
@@ -150,6 +162,7 @@ class FormFilling(MethodView):
             **user_information,
             "case_name": case.summary.name,
             "case_number": case.summary.case_number,
+            "case_number_with_comments": case_number_with_comments,
             "da_number": "N/A",
             "arresting_agency": "N/A",
             "arrest_dates_all": "; ".join(arrest_dates_all),
@@ -214,6 +227,8 @@ class FormFilling(MethodView):
                 return path.join(Path(__file__).parent.parent, "files", f"multnomah_conviction.pdf")
             elif case.summary.location.lower() == "jackson":
                 return path.join(Path(__file__).parent.parent, "files", "jackson_conviction.pdf")
+            elif case.summary.location.lower() == "clackamas":
+                return path.join(Path(__file__).parent.parent, "files", "clackamas_conviction.pdf")
             else:
                 return path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
         else:
@@ -221,6 +236,8 @@ class FormFilling(MethodView):
                 return path.join(Path(__file__).parent.parent, "files", f"multnomah_arrest.pdf")
             elif case.summary.location.lower() == "jackson":
                 return path.join(Path(__file__).parent.parent, "files", f"jackson_arrest.pdf")
+            elif case.summary.location.lower() == "clackamas":
+                return path.join(Path(__file__).parent.parent, "files", f"clackamas_arrest.pdf")
             else:
                 return path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
 
