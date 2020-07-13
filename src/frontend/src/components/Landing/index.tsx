@@ -18,22 +18,22 @@ class Landing extends React.Component {
               </h1>
               <p className="f5 lh-copy mw6">
                 <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                RecordSponge is a product that helps
-                providers quickly analyze an individual’s criminal history to
-                determine if they qualify to have their records expunged.
+                RecordSponge is a product that helps providers quickly analyze
+                an individual’s criminal history to determine if they qualify to
+                have their records expunged.
               </p>
             </div>
 
             <div className="f5 mh3">
               <div className="mw8 center bg-gray-blue-2 shadow br4 pa4 ph5-l mb5">
                 <h2 className="f3 fw6 mb3">
-                  <span className="red">Emergency Update: </span> Protests Against
-                  Police Violence
+                  <span className="red">Emergency Update: </span> Protests
+                  Against Police Violence
                 </h2>
                 <p className="lh-copy mw8 mb3">
-                  Due to ongoing events Qiu-Qiu Law is making all expungement help
-                  free to any protesters arrested during this fight. Anyone can
-                  register directly to{" "}
+                  Due to ongoing events Qiu-Qiu Law is making all expungement
+                  help free to any protesters arrested during this fight. Anyone
+                  can register directly to{" "}
                   <a
                     className="link bb hover-dark-blue"
                     href="https://www.qiu-qiulaw.com/register"
@@ -43,8 +43,8 @@ class Landing extends React.Component {
                   and a lawyer will return your inquiry within 48 hours.
                 </p>
                 <p className="mb2 pv2">
-                  For other communication (to learn more, help out, etc.) you can
-                  also contact:
+                  For other communication (to learn more, help out, etc.) you
+                  can also contact:
                 </p>
                 <ul className="list mb3 pl4">
                   <li className="mb3">
@@ -76,10 +76,17 @@ class Landing extends React.Component {
                     Are you interested in providing expungement help?
                   </h2>
                   <p className="lh-copy mb3">
-                    We only ask that you <a href="http://eepurl.com/g6N3Bn" className="link bb hover-lightest-blue">provide your contact details</a> and obtain OECI credentials.
+                    We are looking for new partners to use RecordSponge to
+                    provide reliable and accessible expungement help across
+                    Oregon. We charge nothing for using the software, but OECI
+                    credentials are required. We ask only that you get in touch.
                   </p>
                   <p className="mb4">
-                    <Link to="/manual#overview" className="link bb hover-lightest-blue">
+                    <Link
+                      to="/partner-interest"
+                      className="link bb hover-lightest-blue"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
                       Learn More
                     </Link>
                   </p>
@@ -96,7 +103,8 @@ class Landing extends React.Component {
                       target="blank"
                     >
                       Qiu-qiu Law
-                    </a> or contact one of our partners below.
+                    </a>{" "}
+                    or contact one of our partners below.
                   </p>
                 </div>
               </div>
@@ -105,21 +113,28 @@ class Landing extends React.Component {
             <div className="relative bottom-6 bg-lightest-blue1 pt6 pb6">
               <div className="ph4">
                 <div className="mw7 center">
-
                   <h3 className="f3 fw9 tc mb4">Our Partners Include</h3>
                   <div className="f5 mb7">
                     <ul className="list lh-copy">
                       <li className="mb1">
-                        <a href="https://www.pcc.edu/programs/paralegal" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://www.pcc.edu/programs/paralegal"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Portland Community College
                           </div>
-                          <div className="w-25-ns pa2 pr3">Northeast Portland</div>
+                          <div className="w-25-ns pa2 pr3">
+                            Northeast Portland
+                          </div>
                           <div className="w-25-ns pa2">Leni Tupper</div>
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="https://jacksoncountyor.org/community-justice" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://jacksoncountyor.org/community-justice"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Probation and Parole, Community Justice Center
                           </div>
@@ -128,7 +143,10 @@ class Landing extends React.Component {
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="https://crimanon.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://crimanon.org"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Criminals Anonymous
                           </div>
@@ -137,7 +155,10 @@ class Landing extends React.Component {
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="https://www.facebook.com/OregonHousingWorks" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://www.facebook.com/OregonHousingWorks"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Redmond Housing Works
                           </div>
@@ -146,7 +167,10 @@ class Landing extends React.Component {
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="https://www.facebook.com/Ruraloregonexpungement" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://www.facebook.com/Ruraloregonexpungement"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Signs of Hope
                           </div>
@@ -155,7 +179,10 @@ class Landing extends React.Component {
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="http://www.lanepds.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="http://www.lanepds.org"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Lane Public Defender Services
                           </div>
@@ -164,7 +191,10 @@ class Landing extends React.Component {
                         </a>
                       </li>
                       <li className="mb1">
-                        <a href="https://www.clackamasworkforce.org" className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue">
+                        <a
+                          href="https://www.clackamasworkforce.org"
+                          className="flex-ns bg-white br3 pa3 ba b--white hover-b-blue"
+                        >
                           <div className="w-50-ns fw6 pa2 pr3">
                             Clackamas Workforce Partnership
                           </div>

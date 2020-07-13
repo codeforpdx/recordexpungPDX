@@ -31,6 +31,9 @@ $washed-red: #f0e0e8;
 .hover-bg-blue:hover {
   background-color: $blue;
 }
+.dark-blue {
+  color: $dark-blue;
+}
 .washed-blue {
   color: $washed-blue;
 }
@@ -92,6 +95,10 @@ fieldset {
 
 .w6rem {
   width: 6rem;
+}
+
+.outline-2-white {
+  outline: 2px solid white;
 }
 
 // Case header widths
@@ -268,7 +275,7 @@ fieldset {
   background-color: #dfe2e8;
 }
 .connect-type:before {
-  top: -44px;
+  top: -120%;
   height: 140%;
   width: 2px;
   background-color: #dfe2e8;
@@ -298,7 +305,7 @@ footer {
 .checkbox label {
   position: relative;
   display: block;
-  padding: 0.3rem 3rem 0 2.2rem;
+  padding: 0.2rem 0 0 2.2rem;
 }
 
 .checkbox label::before,
