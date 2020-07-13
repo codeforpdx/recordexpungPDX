@@ -3,7 +3,7 @@ export interface ChargeData {
   ambiguous_charge_id: string;
   statute: string;
   expungement_result: any;
-  expungement_rules: any;
+  expungement_rules: string;
   name: string;
   type_name: string;
   date: string;
@@ -72,11 +72,6 @@ export interface TimeEligibilityData {
 export interface ChargeEligibilityData {
   status: string;
   label: string;
-}
-
-export interface ExpungementRulesData {
-  reason: any;
-  open: boolean;
 }
 
 export interface QuestionsData {

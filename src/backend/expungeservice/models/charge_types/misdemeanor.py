@@ -10,7 +10,6 @@ class Misdemeanor(ChargeType):
     type_name: str = "Misdemeanor"
     expungement_rules: str = """Convictions for misdemeanors are generally eligible under ORS 137.225(5)(b).
 Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII
-
 Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(b). Exceptions include cases dismissed due to successful completion of DUII diversion."""
 
     def type_eligibility(self, disposition):
