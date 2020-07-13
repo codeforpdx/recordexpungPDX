@@ -83,8 +83,9 @@ class Landing extends React.Component {
                   </p>
                   <p className="mb4">
                     <Link
-                      to="/manual#overview"
+                      to="/partner-interest"
                       className="link bb hover-lightest-blue"
+                      onClick={() => window.scrollTo(0, 0)}
                     >
                       Learn More
                     </Link>
