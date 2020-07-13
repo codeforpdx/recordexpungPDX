@@ -1,5 +1,6 @@
 import React from "react";
 import { TimeEligibilityData } from "./types";
+import { newlineOrsInString } from "./util";
 
 interface Props {
   time_eligibility: TimeEligibilityData;
@@ -23,9 +24,12 @@ export default class TimeEligibility extends React.Component<Props> {
 
     const timeLater = (reason: string) => (
       <div className="relative mb3 connect connect-time">
-        <i aria-hidden="true" className="absolute fas fa-clock dark-blue bg-white z-1"></i>
+        <i
+          aria-hidden="true"
+          className="absolute fas fa-clock dark-blue bg-white z-1"
+        ></i>
         <div className="ml3 pl1">
-          <span className="fw7">Time</span> {reason}
+          {newlineOrsInString(<span className="fw7">Time: </span>, reason)}
         </div>
       </div>
     );

@@ -2,10 +2,12 @@ from dataclasses import dataclass
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
+from typing import List, Dict
 from zipfile import ZipFile
 
 from dacite import from_dict
 from expungeservice.expunger import Expunger
+from expungeservice.models.charge import Charge
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
@@ -66,6 +68,42 @@ class FormData:
     defendant_name: str
     county: str
 
+    conviction_1: str
+    conviction_1_arrest_date: str
+    conviction_1_agency: str
+    conviction_1_disposition: str
+    conviction_1_disposition_date: str
+
+    conviction_2: str
+    conviction_2_arrest_date: str
+    conviction_2_agency: str
+    conviction_2_disposition: str
+    conviction_2_disposition_date: str
+
+    conviction_3: str
+    conviction_3_arrest_date: str
+    conviction_3_agency: str
+    conviction_3_disposition: str
+    conviction_3_disposition_date: str
+
+    conviction_4: str
+    conviction_4_arrest_date: str
+    conviction_4_agency: str
+    conviction_4_disposition: str
+    conviction_4_disposition_date: str
+
+    conviction_5: str
+    conviction_5_arrest_date: str
+    conviction_5_agency: str
+    conviction_5_disposition: str
+    conviction_5_disposition_date: str
+
+    conviction_6: str
+    conviction_6_arrest_date: str
+    conviction_6_agency: str
+    conviction_6_disposition: str
+    conviction_6_disposition_date: str
+
 
 class FormFilling(MethodView):
     def post(self):
@@ -101,12 +139,12 @@ class FormFilling(MethodView):
     def _build_pdf_for_eligible_case(case, eligible_charges, user_information):
         dismissals, convictions = Expunger._categorize_charges(eligible_charges)
         dismissed_names = [charge.name for charge in dismissals]
-        dismissed_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in dismissals]
-        dismissed_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]
+        dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
+        dismissed_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]))
         conviction_names = [charge.name for charge in convictions]
-        conviction_arrest_dates = [charge.date.strftime("%b %-d, %Y") for charge in convictions]
-        conviction_dates = [charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]
-        arrest_dates_all = dismissed_arrest_dates + conviction_arrest_dates
+        conviction_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in convictions]))
+        conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
+        arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
         charge_names = dismissed_names + conviction_names
         form_data_dict = {
             **user_information,
@@ -124,12 +162,10 @@ class FormFilling(MethodView):
             "conviction_dates": "; ".join(conviction_dates),
             "defendant_name": case.summary.name,
             "county": case.summary.location,
+            **FormFilling._build_six_convictions(convictions),
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        if convictions:
-            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
-        else:
-            pdf_path = path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
+        pdf_path = FormFilling.build_pdf_path(case, convictions)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
@@ -142,6 +178,48 @@ class FormFilling(MethodView):
                     annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
         return pdf
+
+    @staticmethod
+    def _build_six_convictions(charges: List[Charge]):
+        acc: Dict[str, str] = {}
+        for i in range(1, 7):
+            acc = {**acc, **FormFilling._build_charge(charges, "conviction", i)}
+        return acc
+
+    @staticmethod
+    def _build_charge(charges: List[Charge], category: str, i: int):
+        if len(charges) > (i - 1):
+            charge = charges[i - 1]
+            return {
+                f"{category}_{i}": charge.name,
+                f"{category}_{i}_arrest_date": charge.date.strftime("%b %-d, %Y"),
+                f"{category}_{i}_agency": "",
+                f"{category}_{i}_disposition": charge.disposition.ruling,
+                f"{category}_{i}_disposition_date": charge.disposition.date.strftime("%b %-d, %Y"),
+            }
+        else:
+            return {
+                f"{category}_{i}": "",
+                f"{category}_{i}_arrest_date": "",
+                f"{category}_{i}_agency": "",
+                f"{category}_{i}_disposition": "",
+                f"{category}_{i}_disposition_date": "",
+            }
+
+    @staticmethod
+    def build_pdf_path(case, convictions):
+        if convictions:
+            if case.summary.location.lower() == "multnomah":
+                return path.join(Path(__file__).parent.parent, "files", f"multnomah_conviction.pdf")
+            elif case.summary.location.lower() == "jackson":
+                return path.join(Path(__file__).parent.parent, "files", "jackson_conviction.pdf")
+            else:
+                return path.join(Path(__file__).parent.parent, "files", f"stock_conviction.pdf")
+        else:
+            if case.summary.location.lower() == "multnomah":
+                return path.join(Path(__file__).parent.parent, "files", f"multnomah_arrest.pdf")
+            else:
+                return path.join(Path(__file__).parent.parent, "files", f"stock_arrest.pdf")
 
 
 def register(app):
