@@ -32,10 +32,10 @@ export default class PartnerInterest extends React.Component<State> {
         <div className="f6 f5-ns f4-l bg-lightest-blue1">
           <main className="mw7 center ph4 ph5-ns pt5 pb6">
             <section className="lh-copy mb5">
-              <h1 className="mw6-l f3 f2-l fw9 lh-solid pr4-l ma0 mb3">
+              <h1 className="mw6-l f3 f2-l fw9 lh-solid pr4-l ma0 mb4">
                 Provide expungement help with RecordSponge
               </h1>
-              <p className="mb3">
+              <p className="mb4">
                 RecordSponge is made for organizations to become expungement
                 service providers. We provide both the software and supervision
                 by volunteer attorneys – organizations provide the clients and,
@@ -46,12 +46,11 @@ export default class PartnerInterest extends React.Component<State> {
                 contact with many people with criminal records. If you would
                 like to learn more about partnering please get in contact below.
               </p>
-              <p className="fw9 mb2">More Details</p>
-              <p className="mb3">
+              <p className="mb4">
                 You will need an Oregon eCourt Case Information (OECI) account
                 to use RecordSponge, otherwise there is no additional charge.
               </p>
-              <p className="mb3">
+              <p className="mb4">
                 <a
                   className="link hover-blue bb"
                   href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
@@ -72,12 +71,7 @@ export default class PartnerInterest extends React.Component<State> {
                   <span className="fas fa-arrow-right pl1"></span>
                 </Link>
               </p>
-              <p className="pl3 bl bw2 b--blue">
-                We ask anyone using the software to be in touch so that we can
-                better maintain, scale, and improve our work and community.
-                Please complete this contact form even if you already have an
-                OECI account.
-              </p>
+
             </section>
 
             <section>
@@ -94,92 +88,104 @@ export default class PartnerInterest extends React.Component<State> {
                   noValidate
                 >
                   <div
-                    className="bg-gray-blue-2 shadow mv4 pv4 ph4 ph5-l br3"
+                    className="bg-white shadow br3 pb5 mb3"
                     id="mc_embed_signup_scroll"
                   >
-                    <h2 className="fw9 mb2">Subscribe</h2>
-                    <div className="mb1 dt dt--fixed mc-field-group">
-                      <label className="dtc" htmlFor="mce-EMAIL">
-                        Email Address (required)
-                      </label>
-                      <input
-                        type="email"
-                        name="EMAIL"
-                        className="dtc required email"
-                        id="mce-EMAIL"
-                        onChange={(e: React.BaseSyntheticEvent) => {
-                          this.setState({
-                            email: e.target.value,
-                            invalidEmail: false,
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="mb1 dt dt--fixed mc-field-group">
-                      <label className="dtc" htmlFor="mce-NAME">
-                        Name{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="NAME"
-                        className="dtc"
-                        id="mce-NAME"
-                      />
-                    </div>
-                    <div className="mb2 dt dt--fixed mc-field-group">
-                      <label className="dtc" htmlFor="mce-ORG">
-                        Organization{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="ORG"
-                        className="dtc"
-                        id="mce-ORG"
-                      />
-                    </div>
-                    <div className="mb2 mc-field-group input-group">
-                      <input
-                        type="checkbox"
-                        value="1"
-                        name="group[19029][1]"
-                        id="mce-group[19029]-19029-0"
-                      />
-                      <label
-                        className="ml2 "
-                        htmlFor="mce-group[19029]-19029-0"
-                      >
-                        I'm interested in a demonstration of the software!
-                      </label>
-                    </div>
-                    <div id="mce-responses" className="clear">
-                      <div
-                        className="response"
-                        id="mce-error-response"
-                        visually-hidden
-                      ></div>
-                      <div
-                        className="response"
-                        id="mce-success-response"
-                        visually-hidden
-                      ></div>
-                    </div>{" "}
-                    {/*This div captures bot signups, according to Mailchimp.*/}
-                    <div className="clear">
-                      <input
-                        type="submit"
-                        value="Subscribe"
-                        name="subscribe"
-                        id="mc-embedded-subscribe"
-                        className="button"
-                        onClick={this.handleSubmit}
+                  <span className="db center bb bw3 b--blue mb4"></span>
+                  <h2 className="visually-hidden">Subscribe</h2>
+                  <p className="fw7 ph4 ph5-ns mh3-l mb3">
+                    We ask anyone using the software to be in touch so that we can
+                    better maintain, scale, and improve our work and community.
+                  </p>
+                  <p className="ph4 ph5-ns mh3-l mb4 mb5-l">
+                    Please complete this contact form even if you already have an
+                    OECI account.
+                  </p>
+
+                    <div className="ph4 ph5-ns ph6-l">
+                      <div className="mb3 mc-field-group">
+                        <label className="db fw6 mb1" htmlFor="mce-EMAIL">
+                          Email Address (required)
+                        </label>
+                        <input
+                          type="email"
+                          name="EMAIL"
+                          className="w-100 b--black-20 br2 pa3 required email"
+                          id="mce-EMAIL"
+                          onChange={(e: React.BaseSyntheticEvent) => {
+                            this.setState({
+                              email: e.target.value,
+                              invalidEmail: false,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="mb3 mc-field-group">
+                        <label className="db fw6 mb1" htmlFor="mce-NAME">
+                          Name{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="NAME"
+                          className="w-100 b--black-20 br2 pa3"
+                          id="mce-NAME"
+                        />
+                      </div>
+                      <div className="mb2 mc-field-group">
+                        <label className="db fw6 mb1" htmlFor="mce-ORG">
+                          Organization{" "}
+                        </label>
+                        <input
+                          type="text"
+                          name="ORG"
+                          className="w-100 b--black-20 br2 pa3"
+                          id="mce-ORG"
+                        />
+                      </div>
+                      <div className="checkbox mb4 mc-field-group input-group">
+                        <input
+                          type="checkbox"
+                          value="1"
+                          name="group[19029][1]"
+                          id="mce-group[19029]-19029-0"
+                        />
+                        <label
+                          className="fw6"
+                          htmlFor="mce-group[19029]-19029-0"
+                        >
+                          I'm interested in a demonstration of the software!
+                        </label>
+                      </div>
+                      <div id="mce-responses" className="clear">
+                        <div
+                          className="response"
+                          id="mce-error-response"
+                          visually-hidden
+                        ></div>
+                        <div
+                          className="response"
+                          id="mce-success-response"
+                          visually-hidden
+                        ></div>
+                      </div>{" "}
+                      {/*This div captures bot signups, according to Mailchimp.*/}
+                      <div className="clear">
+                        <input
+                          type="submit"
+                          value="Subscribe"
+                          name="subscribe"
+                          id="mc-embedded-subscribe"
+                          className="w-100 pointer bg-blue white bg-animate hover-bg-dark-blue bn fw6 br2 pv3 ph4"
+                          onClick={this.handleSubmit}
+                        />
+                      </div>
+                      <InvalidInputs
+                        conditions={[this.state.invalidEmail]}
+                        contents={[<span>A valid email address is required </span>]}
                       />
                     </div>
                   </div>
                 </form>
-                <InvalidInputs
-                  conditions={[this.state.invalidEmail]}
-                  contents={[<span>A valid email address is required </span>]}
-                />
               </div>
             </section>
           </main>
