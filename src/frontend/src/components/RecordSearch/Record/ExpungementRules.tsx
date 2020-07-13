@@ -25,18 +25,18 @@ export default class ExpungementRules extends React.Component<
     };
     const rules = this.props.expungement_rules;
     return (
-      <div className="relative mb3 connect connect-type">
+      <div className="relative mb3  ph3  pb4">
         <div className="ml3 pl1">
           <Disclosure open={this.state.open} onChange={() => toggleOpen()}>
             <DisclosureButton>
-              <span className="fw7">More info</span>
+              <span className="fw7">More info </span>
               {this.state.open ? (
                 <span aria-hidden="true" className="fas fa-angle-up"></span>
               ) : (
                 <span aria-hidden="true" className="fas fa-angle-down"></span>
               )}
             </DisclosureButton>
-            <DisclosurePanel>{rules + " "}</DisclosurePanel>
+            <DisclosurePanel className="pt4">{rules + " "}</DisclosurePanel>
           </Disclosure>
         </div>
       </div>
