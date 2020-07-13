@@ -126,7 +126,7 @@ export default class Charge extends React.Component<Props, State> {
               )}
             </div>
 
-            <div className="flex-l ph3 pb3">
+            <div className="flex-l ph3 pb2">
               <div className="w-100 w-40-l relative pr3">
                 {buildRecordTime()}
                 <TypeEligibility
