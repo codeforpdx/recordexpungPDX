@@ -14,7 +14,7 @@ export default class PartnerInterest extends React.Component<State> {
   };
 
   validateEmail = (email: string) => {
-    return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(email);
+    return /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w+)+$/.test(email);
   };
 
   handleSubmit = (e: React.FormEvent) => {
@@ -71,7 +71,6 @@ export default class PartnerInterest extends React.Component<State> {
                   <span className="fas fa-arrow-right pl1"></span>
                 </Link>
               </p>
-
             </section>
 
             <section>
@@ -91,16 +90,17 @@ export default class PartnerInterest extends React.Component<State> {
                     className="bg-white shadow br3 pb5 mb3"
                     id="mc_embed_signup_scroll"
                   >
-                  <span className="db center bb bw3 b--blue mb4"></span>
-                  <h2 className="visually-hidden">Subscribe</h2>
-                  <p className="fw7 ph4 ph5-ns mh3-l mb3">
-                    We ask anyone using the software to be in touch so that we can
-                    better maintain, scale, and improve our work and community.
-                  </p>
-                  <p className="ph4 ph5-ns mh3-l mb4 mb5-l">
-                    Please complete this contact form even if you already have an
-                    OECI account.
-                  </p>
+                    <span className="db center bb bw3 b--blue mb4"></span>
+                    <h2 className="visually-hidden">Subscribe</h2>
+                    <p className="fw7 ph4 ph5-ns mh3-l mb3">
+                      We ask anyone using the software to be in touch so that we
+                      can better maintain, scale, and improve our work and
+                      community.
+                    </p>
+                    <p className="ph4 ph5-ns mh3-l mb4 mb5-l">
+                      Please complete this contact form even if you already have
+                      an OECI account.
+                    </p>
 
                     <div className="ph4 ph5-ns ph6-l">
                       <div className="mb3 mc-field-group">
@@ -181,7 +181,9 @@ export default class PartnerInterest extends React.Component<State> {
                       </div>
                       <InvalidInputs
                         conditions={[this.state.invalidEmail]}
-                        contents={[<span>A valid email address is required </span>]}
+                        contents={[
+                          <span>A valid email address is required </span>,
+                        ]}
                       />
                     </div>
                   </div>
