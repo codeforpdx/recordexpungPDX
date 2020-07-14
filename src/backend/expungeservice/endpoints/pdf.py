@@ -184,6 +184,10 @@ class FormFilling(MethodView):
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
             field.V = field_value
+            field.DA = "/TimesNewRoman  7 Tf 0 g"
+            if field["/Kids"]:
+                for kid in field["/Kids"]:
+                    kid.DA = "/TimesNewRoman  7 Tf 0 g"
         for page in pdf.pages:
             annotations = page.get("/Annots")
             if annotations:
