@@ -184,6 +184,7 @@ class FormFilling(MethodView):
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
             field.V = field_value
+            FormFilling._set_font(field, field_value)
         for page in pdf.pages:
             annotations = page.get("/Annots")
             if annotations:
@@ -191,6 +192,15 @@ class FormFilling(MethodView):
                     annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
         return pdf
+
+    @staticmethod
+    def _set_font(field, field_value):
+        font_size = 6 if len(field_value) > 35 else 8
+        font_string = f"/TimesNewRoman  {font_size} Tf 0 g"
+        field.DA = font_string
+        if field["/Kids"]:
+            for kid in field["/Kids"]:
+                kid.DA = font_string
 
     @staticmethod
     def _build_six_charges(charges: List[Charge]):
