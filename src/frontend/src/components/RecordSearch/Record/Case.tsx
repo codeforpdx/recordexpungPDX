@@ -11,6 +11,27 @@ import { undoEditCase } from "../../../redux/search/actions";
 import store from "../../../redux/store";
 import { HashLink as Link } from "react-router-hash-link";
 
+export function createNextBlankCharge (caseNumber:string, nextNum: number) {
+    return {
+      case_number: caseNumber,
+      ambiguous_charge_id:
+        caseNumber + "-X" + ("00" + nextNum).slice(-2),
+      statute: "",
+      expungement_result: null,
+      expungement_rules: "",
+      name: "",
+      type_name: "",
+      date: "",
+      disposition: {
+        status: "",
+        ruling: "",
+        date: "",
+      },
+      probation_revoked: "",
+      edit_status: "ADD",
+    };
+  };
+
 interface Props {
   case: CaseData;
   showEditButtons: boolean;
@@ -27,26 +48,7 @@ interface State {
   nextNewChargeNum: number;
 }
 export default class Case extends React.Component<Props, State> {
-  createNextBlankCharge = (nextNum: number) => {
-    return {
-      case_number: this.props.case.case_number,
-      ambiguous_charge_id:
-        this.props.case.case_number + "-X" + ("00" + nextNum).slice(-2),
-      statute: "",
-      expungement_result: null,
-      expungement_rules: "",
-      name: "",
-      type_name: "",
-      date: "",
-      disposition: {
-        status: "",
-        ruling: "",
-        date: "",
-      },
-      probation_revoked: "",
-      edit_status: "ADD",
-    };
-  };
+
   state: State = {
     editing: this.props.editing,
     addingNewCharge: false,
@@ -184,7 +186,7 @@ export default class Case extends React.Component<Props, State> {
         {this.state.addingNewCharge && (
           <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">
             <Charge
-              charge={this.createNextBlankCharge(this.state.nextNewChargeNum)}
+              charge={createNextBlankCharge(this.props.case.case_number, this.state.nextNewChargeNum)}
               showEditButtons={this.props.showEditButtons}
               whenEditing={() => {
                 this.props.whenEditing();
@@ -215,3 +217,4 @@ export default class Case extends React.Component<Props, State> {
     );
   }
 }
+

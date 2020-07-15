@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Cases from "./Cases";
 import Case from "./Case";
@@ -137,14 +138,23 @@ class Record extends React.Component<Props, State> {
                 </>
               )
             ) : (
-              <button
-                className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
-                onClick={() => {
-                  this.setState({ enableEditing: true });
-                }}
-              >
-                Enable Editing
-              </button>
+              <>
+                <button
+                  className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
+                  onClick={() => {
+                    this.setState({ enableEditing: true });
+                  }}
+                >
+                  Enable Editing
+                </button>
+                <Link
+                  to="/manual#editing"
+                  className="link hover-blue underline"
+                >
+                  {" "}
+                  ??
+                </Link>
+              </>
             )}
           </div>
 

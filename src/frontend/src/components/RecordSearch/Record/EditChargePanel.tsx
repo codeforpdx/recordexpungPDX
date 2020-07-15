@@ -9,7 +9,6 @@ import {
 import InvalidInputs from "../../InvalidInputs";
 import { editCharge, deleteCharge } from "../../../redux/search/actions";
 import DateField from "./DateField";
-
 import store from "../../../redux/store";
 
 interface Props {

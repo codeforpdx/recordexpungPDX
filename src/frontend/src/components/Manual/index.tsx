@@ -1,7 +1,13 @@
 import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@reach/disclosure";
+import EditingGuide from "./EditingGuide";
 
-class Manual extends React.Component {
+export default class Manual extends React.Component {
   render() {
     return (
       <>
@@ -172,27 +178,17 @@ class Manual extends React.Component {
               </p>
               <ol className="ml4">
                 <li className="mb3">
-                  <p className="mb2">Log in and search records</p>
-                  <ul className="fw4 ml4">
-                    <li className="mb2">
-                      You will need an Oregon eCourt Case Information (OECI)
-                      account to use RecordSponge.{" "}
-                      <a
-                        className="bb hover-blue"
-                        href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
-                      >
-                        You can purchase a subscription here
-                      </a>
-                      .
-                    </li>
-                    <li className="mb2">
-                      Go to{" "}
-                      <Link className="bb hover-blue" to="/record-search">
-                        recordsponge.com/record-search
-                      </Link>{" "}
-                      and log in with your OECI account.
-                    </li>
-                  </ul>
+                  <p className="mb2">
+                    Full use of RecordSponge requires an Oregon eCourt Case
+                    Information (OECI) account.{" "}
+                    <a
+                      className="bb hover-blue"
+                      href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
+                    >
+                      You can purchase a subscription here
+                    </a>
+                    .
+                  </p>
                 </li>
                 <li className="mb3">
                   Ensure that{" "}
@@ -200,6 +196,16 @@ class Manual extends React.Component {
                     Assumption 1
                   </a>{" "}
                   is met
+                </li>
+                <li className="mb3">
+                  <Link
+                    className="bb hover-blue"
+                    to="/oeci"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
+                    Log in to Search
+                  </Link>{" "}
+                  using OECI credentials
                 </li>
                 <li className="mb3">
                   <a className="bb-dotted-2 hover-blue" href="#search">
@@ -312,9 +318,11 @@ class Manual extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="fw7 mb3" id="paybalances">
+                <li className="fw7 mb3">
+                <div  id="paybalances">
                   The client does not owe money to the State, including
                   probation fees, child support, traffic tickets.
+                </div>
                   <ul className="list fw4 mt1">
                     <li className="mb2">
                       A personal is not eligible for expungement if they owe
@@ -358,7 +366,7 @@ class Manual extends React.Component {
                 please contact michael@qiu-qiulaw.com.
               </p>
             </section>
-            <section className="mb5">
+            <section className="mb4">
               <h2 className="f2 fw9 mb3" id="search">
                 Search
               </h2>
@@ -396,6 +404,7 @@ class Manual extends React.Component {
                   used.
                 </p>
               </div>
+
               <h3 className="f4 fw7 mb2" id="searchresults">
                 Search Results
               </h3>
@@ -427,23 +436,24 @@ class Manual extends React.Component {
                   <a className="bb-dotted-2 hover-blue" href="#assumption1">
                     Assumption 1
                   </a>{" "}
-                  being true. Having other cases could push out the eligibility
-                  date further.
+                  being true.
+                </p>
+                <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
+                  Eligibility Timeframe Dependent On Open Charge: Eligible Now or 10 years From Conviction Of Open Charge
+                </div>
+                <p className="mb3">
+                  If a charge other than this one has a missing or unresolved disposition,
+                  then the eligibility timeframe is undetermined. The charge will become eligible in the future,
+                  dependent on the outcome of another charge on the record. You can assign all
+                  unresolved dispositions on the record to get an exact eligibility analysis.
                 </p>
               </div>
               <div className="bg-white shadow pa3">
                 <h4 className="fw7 mb3">Further Analysis Needed</h4>
                 <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly Eligible Now (review)
+                  Needs More Analysis
                 </div>
                 <br />
-                <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly Eligible Mar 11, 2026 (review)
-                </div>
-                <br />
-                <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly eligible but time analysis is missing
-                </div>
                 <p className="mb3">
                   Sometimes, there is not enough information on the OECI website
                   to determine whether or not a case is eligible. RecordSponge
@@ -460,9 +470,33 @@ class Manual extends React.Component {
                   The specific charge is not eligible under the current law
                   because it is not “type-eligible.” The reason why the charge
                   is not type-eligible is different for each charge. This is not
-                  conditional on the assumptions.
+                  conditional on the assumptions listed in this manual.
                 </p>
               </div>
+            </section>
+            <section className="mb2" id="editing">
+              <Disclosure open={true}>
+                <h3 className="f4 fw7 mb2" id="searchresults">
+                  Editing Results
+                </h3>
+                <div className="flex-l">
+                  <p className="mb2">
+                    RecordSponge allows in-line editing of search results to
+                    correct any errors or missing information. This is an
+                    advanced feature.
+                    <DisclosureButton className="mt1 ml4 fw7">
+                      Expand
+                    </DisclosureButton>
+                  </p>
+                </div>
+                <DisclosurePanel className="pt2">
+                  <EditingGuide />
+                </DisclosurePanel>
+              </Disclosure>
+              <p className="mb3">
+                After producing a complete record analysis and verifying all the
+                information in it is correct, proceed to next steps:
+              </p>
             </section>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="assumption2">
@@ -701,5 +735,3 @@ class Manual extends React.Component {
     );
   }
 }
-
-export default Manual;
