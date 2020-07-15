@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class Manual extends React.Component {
   render() {
@@ -312,7 +312,7 @@ class Manual extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="fw7 mb3" id="payBalances">
+                <li className="fw7 mb3" id="paybalances">
                   The client does not owe money to the State, including
                   probation fees, child support, traffic tickets.
                   <ul className="list fw4 mt1">

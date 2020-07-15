@@ -1,6 +1,6 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 interface State {
   email: string;
