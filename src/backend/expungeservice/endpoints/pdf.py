@@ -232,7 +232,7 @@ class FormFilling(MethodView):
 
     @staticmethod
     def build_pdf_path(case, convictions):
-        SUPPORTED_COUNTIES = ["multnomah", "jackson", "clackamas", "lane", "washington"]
+        SUPPORTED_COUNTIES = ["multnomah", "jackson", "clackamas", "lane", "washington", "marion"]
         location = case.summary.location.lower()
         if convictions:
             if location in SUPPORTED_COUNTIES:
