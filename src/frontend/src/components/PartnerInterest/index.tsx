@@ -1,6 +1,6 @@
 import React from "react";
 import InvalidInputs from "../InvalidInputs";
-import { HashLink as Link } from "react-router-hash-link";
+import { Link } from "react-router-dom";
 
 interface State {
   email: string;
@@ -29,7 +29,7 @@ export default class PartnerInterest extends React.Component<State> {
   render() {
     return (
       <>
-        <div className="f6 f5-ns f4-l bg-lightest-blue1">
+        <div className="f6 f5-ns f4-l navy bg-lightest-blue1">
           <main className="mw7 center ph4 ph5-ns pt5 pb6">
             <section className="lh-copy mb5">
               <h1 className="mw6-l f3 f2-l fw9 lh-solid pr4-l ma0 mb4">
@@ -52,7 +52,7 @@ export default class PartnerInterest extends React.Component<State> {
               </p>
               <p className="mb4">
                 <a
-                  className="link hover-blue bb"
+                  className="link hover-dark-blue bb"
                   href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
                 >
                   You can purchase a subscription here
