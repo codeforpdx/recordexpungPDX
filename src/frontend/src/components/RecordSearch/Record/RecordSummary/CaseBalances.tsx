@@ -5,7 +5,7 @@ import { CaseData } from "../types";
 import { AppState } from "../../../../redux/store";
 import { selectCasesWithBalanceDue } from "../../../../redux/search/selectors";
 import currencyFormat from "../../../../service/currency-format";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
   totalBalance: number;
@@ -35,7 +35,7 @@ const CaseBalances: React.FunctionComponent<Props> = (props) => {
         totalBalance={props.totalBalance}
       />
       <div className="mt2">
-        <Link className="link bb hover-blue f6" to="/manual#payBalances">
+        <Link className="link bb hover-blue f6" to="/manual#paybalances">
           Paying Balances
         </Link>
       </div>

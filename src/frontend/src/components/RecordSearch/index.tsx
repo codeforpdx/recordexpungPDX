@@ -7,7 +7,7 @@ import Record from "./Record";
 import Status from "./Status";
 import DemoInfo from "./Demo/DemoInfo";
 import { checkOeciRedirect } from "../../service/cookie-service";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
   demo: boolean;
@@ -52,7 +52,6 @@ class RecordSearch extends Component<Props> {
               <Link
                 className="link hover-blue underline"
                 to="/manual#assumption1"
-                onClick={() => window.scrollTo(0, 0)}
               >
                 Learn more in the Manual
               </Link>
