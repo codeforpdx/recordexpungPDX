@@ -57,18 +57,32 @@ class Landing extends React.Component {
                     </DisclosureButton>
                     <DisclosurePanel>
                       <p className="lh-copy pt3">
-                        Due to ongoing events our partner Qiu-Qiu Law is making all expungement help free to any protesters arrested during this fight. Anyone can register directly to <a href="https://www.qiu-qiulaw.com/register" className="link hover-dark-blue bb">see if you qualify for expungement here</a> and a lawyer will return your inquiry within 48 hours.
+                        Due to ongoing events our partner Qiu-Qiu Law is making
+                        all expungement help free to any protesters arrested
+                        during this fight. Anyone can register directly to{" "}
+                        <a
+                          href="https://www.qiu-qiulaw.com/register"
+                          className="link hover-dark-blue bb"
+                        >
+                          see if you qualify for expungement here
+                        </a>{" "}
+                        and a lawyer will return your inquiry within 48 hours.
                       </p>
                       <p className="lh-copy pt3">
-                        For other communication (to learn more, help out, etc.) you can also contact:
+                        For other communication (to learn more, help out, etc.)
+                        you can also contact:
                         <ul className="ml4 mt2">
                           <li className="mb2">
                             Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
-                            <span className="nowrap">michael@qiu-qiulaw.com</span>
+                            <span className="nowrap">
+                              michael@qiu-qiulaw.com
+                            </span>
                           </li>
                           <li>
                             Jordan Witte, project manager at Code for PDX:{" "}
-                            <span className="nowrap">jordan.witte@codeforpdx.org</span>
+                            <span className="nowrap">
+                              jordan.witte@codeforpdx.org
+                            </span>
                           </li>
                         </ul>
                       </p>
@@ -91,22 +105,24 @@ class Landing extends React.Component {
                     tool?
                   </h2>
                   <p className="tc center mw7 mb2">
-                    We only ask that you provide your contact details and obtain an OECI account.
+                    We only ask that you provide your contact details and obtain
+                    an OECI account.
                   </p>
                   <p className="tc center mw7 fw7 mb3">
                     You can now demo the tool without OECI access!
                   </p>
                   <div className="tc mb6">
-                    <a
+                    <Link
                       className="inline-flex items-center f3 blue hover-dark-blue fw7"
-                      href="/partner-interest"
+                      to="/demo-record-search"
+                      onClick={() => window.scrollTo(0, 0)}
                     >
                       <span>Check it out</span>
                       <span
                         className="fas fa-arrow-right lh-solid pt1 pl2"
                         aria-hidden="true"
                       ></span>
-                    </a>
+                    </Link>
                   </div>
                   {/*
                   <span className="db w4 center bb bw2 b--blue mb3"></span>
@@ -137,7 +153,7 @@ class Landing extends React.Component {
                   >
                     Qiu-Qiu Law
                   </a>{" "}
-                  have developed and continue to improve analytical software to 
+                  have developed and continue to improve analytical software to
                   help expungement providers quickly determine which items on an
                   applicant's record are eligible for expungement.
                 </p>
@@ -349,14 +365,15 @@ class Landing extends React.Component {
                   </p>
                   <p className="lh-copy mb5">
                     And so we created RecordSponge to greatly increase access to
-                    expungement by automating the legal analysis. We are seeking 
+                    expungement by automating the legal analysis. We are seeking
                     more partners to administer RecordSponge,{" "}
-                    <a
+                    <Link
                       className="link hover-dark-blue bb"
-                      href="/partner-interest"
+                      to="/partner-interest"
+                      onClick={() => window.scrollTo(0, 0)}
                     >
                       learn more
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>
