@@ -4,6 +4,7 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@reach/disclosure";
+import { HashLink as Link } from "react-router-hash-link";
 
 class PartnerTable extends React.Component<{}, any> {
   constructor(props: any) {
@@ -109,7 +110,11 @@ class PartnerTable extends React.Component<{}, any> {
         name: "Signs of Hope",
         area: "Medford",
         instructions: "Contact",
-        contacts: ["Sarah Kolb", "medfordexpungementclinic@gmail.com", "541-778-4473"],
+        contacts: [
+          "Sarah Kolb",
+          "medfordexpungementclinic@gmail.com",
+          "541-778-4473",
+        ],
         website: "https://www.facebook.com/Ruraloregonexpungement",
       },
       {
@@ -161,10 +166,11 @@ class PartnerTable extends React.Component<{}, any> {
                 ))}
               </ul>
               <p className="mw6 lh-copy mb3">
-                The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.{" "}
-                <a className="link hover-blue bb" href="/manual#filepaperwork">
+                The majority of court fees are subject to waiver for
+                income-qualified individuals who complete the waiver form.{" "}
+                <Link className="link hover-blue bb" to="/manual#filepaperwork">
                   Learn More
-                </a>
+                </Link>
               </p>
               <hr className="bt b--black-05 mb3" />
               <p className="fw6 mb3">{partner.instructions}</p>
