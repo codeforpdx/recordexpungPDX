@@ -108,12 +108,14 @@ class Landing extends React.Component {
                       ></span>
                     </a>
                   </div>
+                  {/*
                   <span className="db w4 center bb bw2 b--blue mb3"></span>
                   <p className="mw7 tc f4 f3-ns fw6 center mb3">
                     “RecordSponge has enabled me to help five times as many
                     people clear their record.”
                   </p>
                   <p className="mw7 tc center">Jane Doe, Signs of Hope</p>
+                  */}
                 </div>
               </div>
             </div>
