@@ -114,24 +114,54 @@ class Landing extends React.Component {
                   <div className="tc mb6">
                     <Link
                       className="inline-flex items-center f3 blue hover-dark-blue fw7"
-                      to="/demo-record-search"
+                      to="/partner-interest"
                       onClick={() => window.scrollTo(0, 0)}
                     >
-                      <span>Check it out</span>
+                      <span>Learn More</span>
                       <span
                         className="fas fa-arrow-right lh-solid pt1 pl2"
                         aria-hidden="true"
                       ></span>
                     </Link>
                   </div>
-                  {/*
-                  <span className="db w4 center bb bw2 b--blue mb3"></span>
-                  <p className="mw7 tc f4 f3-ns fw6 center mb3">
-                    “RecordSponge has enabled me to help five times as many
-                    people clear their record.”
-                  </p>
-                  <p className="mw7 tc center">Jane Doe, Signs of Hope</p>
-                  */}
+
+                  <blockquote>
+                    <div className="center tc f3 mb1">
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                    </div>
+                    <p className="mw7 lh-copy tc center mb3">
+                      Having performed expungement analysis both with and without the assistance of RecordSponge, I know that this program vastly decreases the time needed to perform expungement analysis, and vastly increases the number of people we can assist with expungements.
+                    </p>
+                    <footer className="mw7 tc center fw6 f5-ns mb5">
+                      Leni Tupper, Portland Community College CLEAR Clinic
+                    </footer>
+                  </blockquote>
+
+                  <blockquote>
+                    <div className="center tc f3 mb1">
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                    </div>
+                    <p className="mw7 lh-copy tc center mb3">
+                      RecordSponge levels the playing field. It has been inspiring to see people fully return to our community as their records are expunged – Michael and his team have a heart for people, a knowledge of the system, and a solution that works in RecordSponge.
+                    </p>
+                    <footer className="mw7 tc center fw6 f5-ns mb5">
+                      Eric Guyer, Jackson County Community Justice Director
+                    </footer>
+                  </blockquote>
+
+
+                  <blockquote>
+                    <div className="center tc f3 mb1">
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                    </div>
+                    <p className="mw6 lh-copy tc center mb3">
+                      I love that I can just pull my phone out and tell someone whether they can get their record expunged.
+                    </p>
+                    <footer className="mw7 tc center fw6 f5-ns mb5">
+                      Sarah Kolb, Signs of Hope
+                    </footer>
+                  </blockquote>
+
                 </div>
               </div>
             </div>

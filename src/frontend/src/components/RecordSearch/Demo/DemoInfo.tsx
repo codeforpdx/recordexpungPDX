@@ -168,7 +168,7 @@ export default class DemoInfo extends React.Component {
     ];
     return (
       <article className="lh-copy">
-        <div className="bg-gray-blue-2 shadow mv4 pv4 ph4 ph5-l br3">
+        <div className="bg-white shadow bl bw3 b--blue mv4 pv4 ph4 ph5-l br3">
           <h1 className="f3 fw9 ma0 mb2">App Demo</h1>
           <p className="mw7 mb3">
             This demo provides example records that demonstrate the complex
@@ -206,7 +206,7 @@ export default class DemoInfo extends React.Component {
           <div>
             {examples.map((examples: any) => (
               <div>
-                <h2 className="fw9 bt bw1 b--white pt2 mb3">{examples.name}</h2>
+                <h2 className="fw9 bt b--light-gray pt2 mb3">{examples.name}</h2>
                 <div className="mw7 mb4">{examples.info}</div>
               </div>
             ))}
