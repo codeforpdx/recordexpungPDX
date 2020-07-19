@@ -165,9 +165,9 @@ class Manual extends React.Component {
               <p className="mb3">
                 We ask anyone using the software to be in touch so that we can
                 better maintain, scale, and improve our work and community.{" "}
-                <a href="http://eepurl.com/g6N3Bn" className="bb hover-blue">
+                <Link className="bb hover-blue" to="/partner-interest">
                   Please complete this contact form
-                </a>
+                </Link>
                 .
               </p>
               <ol className="ml4">
@@ -184,6 +184,13 @@ class Manual extends React.Component {
                         You can purchase a subscription here
                       </a>
                       .
+                    </li>
+                    <li className="mb2">
+                      No OECI account yet?{" "}
+                      <Link className="bb hover-blue" to="/demo-record-search">
+                        Check out our demo
+                      </Link>
+                        .
                     </li>
                     <li className="mb2">
                       Go to{" "}
