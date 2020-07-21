@@ -24,6 +24,7 @@ export interface CaseData {
   charges: ChargeData[];
   citation_number: string;
   current_status: string;
+  district_attorney_number: string;
   edit_status: string;
   date: string;
   location: string;

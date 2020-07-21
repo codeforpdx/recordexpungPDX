@@ -42,6 +42,7 @@ class Record extends React.Component<Props, State> {
       location: "",
       name: "",
       violation_type: "",
+      district_attorney_number: "",
       edit_status: "ADD",
     };
   }
