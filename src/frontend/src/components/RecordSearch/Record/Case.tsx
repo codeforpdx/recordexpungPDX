@@ -119,9 +119,11 @@ export default class Case extends React.Component<Props, State> {
               </div>
               <div className="ch3 fl ph3 pv1">
                 <div className="fw7">Distr Atty</div>
-                <span className="break-all">
-                  {district_attorney_number}
-                </span>
+                {district_attorney_number ? (
+                  <span className="break-all">{district_attorney_number}</span>
+                ) : (
+                  "-"
+                )}
               </div>
               <div className="ch4 fl ph3 pv1">
                 <div className="fw7">County </div>
@@ -131,7 +133,7 @@ export default class Case extends React.Component<Props, State> {
                 <div className="fw7">Balance </div>
                 {currencyFormat(balance_due)}
               </div>
-              
+
               <div className="ch6 fl ph3 pv1">
                 <div className="fw7">Name </div>
                 {name}
