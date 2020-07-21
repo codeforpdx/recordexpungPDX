@@ -20,7 +20,7 @@ interface State {
   zipCode: string;
 }
 
-class UserForm extends React.Component<Props, State> {
+class UserDataForm extends React.Component<Props, State> {
   private buildName = () => {
     if (this.props.aliases.length > 0) {
       const firstAlias = this.props.aliases[0];
@@ -205,5 +205,5 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export default connect(mapStateToProps, { downloadExpungementPacket })(
-  UserForm
+  UserDataForm
 );

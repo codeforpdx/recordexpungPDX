@@ -12,7 +12,7 @@ import Manual from "../Manual";
 import Faq from "../Faq";
 import Appendix from "../Appendix";
 import PrivacyPolicy from "../PrivacyPolicy";
-import UserForm from "../FormFilling";
+import FillForms from "../FillForms";
 import PartnerInterest from "../PartnerInterest";
 
 class App extends React.Component {
@@ -30,7 +30,7 @@ class App extends React.Component {
           <Route component={Faq} path="/faq" />
           <Route component={Appendix} path="/appendix" />
           <Route component={PrivacyPolicy} path="/privacy-policy" />
-          <Route component={UserForm} path="/fill-expungement-forms" />
+          <Route component={FillForms} path="/fill-expungement-forms" />
           <Route component={PartnerInterest} path="/partner-interest" />
           <Route render={this.redirect} />
         </Switch>
