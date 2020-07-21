@@ -198,12 +198,25 @@ class FormFilling(MethodView):
 
     @staticmethod
     def _set_font(field, field_value):
-        font_size = 6 if len(field_value) > 35 else 8
-        font_string = f"/TimesNewRoman  {font_size} Tf 0 g"
-        field.DA = font_string
         if field["/Kids"]:
             for kid in field["/Kids"]:
+                font_string = FormFilling._build_font_string(kid, field_value)
                 kid.DA = font_string
+        else:
+            font_string = FormFilling._build_font_string(field, field_value)
+            field.DA = font_string
+
+    @staticmethod
+    def _build_font_string(field, field_value):
+        max_length = FormFilling._compute_field_max_length(field)
+        font_size = 6 if len(field_value) > max_length else 8
+        return f"/TimesNewRoman  {font_size} Tf 0 g"
+
+    @staticmethod
+    def _compute_field_max_length(field):
+        CHARACTER_WIDTH = 0.25  # Times New Roman size 8
+        width = float(field.Rect[2]) - float(field.Rect[0])
+        return int(width * CHARACTER_WIDTH)
 
     @staticmethod
     def _build_six_charges(charges: List[Charge]):
