@@ -25,15 +25,16 @@ export default class FillForms extends React.Component<Props, State> {
               <h1 className="f2 fw9 mb3 mt4">Generate Expungement Forms</h1>
 
               <p className="mb2">
-                This will fill and download the required pdf paperwork forms for
-                all cases that have charges eligible for expungement.
+                This will fill and download the required paperwork forms as PDF
+                files for all cases that have charges eligible for expungement.
               </p>
 
               <p className="mb2">
                 On this page, you may optionally provide the person's name,
                 address, and other information and it will be used to populate
                 the forms. It is not required if you would prefer to fill out
-                the information later. We do not save any of the information.
+                the information later, and we do not save any of this
+                information.
               </p>
 
               <p className="mb2">
@@ -83,14 +84,14 @@ export default class FillForms extends React.Component<Props, State> {
 
               <p className="mb2">
                 Some other counties also require their own paperwork forms but
-                are not yet supported in our software. This Generate Paperwork
-                feature will automatically fill the stock expungement forms for
-                any of the counties not listed above.
+                are not yet supported in our software. This feature will
+                generate the stock expungement forms for any of the counties not
+                listed above.
               </p>
 
               <p className="mb2">
                 Please read the complete instructions in the manual for filing
-                the required forms for expungement. After downloading the pdfs,
+                the required forms for expungement. After downloading the PDFs,
                 review their contents to verify that all the required
                 information is present and correct.
               </p>
