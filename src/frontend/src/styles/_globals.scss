@@ -112,38 +112,45 @@ fieldset {
 
 .ch1 {
   width: 11rem;
-  @media screen and (min-width: 50em) {
+  @media screen and (min-width: 58.5em) {
     width: 7.5rem;
   }
 }
 .ch2 {
-  @media screen and (min-width: 50em) {
+  @media screen and (min-width: 58.5em) {
     width: 5.5rem;
   }
 }
 .ch3 {
   width: 11rem;
   clear: left;
-  @media screen and (min-width: 50em) {
+  @media screen and (min-width: 58.5em) {
     width: 8rem;
     clear: none;
   }
 }
 .ch4 {
-  @media screen and (min-width: 50em) {
-    width: 6.5rem;
+  width: 11rem;
+  @media screen and (min-width: 58.5em) {
+    width: 8rem;
   }
 }
 .ch5 {
   width: 11rem;
   clear: left;
-  @media screen and (min-width: 50em) {
-    width: 12rem;
+  @media screen and (min-width: 58.5em) {
+    width: 6.5rem;
     clear: none;
   }
 }
 .ch6 {
-  @media screen and (min-width: 50em) {
+  width: 11rem;
+  @media screen and (min-width: 58.5em) {
+    width: 12rem;
+  }
+}
+.ch7 {
+  @media screen and (min-width: 58.5em) {
     width: 5.5rem;
   }
 }
