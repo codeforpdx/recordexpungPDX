@@ -81,6 +81,7 @@ export default class Case extends React.Component<Props, State> {
       charges,
       location,
       current_status,
+      district_attorney_number,
       edit_status,
     } = this.props.case;
     const allIneligible = charges.every(
@@ -115,6 +116,10 @@ export default class Case extends React.Component<Props, State> {
               <div className="ch2 fl ph3 pv1">
                 <div className="fw7">Status </div>
                 {current_status}
+              </div>
+              <div className="ch2 fl ph3 pv1">
+                <div className="fw7">Distr Atty</div>
+                {district_attorney_number}
               </div>
               <div className="ch3 fl ph3 pv1">
                 <div className="fw7">County </div>
