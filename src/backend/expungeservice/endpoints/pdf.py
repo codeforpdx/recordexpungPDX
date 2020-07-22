@@ -58,7 +58,9 @@ class FormData:
 
     arrest_dates_all: str
     charges_all: str
-    dispositions: str
+
+    eligible_arrest_dates_all: str
+    eligible_charges_all: str
 
     dismissed_charges: str
     dismissed_arrest_dates: str
@@ -67,6 +69,8 @@ class FormData:
     conviction_charges: str
     conviction_arrest_dates: str
     conviction_dates: str
+
+    dispositions: str
 
     defendant_name: str
     county: str
@@ -150,6 +154,9 @@ class FormFilling(MethodView):
 
     @staticmethod
     def _build_pdf_for_eligible_case(case, eligible_charges, user_information, case_number_with_comments):
+        charges = case.charges
+        charge_names = [charge.name.title() for charge in charges]
+        arrest_dates_all = list(set([charge.date.strftime("%b %-d, %Y") for charge in charges]))
         dismissals, convictions = Expunger._categorize_charges(eligible_charges)
         dismissed_names = [charge.name.title() for charge in dismissals]
         dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
@@ -157,8 +164,8 @@ class FormFilling(MethodView):
         conviction_names = [charge.name.title() for charge in convictions]
         conviction_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in convictions]))
         conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
-        arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
-        charge_names = dismissed_names + conviction_names
+        eligible_arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
+        eligible_charge_names = dismissed_names + conviction_names
         dispositions = ", ".join(dismissed_names) + " - Dismissed; " + ", ".join(conviction_names) + " - Convicted"
         form_data_dict = {
             **user_information,
@@ -169,6 +176,8 @@ class FormFilling(MethodView):
             "arresting_agency": "",
             "arrest_dates_all": "; ".join(arrest_dates_all),
             "charges_all": "; ".join(charge_names),
+            "eligible_arrest_dates_all": "; ".join(eligible_arrest_dates_all),
+            "eligible_charges_all": "; ".join(eligible_charge_names),
             "dispositions": dispositions,
             "dismissed_charges": "; ".join(dismissed_names),
             "dismissed_arrest_dates": "; ".join(dismissed_arrest_dates),
@@ -198,12 +207,25 @@ class FormFilling(MethodView):
 
     @staticmethod
     def _set_font(field, field_value):
-        font_size = 6 if len(field_value) > 35 else 8
-        font_string = f"/TimesNewRoman  {font_size} Tf 0 g"
-        field.DA = font_string
         if field["/Kids"]:
             for kid in field["/Kids"]:
+                font_string = FormFilling._build_font_string(kid, field_value)
                 kid.DA = font_string
+        else:
+            font_string = FormFilling._build_font_string(field, field_value)
+            field.DA = font_string
+
+    @staticmethod
+    def _build_font_string(field, field_value):
+        max_length = FormFilling._compute_field_max_length(field)
+        font_size = 6 if len(field_value) > max_length else 8
+        return f"/TimesNewRoman  {font_size} Tf 0 g"
+
+    @staticmethod
+    def _compute_field_max_length(field):
+        CHARACTER_WIDTH = 0.25  # Times New Roman size 8
+        width = float(field.Rect[2]) - float(field.Rect[0])
+        return int(width * CHARACTER_WIDTH)
 
     @staticmethod
     def _build_six_charges(charges: List[Charge]):
