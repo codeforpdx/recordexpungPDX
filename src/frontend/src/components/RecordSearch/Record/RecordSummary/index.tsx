@@ -50,13 +50,14 @@ class RecordSummary extends React.Component<Props, State> {
         <div className="flex flex-wrap justify-end">
           <h2 className="mv3 mr-auto f5 fw7">Search Summary</h2>
           {this.state.cantGenerateForms && (
-            <span className="bg-washed-red mv2 pa1 pt2 br3 fw6">
+            <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
               There must be eligible charges to generate paperwork.{" "}
               <button
                 onClick={() => {
                   this.setState({ cantGenerateForms: false });
                 }}
               >
+                <span className="visually-hidden">Close</span>
                 <i aria-hidden="true" className="fas fa-times-circle gray"></i>
               </button>
             </span>

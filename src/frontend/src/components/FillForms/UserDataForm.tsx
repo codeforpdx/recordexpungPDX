@@ -86,13 +86,13 @@ class UserDataForm extends React.Component<Props, State> {
   public render() {
     return (
       <>
-        <main className="mw6 ph2 center">
-          <section className="cf mt4 mb3 pa3 pa4-l bg-white shadow br3">
-            <h1 className="mb4 f4 fw6">User Information</h1>
+        <main className="mw6">
+          <section className="cf pa3 pa4-ns bg-white shadow br3">
+            <h1 className="f4 fw7 mt0 mb4">User Information</h1>
             <form onSubmit={this.handleSubmit} noValidate={true}>
               <legend className="visually-hidden">User Information</legend>
               <div className="mb4">
-                <label htmlFor="name" className="db mb2 fw6">
+                <label htmlFor="name" className="db mb1 fw6">
                   Full Name
                 </label>
                 <input
@@ -106,7 +106,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="dob" className="db mb2 fw6">
+                <label htmlFor="dob" className="db mb1 fw6">
                   Date of Birth
                 </label>
                 <input
@@ -120,7 +120,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="mailingAddress" className="db mb2 fw6">
+                <label htmlFor="mailingAddress" className="db mb1 fw6">
                   Mailing Address
                 </label>
                 <input
@@ -134,7 +134,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="phoneNumber" className="db mb2 fw6">
+                <label htmlFor="phoneNumber" className="db mb1 fw6">
                   Phone Number
                 </label>
                 <input
@@ -148,7 +148,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="city" className="db mb2 fw6">
+                <label htmlFor="city" className="db mb1 fw6">
                   City
                 </label>
                 <input
@@ -162,7 +162,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="state" className="db mb2 fw6">
+                <label htmlFor="state" className="db mb1 fw6">
                   State
                 </label>
                 <input
@@ -176,7 +176,7 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="zipCode" className="db mb2 fw6">
+                <label htmlFor="zipCode" className="db mb1 fw6">
                   Zip code
                 </label>
                 <input

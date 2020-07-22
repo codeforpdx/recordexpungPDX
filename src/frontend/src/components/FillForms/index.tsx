@@ -13,23 +13,17 @@ interface State {}
 export default class FillForms extends React.Component<Props, State> {
   public render() {
     return (
-      <main className="flex-l f6 f5-l">
-        <div className="w-50-l pt5 pb5 pb7-l pr3-l">
-          <div className="mw6 center mr0-l ml-auto-l">
-            <section className=" lh-copy mh2 ph5-l">
-              {/*      <main className="center flex-l f6 f5-l pl4">
-          <div className=" center w-50-l pt5 pb5 pb7-l ">
-        <div className="mw6">
-              <section className="lh-copy">
-            */}
-              <h1 className="f2 fw9 mb3 mt4">Generate Expungement Forms</h1>
-
-              <p className="mb2">
+      <main className="mw8 center f6 f5-l ph3 pt4 pb6">
+        <h1 className="f3 f2-l fw9 mb4">Generate Expungement Forms</h1>
+        <div className="flex-l pt2">
+          <div className="w-50-l pr4-l mb4">
+            <section className="mw6 lh-copy">
+              <p className="mb3">
                 This will fill and download the required paperwork forms as PDF
                 files for all cases that have charges eligible for expungement.
               </p>
 
-              <p className="mb2">
+              <p className="mb3">
                 On this page, you may optionally provide the person's name,
                 address, and other information and it will be used to populate
                 the forms. It is not required if you would prefer to fill out
@@ -41,7 +35,7 @@ export default class FillForms extends React.Component<Props, State> {
                 The following required information is obtained from OECI and
                 will be provided in the form:
               </p>
-              <ol className="mb2 pl3">
+              <ol className="pl4 mb3">
                 <li>Case number</li>
                 <li>Names of charges</li>
                 <li>Dates of arrest</li>
@@ -52,16 +46,23 @@ export default class FillForms extends React.Component<Props, State> {
                 The following information might be missing from OECI. If it's
                 available, it will be provided in the form. If it is not present
                 in OECI, some of the information may or may not be required in
-                the application; please consult the manual.
+                the application; please consult the{" "}
+                <a
+                  href="/manual#file"
+                  className="link hover-dark-blue bb"
+                >
+                  Manual
+                </a>
+                .
               </p>
-              <ol className="pl3 mb2">
+              <ol className="pl4 mb3">
                 <li>Arresting Agency</li>
                 <li>DA Number</li>
               </ol>
 
-              <p className="mb2">
+              <p className="mb3">
                 The form that is filled out for each case is selected based on
-                the COUNTY information for that case.
+                the <strong>County</strong> information for that case.
               </p>
 
               <p className="mb2">
@@ -69,7 +70,7 @@ export default class FillForms extends React.Component<Props, State> {
                 expungement. Currently, RecordSponge supports automatic
                 form-filling for the following counties:
               </p>
-              <ol className="mb2 pl3">
+              <ol className="pl4 mb3">
                 <li>Multnomah</li>
                 <li>Jackson</li>
                 <li>Clackamas</li>
@@ -82,28 +83,34 @@ export default class FillForms extends React.Component<Props, State> {
                 <li>Josephine</li>
               </ol>
 
-              <p className="mb2">
+              <p className="mb3">
                 Some other counties also require their own paperwork forms but
                 are not yet supported in our software. This feature will
                 generate the stock expungement forms for any of the counties not
                 listed above.
               </p>
 
-              <p className="mb2">
-                Please read the complete instructions in the manual for filing
-                the required forms for expungement. After downloading the PDFs,
-                review their contents to verify that all the required
-                information is present and correct.
+              <p className="mb3">
+                Please read the complete instructions in the{" "}
+                <a
+                  href="/manual#file"
+                  className="link hover-dark-blue bb"
+                >
+                  Manual
+                </a> 
+                {" "}for filing the required forms for expungement. After 
+                downloading the PDFs, review their contents to verify that all 
+                the required information is present and correct.
               </p>
             </section>
           </div>
-        </div>
 
-        <div className="w-50-l pt4 pt5-l pb5 ph4 ph6-l">
-          <div className="mw6">
-            <section className="lh-copy">
-              <UserDataForm />
-            </section>
+          <div className="w-50-l pl4-l">
+            <div className="mw6">
+              <section className="lh-copy">
+                <UserDataForm />
+              </section>
+            </div>
           </div>
         </div>
       </main>
