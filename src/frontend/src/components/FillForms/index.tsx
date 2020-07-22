@@ -3,6 +3,7 @@ import history from "../../service/history";
 import { downloadExpungementPacket } from "../../redux/search/actions";
 import UserDataForm from "./UserDataForm";
 import { connect } from "react-redux";
+import { HashLink as Link } from "react-router-hash-link";
 import { AppState } from "../../redux/store";
 import { AliasData } from "../RecordSearch/SearchPanel/types";
 
@@ -47,12 +48,9 @@ export default class FillForms extends React.Component<Props, State> {
                 available, it will be provided in the form. If it is not present
                 in OECI, some of the information may or may not be required in
                 the application; please consult the{" "}
-                <a
-                  href="/manual#file"
-                  className="link hover-dark-blue bb"
-                >
+                <Link to="/manual#file" className="link hover-dark-blue bb">
                   Manual
-                </a>
+                </Link>
                 .
               </p>
               <ol className="pl4 mb3">
@@ -92,15 +90,12 @@ export default class FillForms extends React.Component<Props, State> {
 
               <p className="mb3">
                 Please read the complete instructions in the{" "}
-                <a
-                  href="/manual#file"
-                  className="link hover-dark-blue bb"
-                >
+                <Link to="/manual#file" className="link hover-dark-blue bb">
                   Manual
-                </a> 
-                {" "}for filing the required forms for expungement. After 
-                downloading the PDFs, review their contents to verify that all 
-                the required information is present and correct.
+                </Link>{" "}
+                for filing the required forms for expungement. After downloading
+                the PDFs, review their contents to verify that all the required
+                information is present and correct.
               </p>
             </section>
           </div>

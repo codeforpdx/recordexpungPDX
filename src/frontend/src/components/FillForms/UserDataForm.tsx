@@ -121,7 +121,7 @@ class UserDataForm extends React.Component<Props, State> {
               </div>
               <div className="mb4">
                 <label htmlFor="mailingAddress" className="db mb1 fw6">
-                  Mailing Address
+                  Mailing Street Address
                 </label>
                 <input
                   id="mailingAddress"
@@ -131,20 +131,6 @@ class UserDataForm extends React.Component<Props, State> {
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
                   value={this.state.mailingAddress}
-                />
-              </div>
-              <div className="mb4">
-                <label htmlFor="phoneNumber" className="db mb1 fw6">
-                  Phone Number
-                </label>
-                <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="text"
-                  required={true}
-                  className="w-100 pa3 br2 b--black-20"
-                  onChange={this.handleChange}
-                  value={this.state.phoneNumber}
                 />
               </div>
               <div className="mb4">
@@ -187,6 +173,20 @@ class UserDataForm extends React.Component<Props, State> {
                   className="w-100 pa3 br2 b--black-20"
                   onChange={this.handleChange}
                   value={this.state.zipCode}
+                />
+              </div>
+              <div className="mb4">
+                <label htmlFor="phoneNumber" className="db mb1 fw6">
+                  Phone Number
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="text"
+                  required={true}
+                  className="w-100 pa3 br2 b--black-20"
+                  onChange={this.handleChange}
+                  value={this.state.phoneNumber}
                 />
               </div>
               <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc">
