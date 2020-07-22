@@ -58,6 +58,7 @@ class FormData:
 
     arrest_dates_all: str
     charges_all: str
+    dispositions: str
 
     dismissed_charges: str
     dismissed_arrest_dates: str
@@ -158,6 +159,7 @@ class FormFilling(MethodView):
         conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
         arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
         charge_names = dismissed_names + conviction_names
+        dispositions = ", ".join(dismissed_names) + " - Dismissed; " + ", ".join(conviction_names) + " - Convicted"
         form_data_dict = {
             **user_information,
             "case_name": case.summary.name,
@@ -167,6 +169,7 @@ class FormFilling(MethodView):
             "arresting_agency": "",
             "arrest_dates_all": "; ".join(arrest_dates_all),
             "charges_all": "; ".join(charge_names),
+            "dispositions": dispositions,
             "dismissed_charges": "; ".join(dismissed_names),
             "dismissed_arrest_dates": "; ".join(dismissed_arrest_dates),
             "dismissed_dates": "; ".join(dismissed_dates),
