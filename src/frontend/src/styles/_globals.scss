@@ -79,6 +79,11 @@ $washed-red: #f0e0e8;
   background-color: $gray-blue-2;
 }
 
+:focus,
+.link:focus {
+  outline-color: $blue;
+}
+
 .shadow-case {
   box-shadow: 0 -2px 3px 0 rgba(59, 86, 73, 0.1);
 }
