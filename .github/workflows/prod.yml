@@ -5,7 +5,7 @@ on:
     types: [created]
   push:
     branches:
-      - refs/release/tag/v*
+      - refs/releases/tag/v*
 
 # Copied from staging.yml.
 # GitHub does not support sharing steps between workflows yet.
