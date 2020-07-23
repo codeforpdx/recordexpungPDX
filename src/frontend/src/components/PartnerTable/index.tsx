@@ -27,7 +27,7 @@ class PartnerTable extends React.Component<{}, any> {
         area: "Northeast Portland",
         instructions: "Contact",
         contacts: ["Leni Tupper"],
-        website: "https://www.pcc.edu/programs/paralegal",
+        website: "https://www.pcc.edu/clear-clinic/services/",
       },
       {
         details: [
