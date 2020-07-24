@@ -45,7 +45,7 @@ class Pdf(MethodView):
 class FormData:
     case_name: str
     case_number: str
-    case_number_with_comments: str  # Only for Clackamas county so far
+    case_number_with_comments: str  # For Clackamas and Lincoln county
     da_number: str
     full_name: str
     date_of_birth: str
@@ -268,6 +268,9 @@ class FormFilling(MethodView):
             "yamhill",
             "benton",
             "josephine",
+            "polk",
+            "tillamook",
+            "lincoln",
         ]
         location = case.summary.location.lower()
         if convictions:
