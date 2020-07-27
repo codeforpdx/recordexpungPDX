@@ -23,7 +23,10 @@ class DemoRecords:
             search_results: List[OeciCase] = []
             for alias in aliases:
                 alias_lower = Alias(
-                    alias.first_name.lower(), alias.last_name.lower(), alias.middle_name.lower(), alias.birth_date
+                    alias.first_name.lower().strip(),
+                    alias.last_name.lower().strip(),
+                    alias.middle_name.lower().strip(),
+                    alias.birth_date,
                 )
                 try:
                     alias_search_result = DemoRecords.records.get(alias_lower, [])
@@ -258,6 +261,7 @@ class DemoRecords:
                     data_class=CaseSummary,
                     data={
                         **shared_case_data,
+                        "balance_due_in_cents": 100000,
                         "name": "MULTIPLE CHARGES",
                         "birth_year": 1990,
                         "case_number": "100000",

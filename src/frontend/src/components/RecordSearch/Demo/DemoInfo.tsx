@@ -46,6 +46,11 @@ export default class DemoInfo extends React.Component {
               as a conviction. Searching OECI will also reveal traffic
               violations, which are always ineligible.
             </p>
+            <p>
+              This record also includes a case with an outstanding balance due
+              for fines, which is indicated in both the record summary and on
+              the case itself.
+            </p>
           </div>
         ),
       },
@@ -206,7 +211,9 @@ export default class DemoInfo extends React.Component {
           <div>
             {examples.map((examples: any) => (
               <div>
-                <h2 className="fw9 bt b--light-gray pt2 mb3">{examples.name}</h2>
+                <h2 className="fw9 bt b--light-gray pt2 mb3">
+                  {examples.name}
+                </h2>
                 <div className="mw7 mb4">{examples.info}</div>
               </div>
             ))}
