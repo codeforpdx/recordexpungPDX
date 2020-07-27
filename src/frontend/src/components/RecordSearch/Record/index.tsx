@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { HashLink as Link } from "react-router-hash-link";
 import Cases from "./Cases";
 import Case from "./Case";
 import RecordSummary from "./RecordSummary";
@@ -138,14 +139,25 @@ class Record extends React.Component<Props, State> {
                 </>
               )
             ) : (
-              <button
-                className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
-                onClick={() => {
-                  this.setState({ enableEditing: true });
-                }}
-              >
-                Enable Editing
-              </button>
+              <>
+                <button
+                  className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
+                  onClick={() => {
+                    this.setState({ enableEditing: true });
+                  }}
+                >
+                  Enable Editing
+                </button>{" "}
+                <Link
+                  to="/manual#editing"
+                  className=" gray link hover-blue underline"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="absolute fas fa-question-circle gray bg-white outline-2-white z-1 pt1 pl2"
+                  ></i>
+                </Link>
+              </>
             )}
           </div>
 

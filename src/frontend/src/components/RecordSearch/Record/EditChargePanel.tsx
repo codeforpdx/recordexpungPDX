@@ -1,5 +1,6 @@
 import moment from "moment";
 import React from "react";
+import { HashLink as Link } from "react-router-hash-link";
 import {
   ChargeData,
   CHARGE_TYPES,
@@ -289,7 +290,17 @@ export default class EditChargePanel extends React.Component<Props, State> {
                 className="db mb1 fw6"
               >
                 Charge Type
+                <Link
+                  to="/rules#chargetypes"
+                  className=" gray link hover-blue underline"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="absolute fas fa-question-circle gray bg-white outline-2-white z-1 pt1 pl1 ml2 "
+                  ></i>
+                </Link>
               </label>
+
               <div className="relative mb3">
                 <select
                   id={
