@@ -25,6 +25,19 @@ export default class FillForms extends React.Component<Props, State> {
               </p>
 
               <p className="mb3">
+                It includes cases that have an outstanding balance. These
+                balances must be paid off before filing the paperwork. Consult
+                the section on{" "}
+                <Link
+                  className="link bb hover-dark-blue"
+                  to="/manual#paybalances"
+                >
+                  paying balances
+                </Link>{" "}
+                in the Manual.
+              </p>
+
+              <p className="mb3">
                 On this page, you may optionally provide the person's name,
                 address, and other information and it will be used to populate
                 the forms. It is not required if you would prefer to fill out
