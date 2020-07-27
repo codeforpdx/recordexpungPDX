@@ -134,10 +134,9 @@ class FormFilling(MethodView):
 
     @staticmethod
     def _build_pdf_for_case(case, user_information):
+        charges = [c for c in case.charges if c.edit_status != EditStatus.DELETE]
         ineligible_charges_generator, eligible_charges_generator = partition(
-            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-            and c.edit_status != EditStatus.DELETE,
-            case.charges,
+            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW, charges
         )
         ineligible_charges, eligible_charges = list(ineligible_charges_generator), list(eligible_charges_generator)
         in_part = ", ".join(
