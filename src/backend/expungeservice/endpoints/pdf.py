@@ -172,7 +172,7 @@ class FormFilling(MethodView):
             "case_name": case.summary.name,
             "case_number": case.summary.case_number,
             "case_number_with_comments": case_number_with_comments,
-            "da_number": "",
+            "da_number": case.summary.district_attorney_number,
             "arresting_agency": "",
             "arrest_dates_all": "; ".join(arrest_dates_all),
             "charges_all": "; ".join(charge_names),
