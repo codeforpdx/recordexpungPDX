@@ -7,7 +7,7 @@ from zipfile import ZipFile
 
 from dacite import from_dict
 from expungeservice.expunger import Expunger
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
@@ -135,7 +135,8 @@ class FormFilling(MethodView):
     @staticmethod
     def _build_pdf_for_case(case, user_information):
         ineligible_charges_generator, eligible_charges_generator = partition(
-            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW,
+            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
+            and c.edit_status != EditStatus.DELETE,
             case.charges,
         )
         ineligible_charges, eligible_charges = list(ineligible_charges_generator), list(eligible_charges_generator)
