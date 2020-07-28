@@ -20,11 +20,11 @@ class Landing extends React.Component {
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
             <div className="mw8 center flex-l ph4 pb5 mt5">
-              <h1 className="f3 f2-ns fw9 w-80-l mr5-l mt0 mb3">
+              <h1 className="f3 f2-ns fw9 w-60-l mr2-l mt0 mb3">
                 Making Record <br />
                 Expungement Affordable
               </h1>
-              <p className="f5 lh-title mw6">
+              <p className="f5 w-40-l lh-title mw6">
                 <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
                 RecordSponge is software that helps community organizations
                 quickly analyze an individual’s criminal history to determine if
