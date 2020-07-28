@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
@@ -7,7 +7,7 @@ from zipfile import ZipFile
 
 from dacite import from_dict
 from expungeservice.expunger import Expunger
-from expungeservice.models.charge import Charge
+from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
@@ -123,9 +123,12 @@ class FormFilling(MethodView):
         zip_path = path.join(zip_dir, zip_name)
         zipfile = ZipFile(zip_path, "w")
         for case in record_summary.record.cases:
-            pdf = FormFilling._build_pdf_for_case(case, user_information)
+            case_without_deleted_charges = replace(
+                case, charges=[c for c in case.charges if c.edit_status != EditStatus.DELETE]
+            )
+            pdf = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
             if pdf:
-                file_name = f"{case.summary.name}_{case.summary.case_number}.pdf"
+                file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}.pdf"
                 file_path = path.join(temp_dir, file_name)
                 PdfWriter().write(file_path, pdf)
                 zipfile.write(file_path, file_name)
