@@ -9,7 +9,7 @@ interface Props {
 export default class EditedBadge extends React.Component<Props> {
   render() {
     return (
-      <div className="inline-flex bs2-inset-gray bg-white fw6 br3 ma2  ">
+      <div className="inline-flex relative z-1 bs2-inset-gray bg-white fw6 br3 ma2  ">
         <span className="mid-gray bs2-r-gray pa2">
           {this.props.editStatus === "UPDATE"
             ? "Edited"
