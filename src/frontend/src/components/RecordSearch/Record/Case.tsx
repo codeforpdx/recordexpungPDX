@@ -118,11 +118,11 @@ export default class Case extends React.Component<Props, State> {
                 {current_status}
               </div>
               <div className="ch3 fl ph3 pv1">
-                <div className="fw7">Distr Atty</div>
+                <div className="fw7">DA Number</div>
                 {district_attorney_number ? (
                   <span className="break-all">{district_attorney_number}</span>
                 ) : (
-                  "-"
+                  "–"
                 )}
               </div>
               <div className="ch4 fl ph3 pv1">
@@ -140,7 +140,11 @@ export default class Case extends React.Component<Props, State> {
               </div>
               <div className="ch7 fl ph3 pv1">
                 <div className="fw7">DOB </div>
-                {birth_year}
+                {birth_year ? (
+                  <span>{birth_year}</span>
+                ) : (
+                  "–"
+                )}
               </div>
             </>
           )}
