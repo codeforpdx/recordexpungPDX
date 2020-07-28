@@ -99,7 +99,7 @@ class OeciLogin extends React.Component<State> {
                       </g>
                     </svg>
                     <fieldset>
-                      <legend className="f4 fw6 dib tc pb3">
+                      <legend className="f4 fw6 db center tc pb3">
                         Oregon eCourt Case Information
                       </legend>
                       <p className="tc mb4">
