@@ -1,0 +1,47 @@
+name: deploy to prod
+
+on:
+  release:
+    types: [created]
+  push:
+    tags:
+      - v*
+
+# Copied from staging.yml.
+# GitHub does not support sharing steps between workflows yet.
+jobs:
+  deployment-prod:
+    runs-on: ubuntu-latest
+    env:
+      CI: false
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make rsync git apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io
+      - uses: actions/checkout@v2
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa-bastion
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: |
+            Host recordsponge
+              User github
+              Hostname recordsponge.com
+              IdentityFile ~/.ssh/id_rsa-bastion
+      - uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Deploy to prod
+        run: |
+          cd src/ops
+          make prod
+
