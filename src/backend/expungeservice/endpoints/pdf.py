@@ -277,7 +277,8 @@ class FormFilling(MethodView):
             "tillamook",
             "lincoln",
             "umatilla",
-            "coos"
+            "coos",
+            "baker",
         ]
         location = case.summary.location.lower()
         if convictions:
