@@ -97,63 +97,72 @@ export default class Case extends React.Component<Props, State> {
     return (
       <div
         id={this.props.customElementId || case_number}
-        className="mb3 f6 f5-l"
+        className="f6 f5-l bg-gray-blue-2 shadow br3 pa1 mb4"
       >
-        <div className="cf relative br3 br--top shadow-case pv2 pr5">
+        <div className="cf relative pv2 pr5 pr6-ns">
           {this.props.editing ? null : (
             <>
-              <div className="ch1 fl ph3 pv1">
-                <div className="fw7">Case </div>
-
-                <a
-                  href={prefix + "/api/case_detail_page/" + link_id}
-                  target="_blank"
-                  className="link bb hover-blue"
-                >
-                  {case_number}
-                </a>
-              </div>
-              <div className="ch2 fl ph3 pv1">
-                <div className="fw7">Status </div>
-                {current_status}
-              </div>
-              <div className="ch3 fl ph3 pv1">
-                <div className="fw7">DA Number</div>
-                {district_attorney_number ? (
-                  <span className="break-all">{district_attorney_number}</span>
-                ) : (
-                  "–"
-                )}
-              </div>
-              <div className="ch4 fl ph3 pv1">
-                <div className="fw7">County </div>
-                {location}
-              </div>
-              <div className="ch5 fl ph3 pv1">
-                <div className="fw7">Balance </div>
-                {currencyFormat(balance_due)}
+              <div className="cf mb2">
+                <div className="ch1 fl ph3 pv1">
+                  <div className="fw7">Case</div>
+                  <a
+                    href={prefix + "/api/case_detail_page/" + link_id}
+                    target="_blank"
+                    className="link bb hover-blue"
+                  >
+                    {case_number}
+                  </a>
+                </div>
+                <div className="ch2 fl ph3 pv1">
+                  <div className="fw7">Status</div>
+                  {current_status}
+                </div>
+                <div className="ch3 fl ph3 pv1">
+                  <div className="fw7">DA Number</div>
+                  {district_attorney_number ? (
+                    <span className="break-all">{district_attorney_number}</span>
+                  ) : (
+                    "–"
+                  )}
+                </div>
               </div>
 
-              <div className="ch6 fl ph3 pv1">
-                <div className="fw7">Name </div>
-                {name}
-              </div>
-              <div className="ch7 fl ph3 pv1">
-                <div className="fw7">DOB </div>
-                {birth_year ? (
-                  <span>{birth_year}</span>
-                ) : (
-                  "–"
-                )}
+              <div className="cl">
+                <div className="ch4 fl ph3 pv1">
+                  <div className="fw7">County</div>
+                  {location}
+                </div>
+                <div className="ch5 fl ph3 pv1">
+                  <div className="fw7">Balance</div>
+                  {currencyFormat(balance_due)}
+                </div>
+                <div className="ch6 fl ph3 pv1">
+                  <div className="fw7">DOB</div>
+                  {birth_year ? (
+                    <span>{birth_year}</span>
+                  ) : (
+                    "–"
+                  )}
+                </div>
+                <div className="ch7 fl ph3 pv1">
+                  <div className="fw7">Name</div>
+                  {name ? (
+                    <span>{name}</span>
+                  ) : (
+                    "–"
+                  )}
+                </div>
               </div>
             </>
           )}
           {edit_status === "UNCHANGED" || this.props.editing ? null : (
-            <EditedBadge
-              editStatus={edit_status}
-              onClick={this.handleUndoEditClick}
-              showEditButtons={this.props.showEditButtons}
-            />
+            <div className="absolute top-2 right-0 ph1 pv1">
+              <EditedBadge
+                editStatus={edit_status}
+                onClick={this.handleUndoEditClick}
+                showEditButtons={this.props.showEditButtons}
+              />
+            </div>
           )}
           {this.props.showEditButtons &&
             (!this.state.addingNewCharge ? (

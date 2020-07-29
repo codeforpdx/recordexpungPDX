@@ -84,10 +84,6 @@ $washed-red: #f0e0e8;
   outline-color: $blue;
 }
 
-.shadow-case {
-  box-shadow: 0 -2px 3px 0 rgba(59, 86, 73, 0.1);
-}
-
 // stock shadow too dark
 .shadow {
   box-shadow: 0 0 2px 0 rgba(59, 86, 73, 0.2),
@@ -116,47 +112,45 @@ fieldset {
 // Case header widths
 
 .ch1 {
-  width: 11rem;
+  width: 6rem;
   @media screen and (min-width: 58.5em) {
-    width: 7.5rem;
+    width: 8rem;
   }
 }
 .ch2 {
+  width: 5.5rem;
   @media screen and (min-width: 58.5em) {
-    width: 5.5rem;
+    width: 6.5rem;
   }
 }
 .ch3 {
   width: 11rem;
-  clear: left;
   @media screen and (min-width: 58.5em) {
-    width: 8rem;
-    clear: none;
+    width: 16rem;
   }
 }
 .ch4 {
-  width: 11rem;
+  width: 6rem;
   @media screen and (min-width: 58.5em) {
     width: 8rem;
   }
 }
 .ch5 {
-  width: 11rem;
-  clear: left;
+  width: 5.5rem;
   @media screen and (min-width: 58.5em) {
     width: 6.5rem;
-    clear: none;
   }
 }
 .ch6 {
-  width: 11rem;
-  @media screen and (min-width: 58.5em) {
-    width: 12rem;
+  width: 6rem;
+  @media screen and (min-width: 30em) {
+    width: 5.5rem;
   }
 }
 .ch7 {
+  /*width: 13rem;*/
   @media screen and (min-width: 58.5em) {
-    width: 5.5rem;
+    width: 20rem;
   }
 }
 
@@ -284,22 +278,27 @@ fieldset {
 .connect:after, {
   content: " ";
   position: absolute;
-  left: 8px;
   transform: translate(-50%);
-}
-.connect-time:before {
-  top: -20px;
-  height: 90%;
   width: 2px;
   background-color: #dfe2e8;
 }
-.connect-type:before {
+.connect-result:before {
+  bottom: -6px;
+  height: 25px;
+  left: 24px;
+}
+.connect-time:before {
+  top: 14px;
+  height: 100%;
+  left: 8px;
+}
+/*.connect-type:before {
   top: -116%;
   height: 140%;
   width: 2px;
   background-color: #dfe2e8;
-}
-.connect-type:after {
+}*/
+/*.connect-type:after {
   content: " ";
   position: absolute;
   left: 8px;
@@ -308,7 +307,7 @@ fieldset {
   height: 90%;
   width: 4px;
   background-color: white;
-}
+}*/
 
 .footer-main {
   box-shadow: 0 50vh 0 50vh #ffffff;

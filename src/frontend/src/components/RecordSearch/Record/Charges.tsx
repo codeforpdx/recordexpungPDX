@@ -30,6 +30,6 @@ export default class Charges extends React.Component<Props> {
       );
     });
 
-    return <ul>{charges}</ul>;
+    return <ul className="list">{charges}</ul>;
   }
 }
