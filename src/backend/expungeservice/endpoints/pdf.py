@@ -124,7 +124,7 @@ class FormFilling(MethodView):
         zipfile = ZipFile(zip_path, "w")
         for case in record_summary.record.cases:
             case_without_deleted_charges = replace(
-                case, charges=[c for c in case.charges if c.edit_status != EditStatus.DELETE]
+                case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
             pdf = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
             if pdf:
@@ -169,7 +169,9 @@ class FormFilling(MethodView):
         conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
         eligible_arrest_dates_all = list(set(dismissed_arrest_dates + conviction_arrest_dates))
         eligible_charge_names = dismissed_names + conviction_names
-        dispositions = ", ".join(dismissed_names) + " - Dismissed; " + ", ".join(conviction_names) + " - Convicted"
+        dismissed_dispositions = ", ".join(dismissed_names) + " - Dismissed; " if dismissed_names else ""
+        conviction_dispositions = ", ".join(conviction_names) + " - Convicted" if conviction_names else ""
+        dispositions = dismissed_dispositions + conviction_dispositions
         form_data_dict = {
             **user_information,
             "case_name": case.summary.name,
@@ -275,6 +277,7 @@ class FormFilling(MethodView):
             "tillamook",
             "lincoln",
             "umatilla",
+            "coos"
         ]
         location = case.summary.location.lower()
         if convictions:
