@@ -98,24 +98,29 @@ export default class Charge extends React.Component<Props, State> {
     };
 
     return (
-      <div className="br3 ma2 bg-white" id={ambiguous_charge_id}>
+      <div className="relative br3 bg-white ma2" id={ambiguous_charge_id}>
         {this.props.isNewCharge ? null : (
           <>
             {edit_status !== "DELETE" && (
-              <Eligibility
-                expungement_result={expungement_result}
-                removed={edit_status === "DELETE"}
-              />
+              <div className="relative connect connect-result pr6">
+                <Eligibility
+                  expungement_result={expungement_result}
+                  removed={edit_status === "DELETE"}
+                />
+              </div>
             )}
             {edit_status !== "UNCHANGED" && (
-              <EditedBadge
-                editStatus={edit_status}
-                onClick={this.handleUndoEditClick}
-                showEditButtons={this.props.showEditButtons}
-              />
+              <div className="absolute top-2 right-0 ph1 pv1">
+                <EditedBadge
+                  editStatus={edit_status}
+                  onClick={this.handleUndoEditClick}
+                  showEditButtons={this.props.showEditButtons}
+                />
+              </div>
             )}
-            <div className="dib fr-ns ph2 pv3">
-              {this.props.showEditButtons && (
+            
+            {this.props.showEditButtons && (
+              <div className="absolute top-0 right-0 ph3 pv3">
                 <EditButton
                   actionName="Edit Case"
                   onClick={() => {
@@ -123,18 +128,18 @@ export default class Charge extends React.Component<Props, State> {
                     this.setState({ editing: true });
                   }}
                 />
-              )}
-            </div>
+              </div>
+            )}
 
             <div className="flex-l ph3 pb2">
-              <div className="w-100 w-40-l relative pr3">
+              <div className="w-100 w-40-l relative pr6 pr4-l">
                 {buildRecordTime()}
                 <TypeEligibility
                   type_eligibility={expungement_result.type_eligibility}
                   type_name={type_name}
                 />
               </div>
-              <div className="w-100 w-60-l pr3">
+              <div className="w-100 w-60-l pr3 pr6-l">
                 <ul className="list">
                   <li className="flex mb2">
                     <span className="w6rem shrink-none fw7">Charge</span>
@@ -148,6 +153,7 @@ export default class Charge extends React.Component<Props, State> {
                 </ul>
               </div>
             </div>
+
             <ExpungementRules expungement_rules={expungement_rules} />
           </>
         )}

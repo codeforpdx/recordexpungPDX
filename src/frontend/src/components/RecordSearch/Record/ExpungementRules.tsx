@@ -28,7 +28,7 @@ export default class ExpungementRules extends React.Component<Props, State> {
         <div className="">
           <Disclosure open={this.state.open} onChange={() => toggleOpen()}>
             <DisclosureButton>
-              <span className="flex items-center tracked-tight fw5 mid-gray link hover-blue pb1">
+              <span className="flex items-center fw5 mid-gray link hover-blue pb1">
                 More Info
                 {this.state.open ? (
                   <span aria-hidden="true" className="fas fa-angle-up pt1 pl1"></span>

@@ -31,7 +31,7 @@ export default class Cases extends React.Component<Props> {
     });
 
     return (
-      <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">
+      <div className="mb3">
         <ul className="list">{allCases}</ul>
       </div>
     );
