@@ -280,6 +280,7 @@ class FormFilling(MethodView):
             "coos",
             "baker",
             "curry",
+            "morrow",
         ]
         location = case.summary.location.lower()
         if convictions:
