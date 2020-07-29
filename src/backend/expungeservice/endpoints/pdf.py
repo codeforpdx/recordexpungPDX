@@ -124,7 +124,7 @@ class FormFilling(MethodView):
         zipfile = ZipFile(zip_path, "w")
         for case in record_summary.record.cases:
             case_without_deleted_charges = replace(
-                case, charges=[c for c in case.charges if c.edit_status != EditStatus.DELETE]
+                case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
             pdf = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
             if pdf:
@@ -275,6 +275,7 @@ class FormFilling(MethodView):
             "tillamook",
             "lincoln",
             "umatilla",
+            "coos"
         ]
         location = case.summary.location.lower()
         if convictions:
