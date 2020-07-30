@@ -61,7 +61,7 @@ class RecordMerger:
                     if "open" in charge_eligibility.label.lower():
                         charge_eligibility = replace(
                             charge_eligibility,
-                            label=f"Eligibility Timeframe Dependent On Open Charge: {charge_eligibility.label}",
+                            label=f"Eligibility timeframe dependent on open charge: {charge_eligibility.label}",
                         )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,

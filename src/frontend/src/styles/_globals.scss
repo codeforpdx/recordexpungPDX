@@ -148,7 +148,6 @@ fieldset {
   }
 }
 .ch7 {
-  /*width: 13rem;*/
   @media screen and (min-width: 58.5em) {
     width: 20rem;
   }
@@ -292,22 +291,6 @@ fieldset {
   height: 100%;
   left: 8px;
 }
-/*.connect-type:before {
-  top: -116%;
-  height: 140%;
-  width: 2px;
-  background-color: #dfe2e8;
-}*/
-/*.connect-type:after {
-  content: " ";
-  position: absolute;
-  left: 8px;
-  transform: translate(-50%);
-  bottom: 0;
-  height: 90%;
-  width: 4px;
-  background-color: white;
-}*/
 
 .footer-main {
   box-shadow: 0 50vh 0 50vh #ffffff;
