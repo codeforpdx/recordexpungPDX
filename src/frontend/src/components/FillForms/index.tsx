@@ -76,29 +76,13 @@ export default class FillForms extends React.Component<Props, State> {
                 the <strong>County</strong> information for that case.
               </p>
 
-              <p className="mb2">
-                Many Oregon counties require their own paperwork to file for
-                expungement. Currently, RecordSponge supports automatic
-                form-filling for the following counties:
-              </p>
-              <ol className="pl4 mb3">
-                <li>Multnomah</li>
-                <li>Jackson</li>
-                <li>Clackamas</li>
-                <li>Lane</li>
-                <li>Washington</li>
-                <li>Marion</li>
-                <li>Linn</li>
-                <li>Yamhill</li>
-                <li>Benton</li>
-                <li>Josephine</li>
-              </ol>
-
               <p className="mb3">
-                Some other counties also require their own paperwork forms but
-                are not yet supported in our software. This feature will
-                generate the stock expungement forms for any of the counties not
-                listed above.
+                RecordSponge supports automatic form-filling for all the counties 
+                in our{" "}
+                <Link to="/appendix" className="link hover-dark-blue bb">
+                  appendix
+                </Link>
+                , and will use the Stock Form for those not listed.
               </p>
 
               <p className="mb3">
