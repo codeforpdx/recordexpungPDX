@@ -89,7 +89,7 @@ class DateWithFuture:
             years = DateWithFuture._build_strftime_part(self.relative.years, "year")
             months = DateWithFuture._build_strftime_part(self.relative.months, "month")
             days = DateWithFuture._build_strftime_part(self.relative.days - 1, "day")
-            return years + months + days + " From Conviction Of Open Charge"
+            return years + months + days + " from conviction of open charge"
         else:
             return self.date.strftime(fmt)
 

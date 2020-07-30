@@ -437,19 +437,21 @@ class Manual extends React.Component {
                   being true. Having other cases could push out the eligibility
                   date further.
                 </p>
+                <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
+                  Eligibility timeframe dependent on open charge: 
+                  Eligible Jun 12, 2022 or 10 years from conviction of open charge
+                </div>
+                <p className="mb3">
+                  If there is an open charge, the affected charges will show 
+                  multiple possible eligibity timeframes. Once the open charge 
+                  is closed then the analysis will update. You can edit the 
+                  open charges to see how the eligibility will be affected.
+                </p>
               </div>
               <div className="bg-white shadow pa3">
                 <h4 className="fw7 mb3">Further Analysis Needed</h4>
                 <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly Eligible Now (review)
-                </div>
-                <br />
-                <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly Eligible Mar 11, 2026 (review)
-                </div>
-                <br />
-                <div className="purple bg-washed-purple fw6 pv2 ph3 mb3 dib br3">
-                  Possibly eligible but time analysis is missing
+                  Needs More Analysis
                 </div>
                 <p className="mb3">
                   Sometimes, there is not enough information on the OECI website
