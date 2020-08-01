@@ -296,7 +296,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
                 >
                   <i
                     aria-hidden="true"
-                    className="absolute fas fa-question-circle gray bg-white outline-2-white z-1 pt1 pl1 ml2 "
+                    className="fas fa-question-circle link hover-dark-blue gray pl1"
                   ></i>
                 </Link>
               </label>

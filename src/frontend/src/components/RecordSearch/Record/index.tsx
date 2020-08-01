@@ -154,8 +154,11 @@ class Record extends React.Component<Props, State> {
                 >
                   <i
                     aria-hidden="true"
-                    className="absolute fas fa-question-circle gray bg-white outline-2-white z-1 pt1 pl2"
+                    className="fas fa-question-circle link hover-dark-blue gray"
                   ></i>
+                  <span className="visually-hidden">
+                    Editing Help
+                  </span>
                 </Link>
               </>
             )}

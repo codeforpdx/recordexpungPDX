@@ -466,7 +466,7 @@ class Manual extends React.Component {
                   analysis will update based on those answers.
                 </p>
               </div>
-              <div className="bg-white shadow pa3">
+              <div className="bg-white shadow pa3 mb4">
                 <h4 className="fw7 mb3">Ineligible</h4>
                 <div className="red bg-washed-red fw6 pv2 ph3 mb3 dib br3">
                   Ineligible
@@ -478,14 +478,14 @@ class Manual extends React.Component {
                   conditional on the assumptions.
                 </p>
               </div>
+              <section className="mb4" id="editing">
+                <EditingGuide />
+              </section>
+              <p className="mb3">
+                After producing a complete record analysis and verifying all the
+                information in it is correct, proceed to next steps:
+              </p>
             </section>
-            <section className="mb2" id="editing">
-              <EditingGuide />
-            </section>
-            <p className="bt bw1 b--light-gray pt3 mv3">
-              After producing a complete record analysis and verifying all the
-              information in it is correct, proceed to next steps:
-            </p>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="assumption2">
                 Assumption 2
