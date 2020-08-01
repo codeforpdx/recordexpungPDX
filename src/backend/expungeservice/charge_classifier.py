@@ -289,20 +289,72 @@ class ChargeClassifier:
     def _civil_offense(statute, name):
         statute_range = range(1, 100)
         chapter = ChargeClassifier._build_chapter_for_civil_offense(statute)
-        if chapter:
-            if chapter.isdigit() and int(chapter) in statute_range:
-                return AmbiguousChargeTypeWithQuestion([CivilOffense()])
-        elif statute.isdigit() and int(statute) in statute_range:
+        is_civil_chapter_range = (chapter and chapter.isdigit() and int(chapter) in statute_range) or (
+            statute.isdigit() and int(statute) in statute_range
+        )
+        is_fugitive = "fugitive" in name
+        extradition_states = [
+            "/AL",
+            "/AK",
+            "/AS",
+            "/AZ",
+            "/AR",
+            "/CA",
+            "/CO",
+            "/CT",
+            "/DE",
+            "/DC",
+            "/FL",
+            "/GA",
+            "/GU",
+            "/HI",
+            "/ID",
+            "/IL",
+            "/IN",
+            "/IA",
+            "/KS",
+            "/KY",
+            "/LA",
+            "/ME",
+            "/MD",
+            "/MA",
+            "/MI",
+            "/MN",
+            "/MS",
+            "/MO",
+            "/MT",
+            "/NE",
+            "/NV",
+            "/NH",
+            "/NJ",
+            "/NM",
+            "/NY",
+            "/NC",
+            "/ND",
+            "/MP",
+            "/OH",
+            "/OK",
+            "/OR",
+            "/PA",
+            "/PR",
+            "/RI",
+            "/SC",
+            "/SD",
+            "/TN",
+            "/TX",
+            "/UT",
+            "/VT",
+            "/VI",
+            "/VA",
+            "/WA",
+            "/WV",
+            "/WI",
+            "/WY",
+        ]
+        is_extradition = any([state.lower() == name[-3:] for state in extradition_states])
+        is_contempt_of_court = "contempt of court" in name
+        if is_civil_chapter_range or is_fugitive or is_extradition or is_contempt_of_court:
             return AmbiguousChargeTypeWithQuestion([CivilOffense()])
-        elif "fugitive" in name:
-            return AmbiguousChargeTypeWithQuestion([CivilOffense()])
-        elif "contempt of court" in name:
-            return AmbiguousChargeTypeWithQuestion([CivilOffense()])
-
-    @staticmethod
-    def _criminal_forfeiture(statute):
-        if statute == "131582":
-            return AmbiguousChargeTypeWithQuestion([CriminalForfeiture()])
 
     @staticmethod
     def _build_chapter_for_civil_offense(statute):
@@ -313,6 +365,11 @@ class ChargeClassifier:
             return statute[:2]
         else:
             return None
+
+    @staticmethod
+    def _criminal_forfeiture(statute):
+        if statute == "131582":
+            return AmbiguousChargeTypeWithQuestion([CriminalForfeiture()])
 
     @staticmethod
     def _parking_ticket(violation_type):
