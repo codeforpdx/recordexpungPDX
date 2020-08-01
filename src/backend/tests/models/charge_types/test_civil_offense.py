@@ -33,7 +33,13 @@ def test_fugitive_complaint():
     charge = ChargeFactory.create(
         statute="0", level="N/A", name="Fugitive Complaint", disposition=Dispositions.CONVICTED
     )
+    assert isinstance(charge.charge_type, CivilOffense)
 
+
+def test_extradition():
+    charge = ChargeFactory.create(
+        statute="00000336", level="Felony Unclassified", name="FUG/WA", disposition=Dispositions.DISMISSED
+    )
     assert isinstance(charge.charge_type, CivilOffense)
 
 
