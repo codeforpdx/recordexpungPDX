@@ -559,6 +559,7 @@ class Manual extends React.Component {
               <p className="mb4">
                 After you input the information, RecordSponge will generate a
                 .zip file with PDFs of the expungement paperwork for all of the
+                charges, with one PDF file for each case that has eligible
                 charges.
               </p>
 
@@ -605,12 +606,12 @@ class Manual extends React.Component {
                     </p>
                     <h4 className="fw7 mb2">Conviction versus Arrest</h4>
                     <p className="mb3">
-                      If the Disposition of a case is “Dismissed,” use an Arrest
-                      Form.
+                      If there are no convicted charges in the case, use an
+                      Arrest Form.
                     </p>
                     <p className="mb3">
-                      If the Disposition of a case is “Convicted,” use a
-                      Conviction Form.
+                      If at least one charge has a Disposition of “Convicted,”
+                      use a Conviction Form.
                     </p>
                     <h4 className="fw7 mb2">Fill out the form</h4>
                     <p className="mb3">For each case that is eligible now:</p>

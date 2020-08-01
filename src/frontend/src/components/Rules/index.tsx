@@ -31,9 +31,6 @@ export default class Rules extends React.Component<Props, State> {
         url: "/api/rules",
         method: "get",
       })
-      .catch((error) => {
-        return Promise.reject(error);
-      })
       .then((response: AxiosResponse) => {
         this.setState({ rules: response.data, loaded: true });
       })
