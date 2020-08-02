@@ -254,3 +254,24 @@ def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
             status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2001, 3, 3)
         )
     }
+
+@pytest.fixture
+def record_with_juvenille_and_traffic_charges():
+    return CrawlerFactory.create(
+        JohnDoe.RECORD,
+        {
+            "X0001": CaseDetails.CASE_PARKING_VIOLATION,
+            "CASEJD1": CaseDetails.CASE_MJ_CONVICTION,
+        },
+    )
+
+# FIXME: Unclear to me what the best way to create a minimal test case
+# representing a record that would pass under the old logic but fail under this
+# revised logic
+def test_expunger_for_record_with_non_blocking_other_charges(record_with_mj_over_21):
+    expunger_result = Expunger.run(record_with_mj_over_21)
+    assert expunger_result == {
+        "CASEJD1-1": TimeEligibility(
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2001, 3, 3)
+        )
+    }
