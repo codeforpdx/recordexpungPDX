@@ -127,7 +127,8 @@ def test_needs_more_analysis_mrc_with_single_arrest():
 
     assert expunger_result_b[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
-        expunger_result_b[arrest.ambiguous_charge_id].reason == "Ten years from most recent conviction (137.225(7)(b))"
+        expunger_result_b[arrest.ambiguous_charge_id].reason
+        == f"Ten years from charge in case {eligible_charge.case_number} (most recent conviction) (137.225(7)(b))"
     )
     assert expunger_result_b[arrest.ambiguous_charge_id].date_will_be_eligible == ten_years_from_mrc
 

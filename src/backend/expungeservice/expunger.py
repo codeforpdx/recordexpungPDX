@@ -3,7 +3,7 @@ from dataclasses import replace
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.util import DateWithFuture as date
 from functools import lru_cache
-from typing import Set, List, Tuple, Dict
+from typing import Set, List, Tuple, Dict, Optional
 
 from dateutil.relativedelta import relativedelta
 from more_itertools import padnone, take
@@ -85,10 +85,16 @@ class Expunger:
 
             if most_recent_blocking_conviction:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"
+                recency = "most recent"
+                summary = most_recent_blocking_conviction.case(cases).summary
+
+                if not summary.closed():
+                    recency += "hypothetical"
+
                 eligibility_dates.append(
                     (
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        f"Ten years from most recent {conviction_string} (137.225(7)(b))",
+                        f"Ten years from charge in case {summary.case_number} ({recency} {conviction_string}) (137.225(7)(b))",
                     )
                 )
 
@@ -192,7 +198,7 @@ class Expunger:
             return None
 
     @staticmethod
-    def _most_recent_convictions(recent_convictions):
+    def _most_recent_convictions(recent_convictions) -> Optional[Charge]:
         recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
         newer, older = take(2, padnone(recent_convictions))
         if newer and "violation" in newer.level.lower():

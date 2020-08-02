@@ -113,7 +113,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         assert expunger_result[ten_yr_charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
         assert (
             expunger_result[ten_yr_charge.ambiguous_charge_id].reason
-            == "Ten years from most recent other conviction (137.225(7)(b))"
+            == f"Ten years from charge in case {ten_yr_charge.case_number} (137.225(7)(b))"
         )
         assert (
             expunger_result[ten_yr_charge.ambiguous_charge_id].date_will_be_eligible
@@ -557,7 +557,7 @@ def test_3_violations_are_time_restricted():
     assert expunger_result[violation_charge_1.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
         expunger_result[violation_charge_1.ambiguous_charge_id].reason
-        == "Ten years from most recent other conviction (137.225(7)(b))"
+        == f"Ten years from charge in case {violation_charge_1.case_number} (most recent other conviction) (137.225(7)(b))"
     )
     assert (
         expunger_result[violation_charge_1.ambiguous_charge_id].date_will_be_eligible
@@ -567,7 +567,7 @@ def test_3_violations_are_time_restricted():
     assert expunger_result[violation_charge_2.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
         expunger_result[violation_charge_2.ambiguous_charge_id].reason
-        == "Ten years from most recent other conviction (137.225(7)(b))"
+        == f"Ten years from charge in case {violation_charge_1.case_number} (most recent other conviction) (137.225(7)(b))"
     )
     assert (
         expunger_result[violation_charge_2.ambiguous_charge_id].date_will_be_eligible
@@ -577,7 +577,7 @@ def test_3_violations_are_time_restricted():
     assert expunger_result[violation_charge_3.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
         expunger_result[violation_charge_3.ambiguous_charge_id].reason
-        == "Ten years from most recent other conviction (137.225(7)(b))"
+        == f"Ten years from charge in case {violation_charge_1.case_number} (most recent other conviction) (137.225(7)(b))"
     )
     assert (
         expunger_result[violation_charge_3.ambiguous_charge_id].date_will_be_eligible
