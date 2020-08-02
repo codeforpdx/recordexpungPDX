@@ -276,7 +276,7 @@ class ErrorChecker:
         for charge in charges:
             if charge.charge_type.blocks_other_charges:
                 case_number = f"[{charge.case(cases).summary.case_number}]"
-                if charge.disposition.status == DispositionStatus.UNKNOWN:
+                if charge.disposition.status == DispositionStatus.UNKNOWN and charge.case(cases).summary.closed():
                     cases_with_missing_disposition.add(case_number)
                 elif charge.disposition.status == DispositionStatus.UNRECOGNIZED:
                     cases_with_unrecognized_disposition.add((case_number, charge.disposition.ruling))
