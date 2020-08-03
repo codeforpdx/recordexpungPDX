@@ -37,13 +37,13 @@ class Expunger:
             other_blocking_charges = [c for c in other_charges
                                       if c.charge_type.blocks_other_charges]
 
-            dismisals_all, convictions_all = Expunger._categorize_charges(other_charges)
-            dismissals_blocking, convictions_blocking = Expunger._categorize_charges(other_blocking_charges)
+            dismissals, convictions = Expunger._categorize_charges(other_charges)
+            blocking_dismissals, blocking_convictions = Expunger._categorize_charges(other_blocking_charges)
 
-            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, dismissals_blocking)
-            most_recent_blocking_conviction = Expunger._most_recent_convictions(convictions_blocking)
+            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, blocking_dismissals)
+            most_recent_blocking_conviction = Expunger._most_recent_convictions(blocking_convictions)
 
-            other_convictions_all_traffic = Expunger._are_other_convictions_all_traffic(convictions_all)
+            other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
 
             if charge.convicted():
                 if isinstance(charge.charge_type, MarijuanaUnder21) and other_convictions_all_traffic:
@@ -199,7 +199,7 @@ class Expunger:
             return newer
 
     @staticmethod
-    def _are_other_convictions_all_traffic(convictions):
+    def _is_other_convictions_all_traffic(convictions):
         for charge in convictions:
             if not isinstance(charge.charge_type, TrafficViolation):
                 return False
