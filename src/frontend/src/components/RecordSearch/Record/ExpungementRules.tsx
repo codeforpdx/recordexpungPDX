@@ -5,6 +5,8 @@ import {
   DisclosurePanel,
 } from "@reach/disclosure";
 
+import { buildRule } from "../../Rules/ChargeTypeRule";
+
 interface Props {
   expungement_rules: string;
 }
@@ -31,20 +33,20 @@ export default class ExpungementRules extends React.Component<Props, State> {
               <span className="flex items-center fw5 mid-gray link hover-blue pb1">
                 More Info
                 {this.state.open ? (
-                  <span aria-hidden="true" className="fas fa-angle-up pt1 pl1"></span>
+                  <span
+                    aria-hidden="true"
+                    className="fas fa-angle-up pt1 pl1"
+                  ></span>
                 ) : (
-                  <span aria-hidden="true" className="fas fa-angle-down pt1 pl1"></span>
+                  <span
+                    aria-hidden="true"
+                    className="fas fa-angle-down pt1 pl1"
+                  ></span>
                 )}
               </span>
             </DisclosureButton>
             <DisclosurePanel className="pt2">
-              {rules.split("\n").map((line: string, index: number) => {
-                return (
-                  <div className="lh-copy mb2" key={index}>
-                    {line}
-                  </div>
-                );
-              })}
+              {buildRule(rules)}
             </DisclosurePanel>
           </Disclosure>
         </div>

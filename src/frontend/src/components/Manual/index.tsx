@@ -5,6 +5,7 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@reach/disclosure";
+import EditingGuide from "./EditingGuide";
 
 class Manual extends React.Component {
   render() {
@@ -195,7 +196,7 @@ class Manual extends React.Component {
                       <Link className="bb hover-blue" to="/demo-record-search">
                         Check out our demo
                       </Link>
-                        .
+                      .
                     </li>
                     <li className="mb2">
                       Go to{" "}
@@ -443,14 +444,14 @@ class Manual extends React.Component {
                   date further.
                 </p>
                 <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
-                  Eligibility timeframe dependent on open charge: 
-                  Eligible Jun 12, 2022 or 10 years from conviction of open charge
+                  Eligibility timeframe dependent on open charge: Eligible Jun
+                  12, 2022 or 10 years from conviction of open charge
                 </div>
                 <p className="mb3">
-                  If there is an open charge, the affected charges will show 
-                  multiple possible eligibity timeframes. Once the open charge 
-                  is closed then the analysis will update. You can edit the 
-                  open charges to see how the eligibility will be affected.
+                  If there is an open charge, the affected charges will show
+                  multiple possible eligibity timeframes. Once the open charge
+                  is closed then the analysis will update. You can edit the open
+                  charges to see how the eligibility will be affected.
                 </p>
               </div>
               <div className="bg-white shadow pa3">
@@ -465,7 +466,7 @@ class Manual extends React.Component {
                   analysis will update based on those answers.
                 </p>
               </div>
-              <div className="bg-white shadow pa3">
+              <div className="bg-white shadow pa3 mb4">
                 <h4 className="fw7 mb3">Ineligible</h4>
                 <div className="red bg-washed-red fw6 pv2 ph3 mb3 dib br3">
                   Ineligible
@@ -477,6 +478,13 @@ class Manual extends React.Component {
                   conditional on the assumptions.
                 </p>
               </div>
+              <section className="mb4" id="editing">
+                <EditingGuide />
+              </section>
+              <p className="mb3">
+                After producing a complete record analysis and verifying all the
+                information in it is correct, proceed to next steps:
+              </p>
             </section>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="assumption2">
@@ -539,20 +547,20 @@ class Manual extends React.Component {
               </h2>
 
               <h3 className="f4 fw7 lh-title mb2">
-                The next step is to fill out expungement paperwork, which 
+                The next step is to fill out expungement paperwork, which
                 RecordSponge can do for you.
               </h3>
               <p className="mb3">
-                If a client has eligible charges, the Summary panel will 
-                display a button to Generate Paperwork. Click on the button 
-                and you will be directed to input identifying information. 
-                Inputting identifying information is optional but can help 
-                save you time.
+                If a client has eligible charges, the Summary panel will display
+                a button to Generate Paperwork. Click on the button and you will
+                be directed to input identifying information. Inputting
+                identifying information is optional but can help save you time.
               </p>
               <p className="mb4">
-                After you input the information, RecordSponge will generate 
-                a .zip file with PDFs of the expungement paperwork for all 
-                of the charges.
+                After you input the information, RecordSponge will generate a
+                .zip file with PDFs of the expungement paperwork for all of the
+                charges, with one PDF file for each case that has eligible
+                charges.
               </p>
 
               <Disclosure>
@@ -563,19 +571,19 @@ class Manual extends React.Component {
                   <DisclosureButton>
                     <span className="link hover-dark-blue fw6 mid-gray">
                       Show Instructions
-                      <span 
-                        aria-hidden="true" 
-                        className="fas fa-angle-down pl1">
-                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="fas fa-angle-down pl1"
+                      ></span>
                     </span>
                   </DisclosureButton>
                   <DisclosurePanel>
                     <h4 className="fw7 mt2 mb2">Selecting the correct form</h4>
                     <p className="mb3">
-                      Not all counties will have their own form, but at least the
-                      following do: Multnomah, Washington, Clackamas, Lane, Jackson,
-                      Josephine, Tillamook, Marion, Baker, Coos, Curry, Lincoln, Linn,
-                      Umatilla, Yamhill.{" "}
+                      Not all counties will have their own form, but at least
+                      the following do: Multnomah, Washington, Clackamas, Lane,
+                      Jackson, Josephine, Tillamook, Marion, Baker, Coos, Curry,
+                      Lincoln, Linn, Umatilla, Yamhill.{" "}
                       <Link
                         className="bb hover-blue"
                         to="/appendix"
@@ -585,8 +593,8 @@ class Manual extends React.Component {
                       </Link>
                     </p>
                     <p className="mb3">
-                      If your county is not listed here, search online using terms:
-                      “[county name] expungement form.”
+                      If your county is not listed here, search online using
+                      terms: “[county name] expungement form.”
                     </p>
                     <p className="mb3">
                       If a county does not have its own paperwork, use the{" "}
@@ -598,64 +606,66 @@ class Manual extends React.Component {
                     </p>
                     <h4 className="fw7 mb2">Conviction versus Arrest</h4>
                     <p className="mb3">
-                      If the Disposition of a case is “Dismissed,” use an Arrest Form.
+                      If there are no convicted charges in the case, use an
+                      Arrest Form.
                     </p>
                     <p className="mb3">
-                      If the Disposition of a case is “Convicted,” use a Conviction
-                      Form.
+                      If at least one charge has a Disposition of “Convicted,”
+                      use a Conviction Form.
                     </p>
                     <h4 className="fw7 mb2">Fill out the form</h4>
                     <p className="mb3">For each case that is eligible now:</p>
                     <ul className="ml4">
                       <li className="mb2">
-                        <span className="fw7">Case Number:</span> In the top center,
-                        preceded by “CASE No.” Often starts with a two numbers
-                        indicating year the case was filed.
+                        <span className="fw7">Case Number:</span> In the top
+                        center, preceded by “CASE No.” Often starts with a two
+                        numbers indicating year the case was filed.
                       </li>
                       <li className="mb2">
-                        <span className="fw7">Case Name:</span> the name of the person
-                        exactly as it appears in the name of the case as it appears in
-                        the RecordSponge results / OECI, in the top left corner.
+                        <span className="fw7">Case Name:</span> the name of the
+                        person exactly as it appears in the name of the case as
+                        it appears in the RecordSponge results / OECI, in the
+                        top left corner.
                       </li>
                       <li className="mb2">
-                        <span className="fw7">DA Number:</span> May not be present. If
-                        not provided, do not write anything. Usually located in the
-                        upper right corner if it exists.
+                        <span className="fw7">DA Number:</span> May not be
+                        present. If not provided, do not write anything. Usually
+                        located in the upper right corner if it exists.
                       </li>
                       <li className="mb2">
-                        <span className="fw7">Arrest Date:</span> Dates listed in the
-                        Charge Information. For a case with multiple arrest dates,
-                        list them separated by semicolons.
+                        <span className="fw7">Arrest Date:</span> Dates listed
+                        in the Charge Information. For a case with multiple
+                        arrest dates, list them separated by semicolons.
                       </li>
                       <li className="mb2">
-                        <span className="fw7">Conviction Date:</span> Dates listed in
-                        the Charge.
+                        <span className="fw7">Conviction Date:</span> Dates
+                        listed in the Charge.
                       </li>
                       <li className="mb2">
                         <span className="fw7">Arresting Agency:</span>
                         <ul className="ml4 mb3">
                           <li className="mb2">
-                            If not readily attainable, do not fill it out. In counties
-                            which require it (so far, just Jackson County) fill in MPD
-                            or JCSO by default.
+                            If not readily attainable, do not fill it out. In
+                            counties which require it (so far, just Jackson
+                            County) fill in MPD or JCSO by default.
                           </li>
                           <li className="mb2">
-                            Sometimes an OECI case will contain links to relevant
-                            documents filed through a hyperlink attached to the case
-                            number. If it does not contain these links, do not fill
-                            out the arresting agency.
+                            Sometimes an OECI case will contain links to
+                            relevant documents filed through a hyperlink
+                            attached to the case number. If it does not contain
+                            these links, do not fill out the arresting agency.
                           </li>
                           <li className="mb2">
-                            If the hyperlink is live, click it to see if there is a
-                            link titled “Information” or “Indictment.” Click such link
-                            if it exists.
+                            If the hyperlink is live, click it to see if there
+                            is a link titled “Information” or “Indictment.”
+                            Click such link if it exists.
                           </li>
                           <li className="mb2">
-                            The Arresting Agency will have its own number attached to
-                            the case. Find a three- or four-letter abbreviation for
-                            the Arresting Agency. Common examples are PPB (Portland
-                            Police Bureau), MCSO (Multnomah County Sheriff’s Office),
-                            etc.
+                            The Arresting Agency will have its own number
+                            attached to the case. Find a three- or four-letter
+                            abbreviation for the Arresting Agency. Common
+                            examples are PPB (Portland Police Bureau), MCSO
+                            (Multnomah County Sheriff’s Office), etc.
                           </li>
                         </ul>
                       </li>

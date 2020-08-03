@@ -10,9 +10,8 @@ from expungeservice.models.disposition import DispositionStatus
 class FelonyClassC(ChargeType):
     type_name: str = "Felony Class C"
     expungement_rules: str = (
-        """There are certain types of Class C felony which are generally ineligible, including sex crimes, child
-abuse, elder abuse, traffic crimes, and criminally negligent homicide. Other Class C felony convictions are almost
-always eligible under 137.225(5)(b).
+        """There are certain types of Class C felony which are generally ineligible, including sex crimes, child abuse, elder abuse, traffic crimes, and criminally negligent homicide.
+Other Class C felony convictions are almost always eligible under 137.225(5)(b).
 Class C felony dismissals are always eligible under 137.225(1)(b)."""
     )
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from typing import Optional
+from typing import Optional, Any
 
 from dateutil.relativedelta import relativedelta
 from enum import Enum
@@ -48,7 +48,7 @@ class OeciCharge:
 @dataclass(frozen=True)
 class ChargeType:
     type_name: str = "Unknown"
-    expungement_rules: str = "\\[rules documentation not added yet\\]"
+    expungement_rules: Any = "Select an answer to view more info about its corresponding charge type."
     blocks_other_charges: bool = True
 
     def type_eligibility(self, disposition):
