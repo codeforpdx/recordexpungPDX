@@ -4,6 +4,9 @@ import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21
+from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
+from expungeservice.models.charge_types.civil_offense import CivilOffense
+from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
@@ -256,22 +259,70 @@ def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
     }
 
 @pytest.fixture
-def record_with_juvenille_and_traffic_charges():
+def record_with_mj_under_21_and_traffic_violation():
     return CrawlerFactory.create(
-        JohnDoe.RECORD,
-        {
-            "X0001": CaseDetails.CASE_PARKING_VIOLATION,
-            "CASEJD1": CaseDetails.CASE_MJ_CONVICTION,
-        },
-    )
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={"CASEJD1": CaseDetails.CASE_MJ_AND_TRAFFIC_CONVICTION,})
 
-# FIXME: Unclear to me what the best way to create a minimal test case
-# representing a record that would pass under the old logic but fail under this
-# revised logic
-def test_expunger_for_record_with_non_blocking_other_charges(record_with_mj_over_21):
-    expunger_result = Expunger.run(record_with_mj_over_21)
-    assert expunger_result == {
-        "CASEJD1-1": TimeEligibility(
-            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2001, 3, 3)
-        )
-    }
+def test_expunger_for_record_with_mj_under_21_not_blocked_by_traffic(record_with_mj_under_21_and_traffic_violation):
+    expunger_result = Expunger.run(record_with_mj_under_21_and_traffic_violation)
+
+    assert isinstance(record_with_mj_under_21_and_traffic_violation.charges[0].charge_type, MarijuanaUnder21)
+    assert isinstance(record_with_mj_under_21_and_traffic_violation.charges[1].charge_type, TrafficViolation)
+
+    assert expunger_result["CASEJD1-1"] == TimeEligibility(status=EligibilityStatus.ELIGIBLE,
+                                                           reason="Eligible now",
+                                                           date_will_be_eligible=date(1999, 3, 3)) #one year after conviction
+    assert expunger_result["CASEJD1-2"] == TimeEligibility(status=EligibilityStatus.INELIGIBLE,
+                                                           reason="Never. Type ineligible charges are always time ineligible.",
+                                                           date_will_be_eligible=date.max())
+
+def test_expunger_for_record_with_mj_under_21_with_non_traffic_charge():
+    record = CrawlerFactory.create(
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={"CASEJD1": CaseDetails.CASE_MJ_AND_CIVIL_CONVICTION})
+
+    expunger_result = Expunger.run(record)
+
+    assert isinstance(record.charges[1].charge_type, CivilOffense)
+
+    assert expunger_result["CASEJD1-1"] == TimeEligibility(status=EligibilityStatus.ELIGIBLE,
+                                                           reason="Eligible now",
+                                                           date_will_be_eligible=date(1998, 3, 3)+relativedelta(years=1))
+
+    assert expunger_result["CASEJD1-2"] == TimeEligibility(status=EligibilityStatus.INELIGIBLE, reason="Never. Type ineligible charges are always time ineligible.",
+                                                           date_will_be_eligible=date.max())
+
+def test_expunger_for_record_with_mj_under_21_with_non_traffic_charge_not_subject_to_137226():
+    record = CrawlerFactory.create(
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={"CASEJD1": CaseDetails.CASE_MJ_AND_FUGITIVE_CONVICTION})
+
+    expunger_result = Expunger.run(record)
+
+    assert isinstance(record.charges[0].charge_type, MarijuanaUnder21)
+    assert isinstance(record.charges[1].charge_type, CivilOffense)
+
+    assert expunger_result["CASEJD1-1"] == TimeEligibility(status=EligibilityStatus.ELIGIBLE,
+                                                           reason="Eligible now",
+                                                           date_will_be_eligible=date(1998, 3, 3)+relativedelta(years=3))
+
+    assert expunger_result["CASEJD1-2"] == TimeEligibility(status=EligibilityStatus.INELIGIBLE, reason="Never. Type ineligible charges are always time ineligible.",
+                                                           date_will_be_eligible=date.max())
+
+def test_expunger_for_record_with_mj_under_21_blocked_by_blocking_conviction():
+    record = CrawlerFactory.create(
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={"CASEJD1": CaseDetails.CASE_MJ_AND_FELONY_CONVICTION})
+    expunger_result = Expunger.run(record)
+
+    mj_charge = record.charges[0]
+    felony_charge = record.charges[1]
+
+    assert isinstance(mj_charge.charge_type, MarijuanaUnder21)
+
+    assert expunger_result["CASEJD1-2"] == TimeEligibility(status=EligibilityStatus.INELIGIBLE, reason="Never. Type ineligible charges are always time ineligible.",
+                                                           date_will_be_eligible=date.max())
+    assert expunger_result["CASEJD1-1"] == TimeEligibility(status=EligibilityStatus.ELIGIBLE,
+                                                           reason="Eligible now",
+                                                           date_will_be_eligible=date(1998, 3, 3)+relativedelta(years=10))

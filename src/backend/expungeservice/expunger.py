@@ -37,7 +37,7 @@ class Expunger:
             other_blocking_charges = [c for c in other_charges
                                       if c.charge_type.blocks_other_charges]
 
-            dismissals, convictions = Expunger._categorize_charges(other_charges)
+            _, convictions = Expunger._categorize_charges(other_charges)
             blocking_dismissals, blocking_convictions = Expunger._categorize_charges(other_blocking_charges)
 
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, blocking_dismissals)
