@@ -117,9 +117,7 @@ class FormFilling:
             case.charges,
         )
         ineligible_charges, eligible_charges = list(ineligible_charges_generator), list(eligible_charges_generator)
-        in_part = ", ".join(
-            [charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges]
-        )  # TODO: Check if compatible with edit feature
+        in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
             f"{case.summary.case_number} (in part - counts {in_part})"
             if ineligible_charges
