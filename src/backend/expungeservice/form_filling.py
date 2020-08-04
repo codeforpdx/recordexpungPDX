@@ -11,6 +11,7 @@ from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
+from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 from more_itertools import partition
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
@@ -99,17 +100,34 @@ class FormFilling:
             case_without_deleted_charges = replace(
                 case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
-            pdf = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
-            if pdf:
+            pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
+            if pdf_with_warnings:
+                pdf, warnings = pdf_with_warnings
                 file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}.pdf"
                 file_path = path.join(temp_dir, file_name)
-                PdfWriter().write(file_path, pdf)
+                writer = PdfWriter()
+                writer.addpages(pdf.pages)
+                FormFilling._add_warnings(writer, warnings)
+                trailer = writer.trailer
+                trailer.Root.AcroForm = pdf.Root.AcroForm
+                writer.write(file_path, trailer=trailer)
                 zipfile.write(file_path, file_name)
         zipfile.close()
         return zip_path, zip_name
 
     @staticmethod
-    def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[PdfReader]:
+    def _add_warnings(writer: PdfWriter, warnings: List[str]):
+        if warnings:
+            text = "# Warnings from RecordSponge  \n"
+            text += "Do not submit this page to the District Attorney's office.  \n \n"
+            for warning in warnings:
+                text += f"\* {warning}  \n"
+            blank_pdf_bytes = MarkdownToPDF.to_pdf("Addendum", text)
+            blank_pdf = PdfReader(fdata=blank_pdf_bytes)
+            writer.addpages(blank_pdf.pages)
+
+    @staticmethod
+    def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[Tuple[PdfReader, List[str]]]:
         ineligible_charges_generator, eligible_charges_generator = partition(
             lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
             if c.expungement_result.charge_eligibility
@@ -124,16 +142,23 @@ class FormFilling:
             else case.summary.case_number
         )
         if eligible_charges:
-            return FormFilling._build_pdf_for_eligible_case(
+            pdf, warnings = FormFilling._build_pdf_for_eligible_case(
                 case, eligible_charges, user_information, case_number_with_comments
             )
+            if ineligible_charges:
+                warnings.insert(
+                    0,
+                    "This form will attempt to expunge a case in part. This is relatively rare, and thus these forms should be reviewed particularly carefully.",
+                )
+            return pdf, warnings
         else:
             return None
 
     @staticmethod
     def _build_pdf_for_eligible_case(
         case: Case, eligible_charges: List[Charge], user_information: Dict[str, str], case_number_with_comments: str
-    ) -> PdfReader:
+    ) -> Tuple[PdfReader, List[str]]:
+        warnings: List[str] = []
         charges = case.charges
         charge_names = [charge.name.title() for charge in charges]
         arrest_dates_all = list(set([charge.date.strftime("%b %-d, %Y") for charge in charges]))
@@ -178,30 +203,39 @@ class FormFilling:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
             field.V = field_value
-            FormFilling._set_font(field, field_value)
+            warnings += FormFilling._set_font(field, field_value)
         for page in pdf.pages:
             annotations = page.get("/Annots")
             if annotations:
                 for annotation in annotations:
                     annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
-        return pdf
+        return pdf, warnings
 
     @staticmethod
-    def _set_font(field: PdfDict, field_value: str) -> None:
+    def _set_font(field: PdfDict, field_value: str) -> List[str]:
+        warnings: List[str] = []
         if field["/Kids"]:
             for kid in field["/Kids"]:
-                font_string = FormFilling._build_font_string(kid, field_value)
-                kid.DA = font_string
+                FormFilling._set_font_for_field(field, field_value, kid, warnings)
         else:
-            font_string = FormFilling._build_font_string(field, field_value)
-            field.DA = font_string
+            FormFilling._set_font_for_field(field, field_value, field, warnings)
+        return warnings
 
     @staticmethod
-    def _build_font_string(field: PdfDict, field_value: str) -> str:
+    def _set_font_for_field(field, field_value, kid, warnings):
+        font_string, needs_shrink = FormFilling._build_font_string(kid, field_value)
+        kid.DA = font_string
+        if needs_shrink:
+            message = f'The font size of "{field.V}" was shrunk to fit the bounding box of "{field.T}". An addendum might be required if it still doesn\'t fit.'
+            warnings.append(message)
+
+    @staticmethod
+    def _build_font_string(field: PdfDict, field_value: str) -> Tuple[str, bool]:
         max_length = FormFilling._compute_field_max_length(field)
-        font_size = 6 if len(field_value) > max_length else 8
-        return f"/TimesNewRoman  {font_size} Tf 0 g"
+        needs_shrink = len(field_value) > max_length
+        font_size = 6 if needs_shrink else 8
+        return f"/TimesNewRoman  {font_size} Tf 0 g", needs_shrink
 
     @staticmethod
     def _compute_field_max_length(field: PdfDict) -> int:
