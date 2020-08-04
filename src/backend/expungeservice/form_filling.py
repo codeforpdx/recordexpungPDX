@@ -216,7 +216,6 @@ class FormFilling:
             acc = {**acc, **FormFilling._build_charge(charges, i)}
         return acc
 
-    # TODO: Double check case where disposition date is missing
     @staticmethod
     def _build_charge(charges: List[Charge], i: int) -> Dict[str, str]:
         if len(charges) > (i - 1):
