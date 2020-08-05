@@ -43,6 +43,5 @@ class CaseDetails:
     CASE_WITH_SINGLE_DUII = read_html("duii")
     CASE_MJ_CONVICTION = read_html("mj")
     CASE_MJ_AND_TRAFFIC_CONVICTION = read_html("mj_with_traffic")
-    CASE_MJ_AND_CIVIL_CONVICTION = read_html("mj_with_civil_offense")
     CASE_MJ_AND_FUGITIVE_CONVICTION = read_html("mj_with_fugitive")
     CASE_MJ_AND_FELONY_CONVICTION = read_html("mj_with_felony")

@@ -31,11 +31,11 @@ class Expunger:
         for charge in analyzable_record.charges:
             eligibility_dates: List[Tuple[date, str]] = []
 
-            other_charges = [c for c in analyzable_record.charges
-                             if c.id != charge.id and c.edit_status != EditStatus.DELETE]
+            other_charges = [
+                c for c in analyzable_record.charges if c.id != charge.id and c.edit_status != EditStatus.DELETE
+            ]
 
-            other_blocking_charges = [c for c in other_charges
-                                      if c.charge_type.blocks_other_charges]
+            other_blocking_charges = [c for c in other_charges if c.charge_type.blocks_other_charges]
 
             _, convictions = Expunger._categorize_charges(other_charges)
             blocking_dismissals, blocking_convictions = Expunger._categorize_charges(other_blocking_charges)
