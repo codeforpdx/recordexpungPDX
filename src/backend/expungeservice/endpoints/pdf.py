@@ -1,3 +1,4 @@
+from expungeservice.endpoints.demo import Demo
 from expungeservice.form_filling import FormFilling
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
@@ -33,7 +34,9 @@ class FormPDF(MethodView):
     def post(self):
         request_data = request.get_json()
         user_information = request_data.get("userInformation")
-        record_summary = Search().build_response()
+        demo = request_data.get("demo")
+        search = Demo if demo else Search
+        record_summary = search().build_response()  # type: ignore
         zip_path, zip_name = FormFilling.build_zip(record_summary, user_information)
         return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
 

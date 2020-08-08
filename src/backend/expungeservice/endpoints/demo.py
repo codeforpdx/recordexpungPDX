@@ -15,24 +15,26 @@ class Demo(MethodView):
     search_cache = LRUCache(4)
 
     def post(self):
-        request_data = request.get_json()
+        record_summary = self.build_response()
+        response_data = {"record": record_summary}
+        return json.dumps(response_data, cls=ExpungeModelEncoder)
 
+    def build_response(self):
+        request_data = request.get_json()
         Search._validate_request(request_data)
-        return Demo._build_response(
+        return Demo._build_record_summary(
             request_data["aliases"], request_data.get("questions"), request_data.get("edits", {})
         )
 
     @staticmethod
-    def _build_response(aliases_data, questions_data, edits_data):
+    def _build_record_summary(aliases_data, questions_data, edits_data):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, questions = RecordCreator.build_record(
             DemoRecords.build_search_results, "username", "password", tuple(aliases), edits_data, Demo.search_cache
         )
         if questions_data:
             questions = Search._build_questions(questions_data)
-        record_summary = RecordSummarizer.summarize(record, questions)
-        response_data = {"record": record_summary}
-        return json.dumps(response_data, cls=ExpungeModelEncoder)
+        return RecordSummarizer.summarize(record, questions)
 
 
 def register(app):

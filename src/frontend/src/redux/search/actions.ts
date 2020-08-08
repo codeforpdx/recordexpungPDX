@@ -283,6 +283,7 @@ export function downloadExpungementPacket(
     return apiService<SearchResponse>(dispatch, {
       url: "/api/expungement-packet",
       data: {
+        demo: store.getState().search.demo,
         aliases: store.getState().search.aliases,
         questions: store.getState().search.questions,
         edits: store.getState().search.edits,
