@@ -66,6 +66,7 @@ class RecordSearch extends Component<Props> {
 const mapStateToProps = (state: AppState) => {
   return {
     record: state.search.record,
+    demo: state.search.demo,
   };
 };
 

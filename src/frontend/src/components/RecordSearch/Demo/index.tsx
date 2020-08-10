@@ -12,7 +12,7 @@ class Demo extends React.Component<Props> {
     store.dispatch(this.props.startDemo());
   }
   render() {
-    return <RecordSearch demo={true} />;
+    return <RecordSearch />;
   }
 }
 
