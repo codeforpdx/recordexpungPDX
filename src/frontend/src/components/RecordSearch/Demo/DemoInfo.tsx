@@ -1,7 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { stopDemo } from "../../../redux/search/actions";
+import history from "../../../service/history";
+import store from "../../../redux/store";
 
-export default class DemoInfo extends React.Component {
+interface Props {
+  stopDemo: Function;
+}
+class DemoInfo extends React.Component<Props> {
+  toOeci = () => {
+    store.dispatch(this.props.stopDemo());
+    history.push("/oeci");
+  };
   render() {
     const examples = [
       {
@@ -203,9 +214,9 @@ export default class DemoInfo extends React.Component {
 
           <p className="mb4">
             Or,{" "}
-            <Link to="/oeci" className="link bb hover-blue">
+            <button className="link bb hover-blue" onClick={this.toOeci}>
               log in to OECI
-            </Link>
+            </button>
             .
           </p>
           <div>
@@ -223,3 +234,4 @@ export default class DemoInfo extends React.Component {
     );
   }
 }
+export default connect(() => {}, { stopDemo })(DemoInfo);
