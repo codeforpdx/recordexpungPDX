@@ -189,8 +189,8 @@ class OeciLogin extends React.Component<State> {
             <div className="mw6">
               <section className="lh-copy">
                 <span className="db w3 bb bw2 b--blue pt3 mt2 mb2"></span>
-                <h2 className="f4 fw9 mb3">New here?</h2>
-                <p className="mb3">
+                <h2 className="f4 fw9 mb4">New here?</h2>
+                <p className="mb4">
                   <Link
                     to="/partner-interest"
                     className="link hover-dark-blue bb"
@@ -200,7 +200,7 @@ class OeciLogin extends React.Component<State> {
                   </Link>
                   .
                 </p>
-                <p className="mb3">
+                <p className="mb4">
                   <Link
                     to="/demo-record-search"
                     className="link hover-dark-blue bb"
@@ -211,7 +211,7 @@ class OeciLogin extends React.Component<State> {
                   </Link>
                   .
                 </p>
-                <p className="mb3">
+                <p className="mb4">
                   We ask anyone using the software to be in touch so that we can
                   better maintain, scale, and improve our work and community.{" "}
                   <Link

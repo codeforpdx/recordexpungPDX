@@ -112,10 +112,10 @@ class PartnerTable extends React.Component<{}, any> {
         instructions: "Contact",
         contacts: [
           "Sarah Kolb",
-          "medfordexpungementclinic@gmail.com",
-          "541-778-4473",
+          "hope@janekolb.com",
+          "541-821-5577",
         ],
-        website: "https://www.facebook.com/Ruraloregonexpungement",
+        website: "https://www.janekolb.com",
       },
       {
         details: [
