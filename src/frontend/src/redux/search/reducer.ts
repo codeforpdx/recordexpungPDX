@@ -14,9 +14,10 @@ import {
   DONE_EDITING,
   START_DEMO,
   STOP_DEMO,
+  DOWNLOAD_EXPUNGEMENT_PACKET,
+  LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   SearchRecordState,
   SearchRecordActionType,
-  DOWNLOAD_EXPUNGEMENT_PACKET,
 } from "./types";
 import {
   QuestionData,
@@ -27,6 +28,7 @@ const initalState: SearchRecordState = {
   demo: false,
   loading: "",
   loadingPdf: false,
+  loadingExpungementPacket: false,
   aliases: [
     {
       first_name: "",
@@ -399,6 +401,12 @@ export function searchReducer(
       return {
         ...state,
         userInformation: information,
+        loadingExpungementPacket: true,
+      };
+    case LOADING_EXPUNGEMENT_PACKET_COMPLETE:
+      return {
+        ...state,
+        loadingExpungementPacket: false,
       };
     case START_DEMO:
       return {
