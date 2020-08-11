@@ -1,11 +1,6 @@
 import React from "react";
-import history from "../../service/history";
-import { downloadExpungementPacket } from "../../redux/search/actions";
 import UserDataForm from "./UserDataForm";
-import { connect } from "react-redux";
 import { HashLink as Link } from "react-router-hash-link";
-import { AppState } from "../../redux/store";
-import { AliasData } from "../RecordSearch/SearchPanel/types";
 
 interface Props {}
 
@@ -77,8 +72,8 @@ export default class FillForms extends React.Component<Props, State> {
               </p>
 
               <p className="mb3">
-                RecordSponge supports automatic form-filling for all the counties 
-                in our{" "}
+                RecordSponge supports automatic form-filling for all the
+                counties in our{" "}
                 <Link to="/appendix" className="link hover-dark-blue bb">
                   appendix
                 </Link>

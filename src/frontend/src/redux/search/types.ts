@@ -31,6 +31,8 @@ export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
 export const START_EDITING = "START_EDITING";
 export const DONE_EDITING = "DONE_EDITING";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
+export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
+  "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
 export const START_DEMO = "START_DEMO";
 export const STOP_DEMO = "STOP_DEMO";
 
@@ -38,6 +40,7 @@ export interface SearchRecordState {
   demo: boolean;
   loading: string;
   loadingPdf: boolean;
+  loadingExpungementPacket: boolean;
   aliases: AliasData[];
   record?: RecordData;
   questions?: QuestionsData;
@@ -125,7 +128,7 @@ interface DoneEditingAction {
   type: typeof DONE_EDITING;
 }
 
-export interface ExpungementPacketAction {
+interface ExpungementPacketAction {
   type: typeof DOWNLOAD_EXPUNGEMENT_PACKET;
   name: string;
   dob: string;
@@ -134,6 +137,10 @@ export interface ExpungementPacketAction {
   city: string;
   state: string;
   zipCode: string;
+}
+
+interface ExpungementPacketActionComplete {
+  type: typeof LOADING_EXPUNGEMENT_PACKET_COMPLETE;
 }
 
 export type SearchRecordActionType =
@@ -147,4 +154,5 @@ export type SearchRecordActionType =
   | UndoEditChargeAction
   | StartEditingAction
   | DoneEditingAction
-  | ExpungementPacketAction;
+  | ExpungementPacketAction
+  | ExpungementPacketActionComplete;

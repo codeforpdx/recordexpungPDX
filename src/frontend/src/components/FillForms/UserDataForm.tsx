@@ -7,6 +7,7 @@ import { AliasData } from "../RecordSearch/SearchPanel/types";
 
 interface Props {
   aliases: AliasData[];
+  loadingExpungementPacket: boolean;
   downloadExpungementPacket: Function;
 }
 
@@ -189,7 +190,11 @@ class UserDataForm extends React.Component<Props, State> {
                   value={this.state.phoneNumber}
                 />
               </div>
-              <button className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc">
+              <button
+                className={`bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc ${
+                  this.props.loadingExpungementPacket ? " loading-btn" : ""
+                }`}
+              >
                 Download Expungement Packet
               </button>
             </form>
@@ -202,6 +207,7 @@ class UserDataForm extends React.Component<Props, State> {
 
 const mapStateToProps = (state: AppState) => ({
   aliases: state.search.aliases,
+  loadingExpungementPacket: state.search.loadingExpungementPacket,
 });
 
 export default connect(mapStateToProps, { downloadExpungementPacket })(

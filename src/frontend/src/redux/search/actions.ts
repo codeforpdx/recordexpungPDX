@@ -20,6 +20,7 @@ import {
   START_EDITING,
   DONE_EDITING,
   DOWNLOAD_EXPUNGEMENT_PACKET,
+  LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   START_DEMO,
   STOP_DEMO,
 } from "./types";
@@ -298,6 +299,9 @@ export function downloadExpungementPacket(
           .split("filename=")[1]
           .split(" ")[0];
         fileDownload(response.data, filename);
+        dispatch({
+          type: LOADING_EXPUNGEMENT_PACKET_COMPLETE,
+        });
       })
       .catch((error: AxiosError) => {
         alert(error.message);
