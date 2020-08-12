@@ -7,36 +7,36 @@ export default class Footer extends React.Component {
       <footer className="footer-main mw8 center f6 f5-l bg-white pt5 pb6 ph4">
         <div className="flex">
           <ul className="list mr5 mr6-ns">
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 Home
               </Link>
             </li>
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/partner-interest"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 Hey Partner
               </Link>
             </li>
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/manual"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 Manual
               </Link>
             </li>
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/record-search"
                 onClick={() => window.scrollTo(0, 0)}
               >
@@ -45,27 +45,36 @@ export default class Footer extends React.Component {
             </li>
           </ul>
           <ul className="list">
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/faq"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 FAQ
               </Link>
             </li>
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
                 to="/appendix"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 Appendix
               </Link>
             </li>
-            <li>
+            <li className="pb3">
               <Link
-                className="dib link hover-blue bb mb3"
+                className="link hover-blue bb"
+                to="/accessibility-statement"
+                onClick={() => window.scrollTo(0, 0)}
+              >
+                Accessibility Statement
+              </Link>
+            </li>
+            <li className="pb3">
+              <Link
+                className="link hover-blue bb"
                 to="/privacy-policy"
                 onClick={() => window.scrollTo(0, 0)}
               >
