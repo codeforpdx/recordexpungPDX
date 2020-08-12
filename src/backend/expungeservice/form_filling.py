@@ -197,7 +197,11 @@ class FormFilling:
             **FormFilling._build_six_charges(convictions + dismissals),
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        pdf_path = FormFilling._build_pdf_path(case, convictions)
+        location = case.summary.location.lower()
+        warning = FormFilling._warn_charge_count_overflow(location, convictions, dismissals)
+        if warning:
+            warnings.append(warning)
+        pdf_path = FormFilling._build_pdf_path(location, convictions)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
@@ -271,7 +275,42 @@ class FormFilling:
             }
 
     @staticmethod
-    def _build_pdf_path(case: Case, convictions: List[Charge]) -> str:
+    def _warn_charge_count_overflow(
+        location: str, convictions: List[Charge], dismissals: List[Charge]
+    ) -> Optional[str]:
+        JACKSON_CONVICTION_SLOTS = 6
+        JACKSON_ARREST_SLOTS = 3
+        MARION_CONVICTION_SLOTS = 3
+        MARION_ARREST_SLOTS = 4
+        POLK_CONVICTION_SLOTS = 3
+        POLK_ARREST_SLOTS = 3
+
+        def conviction_message(slots):
+            return f"This case has {all_count} eligible charges. Since this form only has {slots} slots, the remaining charges will need to be written in an addendum. A separate addendum is needed for the motion and the order."
+
+        def dismissal_message(slots):
+            return f"This case has {dismissal_count} eligible dismissed/acquitted charges. Since this form only has {slots} slots, the remaining charges will need to be written in an addendum. A separate addendum is needed for the motion and the order."
+
+        all_count = len(convictions + dismissals)
+        dismissal_count = len(dismissals)
+        if convictions:
+            if location == "jackson" and all_count > JACKSON_CONVICTION_SLOTS:
+                return conviction_message(JACKSON_CONVICTION_SLOTS)
+            elif location == "marion" and all_count > MARION_CONVICTION_SLOTS:
+                return conviction_message(MARION_CONVICTION_SLOTS)
+            elif location == "polk" and all_count > POLK_CONVICTION_SLOTS:
+                return conviction_message(POLK_CONVICTION_SLOTS)
+        else:
+            if location == "jackson" and all_count > JACKSON_ARREST_SLOTS:
+                return dismissal_message(JACKSON_ARREST_SLOTS)
+            elif location == "marion" and all_count > MARION_ARREST_SLOTS:
+                return dismissal_message(MARION_ARREST_SLOTS)
+            elif location == "polk" and all_count > POLK_ARREST_SLOTS:
+                return dismissal_message(POLK_ARREST_SLOTS)
+        return None
+
+    @staticmethod
+    def _build_pdf_path(location: str, convictions: List[Charge]) -> str:
         SUPPORTED_COUNTIES = [
             "multnomah",
             "jackson",
@@ -292,7 +331,6 @@ class FormFilling:
             "curry",
             "morrow",
         ]
-        location = case.summary.location.lower()
         if convictions:
             if location in SUPPORTED_COUNTIES:
                 return path.join(Path(__file__).parent, "files", f"{location}_conviction.pdf")
