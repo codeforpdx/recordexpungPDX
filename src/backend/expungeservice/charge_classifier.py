@@ -132,7 +132,7 @@ class ChargeClassifier:
     @staticmethod
     def _attempt_to_commit(name, level, statute):
         if (level == "misdemeanor class a" or level == "felony class c") and "attempt to commit" in name:
-            question_string = "Was the underlying conduct a sex crime that is not eligible under 137.225(6)(f)?"
+            question_string = "Was the underlying conduct a sex crime?"
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             options = {"Yes": RomeoAndJulietIneligibleSexCrime(), "No": charge_type_by_level}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
