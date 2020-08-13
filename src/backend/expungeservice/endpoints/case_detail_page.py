@@ -1,6 +1,7 @@
 from os import path
 from pathlib import Path
 
+from bs4 import BeautifulSoup
 from flask.views import MethodView
 
 from expungeservice.crawler.crawler import Crawler
@@ -11,9 +12,16 @@ class CaseDetailPage(MethodView):
         url = f"https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID={id}"
         html = Crawler.fetch_link(url)
         if html:
-            return html.text
+            return CaseDetailPage._strip_links(html)
         else:
             return f"Case detail page with ID of {id} does not exist."
+
+    @staticmethod
+    def _strip_links(html):
+        soup = BeautifulSoup(html.text, "html.parser")
+        for a in soup.findAll("a"):
+            a["href"] = "#"
+        return soup.prettify()
 
 
 class CaseDetailPageCSS(MethodView):
