@@ -85,16 +85,12 @@ class Expunger:
 
             if most_recent_blocking_conviction:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"
-                recency = "most recent"
                 summary = most_recent_blocking_conviction.case(cases).summary
-
-                if not summary.closed():
-                    recency += "hypothetical"
-
+                potential = "potential " if not summary.closed() else ""
                 eligibility_dates.append(
                     (
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        f"Ten years from charge in case {summary.case_number} ({recency} {conviction_string}) (137.225(7)(b))",
+                        f"OR 137.225(7)(b) – Ten years from most recent {potential}{conviction_string} from case {summary.case_number}.",
                     )
                 )
 
