@@ -1,4 +1,6 @@
 from dataclasses import replace
+
+from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.util import DateWithFuture as date
 from functools import lru_cache
 from typing import Set, List, Tuple, Dict
@@ -241,6 +243,7 @@ class ErrorChecker:
                 f"All charges are ineligible because there is one or more open case: {case_numbers}. Open cases containing charges with valid dispositions are still included in time analysis. Otherwise they are ignored, so time analysis may be inaccurate for other charges."
             ]
         errors += ErrorChecker._build_disposition_errors(record.charges, record.cases)
+        errors += ErrorChecker._build_unclassified_charge_errors(record.charges)
         return errors
 
     @staticmethod
@@ -310,3 +313,12 @@ This might be an error in the OECI database. Time analysis is ignoring this char
 This might be an error in the OECI database. Time analysis is ignoring these charges and may be inaccurate for other charges.
 Case numbers: {cases_list_string}"""
         return error_message
+
+    @staticmethod
+    def _build_unclassified_charge_errors(charges: List[Charge]) -> List[str]:
+        record_errors = []
+        for charge in charges:
+            if isinstance(charge.charge_type, UnclassifiedCharge):
+                message = f"Case [{charge.case_number}] has a charge that RecordSponge could not classify. Please enable editing to choose a charge type. Also please report this issue to help@recordsponge.com."
+                record_errors.append(message)
+        return record_errors
