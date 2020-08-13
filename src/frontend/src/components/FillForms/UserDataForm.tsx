@@ -4,6 +4,8 @@ import { downloadExpungementPacket } from "../../redux/search/actions";
 import { connect } from "react-redux";
 import { AppState } from "../../redux/store";
 import { AliasData } from "../RecordSearch/SearchPanel/types";
+import InvalidInputs from "../InvalidInputs";
+import moment from "moment";
 
 interface Props {
   aliases: AliasData[];
@@ -19,6 +21,9 @@ interface State {
   city: string;
   state: string;
   zipCode: string;
+  invalidZipCode: boolean;
+  invalidPhone: boolean;
+  invalidBirthDate: boolean;
 }
 
 class UserDataForm extends React.Component<Props, State> {
@@ -55,6 +60,32 @@ class UserDataForm extends React.Component<Props, State> {
     city: "",
     state: "",
     zipCode: "",
+    invalidZipCode: false,
+    invalidPhone: false,
+    invalidBirthDate: false,
+  };
+
+  phoneNumberPattern = new RegExp(".*[0-9].*");
+  zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
+
+  public validateForm = () => {
+    const phoneNumberMatch = this.phoneNumberPattern.exec(
+      this.state.phoneNumber
+    );
+    const zipCodeMatch = this.zipCodePattern.exec(this.state.zipCode);
+    return new Promise((resolve) => {
+      this.setState<any>(
+        {
+          invalidZipCode: this.state.zipCode.length > 0 && !zipCodeMatch,
+          invalidPhone: this.state.phoneNumber.length > 0 && !phoneNumberMatch,
+          invalidBirthDate:
+            this.state.dob.length > 0 &&
+            moment(this.state.dob, "M/D/YYYY", true).isValid() === false,
+        },
+
+        resolve
+      );
+    });
   };
 
   public handleChange = (e: React.BaseSyntheticEvent) => {
@@ -67,15 +98,23 @@ class UserDataForm extends React.Component<Props, State> {
 
   public handleSubmit = (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
-    return this.props.downloadExpungementPacket(
-      this.state.name,
-      this.state.dob,
-      this.state.mailingAddress,
-      this.state.phoneNumber,
-      this.state.city,
-      this.state.state,
-      this.state.zipCode
-    );
+    this.validateForm().then(() => {
+      if (
+        !this.state.invalidZipCode &&
+        !this.state.invalidPhone &&
+        !this.state.invalidBirthDate
+      ) {
+        return this.props.downloadExpungementPacket(
+          this.state.name,
+          this.state.dob,
+          this.state.mailingAddress,
+          this.state.phoneNumber,
+          this.state.city,
+          this.state.state,
+          this.state.zipCode
+        );
+      }
+    });
   };
 
   public componentDidMount() {
@@ -107,8 +146,9 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="dob" className="db mb1 fw6">
-                  Date of Birth
+                <label htmlFor="dob" className="db mb1">
+                  <span className="fw6"> Date of Birth </span>{" "}
+                  <span className="fw2">mm/dd/yyyy </span>
                 </label>
                 <input
                   id="dob"
@@ -152,20 +192,90 @@ class UserDataForm extends React.Component<Props, State> {
                 <label htmlFor="state" className="db mb1 fw6">
                   State
                 </label>
-                <input
-                  id="state"
-                  name="state"
-                  type="text"
-                  required={true}
-                  className="w-100 pa3 br2 b--black-20"
-                  onChange={this.handleChange}
-                  value={this.state.state}
-                />
+                <div className="relative">
+                  <select
+                    id="state"
+                    name="state"
+                    required={true}
+                    className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
+                    onChange={this.handleChange}
+                    value={this.state.state}
+                  >
+                    <option value=""></option>
+                    <option value="Alabama">Alabama</option>
+                    <option value="Alaska">Alaska</option>
+                    <option value="American Samoa">American Samoa</option>
+                    <option value="Arizona">Arizona</option>
+                    <option value="Arkansas">Arkansas</option>
+                    <option value="California">California</option>
+                    <option value="Colorado">Colorado</option>
+                    <option value="Connecticut">Connecticut</option>
+                    <option value="Delaware">Delaware</option>
+                    <option value="District Of Columbia">
+                      District Of Columbia
+                    </option>
+                    <option value="Florida">Florida</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Guam">Guam</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Idaho">Idaho</option>
+                    <option value="Illinois">Illinois</option>
+                    <option value="Indiana">Indiana</option>
+                    <option value="Iowa">Iowa</option>
+                    <option value="Kansas">Kansas</option>
+                    <option value="Kentucky">Kentucky</option>
+                    <option value="Louisiana">Louisiana</option>
+                    <option value="Maine">Maine</option>
+                    <option value="Maryland">Maryland</option>
+                    <option value="Massachusetts">Massachusetts</option>
+                    <option value="Michigan">Michigan</option>
+                    <option value="Minnesota">Minnesota</option>
+                    <option value="Mississippi">Mississippi</option>
+                    <option value="Missouri">Missouri</option>
+                    <option value="Montana">Montana</option>
+                    <option value="Nebraska">Nebraska</option>
+                    <option value="Nevada">Nevada</option>
+                    <option value="New Hampshire">New Hampshire</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New Mexico">New Mexico</option>
+                    <option value="New York">New York</option>
+                    <option value="North Carolina">North Carolina</option>
+                    <option value="North Dakota">North Dakota</option>
+                    <option value="Northern Mariana Islands">
+                      Northern Mariana Islands
+                    </option>
+                    <option value="Ohio">Ohio</option>
+                    <option value="Oklahoma">Oklahoma</option>
+                    <option value="Oregon">Oregon</option>
+                    <option value="Pennsylvania">Pennsylvania</option>
+                    <option value="Puerto Rico">Puerto Rico</option>
+                    <option value="Rhode Island">Rhode Island</option>
+                    <option value="South Carolina">South Carolina</option>
+                    <option value="South Dakota">South Dakota</option>
+                    <option value="Tennessee">Tennessee</option>
+                    <option value="Texas">Texas</option>
+                    <option value="United States Minor Outlying Islands">
+                      United States Minor Outlying Islands
+                    </option>
+                    <option value="Utah">Utah</option>
+                    <option value="Vermont">Vermont</option>
+                    <option value="Virgin Islands">Virgin Islands</option>
+                    <option value="Virginia">Virginia</option>
+                    <option value="Washington">Washington</option>
+                    <option value="West Virginia">West Virginia</option>
+                    <option value="Wisconsin">Wisconsin</option>
+                    <option value="Wyoming">Wyoming</option>
+                  </select>
+                  <div className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none">
+                    <i aria-hidden="true" className="fas fa-angle-down"></i>
+                  </div>
+                </div>
               </div>
               <div className="mb4">
                 <label htmlFor="zipCode" className="db mb1 fw6">
                   Zip code
                 </label>
+
                 <input
                   id="zipCode"
                   name="zipCode"
@@ -177,8 +287,8 @@ class UserDataForm extends React.Component<Props, State> {
                 />
               </div>
               <div className="mb4">
-                <label htmlFor="phoneNumber" className="db mb1 fw6">
-                  Phone Number
+                <label htmlFor="phoneNumber" className="db mb1">
+                  <span className="fw6"> Phone Number </span>{" "}
                 </label>
                 <input
                   id="phoneNumber"
@@ -198,6 +308,18 @@ class UserDataForm extends React.Component<Props, State> {
                 Download Expungement Packet
               </button>
             </form>
+            <InvalidInputs
+              conditions={[
+                this.state.invalidZipCode,
+                this.state.invalidPhone,
+                this.state.invalidBirthDate,
+              ]}
+              contents={[
+                <span>Zip code must lead with five digits</span>,
+                <span>Phone number must contain a digit</span>,
+                <span>Date Birth format must be mm/dd/yyyy</span>,
+              ]}
+            />
           </section>
         </main>
       </>
