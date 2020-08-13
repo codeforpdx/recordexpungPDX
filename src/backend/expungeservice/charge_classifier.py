@@ -92,6 +92,7 @@ class ChargeClassifier:
         yield ChargeClassifier._subsection_6(section, level, statute)
         yield ChargeClassifier._severe_unclassified_charges(name, statute)
         yield ChargeClassifier._other_criminal_charges(statute)
+        yield ChargeClassifier._attempt_to_commit(name, level, statute)
         yield ChargeClassifier._classification_by_level(level, statute)
 
     @staticmethod
@@ -127,6 +128,18 @@ class ChargeClassifier:
         possession_of_weapon_by_prison_inmate = "166275"
         if statute == possession_of_weapon_by_prison_inmate:
             return AmbiguousChargeTypeWithQuestion([FelonyClassA()])
+
+    @staticmethod
+    def _attempt_to_commit(name, level, statute):
+        if (level == "misdemeanor class a" or level == "felony class c") and "attempt to commit" in name:
+            question_string = "Was the underlying conduct a sex crime that is not eligible under 137.225(6)(f)?"
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
+            options = {"Yes": RomeoAndJulietIneligibleSexCrime(), "No": charge_type_by_level}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+        if level == "felony class b" and "attempt to commit" in name:
+            question_string = "Was this a drug-related offense where the underlying substance was marijuana?"
+            options = {"Yes": MarijuanaEligible(), "No": PersonFelonyClassB()}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     @staticmethod
     def _classification_by_level(level, statute):
