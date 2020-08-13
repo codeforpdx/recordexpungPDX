@@ -8,6 +8,7 @@ import { RecordData, CaseData } from "./types";
 import AddButton from "./AddButton";
 import { startEditing, doneEditing } from "../../../redux/search/actions";
 import { AppState } from "../../../redux/store";
+import { convertCaseNumberIntoLinks } from "./util";
 
 interface Props {
   record?: RecordData;
@@ -61,26 +62,7 @@ class Record extends React.Component<Props, State> {
         ? this.props.record.errors.map(
             (errorMessage: string, errorIndex: number) => {
               const id = "record_error_" + errorIndex;
-
-              const errorMessageArray = errorMessage.split(/(\[.*?\])/g);
-              const errorMessageHTML = errorMessageArray.map(function (
-                element
-              ) {
-                if (element.match(/^\[.*\]$/)) {
-                  const caseNumber = element.slice(1, -1);
-                  return (
-                    <a
-                      className="underline"
-                      href={"#" + caseNumber}
-                      key={caseNumber}
-                    >
-                      {caseNumber}
-                    </a>
-                  );
-                } else {
-                  return element;
-                }
-              });
+              const errorMessageHTML = convertCaseNumberIntoLinks(errorMessage);
               return (
                 <p
                   role="status"
@@ -156,9 +138,7 @@ class Record extends React.Component<Props, State> {
                     aria-hidden="true"
                     className="fas fa-question-circle link hover-dark-blue gray"
                   ></i>
-                  <span className="visually-hidden">
-                    Editing Help
-                  </span>
+                  <span className="visually-hidden">Editing Help</span>
                 </Link>
               </>
             )}
