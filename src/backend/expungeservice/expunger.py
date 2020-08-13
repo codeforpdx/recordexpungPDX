@@ -90,7 +90,7 @@ class Expunger:
                 eligibility_dates.append(
                     (
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        f"OR 137.225(7)(b) – Ten years from most recent {potential}{conviction_string} from case {summary.case_number}.",
+                        f"137.225(7)(b) – Ten years from most recent {potential}{conviction_string} from case {summary.case_number}.",
                     )
                 )
 

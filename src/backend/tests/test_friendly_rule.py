@@ -97,7 +97,7 @@ def test_eligible_mrc_with_violation():
     assert expunger_result[violation.ambiguous_charge_id].date_will_be_eligible == date.today() + relativedelta(years=7)
     assert (
         expunger_result[violation.ambiguous_charge_id].reason
-        == f"OR 137.225(7)(b) – Ten years from most recent other conviction from case {case.summary.case_number}."
+        == f"137.225(7)(b) – Ten years from most recent other conviction from case {case.summary.case_number}."
     )
 
 
@@ -128,7 +128,7 @@ def test_needs_more_analysis_mrc_with_single_arrest():
     assert expunger_result_b[arrest.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
     assert (
         expunger_result_b[arrest.ambiguous_charge_id].reason
-        == f"OR 137.225(7)(b) – Ten years from most recent conviction from case {case_a.summary.case_number}."
+        == f"137.225(7)(b) – Ten years from most recent conviction from case {case_a.summary.case_number}."
     )
     assert expunger_result_b[arrest.ambiguous_charge_id].date_will_be_eligible == ten_years_from_mrc
 
