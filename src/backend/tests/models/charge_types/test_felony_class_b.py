@@ -36,4 +36,5 @@ def test_attempt_to_commit_felony_class_a_charge():
         disposition=Dispositions.CONVICTED,
     )
     assert isinstance(charge[0].charge_type, MarijuanaEligible)
-    assert isinstance(charge[1].charge_type, PersonFelonyClassB)
+    assert isinstance(charge[1].charge_type, FelonyClassB)
+    assert isinstance(charge[2].charge_type, PersonFelonyClassB)

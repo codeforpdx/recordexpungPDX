@@ -137,9 +137,24 @@ class ChargeClassifier:
             options = {"Yes": RomeoAndJulietIneligibleSexCrime(), "No": charge_type_by_level}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         if level == "felony class b" and "attempt to commit" in name:
-            question_string = "Was this a drug-related offense where the underlying substance was marijuana?"
-            options = {"Yes": MarijuanaEligible(), "No": PersonFelonyClassB()}
-            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+            question_string = "Was this a drug-related charge?"
+            drug_crime_question_string = "Was the underlying substance marijuana?"
+            drug_crime_options = {"Yes": MarijuanaEligible(), "No": FelonyClassB()}
+            drug_crime_classification = ChargeClassifier._build_ambiguous_charge_type_with_question(
+                drug_crime_question_string, drug_crime_options
+            )
+            drug_crime_question_id = f"{question_string}-Yes-{drug_crime_classification.question.question_id}"  # type: ignore
+            drug_crime_question = replace(drug_crime_classification.question, question_id=drug_crime_question_id)
+            charge_types = drug_crime_classification.ambiguous_charge_type + [PersonFelonyClassB()]
+            question = Question(
+                question_string,
+                question_string,
+                {
+                    "Yes": Answer(question=drug_crime_question),
+                    "No": Answer(edit={"charge_type": PersonFelonyClassB.__name__}),
+                },
+            )
+            return AmbiguousChargeTypeWithQuestion(charge_types, question)
 
     @staticmethod
     def _classification_by_level(level, statute):
