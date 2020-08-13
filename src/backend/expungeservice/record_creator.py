@@ -181,7 +181,7 @@ class RecordCreator:
                     ambiguous_charge_convicted, ambiguous_charge_dismissed
                 ):
                     ambiguous_charges.append(ambiguous_charge_dismissed)
-                    question = replace(question_dismissed, question_id=f"{ambiguous_charge_id}-{question_dismissed.question_id}") if question_dismissed else None  # type: ignore # TODO: Fix type
+                    question = RecordCreator._append_ambiguous_charge_id_to_question_id(question_dismissed, ambiguous_charge_id) if question_dismissed else None  # type: ignore # TODO: Fix type
                 else:
                     ambiguous_charges.append(ambiguous_charge_dismissed + ambiguous_charge_convicted)
                     disposition_question_text = "Choose the disposition"
@@ -204,7 +204,7 @@ class RecordCreator:
             else:
                 ambiguous_charge, maybe_question = ChargeCreator.create(ambiguous_charge_id, **charge_dict)
                 ambiguous_charges.append(ambiguous_charge)
-                question = replace(maybe_question, question_id=f"{ambiguous_charge_id}-{maybe_question.question_id}") if maybe_question else None  # type: ignore # TODO: Fix type
+                question = RecordCreator._append_ambiguous_charge_id_to_question_id(maybe_question, ambiguous_charge_id) if maybe_question else None  # type: ignore # TODO: Fix type
             if question:
                 question_summary = QuestionSummary(ambiguous_charge_id, oeci_case.summary.case_number, question)
                 questions.append(question_summary)
@@ -214,6 +214,19 @@ class RecordCreator:
             possible_case = Case(oeci_case.summary, charges=tuple(charges))
             ambiguous_case.append(possible_case)
         return ambiguous_case, questions
+
+    @staticmethod
+    def _append_ambiguous_charge_id_to_question_id(question: Question, ambiguous_charge_id: str) -> Question:
+        updated_options = {}
+        for answer_string, answer in question.options.items():
+            answer_question = (
+                RecordCreator._append_ambiguous_charge_id_to_question_id(answer.question, ambiguous_charge_id)
+                if answer.question
+                else None
+            )
+            updated_answer = replace(answer, question=answer_question)
+            updated_options[answer_string] = updated_answer
+        return replace(question, question_id=f"{ambiguous_charge_id}-{question.question_id}", options=updated_options)
 
     @staticmethod
     def _build_option(question, ruling, question_id_prefix):
