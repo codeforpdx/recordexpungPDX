@@ -4,10 +4,10 @@ class Faq extends React.Component {
   render() {
     return (
       <>
-        <main className="flex-l mw8 center ph4 mt5">
+        <main className="flex-l mw7 f5 f4-ns center ph4 mv5">
           <article className="order-1 lh-copy">
             <section className="mb5">
-              <h1 className="f2 fw9 mb3 mt4" id="FAQ">
+              <h1 className="f2 fw9 mb3 mt0" id="FAQ">
                 FAQ
               </h1>
               <p className="mb3">
@@ -15,12 +15,12 @@ class Faq extends React.Component {
                 information proliferates from State actors at all levels of the
                 justice system.
               </p>
-              <p className="mb3">
+              <p className="mb4">
                 Below are some common myths overheard in courtrooms all over
                 Oregon.
               </p>
               <ol className="ml4 mb4">
-                <li className="mb2">
+                <li className="mb4">
                   <p className="fw7 mb3">
                     Myth: “After you complete this diversion program, there will
                     be no record of your case.”
@@ -61,7 +61,7 @@ class Faq extends React.Component {
                     for expungement.
                   </p>
                 </li>
-                <li className="mb2">
+                <li className="mb4">
                   <p className="fw7 mb3">
                     Myth: “Your record will be eligible after seven years.”
                   </p>
@@ -96,7 +96,7 @@ class Faq extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="mb2">
+                <li className="mb4">
                   <p className="fw7 mb3">
                     Myth: “No one is ever eligible for expungement.”
                   </p>

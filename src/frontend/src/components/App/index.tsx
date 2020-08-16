@@ -16,6 +16,7 @@ import PrivacyPolicy from "../PrivacyPolicy";
 import FillForms from "../FillForms";
 import PartnerInterest from "../PartnerInterest";
 import AccessibilityStatement from "../AccessibilityStatement";
+import About from "../About";
 
 class App extends React.Component {
   redirect = () => <Redirect to="/" />;
@@ -36,6 +37,7 @@ class App extends React.Component {
           <Route component={FillForms} path="/fill-expungement-forms" />
           <Route component={PartnerInterest} path="/partner-interest" />
           <Route component={AccessibilityStatement} path="/accessibility-statement" />
+          <Route component={About} path="/about" />
           <Route render={this.redirect} />
         </Switch>
         <Footer />
