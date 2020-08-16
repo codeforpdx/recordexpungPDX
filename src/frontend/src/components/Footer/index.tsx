@@ -19,6 +19,15 @@ export default class Footer extends React.Component {
             <li className="pb3">
               <Link
                 className="link hover-blue bb"
+                to="/about"
+                onClick={() => window.scrollTo(0, 0)}
+              >
+                About Us
+              </Link>
+            </li>
+            <li className="pb3">
+              <Link
+                className="link hover-blue bb"
                 to="/partner-interest"
                 onClick={() => window.scrollTo(0, 0)}
               >

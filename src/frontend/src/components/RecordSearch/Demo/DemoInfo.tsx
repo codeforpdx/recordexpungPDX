@@ -214,7 +214,7 @@ class DemoInfo extends React.Component<Props> {
 
           <p className="mb4">
             Or,{" "}
-            <button className="link bb hover-blue" onClick={this.toOeci}>
+            <button className="link bb mid-gray hover-blue" onClick={this.toOeci}>
               log in to OECI
             </button>
             .

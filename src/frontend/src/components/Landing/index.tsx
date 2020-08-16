@@ -193,6 +193,17 @@ class Landing extends React.Component {
                   seeks to provide these services in the communities that need
                   them the most.
                 </p>
+                <Link
+                  className="inline-flex items-center blue hover-dark-blue fw7"
+                  to="/about"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  <span>More about us</span>
+                  <span
+                    className="fas fa-arrow-right lh-solid pt1 pl2"
+                    aria-hidden="true"
+                  ></span>
+                </Link>
               </div>
               <div className="w-50-l tc pa5-l pa3 mb5 ml4-l">
                 <svg
