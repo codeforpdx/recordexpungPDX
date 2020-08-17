@@ -376,6 +376,12 @@ class Manual extends React.Component {
                 Search
               </h2>
               <p className="mb3">
+                Check out a quick video demonstrating how to search:
+              </p>
+              <div className="aspect-ratio aspect-ratio--16x9 mb4 ba bw2 b--black-10">
+                <iframe className="aspect-ratio--object" title="Search records on RecordSponge" width={560} height={315} src="https://www.youtube-nocookie.com/embed/l8MBVgQWhJI?cc_load_policy=1&rel=0" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+              </div>
+              <p className="mb3">
                 Enter the person’s first and last name and date of birth into
                 the search bar.
               </p>
