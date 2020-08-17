@@ -124,6 +124,17 @@ class Landing extends React.Component {
                       ></span>
                     </Link>
                   </div>
+                </div>
+              </div>
+              <div className="mw8 center">
+                <div className="mh4">
+
+                  <div className="flex justify-center mb5">
+                    <div className="flex items-center br3 shadow bg-blue white pv3 ph4">
+                      <i className="fas fa-award f1 light-blue" aria-hidden="true"></i>
+                      <p className="f3-l fw6 ml3">Winner of the 2020 Oregon State Bar Technology & Innovation Award!</p>
+                    </div>
+                  </div>
 
                   <blockquote>
                     <div className="center tc f3 mb1">
