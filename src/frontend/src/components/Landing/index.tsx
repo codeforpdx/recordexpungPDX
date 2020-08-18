@@ -19,17 +19,27 @@ class Landing extends React.Component {
         </div>
         <div className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
-            <div className="mw8 center flex-l ph4 pb5 mt5">
-              <h1 className="f3 f2-ns fw9 w-60-l mr2-l mt0 mb3">
-                Making Record <br />
-                Expungement Affordable
-              </h1>
-              <p className="f5 w-40-l lh-title mw6">
-                <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                RecordSponge is software that helps community organizations
-                quickly analyze an individual’s criminal history to determine if
-                they qualify to have their records expunged.
-              </p>
+
+            <div className="flex justify-center mb5">
+              <div className="flex justify-center items-center w-100 shadow bg-blue white pv3 ph4">
+                <i className="fas fa-award f2 light-blue" aria-hidden="true"></i>
+                <p className="fw6 ml3">Winner of the 2020 Oregon State Bar Technology & Innovation Award</p>
+              </div>
+            </div>
+            
+            <div className="mw8 center ph4 pb5 ">
+              <div className="flex-l mt5">
+                <h1 className="f3 f2-ns fw9 w-60-l mr2-l mt0 mb3">
+                  Making Record <br />
+                  Expungement Affordable
+                </h1>
+                <p className="f5 w-40-l lh-title mw6">
+                  <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
+                  RecordSponge is software that helps community organizations
+                  quickly analyze an individual’s criminal history to determine if
+                  they qualify to have their records expunged.
+                </p>
+              </div>
             </div>
 
             <div className="bg-navy pv6">
@@ -124,17 +134,6 @@ class Landing extends React.Component {
                       ></span>
                     </Link>
                   </div>
-                </div>
-              </div>
-              <div className="mw8 center">
-                <div className="mh4">
-
-                  <div className="flex justify-center mb5">
-                    <div className="flex items-center br3 shadow bg-blue white pv3 ph4">
-                      <i className="fas fa-award f1 light-blue" aria-hidden="true"></i>
-                      <p className="f3-l fw6 ml3">Winner of the 2020 Oregon State Bar Technology & Innovation Award!</p>
-                    </div>
-                  </div>
 
                   <blockquote>
                     <div className="center tc f3 mb1">
@@ -159,7 +158,6 @@ class Landing extends React.Component {
                       Eric Guyer, Jackson County Community Justice Director
                     </footer>
                   </blockquote>
-
 
                   <blockquote>
                     <div className="center tc f3 mb1">
