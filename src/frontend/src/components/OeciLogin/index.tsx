@@ -169,7 +169,7 @@ class OeciLogin extends React.Component<State> {
                       ]}
                     />
                     <p className="lh-copy moon-gray mt5">
-                      The
+                      The{" "}
                       <a
                         className="link hover-light-blue bb"
                         href="https://publicaccess.courts.oregon.gov/PublicAccessLogin/Login.aspx"
@@ -211,9 +211,11 @@ class OeciLogin extends React.Component<State> {
                   </Link>
                   .
                 </p>
-                <p className="mb4">
+                <p className="mb1">
                   We ask anyone using the software to be in touch so that we can
-                  better maintain, scale, and improve our work and community.{" "}
+                  better maintain, scale, and improve our work and community.
+                </p>
+                <p className="mb4">
                   <Link
                     to="/partner-interest"
                     className="link hover-dark-blue bb"
