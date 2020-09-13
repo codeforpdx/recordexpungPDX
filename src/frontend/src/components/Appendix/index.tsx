@@ -2,6 +2,11 @@ import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
 
 class Landing extends React.Component {
+
+  componentDidMount(){
+    document.title = "Appendix - RecordSponge"
+  }
+
   render() {
     return (
       <>
@@ -11,7 +16,7 @@ class Landing extends React.Component {
               <h1 className="f2 fw9 mb3 mt4" id="appendix">
                 Appendix
               </h1>
-              <h3 className="fw7 tl mb2">Forms to file for expungement</h3>
+              <h2 className="fw7 tl mb2">Forms to file for expungement</h2>
               <p className="mb4 mw7">
                 RecordSponge supports automatic form-filling for all the 
                 counties listed here, and will use the Stock Form for those 

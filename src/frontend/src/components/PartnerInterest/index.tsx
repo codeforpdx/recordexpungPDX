@@ -8,6 +8,11 @@ interface State {
 }
 
 export default class PartnerInterest extends React.Component<State> {
+
+  componentDidMount(){
+    document.title = "Partner with us - RecordSponge"
+  }
+
   state = {
     email: "",
     invalidEmail: false,

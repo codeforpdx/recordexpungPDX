@@ -8,6 +8,11 @@ import {
 import EditingGuide from "./EditingGuide";
 
 class Manual extends React.Component {
+
+  componentDidMount(){
+    document.title = "Manual - RecordSponge"
+  }
+
   render() {
     return (
       <>

@@ -19,6 +19,7 @@ interface State {
 }
 
 export default class Rules extends React.Component<Props, State> {
+
   state = {
     rules: { charge_types: [] },
     loaded: false,
@@ -40,6 +41,7 @@ export default class Rules extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    document.title = "Rules - RecordSponge";
     if (!this.state.rules.charge_types[0]) {
       this.fetchRules();
     }

@@ -1,6 +1,11 @@
 import React from "react";
 
 class PrivacyPolicy extends React.Component {
+
+  componentDidMount(){
+    document.title = "Privacy Policy - RecordSponge"
+  }
+
   render() {
     return (
       <>
