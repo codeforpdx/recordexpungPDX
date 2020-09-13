@@ -12,12 +12,7 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <div>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-          <title>RecordSponge Oregon</title>
-        </div>
-        <div className="f5 f4-ns navy bg-white">
+        <main className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
 
             <div className="flex justify-center mb5">
@@ -536,7 +531,7 @@ class Landing extends React.Component {
               </div>
             </footer>
           </div>
-        </div>
+        </main>
       </>
     );
   }

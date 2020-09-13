@@ -16,11 +16,14 @@ class Manual extends React.Component {
   render() {
     return (
       <>
-        <div className="mw8 center ph4 visually-hidden">
-          <h1 className="f3 fw6 mv4">Manual</h1>
-        </div>
         <main className="flex-l mw8 center ph4 mt5">
-          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l">
+          <div className="mw8 center ph4 visually-hidden">
+            <h1 className="f3 fw6 mv4">Manual</h1>
+          </div>
+          <nav 
+            className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l"
+            aria-label="Manual"
+          >
             <ul className="list">
               <li className="mb3">
                 <a href="#intro" className="link hover-blue">
