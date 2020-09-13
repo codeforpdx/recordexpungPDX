@@ -9,7 +9,7 @@ interface State {}
 export default class FillForms extends React.Component<Props, State> {
 
   componentDidMount(){
-    document.title = "Generate Expungement Forms - RecordSponge"
+    document.title = "Generate Expungement Forms - RecordSponge";
   }
 
   public render() {

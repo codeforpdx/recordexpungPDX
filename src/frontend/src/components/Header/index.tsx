@@ -8,7 +8,7 @@ export default class Header extends React.Component {
       <div className="bg-white shadow">
         <nav className="mw8 relative center flex flex-wrap justify-between pa3">
           <div className="logo mb4 mb0-ns">
-            <Link to="/">
+            <Link to="/" aria-label="logo">
               <Logo />
             </Link>
           </div>

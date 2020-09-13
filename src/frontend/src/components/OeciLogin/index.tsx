@@ -17,7 +17,7 @@ interface State {
 class OeciLogin extends React.Component<State> {
 
   componentDidMount(){
-    document.title = "Log In - RecordSponge"
+    document.title = "Log In - RecordSponge";
   }
 
   state: State = {

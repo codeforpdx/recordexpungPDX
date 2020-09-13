@@ -4,7 +4,7 @@ import { HashLink as Link } from "react-router-hash-link";
 class Landing extends React.Component {
 
   componentDidMount(){
-    document.title = "Appendix - RecordSponge"
+    document.title = "Appendix - RecordSponge";
   }
 
   render() {

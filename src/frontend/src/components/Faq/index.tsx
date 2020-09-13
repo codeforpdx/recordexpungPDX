@@ -3,7 +3,7 @@ import React from "react";
 class Faq extends React.Component {
 
   componentDidMount(){
-    document.title = "Frequently Asked Questions - RecordSponge"
+    document.title = "Frequently Asked Questions - RecordSponge";
   }
 
   render() {
