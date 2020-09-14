@@ -6,9 +6,12 @@ export default class Header extends React.Component {
   public render() {
     return (
       <div className="bg-white shadow">
-        <nav className="mw8 relative center flex flex-wrap justify-between pa3">
+        <nav 
+          className="mw8 relative center flex flex-wrap justify-between pa3"
+          aria-label="Primary"
+        >
           <div className="logo mb4 mb0-ns">
-            <Link to="/">
+            <Link to="/" aria-label="Home">
               <Logo />
             </Link>
           </div>

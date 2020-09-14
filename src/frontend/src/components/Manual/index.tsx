@@ -8,14 +8,22 @@ import {
 import EditingGuide from "./EditingGuide";
 
 class Manual extends React.Component {
+
+  componentDidMount(){
+    document.title = "Manual - RecordSponge";
+  }
+
   render() {
     return (
       <>
-        <div className="mw8 center ph4 visually-hidden">
-          <h1 className="f3 fw6 mv4">Manual</h1>
-        </div>
         <main className="flex-l mw8 center ph4 mt5">
-          <nav className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l">
+          <div className="mw8 center ph4 visually-hidden">
+            <h1 className="f3 fw6 mv4">Manual</h1>
+          </div>
+          <nav 
+            className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l"
+            aria-label="Manual"
+          >
             <ul className="list">
               <li className="mb3">
                 <a href="#intro" className="link hover-blue">
@@ -182,7 +190,7 @@ class Manual extends React.Component {
                   <ul className="fw4 ml4">
                     <li className="mb2">
                       You will need an Oregon eCourt Case Information (OECI)
-                      account to use RecordSponge.{" "}
+                      account to search for criminal records.{" "}
                       <a
                         className="bb hover-blue"
                         href="https://www.courts.oregon.gov/services/online/Pages/ojcin-signup.aspx"
@@ -192,18 +200,14 @@ class Manual extends React.Component {
                       .
                     </li>
                     <li className="mb2">
-                      No OECI account yet?{" "}
+                      No OECI account yet? The demo version has all the same 
+                      features besides the ability to search the OECI database. 
+                      There are examples provided or you can even enter 
+                      records manually.{" "}
                       <Link className="bb hover-blue" to="/demo-record-search">
-                        Check out our demo
+                        Check out the demo
                       </Link>
                       .
-                    </li>
-                    <li className="mb2">
-                      Go to{" "}
-                      <Link className="bb hover-blue" to="/record-search">
-                        recordsponge.com/record-search
-                      </Link>{" "}
-                      and log in with your OECI account.
                     </li>
                   </ul>
                 </li>

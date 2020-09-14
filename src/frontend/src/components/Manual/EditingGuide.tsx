@@ -30,7 +30,7 @@ export default class EditingGuide extends React.Component<Props, State> {
           }}
         >
           <div className="bg-gray-blue-2 shadow br3 pa3 mb3">
-            <h3 className="f3 fw7 mb2" id="searchresults">
+            <h3 className="f3 fw7 mb2">
               Editing Results
             </h3>
             <p className="mb2">
@@ -54,7 +54,7 @@ export default class EditingGuide extends React.Component<Props, State> {
               </span>
             </DisclosureButton>
             <DisclosurePanel className="pt3">
-              <h3 className="f4 fw7 mb2" id="searchresults">
+              <h3 className="f4 fw7 mb2">
                 Why Edit
               </h3>
               <section className="mb4">
@@ -92,7 +92,7 @@ export default class EditingGuide extends React.Component<Props, State> {
                   without relying on OECI at all. Editing is built directly in to
                   the main Search feature.
                 </p>
-                <h3 className="f4 fw7 mb2" id="searchresults">
+                <h3 className="f4 fw7 mb2">
                   Enable Editing
                 </h3>
                 <p className="mb3">
@@ -109,7 +109,7 @@ export default class EditingGuide extends React.Component<Props, State> {
                   other pages on recordsponge.com, but they will disappear if you
                   leave the website.
                 </p>
-                <h3 className="f4 fw7 mb2" id="searchresults">
+                <h3 className="f4 fw7 mb2">
                   Add Case
                 </h3>
                 <p className="mb3">
@@ -124,7 +124,7 @@ export default class EditingGuide extends React.Component<Props, State> {
                   Status, County, Balance, and Birth Year, all of which are used
                   to provide complete analysis of the record.
                 </p>
-                <h3 className="f4 fw7 mb2" id="searchresults">
+                <h3 className="f4 fw7 mb2">
                   Edit Case
                 </h3>
                 <p className="mb3">
@@ -153,7 +153,7 @@ export default class EditingGuide extends React.Component<Props, State> {
                     showEditButtons={true}
                   />
                 </div>
-                <h3 className="f4 fw7 mb2" id="searchresults">
+                <h3 className="f4 fw7 mb2">
                   Add Charge
                 </h3>
                 <p className="mb2">

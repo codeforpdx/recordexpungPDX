@@ -8,6 +8,11 @@ interface State {
 }
 
 export default class PartnerInterest extends React.Component<State> {
+
+  componentDidMount(){
+    document.title = "Partner with us - RecordSponge";
+  }
+
   state = {
     email: "",
     invalidEmail: false,
@@ -46,9 +51,10 @@ export default class PartnerInterest extends React.Component<State> {
                 contact with many people with criminal records. If you would
                 like to learn more about partnering please get in contact below.
               </p>
-              <p className="mb4">
+              <p className="mb2">
                 You will need an Oregon eCourt Case Information (OECI) account
-                to use RecordSponge, otherwise there is no additional charge.
+                to search for criminal records with RecordSponge, otherwise there 
+                is no additional charge.
               </p>
               <p className="mb4">
                 <a
@@ -59,9 +65,12 @@ export default class PartnerInterest extends React.Component<State> {
                 </a>
                 .
               </p>
+              <p className="mb2">
+                No OECI account yet? The demo version has all the same features 
+                besides the ability to search the OECI database. There are 
+                examples provided or you can even enter records manually.
+              </p>
               <p className="mb4">
-                No OECI account yet?
-                <br />
                 <Link
                   className="fw7 dark-blue link hover-navy nowrap"
                   to="/demo-record-search"

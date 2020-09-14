@@ -7,6 +7,11 @@ interface Props {}
 interface State {}
 
 export default class FillForms extends React.Component<Props, State> {
+
+  componentDidMount(){
+    document.title = "Generate Expungement Forms - RecordSponge";
+  }
+
   public render() {
     return (
       <main className="mw8 center f6 f5-l ph3 pt4 pb6">

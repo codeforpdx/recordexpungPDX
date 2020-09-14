@@ -12,12 +12,7 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <div>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-          <title>RecordSponge Oregon</title>
-        </div>
-        <div className="f5 f4-ns navy bg-white">
+        <main className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
 
             <div className="flex justify-center mb5">
@@ -114,26 +109,100 @@ class Landing extends React.Component {
                     Are you interested in providing expungement help with this
                     tool?
                   </h2>
-                  <p className="tc center mw7 mb2">
-                    We only ask that you provide your contact details and obtain
-                    an OECI account.
-                  </p>
-                  <p className="tc center mw7 fw7 mb3">
-                    You can now demo the tool without OECI access!
+                  <p className="tc center mw6 mb3">
+                    We’re looking to partner with organizations who have contact 
+                    with many people who have criminal records.
                   </p>
                   <div className="tc mb6">
                     <Link
-                      className="inline-flex items-center f3 blue hover-dark-blue fw7"
+                      className="inline-flex items-center f3-ns blue hover-dark-blue fw7"
                       to="/partner-interest"
                       onClick={() => window.scrollTo(0, 0)}
                     >
-                      <span>Learn More</span>
+                      <span>Learn more about partnering</span>
                       <span
                         className="fas fa-arrow-right lh-solid pt1 pl2"
                         aria-hidden="true"
                       ></span>
                     </Link>
                   </div>
+
+                  <h2 className="mw6 center tc f3 f2-ns fw9 mb3">
+                    Your complete toolkit to expunge records
+                  </h2>
+
+                  <ul className="feature-list center list mb6">
+                    <li className="flex pv3">
+                      <span>
+                        <span className="diamond dib rotate-45 br4 bg-white pa3">
+                          <span 
+                            className="fas fa-search f4 rotate-315 blue" 
+                            aria-hidden="true"
+                          ></span>
+                        </span>
+                      </span>
+                      <span className="fw5 pt2 pt1-ns pl3">
+                        Search the OECI database for records
+                      </span>
+                    </li>
+
+                    <li className="flex pv3">
+                      <span>
+                        <span className="diamond dib rotate-45 br4 bg-white pa3">
+                          <span 
+                            className="fas fa-pen f4 rotate-315 blue" 
+                            aria-hidden="true"
+                          ></span>
+                        </span>
+                      </span>
+                      <span className="fw5 pt2 pt1-ns pl3">
+                        Edit or enter records manually
+                      </span>
+                    </li>
+
+                    <li className="flex pv3">
+                      <span>
+                        <span className="diamond dib rotate-45 br4 bg-white pa3">
+                          <span 
+                            className="fas fa-check f3 rotate-315 blue" 
+                            aria-hidden="true"
+                          ></span>
+                        </span>
+                      </span>
+                      <span className="fw5 pt2 pt1-ns pl3">
+                        Get Instant eligibility results
+                      </span>
+                    </li>
+
+                    <li className="flex pv3">
+                      <span>
+                        <span className="diamond dib rotate-45 br4 bg-white pa3">
+                          <span 
+                            className="fas fa-bolt f3 rotate-315 blue pl1" 
+                            aria-hidden="true"
+                          ></span>
+                        </span>
+                      </span>
+                      <span className="fw5 pt2 pt1-ns pl3">
+                        Automatically generate paperwork
+                      </span>
+                    </li>
+
+                    <li className="flex pv3">
+                      <span>
+                        <span className="diamond dib rotate-45 br4 bg-white pa3">
+                          <span 
+                            className="fas fa-compass f3 rotate-315 blue" 
+                            aria-hidden="true"
+                          ></span>
+                        </span>
+                      </span>
+                      <span className="fw5 pt2 pt1-ns pl3">
+                        Guidance on how to file for expungement
+                      </span>
+                    </li>
+
+                  </ul>
 
                   <blockquote>
                     <div className="center tc f3 mb1">
@@ -416,16 +485,21 @@ class Landing extends React.Component {
                   <p className="lh-copy mb5">
                     And so we created RecordSponge to greatly increase access to
                     expungement by automating the legal analysis. We are seeking
-                    more partners to administer RecordSponge,{" "}
+                    more partners to administer RecordSponge.
+                  </p>
+                  <div className="mb6">
                     <Link
-                      className="link hover-dark-blue bb"
+                      className="inline-flex items-center f3-ns blue hover-dark-blue fw7"
                       to="/partner-interest"
                       onClick={() => window.scrollTo(0, 0)}
                     >
-                      learn more
+                      <span>Learn more about partnering</span>
+                      <span
+                        className="fas fa-arrow-right lh-solid pt1 pl2"
+                        aria-hidden="true"
+                      ></span>
                     </Link>
-                    .
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -457,7 +531,7 @@ class Landing extends React.Component {
               </div>
             </footer>
           </div>
-        </div>
+        </main>
       </>
     );
   }

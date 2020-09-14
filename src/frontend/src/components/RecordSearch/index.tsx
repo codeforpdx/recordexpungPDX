@@ -15,8 +15,10 @@ interface Props {
 }
 
 class RecordSearch extends Component<Props> {
+
   componentDidMount() {
     this.props.demo || checkOeciRedirect();
+    document.title = "Search Records - RecordSponge";
   }
 
   render() {

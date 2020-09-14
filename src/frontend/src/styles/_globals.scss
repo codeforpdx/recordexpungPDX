@@ -109,6 +109,18 @@ fieldset {
   outline: 2px solid white;
 }
 
+.feature-list {
+  max-width: 260px;
+  @media screen and (min-width: 30rem) {
+    max-width: 300px;
+  }
+}
+.diamond {
+  width: 55px;
+  height: 55px;
+  box-shadow: 0 6px 12px -4px #3683E4;
+}
+
 // Case header widths
 
 .ch1 {
