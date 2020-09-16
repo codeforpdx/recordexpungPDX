@@ -553,8 +553,8 @@ class Manual extends React.Component {
                     RecordSponge can generally tell if a probation revocation
                     occurred. However, the online courts are inconsistent in
                     displaying this information. Ensure that a probation
-                    revocation did not occurred within the last ten years simply
-                    by asking the client.
+                    revocation did not occur within the last ten years by asking
+                    the client.
                   </p>
                 </li>
               </ol>
