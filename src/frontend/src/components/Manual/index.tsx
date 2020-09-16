@@ -8,8 +8,7 @@ import {
 import EditingGuide from "./EditingGuide";
 
 class Manual extends React.Component {
-
-  componentDidMount(){
+  componentDidMount() {
     document.title = "Manual - RecordSponge";
   }
 
@@ -20,7 +19,7 @@ class Manual extends React.Component {
           <div className="mw8 center ph4 visually-hidden">
             <h1 className="f3 fw6 mv4">Manual</h1>
           </div>
-          <nav 
+          <nav
             className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l"
             aria-label="Manual"
           >
@@ -200,10 +199,10 @@ class Manual extends React.Component {
                       .
                     </li>
                     <li className="mb2">
-                      No OECI account yet? The demo version has all the same 
-                      features besides the ability to search the OECI database. 
-                      There are examples provided or you can even enter 
-                      records manually.{" "}
+                      No OECI account yet? The demo version has all the same
+                      features besides the ability to search the OECI database.
+                      There are examples provided or you can even enter records
+                      manually.{" "}
                       <Link className="bb hover-blue" to="/demo-record-search">
                         Check out the demo
                       </Link>
@@ -383,7 +382,16 @@ class Manual extends React.Component {
                 Check out a quick video demonstrating how to search:
               </p>
               <div className="aspect-ratio aspect-ratio--16x9 mb4 ba bw2 b--black-10">
-                <iframe className="aspect-ratio--object" title="Search records on RecordSponge" width={560} height={315} src="https://www.youtube-nocookie.com/embed/l8MBVgQWhJI?cc_load_policy=1&rel=0" frameBorder={0} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                <iframe
+                  className="aspect-ratio--object"
+                  title="Search records on RecordSponge"
+                  width={560}
+                  height={315}
+                  src="https://www.youtube-nocookie.com/embed/l8MBVgQWhJI?cc_load_policy=1&rel=0"
+                  frameBorder={0}
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
               </div>
               <p className="mb3">
                 Enter the person’s first and last name and date of birth into
@@ -454,8 +462,8 @@ class Manual extends React.Component {
                   date further.
                 </p>
                 <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
-                  Eligibility timeframe dependent on open charge: Eligible Jun
-                  12, 2022 or 10 years from conviction of open charge
+                  Eligibility date dependent on open charge: Eligible Jun 12,
+                  2022 or 10 years from conviction of open charge
                 </div>
                 <p className="mb3">
                   If there is an open charge, the affected charges will show
