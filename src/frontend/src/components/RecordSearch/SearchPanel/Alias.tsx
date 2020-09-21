@@ -32,7 +32,7 @@ export default class Alias extends React.Component<Props, State> {
           name="firstName"
           label="First Name"
           content={this.props.aliasData.first_name}
-          inputMarkup="br-0-ns br--left-ns"
+          inputMarkup="br-0-ns br--left-ns relative"
           onChange={(fieldValue: string) => {
             this.handleFieldChange("first_name", fieldValue);
           }}

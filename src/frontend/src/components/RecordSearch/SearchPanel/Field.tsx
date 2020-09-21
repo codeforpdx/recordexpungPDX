@@ -41,7 +41,7 @@ export default class Field extends React.Component<Props, State> {
     return (
       <div className={sharedDivMarkup + this.props.divMarkup}>
         <label htmlFor={this.props.name} className="db mb1 fw6">
-          {this.props.label} <span className="fw2 f6">{this.props.coda}</span>
+          {this.props.label} <span className="fw4 f6">{this.props.coda}</span>
         </label>
         <input
           value={this.props.content}
