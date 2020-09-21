@@ -9,6 +9,11 @@ import {
 } from "@reach/disclosure";
 
 class Landing extends React.Component {
+
+  componentDidMount() {
+    document.title = "RecordSponge - Home";
+  }
+
   render() {
     return (
       <>
