@@ -10,7 +10,7 @@ interface Props {
 export default class ChargesList extends React.Component<Props> {
   render() {
     const summarizedCharges = Object.entries(this.props.eligibleChargesByDate)
-      .sort((a, b) => this.extractLabel(a).localeCompare(this.extractLabel(b)))
+      .sort((b, a) => this.extractLabel(a).localeCompare(this.extractLabel(b)))
       .map(([eligibilityDate, chargesNames]: [string, any]) => {
         const listItems = this.buildListItems(chargesNames);
         const labelColor =
@@ -23,9 +23,9 @@ export default class ChargesList extends React.Component<Props> {
             : "dark-blue";
         const SHOW_ALL_CHARGES_THRESHOLD = 20;
         return (
-          <div key={eligibilityDate}>
-            <div className="mb1">
-              <span className={"fw7 ttc mb2 " + labelColor}>
+          <div className="mb3" key={eligibilityDate}>
+            <div className={labelColor + " bb b--light-gray lh-copy pb1"}>
+              <span className="fw7 mb2">
                 {" "}
                 {eligibilityDate}{" "}
               </span>
@@ -33,22 +33,22 @@ export default class ChargesList extends React.Component<Props> {
                 {" "}
                 {chargesNames.length > 0 ? `(${chargesNames.length})` : ""}{" "}
               </span>
+              <p className="f6 fw5">
+                {eligibilityDate === "Ineligible" &&
+                this.props.totalCharges > SHOW_ALL_CHARGES_THRESHOLD
+                  ? "Excludes traffic violations, which are always ineligible"
+                  : eligibilityDate === "Needs More Analysis"
+                  ? "These charges need clarification below before an accurate analysis can be determined"
+                  : ""}
+              </p>
             </div>
-            <p className="f6 mb2">
-              {eligibilityDate === "Ineligible" &&
-              this.props.totalCharges > SHOW_ALL_CHARGES_THRESHOLD
-                ? "Excludes traffic violations, which are always ineligible"
-                : eligibilityDate === "Needs More Analysis"
-                ? "These charges need clarification before an accurate analysis can be determined"
-                : ""}
-            </p>
-            <ul className="list mb3">{listItems}</ul>
+            <ul className="list">{listItems}</ul>
           </div>
         );
       });
 
     return (
-      <div className="w-100 w-two-thirds-l mb3">
+      <div className="w-100 w-two-thirds-l">
         <h3 className="bt b--light-gray pt2 mb3">
           <span className="fw7">Cases</span> ({this.props.totalCases})
         </h3>
@@ -85,7 +85,7 @@ export default class ChargesList extends React.Component<Props> {
           }
         };
         return (
-          <li key={"chargeItem" + index} className="bt b--light-gray pt2 mb2">
+          <li key={"chargeItem" + index} className="f6 bb b--light-gray pv2">
             <a href={"#" + id} className="link hover-blue">
               {highlightMoneyOwed(chargeName)}
             </a>

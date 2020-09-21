@@ -47,8 +47,8 @@ class RecordSummary extends React.Component<Props, State> {
 
     return (
       <div className="bg-white shadow br3 mb3 ph3 pb3">
-        <div className="flex flex-wrap justify-end">
-          <h2 className="mv3 mr-auto f5 fw7">Search Summary</h2>
+        <div className="flex flex-wrap justify-end mb1">
+          <h2 className="f5 fw7 mv3 mr-auto">Search Summary</h2>
           {this.state.cantGenerateForms && (
             <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
               There must be eligible charges to generate paperwork.{" "}
