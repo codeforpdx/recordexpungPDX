@@ -52,6 +52,7 @@ function validateSearchResponseData(data: SearchResponse): boolean {
 
 function buildSearchRequest() {
   return {
+    demo: store.getState().search.demo,
     aliases: store.getState().search.aliases,
     questions: store.getState().search.questions,
     edits: store.getState().search.edits,
