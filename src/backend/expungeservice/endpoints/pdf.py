@@ -10,9 +10,11 @@ from expungeservice.endpoints.search import Search
 
 class Pdf(MethodView):
     def post(self):
-        response = Search().post()
-        record = json.loads(response)["record"]
         request_data = request.get_json()
+        demo = request_data.get("demo")
+        search = Demo if demo else Search
+        response = search().post()  # type: ignore
+        record = json.loads(response)["record"]
         aliases = request_data["aliases"]
         header = MarkdownSerializer.default_header(aliases)
         source = MarkdownSerializer.to_markdown(record, header)
