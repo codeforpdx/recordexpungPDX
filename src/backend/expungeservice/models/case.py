@@ -105,6 +105,10 @@ class CaseCreator:
 
     @staticmethod
     def compute_balance_due_in_cents(balance_due_dollar_amount: str):
-        is_negative = len(balance_due_dollar_amount) > 0 and balance_due_dollar_amount[0] == "("
-        balance_due_dollar_amount_float = float(re.sub("[,()]", "", balance_due_dollar_amount))
-        return (-1 if is_negative else 1) * int(balance_due_dollar_amount_float * 100)
+        return int(CaseCreator._balance_to_float(balance_due_dollar_amount) * 100)
+
+    @staticmethod
+    def _balance_to_float(balance: str) -> float:
+        commas_removed = balance.replace(",","")
+        normalized_negative = re.sub("\((?P<balance>.*)\)", "-\g<balance>", commas_removed)
+        return float(normalized_negative)
