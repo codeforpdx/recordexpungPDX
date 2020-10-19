@@ -8,6 +8,6 @@ describe("CURRENCY FORMAT SERVICE TEST", () => {
     currencyString = currencyFormat(0);
     expect(currencyString).toEqual("$0.00");
     currencyString = currencyFormat(-422.42);
-    expect(currencyString).toEqual("$-422.42");
+    expect(currencyString).toEqual("$(422.42)");
   });
 });

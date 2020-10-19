@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from expungeservice.util import DateWithFuture as date_class
 from typing import Optional, Tuple
+import re
 
 from expungeservice.models.charge import OeciCharge, Charge, EditStatus
 
@@ -71,7 +72,14 @@ class Case(OeciCase):
 class CaseCreator:
     @staticmethod
     def create(
-        info, case_number, district_attorney_number, citation_number, date_location, type_status, case_detail_link, balance="0"
+        info,
+        case_number,
+        district_attorney_number,
+        citation_number,
+        date_location,
+        type_status,
+        case_detail_link,
+        balance="0",
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -97,5 +105,10 @@ class CaseCreator:
 
     @staticmethod
     def compute_balance_due_in_cents(balance_due_dollar_amount: str):
-        balance_due_dollar_amount_float = float(balance_due_dollar_amount.replace(",", ""))
-        return int(balance_due_dollar_amount_float * 100)
+        return int(CaseCreator._balance_to_float(balance_due_dollar_amount) * 100)
+
+    @staticmethod
+    def _balance_to_float(balance: str) -> float:
+        commas_removed = balance.replace(",","")
+        normalized_negative = re.sub("\((?P<balance>.*)\)", "-\g<balance>", commas_removed)
+        return float(normalized_negative)
