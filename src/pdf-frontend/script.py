@@ -26,21 +26,21 @@ def build_header(aliases, name, birth_date, officer):
 
 
 def handle_person(output, client, row):
+    first_name = row.get("First Name", "").upper().strip()
+    middle = row.get("Middle", "").upper().strip()
+    last_name = row.get("Last Name", "").upper().strip()
+    birth_date = row.get("Birth Date", "")
     alias = {
-        "first_name": row.get("First Short", ""),
-        "last_name": row.get("Last Short", ""),
-        "birth_date": row.get("Birth Date", ""),
+        "first_name": first_name[:2] + "*",
+        "last_name": last_name[:3] + "*",
+        "birth_date": birth_date,
         "middle_name": "",
     }
     aliases = [alias]
     response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
     record = json.loads(response.text)["record"]
-    first_name = row.get("First Name", "").upper()
-    middle = row.get("Middle", "").upper()
-    last_name = row.get("Last Name", "").upper()
     name = f"{first_name} {middle} {last_name}"
-    birth_date = row.get("Birth Date", "")
-    officer = row.get("Officer", "").upper()
+    officer = row.get("Officer", "").upper().strip()
     header = build_header(aliases, name, birth_date, officer)
     if record.get("cases"):
         print(f"PROCESSING ANALYSIS FOR {name}")
@@ -54,10 +54,10 @@ def handle_person(output, client, row):
         print(f"BLANK RECORD: {name} {aliases}")
 
 
-def search_and_dump_many_records(source_filename="source/cjpp.csv", output="output/"):
+def search_and_dump_many_records(source_filename="source/names.csv", output="output/"):
     Path(output).mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(source_filename)
-    cleaned_df = df[["First Name", "Last Name", "Middle", "First Short", "Last Short", "Birth Date", "Officer"]].fillna(
+    cleaned_df = df[["First Name", "Middle", "Last Name", "Birth Date", "Officer"]].fillna(
         ""
     )  # TODO: Check unique of first/last name
     client = Auth.get_authenticated_client()
@@ -65,4 +65,4 @@ def search_and_dump_many_records(source_filename="source/cjpp.csv", output="outp
 
 
 if __name__ == "__main__":
-    search_and_dump_many_records("source/cjpp2.csv", "output2/")
+    search_and_dump_many_records("source/names.csv", "output2/")
