@@ -133,12 +133,9 @@ def test_record_summarizer_multiple_cases():
             ),
         ],
     }
-
-    """
-    assert record_summary.county_balances["Baker"] == 700.00
-    assert record_summary.county_balances["Multnomah"] == 100.00
-    assert record_summary.county_balances["Clackamas"] == 200.00
-    """
+    assert record_summary.filing_fee.cases_with_eligible_convictions == 2
+    assert record_summary.filing_fee.counties_with_eligible_convictions == 2
+    assert record_summary.filing_fee.total == 722
 
 
 def test_record_summarizer_no_cases():
@@ -150,3 +147,7 @@ def test_record_summarizer_no_cases():
     assert record_summary.total_charges == 0
     assert record_summary.county_balances == []
     assert record_summary.eligible_charges_by_date == {}
+    assert record_summary.filing_fee.cases_with_eligible_convictions == 0
+    assert record_summary.filing_fee.counties_with_eligible_convictions == 0
+    assert record_summary.filing_fee.total == 0
+

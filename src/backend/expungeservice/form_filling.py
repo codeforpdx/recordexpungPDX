@@ -6,14 +6,11 @@ from typing import List, Dict, Tuple, Optional
 from zipfile import ZipFile
 
 from dacite import from_dict
-from expungeservice.expunger import Expunger
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
-from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
-from more_itertools import partition
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
 
 
@@ -128,13 +125,7 @@ class FormFilling:
 
     @staticmethod
     def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[Tuple[PdfReader, List[str]]]:
-        ineligible_charges_generator, eligible_charges_generator = partition(
-            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
-            if c.expungement_result.charge_eligibility
-            else False,
-            case.charges,
-        )
-        ineligible_charges, eligible_charges = list(ineligible_charges_generator), list(eligible_charges_generator)
+        eligible_charges, ineligible_charges = Case.partition_by_eligibility(case.charges)
         in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
             f"{case.summary.case_number} (in part - counts {in_part})"
@@ -162,7 +153,7 @@ class FormFilling:
         charges = case.charges
         charge_names = [charge.name.title() for charge in charges]
         arrest_dates_all = list(set([charge.date.strftime("%b %-d, %Y") for charge in charges]))
-        dismissals, convictions = Expunger._categorize_charges(eligible_charges)
+        dismissals, convictions = Case.categorize_charges(eligible_charges)
         dismissed_names = [charge.name.title() for charge in dismissals]
         dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
         dismissed_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]))

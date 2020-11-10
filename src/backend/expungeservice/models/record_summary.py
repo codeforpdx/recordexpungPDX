@@ -11,6 +11,16 @@ class CountyBalance:
 
 
 @dataclass
+class FilingFees:
+    cases_with_eligible_convictions: int
+    counties_with_eligible_convictions: int
+
+    @property
+    def total(self):
+        return 281 * self.cases_with_eligible_convictions + 80 * self.counties_with_eligible_convictions
+
+
+@dataclass
 class RecordSummary:
     record: Record
     questions: Dict[str, QuestionSummary]
@@ -25,3 +35,9 @@ class RecordSummary:
     @property
     def total_cases(self):
         return len(self.record.cases)
+
+    @property
+    def filing_fee(self):
+        cases_with_eligible_convictions = [case for case in self.record.cases if case.has_eligible_conviction()]
+        locations = set([case.summary.location for case in cases_with_eligible_convictions])
+        return FilingFees(cases_with_eligible_convictions=len(cases_with_eligible_convictions), counties_with_eligible_convictions=len(locations))
