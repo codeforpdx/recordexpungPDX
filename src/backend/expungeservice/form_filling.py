@@ -21,7 +21,7 @@ from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
 class FormData:
     case_name: str
     case_number: str
-    case_number_with_comments: str  # For Clackamas and Lincoln county
+    case_number_with_comments: str # For legacy reasons; same as case_number
     da_number: str
     full_name: str
     date_of_birth: str
@@ -177,7 +177,7 @@ class FormFilling:
         form_data_dict = {
             **user_information,
             "case_name": case.summary.name,
-            "case_number": case.summary.case_number,
+            "case_number": case_number_with_comments,
             "case_number_with_comments": case_number_with_comments,
             "da_number": case.summary.district_attorney_number,
             "arresting_agency": "",

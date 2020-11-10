@@ -33,14 +33,10 @@ RecordSponge is not your lawyer. The results below should be used as a guide onl
 Below is a summary of your eligibility for expungement based on the assumptions above. 
 If the above assumptions are not true for you and you would like an updated analysis, email roe@qiu-qiulaw.com with your name and date of birth with subject line, “Updated Analysis”.  
 ## Charges Eligible Now  
+ - Possession of Cocaine (CONVICTED) Charged Jun 13, 2009 - $ owed 
  - Possession of Cocaine (DISMISSED) Charged Feb 17, 2009 - $ owed  
   
   
-## Future Eligible Charges  
-The following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.  
-### Eligible Nov 9, 2020  
- - Possession of Cocaine (CONVICTED) Charged Jun 13, 2009 - $ owed  
-
   
 """
 
