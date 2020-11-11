@@ -42,7 +42,7 @@ class RecordMerger:
             for charge in case.charges:
                 time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(
                     charge.ambiguous_charge_id
-                )  # TODO: Review whether this can return None
+                )
                 sorted_time_eligibility = (
                     sorted(time_eligibilities, key=lambda e: e.date_will_be_eligible) if time_eligibilities else None
                 )
@@ -139,7 +139,7 @@ class RecordMerger:
         elif type_eligibility.status == EligibilityStatus.INELIGIBLE:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
-            # TODO: Rethink if this is possible
+            # For example, JuvenileCharge
             return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly Eligible But Time Analysis Is Missing")
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
