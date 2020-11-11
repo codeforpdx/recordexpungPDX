@@ -19,7 +19,7 @@ class Search(MethodView):
     def post(self):
         record_summary = self.build_response()
         response_data = {"record": record_summary}
-        return json.dumps(response_data, cls=ExpungeModelEncoder)
+        return json.dumps(response_data, cls=ExpungeModelEncoder, sort_keys=False)
 
     def build_response(self) -> RecordSummary:
         request_data = request.get_json()

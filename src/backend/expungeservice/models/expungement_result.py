@@ -44,6 +44,7 @@ class TimeEligibility:
 class ChargeEligibility:
     status: ChargeEligibilityStatus
     label: str
+    date_to_sort_label_by: Optional[date] = None
 
 
 @dataclass(frozen=True)
