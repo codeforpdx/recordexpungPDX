@@ -40,9 +40,7 @@ class RecordMerger:
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
-                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(
-                    charge.ambiguous_charge_id
-                )
+                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(charge.ambiguous_charge_id)
                 sorted_time_eligibility = (
                     sorted(time_eligibilities, key=lambda e: e.date_will_be_eligible) if time_eligibilities else None
                 )
@@ -144,48 +142,39 @@ class RecordMerger:
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif any([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
-            at_least_will_be_eligibles = [
+            non_ineligibles = [
                 time_eligibility
                 for time_eligibility in time_eligibilities
                 if time_eligibility.date_will_be_eligible != date.max()
             ]
-            will_be_eligibles = [
+            future_eligibles = [
                 time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
-                for time_eligibility in at_least_will_be_eligibles
+                for time_eligibility in non_ineligibles
                 if time_eligibility.status != EligibilityStatus.ELIGIBLE
             ]
-            will_be_eligibles_string = " or ".join(will_be_eligibles)
-            if all(
-                [
-                    time_eligibility.status == EligibilityStatus.ELIGIBLE
-                    for time_eligibility in at_least_will_be_eligibles
-                ]
-            ):
+            future_eligibles_string = " or ".join(future_eligibles)
+            if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in non_ineligibles]):
                 return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible Now")
-            elif any(
-                [
-                    time_eligibility.status == EligibilityStatus.ELIGIBLE
-                    for time_eligibility in at_least_will_be_eligibles
-                ]
-            ):
+            elif any([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in non_ineligibles]):
                 return ChargeEligibility(
                     ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible Now or {will_be_eligibles_string}",
+                    f"Possibly Eligible Now or {future_eligibles_string}",
                 )
             else:
                 return ChargeEligibility(
-                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE, f"Possibly Eligible {will_be_eligibles_string}",
+                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
+                    f"Possibly Eligible {future_eligibles_string}",
                 )
         elif all([time_eligibility.date_will_be_eligible != date.max for time_eligibility in time_eligibilities]):
             if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]):
                 return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible Now")
             else:
-                will_be_eligibles = [
+                future_eligibles = [
                     time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
                     for time_eligibility in time_eligibilities
                     if time_eligibility.status != EligibilityStatus.ELIGIBLE
                 ]
-                eligible_date_string = " or ".join(will_be_eligibles)
+                eligible_date_string = " or ".join(future_eligibles)
                 if any(
                     [time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]
                 ):
