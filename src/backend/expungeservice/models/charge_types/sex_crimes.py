@@ -67,7 +67,7 @@ For further detail, see 137.225(6)(a)"""
 
 @dataclass(frozen=True)
 class RomeoAndJulietNMASexCrime(ChargeType):
-    type_name: str = "Young Offender Sex Crime"
+    type_name: str = "Young Offender Sex Crime, Needs More Analysis"
     expungement_rules: str = """In some cases, a statutory rape charge may be eligible for a young offender. The required conditions are listed in 137.225(6)(f).
         Please contact michael@qiu-qiulaw.com for manual analysis."""
 
@@ -83,7 +83,7 @@ class RomeoAndJulietNMASexCrime(ChargeType):
 
 @dataclass(frozen=True)
 class RomeoAndJulietIneligibleSexCrime(ChargeType):
-    type_name: str = "Young Offender Sex Crime"
+    type_name: str = "Young Offender Sex Crime, Ineligible"
     expungement_rules: str = """See other entry for this charge type"""
 
     def type_eligibility(self, disposition):
