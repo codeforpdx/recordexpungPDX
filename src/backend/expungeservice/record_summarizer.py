@@ -27,14 +27,14 @@ class RecordSummarizer:
                 label = charge_eligibility.label
                 if label == "Needs More Analysis":
                     return 0, label
-                elif label == "Eligible Now":
-                    return 1, label
-                elif "Eligible Now" in label:
-                    return 2, label
                 elif label == "Ineligible":
-                    return 4, label
-                else:
+                    return 1, label
+                elif label == "Eligible Now":
+                    return 2, label
+                elif "Eligible Now" in label:
                     return 3, label
+                else:
+                    return 4, label
             else:
                 return 0, ""
 
