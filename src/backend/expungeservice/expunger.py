@@ -39,8 +39,8 @@ class Expunger:
 
             other_blocking_charges = [c for c in other_charges if c.charge_type.blocks_other_charges]
 
-            _, convictions = Expunger._categorize_charges(other_charges)
-            blocking_dismissals, blocking_convictions = Expunger._categorize_charges(other_blocking_charges)
+            _, convictions = Case.categorize_charges(other_charges)
+            blocking_dismissals, blocking_convictions = Case.categorize_charges(other_blocking_charges)
 
             most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, blocking_dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(blocking_convictions)
@@ -171,18 +171,6 @@ class Expunger:
                         )
                         ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id] = time_eligibility
         return ambiguous_charge_id_to_time_eligibility
-
-    @staticmethod
-    def _categorize_charges(charges):
-        dismissals, convictions = [], []
-        for charge in charges:
-            if charge.dismissed():
-                dismissals.append(charge)
-            elif charge.convicted():
-                convictions.append(charge)
-            else:
-                raise ValueError("Charge should always convicted or dismissed at this point.")
-        return dismissals, convictions
 
     @staticmethod
     def _most_recent_different_case_dismissal(charge, dismissals):

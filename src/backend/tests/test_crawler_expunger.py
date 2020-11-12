@@ -1,3 +1,4 @@
+from expungeservice.models.case import Case
 from expungeservice.util import DateWithFuture as date
 
 import pytest
@@ -137,7 +138,7 @@ def record_with_various_categories():
 
 
 def test_expunger_categorizes_charges(record_with_various_categories):
-    dismissals, convictions = Expunger._categorize_charges(record_with_various_categories.charges)
+    dismissals, convictions = Case.categorize_charges(record_with_various_categories.charges)
 
     assert len(dismissals) == 5
     assert len(convictions) == 4

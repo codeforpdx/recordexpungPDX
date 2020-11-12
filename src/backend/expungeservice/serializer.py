@@ -13,9 +13,10 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                 "summary": {
                     "total_charges": record_summary.total_charges,
                     "eligible_charges_by_date": record_summary.eligible_charges_by_date,
-                    "county_balances": record_summary.county_balances,
-                    "total_balance_due": record_summary.total_balance_due,
                     "total_cases": record_summary.total_cases,
+                    "county_balances": record_summary.county_fines,
+                    "total_balance_due": record_summary.total_balance_due,
+                    "county_filing_fees": record_summary.county_filing_fees,
                 },
                 "questions": record_summary.questions,
             },

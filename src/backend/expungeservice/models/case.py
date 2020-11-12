@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime
-from expungeservice.util import DateWithFuture as date_class
-from typing import Optional, Tuple
-import re
 
 from expungeservice.models.charge import OeciCharge, Charge, EditStatus
+from expungeservice.models.expungement_result import ChargeEligibilityStatus
+from expungeservice.util import DateWithFuture as date_class
+from typing import Optional, Tuple, Iterable
+import re
+from more_itertools import partition
 
 
 @dataclass(frozen=True)
@@ -67,6 +69,33 @@ class OeciCase:
 class Case(OeciCase):
     summary: CaseSummary
     charges: Tuple[Charge, ...]
+
+    def has_eligible_conviction(self):
+        eligible_charges, ineligible_charges = Case.partition_by_eligibility(self.charges)
+        dismissals, convictions = Case.categorize_charges(eligible_charges)
+        return len(convictions) > 0
+
+    @staticmethod
+    def partition_by_eligibility(charges: Tuple[Charge, ...]):
+        ineligible_charges_generator, eligible_charges_generator = partition(
+            lambda c: c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
+            if c.expungement_result.charge_eligibility
+            else False,
+            charges,
+        )
+        return list(eligible_charges_generator), list(ineligible_charges_generator)
+
+    @staticmethod
+    def categorize_charges(charges: Iterable[Charge]):
+        dismissals, convictions = [], []
+        for charge in charges:
+            if charge.dismissed():
+                dismissals.append(charge)
+            elif charge.convicted():
+                convictions.append(charge)
+            else:
+                raise ValueError("Charge should always convicted or dismissed at this point.")
+        return dismissals, convictions
 
 
 class CaseCreator:

@@ -31,7 +31,8 @@ def test_record_summarizer_multiple_cases():
         charges=tuple(
             [
                 ChargeFactory.create(
-                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
+                    case_number="2",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 ),
                 ChargeFactory.create(
                     case_number="2",
@@ -133,12 +134,8 @@ def test_record_summarizer_multiple_cases():
             ),
         ],
     }
-
-    """
-    assert record_summary.county_balances["Baker"] == 700.00
-    assert record_summary.county_balances["Multnomah"] == 100.00
-    assert record_summary.county_balances["Clackamas"] == 200.00
-    """
+    assert len(record_summary.county_filing_fees) == 2
+    assert record_summary.total_filing_fees_due == 722
 
 
 def test_record_summarizer_no_cases():
@@ -148,5 +145,6 @@ def test_record_summarizer_no_cases():
     assert record_summary.total_balance_due == 0.00
     assert record_summary.total_cases == 0
     assert record_summary.total_charges == 0
-    assert record_summary.county_balances == []
+    assert record_summary.county_fines == []
     assert record_summary.eligible_charges_by_date == {}
+    assert record_summary.county_filing_fees == []

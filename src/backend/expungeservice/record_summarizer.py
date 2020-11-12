@@ -1,8 +1,9 @@
 from itertools import groupby
 
+from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
-from expungeservice.models.record import QuestionSummary
-from expungeservice.models.record_summary import RecordSummary, CountyBalance
+from expungeservice.models.record import QuestionSummary, Record
+from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFine
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
 
@@ -10,17 +11,35 @@ from typing import Dict, List, Tuple
 class RecordSummarizer:
     @staticmethod
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
-        county_balances: Dict[str, float] = {}
-        for case in record.cases:
-            if not case.summary.location in county_balances.keys():
-                county_balances[case.summary.location] = case.summary.get_balance_due()
-            else:
-                county_balances[case.summary.location] += case.summary.get_balance_due()
-        county_balances_list: List[CountyBalance] = []
-        for county, balance in county_balances.items():
-            county_balances_list.append(CountyBalance(county, round(balance, 2)))
-        total_charges = len(record.charges)
+        county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
+        eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
+        return RecordSummary(
+            record=record,
+            questions=questions,
+            eligible_charges_by_date=eligible_charges_by_date,
+            total_charges=len(record.charges),
+            county_fines=county_fines,
+            county_filing_fees=county_filing_fees,
+        )
 
+    @staticmethod
+    def _build_county_balances(record: Record):
+        def get_location(case: Case):
+            return case.summary.location
+
+        county_fines_list: List[CountyFine] = []
+        county_filing_fees: List[CountyFilingFee] = []
+        for location, cases_by_county in groupby(sorted(record.cases, key=get_location), key=get_location):
+            cases = list(cases_by_county)
+            fines = [case.summary.get_balance_due() for case in cases]
+            cases_with_eligible_convictions = [case for case in cases if case.has_eligible_conviction()]
+            county_fines_list.append(CountyFine(location, round(sum(fines), 2)))
+            if len(cases_with_eligible_convictions) > 0:
+                county_filing_fees.append(CountyFilingFee(location, len(cases_with_eligible_convictions)))
+        return county_fines_list, county_filing_fees
+
+    @staticmethod
+    def _build_eligible_charges_by_date(record: Record):
         def primary_sort(charge: Charge):
             charge_eligibility = charge.expungement_result.charge_eligibility
             if charge_eligibility:
@@ -66,11 +85,4 @@ class RecordSummarizer:
                 if charge.edit_status != EditStatus.DELETE
             ]
             eligible_charges_by_date[label] = charges_tuples
-
-        return RecordSummary(
-            record=record,
-            questions=questions,
-            eligible_charges_by_date=eligible_charges_by_date,
-            total_charges=total_charges,
-            county_balances=county_balances_list,
-        )
+        return eligible_charges_by_date
