@@ -40,9 +40,7 @@ class RecordMerger:
         for case in record.cases:
             new_charges = []
             for charge in case.charges:
-                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(
-                    charge.ambiguous_charge_id
-                )  # TODO: Review whether this can return None
+                time_eligibilities = ambiguous_charge_id_to_time_eligibilities.get(charge.ambiguous_charge_id)
                 sorted_time_eligibility = (
                     sorted(time_eligibilities, key=lambda e: e.date_will_be_eligible) if time_eligibilities else None
                 )
@@ -139,62 +137,61 @@ class RecordMerger:
         elif type_eligibility.status == EligibilityStatus.INELIGIBLE:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
-            # TODO: Rethink if this is possible
+            # For example, JuvenileCharge
             return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly Eligible But Time Analysis Is Missing")
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif any([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
-            at_least_will_be_eligibles = [
+            non_ineligibles = [
                 time_eligibility
                 for time_eligibility in time_eligibilities
                 if time_eligibility.date_will_be_eligible != date.max()
             ]
-            will_be_eligibles = [
-                time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
-                for time_eligibility in at_least_will_be_eligibles
+            future_eligibles = [
+                time_eligibility.date_will_be_eligible
+                for time_eligibility in non_ineligibles
                 if time_eligibility.status != EligibilityStatus.ELIGIBLE
             ]
-            will_be_eligibles_string = " or ".join(will_be_eligibles)
-            if all(
-                [
-                    time_eligibility.status == EligibilityStatus.ELIGIBLE
-                    for time_eligibility in at_least_will_be_eligibles
-                ]
-            ):
+            future_eligibles_strings = [d.strftime("%b %-d, %Y") for d in future_eligibles]
+            future_eligibles_string = " or ".join(future_eligibles_strings)
+            if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in non_ineligibles]):
                 return ChargeEligibility(ChargeEligibilityStatus.POSSIBLY_ELIGIBILE, f"Possibly Eligible Now")
-            elif any(
-                [
-                    time_eligibility.status == EligibilityStatus.ELIGIBLE
-                    for time_eligibility in at_least_will_be_eligibles
-                ]
-            ):
+            elif any([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in non_ineligibles]):
                 return ChargeEligibility(
                     ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
-                    f"Possibly Eligible Now or {will_be_eligibles_string}",
+                    f"Possibly Eligible Now or {future_eligibles_string}",
+                    future_eligibles[0],
                 )
             else:
                 return ChargeEligibility(
-                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE, f"Possibly Eligible {will_be_eligibles_string}",
+                    ChargeEligibilityStatus.POSSIBLY_WILL_BE_ELIGIBLE,
+                    f"Possibly Eligible {future_eligibles_string}",
+                    future_eligibles[0],
                 )
         elif all([time_eligibility.date_will_be_eligible != date.max for time_eligibility in time_eligibilities]):
             if all([time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]):
                 return ChargeEligibility(ChargeEligibilityStatus.ELIGIBLE_NOW, "Eligible Now")
             else:
-                will_be_eligibles = [
-                    time_eligibility.date_will_be_eligible.strftime("%b %-d, %Y")
+                future_eligibles = [
+                    time_eligibility.date_will_be_eligible
                     for time_eligibility in time_eligibilities
                     if time_eligibility.status != EligibilityStatus.ELIGIBLE
                 ]
-                eligible_date_string = " or ".join(will_be_eligibles)
+                future_eligibles_strings = [d.strftime("%b %-d, %Y") for d in future_eligibles]
+                eligible_date_string = " or ".join(future_eligibles_strings)
                 if any(
                     [time_eligibility.status == EligibilityStatus.ELIGIBLE for time_eligibility in time_eligibilities]
                 ):
                     return ChargeEligibility(
-                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible Now or {eligible_date_string}"
+                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
+                        f"Eligible Now or {eligible_date_string}",
+                        future_eligibles[0],
                     )
                 else:
                     return ChargeEligibility(
-                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE, f"Eligible {eligible_date_string}"
+                        ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
+                        f"Eligible {eligible_date_string}",
+                        future_eligibles[0],
                     )
         else:
             raise ValueError("Either all, some, or no time eligibilities will have an eligibility date of date.max.")

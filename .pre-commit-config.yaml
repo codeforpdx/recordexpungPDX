@@ -11,4 +11,5 @@ repos:
         name: prettier
         args: ['--write']
         files: "src/frontend/src/"
+        language_version: 14.15.0
 

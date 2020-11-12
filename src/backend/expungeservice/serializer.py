@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 import flask
 from expungeservice.util import DateWithFuture as date
 
