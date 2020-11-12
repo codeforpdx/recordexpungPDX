@@ -13,20 +13,13 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                 "summary": {
                     "total_charges": record_summary.total_charges,
                     "eligible_charges_by_date": record_summary.eligible_charges_by_date,
-                    "county_balances": record_summary.county_balances,
-                    "total_balance_due": record_summary.total_balance_due,
                     "total_cases": record_summary.total_cases,
-                    "filing_fees": self.filing_fees_to_json(record_summary.filing_fee)
+                    "county_balances": record_summary.county_fines,
+                    "total_balance_due": record_summary.total_balance_due,
+                    "county_filing_fees": record_summary.county_filing_fees,
                 },
                 "questions": record_summary.questions,
             },
-        }
-
-    def filing_fees_to_json(self, filing_fee):
-        return {
-            "cases_with_eligible_convictions": filing_fee.cases_with_eligible_convictions,
-            "counties_with_eligible_convictions": filing_fee.counties_with_eligible_convictions,
-            "total": filing_fee.total
         }
 
     def record_to_json(self, record):
