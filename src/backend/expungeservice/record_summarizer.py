@@ -3,7 +3,7 @@ from itertools import groupby
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import QuestionSummary, Record
-from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFine
+from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
 
@@ -27,15 +27,17 @@ class RecordSummarizer:
         def get_location(case: Case):
             return case.summary.location
 
-        county_fines_list: List[CountyFine] = []
+        county_fines_list: List[CountyFines] = []
         county_filing_fees: List[CountyFilingFee] = []
         for location, cases_by_county in groupby(sorted(record.cases, key=get_location), key=get_location):
             cases = list(cases_by_county)
-            fines = [case.summary.get_balance_due() for case in cases]
+            cases_with_fines = filter(lambda case: case.summary.get_balance_due(), cases)
+            fines = [CaseFine(case.summary.case_number, case.summary.get_balance_due()) for case in cases_with_fines]
             cases_with_eligible_convictions = [case for case in cases if case.has_eligible_conviction()]
-            county_fines_list.append(CountyFine(location, round(sum(fines), 2)))
+            county_fines_list.append(CountyFines(location, fines))
             if len(cases_with_eligible_convictions) > 0:
                 county_filing_fees.append(CountyFilingFee(location, len(cases_with_eligible_convictions)))
+        print("Fines list in build_balances:\n", county_fines_list)
         return county_fines_list, county_filing_fees
 
     @staticmethod
