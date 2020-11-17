@@ -4,6 +4,8 @@ from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import QuestionSummary, Record
 from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine
+from expungeservice.models.disposition import DispositionStatus
+from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
 
@@ -13,6 +15,7 @@ class RecordSummarizer:
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
         eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
+        eligible_nonconvictions_only = RecordSummarizer._build_eligible_nonconvictions_only(record.charges)
         return RecordSummary(
             record=record,
             questions=questions,
@@ -20,6 +23,7 @@ class RecordSummarizer:
             total_charges=len(record.charges),
             county_fines=county_fines,
             county_filing_fees=county_filing_fees,
+            eligible_nonconvictions_only=eligible_nonconvictions_only,
         )
 
     @staticmethod
@@ -37,7 +41,6 @@ class RecordSummarizer:
             county_fines_list.append(CountyFines(location, fines))
             if len(cases_with_eligible_convictions) > 0:
                 county_filing_fees.append(CountyFilingFee(location, len(cases_with_eligible_convictions)))
-        print("Fines list in build_balances:\n", county_fines_list)
         return county_fines_list, county_filing_fees
 
     @staticmethod
@@ -88,3 +91,20 @@ class RecordSummarizer:
             ]
             eligible_charges_by_date[label] = charges_tuples
         return eligible_charges_by_date
+
+    @staticmethod
+    def _build_eligible_nonconvictions_only(charges_eligible_now):
+        return (
+            charges_eligible_now
+            and len(
+                list(
+                    filter(
+                        lambda charge: charge.expungement_result.charge_eligibility.status
+                        == ChargeEligibilityStatus.ELIGIBLE_NOW
+                        and charge.disposition.status != DispositionStatus.CONVICTED,
+                        charges_eligible_now,
+                    )
+                )
+            )
+            > 0
+        )

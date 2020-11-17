@@ -34,6 +34,7 @@ class RecordSummary:
     eligible_charges_by_date: Dict[str, List[Tuple[str, str]]]
     county_fines: List[CountyFines]
     county_filing_fees: List[CountyFilingFee]
+    eligible_nonconvictions_only: bool
 
     @property
     def total_fines_due(self):

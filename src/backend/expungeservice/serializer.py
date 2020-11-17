@@ -7,8 +7,6 @@ from expungeservice.models.record_summary import RecordSummary, CountyFines
 
 class ExpungeModelEncoder(flask.json.JSONEncoder):
     def record_summary_to_json(self, record_summary):
-        print("Fines list in serializer:\n", record_summary.county_fines)
-
         return {
             **self.record_to_json(record_summary.record),
             **{
@@ -20,6 +18,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                     "total_fines_due": record_summary.total_fines_due,
                     "county_filing_fees": record_summary.county_filing_fees,
                     "total_filing_fees_due": record_summary.total_filing_fees_due,
+                    "eligible_nonconvictions_only": record_summary.eligible_nonconvictions_only,
                 },
                 "questions": record_summary.questions,
             },

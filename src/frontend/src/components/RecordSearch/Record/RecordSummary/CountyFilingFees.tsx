@@ -5,6 +5,7 @@ import currencyFormat from "../../../../service/currency-format";
 interface Props {
   county_filing_fees: CountyFilingFeeData[];
   total_filing_fees_due: number;
+  eligible_nonconvictions_only: boolean;
 }
 
 export default class CountyFines extends React.Component<Props> {
@@ -48,12 +49,20 @@ export default class CountyFines extends React.Component<Props> {
             );
           }
         )}
-        <div className="mw5 bt b--light-gray pt2">
-          <span className="fw6">Total</span>
-          <span className="fr">
-            {currencyFormat(this.props.total_filing_fees_due)}
-          </span>
-        </div>
+        {this.props.county_filing_fees.filter((county: CountyFilingFeeData) => {
+          return county.cases_with_eligible_convictions > 0;
+        }).length > 0 ? (
+          <div className="mw5 bt b--light-gray pt2">
+            <span className="fw6">Total</span>
+            <span className="fr">
+              {currencyFormat(this.props.total_filing_fees_due)}
+            </span>
+          </div>
+        ) : this.props.eligible_nonconvictions_only ? (
+          <span>None (no convctions)</span>
+        ) : (
+          <span>None (no cases eligible now)</span>
+        )}
       </div>
     );
   }

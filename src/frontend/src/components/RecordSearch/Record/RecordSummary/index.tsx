@@ -45,8 +45,8 @@ class RecordSummary extends React.Component<Props, State> {
       county_filing_fees,
       total_filing_fees_due,
       total_cases,
+      eligible_nonconvictions_only,
     } = this.props.summary;
-    console.log("county fines in summary panel", county_fines);
     return (
       <div className="bg-white shadow br3 mb3 ph3 pb3">
         <div className="flex flex-wrap justify-end mb1">
@@ -96,6 +96,7 @@ class RecordSummary extends React.Component<Props, State> {
             <CountyFilingFees
               county_filing_fees={county_filing_fees}
               total_filing_fees_due={total_filing_fees_due}
+              eligible_nonconvictions_only={eligible_nonconvictions_only}
             />
           </div>
         </div>
