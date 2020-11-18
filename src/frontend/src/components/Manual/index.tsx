@@ -726,10 +726,12 @@ class Manual extends React.Component {
                 <li className="mb2">
                   In each county in which you have at least one conviction, you
                   will also need to bring an $80 Money Order made out to “Oregon
-                  State Police.”
+                  State Police” for the fingerprint fee (even when providing 
+                  your own). If you are only expunging dismissals, there is no
+                  fingerprint fee but you still need to provide fingerprints.
                 </li>
                 <li className="mb2">
-                  Each conviction requires a $281 fee.{" "}
+                  Each case with at least one conviction requires a $281 fee.{" "}
                   <strong className="fw7">
                     This fee is subject to waiver for income-qualified
                     individuals who complete the waiver form.
@@ -743,7 +745,8 @@ class Manual extends React.Component {
                     <li className="mb2">One copy of your paperwork</li>
                     <li className="mb2">One fingerprint card</li>
                     <li className="mb2">
-                      One $80 Money Order made out to “Oregon State Police”
+                      One $80 Money Order made out to “Oregon State Police” 
+                      (fingerprint fee)
                     </li>
                   </ul>
                 </li>
