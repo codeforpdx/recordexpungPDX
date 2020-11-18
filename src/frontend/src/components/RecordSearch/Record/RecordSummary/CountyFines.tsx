@@ -1,6 +1,7 @@
 import React from "react";
 import { CountyFinesData, CaseFineData } from "../types";
 import currencyFormat from "../../../../service/currency-format";
+import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
   all_counties_fines: CountyFinesData[];
@@ -19,12 +20,12 @@ export default class CountyFines extends React.Component<Props> {
               {county_fines.case_fines.map((case_fine: CaseFineData) => {
                 return (
                   <li className="mb2" key={case_fine.case_number}>
-                    <a
+                    <Link
+                      to={`#${case_fine.case_number}`}
                       className="link hover-blue"
-                      href={`#${case_fine.case_number}`}
                     >
                       {case_fine.case_number}
-                    </a>{" "}
+                    </Link>{" "}
                     <span className="fr">
                       {currencyFormat(case_fine.balance)}
                     </span>
@@ -40,16 +41,16 @@ export default class CountyFines extends React.Component<Props> {
       <div className="mb4">
         <h3 className="fw7 bt b--light-gray pt2 mb3">
           Balance due by county{" "}
-          <a
+          <Link
+            to="/manual#paybalances"
             className=" gray link hover-blue underline"
-            href="/manual#paybalances"
           >
             <i
               aria-hidden="true"
               className="fas fa-question-circle link hover-dark-blue"
             ></i>
             <span className="visually-hidden">Learn more about balances</span>
-          </a>
+          </Link>
         </h3>
         <ul className="mw5 list">
           {listItems.length > 0 ? (

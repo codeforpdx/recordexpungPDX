@@ -1,6 +1,7 @@
 import React from "react";
 import { CountyFilingFeeData } from "../types";
 import currencyFormat from "../../../../service/currency-format";
+import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
   county_filing_fees: CountyFilingFeeData[];
@@ -15,7 +16,7 @@ export default class CountyFines extends React.Component<Props> {
       <div className="mb4">
         <h3 className="fw7 bt b--light-gray pt2 mb3">
           Filing costs by county{" "}
-          <a className=" gray link hover-blue underline" href="/manual#file">
+          <Link to="/manual#file" className=" gray link hover-blue underline">
             <i
               aria-hidden="true"
               className="fas fa-question-circle link hover-dark-blue"
@@ -23,7 +24,7 @@ export default class CountyFines extends React.Component<Props> {
             <span className="visually-hidden">
               Learn more about filing fees
             </span>
-          </a>
+          </Link>
         </h3>
         {this.props.county_filing_fees.map(
           (case_filing_fee: CountyFilingFeeData) => {
@@ -32,7 +33,7 @@ export default class CountyFines extends React.Component<Props> {
                 <h4 className="fw6 mb2">{case_filing_fee.county_name}</h4>
                 <ul className="mw5 list mb3">
                   <li className="mb2">
-                    <span className="link hover-blue">{`Case Conviction x${case_filing_fee.cases_with_eligible_convictions}`}</span>{" "}
+                    {`Case Conviction x${case_filing_fee.cases_with_eligible_convictions}`}
                     <span className="fr">
                       {currencyFormat(
                         perCaseFilingFee *
@@ -41,7 +42,7 @@ export default class CountyFines extends React.Component<Props> {
                     </span>
                   </li>
                   <li className="mb2">
-                    <span className="link hover-blue">Fingerprint Fee</span>{" "}
+                    Fingerprint Fee
                     <span className="fr">$80.00</span>
                   </li>
                 </ul>

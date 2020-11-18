@@ -94,17 +94,12 @@ class RecordSummarizer:
 
     @staticmethod
     def _build_eligible_nonconvictions_only(charges_eligible_now):
-        return (
-            charges_eligible_now
-            and len(
-                list(
-                    filter(
-                        lambda charge: charge.expungement_result.charge_eligibility.status
-                        == ChargeEligibilityStatus.ELIGIBLE_NOW
-                        and charge.disposition.status != DispositionStatus.CONVICTED,
-                        charges_eligible_now,
-                    )
-                )
-            )
-            > 0
+        return charges_eligible_now and next(
+            filter(
+                lambda charge: charge.expungement_result.charge_eligibility.status
+                == ChargeEligibilityStatus.ELIGIBLE_NOW
+                and charge.disposition.status != DispositionStatus.CONVICTED,
+                charges_eligible_now,
+            ),
+            None,
         )
