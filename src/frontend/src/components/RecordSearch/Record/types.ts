@@ -48,7 +48,7 @@ export interface RecordSummaryData {
   county_filing_fees: CountyFilingFeeData[];
   total_filing_fees_due: number;
   total_cases: number;
-  eligible_nonconvictions_only: boolean;
+  is_all_cases_feeless: boolean;
 }
 
 export interface CaseFineData {

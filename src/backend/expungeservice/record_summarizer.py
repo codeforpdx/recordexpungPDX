@@ -15,7 +15,7 @@ class RecordSummarizer:
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
         eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
-        eligible_nonconvictions_only = RecordSummarizer._build_eligible_nonconvictions_only(record.charges)
+        is_all_cases_feeless = RecordSummarizer._build_is_all_cases_feeless(record.charges)
         return RecordSummary(
             record=record,
             questions=questions,
@@ -23,7 +23,7 @@ class RecordSummarizer:
             total_charges=len(record.charges),
             county_fines=county_fines,
             county_filing_fees=county_filing_fees,
-            eligible_nonconvictions_only=eligible_nonconvictions_only,
+            is_all_cases_feeless=is_all_cases_feeless,
         )
 
     @staticmethod
@@ -93,13 +93,16 @@ class RecordSummarizer:
         return eligible_charges_by_date
 
     @staticmethod
-    def _build_eligible_nonconvictions_only(charges_eligible_now):
-        return charges_eligible_now and next(
-            filter(
-                lambda charge: charge.expungement_result.charge_eligibility.status
-                == ChargeEligibilityStatus.ELIGIBLE_NOW
-                and charge.disposition.status != DispositionStatus.CONVICTED,
-                charges_eligible_now,
-            ),
-            None,
+    def _build_is_all_cases_feeless(charges):
+        return bool(
+            charges
+            and next(
+                filter(
+                    lambda charge: charge.expungement_result.charge_eligibility.status
+                    == ChargeEligibilityStatus.ELIGIBLE_NOW
+                    and charge.disposition.status != DispositionStatus.CONVICTED,
+                    charges,
+                ),
+                None,
+            )
         )

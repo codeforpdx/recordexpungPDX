@@ -143,7 +143,7 @@ def test_record_summarizer_multiple_cases():
     assert (
         next(county.total_fines_due for county in record_summary.county_fines if county.county_name == "Baker") == 700
     )
-    assert not record_summary.eligible_nonconvictions_only
+    assert not record_summary.is_all_cases_feeless
 
 
 def test_record_summarizer_no_cases():
@@ -156,4 +156,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.county_fines == []
     assert record_summary.eligible_charges_by_date == {}
     assert record_summary.county_filing_fees == []
-    assert not record_summary.eligible_nonconvictions_only
+    assert not record_summary.is_all_cases_feeless
