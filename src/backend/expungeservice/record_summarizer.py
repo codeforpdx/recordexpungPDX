@@ -15,7 +15,7 @@ class RecordSummarizer:
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
         eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
-        is_all_cases_feeless = RecordSummarizer._build_is_all_cases_feeless(record.charges)
+        no_fees_reason = RecordSummarizer._build_no_fees_reason(record.charges)
         return RecordSummary(
             record=record,
             questions=questions,
@@ -23,7 +23,7 @@ class RecordSummarizer:
             total_charges=len(record.charges),
             county_fines=county_fines,
             county_filing_fees=county_filing_fees,
-            is_all_cases_feeless=is_all_cases_feeless,
+            no_fees_reason=no_fees_reason,
         )
 
     @staticmethod
@@ -93,16 +93,29 @@ class RecordSummarizer:
         return eligible_charges_by_date
 
     @staticmethod
-    def _build_is_all_cases_feeless(charges):
-        return bool(
-            charges
-            and next(
-                filter(
-                    lambda charge: charge.expungement_result.charge_eligibility.status
-                    == ChargeEligibilityStatus.ELIGIBLE_NOW
-                    and charge.disposition.status != DispositionStatus.CONVICTED,
-                    charges,
-                ),
-                None,
-            )
+    def _build_no_fees_reason(charges):
+        has_eligible_nonconvictions = charges and next(
+            filter(
+                lambda charge: charge.expungement_result.charge_eligibility.status
+                == ChargeEligibilityStatus.ELIGIBLE_NOW
+                and charge.disposition.status != DispositionStatus.CONVICTED,
+                charges,
+            ),
+            None,
         )
+        has_future_eligible_convictions = charges and next(
+            filter(
+                lambda charge: charge.expungement_result.charge_eligibility.status
+                == ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
+                charges,
+            ),
+            None,
+        )
+        if has_future_eligible_convictions:
+            reason = "no convictions eligible now"
+        else:
+            if has_eligible_nonconvictions:
+                reason = "no eligible convictions"
+            else:
+                reason = "no eligible cases"
+        return reason

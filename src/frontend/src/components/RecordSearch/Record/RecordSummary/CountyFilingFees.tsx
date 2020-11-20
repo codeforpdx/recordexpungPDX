@@ -6,7 +6,7 @@ import { HashLink as Link } from "react-router-hash-link";
 interface Props {
   county_filing_fees: CountyFilingFeeData[];
   total_filing_fees_due: number;
-  is_all_cases_feeless: boolean;
+  no_fees_reason: string;
 }
 
 export default class CountyFines extends React.Component<Props> {
@@ -59,10 +59,8 @@ export default class CountyFines extends React.Component<Props> {
               {currencyFormat(this.props.total_filing_fees_due)}
             </span>
           </div>
-        ) : this.props.is_all_cases_feeless ? (
-          <span>None (no convictions)</span>
         ) : (
-          <span>None (no cases eligible now)</span>
+          <span>{`None (${this.props.no_fees_reason})`}</span>
         )}
       </div>
     );

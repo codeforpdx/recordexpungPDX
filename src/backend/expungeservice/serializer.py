@@ -18,7 +18,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                     "total_fines_due": record_summary.total_fines_due,
                     "county_filing_fees": record_summary.county_filing_fees,
                     "total_filing_fees_due": record_summary.total_filing_fees_due,
-                    "is_all_cases_feeless": record_summary.is_all_cases_feeless,
+                    "no_fees_reason": record_summary.no_fees_reason,
                 },
                 "questions": record_summary.questions,
             },
