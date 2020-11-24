@@ -2,7 +2,7 @@ import flask
 from expungeservice.util import DateWithFuture as date
 
 from expungeservice.models.record import Record
-from expungeservice.models.record_summary import RecordSummary
+from expungeservice.models.record_summary import RecordSummary, CountyFines
 
 
 class ExpungeModelEncoder(flask.json.JSONEncoder):
@@ -14,9 +14,11 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
                     "total_charges": record_summary.total_charges,
                     "eligible_charges_by_date": record_summary.eligible_charges_by_date,
                     "total_cases": record_summary.total_cases,
-                    "county_balances": record_summary.county_fines,
-                    "total_balance_due": record_summary.total_balance_due,
+                    "county_fines": record_summary.county_fines,
+                    "total_fines_due": record_summary.total_fines_due,
                     "county_filing_fees": record_summary.county_filing_fees,
+                    "total_filing_fees_due": record_summary.total_filing_fees_due,
+                    "no_fees_reason": record_summary.no_fees_reason,
                 },
                 "questions": record_summary.questions,
             },
@@ -71,11 +73,20 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "edit_status": charge.edit_status,
         }
 
+    def county_fines_to_json(self, county_fines):
+        return {
+            "county_name": county_fines.county_name,
+            "case_fines": county_fines.case_fines,
+            "total_fines_due": county_fines.total_fines_due,
+        }
+
     def default(self, o):
         if isinstance(o, RecordSummary):
             return self.record_summary_to_json(o)
         elif isinstance(o, Record):
             return self.record_to_json(o)
+        elif isinstance(o, CountyFines):
+            return self.county_fines_to_json(o)
         elif isinstance(o, date):
             return o.strftime("%b %-d, %Y")
         else:

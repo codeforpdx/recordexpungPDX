@@ -5,9 +5,19 @@ from expungeservice.models.record import Record, QuestionSummary
 
 
 @dataclass
-class CountyFine:
-    county_name: str
+class CaseFine:
+    case_number: str
     balance: float
+
+
+@dataclass
+class CountyFines:
+    county_name: str
+    case_fines: List[CaseFine]
+
+    @property
+    def total_fines_due(self):
+        return round(sum([case_fines.balance for case_fines in self.case_fines]), 2)
 
 
 @dataclass
@@ -22,12 +32,13 @@ class RecordSummary:
     questions: Dict[str, QuestionSummary]
     total_charges: int
     eligible_charges_by_date: Dict[str, List[Tuple[str, str]]]
-    county_fines: List[CountyFine]
+    county_fines: List[CountyFines]
     county_filing_fees: List[CountyFilingFee]
+    no_fees_reason: str
 
     @property
-    def total_balance_due(self):
-        return round(sum([county.balance for county in self.county_fines]), 2)
+    def total_fines_due(self):
+        return round(sum([county_fine.total_fines_due for county_fine in self.county_fines]), 2)
 
     @property
     def total_filing_fees_due(self):

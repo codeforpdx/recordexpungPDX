@@ -43,14 +43,28 @@ export interface RecordData {
 export interface RecordSummaryData {
   total_charges: number;
   eligible_charges_by_date: { [label: string]: any[] };
-  county_balances: CountyBalanceData[];
-  total_balance_due: number;
+  county_fines: CountyFinesData[];
+  total_fines_due: number;
+  county_filing_fees: CountyFilingFeeData[];
+  total_filing_fees_due: number;
   total_cases: number;
+  no_fees_reason: string;
 }
 
-export interface CountyBalanceData {
-  county_name: string;
+export interface CaseFineData {
+  case_number: string;
   balance: number;
+}
+
+export interface CountyFinesData {
+  county_name: string;
+  case_fines: CaseFineData[];
+  total_fines_due: number;
+}
+
+export interface CountyFilingFeeData {
+  county_name: string;
+  cases_with_eligible_convictions: number;
 }
 
 export interface ExpungementResultData {

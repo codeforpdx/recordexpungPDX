@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import CaseBalances from "./CaseBalances";
 import ChargesList from "./ChargesList";
-import CountyBalances from "./CountyBalances";
+import CountyFines from "./CountyFines";
+import CountyFilingFees from "./CountyFilingFees";
 import { AppState } from "../../../../redux/store";
 import { RecordSummaryData } from "../types";
 import { downloadPdf } from "../../../../redux/search/actions";
@@ -40,11 +40,13 @@ class RecordSummary extends React.Component<Props, State> {
     const {
       total_charges,
       eligible_charges_by_date,
-      county_balances,
-      total_balance_due,
+      county_fines,
+      total_fines_due,
+      county_filing_fees,
+      total_filing_fees_due,
       total_cases,
+      no_fees_reason,
     } = this.props.summary;
-
     return (
       <div className="bg-white shadow br3 mb3 ph3 pb3">
         <div className="flex flex-wrap justify-end mb1">
@@ -87,10 +89,15 @@ class RecordSummary extends React.Component<Props, State> {
             totalCharges={total_charges}
           />
           <div className="w-100 w-33-l ph3-l mb3">
-            <CaseBalances totalBalance={total_balance_due} />
-            {total_balance_due > 0 && (
-              <CountyBalances balances={county_balances} />
-            )}
+            <CountyFines
+              all_counties_fines={county_fines}
+              total_fines_due={total_fines_due}
+            />
+            <CountyFilingFees
+              county_filing_fees={county_filing_fees}
+              total_filing_fees_due={total_filing_fees_due}
+              no_fees_reason={no_fees_reason}
+            />
           </div>
         </div>
       </div>

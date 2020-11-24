@@ -31,8 +31,7 @@ def test_record_summarizer_multiple_cases():
         charges=tuple(
             [
                 ChargeFactory.create(
-                    case_number="2",
-                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
+                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 ),
                 ChargeFactory.create(
                     case_number="2",
@@ -102,7 +101,7 @@ def test_record_summarizer_multiple_cases():
     merged_record = RecordMerger.merge([record], [expunger_result], [])
     record_summary = RecordSummarizer.summarize(merged_record, {})
 
-    assert record_summary.total_balance_due == 1000.00
+    assert record_summary.total_fines_due == 1000.00
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
     assert record_summary.eligible_charges_by_date == {
@@ -124,10 +123,7 @@ def test_record_summarizer_multiple_cases():
                 case_partially_eligible.charges[1].ambiguous_charge_id,
                 "Theft of services (CONVICTED) Charged Jan 1, 2010",
             ),
-            (
-                case_all_ineligible.charges[0].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, 2010",
-            ),
+            (case_all_ineligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010",),
             (
                 case_all_ineligible_2.charges[0].ambiguous_charge_id,
                 "Theft of services (CONVICTED) Charged Jan 1, 2010",
@@ -136,15 +132,27 @@ def test_record_summarizer_multiple_cases():
     }
     assert len(record_summary.county_filing_fees) == 2
     assert record_summary.total_filing_fees_due == 722
+    assert (
+        next(county.total_fines_due for county in record_summary.county_fines if county.county_name == "Multnomah")
+        == 100
+    )
+    assert (
+        next(county.total_fines_due for county in record_summary.county_fines if county.county_name == "Clackamas")
+        == 200
+    )
+    assert (
+        next(county.total_fines_due for county in record_summary.county_fines if county.county_name == "Baker") == 700
+    )
 
 
 def test_record_summarizer_no_cases():
     record = Record(tuple([]))
     record_summary = RecordSummarizer.summarize(record, {})
 
-    assert record_summary.total_balance_due == 0.00
+    assert record_summary.total_fines_due == 0.00
     assert record_summary.total_cases == 0
     assert record_summary.total_charges == 0
     assert record_summary.county_fines == []
     assert record_summary.eligible_charges_by_date == {}
     assert record_summary.county_filing_fees == []
+    assert record_summary.no_fees_reason == "no eligible cases"
