@@ -94,28 +94,21 @@ class RecordSummarizer:
 
     @staticmethod
     def _build_no_fees_reason(charges):
-        has_eligible_nonconvictions = charges and next(
-            filter(
-                lambda charge: charge.expungement_result.charge_eligibility.status
-                == ChargeEligibilityStatus.ELIGIBLE_NOW
-                and charge.disposition.status != DispositionStatus.CONVICTED,
-                charges,
-            ),
-            None,
-        )
-        has_future_eligible_convictions = charges and next(
-            filter(
-                lambda charge: charge.expungement_result.charge_eligibility.status
-                == ChargeEligibilityStatus.WILL_BE_ELIGIBLE,
-                charges,
-            ),
-            None,
-        )
-        if has_future_eligible_convictions:
-            reason = "no convictions eligible now"
-        else:
-            if has_eligible_nonconvictions:
+        reason = "no eligible cases"  # reason only applies if feeless
+        if charges:
+            charges_will_be_eligible = [
+                c
+                for c in charges
+                if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+            ]
+            nonconvictions_eligible_now = [
+                c
+                for c in charges
+                if c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
+                and c.disposition.status != DispositionStatus.CONVICTED
+            ]
+            if charges_will_be_eligible:
+                reason = "no convictions eligible now"
+            elif nonconvictions_eligible_now:
                 reason = "no eligible convictions"
-            else:
-                reason = "no eligible cases"
         return reason
