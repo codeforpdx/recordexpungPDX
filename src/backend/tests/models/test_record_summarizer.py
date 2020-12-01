@@ -155,4 +155,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.county_fines == []
     assert record_summary.eligible_charges_by_date == {}
     assert record_summary.county_filing_fees == []
-    assert record_summary.no_fees_reason == "no eligible cases"
+    assert record_summary.no_fees_reason == "None (no eligible cases)"

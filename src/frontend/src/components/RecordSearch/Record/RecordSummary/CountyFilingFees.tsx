@@ -60,7 +60,7 @@ export default class CountyFines extends React.Component<Props> {
             </span>
           </div>
         ) : (
-          <span>{`None (${this.props.no_fees_reason})`}</span>
+          <span>{this.props.no_fees_reason}</span>
         )}
       </div>
     );
