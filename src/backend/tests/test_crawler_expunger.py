@@ -5,13 +5,11 @@ import pytest
 from dateutil.relativedelta import relativedelta
 from expungeservice.expunger import Expunger
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaUnder21
-from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.civil_offense import CivilOffense
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.felony_class_a import FelonyClassA
 
 from expungeservice.models.expungement_result import EligibilityStatus, TimeEligibility
-from tests.models.test_charge import Dispositions
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
@@ -212,7 +210,10 @@ def test_probation_revoked_affects_time_eligibility(record_with_revoked_probatio
 @pytest.fixture
 def record_with_odd_event_table_contents():
     return CrawlerFactory.create(
-        record=JohnDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_WITH_ODD_EVENT_TABLE_CONTENTS,},
+        record=JohnDoe.SINGLE_CASE_RECORD,
+        cases={
+            "CASEJD1": CaseDetails.CASE_WITH_ODD_EVENT_TABLE_CONTENTS,
+        },
     )
 
 
@@ -235,7 +236,10 @@ def test_expunger_for_record_with_odd_event_table_contents(record_with_odd_event
 @pytest.fixture
 def record_with_mj_under_21():
     return CrawlerFactory.create(
-        record=YoungDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_MJ_CONVICTION,},
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={
+            "CASEJD1": CaseDetails.CASE_MJ_CONVICTION,
+        },
     )
 
 
@@ -251,7 +255,12 @@ def test_expunger_for_record_with_mj_under_21(record_with_mj_under_21):
 
 @pytest.fixture
 def record_with_mj_over_21():
-    return CrawlerFactory.create(record=JohnDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_MJ_CONVICTION,},)
+    return CrawlerFactory.create(
+        record=JohnDoe.SINGLE_CASE_RECORD,
+        cases={
+            "CASEJD1": CaseDetails.CASE_MJ_CONVICTION,
+        },
+    )
 
 
 def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
@@ -266,7 +275,10 @@ def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
 @pytest.fixture
 def record_with_mj_under_21_and_traffic_violation():
     return CrawlerFactory.create(
-        record=YoungDoe.SINGLE_CASE_RECORD, cases={"CASEJD1": CaseDetails.CASE_MJ_AND_TRAFFIC_CONVICTION,}
+        record=YoungDoe.SINGLE_CASE_RECORD,
+        cases={
+            "CASEJD1": CaseDetails.CASE_MJ_AND_TRAFFIC_CONVICTION,
+        },
     )
 
 

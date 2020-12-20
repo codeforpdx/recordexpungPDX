@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass, replace
 from os import path
 from pathlib import Path
@@ -18,7 +19,7 @@ from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
 class FormData:
     case_name: str
     case_number: str
-    case_number_with_comments: str # For legacy reasons; same as case_number
+    case_number_with_comments: str  # For legacy reasons; same as case_number
     da_number: str
     full_name: str
     date_of_birth: str
@@ -99,8 +100,8 @@ class FormFilling:
             )
             pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
             if pdf_with_warnings:
-                pdf, warnings = pdf_with_warnings
-                file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}.pdf"
+                pdf, internal_file_name, warnings = pdf_with_warnings
+                file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}"
                 file_path = path.join(temp_dir, file_name)
                 writer = PdfWriter()
                 writer.addpages(pdf.pages)
@@ -124,7 +125,7 @@ class FormFilling:
             writer.addpages(blank_pdf.pages)
 
     @staticmethod
-    def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[Tuple[PdfReader, List[str]]]:
+    def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[Tuple[PdfReader, str, List[str]]]:
         eligible_charges, ineligible_charges = Case.partition_by_eligibility(case.charges)
         in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
@@ -133,7 +134,7 @@ class FormFilling:
             else case.summary.case_number
         )
         if eligible_charges:
-            pdf, warnings = FormFilling._build_pdf_for_eligible_case(
+            pdf, file_name, warnings = FormFilling._build_pdf_for_eligible_case(
                 case, eligible_charges, user_information, case_number_with_comments
             )
             if ineligible_charges:
@@ -141,14 +142,14 @@ class FormFilling:
                     0,
                     "This form will attempt to expunge a case in part. This is relatively rare, and thus these forms should be reviewed particularly carefully.",
                 )
-            return pdf, warnings
+            return pdf, file_name, warnings
         else:
             return None
 
     @staticmethod
     def _build_pdf_for_eligible_case(
         case: Case, eligible_charges: List[Charge], user_information: Dict[str, str], case_number_with_comments: str
-    ) -> Tuple[PdfReader, List[str]]:
+    ) -> Tuple[PdfReader, str, List[str]]:
         warnings: List[str] = []
         charges = case.charges
         charge_names = [charge.name.title() for charge in charges]
@@ -192,8 +193,14 @@ class FormFilling:
         warning = FormFilling._warn_charge_count_overflow(location, convictions, dismissals)
         if warning:
             warnings.append(warning)
-        pdf_path = FormFilling._build_pdf_path(location, convictions)
-        pdf = PdfReader(pdf_path)
+        if case.qualifying_marijuana_conviction_form_applicable():
+            file_name = "statewide_marijuana_conviction.pdf"
+            pdf_path = path.join(Path(__file__).parent, "files", file_name)
+            pdf = PdfReader(pdf_path)
+        else:
+            pdf_path = FormFilling._build_pdf_path(location, convictions)
+            file_name = os.path.basename(pdf_path)
+            pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
             field_value = getattr(form, field_name)
@@ -205,7 +212,7 @@ class FormFilling:
                 for annotation in annotations:
                     annotation.update(PdfDict(AP=""))
         pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
-        return pdf, warnings
+        return pdf, file_name, warnings
 
     @staticmethod
     def _set_font(field: PdfDict, field_value: str) -> List[str]:
