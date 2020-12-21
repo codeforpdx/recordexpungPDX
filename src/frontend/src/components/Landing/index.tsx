@@ -9,7 +9,6 @@ import {
 } from "@reach/disclosure";
 
 class Landing extends React.Component {
-
   componentDidMount() {
     document.title = "RecordSponge - Home";
   }
@@ -19,14 +18,24 @@ class Landing extends React.Component {
       <>
         <main className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
-
             <div className="flex justify-center mb5">
               <div className="flex justify-center items-center w-100 shadow bg-blue white pv3 ph4">
-                <i className="fas fa-award f2 light-blue" aria-hidden="true"></i>
-                <p className="fw6 ml3">Winner of the 2020 Oregon State Bar Technology & Innovation Award</p>
+                <i
+                  className="fas fa-award f2 light-blue"
+                  aria-hidden="true"
+                ></i>
+                <p className="fw6 ml3">
+                  <a
+                    href="https://www.osbar.org/osbevents"
+                    className="underline-hover"
+                  >
+                    Winner of the 2020 Oregon State Bar Technology & Innovation
+                    Award
+                  </a>
+                </p>
               </div>
             </div>
-            
+
             <div className="mw8 center ph4 pb5 ">
               <div className="flex-l mt5">
                 <h1 className="f3 f2-ns fw9 w-60-l mr2-l mt0 mb3">
@@ -36,8 +45,8 @@ class Landing extends React.Component {
                 <p className="f5 w-40-l lh-title mw6">
                   <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
                   RecordSponge is software that helps community organizations
-                  quickly analyze an individual’s criminal history to determine if
-                  they qualify to have their records expunged.
+                  quickly analyze an individual’s criminal history to determine
+                  if they qualify to have their records expunged.
                 </p>
               </div>
             </div>
@@ -102,7 +111,7 @@ class Landing extends React.Component {
 
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc fw7 white mw7 mh4">
-                  Over 1,450 analyses delivered as of August 2020
+                  Over 1,953 analyses delivered as of December 2020
                 </p>
               </div>
             </div>
@@ -115,7 +124,7 @@ class Landing extends React.Component {
                     tool?
                   </h2>
                   <p className="tc center mw6 mb3">
-                    We’re looking to partner with organizations who have contact 
+                    We’re looking to partner with organizations who have contact
                     with many people who have criminal records.
                   </p>
                   <div className="tc mb6">
@@ -140,8 +149,8 @@ class Landing extends React.Component {
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
-                          <span 
-                            className="fas fa-search f4 rotate-315 blue" 
+                          <span
+                            className="fas fa-search f4 rotate-315 blue"
                             aria-hidden="true"
                           ></span>
                         </span>
@@ -154,8 +163,8 @@ class Landing extends React.Component {
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
-                          <span 
-                            className="fas fa-pen f4 rotate-315 blue" 
+                          <span
+                            className="fas fa-pen f4 rotate-315 blue"
                             aria-hidden="true"
                           ></span>
                         </span>
@@ -168,8 +177,8 @@ class Landing extends React.Component {
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
-                          <span 
-                            className="fas fa-check f3 rotate-315 blue" 
+                          <span
+                            className="fas fa-check f3 rotate-315 blue"
                             aria-hidden="true"
                           ></span>
                         </span>
@@ -182,8 +191,8 @@ class Landing extends React.Component {
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
-                          <span 
-                            className="fas fa-bolt f3 rotate-315 blue pl1" 
+                          <span
+                            className="fas fa-bolt f3 rotate-315 blue pl1"
                             aria-hidden="true"
                           ></span>
                         </span>
@@ -196,8 +205,8 @@ class Landing extends React.Component {
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
-                          <span 
-                            className="fas fa-compass f3 rotate-315 blue" 
+                          <span
+                            className="fas fa-compass f3 rotate-315 blue"
                             aria-hidden="true"
                           ></span>
                         </span>
@@ -206,15 +215,21 @@ class Landing extends React.Component {
                         Guidance on how to file for expungement
                       </span>
                     </li>
-
                   </ul>
 
                   <blockquote>
                     <div className="center tc f3 mb1">
-                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                      <span
+                        className="fas fa-quote-left blue"
+                        aria-hidden="true"
+                      ></span>
                     </div>
                     <p className="mw7 lh-copy tc center mb3">
-                      Having performed expungement analysis both with and without the assistance of RecordSponge, I know that this program vastly decreases the time needed to perform expungement analysis, and vastly increases the number of people we can assist with expungements.
+                      Having performed expungement analysis both with and
+                      without the assistance of RecordSponge, I know that this
+                      program vastly decreases the time needed to perform
+                      expungement analysis, and vastly increases the number of
+                      people we can assist with expungements.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
                       Leni Tupper, Portland Community College CLEAR Clinic
@@ -223,10 +238,17 @@ class Landing extends React.Component {
 
                   <blockquote>
                     <div className="center tc f3 mb1">
-                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                      <span
+                        className="fas fa-quote-left blue"
+                        aria-hidden="true"
+                      ></span>
                     </div>
                     <p className="mw7 lh-copy tc center mb3">
-                      RecordSponge levels the playing field. It has been inspiring to see people fully return to our community as their records are expunged – Michael and his team have a heart for people, a knowledge of the system, and a solution that works in RecordSponge.
+                      RecordSponge levels the playing field. It has been
+                      inspiring to see people fully return to our community as
+                      their records are expunged – Michael and his team have a
+                      heart for people, a knowledge of the system, and a
+                      solution that works in RecordSponge.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
                       Eric Guyer, Jackson County Community Justice Director
@@ -235,16 +257,19 @@ class Landing extends React.Component {
 
                   <blockquote>
                     <div className="center tc f3 mb1">
-                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
+                      <span
+                        className="fas fa-quote-left blue"
+                        aria-hidden="true"
+                      ></span>
                     </div>
                     <p className="mw6 lh-copy tc center mb3">
-                      I love that I can just pull my phone out and tell someone whether they can get their record expunged.
+                      I love that I can just pull my phone out and tell someone
+                      whether they can get their record expunged.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
                       Sarah Kolb, Signs of Hope
                     </footer>
                   </blockquote>
-
                 </div>
               </div>
             </div>
