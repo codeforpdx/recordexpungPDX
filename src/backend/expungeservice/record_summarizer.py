@@ -27,7 +27,7 @@ class RecordSummarizer:
         )
 
     @staticmethod
-    def _build_county_balances(record: Record):
+    def _build_county_balances(record: Record) -> Tuple[List[CountyFines], List[CountyFilingFee]]:
         def get_location(case: Case):
             return case.summary.location
 
@@ -37,10 +37,14 @@ class RecordSummarizer:
             cases = list(cases_by_county)
             cases_with_fines = filter(lambda case: case.summary.get_balance_due(), cases)
             fines = [CaseFine(case.summary.case_number, case.summary.get_balance_due()) for case in cases_with_fines]
-            cases_with_eligible_convictions = [case for case in cases if case.has_eligible_conviction()]
+            cases_with_conviction_fees = [
+                case
+                for case in cases
+                if case.has_eligible_conviction() and not case.qualifying_marijuana_conviction_form_applicable()
+            ]
             county_fines_list.append(CountyFines(location, fines))
-            if len(cases_with_eligible_convictions) > 0:
-                county_filing_fees.append(CountyFilingFee(location, len(cases_with_eligible_convictions)))
+            if len(cases_with_conviction_fees) > 0:
+                county_filing_fees.append(CountyFilingFee(location, len(cases_with_conviction_fees)))
         return county_fines_list, county_filing_fees
 
     @staticmethod
@@ -94,7 +98,7 @@ class RecordSummarizer:
 
     @staticmethod
     def _build_no_fees_reason(charges):
-        reason = "None (no eligible cases)"
+        reason = "None"
         if charges:
             nonconvictions_eligible_now = [
                 c

@@ -31,7 +31,8 @@ def test_record_summarizer_multiple_cases():
         charges=tuple(
             [
                 ChargeFactory.create(
-                    case_number="2", disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
+                    case_number="2",
+                    disposition=DispositionCreator.create(ruling="Convicted", date=date(2010, 1, 1)),
                 ),
                 ChargeFactory.create(
                     case_number="2",
@@ -123,7 +124,10 @@ def test_record_summarizer_multiple_cases():
                 case_partially_eligible.charges[1].ambiguous_charge_id,
                 "Theft of services (CONVICTED) Charged Jan 1, 2010",
             ),
-            (case_all_ineligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010",),
+            (
+                case_all_ineligible.charges[0].ambiguous_charge_id,
+                "Theft of services (CONVICTED) Charged Jan 1, 2010",
+            ),
             (
                 case_all_ineligible_2.charges[0].ambiguous_charge_id,
                 "Theft of services (CONVICTED) Charged Jan 1, 2010",
@@ -155,4 +159,4 @@ def test_record_summarizer_no_cases():
     assert record_summary.county_fines == []
     assert record_summary.eligible_charges_by_date == {}
     assert record_summary.county_filing_fees == []
-    assert record_summary.no_fees_reason == "None (no eligible cases)"
+    assert record_summary.no_fees_reason == "None"

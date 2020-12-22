@@ -53,8 +53,8 @@ class ChargeType:
 
     def type_eligibility(self, disposition):
         """If the disposition is present and recognized, this should always return a TypeEligibility.
-It may also return the eligibility without a known disposition (this works for some types).
-If the type eligibility is unknown, the method can return None. """
+        It may also return the eligibility without a known disposition (this works for some types).
+        If the type eligibility is unknown, the method can return None."""
         raise NotImplementedError
 
     def hidden_in_record_summary(self):
@@ -116,3 +116,11 @@ class Charge(OeciCharge):
         disposition = str(self.disposition.status.name)
         owed = f" - $ owed" if self.balance_due_in_cents > 0 else ""
         return f"{short_name} ({disposition}) Charged {charged_date}{owed}"
+
+    def is_qualifying_mj_conviction(self):
+        # See https://www.oregonlaws.org/ors/475B.401
+        from expungeservice.models.charge_types.marijuana_eligible import MarijuanaViolation
+
+        is_qualifying_type = "Poss LT 1 Oz Marijuana" in self.name or isinstance(self.charge_type, MarijuanaViolation)
+        is_qualifying_date = self.date < date_class(2015, 7, 1)
+        return is_qualifying_type and is_qualifying_date and self.convicted()
