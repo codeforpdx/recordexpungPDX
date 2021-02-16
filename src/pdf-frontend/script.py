@@ -50,6 +50,8 @@ def handle_person(output, client, row):
         filename = f"{output}/{officer}/{first_name}_{last_name}_{officer}.pdf"
         with open(filename, "wb") as f:
             f.write(pdf)
+    elif any(["record found was too large to analyze" in error for error in record.get("errors")]):
+        print(f"TOO LARGE TO ANALYZE: {name} {aliases}")
     else:
         print(f"BLANK RECORD: {name} {aliases}")
 
