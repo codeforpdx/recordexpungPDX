@@ -41,7 +41,7 @@ setup(
         "ptyprocess==0.6.0",
         "py==1.8.1",
         "pycparser==2.20",
-        "pygments==2.6.1",
+        "pygments==2.7.4",
         "pyjwt==1.7.1",
         "pyparsing==2.4.7",
         "pytest==5.4.2",
