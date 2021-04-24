@@ -25,7 +25,7 @@ setup(
         "ipython-genutils==0.2.0",
         "itsdangerous==1.1.0",
         "jedi==0.17.0",
-        "jinja2==2.11.2",
+        "jinja2==2.11.3",
         "markdown2==2.3.9",
         "markupsafe==1.1.1",
         "more-itertools==8.2.0",
