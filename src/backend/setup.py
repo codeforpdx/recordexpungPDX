@@ -39,7 +39,7 @@ setup(
         "pluggy==0.13.1",
         "prompt-toolkit==3.0.5",
         "ptyprocess==0.6.0",
-        "py==1.8.1",
+        "py==1.10.0",
         "pycparser==2.20",
         "pygments==2.6.1",
         "pyjwt==1.7.1",
