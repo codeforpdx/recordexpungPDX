@@ -143,7 +143,7 @@ class PartnerTable extends React.Component<{}, any> {
         area: "Pendleton",
         instructions: "Contact",
         contacts: ["Arron Guevara", "arron.guevara@lasoregon.org"],
-        //website: "https://jacksoncountyor.org/community-justice",
+        website: "https://www.facebook.com/pendletonlegalaid/",
       },
     ];
     let partners;
