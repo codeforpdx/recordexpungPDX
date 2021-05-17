@@ -131,6 +131,20 @@ class PartnerTable extends React.Component<{}, any> {
         contacts: ["Eric Guyer"],
         website: "https://jacksoncountyor.org/community-justice",
       },
+      {
+        details: [
+          ["Locations", "Pendleton"],
+          ["Income Restrictions", "None"],
+          ["Analysis Cost", "Free"],
+          ["Paperwork Cost", "Free"],
+          ["Court Fees", "Not Included"],
+        ],
+        name: "Pendleton Legal Aid Services of Oregon",
+        area: "Pendleton",
+        instructions: "Contact",
+        contacts: ["Arron Guevara", "arron.guevara@lasoregon.org"],
+        //website: "https://jacksoncountyor.org/community-justice",
+      },
     ];
     let partners;
     const toggleOpen = (order: any) => {
