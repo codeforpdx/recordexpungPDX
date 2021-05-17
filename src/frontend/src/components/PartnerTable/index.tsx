@@ -131,6 +131,20 @@ class PartnerTable extends React.Component<{}, any> {
         contacts: ["Eric Guyer"],
         website: "https://jacksoncountyor.org/community-justice",
       },
+      {
+        details: [
+          ["Locations", "Umatilla County"],
+          ["Income Restrictions", "None"],
+          ["Analysis Cost", "Free"],
+          ["Paperwork Cost", "Free"],
+          ["Court Fees", "Not Included"],
+        ],
+        name: "Pendleton Legal Aid Services of Oregon",
+        area: "Pendleton",
+        instructions: "Contact",
+        contacts: ["Arron Guevara", "arron.guevara@lasoregon.org"],
+        website: "https://www.facebook.com/pendletonlegalaid/",
+      },
     ];
     let partners;
     const toggleOpen = (order: any) => {
@@ -193,23 +207,26 @@ class PartnerTable extends React.Component<{}, any> {
         <div className="flex items-center justify-between">
           <h3 className="f3 fw9 pv4 ph3">Partners</h3>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ width: 55, height: 40 }}
             className="mr3"
-            viewBox="0 0 55 40"
+            style={{width: "55px", height: "40px"}}
+            aria-hidden="true"
+            viewBox="0 0 110 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <g fill="none" fillRule="evenodd" transform="translate(.938 .41)">
-              <path
-                fill="#D0E1F7"
-                d="M2.345 38.801L0 33.61l2.345-7.923L3.35 13.442 5.3 0h3.652l3.07 1.501.795 4.37 4.408.887 3.927-.887 3.926.887 1.888-1.77h4.019l2.488-1.116 3.72-.897h12.88l3.278 2.896-1.886 6.434-2.858 5.55L50.7 19.4l-.628 3.215V38.8z"
-              ></path>
-              <circle cx="12.442" cy="10.117" r="1.382" fill="#2B75D2"></circle>
-              <circle cx="15.898" cy="11.845" r="1.382" fill="#2B75D2"></circle>
-              <circle cx="13.133" cy="14.609" r="1.382" fill="#2B75D2"></circle>
-              <circle cx="16.589" cy="32.235" r="1.382" fill="#2B75D2"></circle>
-              <circle cx="8.986" cy="21.867" r="1.382" fill="#2B75D2"></circle>
-              <circle cx="26.957" cy="21.867" r="1.382" fill="#2B75D2"></circle>
-            </g>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M6.56 78.42L1.88 68.04l4.68-15.85L8.58 27.7 12.48.82h7.3l6.14 3 1.59 8.74 8.81 1.77 7.86-1.77 7.85 1.77 3.78-3.54h8.03l4.98-2.23 7.44-1.8h25.76l6.56 5.8-3.77 12.87-5.72 11.1 4.19 3.09-1.26 6.43v32.37H6.56z"
+              fill="#D0E1F7"
+            />
+            <circle cx="26.76" cy="21.05" r="2.76" fill="#2B75D2" />
+            <circle cx="33.67" cy="24.51" r="2.76" fill="#2B75D2" />
+            <circle cx="79.67" cy="16.51" r="2.76" fill="#2B75D2" />
+            <circle cx="28.14" cy="30.04" r="2.76" fill="#2B75D2" />
+            <circle cx="35.05" cy="65.29" r="2.76" fill="#2B75D2" />
+            <circle cx="19.85" cy="44.55" r="2.76" fill="#2B75D2" />
+            <circle cx="55.79" cy="44.55" r="2.76" fill="#2B75D2" />
           </svg>
         </div>
         <ul className="list">{partners}</ul>

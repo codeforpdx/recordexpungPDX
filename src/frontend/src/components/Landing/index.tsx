@@ -111,7 +111,7 @@ class Landing extends React.Component {
 
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc fw7 white mw7 mh4">
-                  Over 1,953 analyses delivered as of December 2020
+                  Over 2,500 analyses delivered as of May 2021
                 </p>
               </div>
             </div>
