@@ -55,7 +55,7 @@ setup(
         "traitlets==4.3.3",
         "typed-ast==1.4.1",
         "typing-extensions==3.7.4.2",
-        "urllib3==1.25.9",
+        "urllib3==1.26.5",
         "uwsgi==2.0.18",
         "wcwidth==0.1.9",
         "werkzeug==1.0.1",
