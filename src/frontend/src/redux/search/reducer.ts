@@ -37,6 +37,7 @@ const initalState: SearchRecordState = {
       birth_date: "",
     },
   ],
+  today: "",
   edits: {},
   editingRecord: false,
   userInformation: {},
@@ -149,6 +150,7 @@ export function searchReducer(
       return {
         ...state,
         aliases: action.aliases,
+        today: action.today,
         record: {},
         questions: {},
         edits: {},

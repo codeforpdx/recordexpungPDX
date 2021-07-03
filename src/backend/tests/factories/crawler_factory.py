@@ -10,7 +10,7 @@ from tests.fixtures.post_login_page import PostLoginPage
 from tests.fixtures.search_page_response import SearchPageResponse
 from tests.fixtures.case_details import CaseDetails
 from tests.fixtures.john_doe import JohnDoe
-from expungeservice.util import LRUCache
+from expungeservice.util import LRUCache, DateWithFuture as date_class
 
 
 class CrawlerFactory:
@@ -39,5 +39,5 @@ class CrawlerFactory:
 
             aliases = (Alias(first_name="John", last_name="Doe", middle_name="", birth_date=""),)
             return RecordCreator.build_record(
-                RecordCreator.build_search_results, "username", "password", aliases, {}, LRUCache(4)
+                RecordCreator.build_search_results, "username", "password", aliases, {}, date_class.today(), LRUCache(4)
             )

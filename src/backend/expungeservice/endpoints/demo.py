@@ -22,15 +22,22 @@ class Demo(MethodView):
     def build_response(self):
         request_data = request.get_json()
         Search._validate_request(request_data)
+        today = Search._build_today(request_data.get("today", ""))
         return Demo._build_record_summary(
-            request_data["aliases"], request_data.get("questions"), request_data.get("edits", {})
+            request_data["aliases"], request_data.get("questions"), request_data.get("edits", {}), today
         )
 
     @staticmethod
-    def _build_record_summary(aliases_data, questions_data, edits_data):
+    def _build_record_summary(aliases_data, questions_data, edits_data, today):
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, questions = RecordCreator.build_record(
-            DemoRecords.build_search_results, "username", "password", tuple(aliases), edits_data, Demo.search_cache
+            DemoRecords.build_search_results,
+            "username",
+            "password",
+            tuple(aliases),
+            edits_data,
+            today,
+            Demo.search_cache,
         )
         if questions_data:
             questions = Search._build_questions(questions_data)

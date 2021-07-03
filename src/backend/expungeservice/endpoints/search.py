@@ -1,3 +1,4 @@
+from datetime import datetime
 from dacite import from_dict
 from expungeservice.models.record_summary import RecordSummary
 from flask.views import MethodView
@@ -10,7 +11,7 @@ from expungeservice.request import error
 from expungeservice.serializer import ExpungeModelEncoder
 from expungeservice.crypto import DataCipher
 from expungeservice.record_summarizer import RecordSummarizer
-from expungeservice.util import LRUCache
+from expungeservice.util import LRUCache, DateWithFuture as date_class
 
 
 class Search(MethodView):
@@ -25,15 +26,27 @@ class Search(MethodView):
         request_data = request.get_json()
         Search._validate_request(request_data)
         username, password = Search._oeci_login_params(request)
+        today = Search._build_today(request_data.get("today", ""))
         return Search._build_record_summary(
-            username, password, request_data["aliases"], request_data.get("questions"), request_data.get("edits", {})
+            username,
+            password,
+            request_data["aliases"],
+            request_data.get("questions"),
+            request_data.get("edits", {}),
+            today,
         )
 
     @staticmethod
-    def _build_record_summary(username, password, aliases_data, questions_data, edits_data) -> RecordSummary:
+    def _build_record_summary(username, password, aliases_data, questions_data, edits_data, today) -> RecordSummary:
         aliases = [from_dict(data_class=Alias, data=alias) for alias in aliases_data]
         record, questions = RecordCreator.build_record(
-            RecordCreator.build_search_results, username, password, tuple(aliases), edits_data, Search.search_cache
+            RecordCreator.build_search_results,
+            username,
+            password,
+            tuple(aliases),
+            edits_data,
+            today,
+            Search.search_cache,
         )
         if questions_data:
             questions = Search._build_questions(questions_data)
@@ -53,6 +66,14 @@ class Search(MethodView):
             error(401, "Missing login credentials to OECI.")
         decrypted_credentials = cipher.decrypt(request.cookies["oeci_token"])
         return decrypted_credentials["oeci_username"], decrypted_credentials["oeci_password"]
+
+    @staticmethod
+    def _build_today(today_string: str) -> date_class:
+        try:
+            today_datetime = datetime.strptime(today_string, "%m/%d/%Y")
+            return date_class.fromdatetime(today_datetime)
+        except:
+            return date_class.today()
 
     @staticmethod
     def _validate_request(request_data):

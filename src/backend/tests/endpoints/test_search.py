@@ -10,6 +10,7 @@ from tests.factories.crawler_factory import CrawlerFactory
 from expungeservice.record_creator import RecordCreator
 from expungeservice.models.record import Alias
 from expungeservice.endpoints.search import Search
+from expungeservice.util import DateWithFuture as date
 
 
 @pytest.fixture
@@ -130,7 +131,7 @@ def test_search_cache(service, monkeypatch):
         {"first_name": "john", "last_name": "deer", "middle_name": "", "birth_date": ""},
     ]
 
-    Search._build_record_summary("username", "password", test_alias_dictionary, {}, {})
+    Search._build_record_summary("username", "password", test_alias_dictionary, {}, {}, date.today())
     assert Search.search_cache[test_alias]
 
 
@@ -144,6 +145,6 @@ def test_search_cache_error(service, monkeypatch):
         {"first_name": "jane", "last_name": "doe", "middle_name": "q", "birth_date": "June 29th"},
     ]
 
-    Search._build_record_summary("username", "password", test_fail_alias_dictionary, {}, {})
+    Search._build_record_summary("username", "password", test_fail_alias_dictionary, {}, {}, date.today())
 
     assert not Search.search_cache[test_fail_alias]
