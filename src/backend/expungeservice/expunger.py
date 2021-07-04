@@ -23,7 +23,7 @@ from expungeservice.models.record import Record
 class Expunger:
     @staticmethod
     @lru_cache(maxsize=32)
-    def run(record: Record) -> Dict[str, TimeEligibility]:
+    def run(record: Record, today: date = date.today()) -> Dict[str, TimeEligibility]:
         """
         Evaluates the expungement eligibility of a record.
         """
@@ -72,7 +72,10 @@ class Expunger:
 
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
-                    (charge.date + relativedelta(years=1), "One year from date of no-complaint arrest (137.225(1)(b))",)
+                    (
+                        charge.date + relativedelta(years=1),
+                        "One year from date of no-complaint arrest (137.225(1)(b))",
+                    )
                 )
 
             if charge.convicted() and charge.probation_revoked:
@@ -124,7 +127,7 @@ class Expunger:
             else:
                 date_will_be_eligible, reason = max(eligibility_dates)
 
-            if date_will_be_eligible and date.today() >= date_will_be_eligible:
+            if date_will_be_eligible and today >= date_will_be_eligible:
                 time_eligibility = TimeEligibility(
                     status=EligibilityStatus.ELIGIBLE,
                     reason="Eligible now",

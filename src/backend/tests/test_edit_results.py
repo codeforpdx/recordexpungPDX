@@ -33,7 +33,10 @@ case_1 = OeciCase(
             level="Misdemeanor",
             date=date(2000, 1, 1),
             disposition=Disposition(
-                date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
+                date=date(2001, 1, 1),
+                ruling="Convicted",
+                status=DispositionStatus.CONVICTED,
+                amended=False,
             ),
             probation_revoked=None,
             balance_due_in_cents=0,
@@ -46,7 +49,10 @@ case_1 = OeciCase(
             level="Felony Class C",
             date=date(2001, 1, 1),
             disposition=Disposition(
-                date=date(2001, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
+                date=date(2001, 1, 1),
+                ruling="Convicted",
+                status=DispositionStatus.CONVICTED,
+                amended=False,
             ),
             probation_revoked=None,
             balance_due_in_cents=0,
@@ -77,7 +83,10 @@ case_2 = OeciCase(
             level="Felony Class B",
             date=date(1980, 1, 1),
             disposition=Disposition(
-                date=date(1981, 1, 1), ruling="Convicted", status=DispositionStatus.CONVICTED, amended=False,
+                date=date(1981, 1, 1),
+                ruling="Convicted",
+                status=DispositionStatus.CONVICTED,
+                amended=False,
             ),
             probation_revoked=None,
             balance_due_in_cents=0,
@@ -108,7 +117,7 @@ def search(mocked_record_name) -> Callable[[Any, Any, Any, Any], Tuple[List[Oeci
 
 def test_no_op():
     record, questions = RecordCreator.build_record(
-        search("two_cases_two_charges_each"), "username", "password", (), {}, LRUCache(4)
+        search("two_cases_two_charges_each"), "username", "password", (), {}, date.today(), LRUCache(4)
     )
     assert len(record.cases) == 2
     assert len(record.cases[0].charges) == 2
@@ -128,9 +137,15 @@ def test_edit_some_fields_on_case():
         (),
         {
             "X0002": {
-                "summary": {"edit_status": "UPDATE", "location": "ocean", "balance_due": "100", "date": "1/1/1981",}
+                "summary": {
+                    "edit_status": "UPDATE",
+                    "location": "ocean",
+                    "balance_due": "100",
+                    "date": "1/1/1981",
+                }
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert len(record.cases) == 2
@@ -149,6 +164,7 @@ def test_delete_case():
         "password",
         (),
         {"X0001": {"summary": {"edit_status": "DELETE"}}},
+        date.today(),
         LRUCache(4),
     )
 
@@ -186,6 +202,7 @@ def test_add_case():
                 },
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert len(record.cases) == 2
@@ -233,6 +250,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
                 },
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert len(record.cases) == 1
@@ -259,6 +277,7 @@ def test_add_disposition():
                 "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert record.cases[0].charges[1].disposition.status == DispositionStatus.CONVICTED
@@ -277,6 +296,7 @@ def test_edit_charge_type_of_charge():
                 "charges": {"X0001-2": {"edit_status": "UPDATE", "charge_type": "Misdemeanor"}},
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
@@ -301,6 +321,7 @@ def test_add_new_charge():
                 },
             }
         },
+        date.today(),
         LRUCache(4),
     )
     assert isinstance(record.cases[0].charges[2].charge_type, Misdemeanor)
@@ -309,9 +330,7 @@ def test_add_new_charge():
 
 
 def test_deleted_charge_does_not_block():
-    """
-
-    """
+    """"""
     record, questions = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
         "username",
@@ -329,6 +348,7 @@ def test_deleted_charge_does_not_block():
                 },
             },
         },
+        date.today(),
         LRUCache(4),
     )
     assert record.cases[0].summary.case_number == "X0001"
@@ -346,10 +366,16 @@ def test_deleted_charge_does_not_block():
         (),
         {
             "X0001": {
-                "summary": {"edit_status": "UPDATE",},
-                "charges": {"X0001-1": {"edit_status": "DELETE"}, "X0001-2": {"edit_status": "DELETE"},},
+                "summary": {
+                    "edit_status": "UPDATE",
+                },
+                "charges": {
+                    "X0001-1": {"edit_status": "DELETE"},
+                    "X0001-2": {"edit_status": "DELETE"},
+                },
             }
         },
+        date.today(),
         LRUCache(4),
     )
 

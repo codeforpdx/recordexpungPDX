@@ -28,6 +28,7 @@ class RecordCreator:
         password: str,
         aliases: Tuple[Alias, ...],
         edits: Dict[str, Dict[str, Any]],
+        today: date_class,
         search_cache: LRUCache,
     ) -> Tuple[Record, Dict[str, QuestionSummary]]:
         search_results, errors = search(username, password, aliases, search_cache)
@@ -53,7 +54,7 @@ class RecordCreator:
                 return Record((), tuple(overflow_error)), {}
             else:
                 charge_ids_with_question = [question.ambiguous_charge_id for question in questions]
-                record = RecordCreator._analyze_ambiguous_record(ambiguous_record, charge_ids_with_question)
+                record = RecordCreator._analyze_ambiguous_record(ambiguous_record, charge_ids_with_question, today)
                 questions_as_dict = dict(list(map(lambda q: (q.ambiguous_charge_id, q), questions)))
                 return record, questions_as_dict
 
@@ -72,7 +73,12 @@ class RecordCreator:
                 try:
                     login_response = Crawler.attempt_login(session, username, password)
                     alias_search_result = Crawler.search(
-                        session, login_response, alias.first_name, alias.last_name, alias.middle_name, alias.birth_date,
+                        session,
+                        login_response,
+                        alias.first_name,
+                        alias.last_name,
+                        alias.middle_name,
+                        alias.birth_date,
                     )
                     search_results += alias_search_result
                 except InvalidOECIUsernamePassword as e:
@@ -118,11 +124,13 @@ class RecordCreator:
             return ambiguous_record, []
 
     @staticmethod
-    def _analyze_ambiguous_record(ambiguous_record: AmbiguousRecord, charge_ids_with_question: List[str]):
+    def _analyze_ambiguous_record(
+        ambiguous_record: AmbiguousRecord, charge_ids_with_question: List[str], today: date_class
+    ):
         charge_id_to_time_eligibilities = []
         ambiguous_record_with_errors = []
         for record in ambiguous_record:
-            charge_id_to_time_eligibility = Expunger.run(record)
+            charge_id_to_time_eligibility = Expunger.run(record, today)
             charge_id_to_time_eligibilities.append(charge_id_to_time_eligibility)
             ambiguous_record_with_errors.append(record)
         record = RecordMerger.merge(

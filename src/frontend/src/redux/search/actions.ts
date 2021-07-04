@@ -54,6 +54,7 @@ function buildSearchRequest() {
   return {
     demo: store.getState().search.demo,
     aliases: store.getState().search.aliases,
+    today: store.getState().search.today,
     questions: store.getState().search.questions,
     edits: store.getState().search.edits,
   };
@@ -120,10 +121,11 @@ export function downloadPdf() {
   };
 }
 
-export function searchRecord(aliases: AliasData[]): any {
+export function searchRecord(aliases: AliasData[], today: string): any {
   return (dispatch: Dispatch) => {
     dispatch({
       aliases: aliases,
+      today: today,
       type: RECORD_LOADING,
     });
     return buildAndSendSearchRequest(dispatch);

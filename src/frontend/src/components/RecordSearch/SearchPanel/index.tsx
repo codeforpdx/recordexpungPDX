@@ -7,14 +7,17 @@ import Alias from "./Alias";
 import InvalidInputs from "../../InvalidInputs";
 import { searchRecord } from "../../../redux/search/actions";
 import { isValidWildcard } from "./validators";
+import Field from "./Field";
 
 interface Props {
   searchRecord: Function;
   aliases: AliasData[];
+  today: string;
 }
 
 interface State {
   aliases: AliasData[];
+  today: string;
   missingInputs: boolean;
   invalidDate: boolean;
   invalidFirstNameWildcard: boolean;
@@ -24,6 +27,7 @@ interface State {
 class SearchPanel extends React.Component<Props, State> {
   state: State = {
     aliases: this.props.aliases,
+    today: this.props.today || todayToMMDDYYYY(),
     missingInputs: false,
     invalidDate: false,
     invalidFirstNameWildcard: false,
@@ -39,7 +43,7 @@ class SearchPanel extends React.Component<Props, State> {
         !this.state.invalidFirstNameWildcard &&
         !this.state.invalidLastNameWildcard
       ) {
-        this.props.searchRecord(this.state.aliases);
+        this.props.searchRecord(this.state.aliases, this.state.today);
       }
     });
   };
@@ -154,6 +158,20 @@ class SearchPanel extends React.Component<Props, State> {
         <h1 className="visually-hidden">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
+            <div className="flex">
+              <Field
+                coda="mm/dd/yyyy"
+                name="today"
+                label="Expunge Date"
+                content={this.state.today}
+                divMarkup="pl2-r"
+                onChange={(fieldValue: string) => {
+                  this.setState({ today: fieldValue });
+                }}
+                required={true}
+                errorMessage="today_msg"
+              />
+            </div>
             {aliasComponents}
             <div className="flex">
               <button
@@ -199,9 +217,21 @@ class SearchPanel extends React.Component<Props, State> {
   }
 }
 
+const todayToMMDDYYYY = () => {
+  const date = new Date();
+  return (
+    (date.getMonth() + 1).toString() +
+    "/" +
+    date.getDate().toString() +
+    "/" +
+    date.getFullYear().toString()
+  );
+};
+
 const mapStateToProps = (state: AppState) => {
   return {
     aliases: JSON.parse(JSON.stringify(state.search.aliases)),
+    today: JSON.parse(JSON.stringify(state.search.today)),
   };
 };
 

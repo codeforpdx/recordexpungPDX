@@ -42,6 +42,7 @@ export interface SearchRecordState {
   loadingPdf: boolean;
   loadingExpungementPacket: boolean;
   aliases: AliasData[];
+  today: string;
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
@@ -59,6 +60,7 @@ interface SearchRecordAction {
     | typeof STOP_DEMO;
 
   aliases: AliasData[];
+  today: string;
   record: RecordData;
   questions: QuestionsData;
   demo: boolean;
