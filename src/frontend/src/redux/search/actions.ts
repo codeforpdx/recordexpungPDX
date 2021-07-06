@@ -291,6 +291,7 @@ export function downloadExpungementPacket(
         aliases: store.getState().search.aliases,
         questions: store.getState().search.questions,
         edits: store.getState().search.edits,
+        today: store.getState().search.today,
         userInformation: store.getState().search.userInformation,
       },
       method: "post",
