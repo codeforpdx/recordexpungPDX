@@ -15,11 +15,13 @@ class RecordSummarizer:
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
         eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
+        eligible_charges_with_case_balance_by_date_and_case: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]] = {}
         no_fees_reason = RecordSummarizer._build_no_fees_reason(record.charges)
         return RecordSummary(
             record=record,
             questions=questions,
             eligible_charges_by_date=eligible_charges_by_date,
+            eligible_charges_with_case_balance_by_date_and_case=eligible_charges_with_case_balance_by_date_and_case,
             total_charges=len(record.charges),
             county_fines=county_fines,
             county_filing_fees=county_filing_fees,
@@ -84,7 +86,7 @@ class RecordSummarizer:
         if len(record.charges) <= SHOW_ALL_CHARGES_THRESHOLD:
             visible_charges = record.charges
         else:
-            visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
+            visible_charges = [charge for charge in record.charges_without_case_balance if not charge.charge_type.hidden_in_record_summary()]
         eligible_charges_by_date: Dict[str, List[Tuple[str, str]]] = {}
         sorted_charges = sorted(sorted(visible_charges, key=secondary_sort, reverse=True), key=primary_sort)
         for label, charges in groupby(sorted_charges, key=get_label):

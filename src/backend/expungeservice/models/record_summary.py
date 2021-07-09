@@ -32,6 +32,7 @@ class RecordSummary:
     questions: Dict[str, QuestionSummary]
     total_charges: int
     eligible_charges_by_date: Dict[str, List[Tuple[str, str]]]
+    eligible_charges_with_case_balance_by_date_and_case: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]]
     county_fines: List[CountyFines]
     county_filing_fees: List[CountyFilingFee]
     no_fees_reason: str

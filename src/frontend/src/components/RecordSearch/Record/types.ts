@@ -43,6 +43,7 @@ export interface RecordData {
 export interface RecordSummaryData {
   total_charges: number;
   eligible_charges_by_date: { [label: string]: any[] };
+  eligible_charges_with_case_balance_by_date_and_case: { [label: string]: any[] };
   county_fines: CountyFinesData[];
   total_fines_due: number;
   county_filing_fees: CountyFilingFeeData[];
