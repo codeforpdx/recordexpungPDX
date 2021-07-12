@@ -28,8 +28,8 @@ class RecordSummary extends React.Component<Props, State> {
 
   handleGenerateFormsClick = () => {
     if (
-      this.props.summary.eligible_charges_by_date["Eligible Now"] &&
-      this.props.summary.eligible_charges_by_date["Eligible Now"].length > 0
+      this.props.summary.charges_grouped_by_eligibility_and_case["Eligible Now"] &&
+      this.props.summary.charges_grouped_by_eligibility_and_case["Eligible Now"].length > 0
     ) {
       history.push("/fill-expungement-forms");
     } else {
@@ -39,7 +39,7 @@ class RecordSummary extends React.Component<Props, State> {
   render() {
     const {
       total_charges,
-      eligible_charges_by_date,
+      charges_grouped_by_eligibility_and_case,
       county_fines,
       total_fines_due,
       county_filing_fees,
@@ -84,7 +84,7 @@ class RecordSummary extends React.Component<Props, State> {
 
         <div className="flex-ns flex-wrap">
           <ChargesList
-            eligibleChargesByDate={eligible_charges_by_date}
+            eligibleChargesByDate={charges_grouped_by_eligibility_and_case}
             totalCases={total_cases}
             totalCharges={total_charges}
           />

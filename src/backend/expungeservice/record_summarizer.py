@@ -14,14 +14,11 @@ class RecordSummarizer:
     @staticmethod
     def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
-        eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
         charges_grouped_by_eligibility_and_case = RecordSummarizer._build_charges_grouped_by_eligibility_and_case(record)
         no_fees_reason = RecordSummarizer._build_no_fees_reason(record.charges)
         return RecordSummary(
             record=record,
             questions=questions,
-            eligible_charges_by_date=eligible_charges_by_date,
-
             charges_grouped_by_eligibility_and_case=charges_grouped_by_eligibility_and_case,
             total_charges=len(record.charges),
             county_fines=county_fines,
@@ -51,12 +48,12 @@ class RecordSummarizer:
         return county_fines_list, county_filing_fees
 
     @staticmethod
-    def _build_eligible_charges_by_date(record: Record):
+    def _build_charges_grouped_by_eligibility_and_case(record: Record):
         def primary_sort(charge: Charge):
             charge_eligibility = charge.expungement_result.charge_eligibility
             if charge_eligibility:
                 label = charge_eligibility.label
-                no_balance = RecordSummarizer._get_case_of_charge(record, charge).summary.balance_due_in_cents == 0
+                no_balance = RecordSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
                 if label == "Needs More Analysis":
                     return 0, label
                 elif label == "Ineligible":
@@ -98,42 +95,31 @@ class RecordSummarizer:
             visible_charges = record.charges
         else:
             visible_charges = [charge for charge in record.charges_without_case_balance if not charge.charge_type.hidden_in_record_summary()]
-        eligible_charges_by_date: Dict[str, List[Tuple[str, str]]] = {}
+        eligible_charges_by_date: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]] = {}
         sorted_charges = sorted(sorted(visible_charges, key=secondary_sort, reverse=True), key=primary_sort)
         for label, charges in groupby(sorted_charges, key=get_label):
-            charges_tuples = [
-                (charge.ambiguous_charge_id, charge.to_one_line())
-                for charge in charges
-                if charge.edit_status != EditStatus.DELETE
-            ]
-            eligible_charges_by_date[label] = charges_tuples
+            charges_under_label : List[Tuple[str,List[Tuple[str, str]]]]= []
+            for case_number, case_charges in groupby(charges, key=lambda charge: charge.case_number):
+                case = RecordSummarizer._get_case_by_case_number(record, case_number)
+                case_info_line = RecordSummarizer._get_case_balance_header_info_for_case(case)
+                charges_tuples = [
+                    (case_charge.ambiguous_charge_id, case_charge.to_one_line())
+                    for case_charge in case_charges
+                    if case_charge.edit_status != EditStatus.DELETE
+                ]
+                charges_under_label.append((case_info_line, charges_tuples))
+            eligible_charges_by_date[label] = charges_under_label
         return eligible_charges_by_date
 
     @staticmethod
-    def _build_charges_grouped_by_eligibility_and_case(record: Record):
-        charges_grouped_by_eligibility_and_case : Dict[str, List[Tuple[str,List[Tuple[str, str]]]]]= {}
-        eligible_charges_by_date = RecordSummarizer._build_eligible_charges_by_date(record)
-        # this actually groups by labels. We need to push everything down another layer to group by case
-        # the data structure is: structure_charges{label: [list of cases] [case has charges] charge is a name and an extra string of some kind.
-        for label, charges_under_eligibility_label in eligible_charges_by_date.items():
-            charges_grouped_by_eligibility_and_case[label]: List[Tuple[str,List[Tuple[str, str]]]] = []
-            previous_case_number = ""
-            for charge, one_line_info in charges_under_eligibility_label:
-                case_number = "the-case-number"  # charge.case_number
-                if case_number == previous_case_number:
-                    charges_grouped_by_eligibility_and_case[label][-1][1].append((charge,one_line_info))
-                else:
-                    charges_grouped_by_eligibility_and_case[label].append((case_number, [(charge, one_line_info)]))
-                    previous_case_number=case_number
-        return charges_grouped_by_eligibility_and_case
-    @staticmethod
-    def _get_case_of_charge(record, charge):
+    def _get_case_by_case_number(record, case_number):
         for case in record.cases:
-            if charge.case_number == case.summary.case_number:
+            if case_number == case.summary.case_number:
                 return case
 
+    @staticmethod
     def _get_case_balance_header_info_for_case(case):
-        return f'{case.summary.case_number} {case.summary.location} {case.summary.get_balance_due}'
+        return f'{case.summary.case_number} {case.summary.location} {case.summary.get_balance_due()}'
 
     @staticmethod
     def _build_no_fees_reason(charges):

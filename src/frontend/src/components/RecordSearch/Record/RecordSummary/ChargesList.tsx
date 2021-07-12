@@ -58,6 +58,7 @@ export default class ChargesList extends React.Component<Props> {
   }
 
   buildListItems(chargesNames: any[]) {
+    console.log("chargesNames:", chargesNames);
     const listItems = chargesNames.map(
       ([id, chargeName]: [string, string], index: number) => {
         const highlightMoneyOwed = (chargeName: string) => {
