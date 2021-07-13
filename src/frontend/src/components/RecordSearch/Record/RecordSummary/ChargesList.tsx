@@ -102,7 +102,7 @@ export default class ChargesList extends React.Component<Props> {
         <span className="fw7 mb2"> {eligibilityDate} </span>
           <span>
             {" "}
-            {numCharges /* chargesNames.length > 0 ?`(${chargesNames.length})` : "" */ }{" "}
+            {numCharges  > 0 ? `(${numCharges})` : "" }{" "}
           </span>
           <p className="f6 fw5">
             {eligibilityDate === "Ineligible" &&

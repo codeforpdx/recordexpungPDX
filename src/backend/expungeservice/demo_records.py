@@ -439,4 +439,137 @@ class DemoRecords:
                 ),
             ),
         ],
+        Alias("more", "categories", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "123456",
+                        "violation_type": "Offense Felony",
+                        "balance_due_in_cents": 50000,
+
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "123456-1",
+                            "name": "Assaulting a Public Safety Officer",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=2),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=1, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "123456-2",
+                            "name": "Felony Riot",
+                            "statute": "111.111",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=2),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=1, months=9), ruling="Dismissed"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "234567",
+                        "violation_type": "Offense Felony",
+                        "balance_due_in_cents": 0,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "234567-1",
+                            "name": "Assaulting a Public Safety Officer",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "333333",
+                        "violation_type": "Offense Violation",
+                        "balance_due_in_cents": 0,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "333333-1",
+                            "name": "Possession of Marijuana < 1 Ounce",
+                            "statute": "4758643",
+                            "level": "Violation Unclassified",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "444444",
+                        "violation_type": "Offense Violation",
+                        "balance_due_in_cents": 50000,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "444444-1",
+                            "name": "Possession of Marijuana < 1 Ounce",
+                            "statute": "4758643",
+                            "level": "Violation Unclassified",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+        ],
     }
