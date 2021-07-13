@@ -123,7 +123,10 @@ class RecordSummarizer:
 
     @staticmethod
     def _get_case_balance_header_info_for_case(case):
-        return f'{case.summary.case_number} {case.summary.location} {case.summary.get_balance_due()}'
+        if case.summary.get_balance_due() == 0:
+            return ""
+        else:
+            return f'{case.summary.location} {case.summary.case_number} – ${round(case.summary.get_balance_due(),2)}'
 
     @staticmethod
     def _build_no_fees_reason(charges):
