@@ -84,9 +84,13 @@ class RecordSummarizer:
                 return date.max()
 
         def get_label(charge: Charge):
+            no_balance = RecordSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
             charge_eligibility = charge.expungement_result.charge_eligibility
             if charge_eligibility:
-                return charge_eligibility.label
+                if charge_eligibility.label != "Needs More Analysis" and charge_eligibility.label != "Ineligible" and  not no_balance:
+                    return charge_eligibility.label + " If Balance Paid"
+                else:
+                    return charge_eligibility.label
             else:
                 return ""  # TODO: Rethink if possible
 
