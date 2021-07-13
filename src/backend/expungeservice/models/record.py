@@ -52,16 +52,6 @@ class Record:
         return list_charges
 
     @property
-    def charges_without_case_balance(self):
-        list_charges: List[Charge] = []
-
-        for case in self.cases:
-            if not case.summary.balance_due_in_cents:
-                list_charges.extend(case.charges)
-
-        return list_charges
-
-    @property
     def total_balance_due(self):
         total = 0
 

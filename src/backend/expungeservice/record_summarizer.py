@@ -98,7 +98,7 @@ class RecordSummarizer:
         if len(record.charges) <= SHOW_ALL_CHARGES_THRESHOLD:
             visible_charges = record.charges
         else:
-            visible_charges = [charge for charge in record.charges_without_case_balance if not charge.charge_type.hidden_in_record_summary()]
+            visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
         eligible_charges_by_date: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]] = {}
         sorted_charges = sorted(sorted(visible_charges, key=secondary_sort, reverse=True), key=primary_sort)
         for label, charges in groupby(sorted_charges, key=get_label):
