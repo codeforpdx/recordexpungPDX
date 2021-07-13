@@ -106,32 +106,32 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
     assert record_summary.charges_grouped_by_eligibility_and_case == {
-        'Eligible Jan 1, 2030 If Balance Paid': [
+        "Eligible Jan 1, 2030 If Balance Paid": [
             (
-                'Baker 3 – $300.0',
-                [('4', 'Theft of services (CONVICTED) Charged Jan 1, 2010')])
+                "Baker 3 – $300.0",
+                [(case_possibly_eligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")])
         ],
-        'Eligible Now If Balance Paid': [
+        "Eligible Now If Balance Paid": [
             (
-                'Multnomah 1 – $100.0',
-                [('1', 'Theft of dignity (CONVICTED) Charged Jan 1, 2010')]
+                "Multnomah 1 – $100.0",
+                [(case_all_eligible.charges[0].ambiguous_charge_id, "Theft of dignity (CONVICTED) Charged Jan 1, 2010")]
             ),
            (
-                'Clackamas 2 – $200.0',
-                [('2', 'Theft of services (CONVICTED) Charged Jan 1, 2010')]
+                "Clackamas 2 – $200.0",
+                [(case_partially_eligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]
             )
         ],
-        'Ineligible': [
+        "Ineligible": [
             (
-                'Clackamas 2 – $200.0',
-                [('3', 'Theft of services (CONVICTED) Charged Jan 1, 2010')]
+                "Clackamas 2 – $200.0",
+                [(case_partially_eligible.charges[1].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]
             ),
             (
-                'Baker 4 – $400.0',
-                [('5', 'Theft of services (CONVICTED) Charged Jan 1, 2010')]),
+                "Baker 4 – $400.0",
+                [(case_all_ineligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]),
             (
-                '',
-                [('6', 'Theft of services (CONVICTED) Charged Jan 1, 2010')])
+                "",
+                [(case_all_ineligible_2.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")])
         ],
 }
 
