@@ -42,32 +42,10 @@ export default class ChargesList extends React.Component<Props> {
         const [caseHeaderWithBalance, chargesNames] = entry;
         const listItemsInCase = chargesNames.map(
           ([id, chargeName]: [string, string], index: number) => {
-            const highlightMoneyOwed = (chargeName: string) => {
-              if (chargeName.includes(" - $ owed")) {
-                const text = chargeName.replace(" - $ owed", "");
-                return text
-                /*(
-                  <span>
-                    {text}
-                    <span className="visually-hidden">
-                      Money is owed for this case
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="fw6 red bg-washed-red br2 ph1 ml2"
-                    >
-                      $
-                    </span>
-                  </span>
-                );*/
-              } else {
-                return chargeName;
-              }
-            };
             return (
               <li key={"chargeItem" + index} className="f6 bb b--light-gray pv2">
                 <a href={"#" + id} className={caseHeaderWithBalance !== "" ? "ml2" : "link hover-blue" } >
-                  {highlightMoneyOwed(chargeName)}
+                  {chargeName}
                 </a>
               </li>
             );

@@ -39,8 +39,8 @@ You are not currently eligible to expunge any charges.
 ## Charges Eligible Now If Balance Paid  
 These convictions are eligible as soon as the balance of fines on the case is paid.  
 
- - Possession of Cocaine (CONVICTED) Charged Jun 13, 2009 - $ owed 
- - Possession of Cocaine (DISMISSED) Charged Feb 17, 2009 - $ owed  
+ - Possession of Cocaine (CONVICTED) Charged Jun 13, 2009 
+ - Possession of Cocaine (DISMISSED) Charged Feb 17, 2009  
  
   
 """
