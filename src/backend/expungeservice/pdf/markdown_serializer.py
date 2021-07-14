@@ -54,8 +54,16 @@ If the above assumptions are not true for you and you would like an updated anal
             return ""
 
     @staticmethod
+    def _flatten_charges(case_charges_tuples):
+        charges = []
+        for c in case_charges_tuples:
+            charges += c[1]
+        return charges
+
+    @staticmethod
     def _gen_eligible_charges_block(record):
-        eligible_charges = record["summary"]["eligible_charges_by_date"].get("Eligible Now")
+        eligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Eligible Now")
+        eligible_charges = _flatten_charges(eligible_case_charges_tuples)
         if eligible_charges:
             charges = [charge_tuple[1] for charge_tuple in eligible_charges]
             listed_charges = " - " + " \n - ".join(charges)
@@ -65,7 +73,8 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _gen_ineligible_charges_block(record):
-        ineligible_charges = record["summary"]["eligible_charges_by_date"].get("Ineligible")
+        ineligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Ineligible")
+        ineligible_charges = _flatten_charges(ineligible_case_charges_tuples)
         if ineligible_charges:
             charges = [charge_tuple[1] for charge_tuple in ineligible_charges]
             charges_string = " - " + "  \n - ".join(charges)
