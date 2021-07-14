@@ -72,7 +72,6 @@ class DemoRecords:
                     "case_number": "100000",
                     "location": "Clackamas",
                     "date": date_class.today() - relativedelta(years=6, days=12, months=4),
-                    "balance_due_in_cents": 0,
                 },
             ),
             charges=(
@@ -102,7 +101,6 @@ class DemoRecords:
                     "case_number": "110000",
                     "location": "Baker",
                     "date": date_class.today() - relativedelta(years=7, days=26, months=7),
-                    "balance_due_in_cents": 0,
                 },
             ),
             charges=(
@@ -132,7 +130,6 @@ class DemoRecords:
                     "case_number": "120000",
                     "location": "Baker",
                     "date": date_class.today() - relativedelta(years=7, days=26, months=7),
-                    "balance_due_in_cents": 0,
                 },
             ),
             charges=(
@@ -165,7 +162,6 @@ class DemoRecords:
                     "case_number": "200000",
                     "location": "Benton",
                     "date": date_class.today() - relativedelta(years=3, days=12, months=4),
-                    "balance_due_in_cents": 0,
                 },
             ),
             charges=(
@@ -195,7 +191,6 @@ class DemoRecords:
                     "case_number": "210000",
                     "location": "Baker",
                     "date": date_class.today() - relativedelta(years=4, days=5, months=2),
-                    "balance_due_in_cents": 0,
                 },
             ),
             charges=(
@@ -283,6 +278,7 @@ class DemoRecords:
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=3, months=9), ruling="Convicted"
                             ),
+                            "balance_due_in_cents": 100000,
                         },
                     ),
                     from_dict(
@@ -297,6 +293,7 @@ class DemoRecords:
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=3, months=9), ruling="Dismissed"
                             ),
+                            "balance_due_in_cents": 100000,
                         },
                     ),
                 ),
@@ -466,6 +463,7 @@ class DemoRecords:
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=1, months=9), ruling="Convicted"
                             ),
+                            "balance_due_in_cents": 50000,
                         },
                     ),
                     from_dict(
@@ -480,6 +478,7 @@ class DemoRecords:
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=1, months=9), ruling="Dismissed"
                             ),
+                            "balance_due_in_cents": 50000,
                         },
                     ),
                 ),
@@ -493,7 +492,6 @@ class DemoRecords:
                         "name": "John Notaperson",
                         "case_number": "234567",
                         "violation_type": "Offense Felony",
-                        "balance_due_in_cents": 0,
                     },
                 ),
                 charges=(
@@ -522,7 +520,6 @@ class DemoRecords:
                         "name": "John Notaperson",
                         "case_number": "333333",
                         "violation_type": "Offense Violation",
-                        "balance_due_in_cents": 0,
                     },
                 ),
                 charges=(
@@ -567,6 +564,7 @@ class DemoRecords:
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
                             ),
+                            "balance_due_in_cents": 50000,
                         },
                     ),
                 ),

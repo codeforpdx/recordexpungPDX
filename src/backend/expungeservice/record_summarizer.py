@@ -3,7 +3,7 @@ from itertools import groupby
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import QuestionSummary, Record
-from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine
+from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine, ChargesForSummaryPanel
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.util import DateWithFuture as date
@@ -48,7 +48,7 @@ class RecordSummarizer:
         return county_fines_list, county_filing_fees
 
     @staticmethod
-    def _build_charges_grouped_by_eligibility_and_case(record: Record):
+    def _build_charges_grouped_by_eligibility_and_case(record: Record) -> ChargesForSummaryPanel:
         def primary_sort(charge: Charge):
             charge_eligibility = charge.expungement_result.charge_eligibility
             if charge_eligibility:
@@ -63,7 +63,7 @@ class RecordSummarizer:
                         return 2, label
                     else:
                         return 3, label + " If Balance Paid"
-                elif "Eligible Now" in label: #I don't know what this is for -J
+                elif "Eligible Now" in label:
                     if no_balance:
                         return 4, label
                     else:
@@ -87,10 +87,10 @@ class RecordSummarizer:
             no_balance = RecordSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
             charge_eligibility = charge.expungement_result.charge_eligibility
             if charge_eligibility:
-                if charge_eligibility.label != "Needs More Analysis" and charge_eligibility.label != "Ineligible" and  not no_balance:
-                    return charge_eligibility.label + " If Balance Paid"
-                else:
+                if charge_eligibility.label == "Needs More Analysis" or charge_eligibility.label == "Ineligible" or no_balance:
                     return charge_eligibility.label
+                else:
+                    return charge_eligibility.label + " If Balance Paid"
             else:
                 return ""  # TODO: Rethink if possible
 
