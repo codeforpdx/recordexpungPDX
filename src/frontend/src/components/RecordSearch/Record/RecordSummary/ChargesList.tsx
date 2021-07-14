@@ -45,7 +45,8 @@ export default class ChargesList extends React.Component<Props> {
             const highlightMoneyOwed = (chargeName: string) => {
               if (chargeName.includes(" - $ owed")) {
                 const text = chargeName.replace(" - $ owed", "");
-                return (
+                return text
+                /*(
                   <span>
                     {text}
                     <span className="visually-hidden">
@@ -58,14 +59,14 @@ export default class ChargesList extends React.Component<Props> {
                       $
                     </span>
                   </span>
-                );
+                );*/
               } else {
                 return chargeName;
               }
             };
             return (
               <li key={"chargeItem" + index} className="f6 bb b--light-gray pv2">
-                <a href={"#" + id} className="link hover-blue">
+                <a href={"#" + id} className={caseHeaderWithBalance !== "" ? "ml2" : "link hover-blue" } >
                   {highlightMoneyOwed(chargeName)}
                 </a>
               </li>
@@ -74,7 +75,7 @@ export default class ChargesList extends React.Component<Props> {
         );
         return (
           <>
-            <li>
+            <li className="fw7 pt2">
               {caseHeaderWithBalance}
             </li>
             {listItemsInCase}

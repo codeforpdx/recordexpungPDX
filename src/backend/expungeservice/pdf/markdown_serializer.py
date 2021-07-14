@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List
 
 
 class MarkdownSerializer:
@@ -56,7 +56,7 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _flatten_charges(case_charges_tuples):
-        charges = []
+        charges : List[str]= []
         if case_charges_tuples:
             for c in case_charges_tuples:
                 charges += c[1]

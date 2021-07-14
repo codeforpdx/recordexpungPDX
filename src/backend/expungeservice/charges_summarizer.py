@@ -30,6 +30,7 @@ class ChargesSummarizer:
             eligible_charges_by_date[label] = charges_in_section
         return eligible_charges_by_date
 
+    @staticmethod
     def _primary_sort(charge: Charge, record: Record):
         charge_eligibility = charge.expungement_result.charge_eligibility
         if charge_eligibility:
@@ -57,6 +58,7 @@ class ChargesSummarizer:
         else:
             return 0, ""
 
+    @staticmethod
     def _secondary_sort(charge: Charge):
         charge_eligibility = charge.expungement_result.charge_eligibility
         if charge_eligibility and charge_eligibility.date_to_sort_label_by:
@@ -64,6 +66,7 @@ class ChargesSummarizer:
         else:
             return date.max()
 
+    @staticmethod
     def _get_label(charge: Charge, record: Record):
         no_balance = ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
         charge_eligibility = charge.expungement_result.charge_eligibility
