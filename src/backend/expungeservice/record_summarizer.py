@@ -1,20 +1,19 @@
 from itertools import groupby
 
 from expungeservice.models.case import Case
-from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import QuestionSummary, Record
-from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine, ChargesForSummaryPanel
+from expungeservice.models.record_summary import RecordSummary, CountyFilingFee, CountyFines, CaseFine
+from expungeservice.charges_summarizer import ChargesSummarizer
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
-from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
 
 
 class RecordSummarizer:
     @staticmethod
-    def summarize(record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
+    def summarize(record: Record, questions: Dict[str, QuestionSummary]) -> RecordSummary:
         county_fines, county_filing_fees = RecordSummarizer._build_county_balances(record)
-        charges_grouped_by_eligibility_and_case = RecordSummarizer._build_charges_grouped_by_eligibility_and_case(record)
+        charges_grouped_by_eligibility_and_case = ChargesSummarizer.build_charges_for_summary_panel(record)
         no_fees_reason = RecordSummarizer._build_no_fees_reason(record.charges)
         return RecordSummary(
             record=record,
@@ -46,87 +45,6 @@ class RecordSummarizer:
             if len(cases_with_conviction_fees) > 0:
                 county_filing_fees.append(CountyFilingFee(location, len(cases_with_conviction_fees)))
         return county_fines_list, county_filing_fees
-
-    @staticmethod
-    def _build_charges_grouped_by_eligibility_and_case(record: Record) -> ChargesForSummaryPanel:
-        def primary_sort(charge: Charge):
-            charge_eligibility = charge.expungement_result.charge_eligibility
-            if charge_eligibility:
-                label = charge_eligibility.label
-                no_balance = RecordSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
-                if label == "Needs More Analysis":
-                    return 0, label
-                elif label == "Ineligible":
-                    return 1, label
-                elif label == "Eligible Now":
-                    if no_balance:
-                        return 2, label
-                    else:
-                        return 3, label + " If Balance Paid"
-                elif "Eligible Now" in label:
-                    if no_balance:
-                        return 4, label
-                    else:
-                        return 5, label + " If Balance Paid"
-                else:
-                    if no_balance:
-                        return 6, label
-                    else:
-                        return 7, label + " If Balance Paid"
-            else:
-                return 0, ""
-
-        def secondary_sort(charge: Charge):
-            charge_eligibility = charge.expungement_result.charge_eligibility
-            if charge_eligibility and charge_eligibility.date_to_sort_label_by:
-                return charge_eligibility.date_to_sort_label_by
-            else:
-                return date.max()
-
-        def get_label(charge: Charge):
-            no_balance = RecordSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
-            charge_eligibility = charge.expungement_result.charge_eligibility
-            if charge_eligibility:
-                if charge_eligibility.label == "Needs More Analysis" or charge_eligibility.label == "Ineligible" or no_balance:
-                    return charge_eligibility.label
-                else:
-                    return charge_eligibility.label + " If Balance Paid"
-            else:
-                return ""  # TODO: Rethink if possible
-
-        SHOW_ALL_CHARGES_THRESHOLD = 20
-        if len(record.charges) <= SHOW_ALL_CHARGES_THRESHOLD:
-            visible_charges = record.charges
-        else:
-            visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
-        eligible_charges_by_date: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]] = {}
-        sorted_charges = sorted(sorted(visible_charges, key=secondary_sort, reverse=True), key=primary_sort)
-        for label, charges in groupby(sorted_charges, key=get_label):
-            charges_under_label : List[Tuple[str,List[Tuple[str, str]]]]= []
-            for case_number, case_charges in groupby(charges, key=lambda charge: charge.case_number):
-                case = RecordSummarizer._get_case_by_case_number(record, case_number)
-                case_info_line = RecordSummarizer._get_case_balance_header_info_for_case(case)
-                charges_tuples = [
-                    (case_charge.ambiguous_charge_id, case_charge.to_one_line())
-                    for case_charge in case_charges
-                    if case_charge.edit_status != EditStatus.DELETE
-                ]
-                charges_under_label.append((case_info_line, charges_tuples))
-            eligible_charges_by_date[label] = charges_under_label
-        return eligible_charges_by_date
-
-    @staticmethod
-    def _get_case_by_case_number(record, case_number):
-        for case in record.cases:
-            if case_number == case.summary.case_number:
-                return case
-
-    @staticmethod
-    def _get_case_balance_header_info_for_case(case):
-        if case.summary.get_balance_due() == 0:
-            return ""
-        else:
-            return f'{case.summary.location} {case.summary.case_number} – ${round(case.summary.get_balance_due(),2)}'
 
     @staticmethod
     def _build_no_fees_reason(charges):
