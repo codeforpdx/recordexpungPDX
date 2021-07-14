@@ -12,7 +12,7 @@ export default class ChargesList extends React.Component<Props> {
     const summarizedCharges = Object.entries(
       this.props.eligibleChargesByDate
     ).map(([eligibilityDate, casesWithHeaderAndChargesNames]: [string, any[]]) => {
-      const numCharges = casesWithHeaderAndChargesNames.reduce((acc: number, entry: any)=>{ return acc +entry[1].length}, 0);
+      const numCharges = casesWithHeaderAndChargesNames.reduce((acc: number, entry: any) => acc + entry[1].length, 0);
       const listItems = this.buildListItems(casesWithHeaderAndChargesNames);
       const categoryHeader = this.buildCategoryHeader(eligibilityDate, numCharges, this.props.totalCharges);
       return (
@@ -60,7 +60,7 @@ export default class ChargesList extends React.Component<Props> {
           </>
         );
       }
-    )
+    );
   }
 
   buildCategoryHeader(eligibilityDate: string, numCharges: number, totalNumCharges: number) {

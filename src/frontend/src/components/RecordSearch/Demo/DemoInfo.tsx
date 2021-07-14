@@ -34,9 +34,9 @@ class DemoInfo extends React.Component<Props> {
             )
           }
         </p>
-        {description.map(line=> <p className="pb2">{line}</p>)}
+        {description.map((line: string) => <p className="pb2">{line}</p>)}
       </div>
-    )
+    );
   }
 
   render() {
@@ -84,7 +84,7 @@ class DemoInfo extends React.Component<Props> {
         dateOfBirth: "2/2/1985"
       },
 
-    ]
+    ];
     return (
       <article className="lh-copy">
         <div className="bg-white shadow bl bw3 b--blue mv4 pv4 ph4 ph5-l br3">
@@ -123,7 +123,7 @@ class DemoInfo extends React.Component<Props> {
             .
           </p>
           <div>
-            {examplesData.map((e: any)=> (
+            {examplesData.map((e: any) => (
               <div>
                 <h2 className="fw9 bt b--light-gray pt2 mb3">
                   {e.name}
