@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List
 
 
 class MarkdownSerializer:
@@ -8,10 +8,11 @@ class MarkdownSerializer:
         open_cases_block = MarkdownSerializer._gen_open_cases_block(record)
         disclaimer = MarkdownSerializer.disclaimer_and_assumptions(open_cases_block)
         eligible_charges_block = MarkdownSerializer._gen_eligible_charges_block(record)
+        eligible_charges_if_balance_paid_block = MarkdownSerializer._gen_eligible_charges_if_balance_paid_block(record)
         ineligible_charges_block = MarkdownSerializer._gen_ineligible_charges_block(record)
         future_eligible_block = MarkdownSerializer._gen_future_eligible_block(record)
         needs_more_analysis_block = MarkdownSerializer._gen_needs_more_analysis_block(record)
-        return f"{header}  \n{disclaimer}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{future_eligible_block}  \n{needs_more_analysis_block}"
+        return f"{header}  \n{disclaimer}  \n{eligible_charges_block}  \n{ineligible_charges_block}  \n{eligible_charges_if_balance_paid_block} \n{future_eligible_block}  \n{needs_more_analysis_block}"
 
     @staticmethod
     def disclaimer_and_assumptions(open_cases_block):
@@ -54,8 +55,17 @@ If the above assumptions are not true for you and you would like an updated anal
             return ""
 
     @staticmethod
+    def _flatten_charges(case_charges_tuples):
+        charges : List[str]= []
+        if case_charges_tuples:
+            for c in case_charges_tuples:
+                charges += c[1]
+        return charges
+
+    @staticmethod
     def _gen_eligible_charges_block(record):
-        eligible_charges = record["summary"]["eligible_charges_by_date"].get("Eligible Now")
+        eligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Eligible Now")
+        eligible_charges = MarkdownSerializer._flatten_charges(eligible_case_charges_tuples)
         if eligible_charges:
             charges = [charge_tuple[1] for charge_tuple in eligible_charges]
             listed_charges = " - " + " \n - ".join(charges)
@@ -64,8 +74,19 @@ If the above assumptions are not true for you and you would like an updated anal
         return "## Charges Eligible Now  \n" + listed_charges + "  \n"
 
     @staticmethod
+    def _gen_eligible_charges_if_balance_paid_block(record):
+        eligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Eligible Now If Balance Paid")
+        eligible_charges = MarkdownSerializer._flatten_charges(eligible_case_charges_tuples)
+        if eligible_charges:
+            charges = [charge_tuple[1] for charge_tuple in eligible_charges]
+            listed_charges = " - " + " \n - ".join(charges)
+            return f"## Charges Eligible Now If Balance Paid  \nThese convictions are eligible as soon as the balance of fines on the case is paid.  \n\n{listed_charges}  \n"
+        else:
+            return ""
+    @staticmethod
     def _gen_ineligible_charges_block(record):
-        ineligible_charges = record["summary"]["eligible_charges_by_date"].get("Ineligible")
+        ineligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Ineligible")
+        ineligible_charges = MarkdownSerializer._flatten_charges(ineligible_case_charges_tuples)
         if ineligible_charges:
             charges = [charge_tuple[1] for charge_tuple in ineligible_charges]
             charges_string = " - " + "  \n - ".join(charges)
@@ -75,16 +96,17 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _gen_future_eligible_block(record):
-        eligible_charges_by_date = record["summary"]["eligible_charges_by_date"]
+        eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
             (key, eligible_charges_by_date[key])
             for key in eligible_charges_by_date.keys()
-            if key not in ["Eligible Now", "Ineligible", "Needs More Analysis"]
+            if key not in ["Eligible Now", "Ineligible", "Needs More Analysis", "Eligible Now If Balance Paid"]
         ]
         if future_eligible_charges:
             text_block = "## Future Eligible Charges  \nThe following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.  \n"
             for label, section in sorted(future_eligible_charges, key=MarkdownSerializer._sort_future_eligible):
-                charges = [charge_tuple[1] for charge_tuple in section]
+                flattened_charges = MarkdownSerializer._flatten_charges(section)
+                charges = [charge_tuple[1] for charge_tuple in flattened_charges]
                 listed_charges = " - " + "  \n - ".join(charges)
                 text_block += "### " + label + "  \n" + listed_charges + "  \n\n"
             return text_block
@@ -106,7 +128,8 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _gen_needs_more_analysis_block(record):
-        needs_more_analysis_charges = record["summary"]["eligible_charges_by_date"].get("Needs More Analysis")
+        needs_more_analysis_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Needs More Analysis")
+        needs_more_analysis_charges = MarkdownSerializer._flatten_charges(needs_more_analysis_charges_tuples)
         if needs_more_analysis_charges:
             charges = [charge_tuple[1] for charge_tuple in needs_more_analysis_charges]
             text_block = "## Charges Needing More Analysis  \nAdditionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.  \n\n"

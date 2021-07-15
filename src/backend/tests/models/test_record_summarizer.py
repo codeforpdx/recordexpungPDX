@@ -105,35 +105,36 @@ def test_record_summarizer_multiple_cases():
     assert record_summary.total_fines_due == 1000.00
     assert record_summary.total_cases == 5
     assert record_summary.total_charges == 6
-    assert record_summary.eligible_charges_by_date == {
-        "Eligible Jan 1, 2030": [
+    assert record_summary.charges_grouped_by_eligibility_and_case == {
+        "Eligible Jan 1, 2030 If Balance Paid": [
             (
-                case_possibly_eligible.charges[0].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, " "2010",
-            )
+                "Baker 3 – $300.0",
+                [(case_possibly_eligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")])
         ],
-        "Eligible Now": [
-            (case_all_eligible.charges[0].ambiguous_charge_id, "Theft of dignity (CONVICTED) Charged Jan 1, 2010"),
+        "Eligible Now If Balance Paid": [
             (
-                case_partially_eligible.charges[0].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, 2010",
+                "Multnomah 1 – $100.0",
+                [(case_all_eligible.charges[0].ambiguous_charge_id, "Theft of dignity (CONVICTED) Charged Jan 1, 2010")]
             ),
+           (
+                "Clackamas 2 – $200.0",
+                [(case_partially_eligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]
+            )
         ],
         "Ineligible": [
             (
-                case_partially_eligible.charges[1].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, 2010",
+                "Clackamas 2 – $200.0",
+                [(case_partially_eligible.charges[1].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]
             ),
             (
-                case_all_ineligible.charges[0].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, 2010",
-            ),
+                "Baker 4 – $400.0",
+                [(case_all_ineligible.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")]),
             (
-                case_all_ineligible_2.charges[0].ambiguous_charge_id,
-                "Theft of services (CONVICTED) Charged Jan 1, 2010",
-            ),
+                "",
+                [(case_all_ineligible_2.charges[0].ambiguous_charge_id, "Theft of services (CONVICTED) Charged Jan 1, 2010")])
         ],
-    }
+}
+
     assert len(record_summary.county_filing_fees) == 2
     assert record_summary.total_filing_fees_due == 722
     assert (
@@ -157,6 +158,6 @@ def test_record_summarizer_no_cases():
     assert record_summary.total_cases == 0
     assert record_summary.total_charges == 0
     assert record_summary.county_fines == []
-    assert record_summary.eligible_charges_by_date == {}
+    assert record_summary.charges_grouped_by_eligibility_and_case == {}
     assert record_summary.county_filing_fees == []
     assert record_summary.no_fees_reason == "None"

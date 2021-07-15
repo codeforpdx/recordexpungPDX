@@ -13,174 +13,77 @@ class DemoInfo extends React.Component<Props> {
     store.dispatch(this.props.stopDemo());
     history.push("/oeci");
   };
+  formattedInfo = (firstName: string, lastName: string, description: string[], dateOfBirth: string) => {
+    return (
+      <div>
+        <p className="flex lh-title mb3">
+          <div className="mr4">
+            <div className="fw6">First Name</div>
+            <div>{firstName}</div>
+          </div>
+          <div className="mr4">
+            <div className="fw6">Last Name</div>
+            <div>{lastName}</div>
+          </div>
+          {
+            dateOfBirth && (
+              <div>
+                <div className="fw6">Date of Birth</div>
+                <div>{dateOfBirth}</div>
+              </div>
+            )
+          }
+        </p>
+        {description.map((line: string) => <p className="pb2">{line}</p>)}
+      </div>
+    );
+  }
+
   render() {
-    const examples = [
+    const examplesData = [
       {
         name: "Single Conviction",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>Single</div>
-              </div>
-              <div>
-                <div className="fw6">Last Name</div>
-                <div>Conviction</div>
-              </div>
-            </p>
-            <p className="pb2">
-              As a simple example, if a person's record has only a single
-              convicted charge, it is eligible after three years.
-            </p>
-          </div>
-        ),
+        firstName: "Single",
+        lastName: "Conviction",
+        description: ["As a simple example, if a person's record has only a single convicted charge, it is eligible after three years."]
       },
       {
         name: "Multiple Charges",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>Multiple</div>
-              </div>
-              <div>
-                <div className="fw6">Last Name</div>
-                <div>Charges</div>
-              </div>
-            </p>
-            <p className="pb2">
-              If a record has more than one case, the time restrictions quickly
-              get more complex, as this example demonstrates. Eligibility dates
-              depend on whether dismissals are on the same or a different case
-              as a conviction. Searching OECI will also reveal traffic
-              violations, which are always ineligible.
-            </p>
-            <p>
-              This record also includes a case with an outstanding balance due
-              for fines, which is indicated in both the record summary and on
-              the case itself.
-            </p>
-          </div>
-        ),
+        firstName: "Multiple",
+        lastName: "Charges",
+        description: [
+          "If a record has more than one case, the time restrictions quickly get more complex, as this example demonstrates. Eligibility dates depend on whether dismissals are on the same or a different case as a conviction. Searching OECI will also reveal traffic violations, which are always ineligible.",
+          "This record also includes a case with an outstanding balance due for fines, which is indicated in both the record summary and on the case itself."
+        ]
       },
       {
         name: "John Common",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>John</div>
-              </div>
-              <div>
-                <div className="fw6">Last Name</div>
-                <div>Common</div>
-              </div>
-            </p>
-            <p className="pb2">
-              Searching for a common name will often bring up records that
-              belong to different individuals, leading to an incorrect analysis
-              for the set of resulting cases. Another source of confusion is
-              that each case may or may not incude a birth year, as well as
-              middle name or initial.
-            </p>
-            <p>
-              It is thus always recommended to provide a birth date in the
-              search. You can also use the Enable Editing feature to remove
-              cases or charges from the resulting record, and these charges will
-              be excluded in the eligibility analysis.
-            </p>
-          </div>
-        ),
+        firstName: "John",
+        lastName: "Common",
+        description: [
+          "Searching for a common name will often bring up records that belong to different individuals, leading to an incorrect analysis for the set of resulting cases. Another source of confusion is that each case may or may not incude a birth year, as well as middle name or initial.",
+          "It is thus always recommended to provide a birth date in the search. You can also use the Enable Editing feature to remove cases or charges from the resulting record, and these charges will be excluded in the eligibility analysis."
+        ],
       },
       {
         name: "John Common – Class B Felony and Marijuana",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>John</div>
-              </div>
-              <div className="mr4">
-                <div className="fw6">Last Name</div>
-                <div>Common</div>
-              </div>
-              <div>
-                <div className="fw6">Date of Birth</div>
-                <div>1/1/1970</div>
-              </div>
-            </p>
-            <p>
-              Most charges that are eligible are also subject to the same set of
-              time restrictions. There are some exceptions to this, notably
-              Class B Felonies, and possession of less than an ounce of
-              marijuana.
-            </p>
-          </div>
-        ),
+        firstName: "John",
+        lastName: "Common",
+        description: [
+          "Most charges that are eligible are also subject to the same set of time restrictions. There are some exceptions to this, notably Class B Felonies, and possession of less than an ounce of marijuana."
+        ],
+        dateOfBirth: "1/1/1970"
       },
       {
         name: "John Common – Needs More Analysis",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>John</div>
-              </div>
-              <div className="mr4">
-                <div className="fw6">Last Name</div>
-                <div>Common</div>
-              </div>
-              <div>
-                <div className="fw6">Date of Birth</div>
-                <div>2/2/1985</div>
-              </div>
-            </p>
-            <p>
-              Some charges cannot be evaluated for eligibility until the user
-              provides some follow-up information about the charge. RecordSponge
-              deals with this ambiguity by showing the different possible
-              outcomes for eligibility, and by asking the user for the required
-              extra information in order to determine an exact analysis.
-            </p>
-          </div>
-        ),
+        firstName: "John",
+        lastName: "Common",
+        description: [
+          "Some charges cannot be evaluated for eligibility until the user provides some follow-up information about the charge. RecordSponge deals with this ambiguity by showing the different possible outcomes for eligibility, and by asking the user for the required extra information in order to determine an exact analysis."
+        ],
+        dateOfBirth: "2/2/1985"
       },
-      {
-        name: "Portland Protester",
-        info: (
-          <div>
-            <p className="flex lh-title mb3">
-              <div className="mr4">
-                <div className="fw6">First Name</div>
-                <div>Portland</div>
-              </div>
-              <div>
-                <div className="fw6">Last Name</div>
-                <div>Protester</div>
-              </div>
-            </p>
-            <p className="pb2">
-              Our software is useful for evaluating a record with recent open
-              cases, because you can assign rulings manually to consider
-              hypothetical outcomes. This is particularly relevant in light of
-              the recent protests against police brutality in Portland and
-              nationwide.
-            </p>
-            <p>
-              The team at RecordSponge stands in strong support of this
-              movement. These protests are are seeing forceful retaliation from
-              police, with peaceful protesters as well as journalists getting
-              attacked, arrested, and charged with multiple and often
-              felony-level charges.
-            </p>
-          </div>
-        ),
-      },
+
     ];
     return (
       <article className="lh-copy">
@@ -220,12 +123,14 @@ class DemoInfo extends React.Component<Props> {
             .
           </p>
           <div>
-            {examples.map((examples: any) => (
+            {examplesData.map((e: any) => (
               <div>
                 <h2 className="fw9 bt b--light-gray pt2 mb3">
-                  {examples.name}
+                  {e.name}
                 </h2>
-                <div className="mw7 mb4">{examples.info}</div>
+                <div className="mw7 mb4">
+                  {this.formattedInfo(e.firstName, e.lastName, e.description, e.dateOfBirth)}
+                </div>
               </div>
             ))}
           </div>

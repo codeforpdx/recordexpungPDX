@@ -25,13 +25,14 @@ class CountyFilingFee:
     county_name: str
     cases_with_eligible_convictions: int
 
+ChargesForSummaryPanel = Dict[str, List[Tuple[str,List[Tuple[str, str]]]]]
 
 @dataclass
 class RecordSummary:
     record: Record
     questions: Dict[str, QuestionSummary]
     total_charges: int
-    eligible_charges_by_date: Dict[str, List[Tuple[str, str]]]
+    charges_grouped_by_eligibility_and_case: ChargesForSummaryPanel
     county_fines: List[CountyFines]
     county_filing_fees: List[CountyFilingFee]
     no_fees_reason: str
