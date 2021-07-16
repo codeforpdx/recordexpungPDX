@@ -39,10 +39,9 @@ class Expunger:
 
             other_blocking_charges = [c for c in other_charges if c.charge_type.blocks_other_charges]
 
-            _, convictions = Case.categorize_charges(other_charges)
-            blocking_dismissals, blocking_convictions = Case.categorize_charges(other_blocking_charges)
+            convictions = [c for c in other_charges if c.convicted()]
+            blocking_convictions = [c for c in other_blocking_charges if c.convicted()]
 
-            most_recent_blocking_dismissal = Expunger._most_recent_different_case_dismissal(charge, blocking_dismissals)
             most_recent_blocking_conviction = Expunger._most_recent_convictions(blocking_convictions)
 
             other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
@@ -86,7 +85,7 @@ class Expunger:
                     )
                 )
 
-            if most_recent_blocking_conviction:
+            if charge.convicted() and most_recent_blocking_conviction:
                 conviction_string = "other conviction" if charge.convicted() else "conviction"
                 summary = most_recent_blocking_conviction.case(cases).summary
                 potential = "potential " if not summary.closed() else ""
@@ -94,14 +93,6 @@ class Expunger:
                     (
                         most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
                         f"137.225(7)(b) – Ten years from most recent {potential}{conviction_string} from case [{summary.case_number}].",
-                    )
-                )
-
-            if charge.dismissed() and most_recent_blocking_dismissal:
-                eligibility_dates.append(
-                    (
-                        most_recent_blocking_dismissal.date + relativedelta(years=3),
-                        "Three years from most recent other arrest (137.225(8)(a))",
                     )
                 )
 
@@ -138,51 +129,7 @@ class Expunger:
                     status=EligibilityStatus.INELIGIBLE, reason=reason, date_will_be_eligible=date_will_be_eligible
                 )
             ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id] = time_eligibility
-        for case in cases:
-            non_violation_convictions_in_case = []
-            violations_in_case = []
-            for charge in case.charges:
-                if charge.convicted():
-                    if "violation" in charge.level.lower():
-                        violations_in_case.append(charge)
-                    else:
-                        non_violation_convictions_in_case.append(charge)
-            violations_in_case.sort(key=lambda charge: charge.disposition.date, reverse=True)
-            if len(non_violation_convictions_in_case) == 1 and len(violations_in_case) <= 1:
-                attractor = non_violation_convictions_in_case[0]
-            elif len(violations_in_case) == 1:
-                attractor = violations_in_case[0]
-            elif len(violations_in_case) in [2, 3]:
-                attractor = violations_in_case[1]
-            else:
-                attractor = None
-
-            if attractor:
-                for charge in case.charges:
-                    if (
-                        charge.type_eligibility.status != EligibilityStatus.INELIGIBLE
-                        and charge.dismissed()
-                        and ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id].date_will_be_eligible
-                        > ambiguous_charge_id_to_time_eligibility[attractor.ambiguous_charge_id].date_will_be_eligible
-                    ):
-                        time_eligibility = TimeEligibility(
-                            status=ambiguous_charge_id_to_time_eligibility[attractor.ambiguous_charge_id].status,
-                            reason='Time eligibility of the arrest matches conviction on the same case (the "friendly" rule)',
-                            date_will_be_eligible=ambiguous_charge_id_to_time_eligibility[
-                                attractor.ambiguous_charge_id
-                            ].date_will_be_eligible,
-                        )
-                        ambiguous_charge_id_to_time_eligibility[charge.ambiguous_charge_id] = time_eligibility
         return ambiguous_charge_id_to_time_eligibility
-
-    @staticmethod
-    def _most_recent_different_case_dismissal(charge, dismissals):
-        different_case_dismissals = [c for c in dismissals if c.case_number != charge.case_number]
-        different_case_dismissals.sort(key=lambda charge: charge.date)
-        if different_case_dismissals and different_case_dismissals[-1].recent_dismissal():
-            return different_case_dismissals[-1]
-        else:
-            return None
 
     @staticmethod
     def _most_recent_convictions(recent_convictions) -> Optional[Charge]:

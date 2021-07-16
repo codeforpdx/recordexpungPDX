@@ -174,18 +174,17 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
     expunger_result = Expunger.run(record)
 
     assert len(expunger_result) == 9
+    assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[0].charges[1].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[0].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
-    assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[0].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[0].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[1].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[1].charges[1].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[1].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
-    assert expunger_result[record.cases[1].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[1].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[1].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-
-    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[record.cases[2].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[2].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
 
 @pytest.fixture
