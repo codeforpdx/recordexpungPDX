@@ -56,10 +56,7 @@ class Expunger:
                     )
                 else:
                     eligibility_dates.append(
-                        (
-                            charge.disposition.date + relativedelta(years=3),
-                            "Three years from date of conviction (137.225(1)(a))",
-                        )
+                        Expunger._single_conviction_years_by_level(charge.level, charge.disposition.date)
                     )
             elif charge.dismissed():
                 eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(b))"))
@@ -96,22 +93,6 @@ class Expunger:
                     )
                 )
 
-            if charge.convicted() and isinstance(charge.charge_type, FelonyClassB):
-                if Expunger._calculate_has_subsequent_charge(charge, other_blocking_charges):
-                    eligibility_dates.append(
-                        (
-                            date.max(),
-                            "Never. Class B felony can have no subsequent arrests or convictions (137.225(5)(a)(A)(ii))",
-                        )
-                    )
-                else:
-                    eligibility_dates.append(
-                        (
-                            charge.disposition.date + relativedelta(years=20),
-                            "Twenty years from date of class B felony conviction (137.225(5)(a)(A)(i))",
-                        )
-                    )
-
             if isinstance(charge.charge_type, MarijuanaViolation):
                 date_will_be_eligible = charge.disposition.date
                 reason = "Eligible immediately (475B.401)"
@@ -132,6 +113,45 @@ class Expunger:
         return ambiguous_charge_id_to_time_eligibility
 
     @staticmethod
+    def _single_conviction_years_by_level(target_charge_level, relative_charge_date):
+        if "Felony Class A" in target_charge_level:
+            return (
+                date.max(),
+                "Never. Type ineligible charges are always time ineligible."
+            )
+        elif "Felony Class B" in target_charge_level:
+            return (
+                relative_charge_date + relativedelta(years=7),
+                "Seven years from date of conviction (137.225(1)(a))",
+            )
+        elif "Felony Class C" in target_charge_level:
+            return (
+                relative_charge_date + relativedelta(years=5),
+                "Five years from date of conviction (137.225(1)(a))",
+            )
+        elif "Misdemeanor Class A" in target_charge_level:
+            return (
+                relative_charge_date + relativedelta(years=3),
+                "Three years from date of conviction (137.225(1)(a))",
+            )
+        elif any([x in target_charge_level for x in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
+            return (
+                relative_charge_date + relativedelta(years=1),
+                "One year from date of conviction (137.225(1)(a))",
+            )
+        elif "Misdemeanor" in target_charge_level: # TODO: Is an unspecified Misdemeanor always a Class A?
+            return (
+                relative_charge_date + relativedelta(years=3),
+                "Three years from date of conviction (137.225(1)(a))",
+            )
+        else:
+            return (
+                date.max(),
+                f"Error: unrecognized severity level in \"{target_charge_level}\""
+            )
+
+
+    @staticmethod
     def _most_recent_convictions(recent_convictions) -> Optional[Charge]:
         recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
         newer, older = take(2, padnone(recent_convictions))
@@ -146,18 +166,6 @@ class Expunger:
             if not isinstance(charge.charge_type, TrafficViolation):
                 return False
         return True
-
-    @staticmethod
-    def _calculate_has_subsequent_charge(class_b_felony: Charge, other_charges: List[Charge]) -> bool:
-        for other_charge in other_charges:
-            if other_charge.dismissed():
-                date_of_other_charge = other_charge.date
-            else:
-                date_of_other_charge = other_charge.disposition.date
-
-            if date_of_other_charge > class_b_felony.disposition.date:
-                return True
-        return False
 
     @staticmethod
     def _without_skippable_charges(record: Record) -> Record:

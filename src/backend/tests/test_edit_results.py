@@ -125,8 +125,8 @@ def test_no_op():
     assert record.cases[1].charges[1].disposition.status == DispositionStatus.UNKNOWN
     assert record.cases[1].summary.edit_status == EditStatus.UNCHANGED
     assert isinstance(record.cases[1].charges[0].charge_type, FelonyClassB)
-    assert record.cases[1].charges[0].expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
-    assert record.cases[1].charges[0].expungement_result.time_eligibility.status == EligibilityStatus.INELIGIBLE
+    assert record.cases[1].charges[0].expungement_result.charge_eligibility.status == ChargeEligibilityStatus.ELIGIBLE_NOW
+    assert record.cases[1].charges[0].expungement_result.time_eligibility.status == EligibilityStatus.ELIGIBLE
 
 
 def test_edit_some_fields_on_case():
@@ -357,7 +357,7 @@ def test_deleted_charge_does_not_block():
     assert record.cases[0].charges[1].edit_status == EditStatus.UNCHANGED
 
     assert record.cases[1].summary.case_number == "X0002"
-    assert record.cases[1].charges[0].expungement_result.charge_eligibility.status == ChargeEligibilityStatus.INELIGIBLE
+    assert record.cases[1].charges[0].expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
 
     record, questions = RecordCreator.build_record(
         search("two_cases_two_charges_each"),
@@ -387,7 +387,7 @@ def test_deleted_charge_does_not_block():
     assert record.cases[1].summary.case_number == "X0002"
     assert (
         record.cases[1].charges[0].expungement_result.charge_eligibility.status
-        == ChargeEligibilityStatus.POSSIBLY_ELIGIBILE
+        == ChargeEligibilityStatus.ELIGIBLE_NOW
     )
 
 
