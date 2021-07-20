@@ -2,7 +2,7 @@ from typing import List, Any, Callable, Tuple
 from expungeservice.util import DateWithFuture as date, LRUCache
 from expungeservice.models.case import OeciCase, CaseSummary
 from expungeservice.models.charge import OeciCharge, EditStatus
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.record import Record
@@ -293,13 +293,13 @@ def test_edit_charge_type_of_charge():
         {
             "X0001": {
                 "summary": {"edit_status": "UPDATE"},
-                "charges": {"X0001-2": {"edit_status": "UPDATE", "charge_type": "Misdemeanor"}},
+                "charges": {"X0001-2": {"edit_status": "UPDATE", "charge_type": "MisdemeanorClassA"}},
             }
         },
         date.today(),
         LRUCache(4),
     )
-    assert isinstance(record.cases[0].charges[1].charge_type, Misdemeanor)
+    assert isinstance(record.cases[0].charges[1].charge_type, MisdemeanorClassA)
 
 
 def test_add_new_charge():
@@ -314,7 +314,7 @@ def test_add_new_charge():
                 "charges": {
                     "X0001-3": {
                         "edit_status": "ADD",
-                        "charge_type": "Misdemeanor",
+                        "charge_type": "MisdemeanorClassA",
                         "date": "1/1/2001",
                         "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
                     }
@@ -324,7 +324,7 @@ def test_add_new_charge():
         date.today(),
         LRUCache(4),
     )
-    assert isinstance(record.cases[0].charges[2].charge_type, Misdemeanor)
+    assert isinstance(record.cases[0].charges[2].charge_type, MisdemeanorClassA)
     assert record.cases[0].charges[2].date == date(2001, 1, 1)
     assert record.cases[0].charges[2].edit_status == EditStatus.ADD
 

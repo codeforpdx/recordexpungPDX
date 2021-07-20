@@ -1,6 +1,7 @@
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
+from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 
@@ -13,7 +14,7 @@ def test_misdemeanor_missing_disposition():
         disposition=DispositionCreator.empty(),
     )
 
-    assert isinstance(misdemeanor_charge.charge_type, Misdemeanor)
+    assert isinstance(misdemeanor_charge.charge_type, MisdemeanorClassBC)
     assert misdemeanor_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         misdemeanor_charge.type_eligibility.reason
@@ -29,7 +30,7 @@ def test_misdemeanor_164043():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charge.charge_type, Misdemeanor)
+    assert isinstance(charge.charge_type, MisdemeanorClassBC)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
@@ -39,7 +40,7 @@ def test_misdemeanor_164125():
         name="Theft of services", statute="164.125", level="Misdemeanor Class A", disposition=Dispositions.CONVICTED
     )
 
-    assert isinstance(charge.charge_type, Misdemeanor)
+    assert isinstance(charge.charge_type, MisdemeanorClassA)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
 
@@ -52,6 +53,6 @@ def test_drug_free_zone_variance_misdemeanor():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charge.charge_type, Misdemeanor)
+    assert isinstance(charge.charge_type, MisdemeanorClassA)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"

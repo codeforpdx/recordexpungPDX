@@ -21,7 +21,8 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaUnder21,
     MarijuanaViolation,
 )
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
+from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
@@ -158,8 +159,10 @@ class ChargeClassifier:
 
     @staticmethod
     def _classification_by_level(level, statute):
+        if "misdemeanor class b" in level or "misdemeanor class c" in level:
+            return AmbiguousChargeTypeWithQuestion([MisdemeanorClassBC()])
         if "misdemeanor" in level:
-            return AmbiguousChargeTypeWithQuestion([Misdemeanor()])
+            return AmbiguousChargeTypeWithQuestion([MisdemeanorClassA()])
         if level == "felony class c":
             return AmbiguousChargeTypeWithQuestion([FelonyClassC()])
         if level == "felony class b":
