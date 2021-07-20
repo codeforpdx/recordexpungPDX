@@ -340,7 +340,7 @@ def test_expunger_for_record_with_mj_under_21_blocked_by_blocking_conviction():
     assert expunger_result["CASEJD1-1"] == TimeEligibility(
         status=EligibilityStatus.ELIGIBLE,
         reason="Eligible now",
-        date_will_be_eligible=date(1998, 3, 3) + relativedelta(years=10),
+        date_will_be_eligible=date(1998, 3, 3) + relativedelta(years=3),
     )
     assert expunger_result["CASEJD1-2"] == TimeEligibility(
         status=EligibilityStatus.INELIGIBLE,

@@ -83,15 +83,10 @@ class Expunger:
                 )
 
             if charge.convicted() and most_recent_blocking_conviction:
-                conviction_string = "other conviction" if charge.convicted() else "conviction"
-                summary = most_recent_blocking_conviction.case(cases).summary
-                potential = "potential " if not summary.closed() else ""
-                eligibility_dates.append(
-                    (
-                        most_recent_blocking_conviction.disposition.date + relativedelta(years=10),
-                        f"137.225(7)(b) – Ten years from most recent {potential}{conviction_string} from case [{summary.case_number}].",
-                    )
-                )
+                relative_case_summary = most_recent_blocking_conviction.case(cases).summary
+                blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(charge.level, most_recent_blocking_conviction.disposition.date, relative_case_summary)
+                if blocking_convictions_time_eligibility:
+                    eligibility_dates.append(blocking_convictions_time_eligibility)
 
             if isinstance(charge.charge_type, MarijuanaViolation):
                 date_will_be_eligible = charge.disposition.date
@@ -113,44 +108,78 @@ class Expunger:
         return ambiguous_charge_id_to_time_eligibility
 
     @staticmethod
-    def _single_conviction_years_by_level(target_charge_level, relative_charge_date):
-        if "Felony Class A" in target_charge_level:
+    def _single_conviction_years_by_level(charge_level, charge_date):
+        if "Felony Class A" in charge_level:
             return (
                 date.max(),
                 "Never. Type ineligible charges are always time ineligible."
             )
-        elif "Felony Class B" in target_charge_level:
+        elif "Felony Class B" in charge_level:
             return (
-                relative_charge_date + relativedelta(years=7),
+                charge_date + relativedelta(years=7),
                 "Seven years from date of conviction (137.225(1)(a))",
             )
-        elif "Felony Class C" in target_charge_level:
+        elif "Felony Class C" in charge_level:
             return (
-                relative_charge_date + relativedelta(years=5),
+                charge_date + relativedelta(years=5),
                 "Five years from date of conviction (137.225(1)(a))",
             )
-        elif "Misdemeanor Class A" in target_charge_level:
+        elif "Misdemeanor Class A" in charge_level:
             return (
-                relative_charge_date + relativedelta(years=3),
+                charge_date + relativedelta(years=3),
                 "Three years from date of conviction (137.225(1)(a))",
             )
-        elif any([x in target_charge_level for x in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
+        elif any([level in charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
             return (
-                relative_charge_date + relativedelta(years=1),
+                charge_date + relativedelta(years=1),
                 "One year from date of conviction (137.225(1)(a))",
             )
-        elif "Misdemeanor" in target_charge_level: # TODO: Is an unspecified Misdemeanor always a Class A?
+        elif "Misdemeanor" in charge_level: # TODO: Is an unspecified Misdemeanor always a Class A?
             return (
-                relative_charge_date + relativedelta(years=3),
+                charge_date + relativedelta(years=3),
                 "Three years from date of conviction (137.225(1)(a))",
             )
         else:
             return (
                 date.max(),
-                f"Error: unrecognized severity level in \"{target_charge_level}\""
+                f"Error: unrecognized severity level in \"{charge_level}\". Edit this charge to have a valid level."
             )
 
-
+    @staticmethod
+    def _other_blocking_conviction_years_by_level(target_charge_level, most_recent_blocking_conviction_date, relative_case_summary):
+        potential = "potential " if not relative_case_summary.closed() else ""
+        case_number = relative_case_summary.case_number
+        # Skip Felony Class A because it's already covered by the self-blocking "never" rule.
+        if "Felony Class B" in target_charge_level:
+            return (
+                most_recent_blocking_conviction_date + relativedelta(years=7),
+                f"137.225(7)(b) – Seven years from most recent {potential}other conviction from case [{case_number}].",
+            )
+        elif "Felony Class C" in target_charge_level:
+            return (
+                most_recent_blocking_conviction_date + relativedelta(years=5),
+                f"137.225(7)(b) – Five years from most recent {potential}other conviction from case [{case_number}].",
+            )
+        elif "Misdemeanor Class A" in target_charge_level:
+            return (
+                most_recent_blocking_conviction_date + relativedelta(years=3),
+                f"137.225(7)(b) – Three years from most recent {potential}other conviction from case [{case_number}].",
+            )
+        elif any([level in target_charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
+            return (
+                most_recent_blocking_conviction_date + relativedelta(years=1),
+                f"137.225(7)(b) – One year from most recent {potential}other conviction from case [{case_number}].",
+            )
+        elif "Misdemeanor" in target_charge_level: # TODO: Is an unspecified Misdemeanor always a Class A?
+            return (
+                most_recent_blocking_conviction_date + relativedelta(years=3),
+                f"137.225(7)(b) – Three years from most recent {potential} other conviction from case [{case_number}].",
+            )
+        else:
+            return (
+                date.max(),
+                f"Error: unrecognized severity level in \"{target_charge_level}\". Edit this charge to have a valid level."
+            )
     @staticmethod
     def _most_recent_convictions(recent_convictions) -> Optional[Charge]:
         recent_convictions.sort(key=lambda charge: charge.disposition.date, reverse=True)
