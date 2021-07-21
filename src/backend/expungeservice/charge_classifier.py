@@ -29,6 +29,7 @@ from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import (
     SexCrime,
@@ -65,6 +66,7 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
+        yield ChargeClassifier._contempt_of_court(name)
         yield ChargeClassifier._civil_offense(self.statute, name)
         yield ChargeClassifier._criminal_forfeiture(self.statute)
         yield ChargeClassifier._traffic_crime(self.statute, name, level, self.disposition)
@@ -317,6 +319,11 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
 
     @staticmethod
+    def _contempt_of_court(name):
+        if "contempt of court" in name:
+            return AmbiguousChargeTypeWithQuestion([ContemptOfCourt()])
+
+    @staticmethod
     def _civil_offense(statute, name):
         statute_range = range(1, 100)
         chapter = ChargeClassifier._build_chapter_for_civil_offense(statute)
@@ -383,8 +390,7 @@ class ChargeClassifier:
             "/WY",
         ]
         is_extradition = any([state.lower() == name[-3:] for state in extradition_states])
-        is_contempt_of_court = "contempt of court" in name
-        if is_civil_chapter_range or is_fugitive or is_extradition or is_contempt_of_court:
+        if is_civil_chapter_range or is_fugitive or is_extradition:
             return AmbiguousChargeTypeWithQuestion([CivilOffense()])
 
     @staticmethod
