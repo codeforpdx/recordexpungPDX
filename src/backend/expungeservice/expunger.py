@@ -69,8 +69,8 @@ class Expunger:
             if charge.disposition.status == DispositionStatus.NO_COMPLAINT:
                 eligibility_dates.append(
                     (
-                        charge.date + relativedelta(years=1),
-                        "One year from date of no-complaint arrest (137.225(1)(b))",
+                        charge.disposition.date + relativedelta(days=60),
+                        "Sixty days from date of no-complaint disposition (137.225(1)(c))",
                     )
                 )
 

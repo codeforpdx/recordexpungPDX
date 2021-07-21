@@ -203,7 +203,7 @@ class TestSingleChargeDismissals(unittest.TestCase):
         )
         assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == date.max()
 
-    def test_no_complaint_is_based_on_arrest_date(self):
+    def test_no_complaint_date(self):
         charge = ChargeFactory.create(
             date=Time.THREE_YEARS_AGO,
             disposition=DispositionCreator.create(ruling="No Complaint", date=Time.YESTERDAY),
@@ -212,8 +212,8 @@ class TestSingleChargeDismissals(unittest.TestCase):
         record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
 
-        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
-        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == Time.TWO_YEARS_AGO
+        assert expunger_result[charge.ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+        assert expunger_result[charge.ambiguous_charge_id].date_will_be_eligible == Time.YESTERDAY + relativedelta(days=60)
 
 
 class TestDismissalBlock(unittest.TestCase):
