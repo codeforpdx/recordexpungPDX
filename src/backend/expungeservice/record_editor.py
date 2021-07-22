@@ -94,6 +94,7 @@ class RecordEditor:
     def _add_charge(case_number, ambiguous_charge_id, edit) -> Charge:
         charge_dict = RecordEditor._parse_charge_edits(edit)
         charge_type = RecordEditor._get_charge_type(charge_dict.pop("charge_type", None))
+        level = charge_dict.pop("level", "")
         charge_edits_with_defaults = {
             "name": "",
             **charge_dict,
@@ -102,7 +103,7 @@ class RecordEditor:
             "case_number": case_number,
             "id": f"{ambiguous_charge_id}-0",
             "statute": "",
-            "level": "",
+            "level": level,
             "type_name": charge_type.type_name,
             "balance_due_in_cents": 0,
             "edit_status": EditStatus.ADD,

@@ -50,6 +50,7 @@ export default class Charge extends React.Component<Props, State> {
       statute,
       name,
       type_name,
+      level,
       expungement_result,
       expungement_rules,
     } = this.props.charge;
@@ -149,6 +150,10 @@ export default class Charge extends React.Component<Props, State> {
                   <li className="flex mb2">
                     <span className="w6rem shrink-none fw7">Charged</span>{" "}
                     {date}
+                  </li>
+                  <li className="flex mb2">
+                    <span className="w6rem shrink-none fw7">Severity</span>{" "}
+                    {level}
                   </li>
                 </ul>
               </div>

@@ -207,6 +207,7 @@ export function editCharge(
   disposition_date: string,
   probation_revoked_date: string,
   charge_type: string,
+  level: string,
   charge_name: string
 ): any {
   return (dispatch: Dispatch) => {
@@ -221,6 +222,7 @@ export function editCharge(
         disposition_date === "" ? charge_date : disposition_date,
       probation_revoked_date,
       charge_type,
+      level,
       charge_name,
     });
     return buildAndSendSearchRequest(dispatch);

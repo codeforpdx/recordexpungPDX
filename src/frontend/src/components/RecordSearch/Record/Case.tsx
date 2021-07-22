@@ -36,6 +36,7 @@ export function createNextBlankCharge(caseNumber: string, nextNum: number) {
     expungement_rules: "",
     name: "",
     type_name: "",
+    level: "",
     date: "",
     disposition: {
       status: "",

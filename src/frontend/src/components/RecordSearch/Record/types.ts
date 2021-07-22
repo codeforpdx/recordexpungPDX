@@ -6,6 +6,7 @@ export interface ChargeData {
   expungement_rules: string;
   name: string;
   type_name: string;
+  level: string;
   date: string;
   disposition: {
     status: string;
@@ -167,3 +168,12 @@ export const CHARGE_TYPES_DISMISSED_ONLY = [
   "Dismissed Criminal Charge",
   "Diverted DUII",
 ];
+
+export const SEVERITY_LEVELS = [
+  "Felony Class A",
+  "Felony Class B",
+  "Felony Class C",
+  "Misdemeanor Class A",
+  "Misdemeanor Class B or C",
+  "Violation"
+  ];

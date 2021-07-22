@@ -107,6 +107,7 @@ interface EditChargeAction {
   disposition_date: string;
   probation_revoked_date: string;
   charge_type: string;
+  level: string;
   charge_name: string;
 }
 

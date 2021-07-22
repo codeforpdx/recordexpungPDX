@@ -6,6 +6,7 @@ import {
   CHARGE_TYPES,
   CHARGE_TYPES_CONVICTED_ONLY,
   CHARGE_TYPES_DISMISSED_ONLY,
+  SEVERITY_LEVELS
 } from "./types";
 import InvalidInputs from "../../InvalidInputs";
 import { editCharge, deleteCharge } from "../../../redux/search/actions";
@@ -28,8 +29,10 @@ interface State {
   probation_revoked_date: string;
   name: string;
   type_name: string;
+  level: string;
   missingDisposition: boolean;
   missingType: boolean;
+  missingLevel: boolean;
   missingDate: boolean;
   invalidDate: boolean;
   missingDispositionDate: boolean;
@@ -63,10 +66,14 @@ export default class EditChargePanel extends React.Component<Props, State> {
     type_name: CHARGE_TYPES.includes(this.props.charge.type_name)
       ? this.props.charge.type_name
       : "",
+    level: SEVERITY_LEVELS.includes(this.props.charge.level)
+      ? this.props.charge.level
+      : "",
     missingDate: false,
     invalidDate: false,
     missingDisposition: false,
     missingType: false,
+    missingLevel: false,
     missingDispositionDate: false,
     invalidDispositionDate: false,
     missingProbationRevoked: false,
@@ -82,7 +89,8 @@ export default class EditChargePanel extends React.Component<Props, State> {
         this.state.probation_revoked_date &&
       this.props.charge.disposition.status === this.state.disposition_status &&
       this.props.charge.name === this.state.name &&
-      this.props.charge.type_name === this.state.type_name
+      this.props.charge.type_name === this.state.type_name &&
+      this.props.charge.level === this.state.level
     );
   };
 
@@ -96,6 +104,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
       if (
         !this.state.missingDisposition &&
         !this.state.missingType &&
+        !this.state.missingLevel &&
         !this.state.missingDate &&
         !this.state.invalidDate &&
         !this.state.missingDispositionDate &&
@@ -124,6 +133,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
         this.state.disposition_date,
         this.state.probation_revoked_date,
         this.state.type_name,
+        this.state.level,
         this.state.name
       )
     );
@@ -187,6 +197,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
         {
           missingDisposition: this.state.disposition_status === "",
           missingType: this.state.type_name === "",
+          missingLevel: this.state.level === "",
           missingDate: this.state.date === "",
           invalidDate:
             this.state.date !== "" &&
@@ -223,7 +234,6 @@ export default class EditChargePanel extends React.Component<Props, State> {
         <form className="pa3" noValidate>
           <fieldset className="mw7 pa0">
             <legend className="visually-hidden">Edit Charge</legend>
-            {/*<div className="mw7 pa3"> */}
             <fieldset className="mb3 pa0">
               <legend className="fw6">Disposition</legend>
               <div className="radio">
@@ -300,7 +310,6 @@ export default class EditChargePanel extends React.Component<Props, State> {
                   ></i>
                 </Link>
               </label>
-
               <div className="relative mb3">
                 <select
                   id={
@@ -329,6 +338,53 @@ export default class EditChargePanel extends React.Component<Props, State> {
                       }
                     >
                       {type_name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none">
+                  <i aria-hidden="true" className="fas fa-angle-down"></i>
+                </div>
+              </div>
+            </div>
+            <div className="mw6 mb3">
+              <label
+                htmlFor={
+                  this.props.charge.ambiguous_charge_id + "-select-level"
+                }
+                className="db mb1 fw6"
+              >
+                Severity Level
+                <Link
+                  to="/rules#chargetypes"
+                  className=" gray link hover-blue underline"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="fas fa-question-circle link hover-dark-blue gray pl1"
+                  ></i>
+                </Link>
+              </label>
+
+              <div className="relative mb3">
+                <select
+                  id={
+                    this.props.charge.ambiguous_charge_id +
+                    "-select-level"
+                  }
+                  value={this.state.level}
+                  name="level"
+                  onChange={this.handleChange}
+                  className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
+                  required
+                  aria-invalid="false"
+                >
+                  <option value="">Select...</option>
+                  {SEVERITY_LEVELS.map((level, i) => (
+                    <option
+                      value={level}
+                      key={i}
+                    >
+                      {level}
                     </option>
                   ))}
                 </select>
@@ -392,6 +448,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
             <InvalidInputs
               conditions={[
                 this.state.missingType,
+                this.state.missingLevel,
                 this.state.missingDate,
                 this.state.invalidDate,
                 this.state.missingDisposition,
@@ -402,6 +459,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
               ]}
               contents={[
                 <span>Charge Type is required</span>,
+                <span>Charge Severity Level is required</span>,
                 <span>Date Charged is required</span>,
                 <span>Date Charged format is invalid</span>,
                 <span>Disposition is required</span>,
