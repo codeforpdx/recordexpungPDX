@@ -146,14 +146,14 @@ export default class Charge extends React.Component<Props, State> {
                     <span className="w6rem shrink-none fw7">Charge</span>
                     {`${statute}${statute && "-"}${name}`}
                   </li>
+                  <li className="flex mb2">
+                    <span className="w6rem shrink-none fw7">Severity</span>{" "}
+                    {level}
+                  </li>
                   {buildDisposition(disposition)}
                   <li className="flex mb2">
                     <span className="w6rem shrink-none fw7">Charged</span>{" "}
                     {date}
-                  </li>
-                  <li className="flex mb2">
-                    <span className="w6rem shrink-none fw7">Severity</span>{" "}
-                    {level}
                   </li>
                 </ul>
               </div>

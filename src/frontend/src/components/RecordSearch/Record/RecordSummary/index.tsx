@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import ChargesList from "./ChargesList";
 import CountyFines from "./CountyFines";
-import CountyFilingFees from "./CountyFilingFees";
 import { AppState } from "../../../../redux/store";
 import { RecordSummaryData } from "../types";
 import { downloadPdf } from "../../../../redux/search/actions";
@@ -42,10 +41,7 @@ class RecordSummary extends React.Component<Props, State> {
       charges_grouped_by_eligibility_and_case,
       county_fines,
       total_fines_due,
-      county_filing_fees,
-      total_filing_fees_due,
       total_cases,
-      no_fees_reason,
     } = this.props.summary;
     return (
       <div className="bg-white shadow br3 mb3 ph3 pb3">
@@ -92,11 +88,6 @@ class RecordSummary extends React.Component<Props, State> {
             <CountyFines
               all_counties_fines={county_fines}
               total_fines_due={total_fines_due}
-            />
-            <CountyFilingFees
-              county_filing_fees={county_filing_fees}
-              total_filing_fees_due={total_filing_fees_due}
-              no_fees_reason={no_fees_reason}
             />
           </div>
         </div>

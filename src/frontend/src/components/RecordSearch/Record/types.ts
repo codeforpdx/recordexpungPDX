@@ -46,10 +46,7 @@ export interface RecordSummaryData {
   charges_grouped_by_eligibility_and_case: { [label: string]: any[] };
   county_fines: CountyFinesData[];
   total_fines_due: number;
-  county_filing_fees: CountyFilingFeeData[];
-  total_filing_fees_due: number;
   total_cases: number;
-  no_fees_reason: string;
 }
 
 export interface CaseFineData {
@@ -61,11 +58,6 @@ export interface CountyFinesData {
   county_name: string;
   case_fines: CaseFineData[];
   total_fines_due: number;
-}
-
-export interface CountyFilingFeeData {
-  county_name: string;
-  cases_with_eligible_convictions: number;
 }
 
 export interface ExpungementResultData {
