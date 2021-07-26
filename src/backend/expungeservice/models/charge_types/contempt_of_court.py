@@ -9,7 +9,7 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class ContemptOfCourt(ChargeType):
     type_name: str = "Contempt of Court"
     expungement_rules: Any = (
-        """The statute was updated as of Jan 1, 2022 to name Contempt of court as eligible under subsection 137.225(5)(e)."""
+        """The statute was updated as of Jan 1, 2022 to name Contempt of Court as eligible under subsection 137.225(5)(e)."""
     )
 
     blocks_other_charges: bool = False

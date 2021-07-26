@@ -85,8 +85,7 @@ class Expunger:
             if charge.convicted() and most_recent_blocking_conviction:
                 relative_case_summary = most_recent_blocking_conviction.case(cases).summary
                 blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(charge.level, most_recent_blocking_conviction.disposition.date, relative_case_summary)
-                if blocking_convictions_time_eligibility:
-                    eligibility_dates.append(blocking_convictions_time_eligibility)
+                eligibility_dates.append(blocking_convictions_time_eligibility)
 
             if isinstance(charge.charge_type, MarijuanaViolation):
                 date_will_be_eligible = charge.disposition.date

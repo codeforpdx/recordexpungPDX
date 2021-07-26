@@ -320,7 +320,7 @@ class ChargeClassifier:
 
     @staticmethod
     def _contempt_of_court(name):
-        if "contempt of court" in name:
+        if "contempt" in name:
             return AmbiguousChargeTypeWithQuestion([ContemptOfCourt()])
 
     @staticmethod
