@@ -247,6 +247,7 @@ def test_update_case_with_add_and_update_and_delete_charges():
                         "edit_status": "ADD",
                         "charge_type": "FelonyClassC",
                         "date": "1/1/1900",
+                        "level": "Felony Class A",
                         "disposition": {"date": "2/1/1910", "ruling": "Convicted"},
                     },
                 },
@@ -276,7 +277,7 @@ def test_add_disposition():
         {
             "X0001": {
                 "summary": {"edit_status": "UPDATE"},
-                "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}}},
+                "charges": {"X0001-2": {"disposition": {"date": "1/1/2001", "ruling": "Convicted"}, "level":"Misdemeanor Class A"}},
             }
         },
         date.today(),
@@ -347,6 +348,7 @@ def test_deleted_charge_does_not_block():
                         "edit_status": "UPDATE",
                         "date": "1/1/2020",
                         "disposition": {"date": "2/1/2020", "ruling": "Convicted"},
+                        "level":"Misdemeanor Class A",
                     }
                 },
             },
