@@ -284,6 +284,7 @@ export function searchReducer(
         },
         probation_revoked: action.probation_revoked_date,
         charge_type: action.charge_type,
+        level: action.level,
         name: action.charge_name,
       };
       return {

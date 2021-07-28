@@ -7,7 +7,8 @@ from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.marijuana_ineligible import MarijuanaIneligible
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
+from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.sex_crimes import SexCrime
@@ -156,7 +157,7 @@ def test_misdemeanor_hidden_in_summary():
         violation_type=case.violation_type,
     )
 
-    assert isinstance(charge.charge_type, Misdemeanor)
+    assert isinstance(charge.charge_type, MisdemeanorClassBC)
     assert charge.charge_type.hidden_in_record_summary() == False
 
 
@@ -222,7 +223,7 @@ def test_subsection_6_hidden_in_summary():
 
     assert isinstance(charges[0].charge_type, Subsection6)
     assert charges[0].charge_type.hidden_in_record_summary() == False
-    assert isinstance(charges[1].charge_type, Misdemeanor)
+    assert isinstance(charges[1].charge_type, MisdemeanorClassA)
     assert charges[1].charge_type.hidden_in_record_summary() == False
 
 

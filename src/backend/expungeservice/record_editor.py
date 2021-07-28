@@ -102,7 +102,6 @@ class RecordEditor:
             "case_number": case_number,
             "id": f"{ambiguous_charge_id}-0",
             "statute": "",
-            "level": "",
             "type_name": charge_type.type_name,
             "balance_due_in_cents": 0,
             "edit_status": EditStatus.ADD,

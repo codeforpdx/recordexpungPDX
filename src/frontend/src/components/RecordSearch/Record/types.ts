@@ -6,6 +6,7 @@ export interface ChargeData {
   expungement_rules: string;
   name: string;
   type_name: string;
+  level: string;
   date: string;
   disposition: {
     status: string;
@@ -45,10 +46,7 @@ export interface RecordSummaryData {
   charges_grouped_by_eligibility_and_case: { [label: string]: any[] };
   county_fines: CountyFinesData[];
   total_fines_due: number;
-  county_filing_fees: CountyFilingFeeData[];
-  total_filing_fees_due: number;
   total_cases: number;
-  no_fees_reason: string;
 }
 
 export interface CaseFineData {
@@ -60,11 +58,6 @@ export interface CountyFinesData {
   county_name: string;
   case_fines: CaseFineData[];
   total_fines_due: number;
-}
-
-export interface CountyFilingFeeData {
-  county_name: string;
-  cases_with_eligible_convictions: number;
 }
 
 export interface ExpungementResultData {
@@ -128,7 +121,8 @@ export const CHARGE_TYPES = [
   "Marijuana Eligible (Below age 21)",
   "Marijuana Violation",
   "Marijuana Ineligible",
-  "Misdemeanor",
+  "Misdemeanor Class A",
+  "Misdemeanor Class B or C",
   "Parking Ticket",
   "Person Felony Class B",
   "Reduced to Violation",
@@ -151,7 +145,8 @@ export const CHARGE_TYPES_CONVICTED_ONLY = [
   "Marijuana Eligible",
   "Marijuana Eligible (Below age 21)",
   "Marijuana Ineligible",
-  "Misdemeanor",
+  "Misdemeanor Class A",
+  "Misdemeanor Class B or C",
   "Person Felony Class B",
   "Severe Charge",
   "Sex Crime",
@@ -165,3 +160,12 @@ export const CHARGE_TYPES_DISMISSED_ONLY = [
   "Dismissed Criminal Charge",
   "Diverted DUII",
 ];
+
+export const SEVERITY_LEVELS = [
+  "Felony Class A",
+  "Felony Class B",
+  "Felony Class C",
+  "Misdemeanor Class A",
+  "Misdemeanor Class B or C",
+  "Violation"
+  ];

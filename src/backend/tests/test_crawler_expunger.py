@@ -174,18 +174,17 @@ def test_expunger_runs_time_analyzer(record_with_specific_dates):
     expunger_result = Expunger.run(record)
 
     assert len(expunger_result) == 9
+    assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[0].charges[1].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[0].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
-    assert expunger_result[record.cases[0].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[0].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[0].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[1].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[1].charges[1].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
+    assert expunger_result[record.cases[1].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
-    assert expunger_result[record.cases[1].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[1].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[1].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-
-    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[0].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
     assert expunger_result[record.cases[2].charges[1].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
-    assert expunger_result[record.cases[2].charges[2].ambiguous_charge_id].status is EligibilityStatus.INELIGIBLE
+    assert expunger_result[record.cases[2].charges[2].ambiguous_charge_id].status is EligibilityStatus.ELIGIBLE
 
 
 @pytest.fixture
@@ -341,7 +340,7 @@ def test_expunger_for_record_with_mj_under_21_blocked_by_blocking_conviction():
     assert expunger_result["CASEJD1-1"] == TimeEligibility(
         status=EligibilityStatus.ELIGIBLE,
         reason="Eligible now",
-        date_will_be_eligible=date(1998, 3, 3) + relativedelta(years=10),
+        date_will_be_eligible=date(1998, 3, 3) + relativedelta(years=3),
     )
     assert expunger_result["CASEJD1-2"] == TimeEligibility(
         status=EligibilityStatus.INELIGIBLE,

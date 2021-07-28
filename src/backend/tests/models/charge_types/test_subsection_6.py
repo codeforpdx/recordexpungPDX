@@ -1,7 +1,7 @@
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.expungement_result import EligibilityStatus
 from expungeservice.models.charge_types.subsection_6 import Subsection6
 from expungeservice.record_merger import RecordMerger
@@ -53,11 +53,11 @@ def test_subsection_6_163200():
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
     assert isinstance(charges[0].charge_type, Subsection6)
-    assert isinstance(charges[1].charge_type, Misdemeanor)
+    assert isinstance(charges[1].charge_type, MisdemeanorClassA)
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Subsection 6 – Ineligible under 137.225(6) OR Misdemeanor – Eligible under 137.225(5)(b)"
+        == "Subsection 6 – Ineligible under 137.225(6) OR Misdemeanor Class A – Eligible under 137.225(5)(b)"
     )
 
 
@@ -70,7 +70,7 @@ def test_subsection_6_163575():
     )
 
     assert isinstance(charges[0].charge_type, Subsection6)
-    assert isinstance(charges[1].charge_type, Misdemeanor)
+    assert isinstance(charges[1].charge_type, MisdemeanorClassA)
 
 
 def test_subsection_6_163205():
@@ -93,7 +93,7 @@ def test_subsection_6_163145():
         disposition=Dispositions.CONVICTED,
     )
 
-    assert isinstance(charges[0].charge_type, Misdemeanor)
+    assert isinstance(charges[0].charge_type, MisdemeanorClassA)
 
 
 def test_163575_is_still_subsection_6_if_b_felony():

@@ -21,13 +21,15 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaUnder21,
     MarijuanaViolation,
 )
-from expungeservice.models.charge_types.misdemeanor import Misdemeanor
+from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
+from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import (
     SexCrime,
@@ -64,6 +66,7 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
+        yield ChargeClassifier._contempt_of_court(name)
         yield ChargeClassifier._civil_offense(self.statute, name)
         yield ChargeClassifier._criminal_forfeiture(self.statute)
         yield ChargeClassifier._traffic_crime(self.statute, name, level, self.disposition)
@@ -158,8 +161,10 @@ class ChargeClassifier:
 
     @staticmethod
     def _classification_by_level(level, statute):
+        if "misdemeanor class b" in level or "misdemeanor class c" in level:
+            return AmbiguousChargeTypeWithQuestion([MisdemeanorClassBC()])
         if "misdemeanor" in level:
-            return AmbiguousChargeTypeWithQuestion([Misdemeanor()])
+            return AmbiguousChargeTypeWithQuestion([MisdemeanorClassA()])
         if level == "felony class c":
             return AmbiguousChargeTypeWithQuestion([FelonyClassC()])
         if level == "felony class b":
@@ -314,6 +319,11 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
 
     @staticmethod
+    def _contempt_of_court(name):
+        if "contempt" in name:
+            return AmbiguousChargeTypeWithQuestion([ContemptOfCourt()])
+
+    @staticmethod
     def _civil_offense(statute, name):
         statute_range = range(1, 100)
         chapter = ChargeClassifier._build_chapter_for_civil_offense(statute)
@@ -380,8 +390,7 @@ class ChargeClassifier:
             "/WY",
         ]
         is_extradition = any([state.lower() == name[-3:] for state in extradition_states])
-        is_contempt_of_court = "contempt of court" in name
-        if is_civil_chapter_range or is_fugitive or is_extradition or is_contempt_of_court:
+        if is_civil_chapter_range or is_fugitive or is_extradition:
             return AmbiguousChargeTypeWithQuestion([CivilOffense()])
 
     @staticmethod
