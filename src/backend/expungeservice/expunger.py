@@ -133,7 +133,7 @@ class Expunger:
                 charge_date + relativedelta(years=1),
                 "One year from date of conviction (137.225(1)(a))",
             )
-        elif "Misdemeanor" in charge_level: # TODO: Is an unspecified Misdemeanor always a Class A?
+        elif "Misdemeanor" in charge_level:
             return (
                 charge_date + relativedelta(years=3),
                 "Three years from date of conviction (137.225(1)(a))",
