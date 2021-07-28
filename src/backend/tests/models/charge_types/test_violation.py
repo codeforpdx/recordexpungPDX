@@ -12,7 +12,7 @@ def test_violation_convicted():
 
     assert isinstance(charge.charge_type, Violation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(c)"
 
 
 def test_violation_dismissed():
@@ -21,5 +21,5 @@ def test_violation_dismissed():
     )
 
     assert isinstance(charge.charge_type, Violation)
-    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(b)"
