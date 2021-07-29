@@ -69,7 +69,19 @@ export default class Alias extends React.Component<Props, State> {
           content={this.props.aliasData.birth_date}
           coda="mm/dd/yyyy"
           onChange={(fieldValue: string) => {
-            this.handleFieldChange("birth_date", fieldValue);
+            let newValue = fieldValue;
+            const match1 = new RegExp("^[0-9][0-9](\/[0-9][0-9])?$").exec(fieldValue);
+            const match2 = new RegExp("^[0-9]?([0-9](\/([0-9]([0-9](\/([0-9]([0-9]([0-9][0-9]?)?)?)?)?)?)?)?)?$").exec(fieldValue);
+            if (match1 && match1[0].length===newValue.length) {
+              if (this.props.aliasData.birth_date.slice(-1)=="/") {
+                newValue = fieldValue;
+              } else {
+                newValue = newValue+"/";
+              }
+            } else if (!(match2 && match2[0].length===newValue.length)) {
+              newValue=this.props.aliasData.birth_date;
+            }
+            this.handleFieldChange("birth_date", newValue);
           }}
           required={false}
           errorMessage="dob_msg"
