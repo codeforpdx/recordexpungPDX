@@ -50,6 +50,7 @@ class ChargeType:
     type_name: str = "Unknown"
     expungement_rules: Any = "Select an answer to view more info about its corresponding charge type."
     blocks_other_charges: bool = True
+    severity_level: Optional[str] = None
 
     def type_eligibility(self, disposition):
         """If the disposition is present and recognized, this should always return a TypeEligibility.

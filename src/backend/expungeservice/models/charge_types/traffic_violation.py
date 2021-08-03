@@ -12,6 +12,7 @@ class TrafficViolation(ChargeType):
             Dismissed traffic violations are also ineligible, because Violations generally are omitted from the statute.
             However, dismissed traffic-related Misdemeanors and Felonies, like all dismissed Misdemeanors and Felonies, ARE eligible for expungement."""
     blocks_other_charges: bool = False
+    severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):

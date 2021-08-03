@@ -17,6 +17,7 @@ class ParkingTicket(ChargeType):
         """Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of convicted traffic offenses. Dismissed parking offenses are not covered under any subsection, and are thus ineligible."""
     )
     blocks_other_charges: bool = False
+    severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
         if ChargeUtil.convicted(disposition):

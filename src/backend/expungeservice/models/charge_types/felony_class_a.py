@@ -13,6 +13,7 @@ class FelonyClassA(ChargeType):
 Class A felony dismissals are always eligible under 137.225(5)(a).
 """
     )
+    severity_level: str = "Felony Class A"
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):

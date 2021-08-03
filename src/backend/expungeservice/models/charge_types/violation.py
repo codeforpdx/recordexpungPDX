@@ -13,6 +13,7 @@ Examples include Fare Violation, Minor in Possession of Alcohol, Failure to Send
 However, traffic violations are ineligible under (7)(a).
 Moreover, certain civil matters are not considered violations and are thus not eligible, namely Extradition.
 """
+    severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):

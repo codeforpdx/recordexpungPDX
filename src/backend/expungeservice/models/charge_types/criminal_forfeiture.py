@@ -13,6 +13,7 @@ Therefore, best practice would be not to file on these charges standing alone, b
 """
     )
     blocks_other_charges: bool = False
+    severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
