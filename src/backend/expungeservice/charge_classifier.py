@@ -20,6 +20,9 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaEligible,
     MarijuanaUnder21,
     MarijuanaViolation,
+    MarijuanaEligibleFelonyClassA,
+    MarijuanaEligibleFelonyClassB,
+    MarijuanaEligibleFelonyClassC
 )
 from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
@@ -238,19 +241,27 @@ class ChargeClassifier:
             question_string = "Was the underlying substance marijuana?"
             charge_types_with_question = ChargeClassifier._classification_by_level(level, statute)
             if level == "felony unclassified":
-                felony_unclassified_question_id = (
+                yes_question_string= "Was the charge for an A Felony, B Felony, or C Felony?"
+                yes_question_id = f"{question_string}-Yes-{yes_question_string}"
+                options_dict = {
+                    "A Felony": Answer(edit={"charge_type": "MarijuanaEligibleFelonyClassA"}),
+                    "B Felony": Answer(edit={"charge_type": "MarijuanaEligibleFelonyClassB"}),
+                    "C Felony": Answer(edit={"charge_type": "MarijuanaEligibleFelonyClassC"}),
+                }
+                yes_question = Question(yes_question_id, yes_question_string, options_dict)
+                no_question_id = (
                     f"{question_string}-No-{charge_types_with_question.question.question_id}"
                 )
-                felony_unclassified_question = replace(
-                    charge_types_with_question.question, question_id=felony_unclassified_question_id
+                no_question = replace(
+                    charge_types_with_question.question, question_id=no_question_id
                 )
-                charge_types = [MarijuanaEligible()] + charge_types_with_question.ambiguous_charge_type
+                charge_types = [MarijuanaEligible(severity_level="Felony Class A"),  MarijuanaEligible(severity_level="Felony Class B"),MarijuanaEligible(severity_level="Felony Class C")] + charge_types_with_question.ambiguous_charge_type
                 question = Question(
                     question_string,
                     question_string,
                     {
-                        "Yes": Answer(edit={"charge_type": MarijuanaEligible.__name__}),
-                        "No": Answer(question=felony_unclassified_question),
+                        "Yes": Answer(question=yes_question),
+                        "No": Answer(question=no_question),
                     },
                 )
                 return AmbiguousChargeTypeWithQuestion(charge_types, question)
