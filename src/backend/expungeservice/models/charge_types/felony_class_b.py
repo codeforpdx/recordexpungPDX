@@ -31,6 +31,8 @@ The extra restrictions are:""",
             ),
         ),
     )
+    severity_level: str = "Felony Class B"
+
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):

@@ -14,6 +14,7 @@ class FelonyClassC(ChargeType):
 Other Class C felony convictions are almost always eligible under 137.225(5)(b).
 Class C felony dismissals are always eligible under 137.225(1)(b)."""
     )
+    severity_level: str = "Felony Class C"
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):

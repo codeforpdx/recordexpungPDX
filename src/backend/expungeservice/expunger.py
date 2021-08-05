@@ -56,7 +56,7 @@ class Expunger:
                     )
                 else:
                     eligibility_dates.append(
-                        Expunger._single_conviction_years_by_level(charge.level, charge.disposition.date)
+                        Expunger._single_conviction_years_by_level(charge.level, charge.disposition.date, charge.charge_type)
                     )
             elif charge.dismissed():
                 eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(b))"))
@@ -84,7 +84,7 @@ class Expunger:
 
             if charge.convicted() and most_recent_blocking_conviction:
                 relative_case_summary = most_recent_blocking_conviction.case(cases).summary
-                blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(charge.level, most_recent_blocking_conviction.disposition.date, relative_case_summary)
+                blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(charge.level, most_recent_blocking_conviction.disposition.date, relative_case_summary, charge.charge_type)
                 eligibility_dates.append(blocking_convictions_time_eligibility)
 
             if isinstance(charge.charge_type, MarijuanaViolation):
@@ -107,11 +107,15 @@ class Expunger:
         return ambiguous_charge_id_to_time_eligibility
 
     @staticmethod
-    def _single_conviction_years_by_level(charge_level, charge_date):
+    def _single_conviction_years_by_level(oeci_charge_level, charge_date, charge_type):
+        if charge_type.severity_level:
+            charge_level = charge_type.severity_level
+        else:
+            charge_level = oeci_charge_level
         if "Felony Class A" in charge_level:
             return (
                 date.max(),
-                "Never. Type ineligible charges are always time ineligible."
+                "Never. Felony Class A convictions are omitted from 137.225."
             )
         elif "Felony Class B" in charge_level:
             return (
@@ -145,7 +149,11 @@ class Expunger:
             )
 
     @staticmethod
-    def _other_blocking_conviction_years_by_level(target_charge_level, most_recent_blocking_conviction_date, relative_case_summary):
+    def _other_blocking_conviction_years_by_level(oeci_target_charge_level, most_recent_blocking_conviction_date, relative_case_summary, charge_type):
+        if charge_type.severity_level:
+            target_charge_level = charge_type.severity_level
+        else:
+            target_charge_level = oeci_target_charge_level
         potential = "potential " if not relative_case_summary.closed() else ""
         case_number = relative_case_summary.case_number
         # Skip Felony Class A because it's already covered by the self-blocking "never" rule.

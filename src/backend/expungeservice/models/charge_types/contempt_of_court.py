@@ -13,6 +13,7 @@ class ContemptOfCourt(ChargeType):
     )
 
     blocks_other_charges: bool = False
+    severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(e) for convictions or under 137.225(1)(b) for dismissals")
