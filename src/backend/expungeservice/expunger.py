@@ -115,7 +115,7 @@ class Expunger:
         if "Felony Class A" in charge_level:
             return (
                 date.max(),
-                "Never. Type ineligible charges are always time ineligible."
+                "Never. Felony Class A convictions are omitted from 137.225."
             )
         elif "Felony Class B" in charge_level:
             return (
