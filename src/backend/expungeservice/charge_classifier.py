@@ -20,7 +20,7 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaEligible,
     MarijuanaUnder21,
     MarijuanaViolation,
-    MarijuanaEligibleFelonyClassC
+    MarijuanaManufactureDelivery
 )
 from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
@@ -245,19 +245,19 @@ class ChargeClassifier:
                 felony_unclassified_question = replace(
                     charge_types_with_question.question, question_id=felony_unclassified_question_id
                 )
-                charge_types = [MarijuanaEligibleFelonyClassC()] + charge_types_with_question.ambiguous_charge_type
+                charge_types = [MarijuanaManufactureDelivery()] + charge_types_with_question.ambiguous_charge_type
                 question = Question(
                     question_string,
                     question_string,
                     {
-                        "Yes": Answer(edit={"charge_type": MarijuanaEligibleFelonyClassC.__name__}),
+                        "Yes": Answer(edit={"charge_type": MarijuanaManufactureDelivery.__name__}),
                         "No": Answer(question=felony_unclassified_question),
                     },
                 )
                 return AmbiguousChargeTypeWithQuestion(charge_types, question)
             elif level == "felony class a" or level == "felony class b":
                 charge_type = charge_types_with_question.ambiguous_charge_type[0]
-                options = {"Yes": MarijuanaEligibleFelonyClassC(), "No": charge_type}
+                options = {"Yes": MarijuanaManufactureDelivery(), "No": charge_type}
                 return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     # TODO: Assert for when Felony Unclassified
