@@ -128,7 +128,7 @@ class Expunger:
                 charge_date + relativedelta(years=3),
                 "Three years from date of conviction (137.225(1)(a))",
             )
-        elif any([level in charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
+        elif any([level in charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation", "Infraction"]]):
             return (
                 charge_date + relativedelta(years=1),
                 "One year from date of conviction (137.225(1)(a))",
@@ -164,7 +164,7 @@ class Expunger:
                 most_recent_blocking_conviction_date + relativedelta(years=3),
                 f"137.225(7)(b) – Three years from most recent {potential}other conviction from case [{case_number}].",
             )
-        elif any([level in target_charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation"]]):
+        elif any([level in target_charge_level for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation", "Infraction"]]):
             return (
                 most_recent_blocking_conviction_date + relativedelta(years=1),
                 f"137.225(7)(b) – One year from most recent {potential}other conviction from case [{case_number}].",
