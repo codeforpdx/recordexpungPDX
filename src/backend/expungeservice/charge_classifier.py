@@ -242,7 +242,7 @@ class ChargeClassifier:
             ambiguous_charge_type_with_no_question = ChargeClassifier._classification_by_level(level, statute)
             if level == "felony unclassified":
                 second_question_string= "Was the charge for an A Felony, B Felony, or C Felony?"
-                yes_options = {
+                yes_options : Dict[str, ChargeType] = {
                     "A Felony": MarijuanaEligibleFelonyClassA(),
                     "B Felony": MarijuanaEligibleFelonyClassB(),
                     "C Felony": MarijuanaEligibleFelonyClassC(),
@@ -269,7 +269,7 @@ class ChargeClassifier:
                 )
                 return AmbiguousChargeTypeWithQuestion(charge_types, question)
             elif level == "felony class a" or level == "felony class b":
-                charge_type = charge_types_with_question.ambiguous_charge_type[0]
+                charge_type = ambiguous_charge_type_with_no_question.ambiguous_charge_type[0]
                 options = {"Yes": MarijuanaEligible(), "No": charge_type}
                 return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
