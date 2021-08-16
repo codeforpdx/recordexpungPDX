@@ -52,17 +52,6 @@ class MarijuanaViolation(ChargeType):
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 475B.401")
 
 @dataclass(frozen=True)
-class MarijuanaEligibleFelonyClassA(MarijuanaEligible):
-
-    severity_level: str = "Felony Class A"
-    type_name: str = "MarijuanaEligibleFelonyClassA"
-
-@dataclass(frozen=True)
-class MarijuanaEligibleFelonyClassB(MarijuanaEligible):
-    severity_level: str = "Felony Class B"
-    type_name: str = "MarijuanaEligibleFelonyClassB"
-
-@dataclass(frozen=True)
-class MarijuanaEligibleFelonyClassC(MarijuanaEligible):
+class MarijuanaManufactureDelivery(MarijuanaEligible):
     severity_level: str = "Felony Class C"
-    type_name: str = "MarijuanaEligibleFelonyClassC"
+    type_name: str = "Marijuana Manufacture Delivery"

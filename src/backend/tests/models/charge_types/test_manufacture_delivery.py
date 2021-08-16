@@ -26,7 +26,7 @@ def test_manufacture_delivery_missing_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Marijuana Eligible – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class A – Disposition not found. Needs further analysis"
+        == "Marijuana Manufacture Delivery – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class A – Disposition not found. Needs further analysis"
     )
 
 
@@ -42,7 +42,7 @@ def test_manufacture_delivery_unrecognized_disposition():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Marijuana Eligible – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class B – Disposition not recognized. Needs further analysis"
+        == "Marijuana Manufacture Delivery – Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals) OR Felony Class B – Disposition not recognized. Needs further analysis"
     )
 
 
@@ -55,7 +55,7 @@ def test_manufacture_delivery_manudel():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute"
+        == "Marijuana Manufacture Delivery – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute"
     )
 
 
@@ -71,7 +71,7 @@ def test_manufacture_delivery_manudel_felony_unclassified():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "MarijuanaEligibleFelonyClassA – Eligible under 137.226 OR MarijuanaEligibleFelonyClassB – Eligible under 137.226 OR MarijuanaEligibleFelonyClassC – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
+        == "Marijuana Manufacture Delivery – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 
@@ -97,7 +97,7 @@ def test_manufacture_delivery_manufacturing_name():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "MarijuanaEligibleFelonyClassA – Eligible under 137.226 OR MarijuanaEligibleFelonyClassB – Eligible under 137.226 OR MarijuanaEligibleFelonyClassC – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
+        == "Marijuana Manufacture Delivery – Eligible under 137.226 OR Felony Class A – Ineligible by omission from statute OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible OR Felony Class C – Eligible under 137.225(5)(b)"
     )
 
 
@@ -142,7 +142,7 @@ def test_pcs():
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         type_eligibility.reason
-        == "Marijuana Eligible – Eligible under 137.226 OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+        == "Marijuana Manufacture Delivery – Eligible under 137.226 OR Felony Class B – Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
     )
 
 
