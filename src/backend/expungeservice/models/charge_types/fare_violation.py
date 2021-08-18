@@ -10,7 +10,7 @@ class FareViolation(ChargeType):
     type_name: str = "FareViolation"
     expungement_rules: str = """A Fare Violation follows normal eligibility rules of a Violation, even though it typically falls under a statute number that would identify it as a Civil Offense.
 Violation convictions are eligible under ORS 137.225(5)(d).
-Dismissed violations are ineligible because they are omitted from the expungement statute."""
+Dismissed violations are eligible under 137.225(5)(d)."""
     severity_level: str = "Violation"
 
     def type_eligibility(self, disposition):
