@@ -16,7 +16,7 @@ Dismissed violations are ineligible because they are omitted from the expungemen
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
             return TypeEligibility(
-                EligibilityStatus.INELIGIBLE, reason="Dismissed violations are ineligible by omission from statute"
+                EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(1)(b)"
             )
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(d)")
