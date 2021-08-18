@@ -12,7 +12,7 @@ def test_fare_violation_convicted():
 
     assert isinstance(charge.charge_type, FareViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(c)"
 
 
 def test_fare_violation_dismissed():
