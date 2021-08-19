@@ -12,6 +12,8 @@ from expungeservice.models.disposition import DispositionCreator
 from tests.factories.charge_factory import ChargeFactory
 from tests.factories.case_factory import CaseSummaryFactory, CaseFactory
 from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.parking_ticket import ParkingTicket
+from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 
 
 class Dispositions:
@@ -127,7 +129,12 @@ class TestChargeStatuteSectionAssignment(unittest.TestCase):
 
 def test_nonblocking_charges_are_never_type_eligible_except_contempt_of_court():
     for charge_class in get_charge_classes():
-        if not charge_class().blocks_other_charges and not isinstance(charge_class(), ContemptOfCourt):
+        if (
+            not charge_class().blocks_other_charges
+            and not isinstance(charge_class(), ContemptOfCourt)
+            and not isinstance(charge_class(), ParkingTicket)
+            and not isinstance(charge_class(), TrafficViolation)
+        ):
             assert_charge_class_is_never_type_eligible(charge_class())
 
 

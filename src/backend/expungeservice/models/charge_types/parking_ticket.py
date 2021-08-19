@@ -8,14 +8,8 @@ from expungeservice.models.disposition import DispositionStatus
 
 @dataclass(frozen=True)
 class ParkingTicket(ChargeType):
-    """
-    This is a civil offense, and it is also a traffic offense.
-    """
-
     type_name: str = "Parking Ticket"
-    expungement_rules: str = (
-        """Parking Tickets are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of convicted traffic offenses. Dismissed parking offenses are not covered under any subsection, and are thus ineligible."""
-    )
+    expungement_rules: str = """Parking Ticket convictions are not eligible. ORS 137.225(7)(a) specifically prohibits expungement of convicted traffic offenses. Dismissed parking offenses are eligible under the changes in SB 397."""
     blocks_other_charges: bool = False
     severity_level: str = "Violation"
 
@@ -23,11 +17,8 @@ class ParkingTicket(ChargeType):
         if ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         elif ChargeUtil.dismissed(disposition):
-            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible by omission from statute")
-        elif disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             return TypeEligibility(
-                EligibilityStatus.INELIGIBLE,
-                reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",
+                EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(b)."
             )
 
     def hidden_in_record_summary(self):
