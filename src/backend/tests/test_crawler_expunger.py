@@ -294,11 +294,6 @@ def test_expunger_for_record_with_mj_under_21_not_blocked_by_traffic(record_with
         reason="Eligible now",
         date_will_be_eligible=mj_charge.disposition.date + relativedelta(years=1),
     )
-    assert expunger_result["CASEJD1-2"] == TimeEligibility(
-        status=EligibilityStatus.INELIGIBLE,
-        reason="Never. Type ineligible charges are always time ineligible.",
-        date_will_be_eligible=date.max(),
-    )
 
 
 def test_expunger_for_record_with_mj_under_21_with_non_traffic_charge():
