@@ -77,7 +77,7 @@ class Expunger:
             if charge.convicted() and charge.probation_revoked:
                 eligibility_dates.append(
                     (
-                        charge.probation_revoked + relativedelta(years=10),
+                        charge.probation_revoked + relativedelta(years=3),
                         "Time-ineligible under 137.225(1)(c) (Probation Revoked). Inspect further if the case has multiple convictions on the case.",
                     )
                 )
