@@ -6,6 +6,7 @@ from expungeservice.models.record_summary import ChargesForSummaryPanel
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
 
+
 class ChargesSummarizer:
     @staticmethod
     def build_charges_for_summary_panel(record: Record) -> ChargesForSummaryPanel:
@@ -14,13 +15,16 @@ class ChargesSummarizer:
             visible_charges = record.charges
         else:
             visible_charges = [charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary()]
-        eligible_charges_by_date: Dict[str, List[Tuple[str,List[Tuple[str, str]]]]] = {}
-        sorted_charges = sorted(sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True), key=lambda charge: ChargesSummarizer._primary_sort(charge, record))
+        eligible_charges_by_date: Dict[str, List[Tuple[str, List[Tuple[str, str]]]]] = {}
+        sorted_charges = sorted(
+            sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
+            key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
+        )
         for label, charges in groupby(sorted_charges, key=lambda charge: ChargesSummarizer._get_label(charge, record)):
-            charges_in_section : List[Tuple[str,List[Tuple[str, str]]]]= []
+            charges_in_section: List[Tuple[str, List[Tuple[str, str]]]] = []
             for case_number, case_charges in groupby(charges, key=lambda charge: charge.case_number):
                 case = ChargesSummarizer._get_case_by_case_number(record, case_number)
-                case_info_line = ChargesSummarizer._get_case_balance_header_info_for_case(case)
+                case_info_line = ChargesSummarizer._get_case_balance_header_info_for_case(case, label)
                 charges_tuples = [
                     (case_charge.ambiguous_charge_id, case_charge.to_one_line())
                     for case_charge in case_charges
@@ -35,7 +39,9 @@ class ChargesSummarizer:
         charge_eligibility = charge.expungement_result.charge_eligibility
         if charge_eligibility:
             label = charge_eligibility.label
-            no_balance = ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
+            no_balance = (
+                ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
+            )
             if label == "Needs More Analysis":
                 return 0, label
             elif label == "Ineligible":
@@ -68,10 +74,16 @@ class ChargesSummarizer:
 
     @staticmethod
     def _get_label(charge: Charge, record: Record):
-        no_balance = ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
+        no_balance = (
+            ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
+        )
         charge_eligibility = charge.expungement_result.charge_eligibility
         if charge_eligibility:
-            if charge_eligibility.label == "Needs More Analysis" or charge_eligibility.label == "Ineligible" or no_balance:
+            if (
+                charge_eligibility.label == "Needs More Analysis"
+                or charge_eligibility.label == "Ineligible"
+                or no_balance
+            ):
                 return charge_eligibility.label
             else:
                 return charge_eligibility.label + " If Balance Paid"
@@ -85,8 +97,8 @@ class ChargesSummarizer:
                 return case
 
     @staticmethod
-    def _get_case_balance_header_info_for_case(case):
-        if case.summary.get_balance_due() == 0:
+    def _get_case_balance_header_info_for_case(case, label):
+        if case.summary.get_balance_due() == 0 or "If Balance Paid" not in label:
             return ""
         else:
-            return f'{case.summary.location} {case.summary.case_number} – ${round(case.summary.get_balance_due(),2)}'
+            return f"{case.summary.location} {case.summary.case_number} – ${round(case.summary.get_balance_due(),2)}"
