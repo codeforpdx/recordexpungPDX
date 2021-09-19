@@ -21,5 +21,5 @@ class ParkingTicket(ChargeType):
                 EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(b)."
             )
 
-    def hidden_in_record_summary(self):
-        return True
+    def hidden_in_record_summary(self, disposition):
+        return ChargeUtil.convicted(disposition)

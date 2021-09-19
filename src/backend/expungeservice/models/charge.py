@@ -58,7 +58,7 @@ class ChargeType:
         If the type eligibility is unknown, the method can return None."""
         raise NotImplementedError
 
-    def hidden_in_record_summary(self):
+    def hidden_in_record_summary(self, disposition):
         return False
 
 

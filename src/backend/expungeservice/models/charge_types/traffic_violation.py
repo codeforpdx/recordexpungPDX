@@ -27,5 +27,5 @@ class TrafficViolation(ChargeType):
                 reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",
             )
 
-    def hidden_in_record_summary(self):
-        return True
+    def hidden_in_record_summary(self, disposition):
+        return ChargeUtil.convicted(disposition)
