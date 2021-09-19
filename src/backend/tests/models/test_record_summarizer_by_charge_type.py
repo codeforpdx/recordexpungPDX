@@ -34,7 +34,7 @@ def test_civil_offense_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, CivilOffense)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_duii_hidden_in_summary():
@@ -49,9 +49,9 @@ def test_duii_hidden_in_summary():
     )
 
     assert isinstance(charges[0].charge_type, DivertedDuii)
-    assert charges[0].charge_type.hidden_in_record_summary() == False
+    assert charges[0].charge_type.hidden_in_record_summary(charges[0].disposition) == False
     assert isinstance(charges[1].charge_type, DismissedCharge)
-    assert charges[1].charge_type.hidden_in_record_summary() == False
+    assert charges[1].charge_type.hidden_in_record_summary(charges[1].disposition) == False
 
 
 def test_felony_class_a_hidden_in_summary():
@@ -67,7 +67,7 @@ def test_felony_class_a_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, FelonyClassA)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_felony_class_b_hidden_in_summary():
@@ -83,7 +83,7 @@ def test_felony_class_b_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, FelonyClassB)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_felony_class_c_hidden_in_summary():
@@ -99,7 +99,7 @@ def test_felony_class_c_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, FelonyClassC)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_juvenile_charge_hidden_in_summary():
@@ -115,7 +115,7 @@ def test_juvenile_charge_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, JuvenileCharge)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_marijuana_eligible_hidden_in_summary():
@@ -126,7 +126,7 @@ def test_marijuana_eligible_hidden_in_summary():
         disposition=Dispositions.DISMISSED,
     )
     assert isinstance(charge.charge_type, DismissedCharge)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_marijuana_ineligible_hidden_in_summary():
@@ -142,7 +142,7 @@ def test_marijuana_ineligible_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, MarijuanaIneligible)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_misdemeanor_hidden_in_summary():
@@ -158,7 +158,7 @@ def test_misdemeanor_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, MisdemeanorClassBC)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_parking_ticket_hidden_in_summary():
@@ -174,7 +174,7 @@ def test_parking_ticket_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, ParkingTicket)
-    assert charge.charge_type.hidden_in_record_summary() == True
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == True
 
 
 def test_person_felony_hidden_in_summary():
@@ -190,7 +190,7 @@ def test_person_felony_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, PersonFelonyClassB)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_sex_crimes_hidden_in_summary():
@@ -206,7 +206,7 @@ def test_sex_crimes_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, SexCrime)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_subsection_6_hidden_in_summary():
@@ -222,9 +222,9 @@ def test_subsection_6_hidden_in_summary():
     )
 
     assert isinstance(charges[0].charge_type, Subsection6)
-    assert charges[0].charge_type.hidden_in_record_summary() == False
+    assert charges[0].charge_type.hidden_in_record_summary(charges[0].disposition) == False
     assert isinstance(charges[1].charge_type, MisdemeanorClassA)
-    assert charges[1].charge_type.hidden_in_record_summary() == False
+    assert charges[1].charge_type.hidden_in_record_summary(charges[1].disposition) == False
 
 
 def test_traffic_offense_hidden_in_summary():
@@ -240,7 +240,7 @@ def test_traffic_offense_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, TrafficOffense)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_traffic_violation_hidden_in_summary():
@@ -256,7 +256,7 @@ def test_traffic_violation_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, TrafficViolation)
-    assert charge.charge_type.hidden_in_record_summary() == True
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == True
 
 
 def test_unclassified_charge_hidden_in_summary():
@@ -272,7 +272,7 @@ def test_unclassified_charge_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, UnclassifiedCharge)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
 
 
 def test_violation_hidden_in_summary():
@@ -288,4 +288,4 @@ def test_violation_hidden_in_summary():
     )
 
     assert isinstance(charge.charge_type, UnclassifiedCharge)
-    assert charge.charge_type.hidden_in_record_summary() == False
+    assert charge.charge_type.hidden_in_record_summary(charge.disposition) == False
