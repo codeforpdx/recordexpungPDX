@@ -39,7 +39,6 @@ class DispositionCreator:
         conviction_rulings = [
             "convicted",
             "conviction",
-            "reduced",
             "finding - guilty",
             "finding - contempt",
             "conversion",
@@ -56,15 +55,17 @@ class DispositionCreator:
             "discharged",
             "dismissal",
             "finding - not guilty",
+            "lesser charge",
             "accusatory instrument filed",
+            "reduced",
             "removed from charging instrument",
             "plea lesser charge",
         ]
         missing_rulings = ["missing", "conditional discharge", "deferred"]
-        if any([rule in ruling for rule in conviction_rulings]):
-            return DispositionStatus.CONVICTED
-        elif any([rule in ruling for rule in dismissal_rulings]):
+        if any([rule in ruling for rule in dismissal_rulings]):
             return DispositionStatus.DISMISSED
+        elif any([rule in ruling for rule in conviction_rulings]):
+            return DispositionStatus.CONVICTED
         elif "diverted" in ruling:
             return DispositionStatus.DIVERTED
         elif "no complaint" in ruling:
