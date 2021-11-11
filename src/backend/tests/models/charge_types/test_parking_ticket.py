@@ -41,8 +41,11 @@ def test_parking_ticket_dismissal():
 
     assert isinstance(charge.charge_type, ParkingTicket)
     assert not charge.charge_type.blocks_other_charges
-    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissed violations are eligible under 137.225(1)(b)."
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert (
+        charge.type_eligibility.reason
+        == "Dismissed parking violations are effectively ineligible at the discretion of the court."
+    )
 
 
 def test_parking_ticket_no_disposition():
