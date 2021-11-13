@@ -23,4 +23,4 @@ class ParkingTicket(ChargeType):
             )
 
     def hidden_in_record_summary(self, disposition):
-        return ChargeUtil.convicted(disposition)
+        return True
