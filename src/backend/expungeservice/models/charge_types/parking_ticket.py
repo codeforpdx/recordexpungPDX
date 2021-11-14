@@ -18,7 +18,8 @@ class ParkingTicket(ChargeType):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
         elif ChargeUtil.dismissed(disposition):
             return TypeEligibility(
-                EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(b)."
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge.",
             )
 
     def hidden_in_record_summary(self, disposition):

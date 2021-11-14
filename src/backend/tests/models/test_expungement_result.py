@@ -100,7 +100,7 @@ def test_type_eligible_but_time_eligibility_missing():
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.UNKNOWN
-    assert charge_eligibility.label == "Possibly Eligible But Time Analysis Is Missing"
+    assert charge_eligibility.label == "Possibly Eligible"
 
 
 def test_possibly_type_eligible_but_time_eligibility_missing():
@@ -108,4 +108,4 @@ def test_possibly_type_eligible_but_time_eligibility_missing():
     charge_eligibility = RecordMerger.compute_charge_eligibility(type_eligibility, [])
 
     assert charge_eligibility.status == ChargeEligibilityStatus.UNKNOWN
-    assert charge_eligibility.label == "Possibly Eligible But Time Analysis Is Missing"
+    assert charge_eligibility.label == "Possibly Eligible"
