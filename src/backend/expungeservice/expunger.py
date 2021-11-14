@@ -226,7 +226,11 @@ class Expunger:
         for case in record.cases:
             updated_charges = []
             for charge in case.charges:
-                if (charge.convicted() or charge.dismissed()) and not isinstance(charge.charge_type, JuvenileCharge):
+                if (charge.convicted() or charge.dismissed()) and (
+                    charge.disposition
+                    and charge.charge_type.type_eligibility(charge.disposition).status
+                    != EligibilityStatus.NEEDS_MORE_ANALYSIS
+                ):
                     updated_charges.append(charge)
             updated_case = replace(case, charges=tuple(updated_charges))
             updated_cases.append(updated_case)

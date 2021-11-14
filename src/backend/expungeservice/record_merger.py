@@ -138,7 +138,7 @@ class RecordMerger:
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif not time_eligibilities:
             # For example, JuvenileCharge
-            return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly Eligible But Time Analysis Is Missing")
+            return ChargeEligibility(ChargeEligibilityStatus.UNKNOWN, "Possibly Eligible")
         elif all([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):
             return ChargeEligibility(ChargeEligibilityStatus.INELIGIBLE, "Ineligible")
         elif any([time_eligibility.date_will_be_eligible == date.max() for time_eligibility in time_eligibilities]):

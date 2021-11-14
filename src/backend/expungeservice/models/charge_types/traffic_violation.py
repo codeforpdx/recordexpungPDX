@@ -17,7 +17,8 @@ class TrafficViolation(ChargeType):
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
             return TypeEligibility(
-                EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(b)."
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge.",
             )
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")
