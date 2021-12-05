@@ -26,5 +26,5 @@ def test_marijuana_violation_dismissal():
     )
 
     assert isinstance(marijuana_violation.charge_type, MarijuanaViolation)
-    assert marijuana_violation.type_eligibility.status is EligibilityStatus.INELIGIBLE
-    assert marijuana_violation.type_eligibility.reason == "Dismissed violations are ineligible by omission from statute"
+    assert marijuana_violation.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert marijuana_violation.type_eligibility.reason == "Dismissed violations are eligible under 137.225(1)(b)"
