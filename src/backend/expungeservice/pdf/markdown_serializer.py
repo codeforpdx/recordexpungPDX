@@ -26,7 +26,7 @@ RecordSponge is not your lawyer. The results below should be used as a guide onl
 ### Assumptions
 <b>1) Successful completion of court requirements</b> &nbsp; If you are currently on probation or conditional discharge, the analysis below assumes that you will successfully complete those requirements.  \n
 <b>2) Court debt paid off</b> &nbsp; You must pay off all court debt on a case before you file for expungement on any case which you are otherwise eligible to expunge.  \n
-<b>3) No records outside of Oregon State court from last ten years</b> &nbsp; We are only able to access your public Oregon records. Your analysis may be different if you have had cases from <b>within the last ten years</b> which were:  \n
+<b>3) No records outside of Oregon State court from last seven years</b> &nbsp; We are only able to access your public Oregon records. Your analysis may be different if you have had cases from <b>within the last seven years</b> which were:  \n
   * from States besides Oregon
   * from Federal Court (in any State)
   * from local District Courts, e.g. Medford Municipal Court (not Jackson Circuit Court)
