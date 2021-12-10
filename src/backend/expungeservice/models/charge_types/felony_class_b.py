@@ -10,14 +10,13 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class FelonyClassB(ChargeType):
     type_name: str = "Felony Class B"
     expungement_rules: Any = (
-        """Class B felony dismissals are always eligible under 137.225(5)(a).
+        """Class B felony dismissals are always eligible under 137.225(1)(d).
 Class B felony convictions are generally eligible but subject to additional restrictions compared to other charge types, as listed in 137.225(5)(a).
 The extra restrictions are:""",
         (
             "ul",
             (
-                "An extended time restriction: the class B felony is ineligible until 20 years after its date of conviction.",
-                "The class B felony is ineligible if the person has been arrested or convicted for any crime, other than a traffic violation, following the date of the class B felony conviction.",
+                "The class B felony is ineligible until 7 years after its date of conviction.",
                 "If the charge is also classified as a Person Crime it is ineligible.",
             ),
         ),
