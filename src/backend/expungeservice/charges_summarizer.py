@@ -10,15 +10,9 @@ from typing import Dict, List, Tuple
 class ChargesSummarizer:
     @staticmethod
     def build_charges_for_summary_panel(record: Record) -> ChargesForSummaryPanel:
-        SHOW_ALL_CHARGES_THRESHOLD = 20
-        if len(record.charges) <= SHOW_ALL_CHARGES_THRESHOLD:
-            visible_charges = record.charges
-        else:
-            visible_charges = [
-                charge
-                for charge in record.charges
-                if not charge.charge_type.hidden_in_record_summary(charge.disposition)
-            ]
+        visible_charges = [
+            charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary(charge.disposition)
+        ]
         eligible_charges_by_date: Dict[str, List[Tuple[str, List[Tuple[str, str]]]]] = {}
         sorted_charges = sorted(
             sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
