@@ -49,11 +49,6 @@ class Manual extends React.Component {
                   Search
                 </a>
               </li>
-              <li className="mb3 ml3">
-                <a href="#assumption2" className="link hover-blue">
-                  Assumption 2
-                </a>
-              </li>
               <li className="ml3">
                 <a href="#file" className="link hover-blue">
                   File for Expungement
@@ -111,16 +106,17 @@ class Manual extends React.Component {
                 General Info
               </h2>
               <p className="mb3">
-                Every State has different expungement rules. 
+                Every State has different expungement rules.
                 <a
                   className="bb hover-blue"
                   href="https://olis.oregonlegislature.gov/liz/2021R1/Measures/Overview/SB397"
                 >
                   Recent changes
                 </a>{" "}
-                
-                Recent changes to Oregon's expungement law make more types of criminal records eligible than ever before, 
-                and on a much faster timeline. Nevertheless, the complexity of the expungement statutes, ORS{" "}
+                Recent changes to Oregon's expungement law make more types of
+                criminal records eligible than ever before, and on a much faster
+                timeline. Nevertheless, the complexity of the expungement
+                statutes, ORS{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.oregonlaws.org/ors/137.225"
@@ -134,16 +130,18 @@ class Manual extends React.Component {
                 >
                   137.226
                 </a>
-                . pose a significant barrier for people seeking expungements on their own.  
-                Few organizations outside of the metropolitan area are equipped
-                to perform expungement services, and the market rate to hire an attorney is over $1,400
+                . pose a significant barrier for people seeking expungements on
+                their own. Few organizations outside of the metropolitan area
+                are equipped to perform expungement services, and the market
+                rate to hire an attorney is over $1,400
                 <em>per case</em>.
               </p>
               <p className="mb3">
-                RecordSponge is and always will be free to use. 
+                RecordSponge is and always will be free to use.
               </p>
               <p className="mb4">
-                If you would like to use RecordSponge, please contact michael@qiu-qiulaw.com. 
+                If you would like to use RecordSponge, please contact
+                michael@qiu-qiulaw.com.
               </p>
               <div className="bg-gray-blue-2 shadow br3 pa3 mb4">
                 <h3 className="fw7 mb2" id="juvenile">
@@ -262,8 +260,9 @@ class Manual extends React.Component {
               <p className="mb3">
                 RecordSponge only has access to online records of Oregon’s
                 Circuit courts. However, having an open case or a conviction{" "}
-                <strong>anywhere</strong> within the last 7 years could affect eligibility. 
-                The accuracy of the expungement analysis depends on these assumptions:
+                <strong>anywhere</strong> within the last 7 years could affect
+                eligibility. The accuracy of the expungement analysis depends on
+                these assumptions:
               </p>
               <ol className="ml4 mb4">
                 <li className="fw7 mb3">
@@ -277,8 +276,8 @@ class Manual extends React.Component {
                   </ul>
                 </li>
                 <li className="fw7 mb3">
-                  The client does not, within the last 7 years, have cases
-                  which are:
+                  The client does not, within the last 7 years, have cases which
+                  are:
                   <ol className="fw4 mt1 mb3 ml4">
                     <li className="mb2">previously expunged</li>
                     <li className="mb2">Federal</li>
@@ -291,17 +290,17 @@ class Manual extends React.Component {
                       affect eligibility.
                     </li>
                     <li className="mb3">
-                      Traffic ticket sdo not count. However,
-                      convictions for misdemeanor or felony traffic cases, such
-                      as Driving While Suspended, count.
+                      Traffic ticket sdo not count. However, convictions for
+                      misdemeanor or felony traffic cases, such as Driving While
+                      Suspended, count.
                     </li>
                     <li className="mb3">
                       Previously expunged cases affect expungement eligibility.
-                      Accordingly, RecoredSponge’s analysis may not be
-                      accurate if a person has a case previously expunged, and
-                      that case is from the last 7 years. Note that this rule
-                      does not prevent a person from filing for expungement
-                      multiple times within the same 7 year period.
+                      Accordingly, RecoredSponge’s analysis may not be accurate
+                      if a person has a case previously expunged, and that case
+                      is from the last 7 years. Note that this rule does not
+                      prevent a person from filing for expungement multiple
+                      times within the same 7 year period.
                     </li>
                     <li className="mb3">
                       Again, beware of convictions for misdemeanor/felony
@@ -312,8 +311,6 @@ class Manual extends React.Component {
                       need to worry about misdemeanor and felonies, including
                       for Driving While Suspended.
                     </li>
-                  </ul>
-                </li>
                   </ul>
                 </li>
               </ol>
@@ -331,9 +328,9 @@ class Manual extends React.Component {
                 </ol>
               </div>
               <p>
-                If the Assumption is not met, but you would still like to conduct
-                an analysis, or if you have any questions about this section,
-                please contact michael@qiu-qiulaw.com.
+                If the Assumption is not met, but you would still like to
+                conduct an analysis, or if you have any questions about this
+                section, please contact michael@qiu-qiulaw.com.
               </p>
             </section>
             <section className="mb5">
@@ -463,10 +460,6 @@ class Manual extends React.Component {
               </p>
             </section>
             <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="assumption2">
-              
-            </section>
-            <section className="mb5">
               <h2 className="f2 fw9 mb3" id="file">
                 File for Expungement
               </h2>
@@ -479,12 +472,12 @@ class Manual extends React.Component {
                 If a client has eligible charges, the Summary panel will display
                 a button to Generate Paperwork. Click on the button and you will
                 be directed to input identifying information. Inputting
-                identifying information is optional but can help save you time. 
-                If a client has Future Eligible charges that you want to print now, 
-                in the Search Bar, change the “Expunge Date” to the date of 
-                eligibility, and redo the search. The Future Eligible charges should 
-                now be Eligible Now, and RecordSponge will allow you to 
-                Generate Paperwork. 
+                identifying information is optional but can help save you time.
+                If a client has Future Eligible charges that you want to print
+                now, in the Search Bar, change the “Expunge Date” to the date of
+                eligibility, and redo the search. The Future Eligible charges
+                should now be Eligible Now, and RecordSponge will allow you to
+                Generate Paperwork.
               </p>
               <p className="mb4">
                 After you input the information, RecordSponge will generate a
@@ -496,10 +489,10 @@ class Manual extends React.Component {
                 Obtain Fingerprints
               </h3>
               <p className="mb3">
-                Obtain fingerprints printed or inked directly onto
-                cardstock. Digital fingerprints are not accepted as part of this
-                process. Fingerprints printed onto cardstock can be obtained at
-                sheriff's offices or fingerprinting services.
+                Obtain fingerprints printed or inked directly onto cardstock.
+                Digital fingerprints are not accepted as part of this process.
+                Fingerprints printed onto cardstock can be obtained at sheriff's
+                offices or fingerprinting services.
               </p>
               <p className="mb3">
                 Another option is to do it yourself with the following
@@ -526,7 +519,7 @@ class Manual extends React.Component {
                 <li className="mb2">
                   In each county in which you have at least one conviction, you
                   will also need to bring an $80 Money Order made out to “Oregon
-                  State Police” for the fingerprint fee (even when providing 
+                  State Police” for the fingerprint fee (even when providing
                   your own). If you are only expunging dismissals, there is no
                   fingerprint fee but you still need to provide fingerprints.
                 </li>
@@ -537,7 +530,7 @@ class Manual extends React.Component {
                     <li className="mb2">One copy of your paperwork</li>
                     <li className="mb2">One fingerprint card</li>
                     <li className="mb2">
-                      One $80 Money Order made out to “Oregon State Police” 
+                      One $80 Money Order made out to “Oregon State Police”
                       (fingerprint fee)
                     </li>
                   </ul>
@@ -554,11 +547,10 @@ class Manual extends React.Component {
                   able to assist you.
                 </li>
                 <li className="mb2">
-                  By law, the District Attorney is required to respond within 
-                  four months after you file. If you receive
-                  communication during this time from the District Attorney that
-                  you would like to review with us, please email us at
-                  roe@qiu-qiulaw.com
+                  By law, the District Attorney is required to respond within
+                  four months after you file. If you receive communication
+                  during this time from the District Attorney that you would
+                  like to review with us, please email us at roe@qiu-qiulaw.com
                 </li>
                 <li className="mb2">
                   Once your expungement is processed, you will receive paper
@@ -568,10 +560,10 @@ class Manual extends React.Component {
                   extremely costly.
                 </li>
                 <li className="mb2">
-                  After your expungement has been processed, ensure that background 
-                  check companies receive notice. Expungement Clearinghouse is a 
-                  free service that notifies major background checking companies of 
-                  your expungement. 
+                  After your expungement has been processed, ensure that
+                  background check companies receive notice. Expungement
+                  Clearinghouse is a free service that notifies major background
+                  checking companies of your expungement.
                 </li>
               </ul>
             </section>
