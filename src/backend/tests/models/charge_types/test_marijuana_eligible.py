@@ -15,7 +15,7 @@ def test_delivery_to_minor_4758604A():
     )
     assert isinstance(marijuana_eligible_charge.charge_type, DismissedCharge)
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert marijuana_eligible_charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
+    assert marijuana_eligible_charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(d)"
 
 
 def test_marijuana_eligible_convicted():
@@ -43,7 +43,7 @@ def test_marijuana_eligible_missing_dispo():
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         marijuana_eligible_charge.type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)"
+        == "Always eligible under 137.226 (for convictions) or 137.225(1)(d) (for dismissals)"
     )
 
 
@@ -59,7 +59,7 @@ def test_marijuana_eligible_unrecognized_dispo():
     assert marijuana_eligible_charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         marijuana_eligible_charge.type_eligibility.reason
-        == "Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)"
+        == "Always eligible under 137.226 (for convictions) or 137.225(1)(d) (for dismissals)"
     )
 
 

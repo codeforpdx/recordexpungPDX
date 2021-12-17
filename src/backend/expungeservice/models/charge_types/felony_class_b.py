@@ -9,29 +9,8 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 @dataclass(frozen=True)
 class FelonyClassB(ChargeType):
     type_name: str = "Felony Class B"
-    expungement_rules: Any = (
-        """Class B felony dismissals are always eligible under 137.225(1)(d).
-Class B felony convictions are generally eligible but subject to additional restrictions compared to other charge types, as listed in 137.225(5)(a).
-The extra restrictions are:""",
-        (
-            "ul",
-            (
-                "The class B felony is ineligible until 7 years after its date of conviction.",
-                "If the charge is also classified as a Person Crime it is ineligible.",
-            ),
-        ),
-        "If a class B felony is eligible under any other subsection of the statute, that eligibility takes precedences and the extra restrictions here are ignored. The alternate positive criteria that can apply to B felonies are:",
-        (
-            "ul",
-            (
-                "If the charge is a drug crime for which the underlying substance is marijuana, it follows the typical time restrictions for a minor criminal charge.",
-                "Some class B felonies fall under Subsection 6 which takes precendence over 137.225(5)(a).",
-                "If the class B felony is punishable as a misdemeanor, it is eligible under 137.225(5)(b).",
-            ),
-        ),
-    )
+    expungement_rules: Any = """Class B felony convictions are generally eligible under ORS 137.225(1)(b). Class B felony dismissals are always eligible under 137.225(1)(d)."""
     severity_level: str = "Felony Class B"
-
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
@@ -39,5 +18,5 @@ The extra restrictions are:""",
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
-                reason="Convictions that fulfill the conditions of 137.225(5)(a) are eligible",
+                reason="Convictions that fulfill the conditions of 137.225(1)(b) are eligible",
             )

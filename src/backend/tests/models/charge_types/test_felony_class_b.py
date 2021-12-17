@@ -17,7 +17,7 @@ def test_class_b_felony_164057():
 
     assert isinstance(charge.charge_type, FelonyClassB)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Convictions that fulfill the conditions of 137.225(5)(a) are eligible"
+    assert charge.type_eligibility.reason == "Convictions that fulfill the conditions of 137.225(1)(b) are eligible"
 
 
 def test_class_felony_is_added_to_b_felony_attribute():

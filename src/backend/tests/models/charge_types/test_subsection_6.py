@@ -21,7 +21,7 @@ def test_subsection_6_dismissed():
     assert isinstance(charges[0].charge_type, DismissedCharge)
     assert type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
-        type_eligibility.reason == "Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(b)"
+        type_eligibility.reason == "Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(d)"
     )
 
 
@@ -39,7 +39,7 @@ def test_subsection_6_163165():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Felony Class C – Eligible under 137.225(5)(b) OR Subsection 6 – Ineligible under 137.225(6)"
+        == "Felony Class C – Eligible under 137.225(1)(b) OR Subsection 6 – Ineligible under 137.225(6)"
     )
 
 
@@ -57,7 +57,7 @@ def test_subsection_6_163200():
     assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
     assert (
         type_eligibility.reason
-        == "Subsection 6 – Ineligible under 137.225(6) OR Misdemeanor Class A – Eligible under 137.225(5)(b)"
+        == "Subsection 6 – Ineligible under 137.225(6) OR Misdemeanor Class A – Eligible under 137.225(1)(b)"
     )
 
 

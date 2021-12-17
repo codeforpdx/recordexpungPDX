@@ -15,7 +15,7 @@ def test_felony_c_conviction():
 
     assert isinstance(charge.charge_type, FelonyClassC)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(b)"
+    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(b)"
 
 
 def test_felony_c_dismissal():
@@ -25,7 +25,7 @@ def test_felony_c_dismissal():
 
     assert isinstance(charge.charge_type, DismissedCharge)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(d)"
 
 
 def test_felony_c_no_disposition():
@@ -40,7 +40,7 @@ def test_felony_c_no_disposition():
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.type_eligibility.reason
-        == "Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
+        == "Eligible under 137.225(1)(b) for convictions or under 137.225(1)(d) for dismissals"
     )
 
 
@@ -56,7 +56,7 @@ def test_felony_c_unrecognized_disposition():
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
         charge.type_eligibility.reason
-        == "Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals"
+        == "Eligible under 137.225(1)(b) for convictions or under 137.225(1)(d) for dismissals"
     )
 
 

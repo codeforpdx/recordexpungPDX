@@ -7,7 +7,10 @@ from tests.models.test_charge import Dispositions
 
 def test_fare_violation_convicted():
     charge = ChargeFactory.create(
-        name="Fare Violation", statute="29.15", level="Violation Unclassified", disposition=Dispositions.CONVICTED,
+        name="Fare Violation",
+        statute="29.15",
+        level="Violation Unclassified",
+        disposition=Dispositions.CONVICTED,
     )
 
     assert isinstance(charge.charge_type, FareViolation)
@@ -17,9 +20,12 @@ def test_fare_violation_convicted():
 
 def test_fare_violation_dismissed():
     charge = ChargeFactory.create(
-        name="Fare Violation", statute="2915", level="Violation Unclassified", disposition=Dispositions.DISMISSED,
+        name="Fare Violation",
+        statute="2915",
+        level="Violation Unclassified",
+        disposition=Dispositions.DISMISSED,
     )
 
     assert isinstance(charge.charge_type, FareViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(b)"
+    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(d)"
