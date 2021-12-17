@@ -327,6 +327,7 @@ class Manual extends React.Component {
                   <li className="mb2">
                     Does the client have any criminal convictions in States
                     besides Oregon from the last seven years?
+                  </li>
                 </ol>
               </div>
               <p>
