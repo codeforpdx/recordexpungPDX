@@ -133,8 +133,7 @@ class Manual extends React.Component {
                 . pose a significant barrier for people seeking expungements on
                 their own. Few organizations outside of the metropolitan area
                 are equipped to perform expungement services, and the market
-                rate to hire an attorney is over $1,400
-                <em>per case</em>.
+                rate to hire an attorney is over $1,400 <em>per case</em>.
               </p>
               <p className="mb3">
                 RecordSponge is and always will be free to use.
