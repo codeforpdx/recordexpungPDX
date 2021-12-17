@@ -41,7 +41,7 @@ class Manual extends React.Component {
               </li>
               <li className="mb3 ml3">
                 <a href="#assumption1" className="link hover-blue">
-                  Assumption 1
+                  Assumption
                 </a>
               </li>
               <li className="mb3 ml3">
@@ -111,8 +111,16 @@ class Manual extends React.Component {
                 General Info
               </h2>
               <p className="mb3">
-                Every State has different expungement rules. Oregon’s adult
-                expungement law is ORS{" "}
+                Every State has different expungement rules. 
+                <a
+                  className="bb hover-blue"
+                  href="https://olis.oregonlegislature.gov/liz/2021R1/Measures/Overview/SB397"
+                >
+                  Recent changes
+                </a>{" "}
+                
+                Recent changes to Oregon's expungement law make more types of criminal records eligible than ever before, 
+                and on a much faster timeline. Nevertheless, the complexity of the expungement statutes, ORS{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.oregonlaws.org/ors/137.225"
@@ -126,19 +134,16 @@ class Manual extends React.Component {
                 >
                   137.226
                 </a>
-                . These statutes are 2,000+ words long and are often misleading
-                and contradictory. As a result of this complexity, the market
-                rate for lawyers to perform expungement services is over $1,400{" "}
+                . pose a significant barrier for people seeking expungements on their own.  
+                Few organizations outside of the metropolitan area are equipped
+                to perform expungement services, and the market rate to hire an attorney is over $1,400
                 <em>per case</em>.
               </p>
               <p className="mb3">
-                And so we created RecordSponge to greatly increase access to
-                expungement by automating the legal analysis.
+                RecordSponge is and always will be free to use. 
               </p>
               <p className="mb4">
-                We still need partners to administer RecordSponge. Please
-                contact michael@qiu-qiulaw.com if you would like to set up
-                RecordSponge at your organization.
+                If you would like to use RecordSponge, please contact michael@qiu-qiulaw.com. 
               </p>
               <div className="bg-gray-blue-2 shadow br3 pa3 mb4">
                 <h3 className="fw7 mb2" id="juvenile">
@@ -172,7 +177,7 @@ class Manual extends React.Component {
             </section>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="overview">
-                Use RecordSponge
+                Using RecordSponge
               </h2>
               <h3 className="fw7 mb2">Overview</h3>
               <p className="mb3">
@@ -213,7 +218,7 @@ class Manual extends React.Component {
                 <li className="mb3">
                   Ensure that{" "}
                   <a className="bb-dotted-2 hover-blue" href="#assumption1">
-                    Assumption 1
+                    Assumption
                   </a>{" "}
                   is met
                 </li>
@@ -224,26 +229,8 @@ class Manual extends React.Component {
                   by name and date of birth
                 </li>
                 <li className="mb3">
-                  Ensure that{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#assumption2">
-                    Assumption 2
-                  </a>{" "}
-                  is met for eligible records (if any)
-                </li>
-                <li className="mb3">
                   Confirm positive search results with Michael:
                   michael@qiu-qiulaw.com
-                </li>
-                <li className="mb3">
-                  Use the{" "}
-                  <Link
-                    className="bb hover-blue"
-                    to="/appendix"
-                    onClick={() => window.scrollTo(0, 0)}
-                  >
-                    Appendix
-                  </Link>{" "}
-                  or search online for expungement forms
                 </li>
                 <li className="mb3">
                   <a className="bb-dotted-2 hover-blue" href="#file">
@@ -264,8 +251,8 @@ class Manual extends React.Component {
               </ol>
             </section>
             <section className="mb5">
-              <h2 className="f2 fw9 mb3" id="assumption1">
-                Assumption 1
+              <h2 className="f2 fw9 mb3" id="assumption">
+                Assumption
               </h2>
               <p className="fw7 mb3">
                 Before delivering expungement analysis, ensure that this
@@ -275,9 +262,8 @@ class Manual extends React.Component {
               <p className="mb3">
                 RecordSponge only has access to online records of Oregon’s
                 Circuit courts. However, having an open case or a conviction{" "}
-                <strong>anywhere</strong> within the last 10 years makes a
-                person ineligible (until the conviction is 10 years old). The
-                accuracy of the expungement analysis depends on the assumptions:
+                <strong>anywhere</strong> within the last 7 years could affect eligibility. 
+                The accuracy of the expungement analysis depends on these assumptions:
               </p>
               <ol className="ml4 mb4">
                 <li className="fw7 mb3">
@@ -291,7 +277,7 @@ class Manual extends React.Component {
                   </ul>
                 </li>
                 <li className="fw7 mb3">
-                  The client does not, within the last 10 years, have cases
+                  The client does not, within the last 7 years, have cases
                   which are:
                   <ol className="fw4 mt1 mb3 ml4">
                     <li className="mb2">previously expunged</li>
@@ -301,21 +287,21 @@ class Manual extends React.Component {
                   </ol>
                   <ul className="list fw4 mb3">
                     <li className="mb3">
-                      Cases closed more than 10 years ago, in any court, do not
-                      affect RecordSponge’s analysis.
+                      Cases closed more than 7 years ago, in any court, do not
+                      affect eligibility.
                     </li>
                     <li className="mb3">
-                      Cases for traffic infractions do not count. However,
+                      Traffic ticket sdo not count. However,
                       convictions for misdemeanor or felony traffic cases, such
                       as Driving While Suspended, count.
                     </li>
                     <li className="mb3">
-                      Oregon expungement law considers previously expunged
-                      cases. Accordingly, RecoredSponge’s analysis may not be
+                      Previously expunged cases affect expungement eligibility.
+                      Accordingly, RecoredSponge’s analysis may not be
                       accurate if a person has a case previously expunged, and
-                      that case is from the last ten years. Note that this rule
+                      that case is from the last 7 years. Note that this rule
                       does not prevent a person from filing for expungement
-                      multiple times within the same ten year period.
+                      multiple times within the same 7 year period.
                     </li>
                     <li className="mb3">
                       Again, beware of convictions for misdemeanor/felony
@@ -328,26 +314,6 @@ class Manual extends React.Component {
                     </li>
                   </ul>
                 </li>
-                <li className="fw7 mb3" id="paybalances">
-                  The client does not owe money to the State, including
-                  probation fees, child support, traffic tickets.
-                  <ul className="list fw4 mt1">
-                    <li className="mb2">
-                      A personal is not eligible for expungement if they owe
-                      money in the case they are trying to expunge. If a person
-                      owes money on any matter - including traffic violations,
-                      child support, and probation supervision - district
-                      attorneys will object in at least the following counties:
-                      Multnomah, Douglas. The Balance shows money the person
-                      owes to the Circuit courts, but does not show balances in
-                      Municipal courts, or for child support, or probation
-                      supervision fees. It does not matter if a debt is “in
-                      collections.”
-                    </li>
-                    <li className="mb3">
-                      Court debt can be paid directly to the clerk’s window in
-                      the Circuit Court in which the debt is owed.
-                    </li>
                   </ul>
                 </li>
               </ol>
@@ -360,16 +326,11 @@ class Manual extends React.Component {
                   </li>
                   <li className="mb2">
                     Does the client have any criminal convictions in States
-                    besides Oregon from the last ten years?
-                  </li>
-                  <li className="mb2">
-                    Does the client owe child support, probation supervision
-                    fees, or fines and fees to municipal courts?
-                  </li>
+                    besides Oregon from the last seven years?
                 </ol>
               </div>
               <p>
-                If Assumption 1 is not met, but you would still like to conduct
+                If the Assumption is not met, but you would still like to conduct
                 an analysis, or if you have any questions about this section,
                 please contact michael@qiu-qiulaw.com.
               </p>
@@ -437,14 +398,10 @@ class Manual extends React.Component {
                 </div>
                 <p className="mb3">
                   The specific charge is eligible for expungement if{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#assumption1">
-                    Assumption 1
+                  <a className="bb-dotted-2 hover-blue" href="#assumption">
+                    Assumption
                   </a>{" "}
-                  and{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#assumption2">
-                    Assumption 2
-                  </a>{" "}
-                  are true.
+                  is true.
                 </p>
               </div>
               <div className="bg-white shadow pa3">
@@ -455,15 +412,15 @@ class Manual extends React.Component {
                 <p className="mb3">
                   The specific charge is eligible for expungement on the date
                   specified. This is also conditional on{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#assumption1">
-                    Assumption 1
+                  <a className="bb-dotted-2 hover-blue" href="#assumption">
+                    Assumption
                   </a>{" "}
                   being true. Having other cases could push out the eligibility
                   date further.
                 </p>
                 <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
                   Eligibility date dependent on open charge: Eligible Jun 12,
-                  2022 or 10 years from conviction of open charge
+                  2022 or 7 years from conviction of open charge
                 </div>
                 <p className="mb3">
                   If there is an open charge, the affected charges will show
@@ -493,7 +450,7 @@ class Manual extends React.Component {
                   The specific charge is not eligible under the current law
                   because it is not “type-eligible.” The reason why the charge
                   is not type-eligible is different for each charge. This is not
-                  conditional on the assumptions.
+                  conditional on the Assumption.
                 </p>
               </div>
               <section className="mb4" id="editing">
@@ -506,58 +463,7 @@ class Manual extends React.Component {
             </section>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="assumption2">
-                Assumption 2
-              </h2>
-              <p className="mb3">
-                If a charge is marked as eligible, it is eligible for
-                expungement if the following are true:
-              </p>
-              <ol className="ml4 mb4">
-                <li className="mb3">
-                  <p className="fw7 mb1">
-                    The person does not owe money on the case.
-                  </p>
-                  <p>
-                    This assumption is redundant with an assumption needed for
-                    correct Analysis, but bears repeating here. A charge is not
-                    eligible for expungement if they owe money on the case,
-                    including for associated probation fees. RecordSponge can
-                    find court-imposed fines and fees, but does not have access
-                    to probation fines and fees.
-                  </p>
-                </li>
-                <li className="mb3">
-                  <p className="fw7 mb1">
-                    The charge is not associated with a separate case which led
-                    to a conviction which is not eligible for expungement.
-                  </p>
-                  <p>
-                    If a case is dismissed, but then re-charged as a different
-                    case (including in Federal court), you must file for
-                    expungement on both cases at the same time. If the
-                    re-charged case is not eligible, then neither is the case
-                    that is associated with it. A common situation is for a
-                    State-level drug-manufacturing case to be dismissed so that
-                    it can be re-charged at the Federal level. In this case, the
-                    State-level dismissal is not eligible because Federal crimes
-                    generally are not eligible for expungement.
-                  </p>
-                </li>
-                <li className="mb3">
-                  <p className="fw7 mb1">
-                    The charge did not result in a probation revocation. If the
-                    case did result in a revocation, that revocation was at
-                    least ten years ago.
-                  </p>
-                  <p>
-                    RecordSponge can generally tell if a probation revocation
-                    occurred. However, the online courts are inconsistent in
-                    displaying this information. Ensure that a probation
-                    revocation did not occur within the last ten years by asking
-                    the client.
-                  </p>
-                </li>
-              </ol>
+              
             </section>
             <section className="mb5">
               <h2 className="f2 fw9 mb3" id="file">
@@ -572,7 +478,12 @@ class Manual extends React.Component {
                 If a client has eligible charges, the Summary panel will display
                 a button to Generate Paperwork. Click on the button and you will
                 be directed to input identifying information. Inputting
-                identifying information is optional but can help save you time.
+                identifying information is optional but can help save you time. 
+                If a client has Future Eligible charges that you want to print now, 
+                in the Search Bar, change the “Expunge Date” to the date of 
+                eligibility, and redo the search. The Future Eligible charges should 
+                now be Eligible Now, and RecordSponge will allow you to 
+                Generate Paperwork. 
               </p>
               <p className="mb4">
                 After you input the information, RecordSponge will generate a
@@ -580,123 +491,11 @@ class Manual extends React.Component {
                 charges, with one PDF file for each case that has eligible
                 charges.
               </p>
-
-              <Disclosure>
-                <div className="bg-gray-blue-2 shadow br3 pa3 mb4">
-                  <h3 className="f4 fw7 mb2">
-                    Manually fill out the paperwork if preferred
-                  </h3>
-                  <DisclosureButton>
-                    <span className="link hover-dark-blue fw6 mid-gray">
-                      Show Instructions
-                      <span
-                        aria-hidden="true"
-                        className="fas fa-angle-down pl1"
-                      ></span>
-                    </span>
-                  </DisclosureButton>
-                  <DisclosurePanel>
-                    <h4 className="fw7 mt2 mb2">Selecting the correct form</h4>
-                    <p className="mb3">
-                      Not all counties will have their own form, but at least
-                      the following do: Multnomah, Washington, Clackamas, Lane,
-                      Jackson, Josephine, Tillamook, Marion, Baker, Coos, Curry,
-                      Lincoln, Linn, Umatilla, Yamhill.{" "}
-                      <Link
-                        className="bb hover-blue"
-                        to="/appendix"
-                        onClick={() => window.scrollTo(0, 0)}
-                      >
-                        Find these forms in the Appendix.
-                      </Link>
-                    </p>
-                    <p className="mb3">
-                      If your county is not listed here, search online using
-                      terms: “[county name] expungement form.”
-                    </p>
-                    <p className="mb3">
-                      If a county does not have its own paperwork, use the{" "}
-                      <Link className="bb hover-blue" to="/appendix#stockforms">
-                        Stock Forms
-                      </Link>
-                      . At least the following counties do not have their own
-                      paperwork: Deschutes, Clatsop, Hood River.
-                    </p>
-                    <h4 className="fw7 mb2">Conviction versus Arrest</h4>
-                    <p className="mb3">
-                      If there are no convicted charges in the case, use an
-                      Arrest Form.
-                    </p>
-                    <p className="mb3">
-                      If at least one charge has a Disposition of “Convicted,”
-                      use a Conviction Form.
-                    </p>
-                    <h4 className="fw7 mb2">Fill out the form</h4>
-                    <p className="mb3">For each case that is eligible now:</p>
-                    <ul className="ml4">
-                      <li className="mb2">
-                        <span className="fw7">Case Number:</span> In the top
-                        center, preceded by “CASE No.” Often starts with a two
-                        numbers indicating year the case was filed.
-                      </li>
-                      <li className="mb2">
-                        <span className="fw7">Case Name:</span> the name of the
-                        person exactly as it appears in the name of the case as
-                        it appears in the RecordSponge results / OECI, in the
-                        top left corner.
-                      </li>
-                      <li className="mb2">
-                        <span className="fw7">DA Number:</span> May not be
-                        present. If not provided, do not write anything. Usually
-                        located in the upper right corner if it exists.
-                      </li>
-                      <li className="mb2">
-                        <span className="fw7">Arrest Date:</span> Dates listed
-                        in the Charge Information. For a case with multiple
-                        arrest dates, list them separated by semicolons.
-                      </li>
-                      <li className="mb2">
-                        <span className="fw7">Conviction Date:</span> Dates
-                        listed in the Charge.
-                      </li>
-                      <li className="mb2">
-                        <span className="fw7">Arresting Agency:</span>
-                        <ul className="ml4 mb3">
-                          <li className="mb2">
-                            If not readily attainable, do not fill it out. In
-                            counties which require it (so far, just Jackson
-                            County) fill in MPD or JCSO by default.
-                          </li>
-                          <li className="mb2">
-                            Sometimes an OECI case will contain links to
-                            relevant documents filed through a hyperlink
-                            attached to the case number. If it does not contain
-                            these links, do not fill out the arresting agency.
-                          </li>
-                          <li className="mb2">
-                            If the hyperlink is live, click it to see if there
-                            is a link titled “Information” or “Indictment.”
-                            Click such link if it exists.
-                          </li>
-                          <li className="mb2">
-                            The Arresting Agency will have its own number
-                            attached to the case. Find a three- or four-letter
-                            abbreviation for the Arresting Agency. Common
-                            examples are PPB (Portland Police Bureau), MCSO
-                            (Multnomah County Sheriff’s Office), etc.
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </DisclosurePanel>
-                </div>
-              </Disclosure>
-
               <h3 className="f4 fw7 mb2" id="fingerprints">
                 Obtain Fingerprints
               </h3>
               <p className="mb3">
-                Obtain fingerprints printed out or inked directly onto
+                Obtain fingerprints printed or inked directly onto
                 cardstock. Digital fingerprints are not accepted as part of this
                 process. Fingerprints printed onto cardstock can be obtained at
                 sheriff's offices or fingerprinting services.
@@ -731,14 +530,6 @@ class Manual extends React.Component {
                   fingerprint fee but you still need to provide fingerprints.
                 </li>
                 <li className="mb2">
-                  Each case with at least one conviction requires a $281 fee.{" "}
-                  <strong className="fw7">
-                    This fee is subject to waiver for income-qualified
-                    individuals who complete the waiver form.
-                  </strong>{" "}
-                  You get this from the Clerk of Court.
-                </li>
-                <li className="mb2">
                   After filing with the Clerk of Court, you will receive two
                   copies. Take the following to the District Attorney’s office:
                   <ul className="ml4 mb3">
@@ -762,11 +553,11 @@ class Manual extends React.Component {
                   able to assist you.
                 </li>
                 <li className="mb2">
-                  It takes between two and five months for the District
-                  Attorney’s office to process your paperwork. If you receive
+                  By law, the District Attorney is required to respond within 
+                  four months after you file. If you receive
                   communication during this time from the District Attorney that
                   you would like to review with us, please email us at
-                  roe@qiu-qiulaw.com.
+                  roe@qiu-qiulaw.com
                 </li>
                 <li className="mb2">
                   Once your expungement is processed, you will receive paper
@@ -774,6 +565,12 @@ class Manual extends React.Component {
                   expunged. You should keep copies of this confirmation and make
                   electronic copies – obtaining copies of expunged documents is
                   extremely costly.
+                </li>
+                <li className="mb2">
+                  After your expungement has been processed, ensure that background 
+                  check companies receive notice. Expungement Clearinghouse is a 
+                  free service that notifies major background checking companies of 
+                  your expungement. 
                 </li>
               </ul>
             </section>
