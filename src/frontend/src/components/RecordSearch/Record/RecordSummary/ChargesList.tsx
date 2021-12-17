@@ -20,8 +20,7 @@ export default class ChargesList extends React.Component<Props> {
         const listItems = this.buildListItems(casesWithHeaderAndChargesNames);
         const categoryHeader = this.buildCategoryHeader(
           eligibilityDate,
-          numCharges,
-          this.props.totalCharges
+          numCharges
         );
         return (
           <div className="mb3" key={eligibilityDate}>
@@ -73,13 +72,7 @@ export default class ChargesList extends React.Component<Props> {
     });
   }
 
-  buildCategoryHeader(
-    eligibilityDate: string,
-    numCharges: number,
-    totalNumCharges: number
-  ) {
-    const SHOW_ALL_CHARGES_THRESHOLD = 20;
-    const showAllCharges = totalNumCharges < SHOW_ALL_CHARGES_THRESHOLD;
+  buildCategoryHeader(eligibilityDate: string, numCharges: number) {
     const labelColor =
       eligibilityDate === "Eligible Now"
         ? "green"
@@ -93,7 +86,7 @@ export default class ChargesList extends React.Component<Props> {
         <span className="fw7 mb2"> {eligibilityDate} </span>
         <span> {numCharges > 0 ? `(${numCharges})` : ""} </span>
         <p className="f6 fw5">
-          {eligibilityDate === "Ineligible" && !showAllCharges
+          {eligibilityDate === "Ineligible"
             ? "Excludes traffic violations, which are always ineligible"
             : eligibilityDate === "Needs More Analysis"
             ? "These charges need clarification below before an accurate analysis can be determined"
