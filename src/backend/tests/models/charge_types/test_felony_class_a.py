@@ -29,7 +29,7 @@ def test_felony_class_a_dismissed():
 
     assert isinstance(felony_class_a_dismissed.charge_type, DismissedCharge)
     assert felony_class_a_dismissed.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert felony_class_a_dismissed.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
+    assert felony_class_a_dismissed.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(d)"
 
 
 def test_felony_class_a_no_complaint():
@@ -43,5 +43,5 @@ def test_felony_class_a_no_complaint():
     assert isinstance(felony_class_a_no_complaint.charge_type, DismissedCharge)
     assert felony_class_a_no_complaint.type_eligibility.status is EligibilityStatus.ELIGIBLE
     assert (
-        felony_class_a_no_complaint.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(b)"
+        felony_class_a_no_complaint.type_eligibility.reason == "Dismissals are generally eligible under 137.225(1)(d)"
     )

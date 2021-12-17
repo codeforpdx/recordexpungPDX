@@ -61,7 +61,7 @@ class Expunger:
                         )
                     )
             elif charge.dismissed():
-                eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(b))"))
+                eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(d))"))
             else:
                 raise ValueError("Charge should always convicted or dismissed at this point.")
 
@@ -124,17 +124,17 @@ class Expunger:
         elif "Felony Class B" in charge_level:
             return (
                 charge_date + relativedelta(years=7),
-                "Seven years from date of conviction (137.225(1)(a))",
+                "Seven years from date of conviction (137.225(1)(b))",
             )
         elif "Felony Class C" in charge_level:
             return (
                 charge_date + relativedelta(years=5),
-                "Five years from date of conviction (137.225(1)(a))",
+                "Five years from date of conviction (137.225(1)(b))",
             )
         elif "Misdemeanor Class A" in charge_level:
             return (
                 charge_date + relativedelta(years=3),
-                "Three years from date of conviction (137.225(1)(a))",
+                "Three years from date of conviction (137.225(1)(b))",
             )
         elif any(
             [
@@ -144,12 +144,12 @@ class Expunger:
         ):
             return (
                 charge_date + relativedelta(years=1),
-                "One year from date of conviction (137.225(1)(a))",
+                "One year from date of conviction (137.225(1)(b))",
             )
         elif "Misdemeanor" in charge_level:
             return (
                 charge_date + relativedelta(years=3),
-                "Three years from date of conviction (137.225(1)(a))",
+                "Three years from date of conviction (137.225(1)(b))",
             )
         else:
             return (
