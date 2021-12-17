@@ -40,7 +40,7 @@ class Manual extends React.Component {
                 </a>
               </li>
               <li className="mb3 ml3">
-                <a href="#assumption1" className="link hover-blue">
+                <a href="#assumption" className="link hover-blue">
                   Assumption
                 </a>
               </li>
@@ -215,7 +215,7 @@ class Manual extends React.Component {
                 </li>
                 <li className="mb3">
                   Ensure that{" "}
-                  <a className="bb-dotted-2 hover-blue" href="#assumption1">
+                  <a className="bb-dotted-2 hover-blue" href="#assumption">
                     Assumption
                   </a>{" "}
                   is met
