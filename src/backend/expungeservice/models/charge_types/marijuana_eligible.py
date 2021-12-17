@@ -21,7 +21,7 @@ class MarijuanaEligible(ChargeType):
         elif disposition.status in [DispositionStatus.UNRECOGNIZED, DispositionStatus.UNKNOWN]:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
-                reason="Always eligible under 137.226 (for convictions) or 137.225(1)(b) (for dismissals)",
+                reason="Always eligible under 137.226 (for convictions) or 137.225(1)(d) (for dismissals)",
             )
 
 
@@ -46,7 +46,7 @@ class MarijuanaViolation(ChargeType):
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
             return TypeEligibility(
-                EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(b)"
+                EligibilityStatus.ELIGIBLE, reason="Dismissed violations are eligible under 137.225(1)(d)"
             )
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 475B.401")
