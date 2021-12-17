@@ -10,7 +10,7 @@ class Duii(ChargeType):
     type_name: str = "DUII"
     expungement_rules: str = (
         """A DUII conviction is not eligible for expungement, as it is considered a traffic offense.
-A DUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8)(b).
+A DUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8).
 HOWEVER, a DUII dismissal resulting from a Not Guilty verdict at trial, or is otherwise dismissed other than through diversion, is type-eligible like other dismissals.
 Therefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion.
 """
@@ -28,7 +28,7 @@ Therefore, to determine whether a dismissal is eligible, ask the client whether 
 @dataclass(frozen=True)
 class DivertedDuii(ChargeType):
     type_name: str = "Diverted DUII"
-    expungement_rules: str = "A DUII dismissal resulting from completion of diversion is ineligible under ORS 137.225(8)(b)."
+    expungement_rules: str = "A DUII dismissal resulting from completion of diversion is ineligible under ORS 137.225(8)."
 
     def type_eligibility(self, disposition):
-        return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(8)(b)",)
+        return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(8)",)
