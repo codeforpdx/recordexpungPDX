@@ -38,6 +38,7 @@ export default class ChargesList extends React.Component<Props> {
         </h3>
         <h3 className="bt b--light-gray pt2 mb3">
           <span className="fw7">Charges</span> ({this.props.totalCharges})
+          <p className="f6 fw5 pt1">Excludes traffic violations</p>
         </h3>
         {summarizedCharges}
       </div>
@@ -86,9 +87,7 @@ export default class ChargesList extends React.Component<Props> {
         <span className="fw7 mb2"> {eligibilityDate} </span>
         <span> {numCharges > 0 ? `(${numCharges})` : ""} </span>
         <p className="f6 fw5">
-          {eligibilityDate === "Ineligible"
-            ? "Excludes traffic violations, which are always ineligible"
-            : eligibilityDate === "Needs More Analysis"
+          {eligibilityDate === "Needs More Analysis"
             ? "These charges need clarification below before an accurate analysis can be determined"
             : ""}
         </p>
