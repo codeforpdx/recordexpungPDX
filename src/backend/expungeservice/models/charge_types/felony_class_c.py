@@ -12,7 +12,7 @@ class FelonyClassC(ChargeType):
     expungement_rules: str = (
         """There are certain types of Class C felony which are generally ineligible, including sex crimes, child abuse, elder abuse, traffic crimes, and criminally negligent homicide.
 Other Class C felony convictions are almost always eligible under 137.225(5)(b).
-Class C felony dismissals are always eligible under 137.225(1)(b)."""
+Class C felony dismissals are always eligible under 137.225(1)(d)."""
     )
     severity_level: str = "Felony Class C"
 
@@ -24,5 +24,5 @@ Class C felony dismissals are always eligible under 137.225(1)(b)."""
         elif disposition.status in [DispositionStatus.UNKNOWN, DispositionStatus.UNRECOGNIZED]:
             return TypeEligibility(
                 EligibilityStatus.ELIGIBLE,
-                reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(b) for dismissals",
+                reason="Eligible under 137.225(5)(b) for convictions or under 137.225(1)(d) for dismissals",
             )  # TODO: Double check
