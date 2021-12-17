@@ -12,5 +12,5 @@ class DismissedCharge(ChargeType):
 
     def type_eligibility(self, disposition):
         return TypeEligibility(
-            EligibilityStatus.ELIGIBLE, reason="Dismissals are generally eligible under 137.225(1)(b)",
+            EligibilityStatus.ELIGIBLE, reason="Dismissals are generally eligible under 137.225(1)(d)",
         )
