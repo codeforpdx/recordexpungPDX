@@ -27,4 +27,4 @@ As such, petitioners filing to expunge dismissed traffic tickets may receive pus
             )
 
     def hidden_in_record_summary(self, disposition):
-        return ChargeUtil.convicted(disposition)
+        return True
