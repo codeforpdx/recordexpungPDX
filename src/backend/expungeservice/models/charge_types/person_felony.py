@@ -8,13 +8,11 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 @dataclass(frozen=True)
 class PersonFelonyClassB(ChargeType):
     type_name: str = "Person Felony Class B"
-    expungement_rules: str = (
-        """If a Class B Felony is also defined as a person felony under Oregon law, it is type-ineligible.
+    expungement_rules: str = """If a Class B Felony is also defined as a person felony under Oregon law, it is type-ineligible.
 A person felony is defined in section 14 of this page: https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=712
 Dismissal of a person felony is eligible as usual under 137.225(1)(b).
 A person felony that is below a class B felony is not considered under this subsection and lower levels of charge may still be eligible, with the exceptions named elsewhere such as in the Subsection 6 type.
 """
-    )
     """
     Some statutes listed in the definition for person crime only apply to a particular subsection.
     """
@@ -47,7 +45,7 @@ A person felony that is below a class B felony is not considered under this subs
         "163145",  # [Subsection 6] Negligent Homicide;
         "163149",  # Aggravated Vehicular Homicide;
         # "1631603", # [contains subsection] # Felony Assault;
-        "163165",  # [Subsection 6] Assault III;
+        # "163165",  # [Subsection 6] Assault III;
         "163175",  # Assault II;
         "163185",  # Assault I;
         # "1631874", # [contains subsection] # Felony Strangulation;

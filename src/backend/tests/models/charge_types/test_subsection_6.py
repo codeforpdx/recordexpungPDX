@@ -34,13 +34,9 @@ def test_subsection_6_163165():
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
-    assert isinstance(charges[0].charge_type, FelonyClassC)
-    assert isinstance(charges[1].charge_type, Subsection6)
-    assert type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
-    assert (
-        type_eligibility.reason
-        == "Felony Class C – Eligible under 137.225(1)(b) OR Subsection 6 – Ineligible under 137.225(6)"
-    )
+    assert isinstance(charges[0].charge_type, Subsection6)
+    assert type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert type_eligibility.reason == "Subsection 6 – Ineligible under 137.225(6)"
 
 
 def test_subsection_6_163200():
