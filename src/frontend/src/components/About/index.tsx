@@ -134,7 +134,7 @@ export default class About extends React.Component {
                     He joined Code for PDX in 2018 to contribute to civic
                     technology and has primarily worked on RecordSponge. He has
                     been working on digital products for over ten years and
-                    currently designs software at Renew&nbsp;Financial.
+                    currently designs software at Higg.
                   </dd>
                 </dl>
               </div>

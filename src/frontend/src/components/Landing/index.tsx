@@ -499,7 +499,7 @@ class Landing extends React.Component {
                   <img
                     className="wipe-illustrations"
                     alt=""
-                    src="/img/wipe-illustrations-v2.jpg"
+                    src="/img/wipe-illustrations-v3.jpg"
                   />
                 </div>
                 <div className="mw7 center">

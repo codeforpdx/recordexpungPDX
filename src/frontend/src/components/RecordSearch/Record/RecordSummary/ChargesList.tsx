@@ -64,12 +64,20 @@ export default class ChargesList extends React.Component<Props> {
           );
         }
       );
-      return (
-        <>
-          <li className="fw7 pt2">{caseHeaderWithBalance}</li>
-          {listItemsInCase}
-        </>
-      );
+      if ( caseHeaderWithBalance ) {
+        return (
+          <>
+            <li className="fw7 pt2">{caseHeaderWithBalance}</li>
+            {listItemsInCase}
+          </>
+        );
+      } else {
+        return (
+          <>
+            {listItemsInCase}
+          </>
+        );
+      }
     });
   }
 
