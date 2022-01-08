@@ -12,7 +12,7 @@ class Subsection6(ChargeType):
 
     expungement_rules: Any = (
         """Subsection (6) names five felony statutes that have specific circumstances of the case under which they are ineligible.
-It also lists 163.165(1)(h) (Assault in the third degree) as ineligible.
+It lists 163.165(1)(h) (Assault in the third degree) as ineligible. However, subsection 137.225(12) expressly names Assault 3 as eligible, and Subsection 12 is interpreted to supercede this subsection. Thus, Assault 3 is unaffected by this subsection.
 This subsection also specifies conditions under which Sex Crimes are eligible or ineligible.
 The remaining specifications in the statute are:""",
         (
@@ -30,7 +30,4 @@ The remaining specifications in the statute are:""",
         if ChargeUtil.dismissed(disposition):
             raise ValueError("Dismissed criminal charges should have been caught by another class.")
         elif ChargeUtil.convicted(disposition):
-            return TypeEligibility(
-                EligibilityStatus.INELIGIBLE,
-                reason="Ineligible under 137.225(6)",
-            )
+            return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(6)",)
