@@ -20,7 +20,7 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaEligible,
     MarijuanaUnder21,
     MarijuanaViolation,
-    MarijuanaManufactureDelivery,
+    MarijuanaManufactureDelivery
 )
 from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
@@ -269,7 +269,7 @@ class ChargeClassifier:
         negligent_homicide = (
             "163145"  # (Criminally negligent homicide), when that offense was punishable as a Class C felony.
         )
-        assault_three = "163165"  # ineligible
+        assault_three = "163165"  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         if section == mistreatment_one:
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
             question_string = "Was the victim between the ages of 18 and 65?"
@@ -286,7 +286,10 @@ class ChargeClassifier:
             options = {"Yes": Subsection6(), "No": charge_type_by_level}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == assault_three:
-            return AmbiguousChargeTypeWithQuestion([Subsection6()])
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
+            question_string = "Was the victim more than ten years old?"
+            options = {"Yes": charge_type_by_level, "No": Subsection6()}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == negligent_homicide and level == "felony class c":
             return AmbiguousChargeTypeWithQuestion([Subsection6()])
 
