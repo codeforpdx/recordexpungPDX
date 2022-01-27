@@ -94,6 +94,9 @@ class Charge(OeciCharge):
     def case(self, cases):
         return next(case for case in cases if case.summary.case_number == self.case_number)
 
+    def no_complaint(self):
+        return self.disposition.status == DispositionStatus.NO_COMPLAINT
+
     def dismissed(self):
         return ChargeUtil.dismissed(self.disposition)
 
@@ -116,11 +119,3 @@ class Charge(OeciCharge):
         charged_date = self.date.strftime("%b %-d, %Y")
         disposition = str(self.disposition.status.name)
         return f"{short_name} ({disposition}) Charged {charged_date}"
-
-    def is_qualifying_mj_conviction(self):
-        # See https://www.oregonlaws.org/ors/475B.401
-        from expungeservice.models.charge_types.marijuana_eligible import MarijuanaViolation
-
-        is_qualifying_type = "Poss LT 1 Oz Marijuana" in self.name or isinstance(self.charge_type, MarijuanaViolation)
-        is_qualifying_date = self.date < date_class(2015, 7, 1)
-        return is_qualifying_type and is_qualifying_date and self.convicted()
