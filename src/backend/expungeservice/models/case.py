@@ -75,13 +75,6 @@ class Case(OeciCase):
         dismissals, convictions = Case.categorize_charges(eligible_charges)
         return len(convictions) > 0
 
-    def qualifying_marijuana_conviction_form_applicable(self):
-        eligible_charges, ineligible_charges = Case.partition_by_eligibility(self.charges)
-        for charge in eligible_charges:
-            if not charge.is_qualifying_mj_conviction():
-                return False
-        return True
-
     @staticmethod
     def partition_by_eligibility(charges: Tuple[Charge, ...]):
         ineligible_charges_generator, eligible_charges_generator = partition(
