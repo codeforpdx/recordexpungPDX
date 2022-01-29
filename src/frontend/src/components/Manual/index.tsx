@@ -529,9 +529,10 @@ class Manual extends React.Component {
                 "Circuit or Municipal Court," and check the box corresponding to whether
                  you are seeking an expungement for a conviction or only arresets. 
               </p>
+              <p className="mb3">
                 If you are seeking expungement of at least one conviction, you 
-              will need to include a check or money order made out to 
-              "Oregon State Police" for $33. 
+                will need to include a check or money order made out to 
+                "Oregon State Police" for $33.
               </p>
               <h3 className="f4 fw7 mb2" id="filepaperwork">
                 File Paperwork
