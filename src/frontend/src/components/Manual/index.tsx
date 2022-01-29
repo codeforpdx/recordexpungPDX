@@ -487,14 +487,13 @@ class Manual extends React.Component {
                 charges, with one PDF file for each case that has eligible
                 charges. RecordSponge will also generate a Request form to Oregon
                 State Police. You will need to complete this form manually and mail 
-                a completed copy to Oregon State Police at
-              </p>
-              Oregon State Police, CJIS – Unit 11
-              </p> ATTN: SET ASIDE 
-            </p> P.O. Box 4395 
-          </p> Portland, OR 97208-4395 
-
-                
+                a completed copy to Oregon State Police at:
+                <span className="db pt2">
+                  Oregon State Police, CJIS – Unit 11<br>
+                  ATTN: SET ASIDE<br>
+                  P.O. Box 4395<br>
+                  Portland, OR 97208-4395<br>
+                </span>
               </p>
               <h3 className="f4 fw7 mb2" id="fingerprints">
                 Obtain Fingerprints
