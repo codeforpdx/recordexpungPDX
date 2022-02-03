@@ -30,5 +30,6 @@ def test_normal_conviction_uses_multnomah_conviction_form():
     with ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
         for _root, _dir, files in os.walk(temp_dir):
-            assert len(files) == 1
-            assert "oregon" in files[0]
+            assert len(files) == 2
+            assert "certificate_of_mailing" in files[0]
+            assert "oregon" in files[1]

@@ -58,6 +58,21 @@ class FormData:
     da_address: str
 
 
+@dataclass
+class CertificateFormData:
+    full_name: str
+    date_of_birth: str
+    phone_number: str
+    mailing_address: str
+    city: str
+    state: str
+    zip_code: str
+
+    case_name_1: str
+    case_name_2: str
+    case_name_3: str
+
+
 class FormFilling:
     @staticmethod
     def build_zip(record_summary: RecordSummary, user_information: Dict[str, str]) -> Tuple[str, str]:
@@ -82,8 +97,48 @@ class FormFilling:
                 trailer.Root.AcroForm = pdf.Root.AcroForm
                 writer.write(file_path, trailer=trailer)
                 zipfile.write(file_path, file_name)
+
+        # TODO: Extract to method
+        pdf = FormFilling._build_certificate_of_mailing_pdf(record_summary, user_information)
+        file_name = f"certificate_of_mailing.pdf"
+        file_path = path.join(temp_dir, file_name)
+        writer = PdfWriter()
+        writer.addpages(pdf.pages)
+        trailer = writer.trailer
+        trailer.Root.AcroForm = pdf.Root.AcroForm
+        writer.write(file_path, trailer=trailer)
+        zipfile.write(file_path, file_name)
+
         zipfile.close()
         return zip_path, zip_name
+
+    @staticmethod
+    def _build_certificate_of_mailing_pdf(record_summary: RecordSummary, user_information: Dict[str, str]) -> PdfReader:
+        case_names = list(set([case.summary.name for case in record_summary.record.cases]))
+        case_name_1 = case_names[0] if len(case_names) > 0 else ""
+        case_name_2 = case_names[1] if len(case_names) > 1 else ""
+        case_name_3 = case_names[2] if len(case_names) > 2 else ""
+
+        form_data_dict = {
+            **user_information,
+            "case_name_1": case_name_1,
+            "case_name_2": case_name_2,
+            "case_name_3": case_name_3,
+        }
+        form = from_dict(data_class=CertificateFormData, data=form_data_dict)
+        pdf_path = path.join(Path(__file__).parent, "files", f"certificate.pdf")
+        pdf = PdfReader(pdf_path)
+        for field in pdf.Root.AcroForm.Fields:
+            field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
+            field_value = getattr(form, field_name)
+            field.V = field_value
+        for page in pdf.pages:
+            annotations = page.get("/Annots")
+            if annotations:
+                for annotation in annotations:
+                    annotation.update(PdfDict(AP=""))
+        pdf.Root.AcroForm.update(PdfDict(NeedAppearances=PdfObject("true")))
+        return pdf
 
     @staticmethod
     def _add_warnings(writer: PdfWriter, warnings: List[str]):
@@ -177,8 +232,7 @@ class FormFilling:
             "da_address": da_address,
         }
         form = from_dict(data_class=FormData, data=form_data_dict)
-        location = case.summary.location.lower()
-        pdf_path = FormFilling._build_pdf_path(location, convictions)
+        pdf_path = path.join(Path(__file__).parent, "files", f"oregon.pdf")
         file_name = os.path.basename(pdf_path)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
@@ -224,10 +278,6 @@ class FormFilling:
         CHARACTER_WIDTH = 0.25  # Times New Roman size 8
         width = float(field.Rect[2]) - float(field.Rect[0])
         return int(width * CHARACTER_WIDTH)
-
-    @staticmethod
-    def _build_pdf_path(location: str, convictions: List[Charge]) -> str:
-        return path.join(Path(__file__).parent, "files", f"oregon.pdf")
 
     @staticmethod
     def _build_da_address(location: str) -> str:

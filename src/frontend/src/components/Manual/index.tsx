@@ -245,7 +245,7 @@ class Manual extends React.Component {
                   </a>{" "}
                   in appropriate courts
                 </li>
-                 <li className="mb3">
+                <li className="mb3">
                   Mail in fingerprints to Oregon State Police
                 </li>
               </ol>
@@ -485,14 +485,18 @@ class Manual extends React.Component {
                 After you input the information, RecordSponge will generate a
                 .zip file with PDFs of the expungement paperwork for all of the
                 charges, with one PDF file for each case that has eligible
-                charges. RecordSponge will also generate a Request form to Oregon
-                State Police. You will need to complete this form manually and mail 
-                a completed copy to Oregon State Police at:
+                charges. RecordSponge will also generate a Request form to
+                Oregon State Police. You will need to complete this form
+                manually and mail a completed copy to Oregon State Police at:
                 <span className="db pt2">
-                  Oregon State Police, CJIS – Unit 11<br>
-                  ATTN: SET ASIDE<br>
-                  P.O. Box 4395<br>
-                  Portland, OR 97208-4395<br>
+                  Oregon State Police, CJIS – Unit 11
+                  <br />
+                  ATTN: SET ASIDE
+                  <br />
+                  P.O. Box 4395
+                  <br />
+                  Portland, OR 97208-4395
+                  <br />
                 </span>
               </p>
               <h3 className="f4 fw7 mb2" id="fingerprints">
@@ -522,16 +526,17 @@ class Manual extends React.Component {
                 Mail Fingerprints to OSP
               </h3>
               <p className="mb3">
-                Included in your expungement packet should be a form titled: 
-                "Oregon State Police REQUEST FOR SET ASIDE CRIMINAL RECORD CHECK." 
-                Fill out the sections titled "Other Names You are Known By," 
-                "Circuit or Municipal Court," and check the box corresponding to whether
-                 you are seeking an expungement for a conviction or only arresets. 
+                Included in your expungement packet should be a form titled:
+                "Oregon State Police REQUEST FOR SET ASIDE CRIMINAL RECORD
+                CHECK." Fill out the sections titled "Other Names You are Known
+                By," "Circuit or Municipal Court," and check the box
+                corresponding to whether you are seeking an expungement for a
+                conviction or only arresets.
               </p>
               <p className="mb3">
-                If you are seeking expungement of at least one conviction, you 
-                will need to include a check or money order made out to 
-                "Oregon State Police" for $33.
+                If you are seeking expungement of at least one conviction, you
+                will need to include a check or money order made out to "Oregon
+                State Police" for $33.
               </p>
               <h3 className="f4 fw7 mb2" id="filepaperwork">
                 File Paperwork
@@ -550,8 +555,8 @@ class Manual extends React.Component {
                 </li>
                 <li className="mb2">
                   After filing with the Clerk of Court, you will receive two
-                  copies. Serve the District Attorney’s office with one of those copies. 
-                
+                  copies. Serve the District Attorney’s office with one of those
+                  copies.
                 </li>
               </ul>
               <h3 className="f4 fw7 mb2">Next Steps</h3>
