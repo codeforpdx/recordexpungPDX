@@ -69,10 +69,6 @@ class CertificateFormData:
     state: str
     zip_code: str
 
-    case_name_1: str
-    case_name_2: str
-    case_name_3: str
-
 
 class FormFilling:
     @staticmethod
@@ -100,7 +96,7 @@ class FormFilling:
                 zipfile.write(file_path, file_name)
 
         # TODO: Extract to method
-        pdf = FormFilling._build_certificate_of_mailing_pdf(record_summary, user_information)
+        pdf = FormFilling._build_certificate_of_mailing_pdf(user_information)
         file_name = f"certificate_of_mailing.pdf"
         file_path = path.join(temp_dir, file_name)
         writer = PdfWriter()
@@ -118,20 +114,9 @@ class FormFilling:
         return zip_path, zip_name
 
     @staticmethod
-    def _build_certificate_of_mailing_pdf(record_summary: RecordSummary, user_information: Dict[str, str]) -> PdfReader:
-        case_names = list(set([case.summary.name for case in record_summary.record.cases]))
-        case_name_1 = case_names[0] if len(case_names) > 0 else ""
-        case_name_2 = case_names[1] if len(case_names) > 1 else ""
-        case_name_3 = case_names[2] if len(case_names) > 2 else ""
-
-        form_data_dict = {
-            **user_information,
-            "case_name_1": case_name_1,
-            "case_name_2": case_name_2,
-            "case_name_3": case_name_3,
-        }
-        form = from_dict(data_class=CertificateFormData, data=form_data_dict)
-        pdf_path = path.join(Path(__file__).parent, "files", f"certificate.pdf")
+    def _build_certificate_of_mailing_pdf(user_information: Dict[str, str]) -> PdfReader:
+        form = from_dict(data_class=CertificateFormData, data=user_information)
+        pdf_path = path.join(Path(__file__).parent, "files", f"certificate_of_mailing.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
