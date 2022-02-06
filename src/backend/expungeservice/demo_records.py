@@ -49,6 +49,7 @@ class DemoRecords:
         "violation_type": "Offense Misdemeanor",
         "date": date_class.today(),
         "district_attorney_number": "01234567",
+        "sid": "OR12345678",
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,
@@ -447,7 +448,6 @@ class DemoRecords:
                         "case_number": "123456",
                         "violation_type": "Offense Felony",
                         "balance_due_in_cents": 50000,
-
                     },
                 ),
                 charges=(

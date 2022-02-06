@@ -205,7 +205,7 @@ class FormFilling:
             "case_number": case_number_with_comments,
             "case_name": case.summary.name,
             "da_number": case.summary.district_attorney_number,
-            "sid": "",  # TODO: Fill in
+            "sid": case.summary.sid,
             "has_conviction": "✓" if has_conviction else "",
             "has_no_complaint": "✓" if has_no_complaint else "",
             "has_dismissed": "✓" if has_dismissals else "",

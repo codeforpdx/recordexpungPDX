@@ -77,7 +77,8 @@ class RecordParser(HTMLParser):
             CaseCreator.create(
                 self.info,
                 self.case_number,
-                "", # district_attorney_number
+                "",  # district_attorney_number
+                "",  # sid
                 self.citation_number,
                 self.date_location,
                 self.type_status,

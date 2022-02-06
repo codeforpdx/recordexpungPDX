@@ -15,6 +15,7 @@ class CaseSummary:
     birth_year: Optional[int]
     case_number: str
     district_attorney_number: str
+    sid: str
     citation_number: str
     location: str
     date: date_class
@@ -52,6 +53,7 @@ class OeciCase:
                 birth_year=1900,
                 case_number=case_number,
                 district_attorney_number="",
+                sid="",
                 citation_number="",
                 location="",
                 date=date_class.today(),
@@ -104,6 +106,7 @@ class CaseCreator:
         info,
         case_number,
         district_attorney_number,
+        sid,
         citation_number,
         date_location,
         type_status,
@@ -122,6 +125,7 @@ class CaseCreator:
             birth_year,
             case_number,
             district_attorney_number,
+            sid,
             citation_number,
             location,
             date,
