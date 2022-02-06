@@ -18,6 +18,7 @@ EVENTS_TO_EXCLUDE = ["", "dispositions"]
 @dataclass
 class CaseParserData:
     district_attorney_number: str
+    sid: str
     hashed_charge_data: Dict[int, Dict[str, str]]
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
@@ -29,6 +30,7 @@ class CaseParser:
     def feed(data) -> CaseParserData:
         soup = BeautifulSoup(data, "html.parser")
         district_attorney_number = CaseParser.__parse_district_attorney_number(soup)
+        sid = CaseParser.__parse_sid(soup)
         hashed_charge_data = CaseParser.__build_charge_table_data(soup)
         (
             hashed_dispo_data,
@@ -39,7 +41,9 @@ class CaseParser:
             probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
-        return CaseParserData(district_attorney_number, hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked)
+        return CaseParserData(
+            district_attorney_number, sid, hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked
+        )
 
     @staticmethod
     def __parse_district_attorney_number(soup) -> str:
@@ -47,7 +51,27 @@ class CaseParser:
         labels = soup.find_all("th", "ssTableHeaderLabel", limit=10)
         table = {tag.string: tag.parent.find("td").string for tag in labels}
         return table.get(DISTRICT_ATTORNEY_KEY, "")
-    
+
+    @staticmethod
+    def __parse_sid(soup) -> str:
+        sid = CaseParser.__attempt_parse_sid(soup)
+        if sid and isinstance(sid, str) and re.match("^[\w-]+$", sid):
+            return sid
+        else:
+            return ""
+
+    @staticmethod
+    def __attempt_parse_sid(soup) -> str:
+        try:
+            party_information = soup.find("div", class_=SECTION_TITLE_CLASS, string="Party Information")
+            for information_section in party_information.parent.next_siblings:
+                sid_text = information_section.find(text=re.compile("SID"))
+                if sid_text:
+                    return sid_text.parent.next_sibling
+            return ""
+        except Exception:
+            return ""
+
     @staticmethod
     def __build_charge_table_data(soup) -> Dict[int, Dict[str, str]]:
         hashed_charge_data = {}

@@ -78,11 +78,12 @@ class FormFilling:
         zip_name = "expungement_packet.zip"
         zip_path = path.join(zip_dir, zip_name)
         zipfile = ZipFile(zip_path, "w")
+        sid = FormFilling._unify_sids(record_summary)
         for case in record_summary.record.cases:
             case_without_deleted_charges = replace(
                 case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
-            pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
+            pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information, sid)
             if pdf_with_warnings:
                 pdf, internal_file_name, warnings = pdf_with_warnings
                 file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}"
@@ -114,6 +115,16 @@ class FormFilling:
         return zip_path, zip_name
 
     @staticmethod
+    def _unify_sids(record_summary: RecordSummary) -> str:
+        """
+        We just take the first non-empty SID for now.
+        """
+        for case in record_summary.record.cases:
+            if case.summary.sid:
+                return case.summary.sid
+        return ""
+
+    @staticmethod
     def _build_certificate_of_mailing_pdf(user_information: Dict[str, str]) -> PdfReader:
         form = from_dict(data_class=CertificateFormData, data=user_information)
         pdf_path = path.join(Path(__file__).parent, "files", f"certificate_of_mailing.pdf")
@@ -142,7 +153,9 @@ class FormFilling:
             writer.addpages(blank_pdf.pages)
 
     @staticmethod
-    def _build_pdf_for_case(case: Case, user_information: Dict[str, str]) -> Optional[Tuple[PdfReader, str, List[str]]]:
+    def _build_pdf_for_case(
+        case: Case, user_information: Dict[str, str], sid: str
+    ) -> Optional[Tuple[PdfReader, str, List[str]]]:
         eligible_charges, ineligible_charges = Case.partition_by_eligibility(case.charges)
         in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
@@ -152,7 +165,7 @@ class FormFilling:
         )
         if eligible_charges:
             pdf, file_name, warnings = FormFilling._build_pdf_for_eligible_case(
-                case, eligible_charges, user_information, case_number_with_comments
+                case, eligible_charges, user_information, case_number_with_comments, sid
             )
             if ineligible_charges:
                 warnings.insert(
@@ -165,7 +178,11 @@ class FormFilling:
 
     @staticmethod
     def _build_pdf_for_eligible_case(
-        case: Case, eligible_charges: List[Charge], user_information: Dict[str, str], case_number_with_comments: str
+        case: Case,
+        eligible_charges: List[Charge],
+        user_information: Dict[str, str],
+        case_number_with_comments: str,
+        sid: str,
     ) -> Tuple[PdfReader, str, List[str]]:
         warnings: List[str] = []
         dismissals, convictions = Case.categorize_charges(eligible_charges)
@@ -205,7 +222,7 @@ class FormFilling:
             "case_number": case_number_with_comments,
             "case_name": case.summary.name,
             "da_number": case.summary.district_attorney_number,
-            "sid": "",  # TODO: Fill in
+            "sid": sid,
             "has_conviction": "✓" if has_conviction else "",
             "has_no_complaint": "✓" if has_no_complaint else "",
             "has_dismissed": "✓" if has_dismissals else "",

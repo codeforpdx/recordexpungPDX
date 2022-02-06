@@ -7,6 +7,7 @@ class CaseSummaryFactory:
         info=["John Doe", "1990"],
         case_number="1",
         district_attorney_number="",
+        sid="",
         citation_number=None,
         date_location=["1/1/1995", "Multnomah"],
         type_status=["Offense Misdemeanor", "Closed"],
@@ -14,7 +15,15 @@ class CaseSummaryFactory:
         balance="0",
     ) -> CaseSummary:
         return CaseCreator.create(
-            info, case_number, district_attorney_number, citation_number, date_location, type_status, case_detail_link, balance
+            info,
+            case_number,
+            district_attorney_number,
+            sid,
+            citation_number,
+            date_location,
+            type_status,
+            case_detail_link,
+            balance,
         )
 
 
@@ -24,6 +33,7 @@ class CaseFactory:
         info=["John Doe", "1990"],
         case_number="1",
         district_attorney_number="",
+        sid="",
         citation_number=None,
         date_location=["1/1/1995", "Multnomah"],
         type_status=["Offense Misdemeanor", "Closed"],
@@ -32,6 +42,14 @@ class CaseFactory:
         balance="0",
     ) -> Case:
         case_summary = CaseSummaryFactory.create(
-            info, case_number, district_attorney_number, citation_number, date_location, type_status, case_detail_link, balance
+            info,
+            case_number,
+            district_attorney_number,
+            sid,
+            citation_number,
+            date_location,
+            type_status,
+            case_detail_link,
+            balance,
         )
         return Case(case_summary, tuple(charges))
