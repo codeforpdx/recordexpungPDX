@@ -266,7 +266,7 @@ def test_expunger_for_record_with_mj_over_21(record_with_mj_over_21):
     expunger_result = Expunger.run(record_with_mj_over_21)
     assert expunger_result == {
         "CASEJD1-1": TimeEligibility(
-            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2001, 3, 3)
+            status=EligibilityStatus.ELIGIBLE, reason="Eligible now", date_will_be_eligible=date(2003, 3, 3)
         )
     }
 
