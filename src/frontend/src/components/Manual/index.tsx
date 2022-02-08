@@ -467,25 +467,20 @@ class Manual extends React.Component {
               </h2>
 
               <h3 className="f4 fw7 lh-title mb2">
-                The next step is to fill out expungement paperwork, which
-                RecordSponge can do for you.
+               1. Complete expungement paperwork using RecordSponge
               </h3>
               <p className="mb3">
                 If a client has eligible charges, the Summary panel will display
-                a button to Generate Paperwork. Click on the button and you will
-                be directed to input identifying information. Inputting
-                identifying information is optional but can help save you time.
-                If a client has Future Eligible charges that you want to print
-                now, in the Search Bar, change the “Expunge Date” to the date of
-                eligibility, and redo the search. The Future Eligible charges
-                should now be Eligible Now, and RecordSponge will allow you to
-                Generate Paperwork.
+                a button to Generate Paperwork. Click the button and you will
+                be directed to input identifying information. Complete all fields. 
               </p>
               <p className="mb4">
                 After you input the information, RecordSponge will generate a
                 .zip file with PDFs of the expungement paperwork for all of the
                 charges, with one PDF file for each case that has eligible
-                charges. RecordSponge will also generate a Request form to
+                charges. 
+                </p>
+                RecordSponge will also generate a Request form to
                 Oregon State Police. You will need to complete this form
                 manually and mail a completed copy to Oregon State Police at:
                 <span className="db pt2">
@@ -528,8 +523,13 @@ class Manual extends React.Component {
               <p className="mb3">
                 Included in your expungement packet should be a form titled:
                 "Oregon State Police REQUEST FOR SET ASIDE CRIMINAL RECORD
-                CHECK." Fill out the sections titled "Other Names You are Known
-                By," "Circuit or Municipal Court," and check the box
+                CHECK." 
+                </p>
+                Fill out the sections:
+                          </p> 1. "Other Names You are Known By," and 
+                        </p> "Circuit or Municipal Court," 
+                      </p> 
+                and check the box
                 corresponding to whether you are seeking an expungement for a
                 conviction or only arresets.
               </p>
@@ -543,20 +543,15 @@ class Manual extends React.Component {
               </h3>
               <ul className="ml4 mb3">
                 <li className="mb2">
-                  You will need to file the paperwork with the courthouse in
-                  each county in which you have cases you wish to expunge.
+        You will need to file the paperwork with the courthouse in
+        each county in which you have cases you wish to expunge. File with 
+        the Clerk of court. There should be no filing fee. 
                 </li>
                 <li className="mb2">
-                  In each county in which you have at least one conviction, you
-                  will also need to bring an $80 Money Order made out to “Oregon
-                  State Police” for the fingerprint fee (even when providing
-                  your own). If you are only expunging dismissals, there is no
-                  fingerprint fee but you still need to provide fingerprints.
+        Request two copies from the Clerk. 
                 </li>
                 <li className="mb2">
-                  After filing with the Clerk of Court, you will receive two
-                  copies. Serve the District Attorney’s office with one of those
-                  copies.
+        Serve the District Attorney’s office with one of these copies. 
                 </li>
               </ul>
               <h3 className="f4 fw7 mb2">Next Steps</h3>
@@ -586,7 +581,8 @@ class Manual extends React.Component {
                   After your expungement has been processed, ensure that
                   background check companies receive notice. Expungement
                   Clearinghouse is a free service that notifies major background
-                  checking companies of your expungement.
+                  checking companies of your expungement. This is available at 
+                  https://www.continuingjustice.org/our-projects/criminal-database-update/
                 </li>
               </ul>
             </section>
