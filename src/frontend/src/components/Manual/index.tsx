@@ -467,23 +467,23 @@ class Manual extends React.Component {
               </h2>
 
               <h3 className="f4 fw7 lh-title mb2">
-               1. Complete expungement paperwork using RecordSponge
+                1. Complete expungement paperwork using RecordSponge
               </h3>
               <p className="mb3">
                 If a client has eligible charges, the Summary panel will display
-                a button to Generate Paperwork. Click the button and you will
-                be directed to input identifying information. Complete all fields. 
+                a button to Generate Paperwork. Click the button and you will be
+                directed to input identifying information. Complete all fields.
               </p>
               <p className="mb4">
                 After you input the information, RecordSponge will generate a
                 .zip file with PDFs of the expungement paperwork for all of the
                 charges, with one PDF file for each case that has eligible
-                charges. 
+                charges.
               </p>
               <p className="mb4">
-                RecordSponge will also generate a Request form to
-                Oregon State Police. You will need to complete this form
-                manually and mail a completed copy to Oregon State Police at:
+                RecordSponge will also generate a Request form to Oregon State
+                Police. You will need to complete this form manually and mail a
+                completed copy to Oregon State Police at:
                 <span className="db pt2">
                   Oregon State Police, CJIS – Unit 11
                   <br />
@@ -524,15 +524,17 @@ class Manual extends React.Component {
               <p className="mb3">
                 Included in your expungement packet should be a form titled:
                 "Oregon State Police REQUEST FOR SET ASIDE CRIMINAL RECORD
-                CHECK." 
+                CHECK."
               </p>
               <p className="mb3">
-                Fill out the sections:<br/>
-                1. "Other Names You are Known By," and<br/>
-                "Circuit or Municipal Court,"<br/>
-                and check the box
-                corresponding to whether you are seeking an expungement for a
-                conviction or only arresets.
+                Fill out the sections:
+                <br />
+                1. "Other Names You are Known By," and
+                <br />
+                "Circuit or Municipal Court,"
+                <br />
+                and check the box corresponding to whether you are seeking an
+                expungement for a conviction or only arresets.
               </p>
               <p className="mb3">
                 If you are seeking expungement of at least one conviction, you
@@ -544,15 +546,13 @@ class Manual extends React.Component {
               </h3>
               <ul className="ml4 mb3">
                 <li className="mb2">
-        You will need to file the paperwork with the courthouse in
-        each county in which you have cases you wish to expunge. File with 
-        the Clerk of court. There should be no filing fee. 
+                  You will need to file the paperwork with the courthouse in
+                  each county in which you have cases you wish to expunge. File
+                  with the Clerk of court. There should be no filing fee.
                 </li>
+                <li className="mb2">Request two copies from the Clerk.</li>
                 <li className="mb2">
-        Request two copies from the Clerk. 
-                </li>
-                <li className="mb2">
-        Serve the District Attorney’s office with one of these copies. 
+                  Serve the District Attorney’s office with one of these copies.
                 </li>
               </ul>
               <h3 className="f4 fw7 mb2">Next Steps</h3>
@@ -582,11 +582,11 @@ class Manual extends React.Component {
                   After your expungement has been processed, ensure that
                   background check companies receive notice. Expungement
                   Clearinghouse is a free service that notifies major background
-                  checking companies of your expungement. This is available at 
+                  checking companies of your expungement. This is available at{" "}
                   <a
                     href="https://www.continuingjustice.org/our-projects/criminal-database-update/"
                     className="bb hover-blue"
-                  <
+                  >
                     https://www.continuingjustice.org/our-projects/criminal-database-update/
                   </a>
                 </li>
