@@ -467,7 +467,7 @@ class Manual extends React.Component {
               </h2>
 
               <h3 className="f4 fw7 lh-title mb2">
-                1. Complete expungement paperwork using RecordSponge
+                Complete expungement paperwork using RecordSponge
               </h3>
               <p className="mb3">
                 If a client has eligible charges, the Summary panel will display
@@ -529,11 +529,11 @@ class Manual extends React.Component {
               <p className="mb3">
                 Fill out the sections:
                 <br />
-                1. "Other Names You are Known By," and
+                1. "Other Names You are Known By"
                 <br />
-                "Circuit or Municipal Court,"
+                2. "Circuit or Municipal Court"
                 <br />
-                and check the box corresponding to whether you are seeking an
+                3. Check the box corresponding to whether you are seeking an
                 expungement for a conviction or only arresets.
               </p>
               <p className="mb3">
