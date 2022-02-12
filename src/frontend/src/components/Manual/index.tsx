@@ -479,7 +479,8 @@ class Manual extends React.Component {
                 .zip file with PDFs of the expungement paperwork for all of the
                 charges, with one PDF file for each case that has eligible
                 charges. 
-                </p>
+              </p>
+              <p className="mb4">
                 RecordSponge will also generate a Request form to
                 Oregon State Police. You will need to complete this form
                 manually and mail a completed copy to Oregon State Police at:
