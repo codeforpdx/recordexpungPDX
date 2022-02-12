@@ -583,7 +583,12 @@ class Manual extends React.Component {
                   background check companies receive notice. Expungement
                   Clearinghouse is a free service that notifies major background
                   checking companies of your expungement. This is available at 
-                  https://www.continuingjustice.org/our-projects/criminal-database-update/
+                  <a
+                    href="https://www.continuingjustice.org/our-projects/criminal-database-update/"
+                    className="bb hover-blue"
+                  <
+                    https://www.continuingjustice.org/our-projects/criminal-database-update/
+                  </a>
                 </li>
               </ul>
             </section>
