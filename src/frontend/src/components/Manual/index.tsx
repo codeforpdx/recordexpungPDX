@@ -525,11 +525,11 @@ class Manual extends React.Component {
                 Included in your expungement packet should be a form titled:
                 "Oregon State Police REQUEST FOR SET ASIDE CRIMINAL RECORD
                 CHECK." 
-                </p>
-                Fill out the sections:
-                          </p> 1. "Other Names You are Known By," and 
-                        </p> "Circuit or Municipal Court," 
-                      </p> 
+              </p>
+              <p className="mb3">
+                Fill out the sections:<br/>
+                1. "Other Names You are Known By," and<br/>
+                "Circuit or Municipal Court,"<br/>
                 and check the box
                 corresponding to whether you are seeking an expungement for a
                 conviction or only arresets.
