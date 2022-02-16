@@ -296,6 +296,7 @@ class FormFilling:
             "columbia": "230 Strand St. - Columbia County Courthouse Annex - St. Helens, OR 97051",
             "coos": "Coos County District Attorney's Office - 250 N. Baxter - Coquille, Oregon 97423",
             "crook": "District Attorney - 300 NE 3rd St, Rm. 34 - Prineville, OR 97754",
+            "curry": "District Attorney - 94235 Moore Street, #232 - Gold Beach, OR 97444",
             "deschutes": "District Attorney - 1164 NW Bond St. - Bend, OR 97703",
             "douglas": "District Attorney - 1036 SE Douglas Avenue - Justice Building, Room 204 - Roseburg, OR 97470",
             "gilliam": "District Attorney - 221 S. Oregon St - PO Box 636 - Condon, OR 97823",
@@ -325,4 +326,5 @@ class FormFilling:
             "wheeler": "District Attorney - P.O. Box 512 - Fossil, OR 97830",
             "yamhill": "District Attorney - 535 NE 5th St #117 - McMinnville, OR 97128",
         }
-        return ADDRESSES[location.replace(" ", "_").lower()]
+        cleaned_location = location.replace(" ", "_").lower()
+        return ADDRESSES.get(cleaned_location, "")
