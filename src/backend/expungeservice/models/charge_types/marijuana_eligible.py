@@ -11,7 +11,11 @@ class MarijuanaEligible(ChargeType):
     type_name: str = "Marijuana Eligible"
     expungement_rules: str = """ORS 137.226 makes eligible additional marijuana-related charges - in particular, those crimes which are now considered minor felonies or below.
     One way to identify a marijuana crime is if it has the statute section 475860.
-    Also if "marijuana", "marij", or "mj" are in the charge name, we conclude it's a marijuana eligible charge (after filtering out MarijuanaIneligible charges by statute)."""
+    Also if "marijuana", "marij", or "mj" are in the charge name, we conclude it's a marijuana eligible charge (after filtering out MarijuanaIneligible charges by statute).
+    
+    We broadly reclassify marijuana eligible charges that were originally Felony Class A, Felony Class B, and Felony Unclassified charges as Felony Class C.
+    We broadly reclassify all other marijuana eligible charges as Misdemeanor Class A.
+    """
 
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
