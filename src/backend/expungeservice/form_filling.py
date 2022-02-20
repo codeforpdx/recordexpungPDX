@@ -193,15 +193,20 @@ class FormFilling:
         has_no_complaint = any([charge.no_complaint() for charge in dismissals])
         has_contempt_of_court = any([isinstance(charge.charge_type, ContemptOfCourt) for charge in eligible_charges])
 
-        # TODO: Fix MJ Eligible to be in its proper class
         has_class_b_felony = any([isinstance(charge.charge_type, FelonyClassB) for charge in convictions])
         has_class_c_felony = any(
             [
-                isinstance(charge.charge_type, FelonyClassC) or isinstance(charge.charge_type, MarijuanaEligible)
+                isinstance(charge.charge_type, FelonyClassC) or charge.charge_type.severity_level == "Felony Class C"
                 for charge in convictions
             ]
         )
-        has_class_a_misdemeanor = any([isinstance(charge.charge_type, MisdemeanorClassA) for charge in convictions])
+        has_class_a_misdemeanor = any(
+            [
+                isinstance(charge.charge_type, MisdemeanorClassA)
+                or charge.charge_type.severity_level == "Misdemeanor Class A"
+                for charge in convictions
+            ]
+        )
         has_class_bc_misdemeanor = any([isinstance(charge.charge_type, MisdemeanorClassBC) for charge in convictions])
         has_violation_or_contempt_of_court = any(
             [

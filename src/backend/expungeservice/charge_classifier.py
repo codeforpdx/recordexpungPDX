@@ -20,7 +20,7 @@ from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaEligible,
     MarijuanaUnder21,
     MarijuanaViolation,
-    MarijuanaManufactureDelivery
+    MarijuanaManufactureDelivery,
 )
 from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
@@ -117,7 +117,7 @@ class ChargeClassifier:
         statute, section, name, level, birth_year, disposition
     ) -> Iterator[AmbiguousChargeTypeWithQuestion]:
         yield ChargeClassifier._marijuana_ineligible(statute, section)
-        yield ChargeClassifier._marijuana_eligible(section, name, birth_year, disposition)
+        yield ChargeClassifier._marijuana_eligible(section, name, birth_year, disposition, level)
         yield ChargeClassifier._pcs_and_manufacture_delivery(section, name, level, statute)
         yield ChargeClassifier._sex_crime(statute)
 
@@ -143,7 +143,10 @@ class ChargeClassifier:
         if level == "felony class b" and "attempt to commit" in name:
             question_string = "Was this a drug-related charge?"
             drug_crime_question_string = "Was the underlying substance marijuana?"
-            drug_crime_options = {"Yes": MarijuanaEligible(), "No": FelonyClassB()}
+            drug_crime_options = {
+                "Yes": MarijuanaEligible(severity_level="Felony Class C"),
+                "No": FelonyClassB(),
+            }  # MJ Eligible reclassified as Felony Class C
             drug_crime_classification = ChargeClassifier._build_ambiguous_charge_type_with_question(
                 drug_crime_question_string, drug_crime_options
             )
@@ -192,13 +195,18 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([MarijuanaViolation()])
 
     @staticmethod
-    def _marijuana_eligible(section, name, birth_year, disposition):
+    def _marijuana_eligible(section, name, birth_year, disposition, level):
         if section == "475860" or "marij" in name or "mj" in name.split():
             if birth_year and disposition.status != DispositionStatus.UNKNOWN:
                 convicted_age = ceil(disposition.date.year - birth_year)
                 if convicted_age < 21:
                     return AmbiguousChargeTypeWithQuestion([MarijuanaUnder21()])
-            return AmbiguousChargeTypeWithQuestion([MarijuanaEligible()])
+            if level == "felony class a" or level == "felony class b" or level == "felony unclassified":
+                # MarijuanaEligible Felony Class C+ are reclassified as Felony Class C
+                return AmbiguousChargeTypeWithQuestion([MarijuanaEligible(severity_level="Felony Class C")])
+            else:
+                # MarijuanaEligible Felony Class C and below are reclassified as Misdemeanor Class A
+                return AmbiguousChargeTypeWithQuestion([MarijuanaEligible(severity_level="Misdemeanor Class A")])
 
     @staticmethod
     def _pcs_and_manufacture_delivery(section, name, level, statute):

@@ -10,12 +10,9 @@ from more_itertools import padnone, take
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
-from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.charge_types.juvenile_charge import JuvenileCharge
 from expungeservice.models.charge_types.marijuana_eligible import (
     MarijuanaUnder21,
     MarijuanaViolation,
-    MarijuanaEligible,
 )
 from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.violation import Violation
@@ -51,30 +48,23 @@ class Expunger:
             other_convictions_all_traffic = Expunger._is_other_convictions_all_traffic(convictions)
 
             if charge.convicted():
-                if isinstance(charge.charge_type, MarijuanaUnder21) and other_convictions_all_traffic:
-                    eligibility_dates.append(
-                        (
-                            charge.disposition.date + relativedelta(years=1),
-                            "One year from date of conviction (137.226)",
-                        )
+                charge_level = Expunger._build_charge_level(charge)
+
+                eligibility_dates.append(
+                    Expunger._single_conviction_years_by_level(charge_level, charge.disposition.date)
+                )
+
+                if most_recent_blocking_conviction:
+                    most_recent_blocking_case_summary = most_recent_blocking_conviction.case(cases).summary
+                    blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(
+                        charge_level,
+                        most_recent_blocking_conviction.disposition.date,
+                        most_recent_blocking_case_summary,
                     )
-                elif isinstance(charge.charge_type, MarijuanaEligible):
-                    eligibility_dates.append(
-                        (
-                            charge.disposition.date + relativedelta(years=5),
-                            "Conservatively reclassified as Class C Felony (137.226)",
-                        )
-                    )
-                else:
-                    eligibility_dates.append(
-                        Expunger._single_conviction_years_by_level(
-                            charge.level, charge.disposition.date, charge.charge_type
-                        )
-                    )
-            elif charge.dismissed():
+                    eligibility_dates.append(blocking_convictions_time_eligibility)
+
+            if charge.dismissed():
                 eligibility_dates.append((charge.date, "Eligible immediately (137.225(1)(d))"))
-            else:
-                raise ValueError("Charge should always convicted or dismissed at this point.")
 
             if charge.type_eligibility.status == EligibilityStatus.INELIGIBLE:
                 eligibility_dates.append((date.max(), "Never. Type ineligible charges are always time ineligible."))
@@ -95,17 +85,14 @@ class Expunger:
                     )
                 )
 
-            if charge.convicted() and most_recent_blocking_conviction:
-                relative_case_summary = most_recent_blocking_conviction.case(cases).summary
-                blocking_convictions_time_eligibility = Expunger._other_blocking_conviction_years_by_level(
-                    charge.level,
-                    most_recent_blocking_conviction.disposition.date,
-                    relative_case_summary,
-                    charge.charge_type,
-                )
-                eligibility_dates.append(blocking_convictions_time_eligibility)
-
-            if isinstance(charge.charge_type, MarijuanaViolation):
+            if (
+                charge.convicted()
+                and isinstance(charge.charge_type, MarijuanaUnder21)
+                and other_convictions_all_traffic
+            ):
+                date_will_be_eligible = charge.disposition.date + relativedelta(years=1)
+                reason = "One year from date of conviction (137.226)"
+            elif isinstance(charge.charge_type, MarijuanaViolation):
                 date_will_be_eligible = charge.disposition.date
                 reason = "Eligible immediately (475B.401)"
             else:
@@ -125,11 +112,14 @@ class Expunger:
         return ambiguous_charge_id_to_time_eligibility
 
     @staticmethod
-    def _single_conviction_years_by_level(oeci_charge_level, charge_date, charge_type):
-        if charge_type.severity_level:
-            charge_level = charge_type.severity_level
+    def _build_charge_level(charge):
+        if charge.charge_type.severity_level:
+            return charge.charge_type.severity_level
         else:
-            charge_level = oeci_charge_level
+            return charge.level  # OECI verbatim charge level
+
+    @staticmethod
+    def _single_conviction_years_by_level(charge_level, charge_date) -> Tuple[date, str]:
         if "Felony Class A" in charge_level:
             return (date.max(), "Never. Felony Class A convictions are omitted from 137.225.")
         elif "Felony Class B" in charge_level:
@@ -170,33 +160,31 @@ class Expunger:
 
     @staticmethod
     def _other_blocking_conviction_years_by_level(
-        oeci_target_charge_level, most_recent_blocking_conviction_date, relative_case_summary, charge_type
-    ):
-        if charge_type.severity_level:
-            target_charge_level = charge_type.severity_level
-        else:
-            target_charge_level = oeci_target_charge_level
-        potential = "potential " if not relative_case_summary.closed() else ""
-        case_number = relative_case_summary.case_number
-        # Skip Felony Class A because it's already covered by the self-blocking "never" rule.
-        if "Felony Class B" in target_charge_level:
+        charge_level, most_recent_blocking_conviction_date, most_recent_blocking_case_summary
+    ) -> Tuple[date, str]:
+        potential = "potential " if not most_recent_blocking_case_summary.closed() else ""
+        case_number = most_recent_blocking_case_summary.case_number
+
+        if "Felony Class A" in charge_level:
+            return (date.max(), "Never. Felony Class A convictions are omitted from 137.225.")
+        if "Felony Class B" in charge_level:
             return (
                 most_recent_blocking_conviction_date + relativedelta(years=7),
                 f"137.225(7)(b) – Seven years from most recent {potential}other conviction from case [{case_number}].",
             )
-        elif "Felony Class C" in target_charge_level:
+        elif "Felony Class C" in charge_level:
             return (
                 most_recent_blocking_conviction_date + relativedelta(years=5),
                 f"137.225(7)(b) – Five years from most recent {potential}other conviction from case [{case_number}].",
             )
-        elif "Misdemeanor Class A" in target_charge_level:
+        elif "Misdemeanor Class A" in charge_level:
             return (
                 most_recent_blocking_conviction_date + relativedelta(years=3),
                 f"137.225(7)(b) – Three years from most recent {potential}other conviction from case [{case_number}].",
             )
         elif any(
             [
-                level in target_charge_level
+                level in charge_level
                 for level in ["Misdemeanor Class B", "Misdemeanor Class C", "Violation", "Infraction"]
             ]
         ):
@@ -204,7 +192,7 @@ class Expunger:
                 most_recent_blocking_conviction_date + relativedelta(years=1),
                 f"137.225(7)(b) – One year from most recent {potential}other conviction from case [{case_number}].",
             )
-        elif "Misdemeanor" in target_charge_level:  # TODO: Is an unspecified Misdemeanor always a Class A?
+        elif "Misdemeanor" in charge_level:  # TODO: Is an unspecified Misdemeanor always a Class A?
             return (
                 most_recent_blocking_conviction_date + relativedelta(years=3),
                 f"137.225(7)(b) – Three years from most recent {potential} other conviction from case [{case_number}].",
@@ -212,7 +200,7 @@ class Expunger:
         else:
             return (
                 date.max(),
-                f'Error: unrecognized severity level in "{target_charge_level}". Edit this charge to have a valid level.',
+                f'Error: unrecognized severity level in "{charge_level}". Edit this charge to have a valid level.',
             )
 
     @staticmethod
