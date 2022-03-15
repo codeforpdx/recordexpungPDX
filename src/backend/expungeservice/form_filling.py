@@ -282,12 +282,12 @@ class FormFilling:
     def _build_font_string(field: PdfDict, field_value: str) -> Tuple[str, bool]:
         max_length = FormFilling._compute_field_max_length(field)
         needs_shrink = len(field_value) > max_length
-        font_size = 6 if needs_shrink else 8
+        font_size = 6 if needs_shrink else 10
         return f"/TimesNewRoman  {font_size} Tf 0 g", needs_shrink
 
     @staticmethod
     def _compute_field_max_length(field: PdfDict) -> int:
-        CHARACTER_WIDTH = 0.25  # Times New Roman size 8
+        CHARACTER_WIDTH = 0.3125  # Times New Roman size 10
         width = float(field.Rect[2]) - float(field.Rect[0])
         return int(width * CHARACTER_WIDTH)
 
