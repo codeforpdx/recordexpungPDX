@@ -159,7 +159,7 @@ class FormFilling:
         eligible_charges, ineligible_charges = Case.partition_by_eligibility(case.charges)
         in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
-            f"{case.summary.case_number} (in part - counts {in_part})"
+            f"{case.summary.case_number} (charges {in_part} only)"
             if ineligible_charges
             else case.summary.case_number
         )
