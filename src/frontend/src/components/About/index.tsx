@@ -61,24 +61,33 @@ export default class About extends React.Component {
             <h2 className="f3 f2-ns fw9 mb5">Our Team</h2>
             <div className="flex flex-wrap justify-between">
               <div className="mw5 mb5 mr3">
-                <img className="img w5 mb3" src="/img/mz-2x.jpg" alt="Photo of Michael Zhang" />
+                <img
+                  className="img w5 mb3"
+                  src="/img/mz-2x.jpg"
+                  alt="Photo of Michael Zhang"
+                />
                 <dl>
                   <dt className="fw8 mb2">Michael Zhang</dt>
                   <dt className="fw6 mb3">Attorney</dt>
                   <dd className="lh-copy">
-                    Michael holds a degree in mathematics from Duke University and
-                    a JD from Harvard Law School. His law practice seeks to
+                    Michael holds a degree in mathematics from Duke University
+                    and a JD from Harvard Law School. His law practice seeks to
                     radically reduce the cost of essential legal services by
                     collaborating and learning from organizers, engineers, and
                     other trades. Before opening his practice, he worked at
-                    Portland’s main public defender office. He teaches a clinical
-                    course on expungement at Portland Community College.
+                    Portland’s main public defender office. He teaches a
+                    clinical course on expungement at Portland Community
+                    College.
                   </dd>
                 </dl>
               </div>
 
               <div className="mw5 mb5 mr3">
-                <img className="img w5 mb3" src="/img/jw-2x.jpg" alt="Photo of Jordan Witte" />
+                <img
+                  className="img w5 mb3"
+                  src="/img/jw-2x.jpg"
+                  alt="Photo of Jordan Witte"
+                />
                 <dl>
                   <dt className="fw8 mb2">Jordan Witte</dt>
                   <dt className="fw6 mb3">Project manager & developer</dt>
@@ -94,48 +103,56 @@ export default class About extends React.Component {
               </div>
 
               <div className="mw5 mb5 mr3">
-                <img className="img w5 mb3" src="/img/ks-2x.jpg" alt="Photo of Kent Shikama" />
-                <dl>
-                  <dt className="fw8 mb2">Kent Shikama</dt>
-                  <dt className="fw6 mb3">Developer</dt>
-                  <dd className="lh-copy">
-                    Kent graduated Pomona College in 2017 with a degree in
-                    computer science. He has spent the last five years working on
-                    various open source coding projects. Most recently, he joined
-                    Code for PDX in October of 2019 to work on RecordSponge. He
-                    currently volunteers full-time at Code&nbsp;for&nbsp;PDX.
-                  </dd>
-                </dl>
-              </div>
-
-              <div className="mw5 mb5 mr3">
-                <img className="img w5 mb3" src="/img/ns-2x.jpg" alt="Photo of Nick Schimek" />
+                <img
+                  className="img w5 mb3"
+                  src="/img/ns-2x.jpg"
+                  alt="Photo of Nick Schimek"
+                />
                 <dl>
                   <dt className="fw8 mb2">Nick Schimek</dt>
-                  <dt className="fw6 mb3">Former project manager & developer</dt>
+                  <dt className="fw6 mb3">
+                    Former project manager & developer
+                  </dt>
                   <dd className="lh-copy">
-                    Nick graduated from Regis University with a degree in Computer
-                    Science. He met Michael in 2018 at a Code for PDX event where
-                    Michael proposed creating software for automating record
-                    expungements to help those who are underrepresented by
-                    democratizing the system. He was instantly drawn to the cause
-                    and committed himself to seeing the project to completion.
+                    Nick graduated from Regis University with a degree in
+                    Computer Science. He met Michael in 2018 at a Code for PDX
+                    event where Michael proposed creating software for
+                    automating record expungements to help those who are
+                    underrepresented by democratizing the system. He was
+                    instantly drawn to the cause and committed himself to seeing
+                    the project to completion.
                   </dd>
                 </dl>
               </div>
 
               <div className="mw5 mb5 mr3">
-                <img className="img w5 mb3" src="/img/hm-2x.jpg" alt="Photo of Hunter Marcks" />
+                <img
+                  className="img w5 mb3"
+                  src="/img/hm-2x.jpg"
+                  alt="Photo of Hunter Marcks"
+                />
                 <dl>
                   <dt className="fw8 mb2">Hunter Marcks</dt>
                   <dt className="fw6 mb3">Designer</dt>
                   <dd className="lh-copy">
-                    Hunter studied graphic design at the University of Minnesota.
-                    He joined Code for PDX in 2018 to contribute to civic
-                    technology and has primarily worked on RecordSponge. He has
-                    been working on digital products for over ten years and
-                    currently designs software at Higg.
+                    Hunter studied graphic design at the University of
+                    Minnesota. He joined Code for PDX in 2018 to contribute to
+                    civic technology and has primarily worked on RecordSponge.
+                    He has been working on digital products for over ten years
+                    and currently designs software at Higg.
                   </dd>
+                </dl>
+              </div>
+
+              <div className="mw5 mb5 mr3">
+                <img
+                  className="img w5 mb3"
+                  src="/img/ks-2x.jpg"
+                  alt="Photo of Kent Shikama"
+                />
+                <dl>
+                  <dt className="fw8 mb2">Kent Shikama</dt>
+                  <dt className="fw6 mb3">Developer</dt>
                 </dl>
               </div>
             </div>
