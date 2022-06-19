@@ -85,7 +85,7 @@ class FormFilling:
             )
 
             # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
-            if case.summary.location in ["douglas", "umatilla"]:
+            if case.summary.location.lower() in ["douglas", "umatilla"]:
                 pdf_with_warnings = OldFormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
                 if pdf_with_warnings:
                     pdf, internal_file_name, warnings = pdf_with_warnings
