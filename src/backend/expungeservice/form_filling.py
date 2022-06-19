@@ -83,6 +83,22 @@ class FormFilling:
             case_without_deleted_charges = replace(
                 case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
+
+            # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
+            if case.summary.location in ["douglas", "umatilla"]:
+                pdf_with_warnings = OldFormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
+                if pdf_with_warnings:
+                    pdf, internal_file_name, warnings = pdf_with_warnings
+                    file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}_order"
+                    file_path = path.join(temp_dir, file_name)
+                    writer = PdfWriter()
+                    writer.addpages(pdf.pages)
+                    FormFilling._add_warnings(writer, warnings)
+                    trailer = writer.trailer
+                    trailer.Root.AcroForm = pdf.Root.AcroForm
+                    writer.write(file_path, trailer=trailer)
+                    zipfile.write(file_path, file_name)
+
             pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information, sid)
             if pdf_with_warnings:
                 pdf, internal_file_name, warnings = pdf_with_warnings
@@ -159,9 +175,7 @@ class FormFilling:
         eligible_charges, ineligible_charges = Case.partition_by_eligibility(case.charges)
         in_part = ", ".join([charge.ambiguous_charge_id.split("-")[-1] for charge in eligible_charges])
         case_number_with_comments = (
-            f"{case.summary.case_number} (charge {in_part} only)"
-            if ineligible_charges
-            else case.summary.case_number
+            f"{case.summary.case_number} (charge {in_part} only)" if ineligible_charges else case.summary.case_number
         )
         if eligible_charges:
             pdf, file_name, warnings = FormFilling._build_pdf_for_eligible_case(
