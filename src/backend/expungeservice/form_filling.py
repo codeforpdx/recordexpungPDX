@@ -89,7 +89,7 @@ class FormFilling:
                 pdf_with_warnings = OldFormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
                 if pdf_with_warnings:
                     pdf, internal_file_name, warnings = pdf_with_warnings
-                    file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}_order"
+                    file_name = f"order_{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}"
                     file_path = path.join(temp_dir, file_name)
                     writer = PdfWriter()
                     writer.addpages(pdf.pages)
