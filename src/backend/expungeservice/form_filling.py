@@ -60,6 +60,15 @@ class FormData:
 
 
 @dataclass
+class FormDataWithOrder(FormData):
+    arrest_dates_all: str
+    charges_all: str
+    conviction_charges: str
+    dismissed_charges: str
+    dismissed_dates: str
+
+
+@dataclass
 class CertificateFormData:
     full_name: str
     date_of_birth: str
@@ -83,21 +92,6 @@ class FormFilling:
             case_without_deleted_charges = replace(
                 case, charges=tuple(c for c in case.charges if c.edit_status != EditStatus.DELETE)
             )
-
-            # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
-            if case.summary.location.lower() in ["douglas", "umatilla"]:
-                pdf_with_warnings = OldFormFilling._build_pdf_for_case(case_without_deleted_charges, user_information)
-                if pdf_with_warnings:
-                    pdf, internal_file_name, warnings = pdf_with_warnings
-                    file_name = f"order_{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}"
-                    file_path = path.join(temp_dir, file_name)
-                    writer = PdfWriter()
-                    writer.addpages(pdf.pages)
-                    FormFilling._add_warnings(writer, warnings)
-                    trailer = writer.trailer
-                    trailer.Root.AcroForm = pdf.Root.AcroForm
-                    writer.write(file_path, trailer=trailer)
-                    zipfile.write(file_path, file_name)
 
             pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information, sid)
             if pdf_with_warnings:
@@ -199,8 +193,14 @@ class FormFilling:
         sid: str,
     ) -> Tuple[PdfReader, str, List[str]]:
         warnings: List[str] = []
+        charges = case.charges
+        charge_names = [charge.name.title() for charge in charges]
+        arrest_dates_all = list(set([charge.date.strftime("%b %-d, %Y") for charge in charges]))
         dismissals, convictions = Case.categorize_charges(eligible_charges)
+        dismissed_names = [charge.name.title() for charge in dismissals]
         dismissed_arrest_dates = list(set([charge.date.strftime("%b %-d, %Y") for charge in dismissals]))
+        dismissed_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in dismissals]))
+        conviction_names = [charge.name.title() for charge in convictions]
         conviction_dates = list(set([charge.disposition.date.strftime("%b %-d, %Y") for charge in convictions]))
         has_conviction = len(convictions) > 0
         has_dismissals = len(dismissals) > 0
@@ -256,9 +256,15 @@ class FormFilling:
             "dismissed_arrest_dates": "; ".join(dismissed_arrest_dates),
             "arresting_agency": "",
             "da_address": da_address,
+            "arrest_dates_all": "; ".join(arrest_dates_all),
+            "charges_all": "; ".join(charge_names),
+            "conviction_charges": "; ".join(conviction_names),
+            "dismissed_charges": "; ".join(dismissed_names),
+            "dismissed_dates": "; ".join(dismissed_dates),
         }
-        form = from_dict(data_class=FormData, data=form_data_dict)
-        pdf_path = path.join(Path(__file__).parent, "files", f"oregon.pdf")
+        form = from_dict(data_class=FormDataWithOrder, data=form_data_dict)
+        location = case.summary.location.lower()
+        pdf_path = FormFilling._build_pdf_path(location, convictions)
         file_name = os.path.basename(pdf_path)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
@@ -347,3 +353,14 @@ class FormFilling:
         }
         cleaned_location = location.replace(" ", "_").lower()
         return ADDRESSES.get(cleaned_location, "")
+
+    @staticmethod
+    def _build_pdf_path(location: str, convictions: List[Charge]) -> str:
+        # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
+        if location in ["douglas", "umatilla"]:
+            if convictions:
+                return path.join(Path(__file__).parent, "files", "oregon_with_conviction_order.pdf")
+            else:
+                return path.join(Path(__file__).parent, "files", "oregon_with_arrest_order.pdf")
+        else:
+            return path.join(Path(__file__).parent, "files", "oregon.pdf")
