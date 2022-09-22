@@ -108,7 +108,7 @@ class FormFilling:
 
         # TODO: Extract to method
         pdf = FormFilling._build_certificate_of_mailing_pdf(user_information)
-        file_name = f"certificate_of_mailing.pdf"
+        file_name = f"OSP_Form.pdf"
         file_path = path.join(temp_dir, file_name)
         writer = PdfWriter()
         writer.addpages(pdf.pages)
@@ -137,7 +137,7 @@ class FormFilling:
     @staticmethod
     def _build_certificate_of_mailing_pdf(user_information: Dict[str, str]) -> PdfReader:
         form = from_dict(data_class=CertificateFormData, data=user_information)
-        pdf_path = path.join(Path(__file__).parent, "files", f"certificate_of_mailing.pdf")
+        pdf_path = path.join(Path(__file__).parent, "files", f"OSP_Form.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
