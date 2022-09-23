@@ -95,8 +95,8 @@ class FormFilling:
 
             pdf_with_warnings = FormFilling._build_pdf_for_case(case_without_deleted_charges, user_information, sid)
             if pdf_with_warnings:
-                pdf, internal_file_name, warnings = pdf_with_warnings
-                file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{internal_file_name}"
+                pdf, base_file_name, warnings = pdf_with_warnings
+                file_name = f"{case_without_deleted_charges.summary.name}_{case_without_deleted_charges.summary.case_number}_{base_file_name}"
                 file_path = path.join(temp_dir, file_name)
                 writer = PdfWriter()
                 writer.addpages(pdf.pages)
@@ -108,7 +108,7 @@ class FormFilling:
 
         # TODO: Extract to method
         pdf = FormFilling._build_certificate_of_mailing_pdf(user_information)
-        file_name = f"certificate_of_mailing.pdf"
+        file_name = f"OSP_Form.pdf"
         file_path = path.join(temp_dir, file_name)
         writer = PdfWriter()
         writer.addpages(pdf.pages)
@@ -137,7 +137,7 @@ class FormFilling:
     @staticmethod
     def _build_certificate_of_mailing_pdf(user_information: Dict[str, str]) -> PdfReader:
         form = from_dict(data_class=CertificateFormData, data=user_information)
-        pdf_path = path.join(Path(__file__).parent, "files", f"certificate_of_mailing.pdf")
+        pdf_path = path.join(Path(__file__).parent, "files", f"OSP_Form.pdf")
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
@@ -265,7 +265,8 @@ class FormFilling:
         form = from_dict(data_class=FormDataWithOrder, data=form_data_dict)
         location = case.summary.location.lower()
         pdf_path = FormFilling._build_pdf_path(location, convictions)
-        file_name = os.path.basename(pdf_path)
+        base_file_name = FormFilling._build_base_file_name(location, convictions)
+        file_name = os.path.basename(base_file_name)
         pdf = PdfReader(pdf_path)
         for field in pdf.Root.AcroForm.Fields:
             field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
@@ -364,3 +365,14 @@ class FormFilling:
                 return path.join(Path(__file__).parent, "files", "oregon_with_arrest_order.pdf")
         else:
             return path.join(Path(__file__).parent, "files", "oregon.pdf")
+
+    @staticmethod
+    def _build_base_file_name(location: str, convictions: List[Charge]) -> str:
+            # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
+            if location in ["douglas", "umatilla"]:
+                if convictions:
+                    return path.join(Path(__file__).parent, "files", f"{location}_with_conviction_order.pdf")
+                else:
+                    return path.join(Path(__file__).parent, "files", f"{location}_with_arrest_order.pdf")
+            else:
+                return path.join(Path(__file__).parent, "files", f"{location}.pdf")
