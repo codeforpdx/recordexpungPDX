@@ -18,7 +18,6 @@ from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorC
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.record_summary import RecordSummary
-from expungeservice.old_form_filling import FormFilling as OldFormFilling
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
@@ -116,11 +115,6 @@ class FormFilling:
         trailer.Root.AcroForm = pdf.Root.AcroForm
         writer.write(file_path, trailer=trailer)
         zipfile.write(file_path, file_name)
-
-        # TODO: Remove
-        old_zip_path, old_zip_name = OldFormFilling.build_zip(record_summary, user_information)
-        zipfile.write(old_zip_path, old_zip_name)
-
         zipfile.close()
         return zip_path, zip_name
 
@@ -363,16 +357,21 @@ class FormFilling:
                 return path.join(Path(__file__).parent, "files", "oregon_with_conviction_order.pdf")
             else:
                 return path.join(Path(__file__).parent, "files", "oregon_with_arrest_order.pdf")
+        elif location == "multnomah":
+            if convictions:
+                return path.join(Path(__file__).parent, "files", "multnomah_conviction.pdf")
+            else:
+                return path.join(Path(__file__).parent, "files", "multnomah_arrest.pdf")
         else:
             return path.join(Path(__file__).parent, "files", "oregon.pdf")
 
     @staticmethod
     def _build_base_file_name(location: str, convictions: List[Charge]) -> str:
-            # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
-            if location in ["douglas", "umatilla"]:
-                if convictions:
-                    return path.join(Path(__file__).parent, "files", f"{location}_with_conviction_order.pdf")
-                else:
-                    return path.join(Path(__file__).parent, "files", f"{location}_with_arrest_order.pdf")
+        # Douglas and Umatilla counties explicitly want the "Order" part of the old forms too.
+        if location in ["douglas", "umatilla"]:
+            if convictions:
+                return path.join(Path(__file__).parent, "files", f"{location}_with_conviction_order.pdf")
             else:
-                return path.join(Path(__file__).parent, "files", f"{location}.pdf")
+                return path.join(Path(__file__).parent, "files", f"{location}_with_arrest_order.pdf")
+        else:
+            return path.join(Path(__file__).parent, "files", f"{location}.pdf")
