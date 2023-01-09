@@ -1,19 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { stopDemo } from "../../../redux/search/actions";
-import history from "../../../service/history";
-import store from "../../../redux/store";
 
-interface Props {
-  stopDemo: Function;
-}
-class DemoInfo extends React.Component<Props> {
-  toOeci = () => {
-    store.dispatch(this.props.stopDemo());
-    history.push("/oeci");
-  };
-  formattedInfo = (firstName: string, lastName: string, description: string[], dateOfBirth: string) => {
+class DemoInfo extends React.Component {
+  formattedInfo = (
+    firstName: string,
+    lastName: string,
+    description: string[],
+    dateOfBirth: string
+  ) => {
     return (
       <div>
         <p className="flex lh-title mb3">
@@ -25,19 +19,19 @@ class DemoInfo extends React.Component<Props> {
             <div className="fw6">Last Name</div>
             <div>{lastName}</div>
           </div>
-          {
-            dateOfBirth && (
-              <div>
-                <div className="fw6">Date of Birth</div>
-                <div>{dateOfBirth}</div>
-              </div>
-            )
-          }
+          {dateOfBirth && (
+            <div>
+              <div className="fw6">Date of Birth</div>
+              <div>{dateOfBirth}</div>
+            </div>
+          )}
         </p>
-        {description.map((line: string) => <p className="pb2">{line}</p>)}
+        {description.map((line: string) => (
+          <p className="pb2">{line}</p>
+        ))}
       </div>
     );
-  }
+  };
 
   render() {
     const examplesData = [
@@ -45,7 +39,9 @@ class DemoInfo extends React.Component<Props> {
         name: "Single Conviction",
         firstName: "Single",
         lastName: "Conviction",
-        description: ["As a simple example, if a person's record has only a single convicted charge, it is eligible after three years."]
+        description: [
+          "As a simple example, if a person's record has only a single convicted charge, it is eligible after three years.",
+        ],
       },
       {
         name: "Multiple Charges",
@@ -53,8 +49,8 @@ class DemoInfo extends React.Component<Props> {
         lastName: "Charges",
         description: [
           "If a record has more than one case, the time restrictions quickly get more complex, as this example demonstrates. Eligibility dates depend on whether dismissals are on the same or a different case as a conviction. Searching OECI will also reveal traffic violations, which are always ineligible.",
-          "This record also includes a case with an outstanding balance due for fines, which is indicated in both the record summary and on the case itself."
-        ]
+          "This record also includes a case with an outstanding balance due for fines, which is indicated in both the record summary and on the case itself.",
+        ],
       },
       {
         name: "John Common",
@@ -62,7 +58,7 @@ class DemoInfo extends React.Component<Props> {
         lastName: "Common",
         description: [
           "Searching for a common name will often bring up records that belong to different individuals, leading to an incorrect analysis for the set of resulting cases. Another source of confusion is that each case may or may not incude a birth year, as well as middle name or initial.",
-          "It is thus always recommended to provide a birth date in the search. You can also use the Enable Editing feature to remove cases or charges from the resulting record, and these charges will be excluded in the eligibility analysis."
+          "It is thus always recommended to provide a birth date in the search. You can also use the Enable Editing feature to remove cases or charges from the resulting record, and these charges will be excluded in the eligibility analysis.",
         ],
       },
       {
@@ -70,20 +66,19 @@ class DemoInfo extends React.Component<Props> {
         firstName: "John",
         lastName: "Common",
         description: [
-          "Most charges that are eligible are also subject to the same set of time restrictions. There are some exceptions to this, notably Class B Felonies, and possession of less than an ounce of marijuana."
+          "Most charges that are eligible are also subject to the same set of time restrictions. There are some exceptions to this, notably Class B Felonies, and possession of less than an ounce of marijuana.",
         ],
-        dateOfBirth: "1/1/1970"
+        dateOfBirth: "1/1/1970",
       },
       {
         name: "John Common – Needs More Analysis",
         firstName: "John",
         lastName: "Common",
         description: [
-          "Some charges cannot be evaluated for eligibility until the user provides some follow-up information about the charge. RecordSponge deals with this ambiguity by showing the different possible outcomes for eligibility, and by asking the user for the required extra information in order to determine an exact analysis."
+          "Some charges cannot be evaluated for eligibility until the user provides some follow-up information about the charge. RecordSponge deals with this ambiguity by showing the different possible outcomes for eligibility, and by asking the user for the required extra information in order to determine an exact analysis.",
         ],
-        dateOfBirth: "2/2/1985"
+        dateOfBirth: "2/2/1985",
       },
-
     ];
     return (
       <article className="lh-copy">
@@ -117,19 +112,26 @@ class DemoInfo extends React.Component<Props> {
 
           <p className="mb4">
             Or,{" "}
-            <button className="link bb mid-gray hover-blue" onClick={this.toOeci}>
+            <Link
+              to="/oeci"
+              className="link bb mid-gray hover-blue"
+              onClick={() => window.scrollTo(0, 0)}
+            >
               log in to OECI
-            </button>
+            </Link>
             .
           </p>
           <div>
             {examplesData.map((e: any) => (
               <div>
-                <h2 className="fw9 bt b--light-gray pt2 mb3">
-                  {e.name}
-                </h2>
+                <h2 className="fw9 bt b--light-gray pt2 mb3">{e.name}</h2>
                 <div className="mw7 mb4">
-                  {this.formattedInfo(e.firstName, e.lastName, e.description, e.dateOfBirth)}
+                  {this.formattedInfo(
+                    e.firstName,
+                    e.lastName,
+                    e.description,
+                    e.dateOfBirth
+                  )}
                 </div>
               </div>
             ))}
@@ -139,4 +141,5 @@ class DemoInfo extends React.Component<Props> {
     );
   }
 }
-export default connect(() => {}, { stopDemo })(DemoInfo);
+
+export default DemoInfo;
