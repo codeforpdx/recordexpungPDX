@@ -35,6 +35,6 @@ export function isAdmin() {
 
 export function checkOeciRedirect() {
   if (!hasOeciToken()) {
-    history.push("/oeci");
+    history.replace("/oeci");
   }
 }

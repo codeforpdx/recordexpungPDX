@@ -5,7 +5,7 @@ import history from "../../service/history";
 import Footer from "../Footer";
 import Header from "../Header";
 import RecordSearch from "../RecordSearch";
-import Demo from "../RecordSearch/Demo";
+import Demo from "../Demo";
 import OeciLogin from "../OeciLogin";
 import Landing from "../Landing";
 import Manual from "../Manual";
@@ -36,7 +36,10 @@ class App extends React.Component {
           <Route component={PrivacyPolicy} path="/privacy-policy" />
           <Route component={FillForms} path="/fill-expungement-forms" />
           <Route component={PartnerInterest} path="/partner-interest" />
-          <Route component={AccessibilityStatement} path="/accessibility-statement" />
+          <Route
+            component={AccessibilityStatement}
+            path="/accessibility-statement"
+          />
           <Route component={About} path="/about" />
           <Route render={this.redirect} />
         </Switch>
