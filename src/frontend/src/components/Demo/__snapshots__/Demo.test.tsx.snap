@@ -1,0 +1,604 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<main
+  className="mw8 center f6 f5-l ph2"
+>
+  <article
+    className="lh-copy"
+  >
+    <div
+      className="bg-white shadow bl bw3 b--blue mv4 pv4 ph4 ph5-l br3"
+    >
+      <h1
+        className="f3 fw9 ma0 mb2"
+      >
+        App Demo
+      </h1>
+      <p
+        className="mw7 mb3"
+      >
+        This demo provides example records that demonstrate the complex rules of expungement and the analysis features of RecordSponge. The demo version does not search the OECI database, and thus doesn't require an OECI account to use.
+      </p>
+      <p
+        className="mw7 mb3"
+      >
+        You can also "Enable Editing" below the search panel to build and evaluate different examples. If you are looking to evaluate your own record for expungement eligibility, we urge you to contact
+         
+        <a
+          className="link bb hover-blue"
+          href="/"
+          onClick={[Function]}
+        >
+           
+          one of our partners
+           
+        </a>
+        for assistance. This software is not standalone legal advice.
+      </p>
+      <p
+        className="mb3 mw7 "
+      >
+        Try searching any of the following examples by entering them in the search panel below.
+      </p>
+      <p
+        className="mb4"
+      >
+        Or,
+         
+        <a
+          className="link bb mid-gray hover-blue"
+          href="/oeci"
+          onClick={[Function]}
+        >
+          log in to OECI
+        </a>
+        .
+      </p>
+      <div>
+        <div>
+          <h2
+            className="fw9 bt b--light-gray pt2 mb3"
+          >
+            Single Conviction
+          </h2>
+          <div
+            className="mw7 mb4"
+          >
+            <div>
+              <p
+                className="flex lh-title mb3"
+              >
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    First Name
+                  </div>
+                  <div>
+                    Single
+                  </div>
+                </div>
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    Last Name
+                  </div>
+                  <div>
+                    Conviction
+                  </div>
+                </div>
+              </p>
+              <p
+                className="pb2"
+              >
+                As a simple example, if a person's record has only a single convicted charge, it is eligible after three years.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2
+            className="fw9 bt b--light-gray pt2 mb3"
+          >
+            Multiple Charges
+          </h2>
+          <div
+            className="mw7 mb4"
+          >
+            <div>
+              <p
+                className="flex lh-title mb3"
+              >
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    First Name
+                  </div>
+                  <div>
+                    Multiple
+                  </div>
+                </div>
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    Last Name
+                  </div>
+                  <div>
+                    Charges
+                  </div>
+                </div>
+              </p>
+              <p
+                className="pb2"
+              >
+                If a record has more than one case, the time restrictions quickly get more complex, as this example demonstrates. Eligibility dates depend on whether dismissals are on the same or a different case as a conviction. Searching OECI will also reveal traffic violations, which are always ineligible.
+              </p>
+              <p
+                className="pb2"
+              >
+                This record also includes a case with an outstanding balance due for fines, which is indicated in both the record summary and on the case itself.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2
+            className="fw9 bt b--light-gray pt2 mb3"
+          >
+            John Common
+          </h2>
+          <div
+            className="mw7 mb4"
+          >
+            <div>
+              <p
+                className="flex lh-title mb3"
+              >
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    First Name
+                  </div>
+                  <div>
+                    John
+                  </div>
+                </div>
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    Last Name
+                  </div>
+                  <div>
+                    Common
+                  </div>
+                </div>
+              </p>
+              <p
+                className="pb2"
+              >
+                Searching for a common name will often bring up records that belong to different individuals, leading to an incorrect analysis for the set of resulting cases. Another source of confusion is that each case may or may not incude a birth year, as well as middle name or initial.
+              </p>
+              <p
+                className="pb2"
+              >
+                It is thus always recommended to provide a birth date in the search. You can also use the Enable Editing feature to remove cases or charges from the resulting record, and these charges will be excluded in the eligibility analysis.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2
+            className="fw9 bt b--light-gray pt2 mb3"
+          >
+            John Common – Class B Felony and Marijuana
+          </h2>
+          <div
+            className="mw7 mb4"
+          >
+            <div>
+              <p
+                className="flex lh-title mb3"
+              >
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    First Name
+                  </div>
+                  <div>
+                    John
+                  </div>
+                </div>
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    Last Name
+                  </div>
+                  <div>
+                    Common
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="fw6"
+                  >
+                    Date of Birth
+                  </div>
+                  <div>
+                    1/1/1970
+                  </div>
+                </div>
+              </p>
+              <p
+                className="pb2"
+              >
+                Most charges that are eligible are also subject to the same set of time restrictions. There are some exceptions to this, notably Class B Felonies, and possession of less than an ounce of marijuana.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2
+            className="fw9 bt b--light-gray pt2 mb3"
+          >
+            John Common – Needs More Analysis
+          </h2>
+          <div
+            className="mw7 mb4"
+          >
+            <div>
+              <p
+                className="flex lh-title mb3"
+              >
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    First Name
+                  </div>
+                  <div>
+                    John
+                  </div>
+                </div>
+                <div
+                  className="mr4"
+                >
+                  <div
+                    className="fw6"
+                  >
+                    Last Name
+                  </div>
+                  <div>
+                    Common
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="fw6"
+                  >
+                    Date of Birth
+                  </div>
+                  <div>
+                    2/2/1985
+                  </div>
+                </div>
+              </p>
+              <p
+                className="pb2"
+              >
+                Some charges cannot be evaluated for eligibility until the user provides some follow-up information about the charge. RecordSponge deals with this ambiguity by showing the different possible outcomes for eligibility, and by asking the user for the required extra information in order to determine an exact analysis.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  <h1
+    className="visually-hidden"
+  >
+    Record Search
+  </h1>
+  <section
+    className="cf mt4 mb3 pa4 bg-white shadow br3"
+  >
+    <form
+      className="mw7 center"
+      noValidate={true}
+      onSubmit={[Function]}
+    >
+      <div
+        className="flex"
+      >
+        <div
+          className="w-100 w-third-ns w-25-l mb3 pl2-r"
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="today"
+          >
+            Expunge Date
+             
+            <span
+              className="fw4 f6"
+            >
+              mm/dd/yyyy
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 "
+            id="today"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value="1/11/2023"
+          />
+        </div>
+      </div>
+      <div
+        className="flex flex-wrap items-end"
+      >
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="firstName"
+          >
+            First Name
+             
+            <span
+              className="fw4 f6"
+            >
+              
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 br-0-ns br--left-ns relative"
+            id="firstName"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="middleName"
+          >
+            Middle Name
+             
+            <span
+              className="fw4 f6"
+            >
+              (Optional)
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 br0-ns"
+            id="middleName"
+            onChange={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="lastName"
+          >
+            Last Name
+             
+            <span
+              className="fw4 f6"
+            >
+              
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 bl-0-ns br--right-ns"
+            id="lastName"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 pl2-l"
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="birthDate"
+          >
+            Date of Birth
+             
+            <span
+              className="fw4 f6"
+            >
+              mm/dd/yyyy
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 "
+            id="birthDate"
+            onChange={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="visually-hidden flex items-center pb1 mb3 ml3-ns ml0-l"
+        >
+          <span
+            className=" visually-hidden fw5 bl bw2 b--blue bg-gray-blue-2 pa2 pr3 mr2 mb2"
+          >
+            1 Result
+          </span>
+          <button
+            className="br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pa2 mb2"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-times-circle pr1"
+            />
+            Remove
+          </button>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <button
+          className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-plus-circle pr1"
+          />
+          Alias
+        </button>
+        <button
+          className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+          type="submit"
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-search pr2"
+          />
+          <span
+            className="fw7"
+          >
+            Search
+          </span>
+        </button>
+      </div>
+      <div
+        className="black-70 w-100"
+        role="alert"
+      />
+    </form>
+  </section>
+  <section />
+  <section>
+    <div
+      className="tr"
+    >
+      <button
+        className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
+        onClick={[Function]}
+      >
+        Enable Editing
+      </button>
+       
+      <a
+        className=" gray link hover-blue underline"
+        href="/manual#editing"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="fas fa-question-circle link hover-dark-blue gray"
+        />
+        <span
+          className="visually-hidden"
+        >
+          Editing Help
+        </span>
+      </a>
+    </div>
+  </section>
+  <div
+    className="bg-white shadow mb6 pa4 br3"
+  >
+    <h2
+      className="fw6 mb3"
+    >
+      Assumptions
+    </h2>
+    <p
+      className="mb3"
+    >
+      We are only able to access your public Oregon records.
+    </p>
+    <p
+      className="mb2"
+    >
+      Your analysis may be different if you have had cases which were:
+    </p>
+    <ul
+      className="lh-copy pl4 mw6 mb3"
+    >
+      <li
+        className="mb2"
+      >
+        Previously expunged
+      </li>
+      <li
+        className="mb2"
+      >
+        From States besides Oregon within the last ten years
+      </li>
+      <li
+        className="mb2"
+      >
+        From Federal Court within the last ten years
+      </li>
+      <li
+        className="mb2"
+      >
+        From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years
+      </li>
+    </ul>
+    <p>
+      <a
+        className="link hover-blue underline"
+        href="/manual#assumption1"
+        onClick={[Function]}
+      >
+        Learn more in the Manual
+      </a>
+    </p>
+  </div>
+</main>
+`;

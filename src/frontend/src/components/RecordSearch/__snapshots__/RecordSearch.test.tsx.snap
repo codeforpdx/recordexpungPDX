@@ -1,0 +1,289 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<main
+  className="mw8 center f6 f5-l ph2"
+>
+  <h1
+    className="visually-hidden"
+  >
+    Record Search
+  </h1>
+  <section
+    className="cf mt4 mb3 pa4 bg-white shadow br3"
+  >
+    <form
+      className="mw7 center"
+      noValidate={true}
+      onSubmit={[Function]}
+    >
+      <div
+        className="flex"
+      >
+        <div
+          className="w-100 w-third-ns w-25-l mb3 pl2-r"
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="today"
+          >
+            Expunge Date
+             
+            <span
+              className="fw4 f6"
+            >
+              mm/dd/yyyy
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 "
+            id="today"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value="1/11/2023"
+          />
+        </div>
+      </div>
+      <div
+        className="flex flex-wrap items-end"
+      >
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="firstName"
+          >
+            First Name
+             
+            <span
+              className="fw4 f6"
+            >
+              
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 br-0-ns br--left-ns relative"
+            id="firstName"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="middleName"
+          >
+            Middle Name
+             
+            <span
+              className="fw4 f6"
+            >
+              (Optional)
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 br0-ns"
+            id="middleName"
+            onChange={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 "
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="lastName"
+          >
+            Last Name
+             
+            <span
+              className="fw4 f6"
+            >
+              
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 bl-0-ns br--right-ns"
+            id="lastName"
+            onChange={[Function]}
+            required={true}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="w-100 w-third-ns w-25-l mb3 pl2-l"
+        >
+          <label
+            className="db mb1 fw6"
+            htmlFor="birthDate"
+          >
+            Date of Birth
+             
+            <span
+              className="fw4 f6"
+            >
+              mm/dd/yyyy
+            </span>
+          </label>
+          <input
+            aria-invalid={false}
+            className="w-100 br2 b--black-20 pa3 "
+            id="birthDate"
+            onChange={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="visually-hidden flex items-center pb1 mb3 ml3-ns ml0-l"
+        >
+          <span
+            className=" visually-hidden fw5 bl bw2 b--blue bg-gray-blue-2 pa2 pr3 mr2 mb2"
+          >
+            1 Result
+          </span>
+          <button
+            className="br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pa2 mb2"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-times-circle pr1"
+            />
+            Remove
+          </button>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <button
+          className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-plus-circle pr1"
+          />
+          Alias
+        </button>
+        <button
+          className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+          type="submit"
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-search pr2"
+          />
+          <span
+            className="fw7"
+          >
+            Search
+          </span>
+        </button>
+      </div>
+      <div
+        className="black-70 w-100"
+        role="alert"
+      />
+    </form>
+  </section>
+  <section />
+  <section>
+    <div
+      className="tr"
+    >
+      <button
+        className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
+        onClick={[Function]}
+      >
+        Enable Editing
+      </button>
+       
+      <a
+        className=" gray link hover-blue underline"
+        href="/manual#editing"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="fas fa-question-circle link hover-dark-blue gray"
+        />
+        <span
+          className="visually-hidden"
+        >
+          Editing Help
+        </span>
+      </a>
+    </div>
+  </section>
+  <div
+    className="bg-white shadow mb6 pa4 br3"
+  >
+    <h2
+      className="fw6 mb3"
+    >
+      Assumptions
+    </h2>
+    <p
+      className="mb3"
+    >
+      We are only able to access your public Oregon records.
+    </p>
+    <p
+      className="mb2"
+    >
+      Your analysis may be different if you have had cases which were:
+    </p>
+    <ul
+      className="lh-copy pl4 mw6 mb3"
+    >
+      <li
+        className="mb2"
+      >
+        Previously expunged
+      </li>
+      <li
+        className="mb2"
+      >
+        From States besides Oregon within the last ten years
+      </li>
+      <li
+        className="mb2"
+      >
+        From Federal Court within the last ten years
+      </li>
+      <li
+        className="mb2"
+      >
+        From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years
+      </li>
+    </ul>
+    <p>
+      <a
+        className="link hover-blue underline"
+        href="/manual#assumption1"
+        onClick={[Function]}
+      >
+        Learn more in the Manual
+      </a>
+    </p>
+  </div>
+</main>
+`;
