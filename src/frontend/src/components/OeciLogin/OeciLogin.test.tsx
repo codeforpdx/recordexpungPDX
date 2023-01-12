@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 
 import store from "../../redux/store";
 import OeciLogin from ".";
@@ -11,7 +11,16 @@ it("renders correctly", () => {
     .create(
       <Provider store={store}>
         <BrowserRouter>
-          <OeciLogin />
+          <OeciLogin
+            userId=""
+            password=""
+            missingUserId={false}
+            missingPassword={false}
+            expectedFailure={false}
+            expectedFailureMessage=""
+            invalidResponse={false}
+            missingInputs={false}
+          />
         </BrowserRouter>
       </Provider>
     )

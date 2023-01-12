@@ -110,6 +110,7 @@ export default class Case extends React.Component<Props, State> {
                   <a
                     href={prefix + "/api/case_detail_page/" + link_id}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="link bb hover-blue"
                   >
                     {case_number}

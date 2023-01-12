@@ -71,7 +71,7 @@ exports[`renders correctly 1`] = `
           className="mw5 mb5 mr3"
         >
           <img
-            alt="Photo of Michael Zhang"
+            alt="Michael Zhang"
             className="img w5 mb3"
             src="/img/mz-2x.jpg"
           />
@@ -97,7 +97,7 @@ exports[`renders correctly 1`] = `
           className="mw5 mb5 mr3"
         >
           <img
-            alt="Photo of Jordan Witte"
+            alt="Jordan Witte"
             className="img w5 mb3"
             src="/img/jw-2x.jpg"
           />
@@ -123,7 +123,7 @@ exports[`renders correctly 1`] = `
           className="mw5 mb5 mr3"
         >
           <img
-            alt="Photo of Nick Schimek"
+            alt="Nick Schimek"
             className="img w5 mb3"
             src="/img/ns-2x.jpg"
           />
@@ -149,7 +149,7 @@ exports[`renders correctly 1`] = `
           className="mw5 mb5 mr3"
         >
           <img
-            alt="Photo of Hunter Marcks"
+            alt="Hunter Marcks"
             className="img w5 mb3"
             src="/img/hm-2x.jpg"
           />
@@ -175,7 +175,7 @@ exports[`renders correctly 1`] = `
           className="mw5 mb5 mr3"
         >
           <img
-            alt="Photo of Kent Shikama"
+            alt="Kent Shikama"
             className="img w5 mb3"
             src="/img/ks-2x.jpg"
           />

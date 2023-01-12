@@ -1,5 +1,4 @@
 import React from "react";
-import { HashLink as Link } from "react-router-hash-link";
 
 class AccessibilityStatement extends React.Component {
 

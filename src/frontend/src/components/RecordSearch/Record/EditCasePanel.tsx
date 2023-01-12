@@ -169,7 +169,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
   };
 
   validateForm = () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve: (value?: unknown) => void) => {
       this.setState(
         {
           missingStatus: this.state.current_status.length === 0,

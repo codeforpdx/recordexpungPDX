@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 
 import store from "../../redux/store";
 import PartnerInterest from ".";
@@ -11,7 +11,7 @@ it("renders correctly", () => {
     .create(
       <Provider store={store}>
         <BrowserRouter>
-          <PartnerInterest />
+          <PartnerInterest email="" invalidEmail={false} />
         </BrowserRouter>
       </Provider>
     )

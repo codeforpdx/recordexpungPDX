@@ -64,7 +64,7 @@ export default class About extends React.Component {
                 <img
                   className="img w5 mb3"
                   src="/img/mz-2x.jpg"
-                  alt="Photo of Michael Zhang"
+                  alt="Michael Zhang"
                 />
                 <dl>
                   <dt className="fw8 mb2">Michael Zhang</dt>
@@ -86,7 +86,7 @@ export default class About extends React.Component {
                 <img
                   className="img w5 mb3"
                   src="/img/jw-2x.jpg"
-                  alt="Photo of Jordan Witte"
+                  alt="Jordan Witte"
                 />
                 <dl>
                   <dt className="fw8 mb2">Jordan Witte</dt>
@@ -106,7 +106,7 @@ export default class About extends React.Component {
                 <img
                   className="img w5 mb3"
                   src="/img/ns-2x.jpg"
-                  alt="Photo of Nick Schimek"
+                  alt="Nick Schimek"
                 />
                 <dl>
                   <dt className="fw8 mb2">Nick Schimek</dt>
@@ -129,7 +129,7 @@ export default class About extends React.Component {
                 <img
                   className="img w5 mb3"
                   src="/img/hm-2x.jpg"
-                  alt="Photo of Hunter Marcks"
+                  alt="Hunter Marcks"
                 />
                 <dl>
                   <dt className="fw8 mb2">Hunter Marcks</dt>
@@ -148,7 +148,7 @@ export default class About extends React.Component {
                 <img
                   className="img w5 mb3"
                   src="/img/ks-2x.jpg"
-                  alt="Photo of Kent Shikama"
+                  alt="Kent Shikama"
                 />
                 <dl>
                   <dt className="fw8 mb2">Kent Shikama</dt>

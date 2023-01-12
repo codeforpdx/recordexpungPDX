@@ -110,11 +110,7 @@ class PartnerTable extends React.Component<{}, any> {
         name: "Signs of Hope",
         area: "Medford",
         instructions: "Contact",
-        contacts: [
-          "Sarah Kolb",
-          "hope@janekolb.com",
-          "541-821-5577",
-        ],
+        contacts: ["Sarah Kolb", "hope@janekolb.com", "541-821-5577"],
         website: "https://www.janekolb.com",
       },
       {
@@ -152,7 +148,7 @@ class PartnerTable extends React.Component<{}, any> {
     };
 
     partners = partnerData.map((partner, index) => (
-      <li className="bt bw2 b--lightest-blue1">
+      <li key={index} className="bt bw2 b--lightest-blue1">
         <Disclosure
           open={index === this.state.active}
           id={index}
@@ -162,7 +158,7 @@ class PartnerTable extends React.Component<{}, any> {
             <span className="w-70 db pr3 mb2 mb0-ns">{partner.name}</span>
             <span className="w-30 pr3">{partner.area}</span>
             <span className="absolute top-0 right-0 pt3 ph3">
-              {index == this.state.active ? (
+              {index === this.state.active ? (
                 <span aria-hidden="true" className="fas fa-angle-up"></span>
               ) : (
                 <span aria-hidden="true" className="fas fa-angle-down"></span>
@@ -173,7 +169,7 @@ class PartnerTable extends React.Component<{}, any> {
             <div className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3">
               <ul className="list mb2">
                 {partner.details.map((detail, index) => (
-                  <li className="flex-ns mb3">
+                  <li key={index} className="flex-ns mb3">
                     <span className="w10rem db fw6 mr3">{detail[0]}</span>
                     <span>{detail[1]}</span>
                   </li>
@@ -190,7 +186,9 @@ class PartnerTable extends React.Component<{}, any> {
               <p className="fw6 mb3">{partner.instructions}</p>
               <ul className="list mb3">
                 {partner.contacts.map((contact, index) => (
-                  <li className="mb3">{contact}</li>
+                  <li key={index} className="mb3">
+                    {contact}
+                  </li>
                 ))}
               </ul>
               <a href={partner.website} className="link hover-blue bb">
@@ -208,15 +206,15 @@ class PartnerTable extends React.Component<{}, any> {
           <h3 className="f3 fw9 pv4 ph3">Partners</h3>
           <svg
             className="mr3"
-            style={{width: "55px", height: "40px"}}
+            style={{ width: "55px", height: "40px" }}
             aria-hidden="true"
             viewBox="0 0 110 80"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M6.56 78.42L1.88 68.04l4.68-15.85L8.58 27.7 12.48.82h7.3l6.14 3 1.59 8.74 8.81 1.77 7.86-1.77 7.85 1.77 3.78-3.54h8.03l4.98-2.23 7.44-1.8h25.76l6.56 5.8-3.77 12.87-5.72 11.1 4.19 3.09-1.26 6.43v32.37H6.56z"
               fill="#D0E1F7"
             />

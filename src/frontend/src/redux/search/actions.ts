@@ -178,7 +178,7 @@ export function editCase(
   };
 }
 
-export function deleteCase(case_number: string) {
+export function deleteCase(case_number: string): any {
   return (dispatch: Dispatch) => {
     dispatch({
       type: DELETE_CASE,
@@ -188,7 +188,7 @@ export function deleteCase(case_number: string) {
   };
 }
 
-export function undoEditCase(case_number: string) {
+export function undoEditCase(case_number: string): any {
   return (dispatch: Dispatch) => {
     dispatch({
       type: UNDO_EDIT_CASE,
@@ -229,8 +229,11 @@ export function editCharge(
   };
 }
 
-export function deleteCharge(case_number: string, ambiguous_charge_id: string) {
-  return (dispatch: Dispatch) => {
+export function deleteCharge(
+  case_number: string,
+  ambiguous_charge_id: string
+): any {
+  return (dispatch: Dispatch): any => {
     dispatch({
       type: DELETE_CHARGE,
       case_number,
@@ -243,8 +246,8 @@ export function deleteCharge(case_number: string, ambiguous_charge_id: string) {
 export function undoEditCharge(
   case_number: string,
   ambiguous_charge_id: string
-) {
-  return (dispatch: Dispatch) => {
+): any {
+  return (dispatch: Dispatch): any => {
     dispatch({
       type: UNDO_EDIT_CHARGE,
       case_number,

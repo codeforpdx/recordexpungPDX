@@ -76,7 +76,7 @@ export function buildRule(rules: any) {
         </div>
       );
     });
-  } else if (rules[0] == "ul") {
+  } else if (rules[0] === "ul") {
     return (
       <ul className="ml3 mb2">
         {rules[1].map((element: any) => {
