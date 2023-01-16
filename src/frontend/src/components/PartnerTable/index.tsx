@@ -201,7 +201,7 @@ class PartnerTable extends React.Component<{}, any> {
     ));
 
     return (
-      <div className="ba bw3 br3 b--lightest-blue1 bg-white mb4">
+      <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
         <div className="flex items-center justify-between">
           <h3 className="f3 fw9 pv4 ph3">Partners</h3>
           <svg
