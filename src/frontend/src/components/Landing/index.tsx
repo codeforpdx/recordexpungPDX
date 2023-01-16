@@ -62,50 +62,6 @@ class Landing extends React.Component {
                   </p>
                 </div>
                 <PartnerTable />
-
-                <Disclosure>
-                  <div className="bg-white br3 bl bw3 b--red pa4 mb6">
-                    <DisclosureButton>
-                      <span className="navy fw7 hover-dark-blue">
-                        Emergency Update: Protests Against Police Violence
-                        <span className="nowrap fw4 hover-dark-blue pl3">
-                          Learn More
-                        </span>
-                      </span>
-                    </DisclosureButton>
-                    <DisclosurePanel>
-                      <p className="lh-copy pt3">
-                        Due to ongoing events our partner Qiu-Qiu Law is making
-                        all expungement help free to any protesters arrested
-                        during this fight. Anyone can register directly to{" "}
-                        <a
-                          href="https://www.qiu-qiulaw.com/register"
-                          className="link hover-dark-blue bb"
-                        >
-                          see if you qualify for expungement here
-                        </a>{" "}
-                        and a lawyer will return your inquiry within 48 hours.
-                      </p>
-                      <p className="lh-copy pt3">
-                        For other communication (to learn more, help out, etc.)
-                        you can also contact:
-                      </p>
-                      <ul className="ml4 mt2">
-                        <li className="mb2">
-                          Michael Zhang, expungement attorney at Qiu-Qiu Law:{" "}
-                          <span className="nowrap">michael@qiu-qiulaw.com</span>
-                        </li>
-                        <li>
-                          Jordan Witte, project manager at Code for PDX:{" "}
-                          <span className="nowrap">
-                            jordan.witte@codeforpdx.org
-                          </span>
-                        </li>
-                      </ul>
-                    </DisclosurePanel>
-                  </div>
-                </Disclosure>
-
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc fw7 white mw7 mh4">
                   Over 5,600 analyses delivered as of January 2022
