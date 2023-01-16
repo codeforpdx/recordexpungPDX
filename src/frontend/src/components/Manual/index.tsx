@@ -1,10 +1,5 @@
 import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@reach/disclosure";
 import EditingGuide from "./EditingGuide";
 
 class Manual extends React.Component {

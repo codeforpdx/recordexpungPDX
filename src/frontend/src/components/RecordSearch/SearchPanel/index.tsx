@@ -49,7 +49,7 @@ class SearchPanel extends React.Component<Props, State> {
   };
 
   validateForm = () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve: (value?: unknown) => void) => {
       let missingInputs: boolean = false;
       let invalidFirstNameWildcard: boolean = false;
       let invalidLastNameWildcard: boolean = false;

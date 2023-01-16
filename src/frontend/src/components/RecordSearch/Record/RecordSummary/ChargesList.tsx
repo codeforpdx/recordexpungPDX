@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 interface Props {
   eligibleChargesByDate: { [label: string]: any[] };
@@ -12,12 +11,18 @@ export default class ChargesList extends React.Component<Props> {
     const summarizedCharges = Object.entries(
       this.props.eligibleChargesByDate
     ).map(
-      ([eligibilityDate, casesWithHeaderAndChargesNames]: [string, any[]]) => {
+      (
+        [eligibilityDate, casesWithHeaderAndChargesNames]: [string, any[]],
+        summaryIdx
+      ) => {
         const numCharges = casesWithHeaderAndChargesNames.reduce(
           (acc: number, entry: any) => acc + entry[1].length,
           0
         );
-        const listItems = this.buildListItems(casesWithHeaderAndChargesNames);
+        const listItems = this.buildListItems(
+          casesWithHeaderAndChargesNames,
+          summaryIdx
+        );
         const categoryHeader = this.buildCategoryHeader(
           eligibilityDate,
           numCharges
@@ -45,13 +50,16 @@ export default class ChargesList extends React.Component<Props> {
     );
   }
 
-  buildListItems(casesWithHeaderAndChargesNames: any[]) {
-    return casesWithHeaderAndChargesNames.map((entry) => {
+  buildListItems(casesWithHeaderAndChargesNames: any[], summaryIdx: number) {
+    return casesWithHeaderAndChargesNames.map((entry, groupIdx) => {
       const [caseHeaderWithBalance, chargesNames] = entry;
       const listItemsInCase = chargesNames.map(
         ([id, chargeName]: [string, string], index: number) => {
           return (
-            <li key={"chargeItem" + index} className="f6 bb b--light-gray pv2">
+            <li
+              key={"chargeItem" + summaryIdx + "-" + groupIdx + "-" + index}
+              className="f6 bb b--light-gray pv2"
+            >
               <a
                 href={"#" + id}
                 className={
@@ -64,19 +72,12 @@ export default class ChargesList extends React.Component<Props> {
           );
         }
       );
-      if ( caseHeaderWithBalance ) {
-        return (
-          <>
-            <li className="fw7 pt2">{caseHeaderWithBalance}</li>
-            {listItemsInCase}
-          </>
+      if (caseHeaderWithBalance) {
+        return [<li className="fw7 pt2">{caseHeaderWithBalance}</li>].concat(
+          listItemsInCase
         );
       } else {
-        return (
-          <>
-            {listItemsInCase}
-          </>
-        );
+        return listItemsInCase;
       }
     });
   }

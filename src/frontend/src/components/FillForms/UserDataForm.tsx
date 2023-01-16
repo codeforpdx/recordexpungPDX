@@ -73,7 +73,7 @@ class UserDataForm extends React.Component<Props, State> {
       this.state.phoneNumber
     );
     const zipCodeMatch = this.zipCodePattern.exec(this.state.zipCode);
-    return new Promise((resolve) => {
+    return new Promise((resolve: (value?: unknown) => void) => {
       this.setState<any>(
         {
           invalidZipCode: this.state.zipCode.length > 0 && !zipCodeMatch,

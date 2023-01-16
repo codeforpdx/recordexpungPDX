@@ -121,7 +121,7 @@ function clearAnswersForCaseOrCharge(
   );
 
   if (questions) {
-    Object.keys(questions).map((key: string) => {
+    Object.keys(questions).forEach((key: string) => {
       if (case_number === questions[key].case_number) {
         clearSelection(questions[key].root);
       }
@@ -249,11 +249,17 @@ export function searchReducer(
         edits[action.case_number]["charges"] &&
         Object.entries(edits[action.case_number]["charges"])
           .filter((entry: [string, any]) => !entry[1]["edit_status"])
-          .reduce((res: any, entry) => ((res[entry[0]] = entry[1]), res), {});
+          .reduce((res: any, entry) => {
+            res[entry[0]] = entry[1];
+            return res;
+          }, {});
 
       const filtered_edits = Object.keys(edits)
         .filter((key) => action.case_number !== key)
-        .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
+        .reduce((res: any, key) => {
+          res[key] = edits[key];
+          return res;
+        }, {});
       if (editsFromQuestions && Object.keys(editsFromQuestions).length > 0) {
         filtered_edits[action.case_number] = {
           summary: { edit_status: "UNCHANGED" },
@@ -336,7 +342,10 @@ export function searchReducer(
           /*Undoing the only deleted charge on a deleted case means undo the entire delete action on the case.*/
           edits = Object.keys(edits)
             .filter((key) => action.case_number !== key)
-            .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
+            .reduce((res: any, key) => {
+              res[key] = edits[key];
+              return res;
+            }, {});
         } else {
           /*If the case was deleted, but we are undoing the delete on one charge,
             and the case has other charges, they should remain deleted. That means we
@@ -344,12 +353,10 @@ export function searchReducer(
             */
           const delete_charge_edits = ambiguous_charge_ids_on_case
             .filter((val: string) => val !== action.ambiguous_charge_id)
-            .reduce(
-              (res: any, key: string) => (
-                (res[key] = { edit_status: "DELETE" }), res
-              ),
-              {}
-            );
+            .reduce((res: any, key: string) => {
+              res[key] = { edit_status: "DELETE" };
+              return res;
+            }, {});
           edits[action.case_number]["summary"]["edit_status"] = "UPDATE";
           edits[action.case_number]["charges"] = delete_charge_edits;
         }
@@ -366,19 +373,20 @@ export function searchReducer(
         ) {
           edits = Object.keys(edits)
             .filter((key) => action.case_number !== key)
-            .reduce((res: any, key) => ((res[key] = edits[key]), res), {});
+            .reduce((res: any, key) => {
+              res[key] = edits[key];
+              return res;
+            }, {});
         } else {
           /* otherwise just remove the charge edit and leave the rest intact.*/
           const filtered_charge_edits = Object.keys(
             edits[action.case_number]["charges"]
           )
             .filter((key) => key !== action.ambiguous_charge_id)
-            .reduce(
-              (res: any, key) => (
-                (res[key] = edits[action.case_number]["charges"][key]), res
-              ),
-              {}
-            );
+            .reduce((res: any, key) => {
+              res[key] = edits[action.case_number]["charges"][key];
+              return res;
+            }, {});
           edits[action.case_number]["charges"] = filtered_charge_edits;
         }
       }

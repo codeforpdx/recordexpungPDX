@@ -26,8 +26,10 @@ class DemoInfo extends React.Component {
             </div>
           )}
         </p>
-        {description.map((line: string) => (
-          <p className="pb2">{line}</p>
+        {description.map((line: string, idx: number) => (
+          <p key={idx} className="pb2">
+            {line}
+          </p>
         ))}
       </div>
     );
@@ -122,8 +124,8 @@ class DemoInfo extends React.Component {
             .
           </p>
           <div>
-            {examplesData.map((e: any) => (
-              <div>
+            {examplesData.map((e: any, idx: number) => (
+              <div key={idx}>
                 <h2 className="fw9 bt b--light-gray pt2 mb3">{e.name}</h2>
                 <div className="mw7 mb4">
                   {this.formattedInfo(

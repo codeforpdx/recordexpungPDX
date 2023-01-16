@@ -1,7 +1,5 @@
 import React from "react";
 import axios, {
-  AxiosPromise,
-  AxiosRequestConfig,
   AxiosResponse,
   AxiosError,
 } from "axios";

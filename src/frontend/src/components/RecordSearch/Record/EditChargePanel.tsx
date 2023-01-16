@@ -6,7 +6,7 @@ import {
   CHARGE_TYPES,
   CHARGE_TYPES_CONVICTED_ONLY,
   CHARGE_TYPES_DISMISSED_ONLY,
-  SEVERITY_LEVELS
+  SEVERITY_LEVELS,
 } from "./types";
 import InvalidInputs from "../../InvalidInputs";
 import { editCharge, deleteCharge } from "../../../redux/search/actions";
@@ -192,7 +192,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
   };
 
   validateForm = () => {
-    return new Promise((resolve) => {
+    return new Promise((resolve: (value?: unknown) => void) => {
       this.setState(
         {
           missingDisposition: this.state.disposition_status === "",
@@ -367,10 +367,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
 
               <div className="relative mb3">
                 <select
-                  id={
-                    this.props.charge.ambiguous_charge_id +
-                    "-select-level"
-                  }
+                  id={this.props.charge.ambiguous_charge_id + "-select-level"}
                   value={this.state.level}
                   name="level"
                   onChange={this.handleChange}
@@ -380,10 +377,7 @@ export default class EditChargePanel extends React.Component<Props, State> {
                 >
                   <option value="">Select...</option>
                   {SEVERITY_LEVELS.map((level, i) => (
-                    <option
-                      value={level}
-                      key={i}
-                    >
+                    <option value={level} key={i}>
                       {level}
                     </option>
                   ))}
