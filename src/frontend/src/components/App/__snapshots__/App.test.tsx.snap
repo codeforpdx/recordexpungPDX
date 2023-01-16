@@ -137,7 +137,7 @@ Array [
             </p>
           </div>
           <div
-            className="ba bw3 br3 b--lightest-blue1 bg-white mb4"
+            className="ba bw3 br3 b--lightest-blue1 bg-white mb6"
           >
             <div
               className="flex items-center justify-between"
