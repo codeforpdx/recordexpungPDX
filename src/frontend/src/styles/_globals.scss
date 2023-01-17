@@ -1,5 +1,6 @@
 $gray-blue: #fafafe;
 $gray-blue-2: #f1f3f7;
+$gray-blue-3: #e6e9ef;
 $green: #007b4b;
 $washed-green: #e5f1ed;
 $blue: #2b74d2;
@@ -79,6 +80,10 @@ $washed-red: #f0e0e8;
   background-color: $gray-blue-2;
 }
 
+.bg-gray-blue-3 {
+  background-color: $gray-blue-3;
+}
+
 :focus,
 .link:focus {
   outline-color: $blue;
@@ -118,7 +123,7 @@ fieldset {
 .diamond {
   width: 55px;
   height: 55px;
-  box-shadow: 0 6px 12px -4px #3683E4;
+  box-shadow: 0 6px 12px -4px #3683e4;
 }
 
 // Case header widths
@@ -286,7 +291,7 @@ fieldset {
 }
 
 .connect:before,
-.connect:after, {
+.connect:after {
   content: " ";
   position: absolute;
   transform: translate(-50%);

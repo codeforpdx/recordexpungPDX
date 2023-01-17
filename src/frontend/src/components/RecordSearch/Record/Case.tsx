@@ -99,7 +99,7 @@ export default class Case extends React.Component<Props, State> {
     return (
       <div
         id={this.props.customElementId || case_number}
-        className="f6 f5-l bg-gray-blue-2 shadow br3 pa1 mb4"
+        className="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
       >
         <div className="cf relative pv2 pr5 pr6-ns">
           {this.props.editing ? null : (
