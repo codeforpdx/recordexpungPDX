@@ -696,9 +696,8 @@ exports[`renders correctly 1`] = `
           <button
             aria-controls="panel--disclosure"
             aria-expanded={false}
-            data-reach-disclosure-button=""
-            data-state="collapsed"
             onClick={[Function]}
+            onKeyDown={[Function]}
           >
             <span
               className="flex items-center fw6 mid-gray link hover-blue pb1"
@@ -706,14 +705,12 @@ exports[`renders correctly 1`] = `
               Editing Guide
               <span
                 aria-hidden="true"
-                className="fas fa-angle-down pt1 pl1"
+                className="pt1 pl1 fas fa-angle-down"
               />
             </span>
           </button>
           <div
             className="pt3"
-            data-reach-disclosure-panel=""
-            data-state="collapsed"
             hidden={true}
             id="panel--disclosure"
           >
