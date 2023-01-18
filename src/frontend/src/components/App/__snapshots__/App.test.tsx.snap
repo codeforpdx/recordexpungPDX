@@ -248,7 +248,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--0"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -391,7 +390,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--1"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -534,7 +532,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--2"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -629,9 +626,7 @@ Array [
                     >
                       <li
                         className="mb3"
-                      >
-                        
-                      </li>
+                      />
                     </ul>
                     <a
                       className="link hover-blue bb"
@@ -677,7 +672,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--3"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -820,7 +814,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--4"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -963,7 +956,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--5"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -1106,7 +1098,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--6"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -1259,7 +1250,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--7"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
@@ -1402,7 +1392,6 @@ Array [
                   data-state="collapsed"
                   hidden={true}
                   id="panel--8"
-                  tabIndex={-1}
                 >
                   <div
                     className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"

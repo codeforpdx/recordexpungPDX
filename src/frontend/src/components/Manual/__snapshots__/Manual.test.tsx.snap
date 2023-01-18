@@ -694,7 +694,7 @@ exports[`renders correctly 1`] = `
             RecordSponge allows in-line editing of search results to correct any errors or missing information. This is an advanced feature.
           </p>
           <button
-            aria-controls="panel--1"
+            aria-controls="panel--disclosure"
             aria-expanded={false}
             data-reach-disclosure-button=""
             data-state="collapsed"
@@ -715,8 +715,7 @@ exports[`renders correctly 1`] = `
             data-reach-disclosure-panel=""
             data-state="collapsed"
             hidden={true}
-            id="panel--1"
-            tabIndex={-1}
+            id="panel--disclosure"
           >
             <h3
               className="f4 fw7 mb2"
@@ -946,7 +945,6 @@ exports[`renders correctly 1`] = `
                       Add Charge
                     </span>
                      
-                    
                   </button>
                    
                 </span>

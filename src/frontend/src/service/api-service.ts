@@ -1,10 +1,10 @@
-import axios, { AxiosPromise, AxiosRequestConfig } from "axios";
+import axios, { AxiosPromise, RawAxiosRequestConfig } from "axios";
 
-export default function apiService<T>(
+export default function apiService(
   dispatch: Function,
-  request: AxiosRequestConfig
+  request: RawAxiosRequestConfig
 ): AxiosPromise {
-  return axios.request<T>(request).catch((error) => {
+  return axios.request(request).catch((error) => {
     return Promise.reject(error);
   });
 }
