@@ -1,56 +1,30 @@
 import React from "react";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@reach/disclosure";
-
+import useDisclosure from "../../../hooks/useDisclosure";
 import { buildRule } from "../../Rules/ChargeTypeRule";
+import DisclosureIcon from "../../common/DisclosureIcon";
 
 interface Props {
   expungement_rules: string;
 }
 
-interface State {
-  open: boolean;
-}
+export default function ExpungementRules({ expungement_rules }: Props) {
+  const {
+    disclosureIsExpanded,
+    disclosureButtonProps,
+    disclosureContentProps,
+  } = useDisclosure();
 
-export default class ExpungementRules extends React.Component<Props, State> {
-  state = {
-    open: false,
-  };
-
-  render() {
-    const toggleOpen = () => {
-      this.setState({ open: !this.state.open });
-    };
-    const rules = this.props.expungement_rules;
-    return (
-      <div className="bt b--light-gray pt2 mh3 pb2">
-        <div className="">
-          <Disclosure open={this.state.open} onChange={() => toggleOpen()}>
-            <DisclosureButton>
-              <span className="flex items-center fw5 mid-gray link hover-blue pb1">
-                More Info
-                {this.state.open ? (
-                  <span
-                    aria-hidden="true"
-                    className="fas fa-angle-up pt1 pl1"
-                  ></span>
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className="fas fa-angle-down pt1 pl1"
-                  ></span>
-                )}
-              </span>
-            </DisclosureButton>
-            <DisclosurePanel className="pt2">
-              {buildRule(rules)}
-            </DisclosurePanel>
-          </Disclosure>
-        </div>
+  return (
+    <div className="bt b--light-gray pt2 mh3 pb2">
+      <button {...disclosureButtonProps}>
+        <span className="flex items-center fw5 mid-gray link hover-blue pb1">
+          More Info
+          <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
+        </span>
+      </button>
+      <div {...disclosureContentProps} className="pt2">
+        {buildRule(expungement_rules)}
       </div>
-    );
-  }
+    </div>
+  );
 }

@@ -47,3 +47,39 @@ test("the button hides the content when clicked", async () => {
   expect(screen.queryByText(/expanded/)).toBeInTheDocument();
   expect(screen.queryByText(/collapsed/)).not.toBeInTheDocument();
 });
+
+test("the button can be activated with an Enter key press", async () => {
+  const user = userEvent.setup();
+  const button = screen.getByRole("button");
+
+  button.focus();
+  await user.keyboard("{enter}");
+
+  expect(screen.queryByText(/visible/)).toBeVisible();
+  expect(screen.queryByText(/expanded/)).toBeInTheDocument();
+  expect(screen.queryByText(/collapsed/)).not.toBeInTheDocument();
+});
+
+test("the button can be activated with an Enter key press", async () => {
+  const user = userEvent.setup();
+  const button = screen.getByRole("button");
+
+  button.focus();
+  await user.keyboard(" ");
+
+  expect(screen.queryByText(/visible/)).toBeVisible();
+  expect(screen.queryByText(/expanded/)).toBeInTheDocument();
+  expect(screen.queryByText(/collapsed/)).not.toBeInTheDocument();
+});
+
+test("the button is not activated by other key presses", async () => {
+  const user = userEvent.setup();
+  const button = screen.getByRole("button");
+
+  button.focus();
+  await user.keyboard("f");
+
+  expect(screen.queryByText(/visible/)).not.toBeVisible();
+  expect(screen.queryByText(/expanded/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/collapsed/)).toBeInTheDocument();
+});

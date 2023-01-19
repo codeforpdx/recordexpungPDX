@@ -17,7 +17,7 @@ it("renders correctly", () => {
   expect(tree).toMatchSnapshot();
 });
 
-test("the editing guide can be opened", async () => {
+test("the editing guide can be opened and closed", async () => {
   const user = userEvent.setup();
 
   render(

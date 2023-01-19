@@ -6,6 +6,7 @@ import EditButton from "../RecordSearch/Record/EditButton";
 import EditedBadge from "../RecordSearch/Record/EditedBadge";
 import { createNextBlankCharge } from "../RecordSearch/Record/Case";
 import EditChargePanel from "../RecordSearch/Record/EditChargePanel";
+import DisclosureIcon from "../common/DisclosureIcon";
 
 export default function EditingGuide() {
   const {
@@ -24,12 +25,7 @@ export default function EditingGuide() {
       <button {...disclosureButtonProps}>
         <span className="flex items-center fw6 mid-gray link hover-blue pb1">
           Editing Guide
-          <span
-            aria-hidden="true"
-            className={`pt1 pl1 fas fa-angle-${
-              disclosureIsExpanded ? "up" : "down"
-            }`}
-          ></span>
+          <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
         </span>
       </button>
       <div {...disclosureContentProps} className="pt3">
