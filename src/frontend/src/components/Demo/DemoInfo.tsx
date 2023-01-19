@@ -10,7 +10,7 @@ class DemoInfo extends React.Component {
   ) => {
     return (
       <div>
-        <p className="flex lh-title mb3">
+        <div className="flex lh-title mb3">
           <div className="mr4">
             <div className="fw6">First Name</div>
             <div>{firstName}</div>
@@ -25,7 +25,7 @@ class DemoInfo extends React.Component {
               <div>{dateOfBirth}</div>
             </div>
           )}
-        </p>
+        </div>
         {description.map((line: string, idx: number) => (
           <p key={idx} className="pb2">
             {line}
