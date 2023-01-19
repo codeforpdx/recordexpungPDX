@@ -1,12 +1,9 @@
-import { useState } from "react";
+import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@reach/disclosure";
+import useAccordion, { UseAccordionSection } from "../../hooks/useAccordion";
 import currentPartners from "./currentPartners";
 import SVG from "../common/SVG";
+import DisclosureIcon from "../common/DisclosureIcon";
 
 interface Partner {
   details: string[][];
@@ -19,80 +16,65 @@ interface Partner {
 
 interface PartnerElementProps {
   partner: Partner;
-  disclosureIdx: number;
-  activeIdx: number;
-  handleChange: (idx: number) => void;
+  useAccordionSection: UseAccordionSection;
 }
 
-function PartnerElement({
-  partner,
-  disclosureIdx,
-  activeIdx,
-  handleChange,
-}: PartnerElementProps) {
+function PartnerElement({ partner, useAccordionSection }: PartnerElementProps) {
+  const { isExpanded, headerProps, panelProps } = useAccordionSection({
+    id: partner.name,
+  });
+
   return (
     <li className="bt bw2 b--lightest-blue1">
-      <Disclosure
-        open={disclosureIdx === activeIdx}
-        id={disclosureIdx}
-        onChange={() => handleChange(disclosureIdx)}
+      <button
+        {...headerProps}
+        className="flex-ns w-100 relative navy hover-blue pv3 ph3"
       >
-        <DisclosureButton className="flex-ns w-100 relative navy hover-blue pv3 ph3">
-          <span className="w-70 db pr3 mb2 mb0-ns">{partner.name}</span>
-          <span className="w-30 pr3">{partner.area}</span>
-          <span className="absolute top-0 right-0 pt3 ph3">
-            <span
-              aria-hidden="true"
-              className={`fas fa-angle-${
-                disclosureIdx === activeIdx ? "up" : "down"
-              }`}
-            ></span>
-          </span>
-        </DisclosureButton>
-        <DisclosurePanel>
-          <div className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3">
-            <ul className="list mb2">
-              {partner.details.map((detail, detailsIdx) => (
-                <li key={detailsIdx} className="flex-ns mb3">
-                  <span className="w10rem db fw6 mr3">{detail[0]}</span>
-                  <span>{detail[1]}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mw6 lh-copy mb3">
-              The majority of court fees are subject to waiver for
-              income-qualified individuals who complete the waiver form.{" "}
-              <Link className="link hover-blue bb" to="/manual#filepaperwork">
-                Learn More
-              </Link>
-            </p>
-            <hr className="bt b--black-05 mb3" />
-            <p className="fw6 mb3">{partner.instructions}</p>
-            <ul className="list mb3">
-              {partner.contacts.map((contact, contactsIdx) => (
-                <li key={contactsIdx} className="mb3">
-                  {contact}
-                </li>
-              ))}
-            </ul>
-            <a href={partner.website} className="link hover-blue bb">
-              {partner.website}
-            </a>
-          </div>
-        </DisclosurePanel>
-      </Disclosure>
+        <span className="w-70 db pr3 mb2 mb0-ns">{partner.name}</span>
+        <span className="w-30 pr3">{partner.area}</span>
+        <span className="absolute top-0 right-0 pt3 ph3">
+          <DisclosureIcon
+            disclosureIsExpanded={isExpanded}
+            className="pt0 pl0"
+          />
+        </span>
+      </button>
+
+      <div {...panelProps} className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3">
+        <ul className="list mb2">
+          {partner.details.map((detail, detailsIdx) => (
+            <li key={detailsIdx} className="flex-ns mb3">
+              <span className="w10rem db fw6 mr3">{detail[0]}</span>
+              <span>{detail[1]}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mw6 lh-copy mb3">
+          The majority of court fees are subject to waiver for income-qualified
+          individuals who complete the waiver form.{" "}
+          <Link className="link hover-blue bb" to="/manual#filepaperwork">
+            Learn More
+          </Link>
+        </p>
+        <hr className="bt b--black-05 mb3" />
+        <p className="fw6 mb3">{partner.instructions}</p>
+        <ul className="list mb3">
+          {partner.contacts.map((contact, contactsIdx) => (
+            <li key={contactsIdx} className="mb3">
+              {contact}
+            </li>
+          ))}
+        </ul>
+        <a href={partner.website} className="link hover-blue bb">
+          {partner.website}
+        </a>
+      </div>
     </li>
   );
 }
 
 export default function PartnerTable({ partners = currentPartners }) {
-  // Only one Disclosure should be opened at a particular time.
-  // activeIdx === -1 means that all Disclosures are closed
-  const [activeIdx, setActiveIdx] = useState(-1);
-
-  const toggleDiscolsure = (newIdx: number) => {
-    setActiveIdx(newIdx === activeIdx ? -1 : newIdx);
-  };
+  const { useAccordionSection } = useAccordion();
 
   return (
     <div className="ba bw3 br3 b--lightest-blue1 bg-white mb6">
@@ -106,13 +88,11 @@ export default function PartnerTable({ partners = currentPartners }) {
         />
       </div>
       <ul className="list">
-        {partners.map((partner, index) => (
+        {partners.map((partner) => (
           <PartnerElement
+            key={partner.name}
             partner={partner}
-            key={index}
-            disclosureIdx={index}
-            activeIdx={activeIdx}
-            handleChange={toggleDiscolsure}
+            useAccordionSection={useAccordionSection}
           />
         ))}
       </ul>

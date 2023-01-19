@@ -1,12 +1,18 @@
 interface Props {
   disclosureIsExpanded: boolean;
+  className?: string;
 }
 
-export default function DisclosureIcon({ disclosureIsExpanded }: Props) {
+export default function DisclosureIcon({
+  disclosureIsExpanded,
+  className = "",
+}: Props) {
   return (
     <span
       aria-hidden="true"
-      className={`pt1 pl1 fas fa-angle-${disclosureIsExpanded ? "up" : "down"}`}
+      className={`${className ? className + " " : ""}fas fa-angle-${
+        disclosureIsExpanded ? "up" : "down"
+      }`}
     ></span>
   );
 }

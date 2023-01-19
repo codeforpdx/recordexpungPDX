@@ -25,7 +25,10 @@ export default function EditingGuide() {
       <button {...disclosureButtonProps}>
         <span className="flex items-center fw6 mid-gray link hover-blue pb1">
           Editing Guide
-          <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
+          <DisclosureIcon
+            disclosureIsExpanded={disclosureIsExpanded}
+            className="pt1 pl1"
+          />
         </span>
       </button>
       <div {...disclosureContentProps} className="pt3">

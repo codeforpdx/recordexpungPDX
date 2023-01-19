@@ -1,6 +1,6 @@
 // Reference: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export interface DisclosureButtonProps {
   "aria-controls": string;
@@ -14,10 +14,17 @@ export interface DisclosureContentProps {
   hidden?: boolean;
 }
 
-export default function useDisclosure(
+interface UseDisclosureParams {
+  id?: string;
+  isOpenToStart?: boolean;
+  callback?: (id: string) => any;
+}
+
+export default function useDisclosure({
   id = "panel--disclosure",
-  isOpenToStart = false
-) {
+  isOpenToStart = false,
+  callback,
+}: UseDisclosureParams = {}) {
   const [disclosureIsExpanded, setIsExpanded] = useState(isOpenToStart);
 
   const onClick = (event: React.MouseEvent) => {
@@ -31,6 +38,12 @@ export default function useDisclosure(
       setIsExpanded(!disclosureIsExpanded);
     }
   };
+
+  useEffect(() => {
+    if (callback && disclosureIsExpanded) {
+      callback(id);
+    }
+  }, [callback, id, disclosureIsExpanded]);
 
   const disclosureButtonProps: DisclosureButtonProps = {
     "aria-controls": id,
@@ -48,5 +61,6 @@ export default function useDisclosure(
     disclosureIsExpanded,
     disclosureButtonProps,
     disclosureContentProps,
+    setIsExpanded,
   };
 }

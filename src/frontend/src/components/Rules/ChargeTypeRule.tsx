@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@reach/disclosure";
+import useDisclosure from "../../hooks/useDisclosure";
+import DisclosureIcon from "../common/DisclosureIcon";
 
 export interface TypeRuleData {
   charge_type_name: string;
@@ -20,51 +17,29 @@ interface Props {
   open: boolean;
 }
 
-interface State {
-  open: boolean;
-}
+export default function ChargeTypeRule({ open, rule }: Props) {
+  const {
+    disclosureIsExpanded,
+    disclosureButtonProps,
+    disclosureContentProps,
+  } = useDisclosure({ isOpenToStart: open });
 
-export default class ChargeTypeRule extends React.Component<Props, State> {
-  state = {
-    open: this.props.open,
-  };
-  toggleOpen = () => {
-    this.setState({ open: !this.state.open });
-  };
-
-  componentWillReceiveProps(newProps: Props) {
-    this.setState({ open: newProps.open });
-  }
-
-  render() {
-    return (
-      <div className="mb2" id={this.props.rule.charge_type_class_name}>
-        <Disclosure open={this.state.open} onChange={() => this.toggleOpen()}>
-          <DisclosureButton>
-            <span className="flex items-center tracked-tight fw5 mid-gray link hover-blue pb1">
-              {this.props.rule.charge_type_name}
-              {this.state.open ? (
-                <span
-                  aria-hidden="true"
-                  className="fas fa-angle-up pt1 pl1"
-                ></span>
-              ) : (
-                <span
-                  aria-hidden="true"
-                  className="fas fa-angle-down pt1 pl1"
-                ></span>
-              )}
-            </span>
-          </DisclosureButton>
-          <DisclosurePanel>
-            <div className="ma2 lh-copy">
-              {buildRule(this.props.rule.expungement_rules)}
-            </div>
-          </DisclosurePanel>
-        </Disclosure>
+  return (
+    <div className="mb2" id={rule.charge_type_class_name}>
+      <button {...disclosureButtonProps}>
+        <span className="flex items-center tracked-tight fw5 mid-gray link hover-blue pb1">
+          {rule.charge_type_name}
+          <DisclosureIcon
+            disclosureIsExpanded={disclosureIsExpanded}
+            className="pt1 pl1"
+          />
+        </span>
+      </button>
+      <div {...disclosureContentProps} className="ma2 lh-copy">
+        {buildRule(rule.expungement_rules)}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export function buildRule(rules: any) {
@@ -79,8 +54,12 @@ export function buildRule(rules: any) {
   } else if (rules[0] === "ul") {
     return (
       <ul className="ml3 mb2">
-        {rules[1].map((element: any) => {
-          return <li className="ml2">{element}</li>;
+        {rules[1].map((element: any, index: number) => {
+          return (
+            <li key={index} className="ml2">
+              {element}
+            </li>
+          );
         })}
       </ul>
     );

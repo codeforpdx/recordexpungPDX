@@ -19,7 +19,10 @@ export default function ExpungementRules({ expungement_rules }: Props) {
       <button {...disclosureButtonProps}>
         <span className="flex items-center fw5 mid-gray link hover-blue pb1">
           More Info
-          <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
+          <DisclosureIcon
+            disclosureIsExpanded={disclosureIsExpanded}
+            className="pt1 pl1"
+          />
         </span>
       </button>
       <div {...disclosureContentProps} className="pt2">
