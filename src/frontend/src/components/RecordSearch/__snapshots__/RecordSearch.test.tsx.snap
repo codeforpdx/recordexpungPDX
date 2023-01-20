@@ -60,9 +60,7 @@ exports[`renders correctly 1`] = `
              
             <span
               className="fw4 f6"
-            >
-              
-            </span>
+            />
           </label>
           <input
             aria-invalid={false}
@@ -110,9 +108,7 @@ exports[`renders correctly 1`] = `
              
             <span
               className="fw4 f6"
-            >
-              
-            </span>
+            />
           </label>
           <input
             aria-invalid={false}

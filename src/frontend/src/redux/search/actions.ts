@@ -61,7 +61,7 @@ function buildSearchRequest() {
 }
 
 function buildAndSendSearchRequest(dispatch: any): any {
-  return apiService<SearchResponse>(dispatch, {
+  return apiService(dispatch, {
     url: store.getState().search.demo ? "/api/demo" : "/api/search",
     data: buildSearchRequest(),
     method: "post",
@@ -84,9 +84,9 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
     responseType: "blob",
   })
     .then((response: AxiosResponse) => {
-      const filename = response.headers["content-disposition"]
-        .split("filename=")[1]
-        .split(" ")[0];
+      const filename = response.headers["content-disposition"]!.split(
+        "filename="
+      )[1].split(" ")[0];
       fileDownload(response.data, filename);
       dispatch({
         type: LOADING_PDF_COMPLETE,
@@ -289,7 +289,7 @@ export function downloadExpungementPacket(
       state,
       zipCode,
     });
-    return apiService<SearchResponse>(dispatch, {
+    return apiService(dispatch, {
       url: "/api/expungement-packet",
       data: {
         demo: store.getState().search.demo,
@@ -304,9 +304,9 @@ export function downloadExpungementPacket(
       responseType: "blob",
     })
       .then((response: AxiosResponse) => {
-        const filename = response.headers["content-disposition"]
-          .split("filename=")[1]
-          .split(" ")[0];
+        const filename = response.headers["content-disposition"]!.split(
+          "filename="
+        )[1].split(" ")[0];
         fileDownload(response.data, filename);
         dispatch({
           type: LOADING_EXPUNGEMENT_PACKET_COMPLETE,

@@ -1,11 +1,6 @@
 import React from "react";
 import PartnerTable from "../PartnerTable";
 import { Link } from "react-router-dom";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@reach/disclosure";
 
 class Landing extends React.Component {
   componentDidMount() {
