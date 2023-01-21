@@ -4,13 +4,13 @@ import currencyFormat from "../../../../service/currency-format";
 import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
-  all_counties_fines: CountyFinesData[];
+  county_fines: CountyFinesData[];
   total_fines_due: number;
 }
 
 export default class CountyFines extends React.Component<Props> {
   render() {
-    const listItems = this.props.all_counties_fines
+    const listItems = this.props.county_fines
       .filter((e: CountyFinesData) => e.total_fines_due)
       .map((county_fines: CountyFinesData, i: number) => {
         return (
