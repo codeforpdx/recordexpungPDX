@@ -1,5 +1,5 @@
 import apiService from "./api-service";
-import { hasOeciToken } from "./cookie-service";
+import { hasOeciToken, removeCookie } from "./cookie-service";
 import history from "./history";
 
 export default function oeciLogIn(username: string, password: string): any {
@@ -13,4 +13,9 @@ export default function oeciLogIn(username: string, password: string): any {
       history.push("/record-search");
     }
   });
+}
+
+export function oeciLogOut(): any {
+  removeCookie();
+  history.push("/oeci");
 }
