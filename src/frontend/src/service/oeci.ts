@@ -18,7 +18,6 @@ export default function oeciLogIn(username: string, password: string): any {
 export function oeciLogOut(): any {
   return apiService(() => {}, {
     url: "/api/oeci_logout",
-    data: {},
     method: "post",
     withCredentials: false,
   }).then((response: any) => {
