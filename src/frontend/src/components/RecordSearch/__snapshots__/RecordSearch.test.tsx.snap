@@ -12,6 +12,13 @@ exports[`renders correctly 1`] = `
   <section
     className="cf mt4 mb3 pa4 bg-white shadow br3"
   >
+    <button
+      className="fr bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb"
+      onClick={[Function]}
+      type="button"
+    >
+      Log Out
+    </button>
     <form
       className="mw7 center"
       noValidate={true}
