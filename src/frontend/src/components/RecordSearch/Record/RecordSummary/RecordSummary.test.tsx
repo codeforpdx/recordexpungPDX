@@ -46,7 +46,7 @@ it("correctly renders with the Multiple Charges demo data", () => {
   expect(tree).toMatchSnapshot();
 });
 
-describe("When rendered with the demo data", () => {
+describe("When rendered with the John Common demo data", () => {
   beforeEach(() => {
     render(
       <>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders correctly without a record 1`] = `
 <main
   className="mw8 center f6 f5-l ph2"
 >
