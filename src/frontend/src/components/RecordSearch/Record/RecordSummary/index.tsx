@@ -15,8 +15,8 @@ export default function RecordSummary({ summary }: Props) {
   const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
   const {
-    total_cases,
-    total_charges,
+    total_cases: totalCases,
+    total_charges: totalCharges,
     charges_grouped_by_eligibility_and_case: groupedCharges,
     ...fines
   } = summary;
@@ -64,11 +64,16 @@ export default function RecordSummary({ summary }: Props) {
       </div>
 
       <div className="flex-ns flex-wrap">
-        <ChargesList
-          eligibleChargesByDate={groupedCharges}
-          totalCases={total_cases}
-          totalCharges={total_charges}
-        />
+        <div className="w-100 w-two-thirds-l">
+          <h3 className="bt b--light-gray pt2 mb3">
+            <span className="fw7">Cases</span> ({totalCases})
+          </h3>
+
+          <ChargesList
+            chargesGroupedByEligibilityAndCase={groupedCharges}
+            totalCharges={totalCharges}
+          />
+        </div>
         <div className="w-100 w-33-l ph3-l mb3">
           <CountyFines {...fines} />
         </div>

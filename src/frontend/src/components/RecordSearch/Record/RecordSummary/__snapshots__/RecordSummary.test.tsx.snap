@@ -77,18 +77,10 @@ exports[`correctly renders with the John Common demo data 1`] = `
           <span
             className="fw7 mb2"
           >
-             
             Eligible Nov 28, 2025
-             
           </span>
-          <span>
-             
-            (1)
-             
-          </span>
-          <p
-            className="f6 fw5"
-          />
+           
+          (1)
         </div>
         <ul
           className="list"
@@ -114,18 +106,10 @@ exports[`correctly renders with the John Common demo data 1`] = `
           <span
             className="fw7 mb2"
           >
-             
             Eligible Now
-             
           </span>
-          <span>
-             
-            (3)
-             
-          </span>
-          <p
-            className="f6 fw5"
-          />
+           
+          (3)
         </div>
         <ul
           className="list"
@@ -171,15 +155,10 @@ exports[`correctly renders with the John Common demo data 1`] = `
           <span
             className="fw7 mb2"
           >
-             
             Needs More Analysis
-             
           </span>
-          <span>
-             
-            (1)
-             
-          </span>
+           
+          (1)
           <p
             className="f6 fw5"
           >
@@ -317,18 +296,10 @@ exports[`correctly renders with the Multiple Charges demo data 1`] = `
           <span
             className="fw7 mb2"
           >
-             
             Eligible Now
-             
           </span>
-          <span>
-             
-            (1)
-             
-          </span>
-          <p
-            className="f6 fw5"
-          />
+           
+          (1)
         </div>
         <ul
           className="list"
@@ -354,18 +325,10 @@ exports[`correctly renders with the Multiple Charges demo data 1`] = `
           <span
             className="fw7 mb2"
           >
-             
             Eligible Now If Balance Paid
-             
           </span>
-          <span>
-             
-            (2)
-             
-          </span>
-          <p
-            className="f6 fw5"
-          />
+           
+          (2)
         </div>
         <ul
           className="list"
