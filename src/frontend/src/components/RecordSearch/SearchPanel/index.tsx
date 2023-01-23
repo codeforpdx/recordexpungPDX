@@ -8,7 +8,6 @@ import InvalidInputs from "../../InvalidInputs";
 import { searchRecord } from "../../../redux/search/actions";
 import { isValidWildcard } from "./validators";
 import Field from "./Field";
-import { oeciLogOut } from "../../../service/oeci";
 
 interface Props {
   searchRecord: Function;
@@ -133,10 +132,6 @@ class SearchPanel extends React.Component<Props, State> {
     });
   };
 
-  handleLogoutClick = () => {
-    oeciLogOut()
-  }
-
   public render() {
     const aliasComponents = this.state.aliases.map((alias: AliasData, i) => {
       const separator =
@@ -162,13 +157,6 @@ class SearchPanel extends React.Component<Props, State> {
       <>
         <h1 className="visually-hidden">Record Search</h1>
         <section className="cf mt4 mb3 pa4 bg-white shadow br3">
-          <button
-              type="button"
-              onClick={this.handleLogoutClick}
-              className="fr bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb"
-            >
-            Log Out
-          </button>
           <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
             <div className="flex">
               <Field

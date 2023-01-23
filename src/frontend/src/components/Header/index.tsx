@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo";
+import { oeciLogOut } from "../../service/oeci";
 
 export default class Header extends React.Component {
-
+  handleLogoutClick = () => {
+    oeciLogOut()
+  }
+  
   public render() {
     return (
       <div className="bg-white shadow">
@@ -29,6 +33,13 @@ export default class Header extends React.Component {
             >
               Search
             </Link>
+            <button
+              type="button"
+              onClick={this.handleLogoutClick}
+              className="fr bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb"
+            >
+            Log Out
+          </button>
           </div>
         </nav>
       </div>
