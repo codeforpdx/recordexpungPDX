@@ -25,7 +25,7 @@ export default function useRadioGroup({
 }: UseRadioGroupProps) {
   const [selectedRadioValue, setSelectedRadioValue] = useState(initialValue);
   const groupLabel = label.toLowerCase();
-  const prefix = groupLabel.replaceAll(" ", "-") + "-";
+  const prefix = groupLabel.replace(/\s/g, "-") + "-";
   const groupProps = {
     dir: "ltr",
     role: "radiogroup",
