@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RecordSummaryData } from "../types";
+import { RecordData } from "../types";
 import { useAppSelector } from "../../../../redux/hooks";
 import { downloadPdf } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
@@ -11,22 +11,27 @@ import CountyFines from "./CountyFines";
 import { IconButton } from "../../../common/IconButton";
 
 interface Props {
-  summary: RecordSummaryData;
+  record: RecordData;
 }
 
-export default function RecordSummary({ summary }: Props) {
+export default function RecordSummary({ record }: Props) {
   const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
+  const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
+    label: "Summary overview sort options",
+    initialValue: "Charges",
+  });
+  const cases = record.cases;
+  const summary = record.summary;
+
+  if (!summary) return <></>;
+
   const {
     total_cases: totalCases,
     total_charges: totalCharges,
     charges_grouped_by_eligibility_and_case: groupedCharges,
     ...fines
   } = summary;
-  const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
-    label: "Summary overview sort options",
-    initialValue: "Charges",
-  });
 
   const handleGenerateFormsClick = () => {
     if (groupedCharges["Eligible Now"]?.length > 0) {
@@ -53,7 +58,7 @@ export default function RecordSummary({ summary }: Props) {
           <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
             There must be eligible charges to generate paperwork.{" "}
             <IconButton
-              iconClassName="fa-time-circle gray"
+              iconClassName="fa-circle-xmark gray"
               hiddenText="Close"
               onClick={() => {
                 setCanGenerateForms(true);
@@ -90,7 +95,7 @@ export default function RecordSummary({ summary }: Props) {
               totalCharges={totalCharges}
             />
           ) : (
-            <CasesList />
+            <CasesList cases={cases} />
           )}
         </div>
 

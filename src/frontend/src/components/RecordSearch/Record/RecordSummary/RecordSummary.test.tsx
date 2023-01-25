@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
@@ -9,11 +9,12 @@ import store from "../../../../redux/store";
 import history from "../../../../service/history";
 import johnCommonRecord from "../../../../data/demo/johnCommon";
 import multipleChargesRecord from "../../../../data/demo/multipleCharges";
+import blankRecord from "../../../../data/blankRecord";
 import RecordSummary from ".";
 
 const downloadPdfPath = "../../../../redux/search/actions";
 const mockDownloadPdf = jest.fn();
-const summary = johnCommonRecord.summary!;
+const record = johnCommonRecord;
 
 jest.mock(downloadPdfPath, () => ({
   ...jest.requireActual(downloadPdfPath),
@@ -25,7 +26,7 @@ it("correctly renders with the John Common demo data", () => {
     .create(
       <Provider store={store}>
         <MemoryRouter>
-          <RecordSummary summary={summary} />
+          <RecordSummary record={record} />
         </MemoryRouter>
       </Provider>
     )
@@ -38,12 +39,26 @@ it("correctly renders with the Multiple Charges demo data", () => {
     .create(
       <Provider store={store}>
         <MemoryRouter>
-          <RecordSummary summary={multipleChargesRecord.summary!} />
+          <RecordSummary record={multipleChargesRecord} />
         </MemoryRouter>
       </Provider>
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("correctly renders with Multiple Charges demo data and CasesList view selected", () => {
+  const { getByLabelText, asFragment } = render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <RecordSummary record={multipleChargesRecord} />
+      </MemoryRouter>
+    </Provider>
+  );
+
+  const casesRadio = getByLabelText("Cases");
+  fireEvent.click(casesRadio);
+  expect(asFragment()).toMatchSnapshot();
 });
 
 describe("When rendered with the John Common demo data", () => {
@@ -52,7 +67,7 @@ describe("When rendered with the John Common demo data", () => {
       <>
         <Provider store={store}>
           <MemoryRouter>
-            <RecordSummary summary={summary} />
+            <RecordSummary record={record} />
           </MemoryRouter>
         </Provider>
       </>
@@ -85,17 +100,10 @@ describe("When rendered with the John Common demo data", () => {
 
 describe("When rendered with empty results", () => {
   beforeEach(() => {
-    const summary = {
-      total_charges: 0,
-      charges_grouped_by_eligibility_and_case: {},
-      county_fines: [],
-      total_fines_due: 0,
-      total_cases: 0,
-    };
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <RecordSummary summary={summary} />
+          <RecordSummary record={blankRecord} />
         </MemoryRouter>
       </Provider>
     );
