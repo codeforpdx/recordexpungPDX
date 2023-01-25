@@ -1,5 +1,5 @@
 import React from "react";
-import getLabelColor from "./getLabelColor";
+import { getEligibilityColor } from "./utils";
 
 interface ChargeProps {
   id: string;
@@ -58,7 +58,7 @@ function EligibilityGroup({
   eligibility,
   headerAndCharges,
 }: EligibilityGroupProps) {
-  const labelColor = getLabelColor(eligibility);
+  const labelColor = getEligibilityColor(eligibility);
   const numCharges = headerAndCharges.reduce(
     (acc: number, aCase: any) => acc + aCase[1].length,
     0
