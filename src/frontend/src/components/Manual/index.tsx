@@ -101,14 +101,14 @@ class Manual extends React.Component {
                 General Info
               </h2>
               <p className="mb3">
-                Every State has different expungement rules.
+                Every State has different expungement rules.{" "}
                 <a
                   className="bb hover-blue"
                   href="https://olis.oregonlegislature.gov/liz/2021R1/Measures/Overview/SB397"
                 >
-                  Recent changes
+                Recent changes 
                 </a>{" "}
-                Recent changes to Oregon's expungement law make more types of
+                to Oregon's expungement law make more types of
                 criminal records eligible than ever before, and on a much faster
                 timeline. Nevertheless, the complexity of the expungement
                 statutes, ORS{" "}
