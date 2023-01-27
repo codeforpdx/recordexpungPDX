@@ -1,106 +1,117 @@
 import React from "react";
+import { getEligibilityColor } from "./utils";
 
-interface Props {
-  eligibleChargesByDate: { [label: string]: any[] };
-  totalCases: number;
+interface ChargeProps {
+  id: string;
+  name: string;
+  hasBalance: boolean;
+}
+
+interface ChargesProps {
+  caseWithBalanceHeader: string;
+  charges: any[];
+}
+
+interface EligibilityGroupProps {
+  eligibility: string;
+  headerAndCharges: any[];
+}
+
+interface ChargeListProps {
+  chargesGroupedByEligibilityAndCase: { [label: string]: any[] };
   totalCharges: number;
 }
 
-export default class ChargesList extends React.Component<Props> {
-  render() {
-    const summarizedCharges = Object.entries(
-      this.props.eligibleChargesByDate
-    ).map(
-      (
-        [eligibilityDate, casesWithHeaderAndChargesNames]: [string, any[]],
-        summaryIdx
-      ) => {
-        const numCharges = casesWithHeaderAndChargesNames.reduce(
-          (acc: number, entry: any) => acc + entry[1].length,
-          0
-        );
-        const listItems = this.buildListItems(
-          casesWithHeaderAndChargesNames,
-          summaryIdx
-        );
-        const categoryHeader = this.buildCategoryHeader(
-          eligibilityDate,
-          numCharges
-        );
+function Charge({ id, name, hasBalance }: ChargeProps) {
+  return (
+    <li className="f6 bb b--light-gray pv2">
+      <a href={"#" + id} className={hasBalance ? "ml2" : "link hover-blue"}>
+        {name}
+      </a>
+    </li>
+  );
+}
+
+function Charges({ caseWithBalanceHeader, charges }: ChargesProps) {
+  return (
+    <>
+      {caseWithBalanceHeader && (
+        <li key={caseWithBalanceHeader} className="fw7 pt2">
+          {caseWithBalanceHeader}
+        </li>
+      )}
+      {charges.map(([id, name]: [string, string]) => {
         return (
-          <div className="mb3" key={eligibilityDate}>
-            {categoryHeader}
-            <ul className="list">{listItems}</ul>
-          </div>
+          <Charge
+            key={id}
+            id={id}
+            name={name}
+            hasBalance={caseWithBalanceHeader !== ""}
+          />
         );
-      }
-    );
+      })}
+    </>
+  );
+}
 
-    return (
-      <div className="w-100 w-two-thirds-l">
-        <h3 className="bt b--light-gray pt2 mb3">
-          <span className="fw7">Cases</span> ({this.props.totalCases})
-        </h3>
-        <h3 className="bt b--light-gray pt2 mb3">
-          <span className="fw7">Charges</span> ({this.props.totalCharges})
-          <p className="f6 fw5 pt1">Excludes traffic violations</p>
-        </h3>
-        {summarizedCharges}
+function EligibilityGroup({
+  eligibility,
+  headerAndCharges,
+}: EligibilityGroupProps) {
+  const labelColor = getEligibilityColor(eligibility);
+  const numCharges = headerAndCharges.reduce(
+    (acc: number, aCase: any) => acc + aCase[1].length,
+    0
+  );
+
+  return (
+    <div className="mb3">
+      <div className={labelColor + " bb b--light-gray lh-copy pb1"}>
+        <span className="fw7 mb2">{eligibility}</span>{" "}
+        {numCharges > 0 && `(${numCharges})`}
+        {eligibility === "Needs More Analysis" && (
+          <p className="f6 fw5">
+            These charges need clarification below before an accurate analysis
+            can be determined
+          </p>
+        )}
       </div>
-    );
-  }
 
-  buildListItems(casesWithHeaderAndChargesNames: any[], summaryIdx: number) {
-    return casesWithHeaderAndChargesNames.map((entry, groupIdx) => {
-      const [caseHeaderWithBalance, chargesNames] = entry;
-      const listItemsInCase = chargesNames.map(
-        ([id, chargeName]: [string, string], index: number) => {
+      <ul className="list">
+        {headerAndCharges.map(([caseWithBalanceHeader, charges], idx) => (
+          <Charges
+            key={idx}
+            caseWithBalanceHeader={caseWithBalanceHeader}
+            charges={charges}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function ChargesList({
+  chargesGroupedByEligibilityAndCase,
+  totalCharges,
+}: ChargeListProps) {
+  return (
+    <>
+      <h3 className="bt b--light-gray pt2 mb3">
+        <span className="fw7">Charges</span> ({totalCharges})
+        <p className="f6 fw5 pt1">Excludes traffic violations</p>
+      </h3>
+
+      {Object.entries(chargesGroupedByEligibilityAndCase).map(
+        ([eligibility, headerAndCharges]) => {
           return (
-            <li
-              key={"chargeItem" + summaryIdx + "-" + groupIdx + "-" + index}
-              className="f6 bb b--light-gray pv2"
-            >
-              <a
-                href={"#" + id}
-                className={
-                  caseHeaderWithBalance !== "" ? "ml2" : "link hover-blue"
-                }
-              >
-                {chargeName}
-              </a>
-            </li>
+            <EligibilityGroup
+              key={eligibility}
+              eligibility={eligibility}
+              headerAndCharges={headerAndCharges}
+            />
           );
         }
-      );
-      if (caseHeaderWithBalance) {
-        return [<li className="fw7 pt2">{caseHeaderWithBalance}</li>].concat(
-          listItemsInCase
-        );
-      } else {
-        return listItemsInCase;
-      }
-    });
-  }
-
-  buildCategoryHeader(eligibilityDate: string, numCharges: number) {
-    const labelColor =
-      eligibilityDate === "Eligible Now"
-        ? "green"
-        : eligibilityDate === "Ineligible"
-        ? "red"
-        : eligibilityDate === "Needs More Analysis"
-        ? "purple"
-        : "dark-blue";
-    return (
-      <div className={labelColor + " bb b--light-gray lh-copy pb1"}>
-        <span className="fw7 mb2"> {eligibilityDate} </span>
-        <span> {numCharges > 0 ? `(${numCharges})` : ""} </span>
-        <p className="f6 fw5">
-          {eligibilityDate === "Needs More Analysis"
-            ? "These charges need clarification below before an accurate analysis can be determined"
-            : ""}
-        </p>
-      </div>
-    );
-  }
+      )}
+    </>
+  );
 }

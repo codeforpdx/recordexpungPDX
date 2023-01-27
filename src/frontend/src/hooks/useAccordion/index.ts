@@ -6,11 +6,7 @@ import useDisclosure, {
   DisclosureContentProps,
 } from "../useDisclosure";
 
-export type UseAccordionSection = ({
-  id,
-}: {
-  id: string;
-}) => {
+export type UseAccordionSection = ({ id }: { id: string }) => {
   isExpanded: boolean;
   headerProps: DisclosureButtonProps;
   panelProps: DisclosureContentProps;
@@ -21,9 +17,10 @@ export type UseAccordionSection = ({
 // Use buttons for headings to allow tabbing.
 export default function useAccordion(idPrefix = "accordion") {
   const [openPanelId, setOpenPanelId] = useState("");
-  const isExpandedSetters: {
-    [id in string]: Dispatch<React.SetStateAction<boolean>>;
-  } = {};
+  const isExpandedSetters = new Map<
+    string,
+    Dispatch<React.SetStateAction<boolean>>
+  >();
 
   // Do not use map iterators for id's. They can cause odd behavior.
   const useAccordionSection = ({ id }: { id: string }) => {
@@ -38,7 +35,7 @@ export default function useAccordion(idPrefix = "accordion") {
       callback: setOpenPanelId,
     });
 
-    isExpandedSetters[id_] = setIsExpanded;
+    isExpandedSetters.set(id_, setIsExpanded);
 
     return {
       isExpanded,
@@ -48,7 +45,7 @@ export default function useAccordion(idPrefix = "accordion") {
   };
 
   useEffect(() => {
-    Object.entries(isExpandedSetters).forEach(([id, setIsExpanded]) => {
+    isExpandedSetters.forEach((setIsExpanded, id) => {
       if (id !== openPanelId) {
         setIsExpanded(false);
       }
