@@ -10,24 +10,32 @@ const sections = [
   { header: "header2", panel: "panel2" },
 ];
 
+function TestSection({ header, panel, useAccordionSection }: any) {
+  const { isExpanded, headerProps, panelProps } = useAccordionSection({
+    id: header,
+  });
+
+  return (
+    <li key={header}>
+      <button {...headerProps}>{header}</button>
+      <div {...panelProps}>{panel}</div>
+      <p>{(isExpanded ? "expanded" : "collapsed") + panel}</p>
+    </li>
+  );
+}
 function TestComponent() {
   const { useAccordionSection } = useAccordion();
 
   return (
     <ul>
-      {sections.map(({ header, panel }) => {
-        const { isExpanded, headerProps, panelProps } = useAccordionSection({
-          id: header,
-        });
-
-        return (
-          <li key={header}>
-            <button {...headerProps}>{header}</button>
-            <div {...panelProps}>{panel}</div>
-            <p>{(isExpanded ? "expanded" : "collapsed") + panel}</p>
-          </li>
-        );
-      })}
+      {sections.map(({ header, panel }) => (
+        <TestSection
+          key={header}
+          header={header}
+          panel={panel}
+          useAccordionSection={useAccordionSection}
+        />
+      ))}
     </ul>
   );
 }

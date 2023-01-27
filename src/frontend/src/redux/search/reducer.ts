@@ -23,25 +23,7 @@ import {
   QuestionData,
   QuestionsData,
 } from "../../components/RecordSearch/Record/types";
-
-const initalState: SearchRecordState = {
-  demo: false,
-  loading: "",
-  loadingPdf: false,
-  loadingExpungementPacket: false,
-  aliases: [
-    {
-      first_name: "",
-      middle_name: "",
-      last_name: "",
-      birth_date: "",
-    },
-  ],
-  today: "",
-  edits: {},
-  editingRecord: false,
-  userInformation: {},
-};
+import initialState from "./initialState";
 
 function findQuestion(
   question: QuestionData,
@@ -134,7 +116,7 @@ function clearAnswersForCaseOrCharge(
 }
 
 export function searchReducer(
-  state = initalState,
+  state = initialState,
   action: SearchRecordActionType
 ): SearchRecordState {
   switch (action.type) {
