@@ -3,6 +3,7 @@ import store from "../store";
 import apiService from "../../service/api-service";
 import { AxiosError, AxiosResponse } from "axios";
 import fileDownload from "js-file-download";
+import { useAppDispatch } from "../hooks";
 
 import {
   DISPLAY_RECORD,
@@ -112,8 +113,10 @@ export function stopDemo() {
   };
 }
 
-export function downloadPdf() {
-  return (dispatch: Dispatch) => {
+export function useDownloadPdf() {
+  const dispatch = useAppDispatch();
+
+  return () => {
     dispatch({
       type: LOADING_PDF,
     });

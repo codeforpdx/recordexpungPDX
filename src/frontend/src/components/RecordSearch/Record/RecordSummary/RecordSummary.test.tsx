@@ -18,7 +18,7 @@ const record = johnCommonRecord;
 
 jest.mock(downloadPdfPath, () => ({
   ...jest.requireActual(downloadPdfPath),
-  downloadPdf: () => mockDownloadPdf(),
+  useDownloadPdf: () => mockDownloadPdf,
 }));
 
 it("correctly renders with the John Common demo data", () => {

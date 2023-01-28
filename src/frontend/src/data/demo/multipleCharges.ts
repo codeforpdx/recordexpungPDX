@@ -1,6 +1,6 @@
 import getRecordFromResponse from "./getRecordFromResponse";
 
-export default getRecordFromResponse({
+export const multipleChargesResponse = {
   record: {
     cases: [
       {
@@ -247,4 +247,6 @@ export default getRecordFromResponse({
     },
     total_balance_due: 1000.0,
   },
-});
+};
+
+export default getRecordFromResponse(multipleChargesResponse);

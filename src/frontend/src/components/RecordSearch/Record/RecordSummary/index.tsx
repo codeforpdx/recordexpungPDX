@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RecordData } from "../types";
 import { useAppSelector } from "../../../../redux/hooks";
-import { downloadPdf } from "../../../../redux/search/actions";
+import { useDownloadPdf } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
 import useRadioGroup from "../../../../hooks/useRadioGroup";
 import RadioGroup from "../../../common/RadioGroup";
@@ -15,6 +15,7 @@ interface Props {
 }
 
 export default function RecordSummary({ record }: Props) {
+  const downloadPdf = useDownloadPdf();
   const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
   const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
@@ -77,9 +78,7 @@ export default function RecordSummary({ record }: Props) {
           buttonClassName={loadingPdf ? "loading-btn" : ""}
           iconClassName="fa-download pr2"
           displayText="Summary PDF"
-          onClick={() => {
-            downloadPdf();
-          }}
+          onClick={() => downloadPdf()}
         />
       </div>
 
