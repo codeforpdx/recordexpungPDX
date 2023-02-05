@@ -4,9 +4,11 @@
 import { configureStore, PreloadedState } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { searchReducer } from "./search/reducer";
+import demoReducer from "./demoSlice";
 
 const rootReducer = combineReducers({
   search: searchReducer,
+  demo: demoReducer,
 });
 
 const store = configureStore({

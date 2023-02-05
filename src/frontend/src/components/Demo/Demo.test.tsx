@@ -23,7 +23,7 @@ describe("Without a record", () => {
 
   it("turns on the demo state", () => {
     const { store } = appRender(<Demo />);
-    expect(store.getState().search.demo).toBe(true);
+    expect(store.getState().demo.isOn).toBe(true);
   });
 });
 

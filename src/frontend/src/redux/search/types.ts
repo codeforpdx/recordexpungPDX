@@ -33,8 +33,6 @@ export const DONE_EDITING = "DONE_EDITING";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
   "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
-export const START_DEMO = "START_DEMO";
-export const STOP_DEMO = "STOP_DEMO";
 
 export interface SearchRecordState {
   demo: boolean;
@@ -55,15 +53,12 @@ interface SearchRecordAction {
     | typeof DISPLAY_RECORD
     | typeof RECORD_LOADING
     | typeof LOADING_PDF
-    | typeof LOADING_PDF_COMPLETE
-    | typeof START_DEMO
-    | typeof STOP_DEMO;
+    | typeof LOADING_PDF_COMPLETE;
 
   aliases: AliasData[];
   today: string;
   record: RecordData;
   questions: QuestionsData;
-  demo: boolean;
 }
 
 export interface QuestionsAction {

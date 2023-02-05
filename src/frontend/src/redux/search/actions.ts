@@ -22,8 +22,6 @@ import {
   DONE_EDITING,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
-  START_DEMO,
-  STOP_DEMO,
 } from "./types";
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import { RecordData } from "../../components/RecordSearch/Record/types";
@@ -53,7 +51,7 @@ function validateSearchResponseData(data: SearchResponse): boolean {
 
 function buildSearchRequest() {
   return {
-    demo: store.getState().search.demo,
+    demo: store.getState().demo.isOn,
     aliases: store.getState().search.aliases,
     today: store.getState().search.today,
     questions: store.getState().search.questions,
@@ -63,7 +61,7 @@ function buildSearchRequest() {
 
 function buildAndSendSearchRequest(dispatch: any): any {
   return apiService(dispatch, {
-    url: store.getState().search.demo ? "/api/demo" : "/api/search",
+    url: store.getState().demo.isOn ? "/api/demo" : "/api/search",
     data: buildSearchRequest(),
     method: "post",
     withCredentials: true,
@@ -100,18 +98,6 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
       });
       alert(error.message);
     });
-}
-
-export function startDemo() {
-  return {
-    type: START_DEMO,
-  };
-}
-
-export function stopDemo() {
-  return {
-    type: STOP_DEMO,
-  };
 }
 
 export function useDownloadPdf() {
@@ -296,7 +282,7 @@ export function downloadExpungementPacket(
     return apiService(dispatch, {
       url: "/api/expungement-packet",
       data: {
-        demo: store.getState().search.demo,
+        demo: store.getState().demo.isOn,
         aliases: store.getState().search.aliases,
         questions: store.getState().search.questions,
         edits: store.getState().search.edits,

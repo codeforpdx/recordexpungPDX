@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { startDemo } from "../../redux/search/actions";
+import { startDemo } from "../../redux/demoSlice";
 import setupPage from "../../service/setupPage";
 import DemoInfo from "./DemoInfo";
 import SearchPanel from "../RecordSearch/SearchPanel";
@@ -13,10 +13,7 @@ export default function Demo() {
   let record = useAppSelector((state) => state.search.record);
 
   setupPage("Demo");
-
-  useEffect(() => {
-    dispatch(startDemo());
-  });
+  dispatch(startDemo());
 
   return (
     <main className="mw8 center f6 f5-l ph2">
