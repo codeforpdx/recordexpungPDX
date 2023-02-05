@@ -81,7 +81,7 @@ class Record extends React.Component<Props, State> {
       <>
         {errors}
         <section>
-          {this.props.record && <RecordSummary record={this.props.record} />}
+          <RecordSummary />
 
           {this.state.addingNewCase && (
             <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">

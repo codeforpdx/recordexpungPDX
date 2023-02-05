@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { RecordData } from "../types";
 import { useAppSelector } from "../../../../redux/hooks";
 import { useDownloadPdf } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
@@ -10,22 +9,20 @@ import CasesList from "./CasesList";
 import CountyFines from "./CountyFines";
 import { IconButton } from "../../../common/IconButton";
 
-interface Props {
-  record: RecordData;
-}
-
-export default function RecordSummary({ record }: Props) {
+export default function RecordSummary() {
   const downloadPdf = useDownloadPdf();
+  const record = useAppSelector((state) => state.search.record);
   const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
   const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
     label: "Summary overview sort options",
     initialValue: "Charges",
   });
+
+  if (!record || !record.summary) return <></>;
+
   const cases = record.cases;
   const summary = record.summary;
-
-  if (!summary) return <></>;
 
   const {
     total_cases: totalCases,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`correctly renders with Multiple Charges demo data and CasesList view selected 1`] = `
+exports[`correctly renders with the complex fake record and CasesList view selected 1`] = `
 <DocumentFragment>
   <div
     class="bg-white shadow br3 mb3 ph3 pb3"
@@ -86,7 +86,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
           >
             Cases
           </span>
-           (3)
+           (18)
         </h3>
         <div
           class="bt b--light-gray pt2 mb3"
@@ -103,7 +103,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                 <div
                   class="w-30"
                 >
-                  Jan 21, 2022
+                  Jan 11, 2019
                 </div>
                 <div
                   class="w-70"
@@ -111,9 +111,9 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   #
                   <a
                     class="link bb hover-blue"
-                    href="#110000"
+                    href="#99AV3457"
                   >
-                    110000
+                    99AV3457
                   </a>
                 </div>
               </div>
@@ -128,9 +128,9 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   class="w-30 pr4"
                 >
                   <span
-                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
                   >
-                    Eligible Now
+                    Ineligible
                   </span>
                 </div>
                 <div
@@ -139,68 +139,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   <span
                     class="lh-copy"
                   >
-                    Theft in the Third Degree
-                  </span>
-                   
-                  <span
-                    class="lh-copy"
-                  >
-                    (DISMISSED)
-                  </span>
-                   
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="mb3 pb1 bb b--light-gray"
-          >
-            <div
-              class="fw6 lh-copy"
-            >
-              <div
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-30"
-                >
-                  Jan 21, 2019
-                </div>
-                <div
-                  class="w-70"
-                >
-                  #
-                  <a
-                    class="link bb hover-blue"
-                    href="#100000"
-                  >
-                    100000
-                  </a>
-                </div>
-              </div>
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="f6 pv1 flex-ns flex-wrap"
-              >
-                <div
-                  class="w-30 pr4"
-                >
-                  <span
-                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
-                  >
-                    Eligible Now If Balance Paid
-                  </span>
-                </div>
-                <div
-                  class="w-70"
-                >
-                  <span
-                    class="lh-copy"
-                  >
-                    Disorderly Conduct in the First Degree
+                    Singing Under the Influence of Intoxicants
                   </span>
                    
                   <span
@@ -229,7 +168,36 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   <span
                     class="lh-copy"
                   >
-                    Disorderly Conduct in the Second Degree
+                    Reckless Diving
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now If Balance Paid
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Failure to Perform Duties of Golfer-Property Damage
                   </span>
                    
                   <span
@@ -250,7 +218,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
               <div
                 class="w-70"
               >
-                Balance: $1,000.00
+                Balance: $900.10
               </div>
             </div>
           </div>
@@ -266,7 +234,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                 <div
                   class="w-30"
                 >
-                  Jan 21, 2011
+                  Jan 1, 2018
                 </div>
                 <div
                   class="w-70"
@@ -274,9 +242,111 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   #
                   <a
                     class="link bb hover-blue"
-                    href="#120000"
+                    href="#99DF09900"
                   >
-                    120000
+                    99DF09900
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Singing Under the Influence of Intoxicants
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now If Balance Paid
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Resisting An Orange
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+            <div
+              class="flex-ns flex-wrap pv2 fw6"
+            >
+              <div
+                class="w-30"
+              />
+              <div
+                class="w-70"
+              >
+                Balance: $900.10
+              </div>
+            </div>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 26, 2013
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#996271"
+                  >
+                    996271
                   </a>
                 </div>
               </div>
@@ -302,13 +372,1532 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                   <span
                     class="lh-copy"
                   >
-                    Failure to Obey Traffic Control Device
+                    Attempt to Commit a Class C/Unclassified Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 purple bg-washed-purple pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Needs More Analysis
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Attempt to Commit a Class C/Unclassified Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+            <div
+              class="flex-ns flex-wrap pv2 fw6"
+            >
+              <div
+                class="w-30"
+              />
+              <div
+                class="w-70"
+              >
+                Balance: $99.00
+              </div>
+            </div>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 11, 2011
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999388"
+                  >
+                    999388
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Jan 30, 2025
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Improper Use of an Emergency Kazoo System
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+            <div
+              class="flex-ns flex-wrap pv2 fw6"
+            >
+              <div
+                class="w-30"
+              />
+              <div
+                class="w-70"
+              >
+                Balance: $10,000.99
+              </div>
+            </div>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 1, 2001
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#9910A9"
+                  >
+                    9910A9
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Attempt to Commit a Class B Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (FINDING - NOT GUILTY)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Attempt to Commit a Class B Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (FINDING - NOT GUILTY)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Jan 11, 2027
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Derping in the Fourth Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Jan 30, 2025
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Frowning
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Jan 30, 2025
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Resisting An Orange
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Resisting An Orange
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (REMOVED FROM CHARGING INSTRUMENT)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 11, 2000
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#9960799"
+                  >
+                    9960799
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Frowning
                   </span>
                    
                   <span
                     class="lh-copy"
                   >
                     (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Skipping Rope
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 1, 1998
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#9950699A"
+                  >
+                    9950699A
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Contempt of Court - Punitive
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Contempt of Court - Punitive
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 26, 1998
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#99506871AA"
+                  >
+                    99506871AA
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Contempt of Court
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 11, 1998
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999345"
+                  >
+                    999345
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 dark-blue bg-washed-blue pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Jan 30, 2025
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Derping in the Fourth Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Frowning
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 29, 1996
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#9999323"
+                  >
+                    9999323
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Illegal stuff in the First Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something else illegal in the First Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something else illegal in the First Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal in the Second Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED - LESSER CHARGE)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal in the Second Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal in the Second Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal in the Second Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 purple bg-washed-purple pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Needs More Analysis
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Attempt to Commit a Class C/Unclassified Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 26, 1996
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#9999323D-D"
+                  >
+                    9999323D-D
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Illegal stuff in the First Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something else illegal in the First Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Something illegal in the Second Degree
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 8, 1996
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999933"
+                  >
+                    999933
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    ABC/Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED - MISD TREATMENT)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 1, 1996
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999933D-D"
+                  >
+                    999933D-D
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    ABC/Felony
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (DISMISSED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 11, 1995
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999252-D"
+                  >
+                    999252-D
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    SUII
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 6, 1992
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#99990895-D"
+                  >
+                    99990895-D
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Passenger Fail to Use Seatbelt
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 26, 1991
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#999620-X"
+                  >
+                    999620-X
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 green bg-washed-green pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Eligible Now
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    Discarding Hot Dogs w/in 100 Yards of State Waters
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 30, 1989
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#XX99972-D"
+                  >
+                    XX99972-D
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    ABC/Misdemeanor
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
+                  </span>
+                   
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb3 pb1 bb b--light-gray"
+          >
+            <div
+              class="fw6 lh-copy"
+            >
+              <div
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30"
+                >
+                  Jan 22, 1988
+                </div>
+                <div
+                  class="w-70"
+                >
+                  #
+                  <a
+                    class="link bb hover-blue"
+                    href="#XX99057-X"
+                  >
+                    XX99057-X
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="f6 pv1 flex-ns flex-wrap"
+              >
+                <div
+                  class="w-30 pr4"
+                >
+                  <span
+                    class="fw6 red bg-washed-red pv1 ph2 dib br3 relative outline-2-white z-1"
+                  >
+                    Ineligible
+                  </span>
+                </div>
+                <div
+                  class="w-70"
+                >
+                  <span
+                    class="lh-copy"
+                  >
+                    SUII
+                  </span>
+                   
+                  <span
+                    class="lh-copy"
+                  >
+                    (CONVICTED)
                   </span>
                    
                 </div>
@@ -349,7 +1938,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
               <h4
                 class="fw6 mb2"
               >
-                Baker
+                Washington
               </h4>
               <ul
                 class="mw5 list mb3"
@@ -359,15 +1948,63 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
                 >
                   <a
                     class="link hover-blue"
-                    href="/#100000"
+                    href="/#99AV3457"
                   >
-                    100000
+                    99AV3457
                   </a>
                    
                   <span
                     class="fr"
                   >
-                    $1,000.00
+                    $900.10
+                  </span>
+                </li>
+                <li
+                  class="mb2"
+                >
+                  <a
+                    class="link hover-blue"
+                    href="/#99DF09900"
+                  >
+                    99DF09900
+                  </a>
+                   
+                  <span
+                    class="fr"
+                  >
+                    $900.10
+                  </span>
+                </li>
+                <li
+                  class="mb2"
+                >
+                  <a
+                    class="link hover-blue"
+                    href="/#996271"
+                  >
+                    996271
+                  </a>
+                   
+                  <span
+                    class="fr"
+                  >
+                    $99.00
+                  </span>
+                </li>
+                <li
+                  class="mb2"
+                >
+                  <a
+                    class="link hover-blue"
+                    href="/#999388"
+                  >
+                    999388
+                  </a>
+                   
+                  <span
+                    class="fr"
+                  >
+                    $10,000.99
                   </span>
                 </li>
               </ul>
@@ -383,7 +2020,7 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
               <span
                 class="fr"
               >
-                $1,000.00
+                $11,285.64
               </span>
             </div>
           </ul>
@@ -392,530 +2029,4 @@ exports[`correctly renders with Multiple Charges demo data and CasesList view se
     </div>
   </div>
 </DocumentFragment>
-`;
-
-exports[`correctly renders with the John Common demo data 1`] = `
-<div
-  className="bg-white shadow br3 mb3 ph3 pb3"
->
-  <div
-    className="flex flex-wrap justify-end mb1"
-  >
-    <div
-      className="flex flex-wrap items-center mv1 mr-auto"
-    >
-      <h2
-        className="f5 fw7 mr3"
-      >
-        Search Summary
-      </h2>
-      <fieldset
-        aria-label="Summary overview sort options"
-        className="flex flex-wrap radio radio-sm ml1"
-        dir="ltr"
-        role="radiogroup"
-      >
-        <p>
-          <input
-            aria-checked={true}
-            checked={true}
-            id="summary-overview-sort-options-charges"
-            name="summary overview sort options"
-            onChange={[Function]}
-            type="radio"
-            value="Charges"
-          />
-          <label
-            htmlFor="summary-overview-sort-options-charges"
-          >
-            Charges
-          </label>
-        </p>
-        <p>
-          <input
-            aria-checked={false}
-            checked={false}
-            id="summary-overview-sort-options-cases"
-            name="summary overview sort options"
-            onChange={[Function]}
-            type="radio"
-            value="Cases"
-          />
-          <label
-            htmlFor="summary-overview-sort-options-cases"
-          >
-            Cases
-          </label>
-        </p>
-      </fieldset>
-    </div>
-    <button
-      className="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
-      onClick={[Function]}
-    >
-      <i
-        aria-hidden="true"
-        className="fas fa-bolt pr2"
-      />
-      Generate Paperwork
-    </button>
-    <button
-      className="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
-      onClick={[Function]}
-    >
-      <i
-        aria-hidden="true"
-        className="fas fa-download pr2"
-      />
-      Summary PDF
-    </button>
-  </div>
-  <div
-    className="flex-ns flex-wrap"
-  >
-    <div
-      className="w-100 w-two-thirds-l"
-    >
-      <h3
-        className="bt b--light-gray pt2 mb3"
-      >
-        <span
-          className="fw7"
-        >
-          Cases
-        </span>
-         (
-        5
-        )
-      </h3>
-      <h3
-        className="bt b--light-gray pt2 mb3"
-      >
-        <span
-          className="fw7"
-        >
-          Charges
-        </span>
-         (
-        5
-        )
-        <p
-          className="f6 fw5 pt1"
-        >
-          Excludes traffic violations
-        </p>
-      </h3>
-      <div
-        className="mb3"
-      >
-        <div
-          className="dark-blue bb b--light-gray lh-copy pb1"
-        >
-          <span
-            className="fw7 mb2"
-          >
-            Eligible Nov 28, 2025
-          </span>
-           
-          (1)
-        </div>
-        <ul
-          className="list"
-        >
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#100000-1"
-            >
-              Aggravated Theft in the First Degree (CONVICTED) Charged Jul 16, 2016
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        className="mb3"
-      >
-        <div
-          className="green bb b--light-gray lh-copy pb1"
-        >
-          <span
-            className="fw7 mb2"
-          >
-            Eligible Now
-          </span>
-           
-          (3)
-        </div>
-        <ul
-          className="list"
-        >
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#200000-1"
-            >
-              Obstruction of search warrant (DISMISSED) Charged Jul 16, 2019
-            </a>
-          </li>
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#110000-1"
-            >
-              Theft in the Second Degree (CONVICTED) Charged Apr 2, 2015
-            </a>
-          </li>
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#120000-1"
-            >
-              Poss under oz Marijuana (CONVICTED) Charged Apr 2, 2014
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        className="mb3"
-      >
-        <div
-          className="purple bb b--light-gray lh-copy pb1"
-        >
-          <span
-            className="fw7 mb2"
-          >
-            Needs More Analysis
-          </span>
-           
-          (1)
-          <p
-            className="f6 fw5"
-          >
-            These charges need clarification below before an accurate analysis can be determined
-          </p>
-        </div>
-        <ul
-          className="list"
-        >
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#210000-1"
-            >
-              Poss Controlled Sub (CONVICTED) Charged Sep 23, 2018
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      className="w-100 w-33-l ph3-l mb3"
-    >
-      <div
-        className="mb4"
-      >
-        <h3
-          className="fw7 bt b--light-gray pt2 mb3"
-        >
-          Balance due by county
-           
-          <a
-            className=" gray link hover-blue underline"
-            href="/manual#paybalances"
-            onClick={[Function]}
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-question-circle link hover-dark-blue"
-            />
-            <span
-              className="visually-hidden"
-            >
-              Learn more about balances
-            </span>
-          </a>
-        </h3>
-        <ul
-          className="mw5 list"
-        >
-          None
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`correctly renders with the Multiple Charges demo data 1`] = `
-<div
-  className="bg-white shadow br3 mb3 ph3 pb3"
->
-  <div
-    className="flex flex-wrap justify-end mb1"
-  >
-    <div
-      className="flex flex-wrap items-center mv1 mr-auto"
-    >
-      <h2
-        className="f5 fw7 mr3"
-      >
-        Search Summary
-      </h2>
-      <fieldset
-        aria-label="Summary overview sort options"
-        className="flex flex-wrap radio radio-sm ml1"
-        dir="ltr"
-        role="radiogroup"
-      >
-        <p>
-          <input
-            aria-checked={true}
-            checked={true}
-            id="summary-overview-sort-options-charges"
-            name="summary overview sort options"
-            onChange={[Function]}
-            type="radio"
-            value="Charges"
-          />
-          <label
-            htmlFor="summary-overview-sort-options-charges"
-          >
-            Charges
-          </label>
-        </p>
-        <p>
-          <input
-            aria-checked={false}
-            checked={false}
-            id="summary-overview-sort-options-cases"
-            name="summary overview sort options"
-            onChange={[Function]}
-            type="radio"
-            value="Cases"
-          />
-          <label
-            htmlFor="summary-overview-sort-options-cases"
-          >
-            Cases
-          </label>
-        </p>
-      </fieldset>
-    </div>
-    <button
-      className="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
-      onClick={[Function]}
-    >
-      <i
-        aria-hidden="true"
-        className="fas fa-bolt pr2"
-      />
-      Generate Paperwork
-    </button>
-    <button
-      className="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
-      onClick={[Function]}
-    >
-      <i
-        aria-hidden="true"
-        className="fas fa-download pr2"
-      />
-      Summary PDF
-    </button>
-  </div>
-  <div
-    className="flex-ns flex-wrap"
-  >
-    <div
-      className="w-100 w-two-thirds-l"
-    >
-      <h3
-        className="bt b--light-gray pt2 mb3"
-      >
-        <span
-          className="fw7"
-        >
-          Cases
-        </span>
-         (
-        3
-        )
-      </h3>
-      <h3
-        className="bt b--light-gray pt2 mb3"
-      >
-        <span
-          className="fw7"
-        >
-          Charges
-        </span>
-         (
-        4
-        )
-        <p
-          className="f6 fw5 pt1"
-        >
-          Excludes traffic violations
-        </p>
-      </h3>
-      <div
-        className="mb3"
-      >
-        <div
-          className="green bb b--light-gray lh-copy pb1"
-        >
-          <span
-            className="fw7 mb2"
-          >
-            Eligible Now
-          </span>
-           
-          (1)
-        </div>
-        <ul
-          className="list"
-        >
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="link hover-blue"
-              href="#110000-1"
-            >
-              Theft in the Third Degree (DISMISSED) Charged Jan 21, 2022
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div
-        className="mb3"
-      >
-        <div
-          className="dark-blue bb b--light-gray lh-copy pb1"
-        >
-          <span
-            className="fw7 mb2"
-          >
-            Eligible Now If Balance Paid
-          </span>
-           
-          (2)
-        </div>
-        <ul
-          className="list"
-        >
-          <li
-            className="fw7 pt2"
-          >
-            Baker 100000 – $1000.0
-          </li>
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="ml2"
-              href="#100000-1"
-            >
-              Disorderly Conduct in the First Degree (CONVICTED) Charged Jan 21, 2019
-            </a>
-          </li>
-          <li
-            className="f6 bb b--light-gray pv2"
-          >
-            <a
-              className="ml2"
-              href="#100000-2"
-            >
-              Disorderly Conduct in the Second Degree (DISMISSED) Charged Jan 21, 2019
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      className="w-100 w-33-l ph3-l mb3"
-    >
-      <div
-        className="mb4"
-      >
-        <h3
-          className="fw7 bt b--light-gray pt2 mb3"
-        >
-          Balance due by county
-           
-          <a
-            className=" gray link hover-blue underline"
-            href="/manual#paybalances"
-            onClick={[Function]}
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-question-circle link hover-dark-blue"
-            />
-            <span
-              className="visually-hidden"
-            >
-              Learn more about balances
-            </span>
-          </a>
-        </h3>
-        <ul
-          className="mw5 list"
-        >
-          <div>
-            <h4
-              className="fw6 mb2"
-            >
-              Baker
-            </h4>
-            <ul
-              className="mw5 list mb3"
-            >
-              <li
-                className="mb2"
-              >
-                <a
-                  className="link hover-blue"
-                  href="/#100000"
-                  onClick={[Function]}
-                >
-                  100000
-                </a>
-                 
-                <span
-                  className="fr"
-                >
-                  $1,000.00
-                </span>
-              </li>
-            </ul>
-          </div>
-          <div
-            className="mw5 bt b--light-gray pt2"
-          >
-            <span
-              className="fw6"
-            >
-              Total
-            </span>
-            <span
-              className="fr"
-            >
-              $1,000.00
-            </span>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 `;
