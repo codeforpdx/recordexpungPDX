@@ -3,6 +3,8 @@ import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
 import { appRender } from "../../test/testHelpers";
 import { FakeResponseName } from "../../test/hooks/useInjectSearchResponse";
+import { useAppDispatch } from "../../redux/hooks";
+import { startDemo } from "../../redux/demoSlice";
 import RecordSearch from ".";
 
 const mockHasOeciToeken = jest.fn();
@@ -11,6 +13,11 @@ jest.mock("../../service/cookie-service", () => ({
   ...jest.requireActual("../../service/cookie-service"),
   hasOeciToken: () => mockHasOeciToeken(),
 }));
+
+const DemoOnComponent = () => {
+  useAppDispatch()(startDemo());
+  return <RecordSearch />;
+};
 
 beforeEach(() => {
   mockHasOeciToeken.mockReturnValue(true);
@@ -38,8 +45,8 @@ describe("when logged in", () => {
   });
 
   it("turns off the demo state", () => {
-    const { store } = appRender(<RecordSearch />, "common");
-    expect(store.getState().search.demo).toBe(false);
+    const { store } = appRender(<DemoOnComponent />, "common");
+    expect(store.getState().demo.isOn).toBe(false);
   });
 });
 
@@ -49,8 +56,8 @@ describe("when not logged in", () => {
   });
 
   it("turns off the demo state", () => {
-    const { store } = appRender(<RecordSearch />, "common");
-    expect(store.getState().search.demo).toBe(false);
+    const { store } = appRender(<DemoOnComponent />, "common");
+    expect(store.getState().demo.isOn).toBe(false);
   });
 
   it("does not display content", () => {
