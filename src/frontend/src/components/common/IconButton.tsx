@@ -22,7 +22,7 @@ export function IconButton(
   return (
     <button
       className={`${baseButtonClass}${
-        buttonClassName ? " " + baseButtonClass : ""
+        buttonClassName ? " " + buttonClassName : ""
       }`}
       onClick={onClick}
     >

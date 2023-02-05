@@ -4,14 +4,13 @@ import apiService from "../../service/api-service";
 import { AxiosError, AxiosResponse } from "axios";
 import fileDownload from "js-file-download";
 import { useAppDispatch } from "../hooks";
+import { stopLoadingSummary } from "../summarySlice";
 
 import {
   DISPLAY_RECORD,
   RECORD_LOADING,
   SearchResponse,
   SELECT_ANSWER,
-  LOADING_PDF,
-  LOADING_PDF_COMPLETE,
   EDIT_CASE,
   DELETE_CASE,
   UNDO_EDIT_CASE,
@@ -74,7 +73,7 @@ function buildAndSendSearchRequest(dispatch: any): any {
     });
 }
 
-function buildAndSendDownloadPdfRequest(dispatch: any): any {
+export function buildAndSendDownloadPdfRequest(dispatch: any): any {
   return apiService(dispatch, {
     url: "/api/pdf",
     data: buildSearchRequest(),
@@ -88,27 +87,12 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
           " "
         )[0];
       fileDownload(response.data, filename);
-      dispatch({
-        type: LOADING_PDF_COMPLETE,
-      });
+      dispatch(stopLoadingSummary());
     })
     .catch((error: AxiosError) => {
-      dispatch({
-        type: LOADING_PDF_COMPLETE,
-      });
+      dispatch(stopLoadingSummary());
       alert(error.message);
     });
-}
-
-export function useDownloadPdf() {
-  const dispatch = useAppDispatch();
-
-  return () => {
-    dispatch({
-      type: LOADING_PDF,
-    });
-    return buildAndSendDownloadPdfRequest(dispatch);
-  };
 }
 
 export function searchRecord(aliases: AliasData[], today: string): any {

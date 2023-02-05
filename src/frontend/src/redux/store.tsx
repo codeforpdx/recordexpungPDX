@@ -5,10 +5,12 @@ import { configureStore, PreloadedState } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { searchReducer } from "./search/reducer";
 import demoReducer from "./demoSlice";
+import summarySlice from "./summarySlice";
 
 const rootReducer = combineReducers({
   search: searchReducer,
   demo: demoReducer,
+  summary: summarySlice,
 });
 
 const store = configureStore({

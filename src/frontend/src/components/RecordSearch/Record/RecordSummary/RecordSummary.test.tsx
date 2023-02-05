@@ -6,13 +6,11 @@ import { appRender } from "../../../../test/testHelpers";
 import history from "../../../../service/history";
 import RecordSummary from ".";
 
-const downloadPdfPath = "../../../../redux/search/actions";
-const mockDownloadPdf = jest.fn();
-
-jest.mock(downloadPdfPath, () => ({
-  ...jest.requireActual(downloadPdfPath),
-  useDownloadPdf: () => mockDownloadPdf,
-}));
+jest.mock("axios", () => {
+  return {
+    request: () => new Promise(() => {}),
+  };
+});
 
 // snapshot tests for the initial state are accounted
 // for in the RecordSearch tests
@@ -49,7 +47,7 @@ describe("When rendered with the John Common demo data", () => {
     });
 
     await user.click(pdfButton);
-    expect(mockDownloadPdf).toHaveBeenCalled();
+    expect(pdfButton).toHaveClass("loading-btn");
   });
 });
 

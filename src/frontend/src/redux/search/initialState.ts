@@ -3,7 +3,6 @@ import { SearchRecordState } from "./types";
 const initialState: SearchRecordState = {
   demo: false,
   loading: "",
-  loadingPdf: false,
   loadingExpungementPacket: false,
   aliases: [
     {

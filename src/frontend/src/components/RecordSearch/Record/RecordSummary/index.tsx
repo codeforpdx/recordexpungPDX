@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useAppSelector } from "../../../../redux/hooks";
-import { useDownloadPdf } from "../../../../redux/search/actions";
+import { useAppDispatch } from "../../../../redux/hooks";
+import {
+  startLoadingSummary,
+  selectSummaryIsLoading,
+} from "../../../../redux/summarySlice";
+import { buildAndSendDownloadPdfRequest } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
 import useRadioGroup from "../../../../hooks/useRadioGroup";
 import RadioGroup from "../../../common/RadioGroup";
@@ -10,9 +15,9 @@ import CountyFines from "./CountyFines";
 import { IconButton } from "../../../common/IconButton";
 
 export default function RecordSummary() {
-  const downloadPdf = useDownloadPdf();
+  const dispatch = useAppDispatch();
   const record = useAppSelector((state) => state.search.record);
-  const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
+  const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
   const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
     label: "Summary overview sort options",
@@ -37,6 +42,11 @@ export default function RecordSummary() {
     } else {
       setCanGenerateForms(false);
     }
+  };
+
+  const handleDownloadSummaryClick = () => {
+    dispatch(startLoadingSummary());
+    buildAndSendDownloadPdfRequest(dispatch);
   };
 
   return (
@@ -72,10 +82,10 @@ export default function RecordSummary() {
         />
 
         <IconButton
-          buttonClassName={loadingPdf ? "loading-btn" : ""}
+          buttonClassName={summaryIsLoading ? "loading-btn" : ""}
           iconClassName="fa-download pr2"
           displayText="Summary PDF"
-          onClick={() => downloadPdf()}
+          onClick={handleDownloadSummaryClick}
         />
       </div>
 

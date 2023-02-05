@@ -20,8 +20,6 @@ export interface RecordEndpointData {
 export const DISPLAY_RECORD = "DISPLAY_RECORD";
 export const RECORD_LOADING = "RECORD_LOADING";
 export const SELECT_ANSWER = "SELECT_ANSWER";
-export const LOADING_PDF = "LOADING_PDF";
-export const LOADING_PDF_COMPLETE = "LOADING_PDF_COMPLETE";
 export const EDIT_CASE = "EDIT_CASE";
 export const DELETE_CASE = "DELETE_CASE";
 export const UNDO_EDIT_CASE = "UNDO_EDIT_CASE";
@@ -37,7 +35,6 @@ export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
 export interface SearchRecordState {
   demo: boolean;
   loading: string;
-  loadingPdf: boolean;
   loadingExpungementPacket: boolean;
   aliases: AliasData[];
   today: string;
@@ -49,11 +46,7 @@ export interface SearchRecordState {
 }
 
 interface SearchRecordAction {
-  type:
-    | typeof DISPLAY_RECORD
-    | typeof RECORD_LOADING
-    | typeof LOADING_PDF
-    | typeof LOADING_PDF_COMPLETE;
+  type: typeof DISPLAY_RECORD | typeof RECORD_LOADING;
 
   aliases: AliasData[];
   today: string;

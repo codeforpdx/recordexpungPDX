@@ -2,8 +2,6 @@ import {
   DISPLAY_RECORD,
   RECORD_LOADING,
   SELECT_ANSWER,
-  LOADING_PDF,
-  LOADING_PDF_COMPLETE,
   EDIT_CASE,
   DELETE_CASE,
   EDIT_CHARGE,
@@ -180,16 +178,6 @@ export function searchReducer(
         loading: action.ambiguous_charge_id,
       };
     }
-    case LOADING_PDF:
-      return {
-        ...state,
-        loadingPdf: true,
-      };
-    case LOADING_PDF_COMPLETE:
-      return {
-        ...state,
-        loadingPdf: false,
-      };
     case EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {};
