@@ -1,6 +1,6 @@
-import getRecordFromResponse from "./getRecordFromResponse";
+import { SearchResponse } from "../../redux/search/types";
 
-export default getRecordFromResponse({
+const commonResponse: SearchResponse = {
   record: {
     cases: [
       {
@@ -12,22 +12,22 @@ export default getRecordFromResponse({
           {
             ambiguous_charge_id: "200000-1",
             case_number: "200000",
-            date: "Jul 16, 2019",
+            date: "Sep 9, 2019",
             disposition: {
               amended: false,
-              date: "Jul 16, 2019",
+              date: "Sep 9, 2019",
               ruling: "Dismissed",
               status: "Dismissed",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
               charge_eligibility: {
-                date_to_sort_label_by: null,
+                date_to_sort_label_by: undefined,
                 label: "Eligible Now",
                 status: "Eligible Now",
               },
               time_eligibility: {
-                date_will_be_eligible: "Jul 16, 2019",
+                date_will_be_eligible: "Sep 9, 2019",
                 reason: "Eligible now",
                 status: "Eligible",
                 unique_date: true,
@@ -43,14 +43,14 @@ export default getRecordFromResponse({
             id: "200000-1-0",
             level: "Misdemeanor Class A",
             name: "Obstruction of search warrant",
-            probation_revoked: null,
+            probation_revoked: undefined,
             statute: "162247",
             type_name: "Dismissed Criminal Charge",
           },
         ],
         citation_number: "something",
         current_status: "Closed",
-        date: "Jul 16, 2019",
+        date: "Sep 9, 2019",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
         location: "Benton",
@@ -67,22 +67,22 @@ export default getRecordFromResponse({
           {
             ambiguous_charge_id: "210000-1",
             case_number: "210000",
-            date: "Sep 23, 2018",
+            date: "Nov 16, 2018",
             disposition: {
               amended: false,
-              date: "Nov 28, 2018",
+              date: "Jan 21, 2019",
               ruling: "Convicted",
               status: "Convicted",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
               charge_eligibility: {
-                date_to_sort_label_by: null,
+                date_to_sort_label_by: undefined,
                 label: "Needs More Analysis",
                 status: "Needs More Analysis",
               },
               time_eligibility: {
-                date_will_be_eligible: "Nov 28, 2023",
+                date_will_be_eligible: "Jan 21, 2024",
                 reason:
                   "Five years from date of conviction (137.225(1)(b)) OR Seven years from date of conviction (137.225(1)(b)) OR Never. Type ineligible charges are always time ineligible.",
                 status: "Ineligible",
@@ -99,7 +99,7 @@ export default getRecordFromResponse({
             id: "210000-1-0",
             level: "Felony Unclassified",
             name: "Poss Controlled Sub",
-            probation_revoked: null,
+            probation_revoked: undefined,
             statute: "4759924A",
             type_name:
               "Marijuana Manufacture Delivery OR Felony Class A OR Felony Class B OR Felony Class C",
@@ -107,7 +107,7 @@ export default getRecordFromResponse({
         ],
         citation_number: "something",
         current_status: "Closed",
-        date: "Sep 23, 2018",
+        date: "Nov 16, 2018",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
         location: "Baker",
@@ -124,22 +124,22 @@ export default getRecordFromResponse({
           {
             ambiguous_charge_id: "100000-1",
             case_number: "100000",
-            date: "Jul 16, 2016",
+            date: "Sep 9, 2016",
             disposition: {
               amended: false,
-              date: "Aug 16, 2016",
+              date: "Oct 9, 2016",
               ruling: "Convicted",
               status: "Convicted",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
               charge_eligibility: {
-                date_to_sort_label_by: "Nov 28, 2025",
-                label: "Eligible Nov 28, 2025",
+                date_to_sort_label_by: "Jan 21, 2026",
+                label: "Eligible Jan 21, 2026",
                 status: "Will Be Eligible",
               },
               time_eligibility: {
-                date_will_be_eligible: "Nov 28, 2025",
+                date_will_be_eligible: "Jan 21, 2026",
                 reason:
                   "137.225(7)(b) \u2013 Seven years from most recent other conviction from case [210000].",
                 status: "Ineligible",
@@ -156,14 +156,14 @@ export default getRecordFromResponse({
             id: "100000-1-0",
             level: "Felony Class B",
             name: "Aggravated Theft in the First Degree",
-            probation_revoked: null,
+            probation_revoked: undefined,
             statute: "164057",
             type_name: "Felony Class B",
           },
         ],
         citation_number: "something",
         current_status: "Closed",
-        date: "Jul 16, 2016",
+        date: "Sep 9, 2016",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
         location: "Clackamas",
@@ -180,22 +180,22 @@ export default getRecordFromResponse({
           {
             ambiguous_charge_id: "110000-1",
             case_number: "110000",
-            date: "Apr 2, 2015",
+            date: "May 26, 2015",
             disposition: {
               amended: false,
-              date: "May 2, 2015",
+              date: "Jun 25, 2015",
               ruling: "Convicted",
               status: "Convicted",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
               charge_eligibility: {
-                date_to_sort_label_by: null,
+                date_to_sort_label_by: undefined,
                 label: "Eligible Now",
                 status: "Eligible Now",
               },
               time_eligibility: {
-                date_will_be_eligible: "Nov 28, 2021",
+                date_will_be_eligible: "Jan 21, 2022",
                 reason: "Eligible now",
                 status: "Eligible",
                 unique_date: true,
@@ -211,14 +211,14 @@ export default getRecordFromResponse({
             id: "110000-1-0",
             level: "Misdemeanor Class A",
             name: "Theft in the Second Degree",
-            probation_revoked: null,
+            probation_revoked: undefined,
             statute: "164057",
             type_name: "Misdemeanor Class A",
           },
         ],
         citation_number: "something",
         current_status: "Closed",
-        date: "Apr 2, 2015",
+        date: "May 26, 2015",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
         location: "Baker",
@@ -235,22 +235,22 @@ export default getRecordFromResponse({
           {
             ambiguous_charge_id: "120000-1",
             case_number: "120000",
-            date: "Apr 2, 2014",
+            date: "May 26, 2014",
             disposition: {
               amended: false,
-              date: "May 2, 2014",
+              date: "Jun 25, 2014",
               ruling: "Convicted",
               status: "Convicted",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
               charge_eligibility: {
-                date_to_sort_label_by: null,
+                date_to_sort_label_by: undefined,
                 label: "Eligible Now",
                 status: "Eligible Now",
               },
               time_eligibility: {
-                date_will_be_eligible: "May 2, 2014",
+                date_will_be_eligible: "Jun 25, 2014",
                 reason: "Eligible now",
                 status: "Eligible",
                 unique_date: true,
@@ -265,14 +265,14 @@ export default getRecordFromResponse({
             id: "120000-1-0",
             level: "violation",
             name: "Poss under oz Marijuana",
-            probation_revoked: null,
+            probation_revoked: undefined,
             statute: "475000",
             type_name: "Marijuana Violation",
           },
         ],
         citation_number: "something",
         current_status: "Closed",
-        date: "Apr 2, 2015",
+        date: "May 26, 2015",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
         location: "Baker",
@@ -296,15 +296,15 @@ export default getRecordFromResponse({
                 options: {
                   "A Felony": {
                     edit: { charge_type: "FelonyClassA" },
-                    question: null,
+                    question: undefined,
                   },
                   "B Felony": {
                     edit: { charge_type: "FelonyClassB" },
-                    question: null,
+                    question: undefined,
                   },
                   "C Felony": {
                     edit: { charge_type: "FelonyClassC" },
-                    question: null,
+                    question: undefined,
                   },
                 },
                 probation_revoked_date_string: "",
@@ -316,7 +316,7 @@ export default getRecordFromResponse({
             },
             Yes: {
               edit: { charge_type: "MarijuanaManufactureDelivery" },
-              question: null,
+              question: undefined,
             },
           },
           probation_revoked_date_string: "",
@@ -328,13 +328,13 @@ export default getRecordFromResponse({
     },
     summary: {
       charges_grouped_by_eligibility_and_case: {
-        "Eligible Nov 28, 2025": [
+        "Eligible Jan 21, 2026": [
           [
             "",
             [
               [
                 "100000-1",
-                "Aggravated Theft in the First Degree (CONVICTED) Charged Jul 16, 2016",
+                "Aggravated Theft in the First Degree (CONVICTED) Charged Sep 9, 2016",
               ],
             ],
           ],
@@ -345,7 +345,7 @@ export default getRecordFromResponse({
             [
               [
                 "200000-1",
-                "Obstruction of search warrant (DISMISSED) Charged Jul 16, 2019",
+                "Obstruction of search warrant (DISMISSED) Charged Sep 9, 2019",
               ],
             ],
           ],
@@ -354,7 +354,7 @@ export default getRecordFromResponse({
             [
               [
                 "110000-1",
-                "Theft in the Second Degree (CONVICTED) Charged Apr 2, 2015",
+                "Theft in the Second Degree (CONVICTED) Charged May 26, 2015",
               ],
             ],
           ],
@@ -363,7 +363,7 @@ export default getRecordFromResponse({
             [
               [
                 "120000-1",
-                "Poss under oz Marijuana (CONVICTED) Charged Apr 2, 2014",
+                "Poss under oz Marijuana (CONVICTED) Charged May 26, 2014",
               ],
             ],
           ],
@@ -374,7 +374,7 @@ export default getRecordFromResponse({
             [
               [
                 "210000-1",
-                "Poss Controlled Sub (CONVICTED) Charged Sep 23, 2018",
+                "Poss Controlled Sub (CONVICTED) Charged Nov 16, 2018",
               ],
             ],
           ],
@@ -391,4 +391,6 @@ export default getRecordFromResponse({
     },
     total_balance_due: 0.0,
   },
-});
+};
+
+export default commonResponse;

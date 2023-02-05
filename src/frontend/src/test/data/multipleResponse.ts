@@ -1,6 +1,6 @@
-import getRecordFromResponse from "./getRecordFromResponse";
+import { SearchResponse } from "../../redux/search/types";
 
-export const multipleChargesResponse = {
+const multipleResponse: SearchResponse = {
   record: {
     cases: [
       {
@@ -43,6 +43,43 @@ export const multipleChargesResponse = {
             id: "110000-1-0",
             level: "Misdemeanor Class C",
             name: "Theft in the Third Degree",
+            probation_revoked: null,
+            statute: "164043",
+            type_name: "Dismissed Criminal Charge",
+          },
+          {
+            ambiguous_charge_id: "110000-2",
+            case_number: "110000",
+            date: "Jan 21, 2022",
+            disposition: {
+              amended: false,
+              date: "Apr 21, 2022",
+              ruling: "Dismissed",
+              status: "Dismissed",
+            },
+            edit_status: "UNCHANGED",
+            expungement_result: {
+              charge_eligibility: {
+                date_to_sort_label_by: null,
+                label: "Ineligible",
+                status: "Ineligible",
+              },
+              time_eligibility: {
+                date_will_be_eligible: "Jan 21, 2022",
+                reason: "Eligible now",
+                status: "Eligible",
+                unique_date: true,
+              },
+              type_eligibility: {
+                reason: "Infraction reason",
+                status: "Ineligible",
+              },
+            },
+            expungement_rules:
+              "Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.\n       Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.",
+            id: "110000-2-0",
+            level: "A low level infraction",
+            name: "A low level infraction",
             probation_revoked: null,
             statute: "164043",
             type_name: "Dismissed Criminal Charge",
@@ -109,8 +146,8 @@ export const multipleChargesResponse = {
             disposition: {
               amended: false,
               date: "Apr 21, 2019",
-              ruling: "Dismissed",
-              status: "Dismissed",
+              ruling: "Unrecognized",
+              status: "Unrecognized",
             },
             edit_status: "UNCHANGED",
             expungement_result: {
@@ -190,13 +227,44 @@ export const multipleChargesResponse = {
             statute: "811265",
             type_name: "Traffic Violation",
           },
+          {
+            ambiguous_charge_id: "120001-1",
+            case_number: "120001",
+            date: "Jan 22, 2011",
+            disposition: {
+              amended: false,
+              date: "Apr 22, 2011",
+              ruling: "Convicted",
+              status: "Convicted",
+            },
+            edit_status: "UNCHANGED",
+            expungement_result: {
+              charge_eligibility: {
+                date_to_sort_label_by: null,
+                label: "Ineligible",
+                status: "Ineligible",
+              },
+              time_eligibility: null,
+              type_eligibility: {
+                reason: "Public derpiness is never excusable.",
+                status: "Needs More Analysis",
+              },
+            },
+            expungement_rules: "Rule that everyone knows",
+            id: "120000-1-0",
+            level: "Violation",
+            name: "Public Derpiness",
+            probation_revoked: null,
+            statute: "811265",
+            type_name: "Traffic Violation",
+          },
         ],
         citation_number: "something",
         current_status: "Closed",
         date: "Jan 21, 2011",
         district_attorney_number: "01234567",
         edit_status: "UNCHANGED",
-        location: "Multnomah",
+        location: "Washington",
         name: "MULTIPLE CHARGES",
         sid: "OR12345678",
         violation_type: "Offense Violation",
@@ -249,4 +317,4 @@ export const multipleChargesResponse = {
   },
 };
 
-export default getRecordFromResponse(multipleChargesResponse);
+export default multipleResponse;

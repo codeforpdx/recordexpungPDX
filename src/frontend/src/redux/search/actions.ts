@@ -28,7 +28,7 @@ import {
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import { RecordData } from "../../components/RecordSearch/Record/types";
 
-function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
+export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
     const receivedRecord = data.record;
     const record: RecordData = {
@@ -85,9 +85,10 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
     responseType: "blob",
   })
     .then((response: AxiosResponse) => {
-      const filename = response.headers["content-disposition"]!.split(
-        "filename="
-      )[1].split(" ")[0];
+      const filename =
+        response.headers["content-disposition"]!.split("filename=")[1].split(
+          " "
+        )[0];
       fileDownload(response.data, filename);
       dispatch({
         type: LOADING_PDF_COMPLETE,
@@ -307,9 +308,10 @@ export function downloadExpungementPacket(
       responseType: "blob",
     })
       .then((response: AxiosResponse) => {
-        const filename = response.headers["content-disposition"]!.split(
-          "filename="
-        )[1].split(" ")[0];
+        const filename =
+          response.headers["content-disposition"]!.split("filename=")[1].split(
+            " "
+          )[0];
         fileDownload(response.data, filename);
         dispatch({
           type: LOADING_EXPUNGEMENT_PACKET_COMPLETE,

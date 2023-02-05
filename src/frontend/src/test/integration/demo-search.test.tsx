@@ -11,13 +11,13 @@ import App from "../../components/App";
 const mockRequest = jest.fn((req) => new Promise(() => {}));
 
 jest.mock("axios", () => {
-  const recordModule = jest.requireActual("../../data/demo/multipleCharges");
+  const recordModule = jest.requireActual("../data/multipleResponse");
   return {
     request: (request: any) => {
       mockRequest(request);
       // not sure why returning mockRequest doesn't work
       return new Promise((resolve) => {
-        resolve({ data: recordModule.multipleChargesResponse });
+        resolve({ data: recordModule.default });
       });
     },
   };

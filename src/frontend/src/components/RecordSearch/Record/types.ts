@@ -102,7 +102,7 @@ export interface QuestionData {
 }
 
 export interface AnswerData {
-  question?: QuestionData;
+  question?: QuestionData | null;
   edit?: { [key: string]: string };
 }
 
@@ -167,5 +167,5 @@ export const SEVERITY_LEVELS = [
   "Felony Class C",
   "Misdemeanor Class A",
   "Misdemeanor Class B or C",
-  "Violation"
-  ];
+  "Violation",
+];
