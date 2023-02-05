@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { startDemo } from "../../redux/search/actions";
-import useSetupPage from "../../hooks/useSetupPage";
+import setupPage from "../../service/setupPage";
 import DemoInfo from "./DemoInfo";
 import SearchPanel from "../RecordSearch/SearchPanel";
 import Status from "../RecordSearch/Status";
@@ -12,7 +12,7 @@ export default function Demo() {
   const dispatch = useAppDispatch();
   let record = useAppSelector((state) => state.search.record);
 
-  useSetupPage("Demo");
+  setupPage("Demo");
 
   useEffect(() => {
     dispatch(startDemo());

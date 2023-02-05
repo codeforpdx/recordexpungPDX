@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { stopDemo } from "../../redux/search/actions";
 import { hasOeciToken } from "../../service/cookie-service";
-import useSetupPage from "../../hooks/useSetupPage";
+import setupPage from "../../service/setupPage";
 import SearchPanel from "./SearchPanel";
 import Record from "./Record";
 import Status from "./Status";
@@ -14,7 +14,7 @@ export default function RecordSearch() {
   const dispatch = useAppDispatch();
   let shouldRedirect = !hasOeciToken();
 
-  useSetupPage("Search Records");
+  setupPage("Search Records");
 
   dispatch(stopDemo());
 
