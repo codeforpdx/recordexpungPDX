@@ -19,7 +19,7 @@ export default function Demo() {
     <main className="mw8 center f6 f5-l ph2">
       <DemoInfo />
       <SearchPanel />
-      <Status record={record} />
+      <Status />
       <Record record={record} />
       <Assumptions />
     </main>

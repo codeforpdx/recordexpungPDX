@@ -25,7 +25,7 @@ export default function RecordSearch() {
   return (
     <main className="mw8 center f6 f5-l ph2">
       <SearchPanel />
-      <Status record={record} />
+      <Status />
       <Record record={record} />
       <Assumptions />
     </main>

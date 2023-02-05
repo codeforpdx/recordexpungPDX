@@ -1,6 +1,7 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { appRender } from "../../test/testHelpers";
 import { FakeResponseName } from "../../test/hooks/useInjectSearchResponse";
 import { useAppDispatch } from "../../redux/hooks";
@@ -69,4 +70,26 @@ describe("when not logged in", () => {
     expect(screen.queryByText(/case/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/assumptions/i)).not.toBeInTheDocument();
   });
+});
+
+test("a message is displayed when the search results are empty", () => {
+  appRender(<RecordSearch />, "blank");
+  expect(screen.queryByText(/no search results found/i)).toBeInTheDocument();
+});
+
+test("a message is dislayed when results are be loaded", async () => {
+  jest.useRealTimers();
+  const user = userEvent.setup();
+
+  appRender(<RecordSearch />);
+
+  await user.click(screen.getByLabelText(/first/i));
+  await user.keyboard("foo");
+  await user.click(screen.getByLabelText(/last/i));
+  await user.keyboard("bar");
+  await user.click(screen.getByRole("button", { name: /search/i }));
+
+  expect(
+    screen.queryByText(/loading your search results/i)
+  ).toBeInTheDocument();
 });
