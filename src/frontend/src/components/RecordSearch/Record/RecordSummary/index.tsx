@@ -26,7 +26,6 @@ export default function RecordSummary() {
 
   if (!record || !record.summary) return <></>;
 
-  const cases = record.cases;
   const summary = record.summary;
 
   const {
@@ -101,7 +100,7 @@ export default function RecordSummary() {
               totalCharges={totalCharges}
             />
           ) : (
-            <CasesList cases={cases} />
+            <CasesList className="f6" />
           )}
         </div>
 
