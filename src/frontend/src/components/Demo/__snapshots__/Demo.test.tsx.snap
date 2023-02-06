@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`With the multiple charges record correctly renders 1`] = `
+exports[`With the multiple charges record renders correctly 1`] = `
 <div>
   <main
     class="mw8 center f6 f5-l ph2"
@@ -318,11 +318,6 @@ exports[`With the multiple charges record correctly renders 1`] = `
         </div>
       </div>
     </article>
-    <h1
-      class="visually-hidden"
-    >
-      Record Search
-    </h1>
     <section
       class="cf mt4 mb3 pa4 bg-white shadow br3"
     >
@@ -2038,7 +2033,7 @@ exports[`With the multiple charges record correctly renders 1`] = `
 </div>
 `;
 
-exports[`Without a record renders correctly without a record 1`] = `
+exports[`Without a record renders correctly 1`] = `
 <div>
   <main
     class="mw8 center f6 f5-l ph2"
@@ -2356,11 +2351,6 @@ exports[`Without a record renders correctly without a record 1`] = `
         </div>
       </div>
     </article>
-    <h1
-      class="visually-hidden"
-    >
-      Record Search
-    </h1>
     <section
       class="cf mt4 mb3 pa4 bg-white shadow br3"
     >

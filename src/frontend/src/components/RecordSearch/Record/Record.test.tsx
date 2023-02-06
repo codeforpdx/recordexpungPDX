@@ -77,8 +77,3 @@ it("correctly renders after clicking add case button", async () => {
     expect(mockRequest).toHaveBeenCalledWith(expectedCreateCaseRequest);
   });
 });
-
-it("displays request errors", () => {
-  const { asFragment } = appRender(<Record />, "error");
-  expect(asFragment()).toMatchSnapshot();
-});

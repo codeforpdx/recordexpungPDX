@@ -106,9 +106,8 @@ class SearchPanel extends React.Component<Props, State> {
   };
 
   addAlias = () => {
-    const lastAlias: AliasData = this.state.aliases[
-      this.state.aliases.length - 1
-    ];
+    const lastAlias: AliasData =
+      this.state.aliases[this.state.aliases.length - 1];
     let updatedAliases = JSON.parse(JSON.stringify(this.state.aliases));
     updatedAliases.push({
       first_name: lastAlias.first_name,
@@ -154,65 +153,60 @@ class SearchPanel extends React.Component<Props, State> {
       );
     });
     return (
-      <>
-        <h1 className="visually-hidden">Record Search</h1>
-        <section className="cf mt4 mb3 pa4 bg-white shadow br3">
-          <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
-            <div className="flex">
-              <Field
-                coda="mm/dd/yyyy"
-                name="today"
-                label="Expunge Date"
-                content={this.state.today}
-                divMarkup="pl2-r"
-                onChange={(fieldValue: string) => {
-                  this.setState({ today: fieldValue });
-                }}
-                required={true}
-                errorMessage="today_msg"
-              />
-            </div>
-            {aliasComponents}
-            <div className="flex">
-              <button
-                className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
-                onClick={this.addAlias}
-                type="button"
-              >
-                <i aria-hidden={"true"} className="fas fa-plus-circle pr1"></i>
-                Alias
-              </button>
-              <button
-                className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
-                type="submit"
-              >
-                <i aria-hidden="true" className="fas fa-search pr2"></i>
-                <span className="fw7">Search</span>
-              </button>
-            </div>
-            <InvalidInputs
-              conditions={[
-                this.state.missingInputs,
-                this.state.invalidDate,
-                this.state.invalidFirstNameWildcard,
-                this.state.invalidLastNameWildcard,
-              ]}
-              contents={[
-                <span>First and last name are required.</span>,
-                <span>The date format must be MM/DD/YYYY.</span>,
-                <span>
-                  A wildcard in First Name field must be at the end and follow
-                  at least one letter.
-                </span>,
-                <span>
-                  A wildcard in the Last Name field must be at the end and
-                  follow at least two letters.
-                </span>,
-              ]}
-            />
-          </form>
-        </section>
-      </>
+      <form className="mw7 center" onSubmit={this.handleSubmit} noValidate>
+        <div className="flex">
+          <Field
+            coda="mm/dd/yyyy"
+            name="today"
+            label="Expunge Date"
+            content={this.state.today}
+            divMarkup="pl2-r"
+            onChange={(fieldValue: string) => {
+              this.setState({ today: fieldValue });
+            }}
+            required={true}
+            errorMessage="today_msg"
+          />
+        </div>
+        {aliasComponents}
+        <div className="flex">
+          <button
+            className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+            onClick={this.addAlias}
+            type="button"
+          >
+            <i aria-hidden={"true"} className="fas fa-plus-circle pr1"></i>
+            Alias
+          </button>
+          <button
+            className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+            type="submit"
+          >
+            <i aria-hidden="true" className="fas fa-search pr2"></i>
+            <span className="fw7">Search</span>
+          </button>
+        </div>
+        <InvalidInputs
+          conditions={[
+            this.state.missingInputs,
+            this.state.invalidDate,
+            this.state.invalidFirstNameWildcard,
+            this.state.invalidLastNameWildcard,
+          ]}
+          contents={[
+            <span>First and last name are required.</span>,
+            <span>The date format must be MM/DD/YYYY.</span>,
+            <span>
+              A wildcard in First Name field must be at the end and follow at
+              least one letter.
+            </span>,
+            <span>
+              A wildcard in the Last Name field must be at the end and follow at
+              least two letters.
+            </span>,
+          ]}
+        />
+      </form>
     );
   }
 }

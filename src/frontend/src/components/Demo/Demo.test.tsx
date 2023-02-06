@@ -13,7 +13,7 @@ afterEach(() => {
 });
 
 describe("Without a record", () => {
-  it("renders correctly without a record", () => {
+  it("renders correctly", () => {
     const { container } = appRender(<Demo />);
 
     expect(container).toMatchSnapshot();
@@ -28,7 +28,7 @@ describe("Without a record", () => {
 });
 
 describe("With the multiple charges record", () => {
-  it("correctly renders", () => {
+  it("renders correctly", () => {
     const { container } = appRender(<Demo />, "multiple");
 
     expect(container).toMatchSnapshot();
