@@ -99,12 +99,12 @@ exports[`can display a loading spinner 1`] = `
         </button>
          
         <a
-          class=" gray link hover-blue underline"
+          class="link hover-blue "
           href="/manual#editing"
         >
           <i
             aria-hidden="true"
-            class="fas fa-question-circle link hover-dark-blue gray"
+            class="gray hover-dark-blue fas fa-question-circle"
           />
           <span
             class="visually-hidden"
@@ -540,12 +540,12 @@ exports[`can displays request errors 1`] = `
         </button>
          
         <a
-          class=" gray link hover-blue underline"
+          class="link hover-blue "
           href="/manual#editing"
         >
           <i
             aria-hidden="true"
-            class="fas fa-question-circle link hover-dark-blue gray"
+            class="gray hover-dark-blue fas fa-question-circle"
           />
           <span
             class="visually-hidden"

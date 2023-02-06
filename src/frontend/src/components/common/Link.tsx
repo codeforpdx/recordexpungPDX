@@ -18,10 +18,19 @@ export default function Link({
   children,
 }: Props) {
   return (
-    <HashLink to={to} className={className}>
-      {text}
-      {children}
-      {iconClassName && <i aria-hidden="true" className={iconClassName}></i>}
+    <HashLink to={to} className={"link hover-blue " + className}>
+      {(text !== "" || children) && (
+        <span className="bb b--moon-gray">
+          {text}
+          {children}
+        </span>
+      )}
+      {iconClassName && (
+        <i
+          aria-hidden="true"
+          className={"gray hover-dark-blue " + iconClassName}
+        ></i>
+      )}
       {hiddenText && <span className="visually-hidden">{hiddenText}</span>}
     </HashLink>
   );

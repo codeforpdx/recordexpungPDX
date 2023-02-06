@@ -765,12 +765,12 @@ exports[`With the multiple charges record renders correctly 1`] = `
         </button>
          
         <a
-          class=" gray link hover-blue underline"
+          class="link hover-blue "
           href="/manual#editing"
         >
           <i
             aria-hidden="true"
-            class="fas fa-question-circle link hover-dark-blue gray"
+            class="gray hover-dark-blue fas fa-question-circle"
           />
           <span
             class="visually-hidden"
@@ -2544,12 +2544,12 @@ exports[`Without a record renders correctly 1`] = `
         </button>
          
         <a
-          class=" gray link hover-blue underline"
+          class="link hover-blue "
           href="/manual#editing"
         >
           <i
             aria-hidden="true"
-            class="fas fa-question-circle link hover-dark-blue gray"
+            class="gray hover-dark-blue fas fa-question-circle"
           />
           <span
             class="visually-hidden"

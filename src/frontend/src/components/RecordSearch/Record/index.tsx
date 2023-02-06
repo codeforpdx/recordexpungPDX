@@ -86,8 +86,7 @@ export default function Record() {
             </button>{" "}
             <Link
               to="/manual#editing"
-              className=" gray link hover-blue underline"
-              iconClassName="fas fa-question-circle link hover-dark-blue gray"
+              iconClassName="fas fa-question-circle"
               hiddenText="Editing Help"
             />
           </>
