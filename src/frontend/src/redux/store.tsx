@@ -6,11 +6,13 @@ import { combineReducers } from "redux";
 import { searchReducer } from "./search/reducer";
 import demoReducer from "./demoSlice";
 import summarySlice from "./summarySlice";
+import editingSlice from "./editingSlice";
 
 const rootReducer = combineReducers({
   search: searchReducer,
   demo: demoReducer,
   summary: summarySlice,
+  editing: editingSlice,
 });
 
 const store = configureStore({

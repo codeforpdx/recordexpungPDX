@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { useAppSelector } from "../../../redux/hooks";
-import { useStartEditing, useDoneEditing } from "../../../redux/search/actions";
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import {
+  startEditing,
+  doneEditing,
+  selectIsEditing,
+} from "../../../redux/editingSlice";
 import { convertCaseNumberIntoLinks } from "./util";
 import RecordSummary from "./RecordSummary";
 import Cases from "./Cases";
@@ -18,10 +22,9 @@ function ErrorMessage({ message, idx }: { message: string; idx: number }) {
 }
 
 export default function Record() {
-  const startEditing = useStartEditing();
-  const doneEditing = useDoneEditing();
+  const dispatch = useAppDispatch();
   const record = useAppSelector((state) => state.search.record);
-  const editingRecord = useAppSelector((state) => state.search.editingRecord);
+  const isEditing = useAppSelector(selectIsEditing);
   const [enableEditing, setEnableEditing] = useState(false);
   const [addingNewCase, setAddingNewCase] = useState(false);
   const [nextNewCaseNum, setNextNewCaseNum] = useState(1);
@@ -45,7 +48,7 @@ export default function Record() {
   };
 
   const handleAddCaseClick = () => {
-    startEditing();
+    dispatch(startEditing());
     setAddingNewCase(true);
   };
 
@@ -62,24 +65,24 @@ export default function Record() {
           <div className="bg-gray-blue-2 shadow br3 overflow-auto mb3">
             <Case
               whenEditing={() => {
-                startEditing();
+                dispatch(startEditing());
               }}
               whenDoneEditing={() => {
-                doneEditing();
+                dispatch(doneEditing());
                 setAddingNewCase(false);
                 setNextNewCaseNum(nextNewCaseNum + 1);
               }}
               case={createNextBlankCase()}
               editing={true}
               isNewCase={true}
-              showEditButtons={!editingRecord && enableEditing}
+              showEditButtons={!isEditing && enableEditing}
               customElementId="new-case"
             />
           </div>
         )}
         <div className="tr">
           {enableEditing ? (
-            !editingRecord && (
+            !isEditing && (
               <>
                 <AddButton
                   onClick={handleAddCaseClick}
@@ -112,12 +115,12 @@ export default function Record() {
         {record?.cases && (
           <Cases
             cases={record.cases}
-            showEditButtons={!editingRecord && enableEditing}
+            showEditButtons={!isEditing && enableEditing}
             whenEditing={() => {
-              startEditing();
+              dispatch(startEditing());
             }}
             whenDoneEditing={() => {
-              doneEditing();
+              dispatch(doneEditing());
             }}
           />
         )}

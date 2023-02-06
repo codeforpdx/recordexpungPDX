@@ -26,14 +26,11 @@ export const UNDO_EDIT_CASE = "UNDO_EDIT_CASE";
 export const EDIT_CHARGE = "EDIT_CHARGE";
 export const DELETE_CHARGE = "DELETE_CHARGE";
 export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
-export const START_EDITING = "START_EDITING";
-export const DONE_EDITING = "DONE_EDITING";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
   "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
 
 export interface SearchRecordState {
-  demo: boolean;
   loading: string;
   loadingExpungementPacket: boolean;
   aliases: AliasData[];
@@ -41,7 +38,6 @@ export interface SearchRecordState {
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
-  editingRecord: boolean;
   userInformation?: any;
 }
 
@@ -111,14 +107,6 @@ interface UndoEditChargeAction {
   ambiguous_charge_id: string;
 }
 
-interface StartEditingAction {
-  type: typeof START_EDITING;
-}
-
-interface DoneEditingAction {
-  type: typeof DONE_EDITING;
-}
-
 interface ExpungementPacketAction {
   type: typeof DOWNLOAD_EXPUNGEMENT_PACKET;
   name: string;
@@ -143,7 +131,5 @@ export type SearchRecordActionType =
   | EditChargeAction
   | DeleteChargeAction
   | UndoEditChargeAction
-  | StartEditingAction
-  | DoneEditingAction
   | ExpungementPacketAction
   | ExpungementPacketActionComplete;

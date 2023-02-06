@@ -1,10 +1,10 @@
 import { Dispatch } from "redux";
-import store from "../store";
-import apiService from "../../service/api-service";
 import { AxiosError, AxiosResponse } from "axios";
 import fileDownload from "js-file-download";
-import { useAppDispatch } from "../hooks";
+import apiService from "../../service/api-service";
+import store from "../store";
 import { stopLoadingSummary } from "../summarySlice";
+import { doneEditing } from "../editingSlice";
 
 import {
   DISPLAY_RECORD,
@@ -17,8 +17,6 @@ import {
   EDIT_CHARGE,
   DELETE_CHARGE,
   UNDO_EDIT_CHARGE,
-  START_EDITING,
-  DONE_EDITING,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
 } from "./types";
@@ -39,6 +37,9 @@ export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       record: record,
       questions: receivedRecord.questions,
     });
+    // Uncertain if doneEditing is necessary here, but is being carried over
+    // with refactoring
+    dispatch(doneEditing());
   } else {
     alert("Response data has unexpected format.");
   }
@@ -102,6 +103,9 @@ export function searchRecord(aliases: AliasData[], today: string): any {
       today: today,
       type: RECORD_LOADING,
     });
+    // Uncertain if doneEditing is necessary here, but is being carried over
+    // with refactoring
+    dispatch(doneEditing());
     return buildAndSendSearchRequest(dispatch);
   };
 }
@@ -228,22 +232,6 @@ export function undoEditCharge(
       ambiguous_charge_id,
     });
     return buildAndSendSearchRequest(dispatch);
-  };
-}
-
-export function useStartEditing() {
-  const dispatch = useAppDispatch();
-
-  return () => {
-    dispatch({ type: START_EDITING });
-  };
-}
-
-export function useDoneEditing() {
-  const dispatch = useAppDispatch();
-
-  return () => {
-    dispatch({ type: DONE_EDITING });
   };
 }
 

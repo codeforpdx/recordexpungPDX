@@ -8,8 +8,6 @@ import {
   DELETE_CHARGE,
   UNDO_EDIT_CASE,
   UNDO_EDIT_CHARGE,
-  START_EDITING,
-  DONE_EDITING,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   SearchRecordState,
@@ -122,7 +120,6 @@ export function searchReducer(
         record: action.record,
         questions: action.questions,
         loading: "",
-        editingRecord: false,
       };
     case RECORD_LOADING:
       return {
@@ -133,7 +130,6 @@ export function searchReducer(
         questions: {},
         edits: {},
         loading: "loading",
-        editingRecord: false,
       };
 
     case SELECT_ANSWER: {
@@ -195,7 +191,6 @@ export function searchReducer(
         loading: "edit",
       };
     }
-
     case DELETE_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = { summary: { edit_status: "DELETE" } };
@@ -359,13 +354,6 @@ export function searchReducer(
         }
       }
       return { ...state, edits };
-    }
-
-    case START_EDITING: {
-      return { ...state, editingRecord: true };
-    }
-    case DONE_EDITING: {
-      return { ...state, editingRecord: false };
     }
     case DOWNLOAD_EXPUNGEMENT_PACKET:
       const information = {

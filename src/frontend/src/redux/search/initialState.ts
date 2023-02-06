@@ -1,7 +1,6 @@
 import { SearchRecordState } from "./types";
 
 const initialState: SearchRecordState = {
-  demo: false,
   loading: "",
   loadingExpungementPacket: false,
   aliases: [
@@ -14,7 +13,6 @@ const initialState: SearchRecordState = {
   ],
   today: "",
   edits: {},
-  editingRecord: false,
   userInformation: {},
 };
 
