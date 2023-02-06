@@ -3,7 +3,6 @@ import "@testing-library/jest-dom";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { appRender } from "../../../test/testHelpers";
-import errorResponse from "../../../test/data/errorResponse";
 import Record from ".";
 
 const mockRequest = jest.fn((req) => new Promise(() => {}));
@@ -80,9 +79,6 @@ it("correctly renders after clicking add case button", async () => {
 });
 
 it("displays request errors", () => {
-  const { asFragment } = appRender(
-    <Record record={errorResponse.record} />,
-    "error"
-  );
+  const { asFragment } = appRender(<Record />, "error");
   expect(asFragment()).toMatchSnapshot();
 });

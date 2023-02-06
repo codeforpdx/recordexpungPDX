@@ -231,15 +231,19 @@ export function undoEditCharge(
   };
 }
 
-export function startEditing() {
-  return {
-    type: START_EDITING,
+export function useStartEditing() {
+  const dispatch = useAppDispatch();
+
+  return () => {
+    dispatch({ type: START_EDITING });
   };
 }
 
-export function doneEditing() {
-  return {
-    type: DONE_EDITING,
+export function useDoneEditing() {
+  const dispatch = useAppDispatch();
+
+  return () => {
+    dispatch({ type: DONE_EDITING });
   };
 }
 
