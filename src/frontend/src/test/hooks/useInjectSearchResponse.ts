@@ -5,8 +5,14 @@ import blank from "../data/blankResponse";
 import complex from "../data/complexResponse";
 import common from "../data/commonResponse";
 import multiple from "../data/multipleResponse";
+import error from "../data/errorResponse";
 
-export type FakeResponseName = "blank" | "complex" | "common" | "multiple";
+export type FakeResponseName =
+  | "blank"
+  | "complex"
+  | "common"
+  | "multiple"
+  | "error";
 
 export function getResponseFromRecordName(name: FakeResponseName) {
   return {
@@ -14,6 +20,7 @@ export function getResponseFromRecordName(name: FakeResponseName) {
     complex,
     common,
     multiple,
+    error,
   }[name] as SearchResponse;
 }
 
