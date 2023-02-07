@@ -7,12 +7,14 @@ import { searchReducer } from "./search/reducer";
 import demoReducer from "./demoSlice";
 import summarySlice from "./summarySlice";
 import editingSlice from "./editingSlice";
+import statsSlice from "./statsSlice";
 
 const rootReducer = combineReducers({
   search: searchReducer,
   demo: demoReducer,
   summary: summarySlice,
   editing: editingSlice,
+  stats: statsSlice,
 });
 
 const store = configureStore({

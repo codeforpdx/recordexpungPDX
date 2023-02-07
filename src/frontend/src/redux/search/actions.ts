@@ -22,6 +22,7 @@ import {
 } from "./types";
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import { RecordData } from "../../components/RecordSearch/Record/types";
+import { updateStats } from "../statsSlice";
 
 export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
@@ -32,6 +33,8 @@ export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       errors: receivedRecord.errors,
       summary: receivedRecord.summary,
     };
+
+    updateStats(record);
     dispatch({
       type: DISPLAY_RECORD,
       record: record,
