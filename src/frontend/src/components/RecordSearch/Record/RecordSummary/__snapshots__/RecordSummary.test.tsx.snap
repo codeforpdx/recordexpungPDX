@@ -182,7 +182,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                       <span
                         class="fw6 w-90 pl1"
                       >
-                        Eligible Now
+                        Eligible
                       </span>
                     </div>
                   </div>
@@ -216,7 +216,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                       <span
                         class="fw6 w-90 pl1"
                       >
-                        Eligible Now
+                        Eligible
                       </span>
                     </div>
                   </div>
@@ -325,7 +325,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                       <span
                         class="fw6 w-90 pl1"
                       >
-                        Eligible Now
+                        Eligible
                       </span>
                     </div>
                   </div>

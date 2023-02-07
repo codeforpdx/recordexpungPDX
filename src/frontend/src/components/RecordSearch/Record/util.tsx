@@ -1,40 +1,67 @@
 import React from "react";
 import moment from "moment";
-import { ExpungementResultData } from "./types";
+import { ExpungementResultData, ChargeEligibilityStatus } from "./types";
 
 type EligibilityColor = "green" | "dark-blue" | "purple" | "red";
 
-// Status can come from either:
-// expungement_result.charge_eligibility.status or
-// summary.charges_grouped_by_eligibility_and_case keys
-export function getEligibilityColor(status: string, caseBalance = 0) {
+export function getEligibilityColor(
+  status: ChargeEligibilityStatus,
+  caseBalance = 0
+) {
   let color: EligibilityColor;
   let icon = "fa fa-";
 
   switch (status) {
-    case "Unknown":
-    case "Possible Eligible":
-    case "Possibly Will Be Eligible":
-    case "Needs More Analysis":
-      color = "purple";
-      icon += "question-circle";
+    case "Eligible Now":
+      color = caseBalance > 0 ? "dark-blue" : "green";
+      icon += caseBalance > 0 ? "dollar-sign" : "check";
       break;
     case "Ineligible":
       color = "red";
       icon += "circle-xmark";
       break;
-    case "Eligible Now":
-      color = caseBalance > 0 ? "dark-blue" : "green";
-      icon += caseBalance > 0 ? "dollar-sign" : "check";
-      break;
-    default:
+    case "Will Be Eligible":
       color = "dark-blue";
       icon += "clock";
+      break;
+    case "Possibly Eligible":
+    case "Possibly Will Be Eligible":
+    case "Unknown":
+    case "Needs More Analysis":
+    default:
+      color = "purple";
+      icon += "question-circle";
   }
 
   const bgColor = "bg-washed-" + (color === "dark-blue" ? "blue" : color);
 
   return { icon, color, bgColor };
+}
+
+function getShortLabel(
+  status: ChargeEligibilityStatus,
+  dateStr: string | null,
+  caseBalance: number
+) {
+  const date = moment(dateStr, "MMM/D/YY");
+
+  switch (status) {
+    case "Eligible Now":
+      if (caseBalance > 0) return "Eligible";
+      return status;
+    case "Will Be Eligible":
+      if (!dateStr || !date.isValid()) return status;
+      return "Eligible " + date.format("M/D/YY");
+    case "Needs More Analysis":
+      return "Needs Analysis";
+    case "Possibly Eligible":
+    case "Possibly Will Be Eligible":
+      return "Eligible?";
+    case "Ineligible":
+    case "Unknown":
+    default:
+      return status;
+  }
 }
 
 export function getEligibilityAttributes(
@@ -46,26 +73,16 @@ export function getEligibilityAttributes(
   let label = charge_eligibility?.label ?? "Unknown";
   const status = charge_eligibility?.status ?? "Unknown";
   const dateStr = charge_eligibility.date_to_sort_label_by;
-  const { icon, color, bgColor } = getEligibilityColor(status, caseBalance);
 
   if (label.match(/\beligible/i) && caseBalance > 0 && useLongLabel) {
     label += " If Balance Paid";
   }
 
   if (!useLongLabel) {
-    if (label === "Needs More Analysis") {
-      label = "Needs Analysis";
-    }
-    if (status === "Will Be Eligible" && dateStr) {
-      const date = moment(dateStr, "MMM/D/YY");
-
-      if (date.isValid()) {
-        label = "Eligible " + date.format("M/D/YY");
-      }
-    }
+    label = getShortLabel(status, dateStr, caseBalance);
   }
 
-  return { label, color, bgColor, icon };
+  return { label, ...getEligibilityColor(status, caseBalance) };
 }
 
 export function newlineOrsInString(
