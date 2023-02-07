@@ -35,7 +35,7 @@ export interface CaseData {
 
 export interface RecordData {
   total_balance_due?: number;
-  cases?: any[];
+  cases?: CaseData[];
   errors?: string[];
   summary?: RecordSummaryData;
   questions?: QuestionsData;
@@ -77,9 +77,23 @@ export interface TimeEligibilityData {
   date_will_be_eligible: string;
 }
 
+export const chargeEligibilityStatuses = [
+  "Eligible Now",
+  "Will Be Eligible",
+  "Possibly Eligible",
+  "Possibly Will Be Eligible",
+  "Needs More Analysis",
+  "Ineligible",
+  "Unknown",
+] as const;
+
+export type ChargeEligibilityStatus =
+  (typeof chargeEligibilityStatuses)[number];
+
 export interface ChargeEligibilityData {
-  status: string;
+  status: ChargeEligibilityStatus;
   label: string;
+  date_to_sort_label_by: string | null;
 }
 
 export interface QuestionsData {
