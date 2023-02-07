@@ -45,6 +45,7 @@ export function getEligibilityAttributes(
   const { charge_eligibility } = expungement_result;
   let label = charge_eligibility?.label ?? "Unknown";
   const status = charge_eligibility?.status ?? "Unknown";
+  const dateStr = charge_eligibility.date_to_sort_label_by;
   const { icon, color, bgColor } = getEligibilityColor(status, caseBalance);
 
   if (label.match(/\beligible/i) && caseBalance > 0 && useLongLabel) {
@@ -55,16 +56,11 @@ export function getEligibilityAttributes(
     if (label === "Needs More Analysis") {
       label = "Needs Analysis";
     }
-    if (/\d{4}/.test(label)) {
-      // "Eligible Jan 30, 2025"
-      const baseStr = "Eligible ";
-      const split = label.split(baseStr);
-      if (split.length === 2) {
-        const date = moment(split[1], "MMM/D/YY");
+    if (status === "Will Be Eligible" && dateStr) {
+      const date = moment(dateStr, "MMM/D/YY");
 
-        if (date.isValid()) {
-          label = baseStr + date.format("M/D/YY");
-        }
+      if (date.isValid()) {
+        label = "Eligible " + date.format("M/D/YY");
       }
     }
   }
