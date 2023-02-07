@@ -1,49 +1,29 @@
 import React, { useState, useEffect } from "react";
 import history from "../../service/history";
 import { downloadExpungementPacket } from "../../redux/search/actions";
-import { connect } from "react-redux";
-import { AppState } from "../../redux/store";
-import { AliasData } from "../RecordSearch/SearchPanel/types";
 import InvalidInputs from "../InvalidInputs";
 import moment from "moment";
-
-interface Props {
-  aliases: AliasData[];
-  loadingExpungementPacket: boolean;
-  downloadExpungementPacket: Function;
-}
-
-interface State {
-  name: string;
-  dob: string;
-  mailingAddress: string;
-  phoneNumber: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  invalidZipCode: boolean;
-  invalidPhone: boolean;
-  invalidBirthDate: boolean;
-}
+import { useAppSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
 
 export default function UserDataForm() {
-  // class UserDataForm extends React.Component<Props, State> {
-  // const [alias, setAlias] = useState();
-  const [name, setName] = useState<string>("");
-  const [dob, setDob] = useState<string>("");
-  const [mailingAddress, setMailingAddress] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [state, setState] = useState<string>("");
-  const [zipCode, setZipCode] = useState<string>("");
-  const [invalidZipCode, setInvalidZipCode] = useState<boolean>(false);
-  const [invalidPhone, setInvalidPhone] = useState<boolean>(false);
-  const [invalidBirthDate, setInvalidBirthDate] = useState<boolean>(false);
-  const [loadingExpungementPacket, setLoadingExpungementPacket] =
-    useState<boolean>(false);
+  const aliases = useAppSelector((state) => state.search.aliases);
+  const dispatch = useDispatch();
+  const [name, setName] = useState(buildName());
+  const [dob, setDob] = useState(buildDob());
+  const [mailingAddress, setMailingAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [invalidZipCode, setInvalidZipCode] = useState(false);
+  const [invalidPhone, setInvalidPhone] = useState(false);
+  const [invalidBirthDate, setInvalidBirthDate] = useState(false);
+  const loadingExpungementPacket = useAppSelector(
+    (state) => state.search.loadingExpungementPacket
+  );
 
-  // REFACTORED
-  function buildName(aliases: AliasData[]) {
+  function buildName() {
     if (aliases.length > 0) {
       const firstAlias = aliases[0];
       const nameString = `${firstAlias.first_name} ${
@@ -59,26 +39,7 @@ export default function UserDataForm() {
     }
   }
 
-  //ORIGINAL
-  // private buildName = () => {
-  //   console.log(this.props.aliases);
-  //   if (this.props.aliases.length > 0) {
-  //     const firstAlias = this.props.aliases[0];
-  //     const nameString = `${firstAlias.first_name} ${
-  //       firstAlias.middle_name ? firstAlias.middle_name + " " : ""
-  //     }${firstAlias.last_name}`;
-  //     if (!nameString.includes("*")) {
-  //       return nameString;
-  //     } else {
-  //       return "";
-  //     }
-  //   } else {
-  //     return "";
-  //   }
-  // };
-
-  //REFACTORED
-  function buildDob(aliases: AliasData[]) {
+  function buildDob() {
     if (aliases.length > 0) {
       const firstAlias = aliases[0];
       return firstAlias.birth_date;
@@ -87,146 +48,49 @@ export default function UserDataForm() {
     }
   }
 
-  //ORIGINAL
-  // private buildDob = () => {
-  //   if (this.props.aliases.length > 0) {
-  //     const firstAlias = this.props.aliases[0];
-  //     return firstAlias.birth_date;
-  //   } else {
-  //     return "";
-  //   }
-  // };
-
-  //ORIGINAL
-  //constructor, has been replaced by useState above
-  // public state: State = {
-  //   name: this.buildName(),
-  //   dob: this.buildDob(),
-  //   mailingAddress: "",
-  //   phoneNumber: "",
-  //   city: "",
-  //   state: "",
-  //   zipCode: "",
-  //   invalidZipCode: false,
-  //   invalidPhone: false,
-  //   invalidBirthDate: false,
-  // };
-
-  // REFACTORED
-  const phoneNumberPattern = new RegExp(".*[0-9].*");
-  const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
-
-  //ORIGINAL
-  // phoneNumberPattern = new RegExp(".*[0-9].*");
-  // zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
-
-  // REFACTORED
-  async function validateForm() {
-    const phoneNumberMatch = phoneNumberPattern.exec(phoneNumber);
-    const zipCodeMatch = zipCodePattern.exec(zipCode);
-    return (
-      setInvalidZipCode(zipCode.length > 0 && !zipCodeMatch),
-      setInvalidPhone(phoneNumber.length > 0 && !phoneNumberMatch),
-      setInvalidBirthDate(
-        dob.length > 0 && moment(dob, "M/D/YYYY", true).isValid() === false
-      )
-    );
+  function validateForm() {
+    const phoneNumberPattern = new RegExp(".*[0-9].*");
+    const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
+    const phoneNumberMatch = phoneNumberPattern.test(phoneNumber);
+    const zipCodeMatch = zipCodePattern.test(zipCode);
+    const isValidZipCode = zipCode.length > 0 && zipCodeMatch;
+    const isValidPhoneNumber = phoneNumber.length > 0 && phoneNumberMatch;
+    const isValidBirthDate =
+      dob.length > 0 && moment(dob, "M/D/YYYY", true).isValid();
+    setInvalidZipCode(!isValidZipCode);
+    setInvalidPhone(!isValidPhoneNumber);
+    setInvalidBirthDate(!isValidBirthDate);
+    return isValidZipCode && isValidBirthDate && isValidPhoneNumber;
   }
 
-  //ORIGINAL
-  // public validateForm = () => {
-  //   const phoneNumberMatch = this.phoneNumberPattern.exec(
-  //     this.state.phoneNumber
-  //   );
-  //   const zipCodeMatch = this.zipCodePattern.exec(this.state.zipCode);
-  //   return new Promise((resolve: (value?: unknown) => void) => {
-  //     this.setState<any>(
-  //       {
-  //         invalidZipCode: this.state.zipCode.length > 0 && !zipCodeMatch,
-  //         invalidPhone: this.state.phoneNumber.length > 0 && !phoneNumberMatch,
-  //         invalidBirthDate:
-  //           this.state.dob.length > 0 &&
-  //           moment(this.state.dob, "M/D/YYYY", true).isValid() === false,
-  //       },
-
-  //       resolve
-  //     );
-  //   });
-  // };
-
-  //ORIGINAL
-  // public handleChange = (e: React.BaseSyntheticEvent) => {
-  //   // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635 for why we're
-  //   // using the "any" type.
-  //   this.setState<any>({
-  //     [e.target.id]: e.target.value,
-  //   });
-  // };
-
-  // REFACTORED
-  async function handleSubmit() {
-    // e.preventDefault();
-    try {
-      await validateForm();
-      if (!invalidZipCode && !invalidPhone && !invalidBirthDate) {
-        return downloadExpungementPacket(
-          name,
-          dob,
-          mailingAddress,
-          phoneNumber,
-          city,
-          state,
-          zipCode
-        );
-      }
-    } catch (err: any) {
-      console.log(err);
+  function handleSubmit(e: React.BaseSyntheticEvent) {
+    e.preventDefault();
+    console.log(validateForm());
+    if (validateForm()) {
+      return downloadExpungementPacket(
+        name,
+        dob,
+        mailingAddress,
+        phoneNumber,
+        city,
+        state,
+        zipCode
+      )(dispatch);
     }
   }
 
-  //ORIGINAL
-  // public handleSubmit = (e: React.BaseSyntheticEvent) => {
-  //   e.preventDefault();
-  //   this.validateForm().then(() => {
-  //     if (
-  //       !this.state.invalidZipCode &&
-  //       !this.state.invalidPhone &&
-  //       !this.state.invalidBirthDate
-  //     ) {
-  //       return this.props.downloadExpungementPacket(
-  //         this.state.name,
-  //         this.state.dob,
-  //         this.state.mailingAddress,
-  //         this.state.phoneNumber,
-  //         this.state.city,
-  //         this.state.state,
-  //         this.state.zipCode
-  //       );
-  //     }
-  //   });
-  // };
+  useEffect(() => {
+    if (!(aliases.length > 0)) {
+      return history.push("/record-search");
+    }
+  }, []);
 
-  // REFACTORED
-  // useEffect(() => {
-  //   if (!(aliasCheck.length > 0)) {
-  //     return history.push("/record-search");
-  //   }
-  // }, []);
-
-  //ORIGINAL
-  // public componentDidMount() {
-  //   if (!(this.props.aliases.length > 0)) {
-  //     history.push("/record-search");
-  //   }
-  // }
-
-  // public render() {
   return (
     <>
       <main className="mw6">
         <section className="cf pa3 pa4-ns bg-white shadow br3">
           <h1 className="f4 fw7 mt0 mb4">User Information</h1>
-          <form onSubmit={() => handleSubmit()} noValidate={true}>
+          <form onSubmit={handleSubmit} noValidate={true}>
             <legend className="visually-hidden">User Information</legend>
             <div className="mb4">
               <label htmlFor="name" className="db mb1 fw6">
@@ -418,14 +282,3 @@ export default function UserDataForm() {
     </>
   );
 }
-
-//ORIGINAL
-// const mapStateToProps = (state: AppState) => ({
-//   aliases: state.search.aliases,
-//   loadingExpungementPacket: state.search.loadingExpungementPacket,
-// });
-
-//ORIGINAL
-// // export default connect(mapStateToProps, { downloadExpungementPacket })(
-// //   UserDataForm
-// // );
