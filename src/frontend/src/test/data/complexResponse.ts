@@ -2,7 +2,7 @@ import { SearchResponse } from "../../redux/search/types";
 
 const complexResponse: SearchResponse = {
   record: {
-    total_balance_due: 11285.64,
+    total_balance_due: 3400.6,
     cases: [
       {
         name: "Special, Nobody A",
@@ -13,7 +13,7 @@ const complexResponse: SearchResponse = {
         date: "Jan 11, 2019",
         violation_type: "Offense Misdemeanor",
         current_status: "Closed",
-        balance_due: 900.1,
+        balance_due: 100,
         case_detail_link:
           "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=",
         district_attorney_number: "1",
@@ -146,7 +146,7 @@ const complexResponse: SearchResponse = {
         date: "Jan 1, 2018",
         violation_type: "Offense Misdemeanor",
         current_status: "Closed",
-        balance_due: 900.1,
+        balance_due: 100,
         case_detail_link:
           "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=",
         district_attorney_number: "5",
@@ -241,7 +241,7 @@ const complexResponse: SearchResponse = {
         date: "Jan 26, 2013",
         violation_type: "Offense Misdemeanor",
         current_status: "Closed",
-        balance_due: 99.0,
+        balance_due: 200,
         case_detail_link:
           "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=",
         district_attorney_number: "2",
@@ -337,7 +337,7 @@ const complexResponse: SearchResponse = {
         date: "Jan 11, 2011",
         violation_type: "Offense Misdemeanor",
         current_status: "Closed",
-        balance_due: 10000.99,
+        balance_due: 1400.6,
         case_detail_link:
           "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=",
         district_attorney_number: "3",
@@ -2113,7 +2113,7 @@ const complexResponse: SearchResponse = {
         ],
         "Eligible Now If Balance Paid": [
           [
-            "Washington 99AV3457 \u2013 $900.1",
+            "Washington 99AV3457 \u2013 $100",
             [
               [
                 "99AV3457-2",
@@ -2126,7 +2126,7 @@ const complexResponse: SearchResponse = {
             ],
           ],
           [
-            "Washington 99DF09900 \u2013 $900.1",
+            "Washington 99DF09900 \u2013 $100",
             [
               [
                 "99DF09900-2",
@@ -2169,7 +2169,7 @@ const complexResponse: SearchResponse = {
         ],
         "Eligible Jan 30, 2025 If Balance Paid": [
           [
-            "Washington 999388 \u2013 $10000.99",
+            "Washington 999388 \u2013 $1400.6",
             [
               [
                 "999388-1",
@@ -2184,17 +2184,17 @@ const complexResponse: SearchResponse = {
         {
           county_name: "Washington",
           case_fines: [
-            { case_number: "99AV3457", balance: 900.1 },
-            { case_number: "99DF09900", balance: 900.1 },
-            { case_number: "996271", balance: 99.0 },
-            { case_number: "999388", balance: 10000.99 },
+            { case_number: "99AV3457", balance: 100.1 },
+            { case_number: "99DF09900", balance: 100.2 },
+            { case_number: "996271", balance: 1200.3 },
+            { case_number: "999388", balance: 2000.1 },
           ],
-          total_fines_due: 11285.64,
+          total_fines_due: 3400.6,
         },
         { county_name: "Wheeler", case_fines: [], total_fines_due: 0 },
         { county_name: "Deschutes", case_fines: [], total_fines_due: 0 },
       ],
-      total_fines_due: 11285.64,
+      total_fines_due: 3400.6,
     },
     questions: {
       "996271-1": {

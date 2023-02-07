@@ -310,7 +310,7 @@ const multipleResponse: SearchResponse = {
         { case_fines: [], county_name: "Multnomah", total_fines_due: 0 },
       ],
       total_cases: 3,
-      total_charges: 4,
+      total_charges: 6,
       total_fines_due: 1000.0,
     },
     total_balance_due: 1000.0,

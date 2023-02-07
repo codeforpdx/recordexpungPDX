@@ -598,7 +598,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 Charges
               </span>
                (
-              4
+              6
               )
               <p
                 class="f6 fw5 pt1"

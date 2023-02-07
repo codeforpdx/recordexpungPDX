@@ -124,7 +124,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
               <div
                 class="w-30-ns w-50"
               >
-                $900.10
+                $100.00
               </div>
             </div>
             <ul
@@ -267,7 +267,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
               <div
                 class="w-30-ns w-50"
               >
-                $900.10
+                $100.00
               </div>
             </div>
             <ul
@@ -376,7 +376,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
               <div
                 class="w-30-ns w-50"
               >
-                $99.00
+                $200.00
               </div>
             </div>
             <ul
@@ -485,7 +485,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
               <div
                 class="w-30-ns w-50"
               >
-                $10,000.99
+                $1,400.60
               </div>
             </div>
             <ul
@@ -2247,7 +2247,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                   <span
                     class="fr"
                   >
-                    $900.10
+                    $100.10
                   </span>
                 </li>
                 <li
@@ -2263,7 +2263,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                   <span
                     class="fr"
                   >
-                    $900.10
+                    $100.20
                   </span>
                 </li>
                 <li
@@ -2279,7 +2279,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                   <span
                     class="fr"
                   >
-                    $99.00
+                    $1,200.30
                   </span>
                 </li>
                 <li
@@ -2295,7 +2295,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
                   <span
                     class="fr"
                   >
-                    $10,000.99
+                    $2,000.10
                   </span>
                 </li>
               </ul>
@@ -2311,7 +2311,7 @@ exports[`correctly renders with the complex fake record and CasesList view selec
               <span
                 class="fr"
               >
-                $11,285.64
+                $3,400.60
               </span>
             </div>
           </ul>

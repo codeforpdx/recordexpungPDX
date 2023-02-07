@@ -1141,7 +1141,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <li
                 class="fw7 pt2"
               >
-                Washington 99AV3457 – $900.1
+                Washington 99AV3457 – $100
               </li>
               <li
                 class="f6 bb b--light-gray pv2"
@@ -1166,7 +1166,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <li
                 class="fw7 pt2"
               >
-                Washington 99DF09900 – $900.1
+                Washington 99DF09900 – $100
               </li>
               <li
                 class="f6 bb b--light-gray pv2"
@@ -1278,7 +1278,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <li
                 class="fw7 pt2"
               >
-                Washington 999388 – $10000.99
+                Washington 999388 – $1400.6
               </li>
               <li
                 class="f6 bb b--light-gray pv2"
@@ -1344,7 +1344,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     <span
                       class="fr"
                     >
-                      $900.10
+                      $100.10
                     </span>
                   </li>
                   <li
@@ -1360,7 +1360,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     <span
                       class="fr"
                     >
-                      $900.10
+                      $100.20
                     </span>
                   </li>
                   <li
@@ -1376,7 +1376,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     <span
                       class="fr"
                     >
-                      $99.00
+                      $1,200.30
                     </span>
                   </li>
                   <li
@@ -1392,7 +1392,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     <span
                       class="fr"
                     >
-                      $10,000.99
+                      $2,000.10
                     </span>
                   </li>
                 </ul>
@@ -1408,7 +1408,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                 <span
                   class="fr"
                 >
-                  $11,285.64
+                  $3,400.60
                 </span>
               </div>
             </ul>
@@ -1520,7 +1520,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                   >
                     Balance
                   </div>
-                  $900.10
+                  $100.00
                 </div>
                 <div
                   class="ch6 fl ph3 pv1"
@@ -2081,7 +2081,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                   >
                     Balance
                   </div>
-                  $900.10
+                  $100.00
                 </div>
                 <div
                   class="ch6 fl ph3 pv1"
@@ -2493,7 +2493,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                   >
                     Balance
                   </div>
-                  $99.00
+                  $200.00
                 </div>
                 <div
                   class="ch6 fl ph3 pv1"
@@ -2972,7 +2972,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                   >
                     Balance
                   </div>
-                  $10,000.99
+                  $1,400.60
                 </div>
                 <div
                   class="ch6 fl ph3 pv1"
