@@ -1,25 +1,30 @@
-interface RadioGroupProps {
+import { UseRadioGroupReturn } from "../../hooks/useRadioGroup";
+
+interface Props {
   className?: string;
+  inputGroupClassName?: string;
   optionLabels: string[];
-  radioGroupProps: any;
+  radioGroupProps: Omit<UseRadioGroupReturn, "selectedRadioValue">;
 }
 
 export default function RadioGroup({
   className = "",
+  inputGroupClassName = "",
   optionLabels,
   radioGroupProps,
-}: RadioGroupProps) {
-  const { groupProps, makeRadioButtonProps } = radioGroupProps;
+}: Props) {
+  const { radioGroupWrapperProps, makeRadioButtonProps } = radioGroupProps;
 
   return (
-    <fieldset {...groupProps} className={className}>
+    <fieldset {...radioGroupWrapperProps} className={className}>
       {optionLabels.map((label) => {
-        const { inputProps, labelProps } = makeRadioButtonProps(label);
+        const { radioButtonProps, radioLabelProps } =
+          makeRadioButtonProps(label);
 
         return (
-          <p key={label}>
-            <input {...inputProps} />
-            <label {...labelProps}>{label}</label>
+          <p key={label} className={inputGroupClassName}>
+            <input {...radioButtonProps} />
+            <label {...radioLabelProps}>{label}</label>
           </p>
         );
       })}

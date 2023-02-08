@@ -14,31 +14,45 @@ interface RadioLabelProps {
   htmlFor: string;
 }
 
-interface UseRadioGroupProps {
+export interface RadioGroupWrapperProps {
+  dir: string;
+  role: "radiogroup";
+  "aria-label": string;
+}
+
+export type MakeRadioButtonProps = (label: string) => {
+  radioButtonProps: RadioButtonProps;
+  radioLabelProps: RadioLabelProps;
+};
+
+export interface UseRadioGroupReturn {
+  selectedRadioValue: string;
+  radioGroupWrapperProps: RadioGroupWrapperProps;
+  makeRadioButtonProps: MakeRadioButtonProps;
+}
+
+interface Props {
   label: string;
   initialValue?: string;
 }
 
-export default function useRadioGroup({
-  label,
-  initialValue = "",
-}: UseRadioGroupProps) {
+export default function useRadioGroup({ label, initialValue = "" }: Props) {
   const [selectedRadioValue, setSelectedRadioValue] = useState(initialValue);
   const groupLabel = label.toLowerCase();
   const prefix = groupLabel.replace(/\s/g, "-") + "-";
-  const groupProps = {
+  const radioGroupWrapperProps: RadioGroupWrapperProps = {
     dir: "ltr",
     role: "radiogroup",
     "aria-label": label,
   };
 
-  const makeRadioButtonProps = (label: string) => {
+  const makeRadioButtonProps: MakeRadioButtonProps = (label: string) => {
     const id = prefix + label.toLowerCase();
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSelectedRadioValue(event.target.value);
     };
 
-    const inputProps: RadioButtonProps = {
+    const radioButtonProps: RadioButtonProps = {
       id,
       name: groupLabel,
       type: "radio",
@@ -48,19 +62,19 @@ export default function useRadioGroup({
       onChange,
     };
 
-    const labelProps: RadioLabelProps = {
+    const radioLabelProps: RadioLabelProps = {
       htmlFor: id,
     };
 
     return {
-      inputProps,
-      labelProps,
+      radioButtonProps,
+      radioLabelProps,
     };
   };
 
   return {
     selectedRadioValue,
-    groupProps,
+    radioGroupWrapperProps,
     makeRadioButtonProps,
-  };
+  } as UseRadioGroupReturn;
 }
