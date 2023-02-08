@@ -1,10 +1,10 @@
 import React from "react";
-import { CaseData, ChargeData } from "../types";
-import { useAppSelector } from "../../../../redux/hooks";
-import toDollars from "../../../../service/currency-format";
-import { getEligibilityAttributes } from "../util";
-import Link from "../../../common/Link";
-import Aside from "../../../common/Aside";
+import { CaseData, ChargeData } from "../Record/types";
+import { useAppSelector } from "../../../redux/hooks";
+import toDollars from "../../../service/currency-format";
+import { getEligibilityAttributes } from "../Record/util";
+import Link from "../../common/Link";
+import Aside from "../../common/Aside";
 
 function Charge({
   chargeData,
@@ -75,7 +75,7 @@ function Case({ caseData, isLast }: { caseData: CaseData; isLast: boolean }) {
   );
 }
 
-export default function CasesList({ ...props }) {
+export default function CasesSummary({ ...props }) {
   const record = useAppSelector((state) => state.search.record);
   const cases = record?.cases;
   const casesLength = cases?.length ?? 0;
