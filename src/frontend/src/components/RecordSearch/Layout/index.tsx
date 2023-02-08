@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectStats } from "../../../redux/statsSlice";
 import useRadioGroup from "../../../hooks/useRadioGroup";
+import setUpScrollSpy from "../expandedView/setupScrollSpy";
 import SearchPanel from "../SearchPanel";
 import Status from "../Status";
 import RecordSummary from "../Record/RecordSummary";
@@ -11,6 +12,7 @@ import { convertCaseNumberIntoLinks } from "../Record/util";
 import ViewOptions from "../expandedView/ViewOptions";
 import CasesSummary from "../expandedView/CasesSummary";
 import Stats from "../expandedView/SummaryStats";
+import CasesNavList from "../expandedView/CasesNav";
 
 function ErrorMessage({ message, idx }: { message: string; idx: number }) {
   const id = "record_error_" + idx;
@@ -37,6 +39,15 @@ export default function Layout({
   const isExpandedView = selectedRadioValue === "Expanded";
   const panelClass = "bg-white shadow br3 ";
   const panelHeading = "f5 fw7 tc mt2 mb3";
+
+  useEffect(setUpScrollSpy, [isExpandedView]);
+
+  useEffect(() => {
+    document.querySelector("html")?.classList.toggle("smooth-scroll");
+    return () => {
+      document.querySelector("html")?.classList.toggle("smooth-scroll");
+    };
+  });
 
   return (
     <main>
@@ -81,17 +92,35 @@ export default function Layout({
       </div>
 
       {isExpandedView && stats.totalCases > 0 && (
-        <section className="flex-l mh2">
-          <div className={panelClass + "w-70-l f6 ph4 "}>
-            <h2 className={panelHeading}>Summary</h2>
-            <CasesSummary showColor={showColor} />
-          </div>
+        <>
+          <section className="flex-l mh2">
+            <div className={panelClass + "w-70-l f6 ph4 "}>
+              <h2 className={panelHeading}>Summary</h2>
+              <CasesSummary showColor={showColor} />
+            </div>
 
-          <div className={panelClass + "w-30-l ml2-l pl3 pb2"}>
-            <h2 className={panelHeading}>Counts</h2>
-            <Stats showColor={showColor} />
-          </div>
-        </section>
+            <div className={panelClass + "w-30-l ml2-l pl3 pb2"}>
+              <h2 className={panelHeading}>Counts</h2>
+              <Stats showColor={showColor} />
+            </div>
+          </section>
+
+          <section className="flex-l mh2 mt2">
+            <div className={panelClass + "w-70-l f6 ph4 "}>
+              <h2 className={panelHeading}>Review Case Details</h2>
+              <Record />
+            </div>
+
+            <div
+              className={
+                panelClass + "w-30-l ml2-l pl3 pb2 self-start sticky-l"
+              }
+            >
+              <h2 className={panelHeading}>Navigate</h2>
+              <CasesNavList />
+            </div>
+          </section>
+        </>
       )}
     </main>
   );
