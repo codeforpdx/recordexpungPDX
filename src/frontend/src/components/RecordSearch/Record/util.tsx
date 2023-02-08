@@ -4,14 +4,16 @@ import { ExpungementResultData, ChargeEligibilityStatus } from "./types";
 
 type EligibilityColor = "green" | "dark-blue" | "purple" | "red";
 
-export function getEligibilityColor(
-  status: ChargeEligibilityStatus,
-  caseBalance = 0
-) {
+export function getEligibilityColor(status: string, caseBalance = 0) {
   let color: EligibilityColor;
   let icon = "fa fa-";
 
   switch (status) {
+    case "Eligible":
+    case "Eligible Future":
+      color = "dark-blue";
+      icon = "dollar-sign";
+      break;
     case "Eligible Now":
       color = caseBalance > 0 ? "dark-blue" : "green";
       icon += caseBalance > 0 ? "dollar-sign" : "check";
