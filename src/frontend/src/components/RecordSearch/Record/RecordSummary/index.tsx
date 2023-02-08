@@ -7,10 +7,7 @@ import {
 } from "../../../../redux/summarySlice";
 import { buildAndSendDownloadPdfRequest } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
-import useRadioGroup from "../../../../hooks/useRadioGroup";
-import RadioGroup from "../../../common/RadioGroup";
 import ChargesList from "./ChargesList";
-import CasesList from "./CasesList";
 import CountyFines from "./CountyFines";
 import { IconButton } from "../../../common/IconButton";
 
@@ -19,10 +16,6 @@ export default function RecordSummary() {
   const record = useAppSelector((state) => state.search.record);
   const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
-  const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
-    label: "Summary overview sort options",
-    initialValue: "Charges",
-  });
 
   if (!record || !record.summary) return <></>;
 
@@ -51,15 +44,7 @@ export default function RecordSummary() {
   return (
     <div className="bg-white shadow br3 mb3 ph3 pb3">
       <div className="flex flex-wrap justify-end mb1">
-        <div className="flex flex-wrap items-center mv1 mr-auto">
-          <h2 className="f5 fw7 mr3">Search Summary</h2>
-
-          <RadioGroup
-            className="flex flex-wrap radio radio-sm ml1"
-            optionLabels={["Charges", "Cases"]}
-            radioGroupProps={radioGroupProps}
-          />
-        </div>
+        <h2 className="f5 fw7 mv3 mr-auto">Search Summary</h2>
 
         {!canGenerateForms && (
           <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
@@ -94,14 +79,10 @@ export default function RecordSummary() {
             <span className="fw7">Cases</span> ({totalCases})
           </h3>
 
-          {selectedRadioValue === "Charges" ? (
-            <ChargesList
-              chargesGroupedByEligibilityAndCase={groupedCharges}
-              totalCharges={totalCharges}
-            />
-          ) : (
-            <CasesList className="f6" />
-          )}
+          <ChargesList
+            chargesGroupedByEligibilityAndCase={groupedCharges}
+            totalCharges={totalCharges}
+          />
         </div>
 
         <div className="w-100 w-33-l ph3-l mb3">

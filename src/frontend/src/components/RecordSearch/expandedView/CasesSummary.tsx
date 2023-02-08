@@ -6,32 +6,41 @@ import { getEligibilityAttributes } from "../Record/util";
 import Link from "../../common/Link";
 import Aside from "../../common/Aside";
 
+interface Props {
+  showColor: boolean;
+}
+
 function Charge({
   chargeData,
   caseBalance,
   isLast,
+  showColor,
 }: {
   chargeData: ChargeData;
   caseBalance: number;
   isLast: boolean;
-}) {
+} & Props) {
   const { name, expungement_result, disposition } = chargeData;
-  const { label, color, icon } = getEligibilityAttributes(
+  const { label, color, bgColor, icon } = getEligibilityAttributes(
     expungement_result,
     caseBalance,
     false
   );
   return (
-    <li className={`flex-ns flex-wrap${isLast ? "" : " bb b--light-gray"}`}>
+    <li className={`flex-ns flex-wrap`}>
       <div className="w-25-ns">
-        <div className={`w-80 tc mv1 pr1 br3 ${color}`}>
+        <div
+          className={`w-80 tc pa1 br3 bb b--white ${showColor ? color : ""} ${
+            showColor ? bgColor : ""
+          }`}
+        >
           <div className={`flex flex-wrap`}>
-            <span className={icon + " w-10 "}></span>
+            <span className={icon + " w-10"}></span>
             <span className="fw6 w-90 pl1">{label}</span>
           </div>
         </div>
       </div>
-      <div className="w-20-ns pt1">
+      <div className="w-20-ns pt1 pl2">
         {disposition.ruling.toLocaleUpperCase()}
       </div>
       <div className="w-50-ns pt1 pl2">{name}</div>
@@ -39,17 +48,25 @@ function Charge({
   );
 }
 
-function Case({ caseData, isLast }: { caseData: CaseData; isLast: boolean }) {
+function Case({
+  caseData,
+  isLast,
+  showColor,
+}: { caseData: CaseData; isLast: boolean } & Props) {
   const { date, case_number, charges, balance_due, location } = caseData;
 
   return (
-    <div className={`mb2 pb1${isLast ? "" : " bb b--moon-gray"}`}>
-      <div className="fw7 flex flex-wrap pb2">
-        <div className="w-25-ns w-50">{date}</div>
+    <div className={`mb1`}>
+      <div
+        className={`fw7 flex flex-wrap br3 mb1 pv1 pl2 ${
+          showColor ? "bg-gray-blue-2" : ""
+        }`}
+      >
+        <div className="w-25-ns w-50 pl4">{date}</div>
         <div className="w-20-ns w-50">
           <Link to={"#" + case_number} text={"#" + case_number} />
         </div>
-        <div className="w-20-ns w-50 pl1 pl2">{location}</div>
+        <div className="w-20-ns w-50">{location}</div>
         <div className="w-30-ns w-50">
           {balance_due > 0 && toDollars(balance_due)}
         </div>
@@ -62,6 +79,7 @@ function Case({ caseData, isLast }: { caseData: CaseData; isLast: boolean }) {
               chargeData={chargeData}
               caseBalance={balance_due}
               isLast={idx2 === arr.length - 1}
+              showColor={showColor}
             />
           ))
         ) : (
@@ -75,7 +93,7 @@ function Case({ caseData, isLast }: { caseData: CaseData; isLast: boolean }) {
   );
 }
 
-export default function CasesSummary({ ...props }) {
+export default function CasesSummary({ showColor, ...props }: Props) {
   const record = useAppSelector((state) => state.search.record);
   const cases = record?.cases;
   const casesLength = cases?.length ?? 0;
@@ -90,6 +108,7 @@ export default function CasesSummary({ ...props }) {
             key={caseData.case_number}
             caseData={caseData}
             isLast={idx === casesLength - 1}
+            showColor={showColor}
           />
         );
       })}

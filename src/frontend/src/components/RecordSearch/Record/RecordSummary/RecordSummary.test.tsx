@@ -14,16 +14,6 @@ jest.mock("axios", () => {
 
 // snapshot tests for the initial state are accounted
 // for in the RecordSearch tests
-it("correctly renders with the complex fake record and CasesList view selected", () => {
-  const { getByLabelText, asFragment } = appRender(
-    <RecordSummary />,
-    "complex"
-  );
-
-  fireEvent.click(getByLabelText("Cases"));
-  expect(asFragment()).toMatchSnapshot();
-});
-
 describe("When rendered with the John Common demo data", () => {
   beforeEach(() => {
     appRender(<RecordSummary />, "common");

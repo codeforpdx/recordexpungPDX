@@ -372,6 +372,26 @@ fieldset {
   outline: auto 5px -webkit-focus-ring-color;
 }
 
+.checkbox.checkbox-sm label {
+  display: inline;
+  padding-left: 23px;
+}
+
+.checkbox.checkbox-sm label::before {
+  height: 15px;
+  width: 15px;
+  top: 4px;
+  left: -5px;
+}
+
+.checkbox.checkbox-sm label::after {
+  left: 0px;
+  top: 5px;
+  width: 5px;
+  height: 11px;
+  border-width: 0 1px 1px 0;
+}
+
 // Radio
 
 .radio input[type="radio"] {
