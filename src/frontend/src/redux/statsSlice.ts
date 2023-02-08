@@ -2,55 +2,80 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import {
   RecordData,
-  ChargeEligibilityStatus,
+  ShortLabel,
 } from "../components/RecordSearch/Record/types";
+
+type StatusCountMap = {
+  [key in ShortLabel]?: {
+    total: number;
+    numIncluded: number;
+    numExcluded: number;
+  };
+};
+
+type FinesCountyMap = { [key: string]: number };
 
 interface StatsState {
   totalCases: number;
   totalCharges: number;
+  numExcludedCharges: number;
+  numIncludedCharges: number;
   totalFines: number;
-  numChargesByEligibilityStatus?: Map<ChargeEligibilityStatus, number>;
-  finesByCounty?: Map<string, number>;
+  numChargesByEligibilityStatus: StatusCountMap;
+  finesByCounty: FinesCountyMap;
 }
 
 const initialState: StatsState = {
   totalCases: 0,
   totalCharges: 0,
+  numExcludedCharges: 0,
+  numIncludedCharges: 0,
   totalFines: 0,
+  numChargesByEligibilityStatus: {},
+  finesByCounty: {},
 };
 
-// TODO: when data is loading in actions.storeSearchResponse()
-// create a new status of "Eligible" which is use for "Eligible Now" but with
-// conditions like when fines are due
-function getStatusStatsFromCharges(record: RecordData) {
-  const statusStats = new Map<ChargeEligibilityStatus, number>();
+function getStatsFromCharges(record: RecordData) {
+  const statusStats: StatusCountMap = {};
   const cases = record.cases;
+  let numExcludedCharges = 0;
 
-  if (!cases) return statusStats;
+  if (!cases) return { numExcludedCharges, statusStats };
 
-  return cases.reduce((stats, aCase) => {
-    aCase.charges.forEach(
-      ({
-        expungement_result: {
-          charge_eligibility: { status },
-        },
-      }) => {
-        stats.set(status, (stats.get(status) ?? 0) + 1);
+  cases.forEach((aCase) => {
+    aCase.charges.forEach(({ shortLabel, isExcluded }) => {
+      if (isExcluded) numExcludedCharges++;
+
+      if (!shortLabel) return;
+
+      if (!statusStats[shortLabel]) {
+        return (statusStats[shortLabel] = {
+          total: 0,
+          numIncluded: 0,
+          numExcluded: 0,
+        });
       }
-    );
-    return statusStats;
-  }, statusStats);
+
+      statusStats[shortLabel]!.total++;
+      isExcluded
+        ? statusStats[shortLabel]!.numExcluded++
+        : statusStats[shortLabel]!.numIncluded++;
+    });
+  });
+
+  return { numExcludedCharges, statusStats };
 }
 
 function getFinesByCounty(record: RecordData) {
-  const finesByCounty = new Map<string, number>();
+  const finesByCounty: FinesCountyMap = {};
   const summary = record.summary;
 
   if (!summary) return finesByCounty;
 
   return summary.county_fines.reduce(
     (fines, { county_name, total_fines_due }) => {
-      return fines.set(county_name, total_fines_due);
+      fines[county_name] = total_fines_due;
+      return fines;
     },
     finesByCounty
   );
@@ -62,7 +87,7 @@ export const statsSlice = createSlice({
   reducers: {
     updateStats: {
       reducer(state, action: PayloadAction<StatsState>) {
-        state = action.payload;
+        return action.payload;
       },
       prepare(record: RecordData) {
         let stats = initialState;
@@ -73,10 +98,17 @@ export const statsSlice = createSlice({
         stats = {
           totalCases: summary.total_cases,
           totalCharges: summary.total_charges,
+          numExcludedCharges: 0,
+          numIncludedCharges: 0,
           totalFines: summary.total_fines_due,
+          numChargesByEligibilityStatus: {},
+          finesByCounty: {},
         };
 
-        stats.numChargesByEligibilityStatus = getStatusStatsFromCharges(record);
+        const { numExcludedCharges, statusStats } = getStatsFromCharges(record);
+        stats.numExcludedCharges = numExcludedCharges;
+        stats.numIncludedCharges = stats.totalCharges - numExcludedCharges;
+        stats.numChargesByEligibilityStatus = statusStats;
         stats.finesByCounty = getFinesByCounty(record);
 
         return { payload: stats };
