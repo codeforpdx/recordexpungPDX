@@ -5,6 +5,7 @@ import apiService from "../../service/api-service";
 import store from "../store";
 import { stopLoadingSummary } from "../summarySlice";
 import { doneEditing } from "../editingSlice";
+import { ChargeData } from "../../components/RecordSearch/Record/types";
 
 import {
   DISPLAY_RECORD,
@@ -21,8 +22,47 @@ import {
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
 } from "./types";
 import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
-import { RecordData } from "../../components/RecordSearch/Record/types";
+import {
+  RecordData,
+  ShortLabel,
+} from "../../components/RecordSearch/Record/types";
 import { updateStats } from "../statsSlice";
+import { getShortLabel } from "../../components/RecordSearch/Record/util";
+
+function isExludedCharge({ statute, level, name }: ChargeData) {
+  const chapter = Number(statute.slice(0, 3));
+  const lowerLevel = level.toLowerCase();
+
+  if (name.toLowerCase().includes("pedestrian j-walking")) return true;
+  if (level.toLowerCase().includes("infraction")) return true;
+
+  // 813 	Driving Under the Influence of Intoxicants
+  if (isNaN(chapter) || chapter === 813) return false;
+
+  if ((chapter >= 801 && chapter <= 826) || [481, 482, 483].includes(chapter)) {
+    if (!lowerLevel.includes("felony") && !lowerLevel.includes("misdemeanor")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function processCharges(record: RecordData) {
+  if (!record?.cases) return;
+
+  record.cases.forEach((aCase) => {
+    const fines = aCase.balance_due;
+
+    aCase.charges.forEach((charge) => {
+      const {
+        charge_eligibility: { status },
+      } = charge.expungement_result;
+      charge.shortLabel = getShortLabel(status, null, fines) as ShortLabel;
+      charge.isExcluded = isExludedCharge(charge);
+    });
+  });
+}
 
 export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
@@ -34,7 +74,9 @@ export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       summary: receivedRecord.summary,
     };
 
-    updateStats(record);
+    processCharges(record);
+
+    dispatch(updateStats(record));
     dispatch({
       type: DISPLAY_RECORD,
       record: record,

@@ -1,3 +1,15 @@
+export const shortLabels = [
+  "Eligible Now",
+  "Eligible Future",
+  "Eligible",
+  "Needs Analysis",
+  "Eligible?",
+  "Ineligible",
+  "Unknown",
+];
+
+export type ShortLabel = (typeof shortLabels)[number];
+
 export interface ChargeData {
   case_number: string;
   ambiguous_charge_id: string;
@@ -15,6 +27,8 @@ export interface ChargeData {
   };
   probation_revoked: string;
   edit_status: string;
+  shortLabel?: ShortLabel;
+  isExcluded?: boolean;
 }
 
 export interface CaseData {

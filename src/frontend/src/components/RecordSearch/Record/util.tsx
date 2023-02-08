@@ -38,19 +38,19 @@ export function getEligibilityColor(
   return { icon, color, bgColor };
 }
 
-function getShortLabel(
+export function getShortLabel(
   status: ChargeEligibilityStatus,
-  dateStr: string | null,
-  caseBalance: number
+  dateStr?: string | null,
+  caseBalance?: number
 ) {
   const date = moment(dateStr, "MMM/D/YY");
 
   switch (status) {
     case "Eligible Now":
-      if (caseBalance > 0) return "Eligible";
+      if (caseBalance && caseBalance > 0) return "Eligible";
       return status;
     case "Will Be Eligible":
-      if (!dateStr || !date.isValid()) return status;
+      if (!dateStr || !date.isValid()) return "Eligible Future";
       return "Eligible " + date.format("M/D/YY");
     case "Needs More Analysis":
       return "Needs Analysis";
