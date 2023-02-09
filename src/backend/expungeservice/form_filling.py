@@ -165,7 +165,7 @@ class FormFilling:
         case_number_with_comments = (
             f"{case.summary.case_number} (charge {in_part} only)" if ineligible_charges else case.summary.case_number
         )
-        if eligible_charges:
+        if eligible_charges and case.summary.balance_due_in_cents == 0:
             pdf, file_name, warnings = FormFilling._build_pdf_for_eligible_case(
                 case, eligible_charges, user_information, case_number_with_comments, sid
             )
