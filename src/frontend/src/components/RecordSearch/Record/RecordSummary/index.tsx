@@ -60,13 +60,16 @@ export default function RecordSummary() {
         )}
 
         <IconButton
+          buttonClassName="hover-blue"
           iconClassName="fa-bolt pr2"
           displayText="Generate Paperwork"
           onClick={handleGenerateFormsClick}
         />
 
         <IconButton
-          buttonClassName={summaryIsLoading ? "loading-btn" : ""}
+          buttonClassName={
+            "hover-blue " + (summaryIsLoading ? "loading-btn" : "")
+          }
           iconClassName="fa-download pr2"
           displayText="Summary PDF"
           onClick={handleDownloadSummaryClick}

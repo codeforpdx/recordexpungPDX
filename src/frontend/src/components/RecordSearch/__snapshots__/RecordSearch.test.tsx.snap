@@ -264,7 +264,7 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
             Search Summary
           </h2>
           <button
-            class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+            class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue"
           >
             <i
               aria-hidden="true"
@@ -273,7 +273,7 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
             Generate Paperwork
           </button>
           <button
-            class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+            class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue "
           >
             <i
               aria-hidden="true"
@@ -715,7 +715,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
             Search Summary
           </h2>
           <button
-            class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+            class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue"
           >
             <i
               aria-hidden="true"
@@ -724,7 +724,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
             Generate Paperwork
           </button>
           <button
-            class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+            class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue "
           >
             <i
               aria-hidden="true"
@@ -1475,7 +1475,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
         <ul
           class="list"
         >
-          <li>
+          <li
+            id="scroll-spy-trigger_case_99AV3457"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="99AV3457"
@@ -1591,7 +1593,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99AV3457-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99AV3457-1"
@@ -1735,7 +1739,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99AV3457-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99AV3457-2"
@@ -1884,7 +1890,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99AV3457-3"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99AV3457-3"
@@ -2036,7 +2044,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_99DF09900"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="99DF09900"
@@ -2152,7 +2162,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99DF09900-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99DF09900-1"
@@ -2296,7 +2308,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99DF09900-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99DF09900-2"
@@ -2448,7 +2462,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_996271"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="996271"
@@ -2564,7 +2580,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_996271-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="996271-1"
@@ -2744,7 +2762,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_996271-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="996271-2"
@@ -2927,7 +2947,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999388"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999388"
@@ -3043,7 +3065,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999388-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999388-1"
@@ -3211,7 +3235,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_9910A9"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="9910A9"
@@ -3316,7 +3342,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-1"
@@ -3465,7 +3493,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-2"
@@ -3614,7 +3644,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-3"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-3"
@@ -3779,7 +3811,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-4"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-4"
@@ -3944,7 +3978,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-5"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-5"
@@ -4109,7 +4145,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9910A9-6"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9910A9-6"
@@ -4261,7 +4299,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_9960799"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="9960799"
@@ -4362,7 +4402,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9960799-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9960799-1"
@@ -4511,7 +4553,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9960799-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9960799-2"
@@ -4663,7 +4707,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_9950699A"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="9950699A"
@@ -4764,7 +4810,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9950699A-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9950699A-1"
@@ -4908,7 +4956,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9950699A-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9950699A-2"
@@ -5055,7 +5105,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_99506871AA"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="99506871AA"
@@ -5156,7 +5208,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99506871AA-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99506871AA-1"
@@ -5303,7 +5357,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999345"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999345"
@@ -5404,7 +5460,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999345-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999345-1"
@@ -5569,7 +5627,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999345-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999345-2"
@@ -5721,7 +5781,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_9999323"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="9999323"
@@ -5822,7 +5884,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-1"
@@ -5971,7 +6035,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-2"
@@ -6120,7 +6186,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-3"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-3"
@@ -6269,7 +6337,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-4"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-4"
@@ -6418,7 +6488,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-5"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-5"
@@ -6567,7 +6639,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-6"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-6"
@@ -6716,7 +6790,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-7"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-7"
@@ -6865,7 +6941,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-8"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-8"
@@ -7014,7 +7092,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323-9"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323-9"
@@ -7197,7 +7277,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_9999323D-D"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="9999323D-D"
@@ -7298,7 +7380,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323D-D-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323D-D-1"
@@ -7447,7 +7531,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323D-D-2"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323D-D-2"
@@ -7596,7 +7682,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323D-D-3"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323D-D-3"
@@ -7745,7 +7833,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     </div>
                   </div>
                 </li>
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_9999323D-D-4"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="9999323D-D-4"
@@ -7897,7 +7987,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999933"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999933"
@@ -7998,7 +8090,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999933-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999933-1"
@@ -8181,7 +8275,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999933D-D"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999933D-D"
@@ -8282,7 +8378,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999933D-D-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999933D-D-1"
@@ -8434,7 +8532,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999252-D"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999252-D"
@@ -8535,7 +8635,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999252-D-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999252-D-1"
@@ -8682,7 +8784,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_99990895-D"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="99990895-D"
@@ -8783,7 +8887,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_99990895-D-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="99990895-D-1"
@@ -8932,7 +9038,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_999620-X"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="999620-X"
@@ -9033,7 +9141,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_999620-X-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="999620-X-1"
@@ -9190,7 +9300,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_XX99972-D"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="XX99972-D"
@@ -9291,7 +9403,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_XX99972-D-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="XX99972-D-1"
@@ -9474,7 +9588,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               </ul>
             </div>
           </li>
-          <li>
+          <li
+            id="scroll-spy-trigger_case_XX99057-X"
+          >
             <div
               class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
               id="XX99057-X"
@@ -9575,7 +9691,9 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               <ul
                 class="list"
               >
-                <li>
+                <li
+                  id="scroll-spy-trigger_charge_XX99057-X-1"
+                >
                   <div
                     class="relative br3 bg-white ma2"
                     id="XX99057-X-1"

@@ -567,7 +567,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
               Search Summary
             </h2>
             <button
-              class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+              class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue"
             >
               <i
                 aria-hidden="true"
@@ -576,7 +576,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
               Generate Paperwork
             </button>
             <button
-              class="ma2 nowrap mid-gray link hover-blue fw6 br3 pv1 ph2"
+              class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue "
             >
               <i
                 aria-hidden="true"
@@ -799,7 +799,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
           <ul
             class="list"
           >
-            <li>
+            <li
+              id="scroll-spy-trigger_case_110000"
+            >
               <div
                 class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
                 id="110000"
@@ -904,7 +906,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 <ul
                   class="list"
                 >
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_110000-1"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="110000-1"
@@ -1053,7 +1057,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_110000-2"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="110000-2"
@@ -1187,7 +1193,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 </ul>
               </div>
             </li>
-            <li>
+            <li
+              id="scroll-spy-trigger_case_100000"
+            >
               <div
                 class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
                 id="100000"
@@ -1303,7 +1311,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 <ul
                   class="list"
                 >
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_100000-1"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="100000-1"
@@ -1457,7 +1467,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_100000-2"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="100000-2"
@@ -1609,7 +1621,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 </ul>
               </div>
             </li>
-            <li>
+            <li
+              id="scroll-spy-trigger_case_120000"
+            >
               <div
                 class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
                 id="120000"
@@ -1714,7 +1728,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 <ul
                   class="list"
                 >
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_120000-1"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="120000-1"
@@ -1860,7 +1876,9 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <li
+                    id="scroll-spy-trigger_charge_120001-1"
+                  >
                     <div
                       class="relative br3 bg-white ma2"
                       id="120001-1"
