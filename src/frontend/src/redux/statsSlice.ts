@@ -49,11 +49,11 @@ function getStatsFromCharges(record: RecordData) {
       if (!shortLabel) return;
 
       if (!statusStats[shortLabel]) {
-        return (statusStats[shortLabel] = {
+        statusStats[shortLabel] = {
           total: 0,
           numIncluded: 0,
           numExcluded: 0,
-        });
+        };
       }
 
       statusStats[shortLabel]!.total++;
