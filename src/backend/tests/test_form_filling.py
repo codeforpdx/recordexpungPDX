@@ -12,7 +12,7 @@ from tests.fixtures.john_doe import JohnDoe
 
 
 def test_normal_conviction_uses_multnomah_conviction_form():
-    record = CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD74})
+    record = CrawlerFactory.create(JohnDoe.SINGLE_CASE_RECORD, {"CASEJD1": CaseDetails.CASEJD1})
     expunger_result = Expunger.run(record)
     merged_record = RecordMerger.merge([record], [expunger_result], [])
     record_summary = RecordSummarizer.summarize(merged_record, {})
