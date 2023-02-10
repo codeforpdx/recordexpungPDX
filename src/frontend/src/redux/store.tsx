@@ -8,6 +8,7 @@ import demoReducer from "./demoSlice";
 import summarySlice from "./summarySlice";
 import editingSlice from "./editingSlice";
 import statsSlice from "./statsSlice";
+import searchFormSlice from "./searchFormSlice";
 
 const rootReducer = combineReducers({
   search: searchReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   summary: summarySlice,
   editing: editingSlice,
   stats: statsSlice,
+  searchForm: searchFormSlice,
 });
 
 const store = configureStore({

@@ -3,7 +3,6 @@ import {
   RecordSummaryData,
   QuestionsData,
 } from "../../components/RecordSearch/Record/types";
-import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 
 export interface SearchResponse {
   record: RecordEndpointData;
@@ -33,8 +32,6 @@ export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
 export interface SearchRecordState {
   loading: string;
   loadingExpungementPacket: boolean;
-  aliases: AliasData[];
-  today: string;
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
@@ -43,9 +40,6 @@ export interface SearchRecordState {
 
 interface SearchRecordAction {
   type: typeof DISPLAY_RECORD | typeof RECORD_LOADING;
-
-  aliases: AliasData[];
-  today: string;
   record: RecordData;
   questions: QuestionsData;
 }

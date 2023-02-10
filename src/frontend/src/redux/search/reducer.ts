@@ -124,8 +124,6 @@ export function searchReducer(
     case RECORD_LOADING:
       return {
         ...state,
-        aliases: action.aliases,
-        today: action.today,
         record: {},
         questions: {},
         edits: {},

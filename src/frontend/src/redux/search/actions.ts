@@ -21,7 +21,6 @@ import {
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
 } from "./types";
-import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 import {
   RecordData,
   ShortLabel,
@@ -95,8 +94,8 @@ function validateSearchResponseData(data: SearchResponse): boolean {
 function buildSearchRequest() {
   return {
     demo: store.getState().demo.isOn,
-    aliases: store.getState().search.aliases,
-    today: store.getState().search.today,
+    aliases: store.getState().searchForm.aliases,
+    today: store.getState().searchForm.date,
     questions: store.getState().search.questions,
     edits: store.getState().search.edits,
   };
@@ -139,11 +138,9 @@ export function buildAndSendDownloadPdfRequest(dispatch: any): any {
     });
 }
 
-export function searchRecord(aliases: AliasData[], today: string): any {
+export function searchRecord() {
   return (dispatch: Dispatch) => {
     dispatch({
-      aliases: aliases,
-      today: today,
       type: RECORD_LOADING,
     });
     // Uncertain if doneEditing is necessary here, but is being carried over
@@ -302,10 +299,10 @@ export function downloadExpungementPacket(
       url: "/api/expungement-packet",
       data: {
         demo: store.getState().demo.isOn,
-        aliases: store.getState().search.aliases,
+        aliases: store.getState().searchForm.aliases,
         questions: store.getState().search.questions,
         edits: store.getState().search.edits,
-        today: store.getState().search.today,
+        today: store.getState().searchForm.date,
         userInformation: store.getState().search.userInformation,
       },
       method: "post",
