@@ -18,6 +18,7 @@ import {
 import { searchRecord } from "../../../redux/search/actions";
 import Alias from "./Alias";
 import Field from "./Field";
+import IconButton from "../../common/IconButton";
 import InvalidInputs from "../../InvalidInputs";
 
 export default function SearchPanel() {
@@ -100,21 +101,21 @@ export default function SearchPanel() {
       })}
 
       <div className="flex">
-        <button
-          className="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+        <IconButton
+          styling="blank"
+          displayText="Alias"
+          buttonClassName="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+          iconClassName="fa-plus-circle pr1"
           onClick={() => dispatch(addSearchFormAlias())}
-          type="button"
-        >
-          <i aria-hidden="true" className="fas fa-plus-circle pr1"></i>
-          Alias
-        </button>
-        <button
-          className="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+        />
+
+        <IconButton
+          styling="blank"
           type="submit"
-        >
-          <i aria-hidden="true" className="fas fa-search pr2"></i>
-          <span className="fw7">Search</span>
-        </button>
+          displayText="Search"
+          buttonClassName="fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+          iconClassName="fa-search pr2"
+        />
       </div>
 
       <InvalidInputs contents={errorMessages} />

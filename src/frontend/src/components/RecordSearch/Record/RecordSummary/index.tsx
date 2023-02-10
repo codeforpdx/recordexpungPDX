@@ -9,7 +9,7 @@ import { buildAndSendDownloadPdfRequest } from "../../../../redux/search/actions
 import history from "../../../../service/history";
 import ChargesList from "./ChargesList";
 import CountyFines from "./CountyFines";
-import { IconButton } from "../../../common/IconButton";
+import IconButton from "../../../common/IconButton";
 
 export default function RecordSummary() {
   const dispatch = useAppDispatch();
@@ -50,7 +50,7 @@ export default function RecordSummary() {
           <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
             There must be eligible charges to generate paperwork.{" "}
             <IconButton
-              type="link"
+              styling="link"
               iconClassName="fa-circle-xmark gray"
               hiddenText="Close"
               onClick={() => {
@@ -61,7 +61,7 @@ export default function RecordSummary() {
         )}
 
         <IconButton
-          type="link"
+          styling="link"
           buttonClassName="hover-blue"
           iconClassName="fa-bolt pr2"
           displayText="Generate Paperwork"
@@ -69,7 +69,7 @@ export default function RecordSummary() {
         />
 
         <IconButton
-          type="link"
+          styling="link"
           buttonClassName={
             "hover-blue " + (summaryIsLoading ? "loading-btn" : "")
           }

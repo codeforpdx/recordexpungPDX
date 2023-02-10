@@ -7,7 +7,7 @@ import Stats from "../ExpandedView/SummaryStats";
 import Record from "../Record";
 import CasesNavList from "../ExpandedView/CasesNav";
 import AssumptionsNew from "../ExpandedView/AssumptionsNew";
-import { IconButton } from "../../common/IconButton";
+import IconButton from "../../common/IconButton";
 import ExpungementFormsInfo from "./ExpungementFormsInfo";
 import UserDataForm from "../../FillForms/UserDataForm";
 import { panelClass, mainWrapper, singlePanelClass } from "../Layout";
@@ -62,7 +62,7 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
           Get The Expungement Analysis Report
         </h2>
         <IconButton
-          type="button"
+          styling="button"
           buttonClassName="bg-blue white hover-bg-dark-blue"
           iconClassName="fa-download pr2"
           displayText="Download Now"
@@ -93,7 +93,7 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
       >
         <h2 className={headingLargeClass}>Finish Up</h2>
         <IconButton
-          type="button"
+          styling="button"
           buttonClassName="bg-red white hover-bg-dark-red "
           iconClassName="fa-arrow-up pr2"
           displayText="Clear Data And Start Over"
