@@ -68,14 +68,14 @@ function Case({ caseData, idx }: { caseData: CaseData; idx: number }) {
   );
 }
 
-export default function CasesNavList({ ...props }) {
-  const record = useAppSelector((state) => state.search.record);
+interface Props extends React.HTMLAttributes<HTMLElement> {
+  cases: CaseData[];
+}
 
-  if (!record?.cases) return <></>;
-
+export default function CasesNavList({ cases, ...props }: Props) {
   return (
     <div {...props}>
-      {record.cases.map((caseData, idx) => {
+      {cases.map((caseData, idx) => {
         return (
           <Case key={caseData.case_number} caseData={caseData} idx={idx} />
         );

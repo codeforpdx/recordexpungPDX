@@ -8,17 +8,16 @@ import Aside from "../../common/Aside";
 
 interface Props {
   showColor: boolean;
+  cases?: CaseData[];
 }
 
 function Charge({
   chargeData,
   caseBalance,
-  isLast,
   showColor,
 }: {
   chargeData: ChargeData;
   caseBalance: number;
-  isLast: boolean;
 } & Props) {
   const { name, expungement_result, disposition } = chargeData;
   const { label, color, bgColor, icon } = getEligibilityAttributes(
@@ -48,11 +47,7 @@ function Charge({
   );
 }
 
-function Case({
-  caseData,
-  isLast,
-  showColor,
-}: { caseData: CaseData; isLast: boolean } & Props) {
+function Case({ caseData, showColor }: { caseData: CaseData } & Props) {
   const { date, case_number, charges, balance_due, location } = caseData;
 
   return (
@@ -78,7 +73,6 @@ function Case({
               key={chargeData.ambiguous_charge_id + chargeData.case_number}
               chargeData={chargeData}
               caseBalance={balance_due}
-              isLast={idx2 === arr.length - 1}
               showColor={showColor}
             />
           ))
@@ -93,9 +87,8 @@ function Case({
   );
 }
 
-export default function CasesSummary({ showColor, ...props }: Props) {
+export default function CasesSummary({ showColor, cases, ...props }: Props) {
   const record = useAppSelector((state) => state.search.record);
-  const cases = record?.cases;
   const casesLength = cases?.length ?? 0;
 
   if (!cases || casesLength === 0) return <></>;
@@ -107,7 +100,6 @@ export default function CasesSummary({ showColor, ...props }: Props) {
           <Case
             key={caseData.case_number}
             caseData={caseData}
-            isLast={idx === casesLength - 1}
             showColor={showColor}
           />
         );

@@ -50,10 +50,10 @@ const complexResponse: SearchResponse = {
               },
             },
             id: "99AV3457-1-0",
-            level: "Misdemeanor Class A",
-            name: "Singing Under the Influence of Intoxicants",
+            level: "Infraction",
+            name: "A traffic charge 1",
             probation_revoked: null,
-            statute: "8130104",
+            statute: "8110104",
             type_name: "SUII",
             expungement_rules:
               "A SUII conviction is not eligible for expungement, as it is considered a traffic offense.\nA SUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8).\nHOWEVER, a SUII dismissal resulting from a Not Guilty verdict at trial, or is otherwise dismissed other than through diversion, is type-eligible like other dismissals.\nTherefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion.\n",
@@ -183,10 +183,10 @@ const complexResponse: SearchResponse = {
               },
             },
             id: "99DF09900-1-0",
-            level: "Misdemeanor Class A",
-            name: "Singing Under the Influence of Intoxicants",
+            level: "Infraction",
+            name: "A traffic charge 2",
             probation_revoked: null,
-            statute: "8130104",
+            statute: "8110104",
             type_name: "SUII",
             expungement_rules:
               "A SUII conviction is not eligible for expungement, as it is considered a traffic offense.\nA SUII dismissal resulting from completion of diversion (paying a fine, victim's impact panel, drug and alcohol assessment) is also not eligible under ORS 137.225(8).\nHOWEVER, a SUII dismissal resulting from a Not Guilty verdict at trial, or is otherwise dismissed other than through diversion, is type-eligible like other dismissals.\nTherefore, to determine whether a dismissal is eligible, ask the client whether their case was dismissed through diversion or by a Not Guilty verdict or some way other than through diversion.\n",
@@ -1561,7 +1561,7 @@ const complexResponse: SearchResponse = {
                 [
                   "Reckless Diving",
                   "Diving While Suspended",
-                  "Singing Under the Influence of Intoxicants",
+                  "A traffic charge",
                   "Failure to Perform Duties of a Golfer",
                   "Giving False Information to a Police Officer (when in a car)",
                   "Fleeing/Attempting to Elude a Police Officer",
@@ -1859,7 +1859,7 @@ const complexResponse: SearchResponse = {
                 [
                   "Reckless Diving",
                   "Diving While Suspended",
-                  "Singing Under the Influence of Intoxicants",
+                  "A traffic charge",
                   "Failure to Perform Duties of a Golfer",
                   "Giving False Information to a Police Officer (when in a car)",
                   "Fleeing/Attempting to Elude a Police Officer",
@@ -1965,7 +1965,7 @@ const complexResponse: SearchResponse = {
             [
               [
                 "99AV3457-1",
-                "Singing Under the Influence of Intoxicants (CONVICTED) Charged Jan 11, 2019",
+                "A traffic charge (CONVICTED) Charged Jan 11, 2019",
               ],
             ],
           ],
@@ -1974,7 +1974,7 @@ const complexResponse: SearchResponse = {
             [
               [
                 "99DF09900-1",
-                "Singing Under the Influence of Intoxicants (CONVICTED) Charged Jan 1, 2019",
+                "A traffic charge (CONVICTED) Charged Jan 1, 2019",
               ],
             ],
           ],

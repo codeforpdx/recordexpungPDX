@@ -842,7 +842,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#99AV3457-1"
                   >
-                    Singing Under the Influence of Intoxicants (CONVICTED) Charged Jan 11, 2019
+                    A traffic charge (CONVICTED) Charged Jan 11, 2019
                   </a>
                 </li>
                 <li
@@ -852,7 +852,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#99DF09900-1"
                   >
-                    Singing Under the Influence of Intoxicants (CONVICTED) Charged Jan 1, 2019
+                    A traffic charge (CONVICTED) Charged Jan 1, 2019
                   </a>
                 </li>
                 <li
@@ -1648,7 +1648,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                             >
                               Charge
                             </span>
-                            8130104-Singing Under the Influence of Intoxicants
+                            8110104-A traffic charge 1
                           </li>
                           <li
                             class="flex mb2"
@@ -1659,7 +1659,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                               Severity
                             </span>
                              
-                            Misdemeanor Class A
+                            Infraction
                           </li>
                           <li
                             class="flex mb2"
@@ -2217,7 +2217,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                             >
                               Charge
                             </span>
-                            8130104-Singing Under the Influence of Intoxicants
+                            8110104-A traffic charge 2
                           </li>
                           <li
                             class="flex mb2"
@@ -2228,7 +2228,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                               Severity
                             </span>
                              
-                            Misdemeanor Class A
+                            Infraction
                           </li>
                           <li
                             class="flex mb2"
@@ -8231,7 +8231,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                           <li
                             class="ml2"
                           >
-                            Singing Under the Influence of Intoxicants
+                            A traffic charge
                           </li>
                           <li
                             class="ml2"
@@ -9544,7 +9544,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                           <li
                             class="ml2"
                           >
-                            Singing Under the Influence of Intoxicants
+                            A traffic charge
                           </li>
                           <li
                             class="ml2"
