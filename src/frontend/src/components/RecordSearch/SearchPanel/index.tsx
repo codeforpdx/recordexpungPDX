@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { AliasData, AliasFieldNames } from "./types";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
@@ -26,7 +26,9 @@ export default function SearchPanel() {
   const date = useAppSelector(selectSearchFormDate);
   const [errorMessages, setErorrMessages] = useState<string[]>([]);
 
-  if (date === "") dispatch(setSearchFormDate(moment().format("M/D/YYYY")));
+  useEffect(() => {
+    if (date === "") dispatch(setSearchFormDate(moment().format("M/D/YYYY")));
+  }, [date, dispatch]);
 
   // A map of error messages and validators that return true if messages should be shown
   const validators = {

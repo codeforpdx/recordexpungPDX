@@ -14,7 +14,7 @@ export default function AssumptionsNew({ ...props }) {
     <ul {...props}>
       <Item text="No open cases in any court in the United States" />
 
-      <p className="f4 fw7 mv4">Within the last seven years:</p>
+      <p className="f4 fw7 mt4 mb3">Within the last seven years:</p>
       <Item text="No previously expunged cases" />
       <Item text="No cases are from states besides Oregon" />
       <Item text="No Federal Court cases" />

@@ -40,7 +40,7 @@ export default function SummaryStats({ showColor, ...props }: Props) {
 
   return (
     <div {...props}>
-      <Row className="mt3">
+      <Row>
         <Col className="w-40"></Col>
         <Col className={smallColClass}>Total</Col>
         <Col className={smallColClass}>Includ.</Col>

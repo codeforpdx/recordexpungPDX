@@ -46,11 +46,9 @@ function Case({ caseData, idx }: { caseData: CaseData; idx: number }) {
       >
         <div className="w-50">
           <span className="pr2">{idx + 1})</span>
-          {date}
-        </div>
-        <div className="w-50">
           <Link to={"#" + case_number} text={"#" + case_number} />
         </div>
+        <div className="w-50 pl3">{date}</div>
       </div>
       <ul className="list">
         {charges.length > 0 ? (
@@ -70,13 +68,13 @@ function Case({ caseData, idx }: { caseData: CaseData; idx: number }) {
   );
 }
 
-export default function CasesNavList() {
+export default function CasesNavList({ ...props }) {
   const record = useAppSelector((state) => state.search.record);
 
   if (!record?.cases) return <></>;
 
   return (
-    <div className="f6 overflow-y-auto vh-75">
+    <div {...props}>
       {record.cases.map((caseData, idx) => {
         return (
           <Case key={caseData.case_number} caseData={caseData} idx={idx} />

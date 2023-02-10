@@ -320,7 +320,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
         </div>
       </article>
       <section
-        class="bg-white shadow br3 pa4 mt3"
+        class="bg-white shadow br3 pa4 mt3 "
       >
         <form
           class="mw7 center"
@@ -501,7 +501,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
         </form>
       </section>
       <section
-        class="bg-white shadow br3 mv2 ph3 pv1"
+        class="bg-white shadow br3 mv3 ph3 pv1"
       >
         <div
           class="flex flex-wrap items-center"
@@ -2386,7 +2386,7 @@ exports[`Without a record renders correctly 1`] = `
         </div>
       </article>
       <section
-        class="bg-white shadow br3 pa4 mt3"
+        class="bg-white shadow br3 pa4 mt3 "
       >
         <form
           class="mw7 center"
@@ -2567,7 +2567,7 @@ exports[`Without a record renders correctly 1`] = `
         </form>
       </section>
       <section
-        class="bg-white shadow br3 mv2 ph3 pv1"
+        class="bg-white shadow br3 mv3 ph3 pv1"
       >
         <div
           class="flex flex-wrap items-center"

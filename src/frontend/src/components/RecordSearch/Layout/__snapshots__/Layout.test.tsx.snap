@@ -12,7 +12,7 @@ exports[`can display a loading spinner 1`] = `
         Record Search
       </h1>
       <section
-        class="bg-white shadow br3 pa4 mt3"
+        class="bg-white shadow br3 pa4 mt3 "
       >
         <form
           class="mw7 center"
@@ -188,7 +188,7 @@ exports[`can display a loading spinner 1`] = `
         </form>
       </section>
       <section
-        class="bg-white shadow br3 mv2 ph3 pv1"
+        class="bg-white shadow br3 mv3 ph3 pv1"
       >
         <div
           class="flex flex-wrap items-center"
@@ -344,7 +344,7 @@ exports[`can displays request errors 1`] = `
         Record Search
       </h1>
       <section
-        class="bg-white shadow br3 pa4 mt3"
+        class="bg-white shadow br3 pa4 mt3 "
       >
         <form
           class="mw7 center"
@@ -520,7 +520,7 @@ exports[`can displays request errors 1`] = `
         </form>
       </section>
       <section
-        class="bg-white shadow br3 mv2 ph3 pv1"
+        class="bg-white shadow br3 mv3 ph3 pv1"
       >
         <div
           class="flex flex-wrap items-center"

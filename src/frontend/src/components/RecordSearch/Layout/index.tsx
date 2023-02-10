@@ -21,7 +21,9 @@ function ErrorMessage({ message, idx }: { message: string; idx: number }) {
   );
 }
 
+export const mainWrapper = "mw8 center f6 f5-l ";
 export const panelClass = "bg-white shadow br3 ";
+export const singlePanelClass = "pa4 mt3 ";
 
 export default function Layout({
   topSection,
@@ -37,7 +39,7 @@ export default function Layout({
   });
   const radioGroupOptions = ["Default", "Expanded"];
   const isExpandedView = selectedRadioValue === "Expanded";
-  useEffect(setUpScrollSpy, [isExpandedView]);
+  useEffect(setUpScrollSpy, [isExpandedView, record]);
 
   useEffect(() => {
     document.querySelector("html")?.classList.toggle("smooth-scroll");
@@ -48,15 +50,15 @@ export default function Layout({
 
   return (
     <main>
-      <div className="mw8 center f6 f5-l ph2">
+      <div className={mainWrapper + "ph2"}>
         {topSection}
         {!topSection && <h1 className="visually-hidden">Record Search</h1>}
 
-        <section className={panelClass + "pa4 mt3"}>
+        <section className={panelClass + singlePanelClass}>
           <SearchPanel />
         </section>
 
-        <section className={panelClass + "mv2 ph3 pv1"}>
+        <section className={panelClass + "mv3 ph3 pv1"}>
           <div className="flex flex-wrap items-center">
             <div className="f5 fw7 mr4">View Options</div>
 
