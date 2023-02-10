@@ -46,6 +46,114 @@ exports[`can display a loading spinner 1`] = `
             </div>
           </div>
           <div
+            class="flex flex-wrap items-end"
+          >
+            <div
+              class="w-100 w-third-ns w-25-l mb3 "
+            >
+              <label
+                class="db mb1 fw6"
+                for="firstName"
+              >
+                First Name 
+                <span
+                  class="fw4 f6"
+                />
+              </label>
+              <input
+                aria-invalid="false"
+                class="w-100 br2 b--black-20 pa3 br-0-ns br--left-ns relative"
+                id="firstName"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="w-100 w-third-ns w-25-l mb3 "
+            >
+              <label
+                class="db mb1 fw6"
+                for="middleName"
+              >
+                Middle Name 
+                <span
+                  class="fw4 f6"
+                >
+                  (Optional)
+                </span>
+              </label>
+              <input
+                aria-invalid="false"
+                class="w-100 br2 b--black-20 pa3 br0-ns"
+                id="middleName"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="w-100 w-third-ns w-25-l mb3 "
+            >
+              <label
+                class="db mb1 fw6"
+                for="lastName"
+              >
+                Last Name 
+                <span
+                  class="fw4 f6"
+                />
+              </label>
+              <input
+                aria-invalid="false"
+                class="w-100 br2 b--black-20 pa3 bl-0-ns br--right-ns"
+                id="lastName"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="w-100 w-third-ns w-25-l mb3 pl2-l"
+            >
+              <label
+                class="db mb1 fw6"
+                for="birthDate"
+              >
+                Date of Birth 
+                <span
+                  class="fw4 f6"
+                >
+                  mm/dd/yyyy
+                </span>
+              </label>
+              <input
+                aria-invalid="false"
+                class="w-100 br2 b--black-20 pa3 "
+                id="birthDate"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="visually-hidden flex items-center pb1 mb3 ml3-ns ml0-l"
+            >
+              <span
+                class=" visually-hidden fw5 bl bw2 b--blue bg-gray-blue-2 pa2 pr3 mr2 mb2"
+              >
+                1 Result
+              </span>
+              <button
+                class="br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pa2 mb2"
+                type="button"
+              >
+                <i
+                  class="fas fa-times-circle pr1"
+                />
+                Remove
+              </button>
+            </div>
+          </div>
+          <div
             class="flex"
           >
             <button
