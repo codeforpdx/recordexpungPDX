@@ -26,7 +26,6 @@ import {
   RecordData,
   ShortLabel,
 } from "../../components/RecordSearch/Record/types";
-import { updateStats } from "../statsSlice";
 import { getShortLabel } from "../../components/RecordSearch/Record/util";
 
 function isExludedCharge({ statute, level, name }: ChargeData) {
@@ -76,7 +75,6 @@ export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
 
     processCharges(record);
 
-    dispatch(updateStats(record));
     dispatch({
       type: DISPLAY_RECORD,
       record: record,

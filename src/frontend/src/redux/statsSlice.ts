@@ -1,9 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import {
   RecordData,
   ShortLabel,
 } from "../components/RecordSearch/Record/types";
+import { DISPLAY_RECORD } from "./search/types";
+import { Action } from "@reduxjs/toolkit";
 
 type StatusCountMap = {
   [key in ShortLabel]?: {
@@ -37,7 +39,7 @@ const initialState: StatsState = {
 
 function getStatsFromCharges(record: RecordData) {
   const statusStats: StatusCountMap = {};
-  const cases = record.cases;
+  const cases = record?.cases;
   let numExcludedCharges = 0;
 
   if (!cases) return { numExcludedCharges, statusStats };
@@ -81,43 +83,39 @@ function getFinesByCounty(record: RecordData) {
   );
 }
 
+function getStatsFromRecord(record: RecordData) {
+  let stats = initialState;
+  let summary = record.summary;
+
+  if (!summary) return stats;
+
+  const { numExcludedCharges, statusStats } = getStatsFromCharges(record);
+
+  return {
+    ...initialState,
+    totalCases: summary.total_cases,
+    totalCharges: summary.total_charges,
+    totalFines: summary.total_fines_due,
+    numExcludedCharges: numExcludedCharges,
+    numIncludedCharges: stats.totalCharges - numExcludedCharges,
+    numChargesByEligibilityStatus: statusStats,
+    finesByCounty: getFinesByCounty(record),
+  };
+}
+
 export const statsSlice = createSlice({
   name: "stats",
   initialState,
-  reducers: {
-    updateStats: {
-      reducer(state, action: PayloadAction<StatsState>) {
-        return action.payload;
-      },
-      prepare(record: RecordData) {
-        let stats = initialState;
-        let summary = record.summary;
-
-        if (!summary) return { payload: stats };
-
-        stats = {
-          totalCases: summary.total_cases,
-          totalCharges: summary.total_charges,
-          numExcludedCharges: 0,
-          numIncludedCharges: 0,
-          totalFines: summary.total_fines_due,
-          numChargesByEligibilityStatus: {},
-          finesByCounty: {},
-        };
-
-        const { numExcludedCharges, statusStats } = getStatsFromCharges(record);
-        stats.numExcludedCharges = numExcludedCharges;
-        stats.numIncludedCharges = stats.totalCharges - numExcludedCharges;
-        stats.numChargesByEligibilityStatus = statusStats;
-        stats.finesByCounty = getFinesByCounty(record);
-
-        return { payload: stats };
-      },
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      DISPLAY_RECORD,
+      (state, action: Action<"DISPLAY_RECORD"> & { record: RecordData }) => {
+        return getStatsFromRecord(action.record);
+      }
+    );
   },
 });
-
-export const { updateStats } = statsSlice.actions;
 
 export const selectStats = (state: RootState) => state.stats;
 

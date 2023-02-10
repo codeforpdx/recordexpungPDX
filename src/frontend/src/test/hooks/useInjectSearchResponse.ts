@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SearchResponse } from "../../redux/search/types";
 import { useAppDispatch } from "../../redux/hooks";
 import { storeSearchResponse } from "../../redux/search/actions";
@@ -27,12 +28,11 @@ export function getResponseFromRecordName(name: FakeResponseName) {
 export function useInjectSearchResponse(recordName?: FakeResponseName) {
   const dispatch = useAppDispatch();
 
-  return () => {
+  useEffect(() => {
     // just in case
     if (window.location.href.includes("recordsponge")) return;
-
     if (recordName) {
       storeSearchResponse(getResponseFromRecordName(recordName), dispatch);
     }
-  };
+  }, [dispatch, recordName]);
 }
