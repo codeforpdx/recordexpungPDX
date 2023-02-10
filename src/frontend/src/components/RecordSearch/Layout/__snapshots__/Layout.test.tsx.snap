@@ -157,7 +157,7 @@ exports[`can display a loading spinner 1`] = `
             class="flex"
           >
             <button
-              class="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+              class=" w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
               type="button"
             >
               <i
@@ -167,18 +167,14 @@ exports[`can display a loading spinner 1`] = `
               Alias
             </button>
             <button
-              class="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+              class=" fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
               type="submit"
             >
               <i
                 aria-hidden="true"
                 class="fas fa-search pr2"
               />
-              <span
-                class="fw7"
-              >
-                Search
-              </span>
+              Search
             </button>
           </div>
           <div
@@ -489,7 +485,7 @@ exports[`can displays request errors 1`] = `
             class="flex"
           >
             <button
-              class="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+              class=" w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
               type="button"
             >
               <i
@@ -499,18 +495,14 @@ exports[`can displays request errors 1`] = `
               Alias
             </button>
             <button
-              class="br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+              class=" fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
               type="submit"
             >
               <i
                 aria-hidden="true"
                 class="fas fa-search pr2"
               />
-              <span
-                class="fw7"
-              >
-                Search
-              </span>
+              Search
             </button>
           </div>
           <div
@@ -607,6 +599,7 @@ exports[`can displays request errors 1`] = `
             </h2>
             <button
               class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue"
+              type="button"
             >
               <i
                 aria-hidden="true"
@@ -616,6 +609,7 @@ exports[`can displays request errors 1`] = `
             </button>
             <button
               class="ma2 nowrap mid-gray link fw6 br3 pv1 ph2 hover-blue "
+              type="button"
             >
               <i
                 aria-hidden="true"

@@ -2,6 +2,8 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { startLoadingSummary } from "../../../redux/summarySlice";
 import { buildAndSendDownloadPdfRequest } from "../../../redux/search/actions";
 import { clearAllData } from "../../../redux/store";
+import SplitSection from "./SplitSection";
+import SingleSection from "./SingleSection";
 import CasesSummary from "../ExpandedView/CasesSummary";
 import Stats from "../ExpandedView/SummaryStats";
 import Record from "../Record";
@@ -10,13 +12,8 @@ import AssumptionsNew from "../ExpandedView/AssumptionsNew";
 import IconButton from "../../common/IconButton";
 import ExpungementFormsInfo from "./ExpungementFormsInfo";
 import UserDataForm from "../../FillForms/UserDataForm";
-import { panelClass, mainWrapper, singlePanelClass } from "../Layout";
 
 export const headingLargeClass = "f3 fw8 tc pt2 mb4 ph4";
-const wrapperClass = "flex-l mh2 mt3";
-const panelHeadingClass = "f5 fw7 tc pv3 ";
-const leftPanelClass = "w-70-l f6 ph4 mr3";
-const rightPanelClass = "w-30-l pl3 pb2 ";
 
 export default function ExpandedView({ showColor }: { showColor: boolean }) {
   const dispatch = useAppDispatch();
@@ -33,34 +30,25 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
 
   return (
     <>
-      <section className={wrapperClass}>
-        <div className={panelClass + leftPanelClass}>
-          <h2 className={panelHeadingClass}>Review Summary</h2>
-          <CasesSummary showColor={showColor} />
-        </div>
+      <SplitSection
+        leftHeading="Review Summary"
+        leftComponent={<CasesSummary showColor={showColor} />}
+        rightHeading="Counts"
+        rightComponent={<Stats showColor={showColor} />}
+      />
 
-        <div className={panelClass + rightPanelClass}>
-          <h3 className={panelHeadingClass}>Counts</h3>
-          <Stats showColor={showColor} />
-        </div>
-      </section>
+      <SplitSection
+        leftHeading="Analyze Cases"
+        leftComponent={<Record />}
+        rightHeading="Quick Links"
+        rightComponent={<CasesNavList className="f6 overflow-y-auto vh-75" />}
+        rightClassName="self-start sticky-l"
+      />
 
-      <section className={wrapperClass}>
-        <div className={panelClass + leftPanelClass}>
-          <h2 className={panelHeadingClass}>Analyze Cases</h2>
-          <Record />
-        </div>
-
-        <div className={panelClass + rightPanelClass + "self-start sticky-l"}>
-          <h3 className={panelHeadingClass}>Quick Links</h3>
-          <CasesNavList className="f6 overflow-y-auto vh-75" />
-        </div>
-      </section>
-
-      <section className={mainWrapper + panelClass + singlePanelClass + "tc"}>
-        <h2 className={headingLargeClass}>
-          Get The Expungement Analysis Report
-        </h2>
+      <SingleSection
+        heading="Get The Expungement Analysis Report"
+        className="tc"
+      >
         <IconButton
           styling="button"
           buttonClassName="bg-blue white hover-bg-dark-blue"
@@ -68,30 +56,24 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
           displayText="Download Now"
           onClick={handleDownloadSummaryClick}
         />
-      </section>
+      </SingleSection>
 
-      <section className={mainWrapper + panelClass + singlePanelClass}>
-        <h2 className={headingLargeClass}>Verify Assumptions</h2>
+      <SingleSection heading="Verify Assumptions">
         <AssumptionsNew className="f5 lh-copy mw6-ns mw5 pl4-ns center list" />
-      </section>
+      </SingleSection>
 
-      <section
-        className={mainWrapper + panelClass + singlePanelClass + "flex-l"}
-      >
+      <SingleSection className="flex-l">
         <div className="w-60-l">
-          <h2 className={headingLargeClass}>Expungement Forms</h2>
+          <h2 className={headingLargeClass}>Get Expungement Forms</h2>
           <ExpungementFormsInfo className="f5 lh-copy mw6-ns mw5 pl4-ns center list" />
         </div>
 
         <div className="w-40-l">
           <UserDataForm />
         </div>
-      </section>
+      </SingleSection>
 
-      <section
-        className={mainWrapper + panelClass + singlePanelClass + "tc pb5 mb3"}
-      >
-        <h2 className={headingLargeClass}>Finish Up</h2>
+      <SingleSection heading="Finish Up" className="tc pb5 mb3">
         <IconButton
           styling="button"
           buttonClassName="bg-red white hover-bg-dark-red "
@@ -99,7 +81,7 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
           displayText="Clear Data And Start Over"
           onClick={handleStartOverClick}
         />
-      </section>
+      </SingleSection>
     </>
   );
 }
