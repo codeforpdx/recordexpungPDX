@@ -50,6 +50,7 @@ export default function RecordSummary() {
           <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
             There must be eligible charges to generate paperwork.{" "}
             <IconButton
+              type="link"
               iconClassName="fa-circle-xmark gray"
               hiddenText="Close"
               onClick={() => {
@@ -60,6 +61,7 @@ export default function RecordSummary() {
         )}
 
         <IconButton
+          type="link"
           buttonClassName="hover-blue"
           iconClassName="fa-bolt pr2"
           displayText="Generate Paperwork"
@@ -67,6 +69,7 @@ export default function RecordSummary() {
         />
 
         <IconButton
+          type="link"
           buttonClassName={
             "hover-blue " + (summaryIsLoading ? "loading-btn" : "")
           }

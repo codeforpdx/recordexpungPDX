@@ -1,4 +1,5 @@
 interface ButtonProps {
+  type?: "link" | "button";
   buttonClassName?: string;
   iconClassName?: string;
   displayText?: string;
@@ -9,6 +10,7 @@ interface ButtonProps {
 
 export function IconButton(
   {
+    type = "button",
     buttonClassName,
     iconClassName,
     displayText,
@@ -17,7 +19,10 @@ export function IconButton(
     children = undefined,
   }: ButtonProps = { onClick: () => {} }
 ) {
-  const baseButtonClass = "ma2 nowrap mid-gray link fw6 br3 pv1 ph2";
+  const baseButtonClass = {
+    link: "ma2 nowrap mid-gray link fw6 br3 pv1 ph2",
+    button: "fw6 bg-animate br3 pv3 ph4",
+  }[type];
 
   return (
     <button
