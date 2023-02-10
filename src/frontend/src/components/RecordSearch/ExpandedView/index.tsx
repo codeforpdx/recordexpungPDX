@@ -21,7 +21,7 @@ export default function ExpandedView({ showColor }: { showColor: boolean }) {
 
   function handleDownloadSummaryClick() {
     dispatch(startLoadingSummary());
-    buildAndSendDownloadPdfRequest(dispatch);
+    dispatch(buildAndSendDownloadPdfRequest);
   }
 
   return (

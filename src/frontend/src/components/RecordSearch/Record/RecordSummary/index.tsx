@@ -38,7 +38,7 @@ export default function RecordSummary() {
 
   const handleDownloadSummaryClick = () => {
     dispatch(startLoadingSummary());
-    buildAndSendDownloadPdfRequest(dispatch);
+    dispatch(buildAndSendDownloadPdfRequest);
   };
 
   return (
