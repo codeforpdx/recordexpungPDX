@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-
+import { RECORD_LOADING, DISPLAY_RECORD } from "./search/types";
 interface EditingState {
   isEditing: boolean;
 }
@@ -9,6 +9,10 @@ const initialState: EditingState = {
   isEditing: false,
 };
 
+function resetState() {
+  return initialState;
+}
+
 export const editingSlice = createSlice({
   name: "editing",
   initialState,
@@ -16,9 +20,11 @@ export const editingSlice = createSlice({
     startEditing: (state) => {
       state.isEditing = true;
     },
-    doneEditing: (state) => {
-      state.isEditing = false;
-    },
+    doneEditing: resetState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(RECORD_LOADING, resetState);
+    builder.addCase(DISPLAY_RECORD, resetState);
   },
 });
 

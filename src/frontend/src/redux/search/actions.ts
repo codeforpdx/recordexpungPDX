@@ -4,7 +4,6 @@ import fileDownload from "js-file-download";
 import apiService from "../../service/api-service";
 import store from "../store";
 import { stopLoadingSummary } from "../summarySlice";
-import { doneEditing } from "../editingSlice";
 import { ChargeData } from "../../components/RecordSearch/Record/types";
 
 import {
@@ -79,9 +78,6 @@ export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       record: record,
       questions: receivedRecord.questions,
     });
-    // Uncertain if doneEditing is necessary here, but is being carried over
-    // with refactoring
-    dispatch(doneEditing());
   } else {
     alert("Response data has unexpected format.");
   }
@@ -143,9 +139,6 @@ export function searchRecord() {
     dispatch({
       type: RECORD_LOADING,
     });
-    // Uncertain if doneEditing is necessary here, but is being carried over
-    // with refactoring
-    dispatch(doneEditing());
     return buildAndSendSearchRequest(dispatch);
   };
 }
