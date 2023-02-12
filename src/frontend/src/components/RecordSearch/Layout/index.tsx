@@ -39,6 +39,7 @@ export default function Layout({
   });
   const radioGroupOptions = ["Default", "Expanded"];
   const isExpandedView = selectedRadioValue === "Expanded";
+
   useEffect(setUpScrollSpy, [isExpandedView, record]);
 
   useEffect(() => {

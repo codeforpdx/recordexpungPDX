@@ -1,6 +1,5 @@
 import React from "react";
 import { CaseData, ChargeData } from "../Record/types";
-import { useAppSelector } from "../../../redux/hooks";
 import toDollars from "../../../service/currency-format";
 import { getEligibilityAttributes } from "../Record/util";
 import Link from "../../common/Link";
@@ -88,7 +87,6 @@ function Case({ caseData, showColor }: { caseData: CaseData } & Props) {
 }
 
 export default function CasesSummary({ showColor, cases, ...props }: Props) {
-  const record = useAppSelector((state) => state.search.record);
   const casesLength = cases?.length ?? 0;
 
   if (!cases || casesLength === 0) return <></>;

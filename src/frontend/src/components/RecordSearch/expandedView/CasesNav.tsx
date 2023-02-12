@@ -1,6 +1,5 @@
 import React from "react";
 import { CaseData, ChargeData } from "../Record/types";
-import { useAppSelector } from "../../../redux/hooks";
 import { getEligibilityAttributes } from "../Record/util";
 import Link from "../../common/Link";
 import Aside from "../../common/Aside";

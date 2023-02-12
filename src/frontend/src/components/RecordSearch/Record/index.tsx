@@ -36,11 +36,6 @@ export default function Record() {
     };
   };
 
-  const handleAddCaseClick = () => {
-    dispatch(startEditing());
-    setAddingNewCase(true);
-  };
-
   return (
     <>
       {addingNewCase && (
@@ -67,7 +62,10 @@ export default function Record() {
           !isEditing && (
             <>
               <AddButton
-                onClick={handleAddCaseClick}
+                onClick={() => {
+                  dispatch(startEditing());
+                  setAddingNewCase(true);
+                }}
                 actionName={"Add"}
                 text={"Case"}
               />
