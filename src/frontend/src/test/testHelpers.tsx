@@ -8,11 +8,26 @@ import { setupStore, AppStore } from "../redux/store";
 import { getResponseFromRecordName } from "./hooks/useInjectSearchResponse";
 import { RootState } from "../redux/store";
 import { FakeResponseName } from "./hooks/useInjectSearchResponse";
-import initialState from "../redux/search/initialState";
+import { default as initialSearchState } from "../redux/search/initialState";
+import { initialState as initialSearchFormState } from "../redux/searchFormSlice";
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: PreloadedState<RootState>;
   store?: AppStore;
+}
+
+export function createStore(fakeResponseName?: FakeResponseName) {
+  const search = fakeResponseName
+    ? {
+        ...initialSearchState,
+        record: getResponseFromRecordName(fakeResponseName).record,
+      }
+    : initialSearchState;
+
+  return setupStore({
+    search,
+    searchForm: { ...initialSearchFormState, date: "1/2/2023" },
+  });
 }
 
 export function appRender(
@@ -20,15 +35,8 @@ export function appRender(
   fakeResponseName?: FakeResponseName,
   { store, ...renderOptions }: ExtendedRenderOptions = {}
 ) {
-  const search = fakeResponseName
-    ? {
-        ...initialState,
-        record: getResponseFromRecordName(fakeResponseName).record,
-      }
-    : initialState;
-
   if (!store) {
-    store = setupStore({ search });
+    store = createStore(fakeResponseName);
   }
 
   function AllProviders({ children }: PropsWithChildren<{}>) {

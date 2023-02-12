@@ -41,7 +41,7 @@ exports[`can display a loading spinner 1`] = `
                 id="today"
                 required=""
                 type="text"
-                value="2/6/2023"
+                value="1/2/2023"
               />
             </div>
           </div>
@@ -369,7 +369,7 @@ exports[`can displays request errors 1`] = `
                 id="today"
                 required=""
                 type="text"
-                value="2/6/2023"
+                value="1/2/2023"
               />
             </div>
           </div>

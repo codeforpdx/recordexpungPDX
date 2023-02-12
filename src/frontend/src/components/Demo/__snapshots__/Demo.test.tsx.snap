@@ -350,7 +350,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
                 id="today"
                 required=""
                 type="text"
-                value="1/11/2023"
+                value="1/2/2023"
               />
             </div>
           </div>
@@ -2414,7 +2414,7 @@ exports[`Without a record renders correctly 1`] = `
                 id="today"
                 required=""
                 type="text"
-                value="1/11/2023"
+                value="1/2/2023"
               />
             </div>
           </div>

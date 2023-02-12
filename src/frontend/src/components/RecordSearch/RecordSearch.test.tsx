@@ -20,15 +20,6 @@ const DemoOnComponent = () => {
   return <RecordSearch />;
 };
 
-beforeEach(() => {
-  mockHasOeciToeken.mockReturnValue(true);
-  jest.useFakeTimers().setSystemTime(new Date(2023, 0, 11));
-});
-
-afterEach(() => {
-  jest.useRealTimers();
-});
-
 describe("when logged in", () => {
   beforeEach(() => {
     mockHasOeciToeken.mockReturnValue(true);
@@ -48,6 +39,27 @@ describe("when logged in", () => {
   it("turns off the demo state", () => {
     const { store } = appRender(<DemoOnComponent />, "common");
     expect(store.getState().demo.isOn).toBe(false);
+  });
+
+  test("a message is displayed when the search results are empty", () => {
+    appRender(<RecordSearch />, "blank");
+    expect(screen.queryByText(/no search results found/i)).toBeInTheDocument();
+  });
+
+  test("a message is dislayed when results are be loaded", async () => {
+    const user = userEvent.setup();
+
+    appRender(<RecordSearch />);
+
+    await user.click(screen.getByLabelText(/first/i));
+    await user.keyboard("foo");
+    await user.click(screen.getByLabelText(/last/i));
+    await user.keyboard("bar");
+    await user.click(screen.getByRole("button", { name: /search/i }));
+
+    expect(
+      screen.queryByText(/loading your search results/i)
+    ).toBeInTheDocument();
   });
 });
 
@@ -70,26 +82,4 @@ describe("when not logged in", () => {
     expect(screen.queryByText(/case/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/assumptions/i)).not.toBeInTheDocument();
   });
-});
-
-test("a message is displayed when the search results are empty", () => {
-  appRender(<RecordSearch />, "blank");
-  expect(screen.queryByText(/no search results found/i)).toBeInTheDocument();
-});
-
-test("a message is dislayed when results are be loaded", async () => {
-  jest.useRealTimers();
-  const user = userEvent.setup();
-
-  appRender(<RecordSearch />);
-
-  await user.click(screen.getByLabelText(/first/i));
-  await user.keyboard("foo");
-  await user.click(screen.getByLabelText(/last/i));
-  await user.keyboard("bar");
-  await user.click(screen.getByRole("button", { name: /search/i }));
-
-  expect(
-    screen.queryByText(/loading your search results/i)
-  ).toBeInTheDocument();
 });

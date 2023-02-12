@@ -41,7 +41,7 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
               id="today"
               required=""
               type="text"
-              value="1/11/2023"
+              value="1/2/2023"
             />
           </div>
         </div>
@@ -496,7 +496,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               id="today"
               required=""
               type="text"
-              value="1/11/2023"
+              value="1/2/2023"
             />
           </div>
         </div>

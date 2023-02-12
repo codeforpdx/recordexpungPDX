@@ -1,99 +1,24 @@
 import React from "react";
+import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import moment from "moment";
 import store from "../../redux/store";
+import multipleResponse from "../data/multipleResponse";
+import {
+  expectedPacketRequest,
+  expectedPdfRequest,
+  expectedSearchRequest,
+} from "./expectedRequests/demo-search";
 import App from "../../components/App";
-
-const mockRequest = jest.fn((req) => new Promise(() => {}));
-
-jest.mock("axios", () => {
-  const recordModule = jest.requireActual("../data/multipleResponse");
-  return {
-    request: (request: any) => {
-      mockRequest(request);
-      // not sure why returning mockRequest doesn't work
-      return new Promise((resolve) => {
-        resolve({ data: recordModule.default });
-      });
-    },
-  };
-});
 
 test("Perform a demo search, download a summary PDF and download an expungement packet", async () => {
   const user = userEvent.setup();
-  const today = moment().format("M/D/YYYY");
-  const expectedSearchRequest = {
-    data: {
-      aliases: [
-        {
-          birth_date: "",
-          first_name: "foo",
-          last_name: "bar",
-          middle_name: "",
-        },
-      ],
-      demo: true,
-      edits: {},
-      questions: {},
-      today,
-    },
-    method: "post",
-    url: "/api/demo",
-    withCredentials: true,
-  };
-  const expectedPdfRequest = {
-    data: {
-      aliases: [
-        {
-          birth_date: "",
-          first_name: "foo",
-          last_name: "bar",
-          middle_name: "",
-        },
-      ],
-      demo: true,
-      edits: {},
-      questions: {},
-      today,
-    },
-    method: "post",
-    responseType: "blob",
-    url: "/api/pdf",
-    withCredentials: true,
-  };
-  const expectedPacketRequest = {
-    data: {
-      aliases: [
-        {
-          birth_date: "",
-          first_name: "foo",
-          last_name: "bar",
-          middle_name: "",
-        },
-      ],
-      demo: true,
-      edits: {},
-      questions: {},
-      today,
-      userInformation: {
-        city: "Portland",
-        date_of_birth: "12/12/1999",
-        full_name: "foo bar",
-        mailing_address: "1111 NE anywhere",
-        phone_number: "123-456-7890",
-        state: "Oregon",
-        zip_code: "12345",
-      },
-    },
-    method: "post",
-    responseType: "blob",
-    url: "/api/expungement-packet",
-    withCredentials: true,
-  };
+  const requestSpy = jest
+    .spyOn(axios, "request")
+    .mockResolvedValue({ data: multipleResponse });
 
   render(
     <Provider store={store}>
@@ -114,8 +39,7 @@ test("Perform a demo search, download a summary PDF and download an expungement 
   await user.keyboard("bar");
   await user.click(screen.getByRole("button", { name: /search/i }));
 
-  expect(mockRequest).toHaveBeenCalledWith(expectedSearchRequest);
-  mockRequest.mockClear();
+  expect(requestSpy).toHaveBeenCalledWith(expectedSearchRequest);
 
   // wait for screen to update with search results
   await waitFor(() => {
@@ -124,8 +48,8 @@ test("Perform a demo search, download a summary PDF and download an expungement 
 
   // download a summary PDF
   await user.click(screen.getByRole("button", { name: /summary/i }));
-  expect(mockRequest).toHaveBeenCalledWith(expectedPdfRequest);
-  mockRequest.mockClear();
+  expect(requestSpy).toHaveBeenCalledWith(expectedPdfRequest);
+  // mockRequest.mockClear();
 
   // fill out expungement packet form
   await user.click(screen.getByRole("button", { name: /generate paperwork/i }));
@@ -151,6 +75,5 @@ test("Perform a demo search, download a summary PDF and download an expungement 
   await user.keyboard("123-456-7890");
   await user.click(screen.getByRole("button", { name: /download exp/i }));
 
-  expect(mockRequest).toHaveBeenCalledWith(expectedPacketRequest);
-  mockRequest.mockClear();
+  expect(requestSpy).toHaveBeenCalledWith(expectedPacketRequest);
 });
