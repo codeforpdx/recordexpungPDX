@@ -26,21 +26,6 @@ exports[`renders correctly 1`] = `
         <p
           className="mb3"
         >
-          It includes cases that have an outstanding balance. These balances must be paid off before filing the paperwork. Consult the section on
-           
-          <a
-            className="link bb hover-dark-blue"
-            href="/manual#paybalances"
-            onClick={[Function]}
-          >
-            paying balances
-          </a>
-           
-          in the Manual.
-        </p>
-        <p
-          className="mb3"
-        >
           On this page, you may optionally provide the person's name, address, and other information and it will be used to populate the forms. It is not required if you would prefer to fill out the information later, and we do not save any of this information.
         </p>
         <p
@@ -91,7 +76,8 @@ exports[`renders correctly 1`] = `
         <p
           className="mb3"
         >
-          The form that is filled out for each case is selected based on the 
+          The form that is filled out for each case is selected based on the
+           
           <strong>
             County
           </strong>
