@@ -5,6 +5,7 @@ import InvalidInputs from "../InvalidInputs";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
+import EmptyFieldsModal from "./EmptyFieldsModal";
 
 export default function UserDataForm() {
   const aliases = useAppSelector((state) => state.search.aliases);
@@ -22,6 +23,7 @@ export default function UserDataForm() {
   const loadingExpungementPacket = useAppSelector(
     (state) => state.search.loadingExpungementPacket
   );
+  const [modalClose, setModalClose] = useState(true);
 
   function buildName() {
     if (aliases.length > 0) {
@@ -48,6 +50,17 @@ export default function UserDataForm() {
     }
   }
 
+  function emptyFieldsCheck() {
+    const emptyZipCode = zipCode.length === 0;
+    const emptyPhoneNumber = phoneNumber.length === 0;
+    const emptyDob = dob.length === 0;
+    if (emptyZipCode && emptyPhoneNumber && emptyDob) {
+      setModalClose(false);
+    } else {
+      return false;
+    }
+  }
+
   function validateForm() {
     const phoneNumberPattern = new RegExp(".*[0-9].*");
     const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
@@ -65,17 +78,18 @@ export default function UserDataForm() {
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
     e.preventDefault();
-    console.log(validateForm());
-    if (validateForm()) {
-      return downloadExpungementPacket(
-        name,
-        dob,
-        mailingAddress,
-        phoneNumber,
-        city,
-        state,
-        zipCode
-      )(dispatch);
+    if (!emptyFieldsCheck()) {
+      if (validateForm()) {
+        return downloadExpungementPacket(
+          name,
+          dob,
+          mailingAddress,
+          phoneNumber,
+          city,
+          state,
+          zipCode
+        )(dispatch);
+      }
     }
   }
 
@@ -83,11 +97,26 @@ export default function UserDataForm() {
     if (!(aliases.length > 0)) {
       return history.push("/record-search");
     }
-  }, []);
+  });
 
   return (
     <>
       <main className="mw6">
+        <EmptyFieldsModal
+          close={modalClose}
+          onClose={() => setModalClose(true)}
+          onDownload={() =>
+            downloadExpungementPacket(
+              name,
+              dob,
+              mailingAddress,
+              phoneNumber,
+              city,
+              state,
+              zipCode
+            )(dispatch)
+          }
+        />
         <section className="cf pa3 pa4-ns bg-white shadow br3">
           <h1 className="f4 fw7 mt0 mb4">User Information</h1>
           <form onSubmit={handleSubmit} noValidate={true}>
