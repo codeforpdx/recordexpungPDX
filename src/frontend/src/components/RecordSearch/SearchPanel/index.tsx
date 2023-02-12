@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
+import React, { useState } from "react";
 import { AliasData, AliasFieldNames } from "./types";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import {
-  selectSearchFormAliases,
-  selectSearchFormDate,
+  selectSearchFormValues,
   setSearchFormDate,
   updateSearchFormAlias,
   addSearchFormAlias,
   removeSearchFormAlias,
 } from "../../../redux/searchFormSlice";
 import {
-  isValidOptionalWildcard,
-  areAnyBlank,
+  isPresent,
   isValidOptionalDate,
-} from "./validators";
+  isValidOptionalWildcard,
+  validate,
+} from "../../../service/validators";
 import { searchRecord } from "../../../redux/search/actions";
 import Alias from "./Alias";
 import Field from "./Field";
@@ -23,47 +22,37 @@ import InvalidInputs from "../../InvalidInputs";
 
 export default function SearchPanel() {
   const dispatch = useAppDispatch();
-  const aliases = useAppSelector(selectSearchFormAliases);
-  const date = useAppSelector(selectSearchFormDate);
-  const [errorMessages, setErorrMessages] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (date === "") dispatch(setSearchFormDate(moment().format("M/D/YYYY")));
-  }, [date, dispatch]);
-
-  // A map of error messages and validators that return true if messages should be shown
-  const validators = {
-    "First and last name are required.": (alias: AliasData) =>
-      areAnyBlank(alias.first_name, alias.last_name),
-
-    "The date format must be MM/DD/YYYY.": (alias: AliasData) =>
-      !isValidOptionalDate(alias.birth_date),
-
-    "A wildcard in First Name field must be at the end and follow at least one letter.":
-      (alias: AliasData) => !isValidOptionalWildcard(alias.first_name, 2),
-
-    "A wildcard in the Last Name field must be at the end and follow at least two letters.":
-      (alias: AliasData) => !isValidOptionalWildcard(alias.last_name, 3),
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    let messages = Object.entries(validators).reduce(
-      (errors, [message, isInvalid]) => {
-        if (aliases.some(isInvalid)) errors.push(message);
-        return errors;
-      },
-      [] as string[]
-    );
-
-    setErorrMessages(messages);
-
-    if (messages.length === 0) dispatch(searchRecord());
-  };
+  const { aliases, date } = useAppSelector(selectSearchFormValues);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const validators = [
+    isPresent("first_name", "First name is required."),
+    isPresent("last_name", "Last name is required."),
+    isValidOptionalDate("birth_date", "The date format must be MM/DD/YYYY.", {
+      indexes: [0],
+    }),
+    isValidOptionalWildcard(
+      "first_name",
+      "A wildcard in First Name field must be at the end and follow at least one letter."
+    ),
+    isValidOptionalWildcard(
+      "last_name",
+      "A wildcard in the Last Name field must be at the end and follow at least two letters.",
+      { minLength: 3 }
+    ),
+  ];
 
   return (
-    <form className="mw7 center" onSubmit={handleSubmit} noValidate>
+    <form
+      className="mw7 center"
+      onSubmit={(e: React.FormEvent) => {
+        e.preventDefault();
+
+        validate(aliases, validators, setErrorMessages, () =>
+          dispatch(searchRecord())
+        );
+      }}
+      noValidate
+    >
       <div className="flex">
         <Field
           coda="mm/dd/yyyy"
