@@ -47,6 +47,7 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
         </div>
         <div
           class="flex flex-wrap items-end"
+          data-testid="alias-form-0"
         >
           <div
             class="w-100 w-third-ns w-25-l mb3 "
@@ -502,6 +503,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
         </div>
         <div
           class="flex flex-wrap items-end"
+          data-testid="alias-form-0"
         >
           <div
             class="w-100 w-third-ns w-25-l mb3 "

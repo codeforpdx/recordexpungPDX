@@ -356,6 +356,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
           </div>
           <div
             class="flex flex-wrap items-end"
+            data-testid="alias-form-0"
           >
             <div
               class="w-100 w-third-ns w-25-l mb3 "
@@ -2420,6 +2421,7 @@ exports[`Without a record renders correctly 1`] = `
           </div>
           <div
             class="flex flex-wrap items-end"
+            data-testid="alias-form-0"
           >
             <div
               class="w-100 w-third-ns w-25-l mb3 "
