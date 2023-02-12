@@ -1,3 +1,4 @@
+import moment from "moment";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import {
@@ -10,7 +11,7 @@ interface SearchFormState {
   aliases: AliasData[];
 }
 
-const initialState: SearchFormState = {
+export const initialState: SearchFormState = {
   aliases: [
     {
       first_name: "",
@@ -19,7 +20,7 @@ const initialState: SearchFormState = {
       birth_date: "",
     },
   ],
-  date: "",
+  date: moment().format("M/D/YYYY"),
 };
 
 interface UpdateAliasPayload {
@@ -28,7 +29,7 @@ interface UpdateAliasPayload {
   value: string;
 }
 
-export const formSlice = createSlice({
+export const searchFormSlice = createSlice({
   name: "searchForm",
   initialState,
   reducers: {
@@ -53,11 +54,11 @@ export const {
   updateSearchFormAlias,
   addSearchFormAlias,
   removeSearchFormAlias,
-} = formSlice.actions;
+} = searchFormSlice.actions;
 
-export const selectSearchFormAliases = (state: RootState) =>
-  state.searchForm.aliases;
+export const selectSearchFormValues = (state: RootState) => ({
+  aliases: state.searchForm.aliases,
+  date: state.searchForm.date,
+});
 
-export const selectSearchFormDate = (state: RootState) => state.searchForm.date;
-
-export default formSlice.reducer;
+export default searchFormSlice.reducer;
