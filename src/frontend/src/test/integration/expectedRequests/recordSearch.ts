@@ -2,6 +2,13 @@ import moment from "moment";
 
 const today = moment().format("M/D/YYYY");
 
+export const expectedLoginRequest = {
+  data: { oeci_password: "secret", oeci_username: "username" },
+  method: "post",
+  url: "/api/oeci_login",
+  withCredentials: true,
+};
+
 export const expectedSearchRequest = {
   data: {
     aliases: [
@@ -12,13 +19,13 @@ export const expectedSearchRequest = {
         middle_name: "",
       },
     ],
-    demo: true,
+    demo: false,
     edits: {},
     questions: {},
     today,
   },
   method: "post",
-  url: "/api/demo",
+  url: "/api/search",
   withCredentials: true,
 };
 
@@ -32,7 +39,7 @@ export const expectedPdfRequest = {
         middle_name: "",
       },
     ],
-    demo: true,
+    demo: false,
     edits: {},
     questions: {},
     today,
@@ -53,7 +60,7 @@ export const expectedPacketRequest = {
         middle_name: "",
       },
     ],
-    demo: true,
+    demo: false,
     edits: {},
     questions: {},
     today,
@@ -70,5 +77,46 @@ export const expectedPacketRequest = {
   method: "post",
   responseType: "blob",
   url: "/api/expungement-packet",
+  withCredentials: true,
+};
+
+export const expectedSecondSearchRequest = {
+  data: {
+    aliases: [
+      { birth_date: "", first_name: "foo", last_name: "bar", middle_name: "" },
+      {
+        birth_date: "2/23/1999",
+        first_name: "fooRocky",
+        last_name: "barBalboa",
+        middle_name: "",
+      },
+    ],
+    demo: false,
+    edits: {},
+    questions: {},
+    today,
+  },
+  method: "post",
+  url: "/api/search",
+  withCredentials: true,
+};
+
+export const expectedThirdSearchRequest = {
+  data: {
+    aliases: [
+      {
+        birth_date: "2/23/1999",
+        first_name: "fooRocky",
+        last_name: "barBalboa",
+        middle_name: "",
+      },
+    ],
+    demo: false,
+    edits: {},
+    questions: {},
+    today,
+  },
+  method: "post",
+  url: "/api/search",
   withCredentials: true,
 };
