@@ -1,9 +1,11 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { appRender } from "../../test/testHelpers";
-import { FakeResponseName } from "../../test/hooks/useInjectSearchResponse";
+import {
+  appRender,
+  setupUserAndRender,
+  fillSearchFormNames,
+} from "../../test/testHelpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { startDemo } from "../../redux/demoSlice";
 import RecordSearch from ".";
@@ -25,7 +27,7 @@ describe("when logged in", () => {
     mockHasOeciToeken.mockReturnValue(true);
   });
 
-  (["blank", "complex"] as FakeResponseName[]).forEach((fakeReponseName) => {
+  (["blank", "complex"] as const).forEach((fakeReponseName) => {
     it(`renders correctly with ${fakeReponseName} fake response`, () => {
       const { container } = appRender(<RecordSearch />, fakeReponseName);
 
@@ -37,7 +39,7 @@ describe("when logged in", () => {
   });
 
   it("turns off the demo state", () => {
-    const { store } = appRender(<DemoOnComponent />, "common");
+    const { store } = appRender(<DemoOnComponent />);
     expect(store.getState().demo.isOn).toBe(false);
   });
 
@@ -47,14 +49,9 @@ describe("when logged in", () => {
   });
 
   test("a message is dislayed when results are be loaded", async () => {
-    const user = userEvent.setup();
+    const { user } = setupUserAndRender(<RecordSearch />);
 
-    appRender(<RecordSearch />);
-
-    await user.click(screen.getByLabelText(/first/i));
-    await user.keyboard("foo");
-    await user.click(screen.getByLabelText(/last/i));
-    await user.keyboard("bar");
+    await fillSearchFormNames(user);
     await user.click(screen.getByRole("button", { name: /search/i }));
 
     expect(
@@ -69,7 +66,7 @@ describe("when not logged in", () => {
   });
 
   it("turns off the demo state", () => {
-    const { store } = appRender(<DemoOnComponent />, "common");
+    const { store } = appRender(<DemoOnComponent />);
     expect(store.getState().demo.isOn).toBe(false);
   });
 
