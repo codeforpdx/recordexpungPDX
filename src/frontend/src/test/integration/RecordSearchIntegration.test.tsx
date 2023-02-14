@@ -4,9 +4,9 @@ import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
-import store from "../../redux/store";
+import store, { clearAllData } from "../../redux/store";
+import { setSearchFormDate } from "../../redux/searchFormSlice";
 import multipleResponse from "../data/multipleResponse";
-import commonResponse from "../data/commonResponse";
 import {
   appRender,
   fillLoginForm,
@@ -30,6 +30,21 @@ import {
   expectedRemoveChargeRequest,
 } from "./expectedRequests/recordSearch";
 import App from "../../components/App";
+import RecordSearch from "../../components/RecordSearch";
+import SearchPanel from "../../components/RecordSearch/SearchPanel";
+
+function setup(component = <App />) {
+  store.dispatch(clearAllData());
+  store.dispatch(setSearchFormDate("1/2/2023"));
+
+  const user = userEvent.setup();
+  const requestSpy = jest.spyOn(axios, "request").mockResolvedValue({});
+
+  appRender(component, undefined, {
+    store,
+  });
+  return { user, requestSpy };
+}
 
 function assertRequest(spy: jest.SpyInstance, obj: Object) {
   expect(spy).toHaveBeenCalledWith(obj);
@@ -39,18 +54,15 @@ function assertRequest(spy: jest.SpyInstance, obj: Object) {
 async function goToSearchPage(user: UserEvent) {
   await user.click(screen.getAllByRole("link", { name: /search/i })[0]);
 }
-// Was unable to break this test into multiple tests due to
-// problems with test state leaking after the first test.
-test("Search and click buttons", async () => {
-  const user = userEvent.setup();
-  const requestSpy = jest.spyOn(axios, "request").mockImplementationOnce(() => {
+
+test("Search and download summary pdf and expungement packet", async () => {
+  const { user, requestSpy } = setup();
+
+  requestSpy.mockImplementationOnce(() => {
     document.cookie = "oeci_token=1;";
     return Promise.resolve();
   });
 
-  appRender(<App />, undefined, {
-    store,
-  });
   await goToSearchPage(user);
 
   // login page
@@ -74,9 +86,13 @@ test("Search and click buttons", async () => {
   await fillExpungementPacketForm(user);
   await clickButton(user, "download packet");
   assertRequest(requestSpy, expectedPacketRequest);
+});
 
-  // test multiple alias submission
-  await goToSearchPage(user);
+// cookie still present, so still logged in
+test("Submitting multiple aliases", async () => {
+  const { user, requestSpy } = setup(<SearchPanel />);
+
+  await fillSearchFormNames(user);
   await clickButton(user, "alias");
 
   // TODO: each Alias input fields should have unique IDs
@@ -98,9 +114,15 @@ test("Search and click buttons", async () => {
   await clickButton(user, "remove");
   await clickButton(user, "search");
   assertRequest(requestSpy, expectedThirdSearchRequest);
+});
 
-  // Cases
+// still logged in
+test("Creating and editing a case", async () => {
+  const { user, requestSpy } = setup(<RecordSearch />);
+
   // create a new case
+  requestSpy.mockResolvedValue({ data: multipleResponse });
+  await fillSearchFormNames(user);
   await clickButton(user, "enable editing");
   await clickButton(user, "add case");
   await fillNewCaseForm(user);
@@ -121,10 +143,19 @@ test("Search and click buttons", async () => {
   await clickButton(user, "edit case");
   await clickButton(user, "remove case");
   assertRequest(requestSpy, expectedRemoveCaseRequest);
+});
 
-  // Charges
-  // add a charge
-  requestSpy.mockResolvedValue({ data: commonResponse });
+// still logged in
+test("Creating and editing a charges", async () => {
+  const { user, requestSpy } = setup(<RecordSearch />);
+
+  requestSpy.mockResolvedValue({ data: multipleResponse });
+  await fillSearchFormNames(user);
+  await clickButton(user, "search");
+  requestSpy.mockClear();
+
+  // create a new charge
+  await clickButton(user, "enable editing");
   await clickButton(user, "add charge");
   await user.click(screen.getByLabelText(/dismissed/i));
   await user.selectOptions(
@@ -142,6 +173,10 @@ test("Search and click buttons", async () => {
 
   // edit a charge
   await clickButton(user, "edit charge");
+  await user.selectOptions(
+    screen.getByRole("combobox", { name: /severity level/i }),
+    screen.getAllByRole("option", { name: /^misdemeanor class a/i })[1]
+  );
   await user.click(screen.getByLabelText(/date charged/i));
   await user.keyboard("{Backspace>10}4/30/1777");
   await clickButton(user, "update charge");

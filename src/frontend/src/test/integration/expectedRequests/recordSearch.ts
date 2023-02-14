@@ -1,7 +1,3 @@
-import moment from "moment";
-
-const today = moment().format("M/D/YYYY");
-
 export const expectedLoginRequest = {
   data: { oeci_password: "secret", oeci_username: "username" },
   method: "post",
@@ -22,7 +18,7 @@ export const expectedSearchRequest = {
     demo: false,
     edits: {},
     questions: {},
-    today,
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -42,7 +38,7 @@ export const expectedPdfRequest = {
     demo: false,
     edits: {},
     questions: {},
-    today,
+    today: "1/2/2023",
   },
   method: "post",
   responseType: "blob",
@@ -63,7 +59,7 @@ export const expectedPacketRequest = {
     demo: false,
     edits: {},
     questions: {},
-    today,
+    today: "1/2/2023",
     userInformation: {
       city: "Portland",
       date_of_birth: "12/12/1999",
@@ -94,7 +90,7 @@ export const expectedSecondSearchRequest = {
     demo: false,
     edits: {},
     questions: {},
-    today,
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -114,7 +110,7 @@ export const expectedThirdSearchRequest = {
     demo: false,
     edits: {},
     questions: {},
-    today,
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -124,12 +120,7 @@ export const expectedThirdSearchRequest = {
 export const expectedCreateCaseRequest = {
   data: {
     aliases: [
-      {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
-        middle_name: "",
-      },
+      { birth_date: "", first_name: "foo", last_name: "bar", middle_name: "" },
     ],
     demo: false,
     edits: {
@@ -144,8 +135,8 @@ export const expectedCreateCaseRequest = {
         },
       },
     },
-    questions: {},
-    today: "2/13/2023",
+    questions: undefined,
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -156,9 +147,9 @@ export const expectedUpdateCaseRequest = {
   data: {
     aliases: [
       {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
+        birth_date: "",
+        first_name: "foo",
+        last_name: "bar",
         middle_name: "",
       },
     ],
@@ -186,7 +177,7 @@ export const expectedUpdateCaseRequest = {
       },
     },
     questions: {},
-    today: "2/13/2023",
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -197,9 +188,9 @@ export const expectedRemoveCaseRequest = {
   data: {
     aliases: [
       {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
+        birth_date: "",
+        first_name: "foo",
+        last_name: "bar",
         middle_name: "",
       },
     ],
@@ -218,7 +209,7 @@ export const expectedRemoveCaseRequest = {
       },
     },
     questions: {},
-    today: "2/13/2023",
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -228,18 +219,13 @@ export const expectedRemoveCaseRequest = {
 export const expectedAddChargeRequest = {
   data: {
     aliases: [
-      {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
-        middle_name: "",
-      },
+      { birth_date: "", first_name: "foo", last_name: "bar", middle_name: "" },
     ],
     demo: false,
     edits: {
       "110000": {
         charges: {
-          "110000-X03": {
+          "110000-X01": {
             charge_type: "FareViolation",
             date: "11/12/2000",
             disposition: { date: "11/12/2000", ruling: "Dismissed" },
@@ -249,21 +235,11 @@ export const expectedAddChargeRequest = {
             probation_revoked: "",
           },
         },
-        summary: { edit_status: "DELETE" },
-      },
-      "CASE-0001": {
-        summary: {
-          balance_due: "0.01",
-          birth_year: "1999",
-          case_number: "CASE-0001",
-          current_status: "Open",
-          edit_status: "ADD",
-          location: "Benton",
-        },
+        summary: { edit_status: "UPDATE" },
       },
     },
     questions: {},
-    today: "2/13/2023",
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -273,18 +249,22 @@ export const expectedAddChargeRequest = {
 export const expectedUpdateChargeRequest = {
   data: {
     aliases: [
-      {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
-        middle_name: "",
-      },
+      { birth_date: "", first_name: "foo", last_name: "bar", middle_name: "" },
     ],
     demo: false,
     edits: {
       "110000": {
         charges: {
-          "110000-X03": {
+          "110000-1": {
+            charge_type: "Dismissed Criminal Charge",
+            date: "4/30/1777",
+            disposition: { date: "4/21/2022", ruling: "Dismissed" },
+            edit_status: "UPDATE",
+            level: "Misdemeanor Class A",
+            name: "Theft in the Third Degree",
+            probation_revoked: "",
+          },
+          "110000-X01": {
             charge_type: "FareViolation",
             date: "11/12/2000",
             disposition: { date: "11/12/2000", ruling: "Dismissed" },
@@ -294,66 +274,11 @@ export const expectedUpdateChargeRequest = {
             probation_revoked: "",
           },
         },
-        summary: { edit_status: "DELETE" },
-      },
-      "200000": {
-        charges: {
-          "200000-1": {
-            charge_type: "Dismissed Criminal Charge",
-            date: "4/30/1777",
-            disposition: { date: "9/9/2019", ruling: "Dismissed" },
-            edit_status: "UPDATE",
-            level: "Misdemeanor Class A",
-            name: "Obstruction of search warrant",
-            probation_revoked: "",
-          },
-        },
         summary: { edit_status: "UPDATE" },
       },
-      "CASE-0001": {
-        summary: {
-          balance_due: "0.01",
-          birth_year: "1999",
-          case_number: "CASE-0001",
-          current_status: "Open",
-          edit_status: "ADD",
-          location: "Benton",
-        },
-      },
     },
-    questions: {
-      "210000-1": {
-        ambiguous_charge_id: "210000-1",
-        case_number: "210000",
-        root: {
-          convicted_date_string: "",
-          options: {
-            No: {
-              edit: {},
-              question: {
-                convicted_date_string: "",
-                options: {
-                  "A Felony": { edit: { charge_type: "FelonyClassA" } },
-                  "B Felony": { edit: { charge_type: "FelonyClassB" } },
-                  "C Felony": { edit: { charge_type: "FelonyClassC" } },
-                },
-                probation_revoked_date_string: "",
-                question_id:
-                  "210000-1-Was the underlying substance marijuana?-No-Was the charge for an A Felony, B Felony, or C Felony?",
-                selection: "",
-                text: "Was the charge for an A Felony, B Felony, or C Felony?",
-              },
-            },
-            Yes: { edit: { charge_type: "MarijuanaManufactureDelivery" } },
-          },
-          probation_revoked_date_string: "",
-          question_id: "210000-1-Was the underlying substance marijuana?",
-          selection: "",
-          text: "Was the underlying substance marijuana?",
-        },
-      },
-    },
-    today: "2/13/2023",
+    questions: {},
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
@@ -363,18 +288,14 @@ export const expectedUpdateChargeRequest = {
 export const expectedRemoveChargeRequest = {
   data: {
     aliases: [
-      {
-        birth_date: "2/23/1999",
-        first_name: "fooRocky",
-        last_name: "barBalboa",
-        middle_name: "",
-      },
+      { birth_date: "", first_name: "foo", last_name: "bar", middle_name: "" },
     ],
     demo: false,
     edits: {
       "110000": {
         charges: {
-          "110000-X03": {
+          "110000-1": { edit_status: "DELETE" },
+          "110000-X01": {
             charge_type: "FareViolation",
             date: "11/12/2000",
             disposition: { date: "11/12/2000", ruling: "Dismissed" },
@@ -384,56 +305,11 @@ export const expectedRemoveChargeRequest = {
             probation_revoked: "",
           },
         },
-        summary: { edit_status: "DELETE" },
-      },
-      "200000": {
-        charges: { "200000-1": { edit_status: "DELETE" } },
         summary: { edit_status: "UPDATE" },
       },
-      "CASE-0001": {
-        summary: {
-          balance_due: "0.01",
-          birth_year: "1999",
-          case_number: "CASE-0001",
-          current_status: "Open",
-          edit_status: "ADD",
-          location: "Benton",
-        },
-      },
     },
-    questions: {
-      "210000-1": {
-        ambiguous_charge_id: "210000-1",
-        case_number: "210000",
-        root: {
-          convicted_date_string: "",
-          options: {
-            No: {
-              edit: {},
-              question: {
-                convicted_date_string: "",
-                options: {
-                  "A Felony": { edit: { charge_type: "FelonyClassA" } },
-                  "B Felony": { edit: { charge_type: "FelonyClassB" } },
-                  "C Felony": { edit: { charge_type: "FelonyClassC" } },
-                },
-                probation_revoked_date_string: "",
-                question_id:
-                  "210000-1-Was the underlying substance marijuana?-No-Was the charge for an A Felony, B Felony, or C Felony?",
-                selection: "",
-                text: "Was the charge for an A Felony, B Felony, or C Felony?",
-              },
-            },
-            Yes: { edit: { charge_type: "MarijuanaManufactureDelivery" } },
-          },
-          probation_revoked_date_string: "",
-          question_id: "210000-1-Was the underlying substance marijuana?",
-          selection: "",
-          text: "Was the underlying substance marijuana?",
-        },
-      },
-    },
-    today: "2/13/2023",
+    questions: {},
+    today: "1/2/2023",
   },
   method: "post",
   url: "/api/search",
