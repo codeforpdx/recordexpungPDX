@@ -1,77 +1,22 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import renderer from "react-test-renderer";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router";
-import store from "../../../../redux/store";
+import { appRender } from "../../../../test/testHelpers";
 import history from "../../../../service/history";
-import johnCommonRecord from "../../../../data/demo/johnCommon";
-import multipleChargesRecord from "../../../../data/demo/multipleCharges";
-import blankRecord from "../../../../data/blankRecord";
 import RecordSummary from ".";
 
-const downloadPdfPath = "../../../../redux/search/actions";
-const mockDownloadPdf = jest.fn();
-const record = johnCommonRecord;
-
-jest.mock(downloadPdfPath, () => ({
-  ...jest.requireActual(downloadPdfPath),
-  downloadPdf: () => mockDownloadPdf(),
-}));
-
-it("correctly renders with the John Common demo data", () => {
-  const tree = renderer
-    .create(
-      <Provider store={store}>
-        <MemoryRouter>
-          <RecordSummary record={record} />
-        </MemoryRouter>
-      </Provider>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+jest.mock("axios", () => {
+  return {
+    request: () => new Promise(() => {}),
+  };
 });
 
-it("correctly renders with the Multiple Charges demo data", () => {
-  const tree = renderer
-    .create(
-      <Provider store={store}>
-        <MemoryRouter>
-          <RecordSummary record={multipleChargesRecord} />
-        </MemoryRouter>
-      </Provider>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
-
-it("correctly renders with Multiple Charges demo data and CasesList view selected", () => {
-  const { getByLabelText, asFragment } = render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <RecordSummary record={multipleChargesRecord} />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  const casesRadio = getByLabelText("Cases");
-  fireEvent.click(casesRadio);
-  expect(asFragment()).toMatchSnapshot();
-});
-
+// snapshot tests for the initial state are accounted
+// for in the RecordSearch tests
 describe("When rendered with the John Common demo data", () => {
   beforeEach(() => {
-    render(
-      <>
-        <Provider store={store}>
-          <MemoryRouter>
-            <RecordSummary record={record} />
-          </MemoryRouter>
-        </Provider>
-      </>
-    );
+    appRender(<RecordSummary />, "common");
   });
 
   test("the generate paperwork button works", async () => {
@@ -82,7 +27,6 @@ describe("When rendered with the John Common demo data", () => {
     });
 
     await user.click(generateButton);
-
     expect(historySpy).toHaveBeenCalledWith("/fill-expungement-forms");
   });
 
@@ -93,20 +37,13 @@ describe("When rendered with the John Common demo data", () => {
     });
 
     await user.click(pdfButton);
-
-    expect(mockDownloadPdf).toHaveBeenCalled();
+    expect(pdfButton).toHaveClass("loading-btn");
   });
 });
 
 describe("When rendered with empty results", () => {
   beforeEach(() => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <RecordSummary record={blankRecord} />
-        </MemoryRouter>
-      </Provider>
-    );
+    appRender(<RecordSummary />, "blank");
   });
 
   test("the generate paperwork button will display an error with a dismiss button", async () => {
@@ -117,7 +54,6 @@ describe("When rendered with empty results", () => {
     const errorMessage = /must be eligible charges to generate/i;
 
     await user.click(generateButton);
-
     expect(screen.queryByText(errorMessage)).toBeInTheDocument();
 
     const dismissButton = screen.getByRole("button", {
@@ -125,7 +61,6 @@ describe("When rendered with empty results", () => {
     });
 
     await user.click(dismissButton);
-
     expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
   });
 });

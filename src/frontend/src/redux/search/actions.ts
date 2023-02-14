@@ -1,33 +1,67 @@
 import { Dispatch } from "redux";
-import store from "../store";
-import apiService from "../../service/api-service";
 import { AxiosError, AxiosResponse } from "axios";
 import fileDownload from "js-file-download";
+import apiService from "../../service/api-service";
+import store from "../store";
+import { stopLoadingSummary } from "../summarySlice";
+import { ChargeData } from "../../components/RecordSearch/Record/types";
 
 import {
   DISPLAY_RECORD,
   RECORD_LOADING,
   SearchResponse,
   SELECT_ANSWER,
-  LOADING_PDF,
-  LOADING_PDF_COMPLETE,
   EDIT_CASE,
   DELETE_CASE,
   UNDO_EDIT_CASE,
   EDIT_CHARGE,
   DELETE_CHARGE,
   UNDO_EDIT_CHARGE,
-  START_EDITING,
-  DONE_EDITING,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
-  START_DEMO,
-  STOP_DEMO,
 } from "./types";
-import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
-import { RecordData } from "../../components/RecordSearch/Record/types";
+import {
+  RecordData,
+  ShortLabel,
+} from "../../components/RecordSearch/Record/types";
+import { getShortLabel } from "../../components/RecordSearch/Record/util";
 
-function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
+function isExludedCharge({ statute, level, name }: ChargeData) {
+  const chapter = Number(statute.slice(0, 3));
+  const lowerLevel = level.toLowerCase();
+
+  if (name.toLowerCase().includes("pedestrian j-walking")) return true;
+  if (level.toLowerCase().includes("infraction")) return true;
+
+  // 813 	Driving Under the Influence of Intoxicants
+  if (isNaN(chapter) || chapter === 813) return false;
+
+  if ((chapter >= 801 && chapter <= 826) || [481, 482, 483].includes(chapter)) {
+    if (!lowerLevel.includes("felony") && !lowerLevel.includes("misdemeanor")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function processCharges(record: RecordData) {
+  if (!record?.cases) return;
+
+  record.cases.forEach((aCase) => {
+    const fines = aCase.balance_due;
+
+    aCase.charges.forEach((charge) => {
+      const {
+        charge_eligibility: { status },
+      } = charge.expungement_result;
+      charge.shortLabel = getShortLabel(status, null, fines) as ShortLabel;
+      charge.isExcluded = isExludedCharge(charge);
+    });
+  });
+}
+
+export function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
   if (validateSearchResponseData(data)) {
     const receivedRecord = data.record;
     const record: RecordData = {
@@ -36,6 +70,9 @@ function storeSearchResponse(data: SearchResponse, dispatch: Dispatch) {
       errors: receivedRecord.errors,
       summary: receivedRecord.summary,
     };
+
+    processCharges(record);
+
     dispatch({
       type: DISPLAY_RECORD,
       record: record,
@@ -52,9 +89,9 @@ function validateSearchResponseData(data: SearchResponse): boolean {
 
 function buildSearchRequest() {
   return {
-    demo: store.getState().search.demo,
-    aliases: store.getState().search.aliases,
-    today: store.getState().search.today,
+    demo: store.getState().demo.isOn,
+    aliases: store.getState().searchForm.aliases,
+    today: store.getState().searchForm.date,
     questions: store.getState().search.questions,
     edits: store.getState().search.edits,
   };
@@ -62,7 +99,7 @@ function buildSearchRequest() {
 
 function buildAndSendSearchRequest(dispatch: any): any {
   return apiService(dispatch, {
-    url: store.getState().search.demo ? "/api/demo" : "/api/search",
+    url: store.getState().demo.isOn ? "/api/demo" : "/api/search",
     data: buildSearchRequest(),
     method: "post",
     withCredentials: true,
@@ -75,7 +112,7 @@ function buildAndSendSearchRequest(dispatch: any): any {
     });
 }
 
-function buildAndSendDownloadPdfRequest(dispatch: any): any {
+export function buildAndSendDownloadPdfRequest(dispatch: any): any {
   return apiService(dispatch, {
     url: "/api/pdf",
     data: buildSearchRequest(),
@@ -84,48 +121,22 @@ function buildAndSendDownloadPdfRequest(dispatch: any): any {
     responseType: "blob",
   })
     .then((response: AxiosResponse) => {
-      const filename = response.headers["content-disposition"]!.split(
-        "filename="
-      )[1].split(" ")[0];
+      const filename =
+        response.headers["content-disposition"]!.split("filename=")[1].split(
+          " "
+        )[0];
       fileDownload(response.data, filename);
-      dispatch({
-        type: LOADING_PDF_COMPLETE,
-      });
+      dispatch(stopLoadingSummary());
     })
     .catch((error: AxiosError) => {
-      dispatch({
-        type: LOADING_PDF_COMPLETE,
-      });
+      dispatch(stopLoadingSummary());
       alert(error.message);
     });
 }
 
-export function startDemo() {
-  return {
-    type: START_DEMO,
-  };
-}
-
-export function stopDemo() {
-  return {
-    type: STOP_DEMO,
-  };
-}
-
-export function downloadPdf() {
+export function searchRecord() {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: LOADING_PDF,
-    });
-    return buildAndSendDownloadPdfRequest(dispatch);
-  };
-}
-
-export function searchRecord(aliases: AliasData[], today: string): any {
-  return (dispatch: Dispatch) => {
-    dispatch({
-      aliases: aliases,
-      today: today,
       type: RECORD_LOADING,
     });
     return buildAndSendSearchRequest(dispatch);
@@ -257,18 +268,6 @@ export function undoEditCharge(
   };
 }
 
-export function startEditing() {
-  return {
-    type: START_EDITING,
-  };
-}
-
-export function doneEditing() {
-  return {
-    type: DONE_EDITING,
-  };
-}
-
 export function downloadExpungementPacket(
   name: string,
   dob: string,
@@ -292,11 +291,11 @@ export function downloadExpungementPacket(
     return apiService(dispatch, {
       url: "/api/expungement-packet",
       data: {
-        demo: store.getState().search.demo,
-        aliases: store.getState().search.aliases,
+        demo: store.getState().demo.isOn,
+        aliases: store.getState().searchForm.aliases,
         questions: store.getState().search.questions,
         edits: store.getState().search.edits,
-        today: store.getState().search.today,
+        today: store.getState().searchForm.date,
         userInformation: store.getState().search.userInformation,
       },
       method: "post",
@@ -304,9 +303,10 @@ export function downloadExpungementPacket(
       responseType: "blob",
     })
       .then((response: AxiosResponse) => {
-        const filename = response.headers["content-disposition"]!.split(
-          "filename="
-        )[1].split(" ")[0];
+        const filename =
+          response.headers["content-disposition"]!.split("filename=")[1].split(
+            " "
+          )[0];
         fileDownload(response.data, filename);
         dispatch({
           type: LOADING_EXPUNGEMENT_PACKET_COMPLETE,

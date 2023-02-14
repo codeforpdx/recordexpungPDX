@@ -1,39 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import history from "../../service/history";
-import { stopDemo } from "../../redux/search/actions";
+import React from "react";
+import { Redirect } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { stopDemo } from "../../redux/demoSlice";
 import { hasOeciToken } from "../../service/cookie-service";
-import useSetupPage from "../../hooks/useSetupPage";
-import SearchPanel from "./SearchPanel";
-import Record from "./Record";
-import Status from "./Status";
-import Assumptions from "./Assumptions";
+import setupPage from "../../service/setupPage";
+import Layout from "./Layout";
 
 export default function RecordSearch() {
-  const [shouldDisplay, setShouldDisplay] = useState(false);
-  const record = useAppSelector((state) => state.search.record);
-  const dispatch = useAppDispatch();
+  setupPage("Search Records");
+  useAppDispatch()(stopDemo());
 
-  useSetupPage("Search Records");
+  if (!hasOeciToken()) return <Redirect to="/oeci" />;
 
-  useEffect(() => {
-    dispatch(stopDemo());
-
-    if (!hasOeciToken()) {
-      history.replace("/oeci");
-    } else {
-      setShouldDisplay(true);
-    }
-  }, [shouldDisplay, dispatch]);
-
-  return shouldDisplay ? (
-    <main className="mw8 center f6 f5-l ph2">
-      <SearchPanel />
-      <Status record={record} />
-      <Record record={record} />
-      <Assumptions />
-    </main>
-  ) : (
-    <></>
-  );
+  return <Layout />;
 }

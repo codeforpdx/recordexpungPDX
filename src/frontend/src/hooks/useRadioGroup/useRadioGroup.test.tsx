@@ -13,24 +13,25 @@ function RadioGroup({
   optionLabels: string[];
   initialValue?: string;
 }) {
-  const { selectedRadioValue, groupProps, makeRadioButtonProps } =
+  const { selectedRadioValue, radioGroupWrapperProps, makeRadioButtonProps } =
     useRadioGroup({
       label,
       initialValue,
     });
 
   return (
-    <fieldset {...groupProps}>
+    <fieldset {...radioGroupWrapperProps}>
       {selectedRadioValue && (
         <legend>{selectedRadioValue + " in legend"}</legend>
       )}
 
       {optionLabels.map((label) => {
-        const { inputProps, labelProps } = makeRadioButtonProps(label);
+        const { radioButtonProps, radioLabelProps } =
+          makeRadioButtonProps(label);
         return (
           <p key={label}>
-            <input {...inputProps} />
-            <label {...labelProps}>{label}</label>
+            <input {...radioButtonProps} />
+            <label {...radioLabelProps}>{label}</label>
           </p>
         );
       })}

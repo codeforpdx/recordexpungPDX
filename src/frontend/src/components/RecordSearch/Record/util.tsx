@@ -1,4 +1,91 @@
 import React from "react";
+import moment from "moment";
+import { ExpungementResultData, ChargeEligibilityStatus } from "./types";
+
+type EligibilityColor = "green" | "dark-blue" | "purple" | "red";
+
+export function getEligibilityColor(status: string, caseBalance = 0) {
+  let color: EligibilityColor;
+  let icon = "fa fa-";
+
+  switch (status) {
+    case "Eligible":
+    case "Eligible Future":
+      color = "dark-blue";
+      icon = "dollar-sign";
+      break;
+    case "Eligible Now":
+      color = caseBalance > 0 ? "dark-blue" : "green";
+      icon += caseBalance > 0 ? "dollar-sign" : "check";
+      break;
+    case "Ineligible":
+      color = "red";
+      icon += "circle-xmark";
+      break;
+    case "Will Be Eligible":
+      color = "dark-blue";
+      icon += "clock";
+      break;
+    case "Possibly Eligible":
+    case "Possibly Will Be Eligible":
+    case "Unknown":
+    case "Needs More Analysis":
+    default:
+      color = "purple";
+      icon += "question-circle";
+  }
+
+  const bgColor = "bg-washed-" + (color === "dark-blue" ? "blue" : color);
+
+  return { icon, color, bgColor };
+}
+
+export function getShortLabel(
+  status: ChargeEligibilityStatus,
+  dateStr?: string | null,
+  caseBalance?: number
+) {
+  const date = moment(dateStr, "MMM/D/YY");
+
+  switch (status) {
+    case "Eligible Now":
+      if (caseBalance && caseBalance > 0) return "Eligible";
+      return status;
+    case "Will Be Eligible":
+      if (!dateStr || !date.isValid()) return "Eligible Future";
+      return "Eligible " + date.format("M/D/YY");
+    case "Needs More Analysis":
+      return "Needs Analysis";
+    case "Possibly Eligible":
+    case "Possibly Will Be Eligible":
+      return "Eligible?";
+    case "Ineligible":
+    case "Unknown":
+    default:
+      return status;
+  }
+}
+
+export function getEligibilityAttributes(
+  expungement_result: ExpungementResultData,
+  caseBalance: number,
+  useLongLabel = true
+) {
+  const { charge_eligibility } = expungement_result;
+  let label = charge_eligibility?.label ?? "Unknown";
+  const status = charge_eligibility?.status ?? "Unknown";
+  const dateStr = charge_eligibility.date_to_sort_label_by;
+
+  if (label.match(/\beligible/i) && caseBalance > 0 && useLongLabel) {
+    label += " If Balance Paid";
+  }
+
+  if (!useLongLabel) {
+    label = getShortLabel(status, dateStr, caseBalance);
+  }
+
+  return { label, ...getEligibilityColor(status, caseBalance) };
+}
 
 export function newlineOrsInString(
   leading_label: JSX.Element,

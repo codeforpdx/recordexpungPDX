@@ -1,30 +1,25 @@
 import React, { useState } from "react";
-import { RecordData } from "../types";
 import { useAppSelector } from "../../../../redux/hooks";
-import { downloadPdf } from "../../../../redux/search/actions";
+import { useAppDispatch } from "../../../../redux/hooks";
+import {
+  startLoadingSummary,
+  selectSummaryIsLoading,
+} from "../../../../redux/summarySlice";
+import { buildAndSendDownloadPdfRequest } from "../../../../redux/search/actions";
 import history from "../../../../service/history";
-import useRadioGroup from "../../../../hooks/useRadioGroup";
-import RadioGroup from "../../../common/RadioGroup";
 import ChargesList from "./ChargesList";
-import CasesList from "./CasesList";
 import CountyFines from "./CountyFines";
-import { IconButton } from "../../../common/IconButton";
+import IconButton from "../../../common/IconButton";
 
-interface Props {
-  record: RecordData;
-}
-
-export default function RecordSummary({ record }: Props) {
-  const loadingPdf = useAppSelector((state) => state.search.loadingPdf);
+export default function RecordSummary() {
+  const dispatch = useAppDispatch();
+  const record = useAppSelector((state) => state.search.record);
+  const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
   const [canGenerateForms, setCanGenerateForms] = useState(true);
-  const { selectedRadioValue, ...radioGroupProps } = useRadioGroup({
-    label: "Summary overview sort options",
-    initialValue: "Charges",
-  });
-  const cases = record.cases;
-  const summary = record.summary;
 
-  if (!summary) return <></>;
+  if (!record || !record.summary) return <></>;
+
+  const summary = record.summary;
 
   const {
     total_cases: totalCases,
@@ -41,23 +36,21 @@ export default function RecordSummary({ record }: Props) {
     }
   };
 
+  const handleDownloadSummaryClick = () => {
+    dispatch(startLoadingSummary());
+    dispatch(buildAndSendDownloadPdfRequest);
+  };
+
   return (
     <div className="bg-white shadow br3 mb3 ph3 pb3">
       <div className="flex flex-wrap justify-end mb1">
-        <div className="flex flex-wrap items-center mv1 mr-auto">
-          <h2 className="f5 fw7 mr3">Search Summary</h2>
-
-          <RadioGroup
-            className="flex flex-wrap radio radio-sm ml1"
-            optionLabels={["Charges", "Cases"]}
-            radioGroupProps={radioGroupProps}
-          />
-        </div>
+        <h2 className="f5 fw7 mv3 mr-auto">Search Summary</h2>
 
         {!canGenerateForms && (
           <span className="bg-washed-red mv2 pa2 br3 fw6" role="alert">
             There must be eligible charges to generate paperwork.{" "}
             <IconButton
+              styling="link"
               iconClassName="fa-circle-xmark gray"
               hiddenText="Close"
               onClick={() => {
@@ -68,18 +61,21 @@ export default function RecordSummary({ record }: Props) {
         )}
 
         <IconButton
+          styling="link"
+          buttonClassName="hover-blue"
           iconClassName="fa-bolt pr2"
           displayText="Generate Paperwork"
           onClick={handleGenerateFormsClick}
         />
 
         <IconButton
-          buttonClassName={loadingPdf ? "loading-btn" : ""}
+          styling="link"
+          buttonClassName={
+            "hover-blue " + (summaryIsLoading ? "loading-btn" : "")
+          }
           iconClassName="fa-download pr2"
           displayText="Summary PDF"
-          onClick={() => {
-            downloadPdf();
-          }}
+          onClick={handleDownloadSummaryClick}
         />
       </div>
 
@@ -89,14 +85,10 @@ export default function RecordSummary({ record }: Props) {
             <span className="fw7">Cases</span> ({totalCases})
           </h3>
 
-          {selectedRadioValue === "Charges" ? (
-            <ChargesList
-              chargesGroupedByEligibilityAndCase={groupedCharges}
-              totalCharges={totalCharges}
-            />
-          ) : (
-            <CasesList cases={cases} />
-          )}
+          <ChargesList
+            chargesGroupedByEligibilityAndCase={groupedCharges}
+            totalCharges={totalCharges}
+          />
         </div>
 
         <div className="w-100 w-33-l ph3-l mb3">
