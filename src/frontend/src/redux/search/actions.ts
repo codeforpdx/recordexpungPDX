@@ -45,7 +45,7 @@ function isExludedCharge({ statute, level, name }: ChargeData) {
   return false;
 }
 
-function processCharges(record: RecordData) {
+export function processCharges(record: RecordData) {
   if (!record?.cases) return;
 
   record.cases.forEach((aCase) => {

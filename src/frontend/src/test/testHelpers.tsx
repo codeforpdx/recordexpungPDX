@@ -12,6 +12,7 @@ import { RootState } from "../redux/store";
 import { FakeResponseName } from "./hooks/useInjectSearchResponse";
 import { default as initialSearchState } from "../redux/search/initialState";
 import { initialState as initialSearchFormState } from "../redux/searchFormSlice";
+import { processCharges } from "../redux/search/actions";
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: PreloadedState<RootState>;
@@ -19,12 +20,17 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
 }
 
 export function createStore(fakeResponseName?: FakeResponseName) {
-  const search = fakeResponseName
-    ? {
-        ...initialSearchState,
-        record: getResponseFromRecordName(fakeResponseName).record,
-      }
-    : initialSearchState;
+  let search = initialSearchState;
+
+  if (fakeResponseName) {
+    const record = getResponseFromRecordName(fakeResponseName).record;
+
+    processCharges(record);
+    search = {
+      ...initialSearchState,
+      record,
+    };
+  }
 
   return setupStore({
     search,
@@ -51,6 +57,15 @@ export function appRender(
   return { store, ...render(ui, { wrapper: AllProviders, ...renderOptions }) };
 }
 
+export function setupUserAndRender(
+  ui: React.ReactElement,
+  fakeResponseName?: FakeResponseName,
+  opts: ExtendedRenderOptions = {}
+) {
+  const user = userEvent.setup();
+  return { user, ...appRender(ui, fakeResponseName, opts) };
+}
+
 type ButtonName =
   | "login"
   | "search"
@@ -68,7 +83,8 @@ type ButtonName =
   | "remove charge"
   | "summary"
   | "generate paperwork"
-  | "download packet";
+  | "download packet"
+  | "start over";
 
 export async function clickButton(
   user: UserEvent,
@@ -93,6 +109,7 @@ export async function clickButton(
     summary: /summary/i,
     "generate paperwork": /generate paperwork/i,
     "download packet": /download expungement packet/i,
+    "start over": /start over/i,
   } as Record<string, RegExp>;
 
   await user.click(
@@ -105,13 +122,6 @@ export async function fillLoginForm(user: UserEvent) {
   await user.keyboard("username");
   await user.click(screen.getByLabelText(/password/i));
   await user.keyboard("secret");
-}
-
-export function setupUserAndRender(component: JSX.Element) {
-  const user = userEvent.setup();
-
-  const { store, asFragment } = appRender(component);
-  return { user, store, asFragment };
 }
 
 export async function fillSearchFormNames(
