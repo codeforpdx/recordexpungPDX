@@ -7,7 +7,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   setShowAllCharges: (val: boolean) => void;
 }
 
-export default function ShowAllChargesCheckbox({
+export default function HideTrafficChargesCheckbox({
   id,
   labelText,
   showAllCharges,
@@ -18,13 +18,14 @@ export default function ShowAllChargesCheckbox({
     <div {...props}>
       <input
         type="checkbox"
-        id={"show-excluded-charges-" + id}
+        id={"hide-traffic-charges-" + id}
+        data-testid={"hide-traffic-charges-" + id}
         checked={showAllCharges}
         onChange={() => {
           setShowAllCharges(!showAllCharges);
         }}
       />
-      <label className="pointer pl2" htmlFor={"show-excluded-charges-" + id}>
+      <label className="pointer pl2" htmlFor={"hide-traffic-charges-" + id}>
         {labelText}
       </label>
     </div>

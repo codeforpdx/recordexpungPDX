@@ -14,7 +14,7 @@ import AssumptionsNew from "../ExpandedView/AssumptionsNew";
 import IconButton from "../../common/IconButton";
 import ExpungementFormsInfo from "./ExpungementFormsInfo";
 import UserDataForm from "../../FillForms/UserDataForm";
-import ShowAllChargesCheckbox from "./ShowAllChargesCheckbox";
+import HideTrafficChargesCheckbox from "./HideTrafficChargesCheckbox";
 
 type CaseFilterType = "skipExcludedCharges" | "none";
 
@@ -45,7 +45,7 @@ export default function ExpandedView({ showColor }: Props) {
 
   const handleStartOverClick = () => {
     dispatch(clearAllData());
-    window.scroll(0, 0);
+    window.scrollTo(0, 0);
   };
 
   const handleShowAllChargesToggle = (
@@ -62,15 +62,15 @@ export default function ExpandedView({ showColor }: Props) {
   };
 
   const skipExcludedCharges = (cases: CaseData[], aCase: CaseData) => {
-    const excludedCharges = aCase.charges.filter(
+    const includedCharges = aCase.charges.filter(
       (charge) => !charge.isExcluded
     );
-    cases.push({ ...aCase, charges: excludedCharges });
+    cases.push({ ...aCase, charges: includedCharges });
     return cases;
   };
 
   const filters = {
-    skipExcludedCharges: skipExcludedCharges,
+    skipExcludedCharges,
     none: (cases: CaseData[], aCase: CaseData) => cases.concat(aCase),
   };
 
@@ -87,10 +87,10 @@ export default function ExpandedView({ showColor }: Props) {
         leftHeading="Review Summary"
         leftComponent={
           <div>
-            <ShowAllChargesCheckbox
+            <HideTrafficChargesCheckbox
               id="1"
               labelText="Hide Traffic Charges"
-              className="fw4 f6 tr mb2"
+              className="checkbox checkbox-sm fw4 f6 tr mb2"
               showAllCharges={summaryFilterType === "skipExcludedCharges"}
               setShowAllCharges={handleShowAllChargesToggle(
                 summaryFilterType,
@@ -110,10 +110,10 @@ export default function ExpandedView({ showColor }: Props) {
         rightHeading="Quick Links"
         rightComponent={
           <div>
-            <ShowAllChargesCheckbox
+            <HideTrafficChargesCheckbox
               id="2"
               labelText="Hide Traffic Charges"
-              className="fw4 f6 mb2 pl2"
+              className="checkbox checkbox-sm fw4 f6 mb2 pl2"
               showAllCharges={navFilterType === "skipExcludedCharges"}
               setShowAllCharges={handleShowAllChargesToggle(
                 navFilterType,
@@ -138,7 +138,7 @@ export default function ExpandedView({ showColor }: Props) {
           styling="button"
           buttonClassName="bg-blue white hover-bg-dark-blue"
           iconClassName="fa-download pr2"
-          displayText="Download Now"
+          displayText="Download Summary Now"
           onClick={handleDownloadSummaryClick}
         />
       </SingleSection>
