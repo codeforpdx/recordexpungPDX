@@ -34,7 +34,7 @@ export default function ViewOptions({
             onChange={handleShowColorChange}
           />
           <label className="pointer" htmlFor={"show-bg-color"}>
-            Show Color
+            Show Colors
           </label>
         </fieldset>
       )}
