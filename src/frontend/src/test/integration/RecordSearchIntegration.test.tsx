@@ -1,19 +1,16 @@
 import React from "react";
-import axios from "axios";
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup";
-import store, { clearAllData } from "../../redux/store";
-import { setSearchFormDate } from "../../redux/searchFormSlice";
 import multipleResponse from "../data/multipleResponse";
 import {
-  appRender,
+  setupIntegrationTests as setup,
   fillLoginForm,
   clickButton,
   fillSearchFormNames,
   fillExpungementPacketForm,
   fillNewCaseForm,
+  goToSearchPage,
+  assertRequest,
 } from "../testHelpers";
 import {
   expectedLoginRequest,
@@ -29,33 +26,10 @@ import {
   expectedUpdateChargeRequest,
   expectedRemoveChargeRequest,
 } from "./expectedRequests/recordSearch";
-import App from "../../components/App";
 import RecordSearch from "../../components/RecordSearch";
 import SearchPanel from "../../components/RecordSearch/SearchPanel";
 
-function setup(component = <App />) {
-  store.dispatch(clearAllData());
-  store.dispatch(setSearchFormDate("1/2/2023"));
-
-  const user = userEvent.setup();
-  const requestSpy = jest.spyOn(axios, "request").mockResolvedValue({});
-
-  appRender(component, undefined, {
-    store,
-  });
-  return { user, requestSpy };
-}
-
-function assertRequest(spy: jest.SpyInstance, obj: Object) {
-  expect(spy).toHaveBeenCalledWith(obj);
-  spy.mockClear();
-}
-
-async function goToSearchPage(user: UserEvent) {
-  await user.click(screen.getAllByRole("link", { name: /search/i })[0]);
-}
-
-test("Search and download summary pdf and expungement packet", async () => {
+test("Search and download summary PDF and expungement packet", async () => {
   const { user, requestSpy } = setup();
 
   requestSpy.mockImplementationOnce(() => {
