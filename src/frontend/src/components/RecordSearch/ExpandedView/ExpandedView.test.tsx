@@ -53,8 +53,15 @@ describe("filter checkboxes", () => {
 test("the button to download the summary PDF works", async () => {
   const { user, requestSpy } = setup();
 
+  requestSpy.mockImplementation(() => {
+    return new Promise(() => {});
+  });
+
   await clickButton(user, "summary");
   expect(requestSpy).toHaveBeenCalled();
+  expect(screen.getByRole("button", { name: /download summary/i })).toHaveClass(
+    "loading-btn"
+  );
 });
 
 test("the button to download the expungement packet works", async () => {

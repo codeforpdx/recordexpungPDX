@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { startLoadingSummary } from "../../../redux/summarySlice";
+import {
+  startLoadingSummary,
+  selectSummaryIsLoading,
+} from "../../../redux/summarySlice";
 import { buildAndSendDownloadPdfRequest } from "../../../redux/search/actions";
 import { clearAllData } from "../../../redux/store";
 import { CaseData } from "../Record/types";
@@ -27,6 +30,7 @@ export const headingLargeClass = "f3 fw8 tc pt2 mb4 ph4";
 export default function ExpandedView({ showColor }: Props) {
   const dispatch = useAppDispatch();
   const record = useAppSelector((state) => state.search.record);
+  const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
   const [summaryFilterType, setSummaryFilterType] = useState<CaseFilterType>(
     "skipExcludedCharges"
   );
@@ -147,7 +151,10 @@ export default function ExpandedView({ showColor }: Props) {
       >
         <IconButton
           styling="button"
-          buttonClassName="bg-blue white hover-bg-dark-blue"
+          buttonClassName={
+            "bg-blue white hover-bg-dark-blue" +
+            (summaryIsLoading ? " loading-btn" : "")
+          }
           iconClassName="fa-download pr2"
           displayText="Download Summary Now"
           onClick={handleDownloadSummaryClick}
