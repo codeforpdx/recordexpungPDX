@@ -53,6 +53,7 @@ export const expectedPacketRequest = {
         birth_date: "",
         first_name: "foo",
         last_name: "bar",
+        full_name: "foo bar",
         middle_name: "",
       },
     ],
