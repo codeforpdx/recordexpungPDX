@@ -372,6 +372,26 @@ fieldset {
   outline: auto 5px -webkit-focus-ring-color;
 }
 
+.checkbox.checkbox-sm label {
+  display: inline;
+  padding-left: 23px;
+}
+
+.checkbox.checkbox-sm label::before {
+  height: 15px;
+  width: 15px;
+  top: 4px;
+  left: -5px;
+}
+
+.checkbox.checkbox-sm label::after {
+  left: 0px;
+  top: 5px;
+  width: 5px;
+  height: 11px;
+  border-width: 0 1px 1px 0;
+}
+
 // Radio
 
 .radio input[type="radio"] {
@@ -418,6 +438,23 @@ fieldset {
 .radio input[type="radio"]:focus + label::before {
   outline: 0;
   border: 2px solid $blue;
+}
+.radio.radio-sm label {
+  top: -0.65rem;
+  padding: 0.4rem 1.3rem 0 1.4rem;
+}
+.radio.radio-sm label::before {
+  height: 18px;
+  width: 18px;
+  left: 0;
+  top: 6px;
+  border-width: 1.5px;
+}
+.radio.radio-sm label::after {
+  left: 3px;
+  top: 9px;
+  width: 12px;
+  height: 12px;
 }
 
 // Change the breakpoint "ns" variable to be wider?
@@ -478,4 +515,7 @@ $lightest-blue2: #e8f2ff;
 }
 .bs2-r-gray {
   box-shadow: 2px 0px 0px 0px #eeeeee;
+}
+.smooth-scroll {
+  scroll-behavior: smooth;
 }

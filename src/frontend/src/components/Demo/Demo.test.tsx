@@ -1,27 +1,37 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import renderer from "react-test-renderer";
-import { Provider } from "react-redux";
-
-import store from "../../redux/store";
+import { screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { appRender } from "../../test/testHelpers";
 import Demo from ".";
 
-it("renders correctly", () => {
-  const RealDate = Date;
-  const mockDate = new Date(2023, 0, 11);
-  // @ts-ignore
-  const spy = jest.spyOn(global, "Date").mockImplementation(() => mockDate);
-  // @ts-ignore
-  spy.now = RealDate.now;
+beforeEach(() => {
+  jest.useFakeTimers().setSystemTime(new Date(2023, 0, 11));
+});
 
-  const tree = renderer
-    .create(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Demo />
-        </BrowserRouter>
-      </Provider>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+afterEach(() => {
+  jest.useRealTimers();
+});
+
+describe("Without a record", () => {
+  it("renders correctly", () => {
+    const { container } = appRender(<Demo />);
+
+    expect(container).toMatchSnapshot();
+    expect(global.window.document.title).toBe("Demo - RecordSponge");
+    expect(screen.queryByText(/search summary/i)).not.toBeInTheDocument();
+  });
+
+  it("turns on the demo state", () => {
+    const { store } = appRender(<Demo />);
+    expect(store.getState().demo.isOn).toBe(true);
+  });
+});
+
+describe("With the multiple charges record", () => {
+  it("renders correctly", () => {
+    const { container } = appRender(<Demo />, "multiple");
+
+    expect(container).toMatchSnapshot();
+    expect(screen.queryByText(/search summary/i)).toBeInTheDocument();
+  });
 });

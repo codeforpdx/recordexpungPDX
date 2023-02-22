@@ -1,39 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
-import { AppState } from "../../../redux/store";
-import { RecordData } from "../Record/types";
+import { useAppSelector } from "../../../redux/hooks";
 import LoadingSpinner from "../../LoadingSpinner";
-import NoSearchResults from "./NoSearchResults";
 
-type Props = {
-  loading: string;
-  record?: RecordData;
-};
+export default function Status() {
+  const record = useAppSelector((state) => state.search.record);
+  const loading = useAppSelector((state) => state.search.loading);
 
-class Status extends React.Component<Props> {
-  render() {
-    const empty_record = this.props.record &&
-      this.props.record.cases && this.props.record.cases.length === 0
-    return (
-      <section>
-        {this.props.loading === "loading" ? (
-          <LoadingSpinner inputString={"your search results"} />
-        ) : (
-          empty_record ? (
-            <NoSearchResults />
-          ) : (
-            null
-          )
-        )}
-      </section>
-    );
-  }
+  return (
+    <section>
+      {loading === "loading" ? (
+        <LoadingSpinner inputString="your search results" />
+      ) : record?.cases?.length === 0 ? (
+        <p className="bg-light-gray mv4 pa4 br3 fw6">
+          No search results found.
+        </p>
+      ) : null}
+    </section>
+  );
 }
-
-const mapStateToProps = (state: AppState) => {
-  return {
-    loading: state.search.loading,
-  };
-};
-
-export default connect(mapStateToProps)(Status);

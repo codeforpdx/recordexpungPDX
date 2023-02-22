@@ -13,7 +13,10 @@ export default class Charges extends React.Component<Props> {
   render() {
     const charges = this.props.charges.map((charge: ChargeData, i) => {
       return (
-        <li key={charge.ambiguous_charge_id}>
+        <li
+          key={charge.ambiguous_charge_id}
+          id={"scroll-spy-trigger_charge_" + charge.ambiguous_charge_id}
+        >
           <Charge
             charge={charge}
             editing={false}

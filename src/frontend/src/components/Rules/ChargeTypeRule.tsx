@@ -64,8 +64,8 @@ export function buildRule(rules: any) {
       </ul>
     );
   } else {
-    return rules.map((element: any) => {
-      return buildRule(element);
+    return rules.map((element: any, idx: number) => {
+      return <React.Fragment key={idx}>{buildRule(element)}</React.Fragment>;
     });
   }
 }

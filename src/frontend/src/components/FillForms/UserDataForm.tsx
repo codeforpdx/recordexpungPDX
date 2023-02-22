@@ -328,7 +328,7 @@ class UserDataForm extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  aliases: state.search.aliases,
+  aliases: state.searchForm.aliases,
   loadingExpungementPacket: state.search.loadingExpungementPacket,
 });
 

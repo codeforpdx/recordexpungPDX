@@ -1,3 +1,15 @@
+export const shortLabels = [
+  "Eligible Now",
+  "Eligible Future",
+  "Eligible",
+  "Needs Analysis",
+  "Eligible?",
+  "Ineligible",
+  "Unknown",
+];
+
+export type ShortLabel = (typeof shortLabels)[number];
+
 export interface ChargeData {
   case_number: string;
   ambiguous_charge_id: string;
@@ -15,6 +27,8 @@ export interface ChargeData {
   };
   probation_revoked: string;
   edit_status: string;
+  shortLabel?: ShortLabel;
+  isExcluded?: boolean;
 }
 
 export interface CaseData {
@@ -35,7 +49,7 @@ export interface CaseData {
 
 export interface RecordData {
   total_balance_due?: number;
-  cases?: any[];
+  cases?: CaseData[];
   errors?: string[];
   summary?: RecordSummaryData;
   questions?: QuestionsData;
@@ -77,9 +91,23 @@ export interface TimeEligibilityData {
   date_will_be_eligible: string;
 }
 
+export const chargeEligibilityStatuses = [
+  "Eligible Now",
+  "Will Be Eligible",
+  "Possibly Eligible",
+  "Possibly Will Be Eligible",
+  "Needs More Analysis",
+  "Ineligible",
+  "Unknown",
+] as const;
+
+export type ChargeEligibilityStatus =
+  (typeof chargeEligibilityStatuses)[number];
+
 export interface ChargeEligibilityData {
-  status: string;
+  status: ChargeEligibilityStatus;
   label: string;
+  date_to_sort_label_by: string | null;
 }
 
 export interface QuestionsData {
@@ -102,7 +130,7 @@ export interface QuestionData {
 }
 
 export interface AnswerData {
-  question?: QuestionData;
+  question?: QuestionData | null;
   edit?: { [key: string]: string };
 }
 
@@ -167,5 +195,5 @@ export const SEVERITY_LEVELS = [
   "Felony Class C",
   "Misdemeanor Class A",
   "Misdemeanor Class B or C",
-  "Violation"
-  ];
+  "Violation",
+];

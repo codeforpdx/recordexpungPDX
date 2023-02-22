@@ -119,11 +119,11 @@ export default class Charge extends React.Component<Props, State> {
                 />
               </div>
             )}
-            
+
             {this.props.showEditButtons && (
               <div className="absolute top-0 right-0 ph3 pv3">
                 <EditButton
-                  actionName="Edit Case"
+                  actionName="Edit Charge"
                   onClick={() => {
                     this.props.whenEditing();
                     this.setState({ editing: true });

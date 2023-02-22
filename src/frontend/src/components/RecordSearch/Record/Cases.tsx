@@ -13,7 +13,10 @@ export default class Cases extends React.Component<Props> {
   render() {
     const allCases = this.props.cases.map((caseInstance, index) => {
       return (
-        <li key={index}>
+        <li
+          key={index}
+          id={"scroll-spy-trigger_case_" + caseInstance.case_number}
+        >
           <Case
             case={caseInstance}
             editing={false}

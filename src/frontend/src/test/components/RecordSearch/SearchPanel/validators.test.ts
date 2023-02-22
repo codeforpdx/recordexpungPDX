@@ -1,4 +1,4 @@
-import { isValidWildcard } from "../../../../components/RecordSearch/SearchPanel/validators";
+import { isValidWildcard } from "../../../../service/validators";
 
 describe("#isValidWildcard", () => {
   it("requires 1 characters for first name", () => {

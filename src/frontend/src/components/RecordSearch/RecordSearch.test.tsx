@@ -1,27 +1,82 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import renderer from "react-test-renderer";
-import { Provider } from "react-redux";
-
-import store from "../../redux/store";
+import "@testing-library/jest-dom";
+import { screen } from "@testing-library/react";
+import {
+  appRender,
+  setupUserAndRender,
+  fillSearchFormNames,
+} from "../../test/testHelpers";
+import { useAppDispatch } from "../../redux/hooks";
+import { startDemo } from "../../redux/demoSlice";
 import RecordSearch from ".";
 
-it("renders correctly", () => {
-  const RealDate = Date;
-  const mockDate = new Date(2023, 0, 11);
-  // @ts-ignore
-  const spy = jest.spyOn(global, "Date").mockImplementation(() => mockDate);
-  // @ts-ignore
-  spy.now = RealDate.now;
+const mockHasOeciToeken = jest.fn();
 
-  const tree = renderer
-    .create(
-      <Provider store={store}>
-        <BrowserRouter>
-          <RecordSearch />
-        </BrowserRouter>
-      </Provider>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+jest.mock("../../service/cookie-service", () => ({
+  ...jest.requireActual("../../service/cookie-service"),
+  hasOeciToken: () => mockHasOeciToeken(),
+}));
+
+const DemoOnComponent = () => {
+  useAppDispatch()(startDemo());
+  return <RecordSearch />;
+};
+
+describe("when logged in", () => {
+  beforeEach(() => {
+    mockHasOeciToeken.mockReturnValue(true);
+  });
+
+  (["blank", "complex"] as const).forEach((fakeReponseName) => {
+    it(`renders correctly with ${fakeReponseName} fake response`, () => {
+      const { container } = appRender(<RecordSearch />, fakeReponseName);
+
+      expect(container.firstChild).toMatchSnapshot();
+      expect(global.window.document.title).toBe(
+        "Search Records - RecordSponge"
+      );
+    });
+  });
+
+  it("turns off the demo state", () => {
+    const { store } = appRender(<DemoOnComponent />);
+    expect(store.getState().demo.isOn).toBe(false);
+  });
+
+  test("a message is displayed when the search results are empty", () => {
+    appRender(<RecordSearch />, "blank");
+    expect(screen.queryByText(/no search results found/i)).toBeInTheDocument();
+  });
+
+  test("a message is dislayed when results are be loaded", async () => {
+    const { user } = setupUserAndRender(<RecordSearch />);
+
+    await fillSearchFormNames(user);
+    await user.click(screen.getByRole("button", { name: /search/i }));
+
+    expect(
+      screen.queryByText(/loading your search results/i)
+    ).toBeInTheDocument();
+  });
+});
+
+describe("when not logged in", () => {
+  beforeEach(() => {
+    mockHasOeciToeken.mockReturnValue(false);
+  });
+
+  it("turns off the demo state", () => {
+    const { store } = appRender(<DemoOnComponent />);
+    expect(store.getState().demo.isOn).toBe(false);
+  });
+
+  it("does not display content", () => {
+    const { container } = appRender(<RecordSearch />, "common");
+    expect(container.firstChild).toMatchSnapshot();
+
+    expect(screen.queryByText(/date/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/search/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/case/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/assumptions/i)).not.toBeInTheDocument();
+  });
 });

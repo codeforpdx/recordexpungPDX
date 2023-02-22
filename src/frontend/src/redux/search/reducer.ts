@@ -2,18 +2,12 @@ import {
   DISPLAY_RECORD,
   RECORD_LOADING,
   SELECT_ANSWER,
-  LOADING_PDF,
-  LOADING_PDF_COMPLETE,
   EDIT_CASE,
   DELETE_CASE,
   EDIT_CHARGE,
   DELETE_CHARGE,
   UNDO_EDIT_CASE,
   UNDO_EDIT_CHARGE,
-  START_EDITING,
-  DONE_EDITING,
-  START_DEMO,
-  STOP_DEMO,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   SearchRecordState,
@@ -23,25 +17,7 @@ import {
   QuestionData,
   QuestionsData,
 } from "../../components/RecordSearch/Record/types";
-
-const initalState: SearchRecordState = {
-  demo: false,
-  loading: "",
-  loadingPdf: false,
-  loadingExpungementPacket: false,
-  aliases: [
-    {
-      first_name: "",
-      middle_name: "",
-      last_name: "",
-      birth_date: "",
-    },
-  ],
-  today: "",
-  edits: {},
-  editingRecord: false,
-  userInformation: {},
-};
+import initialState from "./initialState";
 
 function findQuestion(
   question: QuestionData,
@@ -134,7 +110,7 @@ function clearAnswersForCaseOrCharge(
 }
 
 export function searchReducer(
-  state = initalState,
+  state = initialState,
   action: SearchRecordActionType
 ): SearchRecordState {
   switch (action.type) {
@@ -144,18 +120,14 @@ export function searchReducer(
         record: action.record,
         questions: action.questions,
         loading: "",
-        editingRecord: false,
       };
     case RECORD_LOADING:
       return {
         ...state,
-        aliases: action.aliases,
-        today: action.today,
         record: {},
         questions: {},
         edits: {},
         loading: "loading",
-        editingRecord: false,
       };
 
     case SELECT_ANSWER: {
@@ -200,16 +172,6 @@ export function searchReducer(
         loading: action.ambiguous_charge_id,
       };
     }
-    case LOADING_PDF:
-      return {
-        ...state,
-        loadingPdf: true,
-      };
-    case LOADING_PDF_COMPLETE:
-      return {
-        ...state,
-        loadingPdf: false,
-      };
     case EDIT_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = edits[action.case_number] || {};
@@ -227,7 +189,6 @@ export function searchReducer(
         loading: "edit",
       };
     }
-
     case DELETE_CASE: {
       const edits = JSON.parse(JSON.stringify(state.edits));
       edits[action.case_number] = { summary: { edit_status: "DELETE" } };
@@ -392,13 +353,6 @@ export function searchReducer(
       }
       return { ...state, edits };
     }
-
-    case START_EDITING: {
-      return { ...state, editingRecord: true };
-    }
-    case DONE_EDITING: {
-      return { ...state, editingRecord: false };
-    }
     case DOWNLOAD_EXPUNGEMENT_PACKET:
       const information = {
         full_name: action.name,
@@ -418,16 +372,6 @@ export function searchReducer(
       return {
         ...state,
         loadingExpungementPacket: false,
-      };
-    case START_DEMO:
-      return {
-        ...state,
-        demo: true,
-      };
-    case STOP_DEMO:
-      return {
-        ...state,
-        demo: false,
       };
     default:
       return state;

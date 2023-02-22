@@ -27,7 +27,10 @@ export default class Alias extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="flex flex-wrap items-end">
+      <div
+        className="flex flex-wrap items-end"
+        data-testid={"alias-form-" + this.props.ind}
+      >
         <Field
           name="firstName"
           label="First Name"

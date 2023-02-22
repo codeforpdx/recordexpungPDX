@@ -3,7 +3,6 @@ import {
   RecordSummaryData,
   QuestionsData,
 } from "../../components/RecordSearch/Record/types";
-import { AliasData } from "../../components/RecordSearch/SearchPanel/types";
 
 export interface SearchResponse {
   record: RecordEndpointData;
@@ -20,50 +19,29 @@ export interface RecordEndpointData {
 export const DISPLAY_RECORD = "DISPLAY_RECORD";
 export const RECORD_LOADING = "RECORD_LOADING";
 export const SELECT_ANSWER = "SELECT_ANSWER";
-export const LOADING_PDF = "LOADING_PDF";
-export const LOADING_PDF_COMPLETE = "LOADING_PDF_COMPLETE";
 export const EDIT_CASE = "EDIT_CASE";
 export const DELETE_CASE = "DELETE_CASE";
 export const UNDO_EDIT_CASE = "UNDO_EDIT_CASE";
 export const EDIT_CHARGE = "EDIT_CHARGE";
 export const DELETE_CHARGE = "DELETE_CHARGE";
 export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
-export const START_EDITING = "START_EDITING";
-export const DONE_EDITING = "DONE_EDITING";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
   "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
-export const START_DEMO = "START_DEMO";
-export const STOP_DEMO = "STOP_DEMO";
 
 export interface SearchRecordState {
-  demo: boolean;
   loading: string;
-  loadingPdf: boolean;
   loadingExpungementPacket: boolean;
-  aliases: AliasData[];
-  today: string;
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
-  editingRecord: boolean;
   userInformation?: any;
 }
 
 interface SearchRecordAction {
-  type:
-    | typeof DISPLAY_RECORD
-    | typeof RECORD_LOADING
-    | typeof LOADING_PDF
-    | typeof LOADING_PDF_COMPLETE
-    | typeof START_DEMO
-    | typeof STOP_DEMO;
-
-  aliases: AliasData[];
-  today: string;
+  type: typeof DISPLAY_RECORD | typeof RECORD_LOADING;
   record: RecordData;
   questions: QuestionsData;
-  demo: boolean;
 }
 
 export interface QuestionsAction {
@@ -123,14 +101,6 @@ interface UndoEditChargeAction {
   ambiguous_charge_id: string;
 }
 
-interface StartEditingAction {
-  type: typeof START_EDITING;
-}
-
-interface DoneEditingAction {
-  type: typeof DONE_EDITING;
-}
-
 interface ExpungementPacketAction {
   type: typeof DOWNLOAD_EXPUNGEMENT_PACKET;
   name: string;
@@ -155,7 +125,5 @@ export type SearchRecordActionType =
   | EditChargeAction
   | DeleteChargeAction
   | UndoEditChargeAction
-  | StartEditingAction
-  | DoneEditingAction
   | ExpungementPacketAction
   | ExpungementPacketActionComplete;
