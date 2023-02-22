@@ -6,9 +6,10 @@ import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
+import { initialState } from "../../redux/searchFormSlice";
 
 export default function UserDataForm() {
-  const aliases = useAppSelector((state) => state.search.aliases);
+  const aliases = initialState.aliases;
   const dispatch = useDispatch();
   const [name, setName] = useState(buildName());
   const [dob, setDob] = useState(buildDob());
@@ -78,18 +79,16 @@ export default function UserDataForm() {
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
     e.preventDefault();
-    if (!emptyFieldsCheck()) {
-      if (validateForm()) {
-        return downloadExpungementPacket(
-          name,
-          dob,
-          mailingAddress,
-          phoneNumber,
-          city,
-          state,
-          zipCode
-        )(dispatch);
-      }
+    if (!emptyFieldsCheck() && validateForm()) {
+      return downloadExpungementPacket(
+        name,
+        dob,
+        mailingAddress,
+        phoneNumber,
+        city,
+        state,
+        zipCode
+      )(dispatch);
     }
   }
 
