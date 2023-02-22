@@ -103,8 +103,8 @@ export default function ExpandedView({ showColor }: Props) {
                 id="1"
                 labelText="Hide Traffic Charges"
                 className="checkbox checkbox-sm fw4 f6 tr mb2"
-                showAllCharges={summaryFilterType === "skipExcludedCharges"}
-                setShowAllCharges={handleShowAllChargesToggle(
+                checked={summaryFilterType === "skipExcludedCharges"}
+                onChange={handleShowAllChargesToggle(
                   summaryFilterType,
                   setSummaryFilterType
                 )}
@@ -128,8 +128,8 @@ export default function ExpandedView({ showColor }: Props) {
                 id="2"
                 labelText="Hide Traffic Charges"
                 className="checkbox checkbox-sm fw4 f6 mb2 pl2"
-                showAllCharges={navFilterType === "skipExcludedCharges"}
-                setShowAllCharges={handleShowAllChargesToggle(
+                checked={navFilterType === "skipExcludedCharges"}
+                onChange={handleShowAllChargesToggle(
                   navFilterType,
                   setNavFilterType
                 )}
