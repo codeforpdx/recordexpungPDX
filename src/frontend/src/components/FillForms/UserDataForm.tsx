@@ -6,10 +6,13 @@ import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
-import { initialState } from "../../redux/searchFormSlice";
+import {
+  initialState,
+  selectSearchFormValues,
+} from "../../redux/searchFormSlice";
 
 export default function UserDataForm() {
-  const aliases = initialState.aliases;
+  const aliases = useAppSelector(selectSearchFormValues).aliases;
   const dispatch = useDispatch();
   const [name, setName] = useState(buildName());
   const [dob, setDob] = useState(buildDob());
