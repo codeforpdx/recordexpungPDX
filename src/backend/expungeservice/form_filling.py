@@ -5,6 +5,7 @@ from pathlib import Path
 from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Optional
 from zipfile import ZipFile
+from collections import UserDict
 
 from dacite import from_dict
 from expungeservice.models.case import Case
@@ -20,7 +21,7 @@ from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
+from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName
 
 
 @dataclass
@@ -236,17 +237,17 @@ class FormFilling:
             "case_name": case.summary.name,
             "da_number": case.summary.district_attorney_number,
             "sid": sid,
-            "has_conviction": "✓" if has_conviction else "",
-            "has_no_complaint": "✓" if has_no_complaint else "",
-            "has_dismissed": "✓" if has_dismissals else "",
-            "has_contempt_of_court": "✓" if has_contempt_of_court else "",
+            "has_conviction": "X" if has_conviction else "",
+            "has_no_complaint": "X" if has_no_complaint else "",
+            "has_dismissed": "X" if has_dismissals else "",
+            "has_contempt_of_court": "X" if has_contempt_of_court else "",
             "conviction_dates": "; ".join(conviction_dates),
-            "has_class_b_felony": "✓" if has_class_b_felony else "",
-            "has_class_c_felony": "✓" if has_class_c_felony else "",
-            "has_class_a_misdemeanor": "✓" if has_class_a_misdemeanor else "",
-            "has_class_bc_misdemeanor": "✓" if has_class_bc_misdemeanor else "",
-            "has_violation_or_contempt_of_court": "✓" if has_violation_or_contempt_of_court else "",
-            "has_probation_revoked": "✓" if has_probation_revoked else "",
+            "has_class_b_felony": "X" if has_class_b_felony else "",
+            "has_class_c_felony": "X" if has_class_c_felony else "",
+            "has_class_a_misdemeanor": "X" if has_class_a_misdemeanor else "",
+            "has_class_bc_misdemeanor": "X" if has_class_bc_misdemeanor else "",
+            "has_violation_or_contempt_of_court": "X" if has_violation_or_contempt_of_court else "",
+            "has_probation_revoked": "X" if has_probation_revoked else "",
             "dismissed_arrest_dates": "; ".join(dismissed_arrest_dates),
             "arresting_agency": "",
             "da_address": da_address,
@@ -262,11 +263,20 @@ class FormFilling:
         base_file_name = FormFilling._build_base_file_name(location, convictions)
         file_name = os.path.basename(base_file_name)
         pdf = PdfReader(pdf_path)
+
+        if pdf_path.endswith('oregon.pdf'):
+            AcroFormMapper.update_pdf_fields(pdf, form_data_dict)
+        else:
+            for field in pdf.Root.AcroForm.Fields:
+                field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
+                field.V = getattr(form, field_name)
+
         for field in pdf.Root.AcroForm.Fields:
-            field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
-            field_value = getattr(form, field_name)
-            field.V = field_value
-            warnings += FormFilling._set_font(field, field_value)
+            warnings += FormFilling._set_font(field, field.V)
+
+        # Since we are setting the values of the AcroForm.Fields, we need to 
+        # remove the Appearance Dictionary ("/AP") of the PDF annotations in
+        # order for the value to appear in the PDF.
         for page in pdf.pages:
             annotations = page.get("/Annots")
             if annotations:
@@ -296,7 +306,7 @@ class FormFilling:
     @staticmethod
     def _build_font_string(field: PdfDict, field_value: str) -> Tuple[str, bool]:
         max_length = FormFilling._compute_field_max_length(field)
-        needs_shrink = len(field_value) > max_length
+        needs_shrink = len(field_value) > max_length if field_value != '/Yes' else False
         font_size = 6 if needs_shrink else 10
         return f"/TimesNewRoman  {font_size} Tf 0 g", needs_shrink
 
@@ -375,3 +385,136 @@ class FormFilling:
                 return path.join(Path(__file__).parent, "files", f"{location}_with_arrest_order.pdf")
         else:
             return path.join(Path(__file__).parent, "files", f"{location}.pdf")
+
+# 2 ways to check a checkbox:
+# 1) https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
+# anot = pdf.pages[0].Annots[8]
+# anot.V = pdfrw.PdfName('Yes')
+# anot.AS = pdfrw.PdfName('Yes')
+# pdf.Root.AcroForm.update(pdfrw.PdfDict(NeedAppearances=pdfrw.PdfObject('true')))
+#
+# 2)
+# pdf = PdfReader('./expungeservice/files/oregon.pdf')
+# check = pdf.Root.AcroForm.Fields[8]
+# check.V = pdfrw.PdfName('Yes')
+# clearannots() # clear all annotations within the PDF
+#
+class AcroFormMapper(UserDict):
+    @staticmethod
+    def update_pdf_fields(pdf: PdfReader, form_data: Dict[str, str]={}, opts = {}):
+        if opts.get('assert_blank_pdf'):
+            for field in pdf.Root.AcroForm.Fields:
+                assert field.V == None
+
+        mapper = AcroFormMapper(form_data=form_data, opts=opts)
+        mapper.update_pdf(pdf)
+        return mapper
+    
+    def __init__(self, form_data: Dict[str, str]={}, opts = {}):
+        super().__init__()
+
+        self.definition = opts.get("definition") or "oregon_2_2023"
+        self.should_log = opts.get("should_log") or False
+        self.form_data = form_data
+        self.data = getattr(self, self.definition)
+        self.ignored_keys: Dict[str, None] = {}
+
+    def __getitem__(self, key: str) -> str:
+        value = super().__getitem__(key)
+        if (value == ""): return value
+
+        if (callable(value)): return value(self.form_data)
+
+        form_data_value = self.form_data.get(value)
+        if form_data_value: return self.form_data[value]
+
+        if self.should_log:
+            print(f"[AcroFormMapper] No form data value found for: '{key}'. Using ''")
+        return ""
+
+    def __missing__(self, key: str) -> str:
+        self.ignored_keys[key] = None
+
+        if self.should_log:
+            print(f"[AcroFormMapper] Key not found: '{key}'. Using ''")
+        return ""
+
+    def update_pdf(self, pdf: PdfReader):
+        for field in pdf.Root.AcroForm.Fields:
+            value = self.get(field.T)
+            field.V = PdfName('Yes') if value == "X" else value
+
+    # Process to create the map:
+    # 1. Open the ODJ criminal set aside PDF in Acrobat.
+    # 2. Click on "Prepare Form". This will add all of the form's fields and
+    #    make them available via Root.AcroForm.Fields in the PDF encoding.
+    # 3. Adjust any fields as necessary, ex. move "(Address)" up to the 
+    #    correct line.
+    # 4. Save this as a new PDF.
+    # 5. Add to expungeservice/files/ folder.
+    #
+    # Maps the names of the PDF fields (pdf.Root.AcroForm.Fields)
+    # to `form_data_dict` keys for used for other forms.
+    # The order is what comes out of Root.AcroForm.Fields.
+    # Commented fields are those we are not filling in.
+    oregon_2_2023 = {
+        "(FOR THE COUNTY OF)": "county",
+        "(Plaintiff)": lambda _: "State of Oregon",
+        "(Case No)": "case_number",
+        "(Defendant)": "case_name",
+        "(DOB)": "date_of_birth",
+        "(SID)": "sid",
+        # "(Fingerprint number FPN  if known)"
+        "(record of arrest with no charges filed)": "has_no_complaint",
+        "(record of arrest with charges filed and the associated check all that apply)":
+            lambda form: "X" if form["has_no_complaint"] == "" else "",
+        "(conviction)": "has_conviction",
+        "(record of citation or charge that was dismissedacquitted)": "has_dismissed",
+        "(contempt of court finding)": "has_contempt_of_court",
+        # "(finding of Guilty Except for Insanity GEI)"
+        # "(provided in ORS 137223)"
+        "(I am not currently charged with a crime)": lambda _: "X",
+        "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": lambda _: "X",
+        "(Date of conviction contempt finding or judgment of GEI)": "conviction_dates",
+        # "(PSRB)"
+        "(ORS 137225 does not prohibit a setaside of this conviction see Instructions)": "has_conviction",
+        "(Felony  Class B and)": "has_class_b_felony",
+        "(Felony  Class C and)": "has_class_c_felony",
+        "(Misdemeanor  Class A and)": "has_class_a_misdemeanor",
+        "(Misdemeanor  Class B or C and)": "has_class_bc_misdemeanor",
+        "(Violation or Contempt of Court and)": "has_violation_or_contempt_of_court",
+        "(7 years have passed since the later of the convictionjudgment or release date and)": "has_class_b_felony",
+        "(I have not been convicted of any other offense or found guilty except for insanity in)": "has_class_b_felony",
+        "(5 years have passed since the later of the convictionjudgment or release date and)": "has_class_c_felony",
+        "(I have not been convicted of any other offense or found guilty except for insanity in_2)": "has_class_c_felony",
+        "(3 years have passed since the later of the convictionjudgment or release date and)": "has_class_a_misdemeanor",
+        "(I have not been convicted of any other offense or found guilty except for insanity in_3)": "has_class_a_misdemeanor",
+        "(1 year has passed since the later of the convictionfindingjudgment or release)": "has_class_bc_misdemeanor",
+        "(I have not been convicted of any other offense or found guilty except for insanity)": "has_class_bc_misdemeanor",
+        "(1 year has passed since the later of the convictionfindingjudgment or release_2)": "has_violation_or_contempt_of_court",
+        "(I have not been convicted of any other offense or found guilty except for insanity_2)": "has_violation_or_contempt_of_court",
+        "(I have fully completed complied with or performed all terms of the sentence of the court)": "has_conviction",
+        "(I was sentenced to probation in this case and)": "has_probation_revoked",
+        # "(My probation WAS NOT revoked)"
+        "(My probation WAS revoked and 3 years have passed since the date of revocation)": "has_probation_revoked",
+        "(Date of arrest)": "dismissed_arrest_dates",
+        # "(If no arrest date date of citation booking or incident)": # NEW FIELD
+        "(Arresting Agency)": "arresting_agency",
+        "(no accusatory instrument was filed and at least 60 days have passed since the)": "has_no_complaint",
+        "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": "has_dismissed",
+        "(have sent)": lambda _: "X",
+        # "(will send a copy of my fingerprints to the Department of State Police)"
+        # "(Date)"
+        # "(Signature)"
+        "(Name typed or printed)": "full_name",
+        "(Address)": lambda form: ',    '.join(form[attr] for attr in ("mailing_address", "city", "state", "zip_code", "phone_number")),
+        # "(States mail a true and complete copy of this Motion to Set Aside and Declaration in Support to)"
+        # "(delivered or)"
+        # "(placed in the United)"
+        # "(the District Attorney at address 1)":
+        "(the District Attorney at address 2)": "da_address",  # use this line since it is longer
+        # "(the District Attorney at address 3)"
+        # "(Date_2)"
+        # "(Signature_2)"
+        "(Name typed or printed_2)": "full_name",
+    }
