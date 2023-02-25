@@ -454,7 +454,7 @@ class AcroFormMapper(UserDict):
     # 5. Add to expungeservice/files/ folder.
     #
     # Maps the names of the PDF fields (pdf.Root.AcroForm.Fields)
-    # to `form_data_dict` keys for used for other forms.
+    # to `form_data_dict` keys used for other forms.
     # The order is what comes out of Root.AcroForm.Fields.
     # Commented fields are those we are not filling in.
     oregon_2_2023 = {

@@ -58,9 +58,9 @@ def assert_other_fields_not_checked(pdf, checked_fields):
 class TestOregon022023AcroFormMapper:
     constant_fields = {
         "(Plaintiff)": "State of Oregon",
-        "(I am not currently charged with a crime)": "X",
-        "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "X",
-        "(have sent)": "X"
+        "(I am not currently charged with a crime)": "/Yes",
+        "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "/Yes",
+        "(have sent)": "/Yes"
     }
     ignored_fields = {
         "(Fingerprint number FPN  if known)": None,
@@ -90,7 +90,7 @@ class TestOregon022023AcroFormMapper:
         "(Date of arrest)": "dismissed_arrest_dates_ACTUAL",
         "(Arresting Agency)": "arresting_agency_ACTUAL",
         "(Name typed or printed)": "full_name_ACTUAL",
-        "(Address)": "address_ACTUAL,  city_ACTUAL,  state_ACTUAL,  zip_code_ACTUAL,  phone_number_ACTUAL",
+        "(Address)": "address_ACTUAL,    city_ACTUAL,    state_ACTUAL,    zip_code_ACTUAL,    phone_number_ACTUAL",
         "(the District Attorney at address 2)": "da_address_ACTUAL",
         "(Name typed or printed_2)": "full_name_ACTUAL",
     }
@@ -193,8 +193,8 @@ class TestOregon022023AcroFormMapper:
     def test_pdf_boolean_has_no_complaint_fields_are_updated(self, pdf):
         form_data = {"has_no_complaint": "X"}
         expected_fields = {
-            "(record of arrest with no charges filed)": "X",
-            "(no accusatory instrument was filed and at least 60 days have passed since the)": "X"
+            "(record of arrest with no charges filed)": "/Yes",
+            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/Yes"
         }
         AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
         assert_pdf_values(pdf, expected_fields)
@@ -202,7 +202,7 @@ class TestOregon022023AcroFormMapper:
 
         new_form_data = {"has_no_complaint": ""}
         new_expected_fields = {
-            "(record of arrest with charges filed and the associated check all that apply)": "X",
+            "(record of arrest with charges filed and the associated check all that apply)": "/Yes",
         }
         AFM.update_pdf_fields(pdf, new_form_data)
         assert_pdf_values(pdf, new_expected_fields)
@@ -211,9 +211,9 @@ class TestOregon022023AcroFormMapper:
     def test_pdf_boolean_has_conviction_fields_are_updated(self, pdf):
         form_data = {"has_conviction": "X"}
         expected_fields = {
-            "(conviction)": "X",
-            "(ORS 137225 does not prohibit a setaside of this conviction see Instructions)": "X",
-            "(I have fully completed complied with or performed all terms of the sentence of the court)": "X"
+            "(conviction)": "/Yes",
+            "(ORS 137225 does not prohibit a setaside of this conviction see Instructions)": "/Yes",
+            "(I have fully completed complied with or performed all terms of the sentence of the court)": "/Yes"
         }
         AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
         assert_pdf_values(pdf, expected_fields)
