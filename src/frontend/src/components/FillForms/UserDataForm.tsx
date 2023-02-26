@@ -10,6 +10,7 @@ import {
   initialState,
   selectSearchFormValues,
 } from "../../redux/searchFormSlice";
+import { isBlank } from "../../service/validators";
 
 export default function UserDataForm() {
   const aliases = useAppSelector(selectSearchFormValues).aliases;
@@ -19,7 +20,7 @@ export default function UserDataForm() {
   const [mailingAddress, setMailingAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState("Oregon");
   const [zipCode, setZipCode] = useState("");
   const [invalidZipCode, setInvalidZipCode] = useState(false);
   const [invalidPhone, setInvalidPhone] = useState(false);
@@ -55,34 +56,40 @@ export default function UserDataForm() {
   }
 
   function emptyFieldsCheck() {
-    const emptyZipCode = zipCode.length === 0;
-    const emptyPhoneNumber = phoneNumber.length === 0;
-    const emptyDob = dob.length === 0;
-    if (emptyZipCode && emptyPhoneNumber && emptyDob) {
-      setModalClose(false);
-    } else {
-      return false;
-    }
+    if (
+      ![zipCode, phoneNumber, dob, mailingAddress, city, state, name].some(
+        isBlank
+      )
+    )
+      return true;
+
+    setModalClose(false);
   }
 
   function validateForm() {
-    const phoneNumberPattern = new RegExp(".*[0-9].*");
-    const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9].*");
+    //the phone RegEx accecpts the following formats (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, (123)-456-7890
+    const phoneNumberPattern = new RegExp(
+      "^\\(?(\\d{3})\\)?[-.\\s]?(\\d{3})[-.\\s]?(\\d{4})$"
+    );
+    //the zipCode RegEx accepts any 5 digit entry ex. "12345"
+    const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9]");
     const phoneNumberMatch = phoneNumberPattern.test(phoneNumber);
     const zipCodeMatch = zipCodePattern.test(zipCode);
     const isValidZipCode = zipCode.length > 0 && zipCodeMatch;
     const isValidPhoneNumber = phoneNumber.length > 0 && phoneNumberMatch;
     const isValidBirthDate =
       dob.length > 0 && moment(dob, "M/D/YYYY", true).isValid();
+
     setInvalidZipCode(!isValidZipCode);
     setInvalidPhone(!isValidPhoneNumber);
     setInvalidBirthDate(!isValidBirthDate);
+
     return isValidZipCode && isValidBirthDate && isValidPhoneNumber;
   }
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
     e.preventDefault();
-    if (!emptyFieldsCheck() && validateForm()) {
+    if (emptyFieldsCheck() && validateForm()) {
       return downloadExpungementPacket(
         name,
         dob,
