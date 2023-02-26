@@ -1,20 +1,10 @@
 import React, { useEffect } from "react";
 import UserDataForm from "./UserDataForm";
 import { HashLink as Link } from "react-router-hash-link";
-
-// interface Props {}
-
-// interface State {}
-
-// export default class FillForms extends React.Component<Props, State> {
-// componentDidMount() {
-//   document.title = "Generate Expungement Forms - RecordSponge";
-// }
+import setupPage from "../../service/setupPage";
 
 export default function FillFormsIndex() {
-  useEffect(() => {
-    document.title = "Generate Expungement Forms - RecordSponge";
-  }, []);
+  setupPage("Generate Expungement Forms");
 
   return (
     <main className="mw8 center f6 f5-l ph3 pt4 pb6">
@@ -26,19 +16,6 @@ export default function FillFormsIndex() {
               This will fill and download the required paperwork forms as PDF
               files for all cases that have charges eligible for expungement.
             </p>
-
-            {/* <p className="mb3">
-                  It includes cases that have an outstanding balance. These
-                  balances must be paid off before filing the paperwork. Consult
-                  the section on{" "}
-                  <Link
-                    className="link bb hover-dark-blue"
-                    to="/manual#paybalances"
-                  >
-                    paying balances
-                  </Link>{" "}
-                  in the Manual.
-                </p> */}
 
             <p className="mb3">
               On this page, you may optionally provide the person's name,
