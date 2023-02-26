@@ -38,23 +38,27 @@ def test_normal_conviction_uses_multnomah_conviction_form():
         for _root, _dir, files in os.walk(temp_dir):
             assert len(files) == 1
 
+
 #########################################
 def get_pdf_dict(pdf: PdfReader):
     return {field.T: field.V for field in pdf.Root.AcroForm.Fields}
 
+
 def assert_pdf_values(pdf: PdfReader, expected: Dict[str, str]):
     pdf_dict = get_pdf_dict(pdf)
 
-    for (key, value) in expected.items():
+    for key, value in expected.items():
         assert pdf_dict[key] == value
-        
+
+
 def assert_other_fields_not_checked(pdf, checked_fields):
     pdf_dict = get_pdf_dict(pdf)
     constant_fields = TestOregon022023AcroFormMapper.constant_fields.keys()
 
-    for (key, value) in pdf_dict.items():
+    for key, value in pdf_dict.items():
         if not checked_fields.get(key) and key not in constant_fields:
             assert value != "X"
+
 
 def assert_pdf_boolean_field(pdf: PdfReader, field_name: str, expected_field_names: List[str]):
     form_data = {field_name: "X"}
@@ -63,13 +67,14 @@ def assert_pdf_boolean_field(pdf: PdfReader, field_name: str, expected_field_nam
     AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
     assert_pdf_values(pdf, expected_fields)
     assert_other_fields_not_checked(pdf, expected_fields)
-    
+
+
 class TestOregon022023AcroFormMapper:
     constant_fields = {
         "(Plaintiff)": "State of Oregon",
         "(I am not currently charged with a crime)": "/Yes",
         "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "/Yes",
-        "(have sent)": "/Yes"
+        "(have sent)": "/Yes",
     }
     ignored_fields = {
         "(Fingerprint number FPN  if known)": None,
@@ -87,7 +92,7 @@ class TestOregon022023AcroFormMapper:
         "(the District Attorney at address 1)": None,
         "(the District Attorney at address 3)": None,
         "(Date_2)": None,
-        "(Signature_2)": None
+        "(Signature_2)": None,
     }
     form_data_string_fields = {
         "(FOR THE COUNTY OF)": "county_ACTUAL",
@@ -134,13 +139,11 @@ class TestOregon022023AcroFormMapper:
 
     @pytest.fixture
     def pdf(self):
-        file_path = path.join(
-            Path(__file__).parent.parent, "expungeservice", "files", "oregon.pdf"
-        )
+        file_path = path.join(Path(__file__).parent.parent, "expungeservice", "files", "oregon.pdf")
         return PdfReader(file_path)
 
     def test_key_is_mapped_to_a_function_returns_the_function_value(self):
-        mapper = AFM( {"Plaintiff": "NOT SEEN"})
+        mapper = AFM({"Plaintiff": "NOT SEEN"})
         assert mapper.get("(Plaintiff)") == "State of Oregon"
 
     def test_key_exists_and_has_a_value_in_form_data(self):
@@ -157,15 +160,14 @@ class TestOregon022023AcroFormMapper:
 
     def test_all_the_fields_are_accounted_for(self, pdf):
         AFM.update_pdf_fields(pdf, opts={"assert_blank_pdf": True})
-        field_types = [
-            "ignored_fields", "constant_fields", "form_data_string_fields",
-            "form_data_boolean_fields"
-        ]
+        field_types = ["ignored_fields", "constant_fields", "form_data_string_fields", "form_data_boolean_fields"]
         grouped_field_names = [(getattr(self, type).keys()) for type in field_types]
 
         assert set(field.T for field in pdf.Root.AcroForm.Fields) == set(
             # flattened field names
-            field_name for subgroup in grouped_field_names for field_name in subgroup
+            field_name
+            for subgroup in grouped_field_names
+            for field_name in subgroup
         )
 
     def test_pdf_string_values_from_form_data(self, pdf):
@@ -198,10 +200,14 @@ class TestOregon022023AcroFormMapper:
         assert_pdf_values(pdf, self.constant_fields)
 
     def test_pdf_boolean_has_no_complaint(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_no_complaint", [
-            "(record of arrest with no charges filed)",
-            "(no accusatory instrument was filed and at least 60 days have passed since the)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_no_complaint",
+            [
+                "(record of arrest with no charges filed)",
+                "(no accusatory instrument was filed and at least 60 days have passed since the)",
+            ],
+        )
 
         new_form_data = {"has_no_complaint": ""}
         new_expected_fields = {
@@ -212,60 +218,90 @@ class TestOregon022023AcroFormMapper:
         assert_other_fields_not_checked(pdf, new_expected_fields)
 
     def test_pdf_boolean_has_conviction(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_conviction", [
-            "(conviction)",
-            "(ORS 137225 does not prohibit a setaside of this conviction see Instructions)",
-            "(I have fully completed complied with or performed all terms of the sentence of the court)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_conviction",
+            [
+                "(conviction)",
+                "(ORS 137225 does not prohibit a setaside of this conviction see Instructions)",
+                "(I have fully completed complied with or performed all terms of the sentence of the court)",
+            ],
+        )
 
     def test_pdf_boolean_has_dismissed(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_dismissed", [
-            "(record of citation or charge that was dismissedacquitted)",
-            "(an accusatory instrument was filed and I was acquitted or the case was dismissed)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_dismissed",
+            [
+                "(record of citation or charge that was dismissedacquitted)",
+                "(an accusatory instrument was filed and I was acquitted or the case was dismissed)",
+            ],
+        )
 
     def test_pdf_boolean_has_contempt_of_court(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_contempt_of_court", [
-            "(contempt of court finding)"
-        ])
+        assert_pdf_boolean_field(pdf, "has_contempt_of_court", ["(contempt of court finding)"])
 
     def test_pdf_boolean_has_class_b_felony(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_class_b_felony", [
-            "(Felony  Class B and)",
-            "(7 years have passed since the later of the convictionjudgment or release date and)",
-            "(I have not been convicted of any other offense or found guilty except for insanity in)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_class_b_felony",
+            [
+                "(Felony  Class B and)",
+                "(7 years have passed since the later of the convictionjudgment or release date and)",
+                "(I have not been convicted of any other offense or found guilty except for insanity in)",
+            ],
+        )
 
     def test_pdf_boolean_has_class_c_felony(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_class_c_felony", [
-            "(Felony  Class C and)",
-            "(5 years have passed since the later of the convictionjudgment or release date and)",
-            "(I have not been convicted of any other offense or found guilty except for insanity in_2)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_class_c_felony",
+            [
+                "(Felony  Class C and)",
+                "(5 years have passed since the later of the convictionjudgment or release date and)",
+                "(I have not been convicted of any other offense or found guilty except for insanity in_2)",
+            ],
+        )
 
     def test_pdf_boolean_has_class_a_misdemeanor(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_class_a_misdemeanor", [
-            "(Misdemeanor  Class A and)",
-            "(3 years have passed since the later of the convictionjudgment or release date and)",
-            "(I have not been convicted of any other offense or found guilty except for insanity in_3)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_class_a_misdemeanor",
+            [
+                "(Misdemeanor  Class A and)",
+                "(3 years have passed since the later of the convictionjudgment or release date and)",
+                "(I have not been convicted of any other offense or found guilty except for insanity in_3)",
+            ],
+        )
 
     def test_pdf_boolean_has_class_bc_misdemeanor(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_class_bc_misdemeanor", [
-            "(Misdemeanor  Class B or C and)",
-            "(1 year has passed since the later of the convictionfindingjudgment or release)",
-            "(I have not been convicted of any other offense or found guilty except for insanity)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_class_bc_misdemeanor",
+            [
+                "(Misdemeanor  Class B or C and)",
+                "(1 year has passed since the later of the convictionfindingjudgment or release)",
+                "(I have not been convicted of any other offense or found guilty except for insanity)",
+            ],
+        )
 
     def test_pdf_boolean_has_violation_or_contempt_of_court(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_violation_or_contempt_of_court", [
-            "(Violation or Contempt of Court and)",
-            "(1 year has passed since the later of the convictionfindingjudgment or release_2)",
-            "(I have not been convicted of any other offense or found guilty except for insanity_2)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_violation_or_contempt_of_court",
+            [
+                "(Violation or Contempt of Court and)",
+                "(1 year has passed since the later of the convictionfindingjudgment or release_2)",
+                "(I have not been convicted of any other offense or found guilty except for insanity_2)",
+            ],
+        )
 
     def test_pdf_boolean_has_probation_revoked(self, pdf):
-        assert_pdf_boolean_field(pdf, "has_probation_revoked", [
-            "(I was sentenced to probation in this case and)",
-            "(My probation WAS revoked and 3 years have passed since the date of revocation)"
-        ])
+        assert_pdf_boolean_field(
+            pdf,
+            "has_probation_revoked",
+            [
+                "(I was sentenced to probation in this case and)",
+                "(My probation WAS revoked and 3 years have passed since the date of revocation)",
+            ],
+        )

@@ -264,7 +264,7 @@ class FormFilling:
         file_name = os.path.basename(base_file_name)
         pdf = PdfReader(pdf_path)
 
-        if pdf_path.endswith('oregon.pdf'):
+        if pdf_path.endswith("oregon.pdf"):
             AcroFormMapper.update_pdf_fields(pdf, form_data_dict)
         else:
             for field in pdf.Root.AcroForm.Fields:
@@ -274,7 +274,7 @@ class FormFilling:
         for field in pdf.Root.AcroForm.Fields:
             warnings += FormFilling._set_font(field, field.V)
 
-        # Since we are setting the values of the AcroForm.Fields, we need to 
+        # Since we are setting the values of the AcroForm.Fields, we need to
         # remove the Appearance Dictionary ("/AP") of the PDF annotations in
         # order for the value to appear in the PDF.
         for page in pdf.pages:
@@ -306,7 +306,7 @@ class FormFilling:
     @staticmethod
     def _build_font_string(field: PdfDict, field_value: str) -> Tuple[str, bool]:
         max_length = FormFilling._compute_field_max_length(field)
-        needs_shrink = len(field_value) > max_length if field_value != '/Yes' else False
+        needs_shrink = len(field_value) > max_length if field_value != "/Yes" else False
         font_size = 6 if needs_shrink else 10
         return f"/TimesNewRoman  {font_size} Tf 0 g", needs_shrink
 
@@ -386,6 +386,7 @@ class FormFilling:
         else:
             return path.join(Path(__file__).parent, "files", f"{location}.pdf")
 
+
 # 2 ways to check a checkbox:
 # 1) https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
 # anot = pdf.pages[0].Annots[8]
@@ -401,16 +402,16 @@ class FormFilling:
 #
 class AcroFormMapper(UserDict):
     @staticmethod
-    def update_pdf_fields(pdf: PdfReader, form_data: Dict[str, str]={}, opts = {}):
-        if opts.get('assert_blank_pdf'):
+    def update_pdf_fields(pdf: PdfReader, form_data: Dict[str, str] = {}, opts={}):
+        if opts.get("assert_blank_pdf"):
             for field in pdf.Root.AcroForm.Fields:
                 assert field.V == None
 
         mapper = AcroFormMapper(form_data=form_data, opts=opts)
         mapper.update_pdf(pdf)
         return mapper
-    
-    def __init__(self, form_data: Dict[str, str]={}, opts = {}):
+
+    def __init__(self, form_data: Dict[str, str] = {}, opts={}):
         super().__init__()
 
         self.definition = opts.get("definition") or "oregon_2_2023"
@@ -421,12 +422,15 @@ class AcroFormMapper(UserDict):
 
     def __getitem__(self, key: str) -> str:
         value = super().__getitem__(key)
-        if (value == ""): return value
+        if value == "":
+            return value
 
-        if (callable(value)): return value(self.form_data)
+        if callable(value):
+            return value(self.form_data)
 
         form_data_value = self.form_data.get(value)
-        if form_data_value: return self.form_data[value]
+        if form_data_value:
+            return self.form_data[value]
 
         if self.should_log:
             print(f"[AcroFormMapper] No form data value found for: '{key}'. Using ''")
@@ -442,13 +446,13 @@ class AcroFormMapper(UserDict):
     def update_pdf(self, pdf: PdfReader):
         for field in pdf.Root.AcroForm.Fields:
             value = self.get(field.T)
-            field.V = PdfName('Yes') if value == "X" else value
+            field.V = PdfName("Yes") if value == "X" else value
 
     # Process to create the map:
     # 1. Open the ODJ criminal set aside PDF in Acrobat.
     # 2. Click on "Prepare Form". This will add all of the form's fields and
     #    make them available via Root.AcroForm.Fields in the PDF encoding.
-    # 3. Adjust any fields as necessary, ex. move "(Address)" up to the 
+    # 3. Adjust any fields as necessary, ex. move "(Address)" up to the
     #    correct line.
     # 4. Save this as a new PDF.
     # 5. Add to expungeservice/files/ folder.
@@ -466,8 +470,9 @@ class AcroFormMapper(UserDict):
         "(SID)": "sid",
         # "(Fingerprint number FPN  if known)"
         "(record of arrest with no charges filed)": "has_no_complaint",
-        "(record of arrest with charges filed and the associated check all that apply)":
-            lambda form: "X" if form["has_no_complaint"] == "" else "",
+        "(record of arrest with charges filed and the associated check all that apply)": lambda form: "X"
+        if form["has_no_complaint"] == ""
+        else "",
         "(conviction)": "has_conviction",
         "(record of citation or charge that was dismissedacquitted)": "has_dismissed",
         "(contempt of court finding)": "has_contempt_of_court",
@@ -507,7 +512,9 @@ class AcroFormMapper(UserDict):
         # "(Date)"
         # "(Signature)"
         "(Name typed or printed)": "full_name",
-        "(Address)": lambda form: ',    '.join(form[attr] for attr in ("mailing_address", "city", "state", "zip_code", "phone_number")),
+        "(Address)": lambda form: ",    ".join(
+            form[attr] for attr in ("mailing_address", "city", "state", "zip_code", "phone_number")
+        ),
         # "(States mail a true and complete copy of this Motion to Set Aside and Declaration in Support to)"
         # "(delivered or)"
         # "(placed in the United)"
