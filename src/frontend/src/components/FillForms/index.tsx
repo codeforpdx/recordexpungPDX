@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserDataForm from "./UserDataForm";
 import { HashLink as Link } from "react-router-hash-link";
 import setupPage from "../../service/setupPage";
