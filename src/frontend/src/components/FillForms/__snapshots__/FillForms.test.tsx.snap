@@ -247,7 +247,7 @@ exports[`masterRender renders correctly 1`] = `
                       name="state"
                       onChange={[Function]}
                       required={true}
-                      value=""
+                      value="Oregon"
                     >
                       <option
                         value=""
@@ -1219,29 +1219,7 @@ exports[`renderCorrect renders correctly 1`] = `
                 <div
                   class="black-70 w-100"
                   role="alert"
-                >
-                  <p
-                    class="bg-washed-red mv3 pa3 br3 fw6"
-                  >
-                    <span>
-                      Zip code must lead with five digits
-                    </span>
-                  </p>
-                  <p
-                    class="bg-washed-red mv3 pa3 br3 fw6"
-                  >
-                    <span>
-                      Phone number must contain a digit
-                    </span>
-                  </p>
-                  <p
-                    class="bg-washed-red mv3 pa3 br3 fw6"
-                  >
-                    <span>
-                      Date Birth format must be mm/dd/yyyy
-                    </span>
-                  </p>
-                </div>
+                />
               </section>
             </main>
           </section>
