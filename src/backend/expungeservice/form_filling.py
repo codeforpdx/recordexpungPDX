@@ -257,19 +257,13 @@ class FormFilling:
             "dismissed_charges": "; ".join(dismissed_names),
             "dismissed_dates": "; ".join(dismissed_dates),
         }
-        form = from_dict(data_class=FormDataWithOrder, data=form_data_dict)
         location = case.summary.location.lower()
         pdf_path = FormFilling._build_pdf_path(location, convictions)
         base_file_name = FormFilling._build_base_file_name(location, convictions)
         file_name = os.path.basename(base_file_name)
         pdf = PdfReader(pdf_path)
 
-        if pdf_path.endswith("oregon.pdf"):
-            AcroFormMapper.update_pdf_fields(pdf, form_data_dict)
-        else:
-            for field in pdf.Root.AcroForm.Fields:
-                field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
-                field.V = getattr(form, field_name)
+        AcroFormMapper.update_pdf_fields(pdf, form_data_dict)
 
         for field in pdf.Root.AcroForm.Fields:
             warnings += FormFilling._set_font(field, field.V)
@@ -407,8 +401,22 @@ class AcroFormMapper(UserDict):
             for field in pdf.Root.AcroForm.Fields:
                 assert field.V == None
 
+        # Upate new 2/2023 oregon.pdf.
+        # Keep this before updating older form verions since this will fill in
+        # unmapped fields with an empty string.
         mapper = AcroFormMapper(form_data=form_data, opts=opts)
         mapper.update_pdf(pdf)
+
+        # Update older form versions. This includes:
+        # oregon_with_conviction_order.pdf and
+        # oregon_with_arrest_order.pdf
+        # These have the new 2/2023 oregon.pdf but the older supplemental forms.
+        for field in pdf.Root.AcroForm.Fields:
+            field_name = field.T.lower().replace(" ", "_").replace("(", "").replace(")", "")
+            field_value = form_data.get(field_name)
+            if field_value:
+                field.V = field_value
+
         return mapper
 
     def __init__(self, form_data: Dict[str, str] = {}, opts={}):

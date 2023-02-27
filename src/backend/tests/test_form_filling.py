@@ -40,6 +40,11 @@ def test_normal_conviction_uses_multnomah_conviction_form():
 
 
 #########################################
+def get_pdf(base_filename: str):
+    file_path = path.join(Path(__file__).parent.parent, "expungeservice", "files", base_filename + ".pdf")
+    return PdfReader(file_path)
+
+
 def get_pdf_dict(pdf: PdfReader):
     return {field.T: field.V for field in pdf.Root.AcroForm.Fields}
 
@@ -139,8 +144,7 @@ class TestOregon022023AcroFormMapper:
 
     @pytest.fixture
     def pdf(self):
-        file_path = path.join(Path(__file__).parent.parent, "expungeservice", "files", "oregon.pdf")
-        return PdfReader(file_path)
+        return get_pdf("oregon")
 
     def test_key_is_mapped_to_a_function_returns_the_function_value(self):
         mapper = AFM({"Plaintiff": "NOT SEEN"})
@@ -305,3 +309,67 @@ class TestOregon022023AcroFormMapper:
                 "(My probation WAS revoked and 3 years have passed since the date of revocation)",
             ],
         )
+
+    def test_pdf_oregon_with_conviction_order(self):
+        pdf = get_pdf("oregon_with_conviction_order")
+        form_data = {
+            # new form fields
+            "sid": "new sid",
+            "has_no_complaint": "X",
+            # old form fields
+            "county": "old county",
+            "case_number": "old number",
+            "case_name": "old case_name",
+            "arrest_dates_all": "old arrest_dates_all",
+            "charges_all": "old charges_all",
+            "arresting_agency": "old arresting_agency",
+            "conviction_dates": "old conviction_dates",
+            "conviction_charges": "old conviction_charges",
+        }
+        expected_pdf_fields = {
+            "(SID)": "new sid",
+            "(record of arrest with no charges filed)": "/Yes",
+            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/Yes",
+            "(County)": "old county",
+            "(Case Number)": "old number",
+            "(Case Name)": "old case_name",
+            "(Arrest Dates All)": "old arrest_dates_all",
+            "(Charges All)": "old charges_all",
+            "(Arresting Agency)": "old arresting_agency",
+            "(Conviction Dates)": "old conviction_dates",
+            "(Conviction Charges)": "old conviction_charges",
+        }
+
+        AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+        assert_pdf_values(pdf, expected_pdf_fields)
+
+    def test_pdf_oregon_with_arrest_order(self):
+        pdf = get_pdf("oregon_with_arrest_order")
+        form_data = {
+            # new form fields
+            "sid": "new sid",
+            "has_no_complaint": "X",
+            # old form fields
+            "county": "old county",
+            "case_number": "old number",
+            "case_name": "old case_name",
+            "dismissed_arrest_dates": "old dismissed_arrest_dates",
+            "dismissed_charges": "old dismissed_charges",
+            "arresting_agency": "old arresting_agency",
+            "dismissed_dates": "old dismissed_dates",
+        }
+        expected_pdf_fields = {
+            "(SID)": "new sid",
+            "(record of arrest with no charges filed)": "/Yes",
+            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/Yes",
+            "(County)": "old county",
+            "(Case Number)": "old number",
+            "(Case Name)": "old case_name",
+            "(Dismissed Arrest Dates)": "old dismissed_arrest_dates",
+            "(Dismissed Charges)": "old dismissed_charges",
+            "(Arresting Agency)": "old arresting_agency",
+            "(Dismissed Dates)": "old dismissed_dates",
+        }
+
+        AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+        assert_pdf_values(pdf, expected_pdf_fields)
