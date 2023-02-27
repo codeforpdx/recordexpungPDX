@@ -1,15 +1,13 @@
 import os
 from tempfile import mkdtemp
 from zipfile import ZipFile
-from os import path
-from pathlib import Path
 from typing import List, Dict
+import re
 
 import pytest
-from pdfrw import PdfReader
 
 from expungeservice.expunger import Expunger
-from expungeservice.form_filling import FormFilling, AcroFormMapper as AFM
+from expungeservice.form_filling import FormFilling, PDF, AcroFormMapper as AFM
 from expungeservice.record_merger import RecordMerger
 from expungeservice.record_summarizer import RecordSummarizer
 from tests.factories.crawler_factory import CrawlerFactory
@@ -40,46 +38,62 @@ def test_normal_conviction_uses_multnomah_conviction_form():
 
 
 #########################################
-def get_pdf(base_filename: str):
-    file_path = path.join(Path(__file__).parent.parent, "expungeservice", "files", base_filename + ".pdf")
-    return PdfReader(file_path)
 
 
-def get_pdf_dict(pdf: PdfReader):
-    return {field.T: field.V for field in pdf.Root.AcroForm.Fields}
+class TestOregon022023AcroFormMapper:
+    def test_key_is_mapped_to_a_function_returns_the_function_value(self):
+        mapper = AFM({"Plaintiff": "NOT SEEN"})
+        assert mapper.get("(Plaintiff)") == "State of Oregon"
+
+    def test_key_exists_and_has_a_value_in_form_data(self):
+        mapper = AFM({"county": "baker"})
+        assert mapper.get("(FOR THE COUNTY OF)") == "baker"
+
+    def test_key_exists_but_its_value_does_not(self):
+        mapper = AFM({"DOB": None})
+        assert mapper.get("(DOB)") == ""
+
+    def test_an_undefined_key_returns_empty_string(self):
+        mapper = AFM({"only in form data": "foo"})
+        assert mapper.get("only in form data") == ""
 
 
-def assert_pdf_values(pdf: PdfReader, expected: Dict[str, str]):
-    pdf_dict = get_pdf_dict(pdf)
+#########################################
+
+
+def assert_pdf_values(pdf: PDF, expected: Dict[str, str]):
+    annotation_dict = pdf.get_annotation_dict()
+    for key, value in annotation_dict.items():
+        annotation_dict[key] = re.sub(r"\(|\)", "", value) if value else None
 
     for key, value in expected.items():
-        assert pdf_dict[key] == value
+        assert annotation_dict[key] == value, f"key: {key}"
 
 
-def assert_other_fields_not_checked(pdf, checked_fields):
-    pdf_dict = get_pdf_dict(pdf)
-    constant_fields = TestOregon022023AcroFormMapper.constant_fields.keys()
+def assert_other_fields_not_checked(pdf: PDF, checked_fields):
+    annotation_dict = pdf.get_annotation_dict()
+    constant_fields = TestOregonPDF.constant_fields.keys()
 
-    for key, value in pdf_dict.items():
+    for key, value in annotation_dict.items():
         if not checked_fields.get(key) and key not in constant_fields:
-            assert value != "X"
+            assert value != "/On", key
 
 
-def assert_pdf_boolean_field(pdf: PdfReader, field_name: str, expected_field_names: List[str]):
-    form_data = {field_name: "X"}
-    expected_fields = {field_name: "/Yes" for field_name in expected_field_names}
+def assert_pdf_boolean_field(pdf: PDF, field_name: str, expected_field_names: List[str]):
+    form_data = {field_name: FormFilling.CHECK_MARK}
+    expected_fields = {field_name: "/On" for field_name in expected_field_names}
 
-    AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+    pdf.update_annotations(form_data, opts={"assert_blank_pdf": True})
     assert_pdf_values(pdf, expected_fields)
     assert_other_fields_not_checked(pdf, expected_fields)
 
 
-class TestOregon022023AcroFormMapper:
+class TestOregonPDF:
     constant_fields = {
         "(Plaintiff)": "State of Oregon",
-        "(I am not currently charged with a crime)": "/Yes",
-        "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "/Yes",
-        "(have sent)": "/Yes",
+        "(I am not currently charged with a crime)": "/On",
+        "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "/On",
+        "(have sent)": "/On",
     }
     ignored_fields = {
         "(Fingerprint number FPN  if known)": None,
@@ -143,38 +157,18 @@ class TestOregon022023AcroFormMapper:
     }
 
     @pytest.fixture
-    def pdf(self):
-        return get_pdf("oregon")
+    def pdf(self) -> PDF:
+        return PDF("oregon", {"assert_blank_pdf": True})
 
-    def test_key_is_mapped_to_a_function_returns_the_function_value(self):
-        mapper = AFM({"Plaintiff": "NOT SEEN"})
-        assert mapper.get("(Plaintiff)") == "State of Oregon"
-
-    def test_key_exists_and_has_a_value_in_form_data(self):
-        mapper = AFM({"county": "baker"})
-        assert mapper.get("(FOR THE COUNTY OF)") == "baker"
-
-    def test_key_exists_but_its_value_does_not(self):
-        mapper = AFM({"DOB": None})
-        assert mapper.get("(DOB)") == ""
-
-    def test_an_undefined_key_returns_empty_string(self):
-        mapper = AFM({"only in form data": "foo"})
-        assert mapper.get("only in form data") == ""
-
-    def test_all_the_fields_are_accounted_for(self, pdf):
-        AFM.update_pdf_fields(pdf, opts={"assert_blank_pdf": True})
+    def test_all_the_fields_are_accounted_for(self, pdf: PDF):
         field_types = ["ignored_fields", "constant_fields", "form_data_string_fields", "form_data_boolean_fields"]
         grouped_field_names = [(getattr(self, type).keys()) for type in field_types]
+        field_names = set(field_name for subgroup in grouped_field_names for field_name in subgroup)
 
-        assert set(field.T for field in pdf.Root.AcroForm.Fields) == set(
-            # flattened field names
-            field_name
-            for subgroup in grouped_field_names
-            for field_name in subgroup
-        )
+        assert set(pdf.get_field_dict().keys()) == field_names
+        assert set(anot.T for anot in pdf.annotations) == field_names
 
-    def test_pdf_string_values_from_form_data(self, pdf):
+    def test_pdf_string_values_from_form_data(self, pdf: PDF):
         form_data = {
             "county": "county_ACTUAL",
             "case_number": "case_number_ACTUAL",
@@ -193,17 +187,17 @@ class TestOregon022023AcroFormMapper:
             "da_address": "da_address_ACTUAL",
         }
 
-        AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+        pdf.update_annotations(form_data)
         assert_pdf_values(pdf, self.form_data_string_fields)
 
-    def test_pdf_values_that_are_ignored_or_constant(self, pdf):
-        mapper = AFM.update_pdf_fields(pdf, opts={"assert_blank_pdf": True})
+    def test_pdf_values_that_are_ignored_or_constant(self, pdf: PDF):
+        mapper = pdf.update_annotations()
         ignored_field_names = (field_name for field_name in self.ignored_fields.keys())
 
         assert set(mapper.ignored_keys) == set(ignored_field_names)
         assert_pdf_values(pdf, self.constant_fields)
 
-    def test_pdf_boolean_has_no_complaint(self, pdf):
+    def test_pdf_boolean_has_no_complaint_on(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_no_complaint",
@@ -213,15 +207,16 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-        new_form_data = {"has_no_complaint": ""}
-        new_expected_fields = {
-            "(record of arrest with charges filed and the associated check all that apply)": "/Yes",
+    def test_pdf_boolean_has_no_complaint_off(self, pdf: PDF):
+        form_data = {"has_no_complaint": ""}
+        expected_fields = {
+            "(record of arrest with charges filed and the associated check all that apply)": "/On",
         }
-        AFM.update_pdf_fields(pdf, new_form_data)
-        assert_pdf_values(pdf, new_expected_fields)
-        assert_other_fields_not_checked(pdf, new_expected_fields)
+        pdf.update_annotations(form_data)
+        assert_pdf_values(pdf, expected_fields)
+        assert_other_fields_not_checked(pdf, expected_fields)
 
-    def test_pdf_boolean_has_conviction(self, pdf):
+    def test_pdf_boolean_has_conviction(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_conviction",
@@ -232,7 +227,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_dismissed(self, pdf):
+    def test_pdf_boolean_has_dismissed(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_dismissed",
@@ -242,10 +237,10 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_contempt_of_court(self, pdf):
+    def test_pdf_boolean_has_contempt_of_court(self, pdf: PDF):
         assert_pdf_boolean_field(pdf, "has_contempt_of_court", ["(contempt of court finding)"])
 
-    def test_pdf_boolean_has_class_b_felony(self, pdf):
+    def test_pdf_boolean_has_class_b_felony(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_class_b_felony",
@@ -256,7 +251,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_class_c_felony(self, pdf):
+    def test_pdf_boolean_has_class_c_felony(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_class_c_felony",
@@ -267,7 +262,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_class_a_misdemeanor(self, pdf):
+    def test_pdf_boolean_has_class_a_misdemeanor(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_class_a_misdemeanor",
@@ -278,7 +273,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_class_bc_misdemeanor(self, pdf):
+    def test_pdf_boolean_has_class_bc_misdemeanor(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_class_bc_misdemeanor",
@@ -289,7 +284,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_violation_or_contempt_of_court(self, pdf):
+    def test_pdf_boolean_has_violation_or_contempt_of_court(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_violation_or_contempt_of_court",
@@ -300,7 +295,7 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_boolean_has_probation_revoked(self, pdf):
+    def test_pdf_boolean_has_probation_revoked(self, pdf: PDF):
         assert_pdf_boolean_field(
             pdf,
             "has_probation_revoked",
@@ -310,12 +305,25 @@ class TestOregon022023AcroFormMapper:
             ],
         )
 
-    def test_pdf_oregon_with_conviction_order(self):
-        pdf = get_pdf("oregon_with_conviction_order")
+    # TODO some fields seem to need a different calculation
+    # def test_font_is_decreased_as_needed(self, pdf: PDF):
+    #     form_data = {"date_of_birth": "123456789a1234567"}
+    #     pdf.update_annotations(form_data, {"assert_blank_pdf": True});
+    #     font_string = [annotation.DA for annotation in pdf.annotations if annotation.T == '(DOB)'][0]
+
+    #     pdf.write('foo_test')
+    #     assert font_string == "(/TimesNewRoman 6 Tf 0 g)"
+    #     assert len(pdf.warnings) == 1
+    #     assert pdf.warnings[0] == "The font size of \"123456789a123456\" was shrunk to fit the bounding box of \"DOB\". An addendum might be required if it still doesn't fit."
+
+
+class TestOregonWithConvictionOrderPDF:
+    def test_both_old_and_new_fields_are_updated(self):
+        pdf = PDF("oregon_with_conviction_order", {"assert_blank_pdf": True})
         form_data = {
             # new form fields
             "sid": "new sid",
-            "has_no_complaint": "X",
+            "has_no_complaint": FormFilling.CHECK_MARK,
             # old form fields
             "county": "old county",
             "case_number": "old number",
@@ -328,27 +336,28 @@ class TestOregon022023AcroFormMapper:
         }
         expected_pdf_fields = {
             "(SID)": "new sid",
-            "(record of arrest with no charges filed)": "/Yes",
-            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/Yes",
+            "(record of arrest with no charges filed)": "/On",
+            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/On",
             "(County)": "old county",
             "(Case Number)": "old number",
             "(Case Name)": "old case_name",
             "(Arrest Dates All)": "old arrest_dates_all",
             "(Charges All)": "old charges_all",
-            "(Arresting Agency)": "old arresting_agency",
             "(Conviction Dates)": "old conviction_dates",
             "(Conviction Charges)": "old conviction_charges",
         }
 
-        AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+        pdf.update_annotations(form_data, opts={"assert_blank_pdf": True})
         assert_pdf_values(pdf, expected_pdf_fields)
 
-    def test_pdf_oregon_with_arrest_order(self):
-        pdf = get_pdf("oregon_with_arrest_order")
+
+class TestOregonWithArrestOrderPDF:
+    def test_both_old_and_new_fields_are_updated(self):
+        pdf = PDF("oregon_with_arrest_order", {"assert_blank_pdf": True})
         form_data = {
             # new form fields
             "sid": "new sid",
-            "has_no_complaint": "X",
+            "has_no_complaint": FormFilling.CHECK_MARK,
             # old form fields
             "county": "old county",
             "case_number": "old number",
@@ -360,16 +369,17 @@ class TestOregon022023AcroFormMapper:
         }
         expected_pdf_fields = {
             "(SID)": "new sid",
-            "(record of arrest with no charges filed)": "/Yes",
-            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/Yes",
+            "(record of arrest with no charges filed)": "/On",
+            "(no accusatory instrument was filed and at least 60 days have passed since the)": "/On",
             "(County)": "old county",
             "(Case Number)": "old number",
             "(Case Name)": "old case_name",
             "(Dismissed Arrest Dates)": "old dismissed_arrest_dates",
             "(Dismissed Charges)": "old dismissed_charges",
-            "(Arresting Agency)": "old arresting_agency",
             "(Dismissed Dates)": "old dismissed_dates",
         }
 
-        AFM.update_pdf_fields(pdf, form_data, opts={"assert_blank_pdf": True})
+        pdf.update_annotations(form_data, opts={"assert_blank_pdf": True})
         assert_pdf_values(pdf, expected_pdf_fields)
+        # Validate downloaded PDF in Chrome, Firefox, Safari, Acrobat Reader and Preview
+        # pdf.write('foo_test')
