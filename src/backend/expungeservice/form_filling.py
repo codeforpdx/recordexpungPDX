@@ -410,7 +410,7 @@ class AcroFormMapper(UserDict):
         if not opts:
             opts = {}
 
-        self.definition = opts.get("definition") or "oregon_2_2023"
+        self.definition = "oregon_2_2023"
         self.should_log = opts.get("should_log") or False
         self.form_data = form_data or {}
         self.data = getattr(self, self.definition)
