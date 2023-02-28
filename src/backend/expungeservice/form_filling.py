@@ -3,7 +3,7 @@ from dataclasses import dataclass, replace
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Optional, Union
 from zipfile import ZipFile
 from collections import UserDict
 
@@ -405,7 +405,7 @@ class FormFilling:
 # Note: when printing pdfrw objects to screen during debugginp, not all attributes are displayed. Stream objects
 # can have many more nested properties.
 class AcroFormMapper(UserDict):
-    def __init__(self, form_data: Dict[str, str] = None, opts: Dict[str, str or bool] = None):
+    def __init__(self, form_data: Dict[str, str] = None, opts: Dict[str, Union[str, bool]] = None):
         super().__init__()
         if not opts:
             opts = {}
