@@ -405,14 +405,13 @@ class FormFilling:
 # Note: when printing pdfrw objects to screen during debugginp, not all attributes are displayed. Stream objects
 # can have many more nested properties.
 class AcroFormMapper(UserDict):
-    def __init__(self, form_data: Dict[str, str] = None, opts=None):
+    def __init__(self, form_data: Dict[str, str] = None, opts: Dict[str, str or bool] = None):
         super().__init__()
+        if not opts:
+            opts = {}
 
-        default_opts = {"definition": "oregon_2_2023", "should_log": False}
-        full_opts = {**default_opts, **(opts or {})}
-
-        self.definition = full_opts.get("definition")
-        self.should_log = full_opts.get("should_log")
+        self.definition = opts.get("definition") or "oregon_2_2023"
+        self.should_log = opts.get("should_log") or False
         self.form_data = form_data or {}
         self.data = getattr(self, self.definition)
         self.ignored_keys: Dict[str, None] = {}
@@ -551,7 +550,7 @@ class PDF:
 
         full_path = base_filename if full_opts.get("full_path") else self.get_filepath(base_filename)
         self._pdf = PdfReader(full_path)
-        self.warnings = []
+        self.warnings: List[str] = []
         self.annotations = [annot for page in self._pdf.pages for annot in page.Annots or []]
         self.fields = {field.T: field for field in self._pdf.Root.AcroForm.Fields}
 
@@ -567,7 +566,7 @@ class PDF:
         annotation.V = PdfName("On")
         annotation.AS = PdfName("On")
 
-    def set_text_value(self, annotation, text: str):
+    def set_text_value(self, annotation, text):
         new_value = PdfString.encode(text)
         annotation.V = new_value
         self.set_font(annotation)
