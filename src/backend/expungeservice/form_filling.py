@@ -495,7 +495,7 @@ class AcroFormMapper(UserDict):
         "(I was sentenced to probation in this case and)": "has_probation_revoked",
         # "(My probation WAS NOT revoked)"
         "(My probation WAS revoked and 3 years have passed since the date of revocation)": "has_probation_revoked",
-        "(Date of arrest)": "dismissed_arrest_dates",
+        "(Date of arrest)": "arrest_dates_all",
         # "(If no arrest date date of citation booking or incident)": # NEW FIELD
         "(Arresting Agency)": "arresting_agency",
         "(no accusatory instrument was filed and at least 60 days have passed since the)": "has_no_complaint",
