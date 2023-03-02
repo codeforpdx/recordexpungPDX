@@ -1,7 +1,8 @@
-FROM python:3.7-alpine AS base
+FROM python:3.7-alpine3.13 AS base
 LABEL authors="Kenichi Nakamura <kenichi.nakamura@gmail.com>"
 
-RUN pip install pipenv
+RUN  pip install --upgrade pip && \
+     pip install pipenv
 RUN apk update
 
 RUN mkdir -p /src/backend/expungeservice
@@ -14,7 +15,7 @@ ENV LANG=C.UTF-8
 RUN apk add --update --no-cache \
     libgcc libstdc++ libx11 glib libxrender libxext libintl \
     ttf-dejavu ttf-droid ttf-freefont ttf-liberation ttf-ubuntu-font-family \
-    libffi openssl libpq wkhtmltopdf
+    libffi openssl libpq wkhtmltopdf pcre-dev
 
 # ---
 
