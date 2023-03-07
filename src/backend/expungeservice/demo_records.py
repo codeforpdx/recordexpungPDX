@@ -432,6 +432,20 @@ class DemoRecords:
                             ),
                         },
                     ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "234567-2",
+                            "name": "Assaulting a Public Safety Officer",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Dismissed"
+                            ),
+                        },
+                    ),
                 ),
             ),
             OeciCase(
@@ -488,6 +502,51 @@ class DemoRecords:
                                 date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
                             ),
                             "balance_due_in_cents": 50000,
+                        },
+                    ),
+                ),
+            ),
+            # Has an eligible and an ineligible charge
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "555555",
+                        "violation_type": "Offense Felony",
+                        "balance_due_in_cents": 0,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "555555-1",
+                            "name": "Assault in the First Degree",
+                            "statute": "999999",
+                            "level": "Felony Class A",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 0,
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "555555-2",
+                            "name": "Harassment",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Dismissed"
+                            ),
                         },
                     ),
                 ),
