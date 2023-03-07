@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
 import store from "../../redux/store";
 import FillForms from ".";
@@ -91,7 +92,7 @@ describe("modal with certain fields filled out", () => {
     );
   });
 
-  it("modal renders correctly when only name is filled out", async () => {
+  it("1 modal renders correctly when only name is filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -102,10 +103,10 @@ describe("modal with certain fields filled out", () => {
     });
 
     await user.click(downloadButton);
-    expect(screen.getByText(/incomplete/i)).toBeInTheDocument;
+    expect(screen.getByText(/incomplete/i)).toBeInTheDocument();
   });
 
-  it("modal renders correctly when only name and DOB are filled out", async () => {
+  it("2 modal renders correctly when only name and DOB are filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -118,10 +119,10 @@ describe("modal with certain fields filled out", () => {
     });
 
     await user.click(downloadButton);
-    expect(screen.getByText(/incomplete/i)).toBeInTheDocument;
+    expect(screen.getByText(/incomplete/i)).toBeInTheDocument();
   });
 
-  it("modal renders correctly when only name, DOB, and ZipCode are filled out", async () => {
+  it("3 modal renders correctly when only name, DOB, and ZipCode are filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -136,10 +137,10 @@ describe("modal with certain fields filled out", () => {
     });
 
     await user.click(downloadButton);
-    expect(screen.getByText(/incomplete/i)).toBeInTheDocument;
+    expect(screen.getByText(/incomplete/i)).toBeInTheDocument();
   });
 
-  it("modal renders correctly when only name, DOB, ZipCode, and PhoneNumber are filled out", async () => {
+  it("4 modal renders correctly when only name, DOB, ZipCode, and PhoneNumber are filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -156,10 +157,10 @@ describe("modal with certain fields filled out", () => {
     });
 
     await user.click(downloadButton);
-    expect(screen.getByText(/incomplete/i)).toBeInTheDocument;
+    expect(screen.getByText(/incomplete/i)).toBeInTheDocument();
   });
 
-  it("modal renders correctly when only name, DOB, ZipCode, PhoneNumber, and MailingAddress are filled out", async () => {
+  it("5 modal renders correctly when only name, DOB, ZipCode, PhoneNumber, and MailingAddress are filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -178,10 +179,10 @@ describe("modal with certain fields filled out", () => {
     });
 
     await user.click(downloadButton);
-    expect(screen.getByText(/incomplete/i)).toBeInTheDocument;
+    expect(screen.getByText(/incomplete/i)).toBeInTheDocument();
   });
 
-  it("modal does NOT render when all fields are filled out", async () => {
+  it("6 modal does NOT render when all fields are filled out", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -207,11 +208,11 @@ describe("modal with certain fields filled out", () => {
 
     await user.click(downloadButton);
 
-    expect(screen.queryByText(/incomplete/i)).not.toBeInTheDocument;
+    expect(screen.queryByText(/incomplete/i)).not.toBeInTheDocument();
   });
 });
 
-// possible test for modal pop and successful download when mailingAddress or City is not filled
+// possible test for modal pop-up and successful download when mailingAddress or City is not filled
 describe("test if certain fields left empty will still trigger the modal and a download", () => {
   beforeEach(() => {
     render(
@@ -223,7 +224,7 @@ describe("test if certain fields left empty will still trigger the modal and a d
     );
   });
 
-  it("modal and download cannot happen at the same time when city field isnt completed", async () => {
+  it("7 modal and download cannot happen at the same time when city field isnt completed", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
@@ -250,7 +251,7 @@ describe("test if certain fields left empty will still trigger the modal and a d
     expect(screen.queryByText(/incomplete/i)).not.toBeNull();
   });
 
-  it("modal and downlaod cannot happen at the same time when mailing address field isnt completed", async () => {
+  it("8 modal and downlaod cannot happen at the same time when mailing address field isnt completed", async () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByLabelText(/full name/i));
