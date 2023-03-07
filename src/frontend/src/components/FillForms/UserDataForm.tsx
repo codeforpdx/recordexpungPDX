@@ -1,96 +1,81 @@
-import React, { useState, useEffect } from "react";
-import history from "../../service/history";
+import React, { useState } from "react";
 import { downloadExpungementPacket } from "../../redux/search/actions";
 import InvalidInputs from "../InvalidInputs";
-import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
-import {
-  initialState,
-  selectSearchFormValues,
-} from "../../redux/searchFormSlice";
-import { isBlank } from "../../service/validators";
+import { selectSearchFormValues } from "../../redux/searchFormSlice";
+import { isBlank, isDate } from "../../service/validators";
+import { Redirect } from "react-router-dom";
+
+const isPresent = (str: string) => !isBlank(str);
+
+const isPhoneNumber = (str: string) => {
+  //the phone RegEx accepts the following formats (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, (123)-456-7890
+  return /^(\(?\d{3}\)?[-.\s]?){2}\d{4}$/.test(str); // Check for empty string included
+};
+
+const isZipCode = (str: string) => {
+  //the zipCode RegEx accepts any 5 digit entry ex. "12345"
+  return /[0-9][0-9][0-9][0-9][0-9]/.test(str); // Check for empty string included
+};
 
 export default function UserDataForm() {
   const aliases = useAppSelector(selectSearchFormValues).aliases;
   const dispatch = useDispatch();
   const [name, setName] = useState(buildName());
-  const [dob, setDob] = useState(buildDob());
+  const [dob, setDob] = useState(aliases[0].birth_date);
   const [mailingAddress, setMailingAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("Oregon");
   const [zipCode, setZipCode] = useState("");
-  const [invalidZipCode, setInvalidZipCode] = useState(false);
-  const [invalidPhone, setInvalidPhone] = useState(false);
-  const [invalidBirthDate, setInvalidBirthDate] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const loadingExpungementPacket = useAppSelector(
     (state) => state.search.loadingExpungementPacket
   );
-  const [modalClose, setModalClose] = useState(true);
+
+  const [showModal, setShowModal] = useState(false);
 
   function buildName() {
-    if (aliases.length > 0) {
-      const firstAlias = aliases[0];
-      const nameString = `${firstAlias.first_name} ${
-        firstAlias.middle_name ? firstAlias.middle_name + " " : ""
-      }${firstAlias.last_name}`;
-      if (!nameString.includes("*")) {
-        return nameString;
-      } else {
-        return "";
-      }
-    } else {
-      return "";
-    }
+    const { first_name, middle_name, last_name } = aliases[0];
+    let fullName = "";
+    fullName += first_name ? first_name + " " : "";
+    fullName += middle_name ? middle_name + " " : "";
+    fullName += last_name;
+
+    return fullName.includes("*") ? "" : fullName || " ";
   }
 
-  function buildDob() {
-    if (aliases.length > 0) {
-      const firstAlias = aliases[0];
-      return firstAlias.birth_date;
-    } else {
-      return "";
-    }
-  }
+  // TODO: Probably should require at least name is always present.
+  function allInputsValid() {
+    const errorMessages = {
+      "Date Birth format must be mm/dd/yyyy": isPresent(dob) && !isDate(dob),
+      "Zip code must lead with five digits":
+        isPresent(zipCode) && !isZipCode(zipCode),
+      "Phone number must contain a digit":
+        isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
+    };
 
-  function emptyFieldsCheck() {
-    if (
-      ![zipCode, phoneNumber, dob, mailingAddress, city, state, name].some(
-        isBlank
-      )
-    )
-      return true;
-
-    setModalClose(false);
-  }
-
-  function validateForm() {
-    //the phone RegEx accecpts the following formats (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, (123)-456-7890
-    const phoneNumberPattern = new RegExp(
-      "^\\(?(\\d{3})\\)?[-.\\s]?(\\d{3})[-.\\s]?(\\d{4})$"
+    // TODO This is generic, so move this conversion of object to an array
+    // into <InvalidInputs>
+    const newErrorMessages = Object.entries(errorMessages).reduce(
+      (array, [message, shouldShow]) => {
+        if (shouldShow) array.push(message);
+        return array;
+      },
+      [] as string[]
     );
-    //the zipCode RegEx accepts any 5 digit entry ex. "12345"
-    const zipCodePattern = new RegExp("[0-9][0-9][0-9][0-9][0-9]");
-    const phoneNumberMatch = phoneNumberPattern.test(phoneNumber);
-    const zipCodeMatch = zipCodePattern.test(zipCode);
-    const isValidZipCode = zipCode.length > 0 && zipCodeMatch;
-    const isValidPhoneNumber = phoneNumber.length > 0 && phoneNumberMatch;
-    const isValidBirthDate =
-      dob.length > 0 && moment(dob, "M/D/YYYY", true).isValid();
 
-    setInvalidZipCode(!isValidZipCode);
-    setInvalidPhone(!isValidPhoneNumber);
-    setInvalidBirthDate(!isValidBirthDate);
+    if (newErrorMessages.length === 0) return true;
 
-    return isValidZipCode && isValidBirthDate && isValidPhoneNumber;
+    setErrorMessages(newErrorMessages);
+    return false;
   }
 
-  function handleSubmit(e: React.BaseSyntheticEvent) {
-    e.preventDefault();
-    if (emptyFieldsCheck() && validateForm()) {
-      return downloadExpungementPacket(
+  function downloadPacket() {
+    dispatch(
+      downloadExpungementPacket(
         name,
         dob,
         mailingAddress,
@@ -98,33 +83,39 @@ export default function UserDataForm() {
         city,
         state,
         zipCode
-      )(dispatch);
-    }
+      )
+    );
   }
 
-  useEffect(() => {
-    if (!(aliases.length > 0)) {
-      return history.push("/record-search");
-    }
-  });
+  function handleSubmit(e: React.BaseSyntheticEvent) {
+    e.preventDefault();
+
+    allInputsValid();
+
+    if (!allInputsValid()) return;
+
+    const allFormInputsPresent = [
+      name,
+      dob,
+      mailingAddress,
+      city,
+      state,
+      zipCode,
+      phoneNumber,
+    ].every(isPresent);
+
+    allFormInputsPresent ? downloadPacket() : setShowModal(true);
+  }
+
+  if (aliases.length === 0) return <Redirect to="/record-search" />;
 
   return (
     <>
       <main className="mw6">
         <EmptyFieldsModal
-          close={modalClose}
-          onClose={() => setModalClose(true)}
-          onDownload={() =>
-            downloadExpungementPacket(
-              name,
-              dob,
-              mailingAddress,
-              phoneNumber,
-              city,
-              state,
-              zipCode
-            )(dispatch)
-          }
+          close={!showModal}
+          onClose={() => setShowModal(false)}
+          onDownload={downloadPacket}
         />
         <section className="cf pa3 pa4-ns bg-white shadow br3">
           <h1 className="f4 fw7 mt0 mb4">User Information</h1>
@@ -307,14 +298,7 @@ export default function UserDataForm() {
               Download Expungement Packet
             </button>
           </form>
-          <InvalidInputs
-            conditions={[invalidZipCode, invalidPhone, invalidBirthDate]}
-            contents={[
-              <span>Zip code must lead with five digits</span>,
-              <span>Phone number must contain a digit</span>,
-              <span>Date Birth format must be mm/dd/yyyy</span>,
-            ]}
-          />
+          <InvalidInputs contents={errorMessages} />
         </section>
       </main>
     </>
