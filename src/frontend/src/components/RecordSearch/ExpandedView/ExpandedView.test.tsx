@@ -52,6 +52,9 @@ test("the button to download the summary PDF works", async () => {
 
 test("the button to download the expungement packet works", async () => {
   const { user, requestSpy } = setup();
+
+  await user.click(screen.getByLabelText(/full name/i));
+  await user.keyboard("username");
   await fillExpungementPacketForm(user);
 
   await clickButton(user, "download packet");
