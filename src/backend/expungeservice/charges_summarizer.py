@@ -72,10 +72,27 @@ class ChargesSummarizer:
 
     @staticmethod
     def _get_label(charge: Charge, record: Record):
-        no_balance = (
-            ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
-        )
+        this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
+        no_balance = this_case.summary.balance_due_in_cents == 0
         charge_eligibility = charge.expungement_result.charge_eligibility
+        case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
+        future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
+
+        if charge_eligibility.label == "Eligible Now" and case_has_ineligible_charge:
+            if no_balance:
+                return "Eligible on case with Ineligible charge"
+            else:
+                return "Eligible If Balance Paid on case with Ineligible charge"
+
+        if charge_eligibility.label == "Eligible Now" and future_eligibility_label_on_case:
+            label = (
+                "Eligible on case with charge " + future_eligibility_label_on_case
+            )
+            if no_balance:
+                return label
+            else:
+                return label + " If Balance Paid"
+
         if charge_eligibility:
             if (
                 charge_eligibility.label == "Needs More Analysis"
@@ -100,3 +117,21 @@ class ChargesSummarizer:
             return ""
         else:
             return f"{case.summary.location} {case.summary.case_number} – ${round(case.summary.get_balance_due(),2)}"
+
+    @staticmethod
+    def _get_case_has_ineligible_charge(case: Record):
+        for charge in case.charges:
+            if charge.expungement_result.charge_eligibility.label == "Ineligible":
+                return True
+        return False
+
+    @staticmethod
+    def _get_future_eligibility_label_on_case(case: Record):
+        date_sorted_charges = sorted(
+            case.charges,
+            key=lambda charge: charge.expungement_result.charge_eligibility.date_to_sort_label_by or date.max(),
+        )
+        if date_sorted_charges[0].expungement_result.charge_eligibility.date_to_sort_label_by:
+            return date_sorted_charges[0].expungement_result.charge_eligibility.label
+        else:
+            return None

@@ -5,6 +5,7 @@ export function getEligibilityColor(eligibility: string) {
     {
       "Eligible Now": "green",
       Ineligible: "red",
+      "Eligible on case with Ineligible charge": "red",
       "Needs More Analysis": "purple",
     }[eligibility] ?? "dark-blue"
   );
