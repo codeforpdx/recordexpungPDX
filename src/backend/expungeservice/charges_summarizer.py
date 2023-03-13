@@ -78,13 +78,13 @@ class ChargesSummarizer:
         case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
         future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
 
-        if charge_eligibility.label == "Eligible Now" and case_has_ineligible_charge:
+        if charge_eligibility and charge_eligibility.label == "Eligible Now" and case_has_ineligible_charge:
             if no_balance:
                 return "Eligible on case with Ineligible charge"
             else:
                 return "Eligible If Balance Paid on case with Ineligible charge"
 
-        if charge_eligibility.label == "Eligible Now" and future_eligibility_label_on_case:
+        if charge_eligibility and charge_eligibility.label == "Eligible Now" and future_eligibility_label_on_case:
             label = (
                 "Eligible on case with charge " + future_eligibility_label_on_case
             )
