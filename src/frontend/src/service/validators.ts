@@ -79,3 +79,14 @@ export function validate<T>(
   if (areAllVaid) onAllValid();
   return areAllVaid;
 }
+
+export function objectToArray(obj: object) {
+  const newErrorMessages = Object.entries(obj).reduce(
+    (array, [message, shouldShow]) => {
+      if (shouldShow) array.push(message);
+      return array;
+    },
+    [] as string[]
+  );
+  return newErrorMessages;
+}

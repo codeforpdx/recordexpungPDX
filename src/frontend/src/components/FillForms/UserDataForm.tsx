@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
 import { selectSearchFormValues } from "../../redux/searchFormSlice";
-import { isBlank, isDate } from "../../service/validators";
+import { isBlank, isDate, objectToArray } from "../../service/validators";
 import { Redirect } from "react-router-dom";
 
 const isPresent = (str: string) => !isBlank(str);
@@ -47,7 +47,6 @@ export default function UserDataForm() {
     return fullName.includes("*") ? "" : fullName || " ";
   }
 
-  // TODO: Probably should require at least name is always present.
   function allInputsValid() {
     const errorMessages = {
       "Date Birth format must be mm/dd/yyyy": isPresent(dob) && !isDate(dob),
@@ -57,19 +56,9 @@ export default function UserDataForm() {
         isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
     };
 
-    // TODO This is generic, so move this conversion of object to an array
-    // into <InvalidInputs>
-    const newErrorMessages = Object.entries(errorMessages).reduce(
-      (array, [message, shouldShow]) => {
-        if (shouldShow) array.push(message);
-        return array;
-      },
-      [] as string[]
-    );
+    if (objectToArray(errorMessages).length === 0) return true;
 
-    if (newErrorMessages.length === 0) return true;
-
-    setErrorMessages(newErrorMessages);
+    setErrorMessages(objectToArray(errorMessages));
     return false;
   }
 
