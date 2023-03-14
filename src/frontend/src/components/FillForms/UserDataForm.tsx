@@ -10,6 +10,8 @@ import { Redirect } from "react-router-dom";
 
 const isPresent = (str: string) => !isBlank(str);
 
+const errorMessagesObjectToArray = (obj: object) => objectToArray(obj);
+
 const isPhoneNumber = (str: string) => {
   //the phone RegEx accepts the following formats (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, (123)-456-7890
   return /^(\(?\d{3}\)?[-.\s]?){2}\d{4}$/.test(str); // Check for empty string included
@@ -56,9 +58,9 @@ export default function UserDataForm() {
         isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
     };
 
-    if (objectToArray(errorMessages).length === 0) return true;
+    if (errorMessagesObjectToArray(errorMessages).length === 0) return true;
 
-    setErrorMessages(objectToArray(errorMessages));
+    setErrorMessages(errorMessagesObjectToArray(errorMessages));
     return false;
   }
 
@@ -78,8 +80,6 @@ export default function UserDataForm() {
 
   function handleSubmit(e: React.BaseSyntheticEvent) {
     e.preventDefault();
-
-    allInputsValid();
 
     if (!allInputsValid()) return;
 
