@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import List, Dict, Tuple, Union, Callable, Optional
+from typing import List, Dict, Tuple, Union, Callable, Optional, TypeVar
 from zipfile import ZipFile
 from collections import UserDict
 
@@ -60,6 +60,13 @@ DA_ADDRESSES = {
     "wheeler": "District Attorney - P.O. Box 512 - Fossil, OR 97830",
     "yamhill": "District Attorney - 535 NE 5th St #117 - McMinnville, OR 97128",
 }
+
+T = TypeVar("T")
+
+
+def join_dates_or_strings(arr=List[T], connector="; ", date_format="%b %-d, %Y") -> str:
+    get_attr = lambda elem: elem.strftime(date_format) if isinstance(elem, DateWithFuture) else elem
+    return connector.join(get_attr(elem) for elem in arr if elem)
 
 
 class Charges:
@@ -376,7 +383,9 @@ class PDFFieldMapper(UserDict):
             "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": s.has_dismissed,
             "(have sent)": True,
             "(Name typed or printed)": s.full_name,
-            "(Address)": ",    ".join([s.mailing_address, s.city, s.state, s.zip_code, s.phone_number]),
+            "(Address)": join_dates_or_strings(
+                [s.mailing_address, s.city, s.state, s.zip_code, s.phone_number], connector=",    "
+            ),
             "(the District Attorney at address 2)": s.da_address,
             "(Name typed or printed_2)": s.full_name,
         }
@@ -430,8 +439,7 @@ class PDF:
         if isinstance(value, list):
             if len(value) == 0:
                 return
-            get_attr = lambda elem: elem.strftime(self.DATE_FORMAT) if isinstance(elem, DateWithFuture) else elem
-            new_value = self.STR_CONNECTOR.join(get_attr(elem) for elem in value if elem)
+            new_value = join_dates_or_strings(value, self.STR_CONNECTOR, self.DATE_FORMAT)
 
         annotation.V = PdfString.encode(new_value)
         self.set_font(annotation)
