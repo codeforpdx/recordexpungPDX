@@ -4,12 +4,11 @@ services:
   expungeservice:
     build:
       context: src/backend
-    image: recordsponge/expungeservice:dev
     volumes:
       - ./src/backend:/src/backend
       - ./src/frontend:/src/frontend
     ports:
-      - "5000:5000"
+      - "5001:5000"
 
   node:
     command: sh -c "cd /src/frontend && npm install && npm start"

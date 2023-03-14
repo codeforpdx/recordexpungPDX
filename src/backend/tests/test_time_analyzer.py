@@ -520,7 +520,6 @@ def test_2_violations_are_time_restricted():
         == violation_charge_2.disposition.date + Time.ONE_YEAR
     )
 
-
 def test_3_violations_are_time_restricted():
     violation_charge_1 = ChargeFactory.create(
         level="Class A Violation",
