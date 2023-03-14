@@ -318,11 +318,18 @@ class PDFFieldMapper(UserDict):
     2. Click on "Prepare Form". This will add all of the form's fields and
        make them available via Root.AcroForm.Fields and the PDF's annotations.
     3. Adjust any fields as necessary, ex. move "(Address)" up to the
-       correct line. Sometimes a AcroForm.Field is created, but no annotation
+       correct line.
+       * Sometimes a AcroForm.Field is created, but no annotation
        is assocated with it, ex "undefined" field that has no label. In this
        case, delete the field and create a new text field via the
-       "Add a new text field" button. Also, if there are fields with the same
-       names, then they wont' get annotations and would need to be renamed.
+       "Add a new text field" button.
+       * If there are fields with the same names, then they wont' get annotations
+       and would need to be renamed.
+       * If adjusting a field after the file has been saved then the field value
+       might not be displayed. Try recreating the field.
+       * When something's not working recreate the field.
+       * If a field is not wide enough, try to increase the height and make it a
+       multiline field (Text Properties > Options.)
     4. Save the PDF.
     """
 
