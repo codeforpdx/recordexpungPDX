@@ -122,7 +122,7 @@ class TestJohnCommonBuildZip:
         addpages_call_args_list = MockPdfWriter.return_value.addpages.call_args_list
         for i, args_list in enumerate(addpages_call_args_list):
             document_id = "document_" + str(i)
-            args, kwargs = args_list
+            args, _ = args_list
             pages = args[0]
             for idx, page in enumerate(pages):
                 for annotation in page.Annots or []:
@@ -243,8 +243,8 @@ class TestWarningsGeneration:
     def mapper_factory(self):
         def factory(has_ineligible_charges=False):
             mapper = MagicMock()
-            dict = {"(has_ineligible_charges)": has_ineligible_charges}
-            mapper.get.side_effect = dict.get
+            setting = {"(has_ineligible_charges)": has_ineligible_charges}
+            mapper.get.side_effect = setting.get
             return mapper
 
         return factory
@@ -611,7 +611,7 @@ class TestBuildDouglasPDF(TestBuildOregonPDF):
 
         assert_pdf_values(pdf, {**all_expected_values, **extra})
 
-    def test_oregon_base_case(self):
+    def test_oregon_base_case(self, case: Mock):
         pass
 
     def test_has_contempt_of_court_and_case_number_with_comments(self, conviction_charge: Mock, pdf_factory: Callable):
@@ -684,8 +684,6 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             "(Zip Code)": "(97111)",
             "(Dismissed Arrest Dates)": "(Apr 1, 2001; Mar 9, 2000)",
             "(Dismissed Charges)": "(A Bad Thing; A Bad Thing)",
-            "(Case Number)": "(base case number)",
-            "(Full Name)": "(foo bar)",
             "(DA Number)": "(DA num 0)",
             "(Full Name---)": "(foo bar)",
         }

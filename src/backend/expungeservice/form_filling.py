@@ -65,8 +65,10 @@ T = TypeVar("T")
 
 
 def join_dates_or_strings(arr=List[T], connector="; ", date_format="%b %-d, %Y") -> str:
-    get_attr = lambda elem: elem.strftime(date_format) if isinstance(elem, DateWithFuture) else elem
-    return connector.join(get_attr(elem) for elem in arr if elem)
+    def date_to_str(elem):
+        return elem.strftime(date_format) if isinstance(elem, DateWithFuture) else elem
+
+    return connector.join(date_to_str(elem) for elem in arr if elem)
 
 
 class Charges:
@@ -91,7 +93,7 @@ class Charges:
     def empty(self) -> bool:
         return len(self._charges) == 0
 
-    def has_any(self, type) -> bool:
+    def has_any(self, class_or_level) -> bool:
         """
         Check whether there are any charges with a certain attribute.
 
@@ -100,12 +102,12 @@ class Charges:
             * class: a charge_type class, ex. FelonyClassC
             * list: a list of strings and/or classes
         """
-        if isinstance(type, str):
-            return any([charge.charge_type.severity_level == type for charge in self._charges])
-        elif isinstance(type, list):
-            return any([self.has_any(a_type) for a_type in type])
+        if isinstance(class_or_level, str):
+            return any([charge.charge_type.severity_level == class_or_level for charge in self._charges])
+        elif isinstance(class_or_level, list):
+            return any([self.has_any(a_type) for a_type in class_or_level])
         else:
-            return any([isinstance(charge.charge_type, type) for charge in self._charges])
+            return any([isinstance(charge.charge_type, class_or_level) for charge in self._charges])
 
     def has_any_with_getter(self, getter: Callable) -> bool:
         """
@@ -273,32 +275,29 @@ class CaseResults(UserInfo):
         return self.convictions.has_any_with_getter(lambda charge: charge.probation_revoked)
 
 
-"""
-https://westhealth.github.io/exploring-fillable-forms-with-pdfrw.html
-https://akdux.com/python/2020/10/31/python-fill-pdf-files/
-https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
+# https://westhealth.github.io/exploring-fillable-forms-with-pdfrw.html
+# https://akdux.com/python/2020/10/31/python-fill-pdf-files/
+# https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
 
-* The PDF fields can be manually named using Acrobat and the source_data
-property can be inferred from the field name. For example, a field labeled
-"Full Name" will be mapped to `source_data.full_name`.
+# * The PDF fields can be manually named using Acrobat and the source_data
+# property can be inferred from the field name. For example, a field labeled
+# "Full Name" will be mapped to `source_data.full_name`.
 
-However, PDF annotation fields should have unique names. So for forms that have repeat
-field names, append `---[unique_character_sequence]` to the field name. Ex:
-"Full Name---2" will also be mapped to `source_data.full_name`. (The `unique_character_sequence`
-does not affect the source_data mapping.)
+# However, PDF annotation fields should have unique names. So for forms that have repeat
+# field names, append `---[unique_character_sequence]` to the field name. Ex:
+# "Full Name---2" will also be mapped to `source_data.full_name`. (The `unique_character_sequence`
+# does not affect the source_data mapping.)
 
-* If a value is not found, the supplementary mapping will be used.
+# * If a value is not found, the supplementary mapping will be used.
 
-* When testing, test in Chrome, Firefox, Safari, Apple Preview and Acrobat Reader.
-Chrome and Firefox seem to have similar behavior while Safari and Apple Preview behvave similarly.
-For example, Apple will show a checked AcroForm checkbox field when an annotation's AP has been set to ""
-while Chrome and Firefox won't.
-
-Note: when printing pdfrw objects to screen during debugging, not all attributes are displayed. Stream objects
-can have many more nested properties.
-"""
+# * When testing, test in Chrome, Firefox, Safari, Apple Preview and Acrobat Reader.
+# Chrome and Firefox seem to have similar behavior while Safari and Apple Preview behvave similarly.
+# For example, Apple will show a checked AcroForm checkbox field when an annotation's AP has been set to ""
+# while Chrome and Firefox won't.
 
 
+# Note: when printing pdfrw objects to screen during debugging, not all attributes are displayed. Stream objects
+# can have many more nested properties.
 class PDFFieldMapper(UserDict):
     STRING_FOR_DUPLICATES = "---"
 
@@ -311,9 +310,10 @@ class PDFFieldMapper(UserDict):
 
     def __getitem__(self, key):
         attr = key[1:-1].lower().replace(" ", "_").split(self.STRING_FOR_DUPLICATES)[0]
-        try:
+
+        if hasattr(self.source_data, attr):
             return getattr(self.source_data, attr)
-        except:
+        else:
             return super().__getitem__(key)
 
     """
@@ -566,7 +566,7 @@ class FormFilling:
         return text
 
     @staticmethod
-    def _build_download_file_path(dir: str, source_data: Union[UserInfo, CaseResults]) -> Tuple[str, str]:
+    def _build_download_file_path(download_dir: str, source_data: Union[UserInfo, CaseResults]) -> Tuple[str, str]:
         if isinstance(source_data, CaseResults):
             base_name = source_data.county.lower()
 
@@ -581,7 +581,7 @@ class FormFilling:
 
         file_name += ".pdf"
 
-        return path.join(dir, file_name), file_name
+        return path.join(download_dir, file_name), file_name
 
     @staticmethod
     def _get_pdf_file_name(source_data: Union[UserInfo, CaseResults]) -> str:
@@ -599,8 +599,8 @@ class FormFilling:
     @staticmethod
     def _create_pdf(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
         file_name = FormFilling._get_pdf_file_name(source_data)
-        dir = path.join(Path(__file__).parent, "files")
-        pdf_path = path.join(dir, file_name)
+        source_dir = path.join(Path(__file__).parent, "files")
+        pdf_path = path.join(source_dir, file_name)
 
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
