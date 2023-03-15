@@ -93,39 +93,6 @@ class ChargesSummarizer:
             return date.max()
 
     @staticmethod
-    def _get_label(charge: Charge, record: Record):
-        this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
-        no_balance = this_case.summary.balance_due_in_cents == 0
-        charge_eligibility = charge.expungement_result.charge_eligibility
-        case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
-        future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
-
-        if charge_eligibility and charge_eligibility.label == "Eligible Now" and case_has_ineligible_charge:
-            if no_balance:
-                return "Eligible on case with Ineligible charge"
-            else:
-                return "Eligible If Balance Paid on case with Ineligible charge"
-
-        if charge_eligibility and charge_eligibility.label == "Eligible Now" and future_eligibility_label_on_case:
-            label = "Eligible on case with charge " + future_eligibility_label_on_case
-            if no_balance:
-                return label
-            else:
-                return label + " If Balance Paid"
-
-        if charge_eligibility:
-            if (
-                charge_eligibility.label == "Needs More Analysis"
-                or charge_eligibility.label == "Ineligible"
-                or no_balance
-            ):
-                return charge_eligibility.label
-            else:
-                return charge_eligibility.label + " If Balance Paid"
-        else:
-            return ""  # TODO: Add error logging because this should be logged as an error
-
-    @staticmethod
     def _get_case_by_case_number(record, case_number):
         for case in record.cases:
             if case_number == case.summary.case_number:
