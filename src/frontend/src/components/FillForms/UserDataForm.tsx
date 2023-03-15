@@ -54,7 +54,7 @@ export default function UserDataForm() {
       "Date Birth format must be mm/dd/yyyy": isPresent(dob) && !isDate(dob),
       "Zip code must lead with five digits":
         isPresent(zipCode) && !isZipCode(zipCode),
-      "Phone number must contain a digit":
+      "Phone number must be a valid number":
         isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
     };
 
@@ -82,6 +82,8 @@ export default function UserDataForm() {
     e.preventDefault();
 
     if (!allInputsValid()) return;
+
+    setErrorMessages([]);
 
     const allFormInputsPresent = [
       name,
