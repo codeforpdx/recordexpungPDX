@@ -42,11 +42,8 @@ class ChargesSummarizer:
             this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
             case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
             future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
-
             label = charge_eligibility.label
-            no_balance = (
-                ChargesSummarizer._get_case_by_case_number(record, charge.case_number).summary.balance_due_in_cents == 0
-            )
+            no_balance = this_case.summary.balance_due_in_cents == 0
 
             if label == "Eligible Now" and case_has_ineligible_charge:
                 if no_balance:
