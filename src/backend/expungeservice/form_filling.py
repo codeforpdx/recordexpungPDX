@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import List, Dict, Tuple, Union, Callable, Optional, TypeVar
+from typing import List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
 
@@ -61,10 +61,8 @@ DA_ADDRESSES = {
     "yamhill": "District Attorney - 535 NE 5th St #117 - McMinnville, OR 97128",
 }
 
-T = TypeVar("T")
 
-
-def join_dates_or_strings(arr=List[T], connector="; ", date_format="%b %-d, %Y") -> str:
+def join_dates_or_strings(arr: List[Union[DateWithFuture, str]], connector: str, date_format: str) -> str:
     def date_to_str(elem):
         return elem.strftime(date_format) if isinstance(elem, DateWithFuture) else elem
 
@@ -384,7 +382,9 @@ class PDFFieldMapper(UserDict):
             "(have sent)": True,
             "(Name typed or printed)": s.full_name,
             "(Address)": join_dates_or_strings(
-                [s.mailing_address, s.city, s.state, s.zip_code, s.phone_number], connector=",    "
+                [s.mailing_address, s.city, s.state, s.zip_code, s.phone_number],
+                connector=",    ",
+                date_format="%b %-d, %Y",
             ),
             "(the District Attorney at address 2)": s.da_address,
             "(Name typed or printed_2)": s.full_name,
