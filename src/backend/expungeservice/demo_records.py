@@ -516,7 +516,6 @@ class DemoRecords:
                         "name": "John Notaperson",
                         "case_number": "555555",
                         "violation_type": "Offense Felony",
-                        "balance_due_in_cents": 5000,
                     },
                 ),
                 charges=(
