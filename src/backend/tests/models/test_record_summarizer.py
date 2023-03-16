@@ -117,19 +117,21 @@ def test_record_summarizer_multiple_cases():
                 ],
             ),
             (
-                "Clackamas 2 – $200.0",
-                [
-                    (
-                        case_partially_eligible.charges[0].ambiguous_charge_id,
-                        "Theft of services (CONVICTED) Charged Jan 1, 2010",
-                    )
-                ],
-            ),
-            (
                 "Baker 3 – $300.0",
                 [
                     (
                         case_possibly_eligible.charges[0].ambiguous_charge_id,
+                        "Theft of services (CONVICTED) Charged Jan 1, 2010",
+                    )
+                ],
+            ),
+        ],
+        "Eligible If Balance Paid on case with Ineligible charge": [
+          (
+                "Clackamas 2 – $200.0",
+                [
+                    (
+                        case_partially_eligible.charges[0].ambiguous_charge_id,
                         "Theft of services (CONVICTED) Charged Jan 1, 2010",
                     )
                 ],
