@@ -13,7 +13,7 @@ class ChargesSummarizer:
         visible_charges = [
             charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary(charge.disposition)
         ]
-        eligible_charges_by_date: Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]] = []
+        eligible_charges_by_date: List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]] = []
         sorted_charges = sorted(
             sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
