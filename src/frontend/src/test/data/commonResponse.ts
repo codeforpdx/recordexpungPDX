@@ -327,59 +327,69 @@ const commonResponse: SearchResponse = {
       },
     },
     summary: {
-      charges_grouped_by_eligibility_and_case: {
-        "Eligible Jan 21, 2026": [
+      charges_grouped_by_eligibility_and_case: [
+        [
+          "Eligible Jan 21, 2026",
           [
-            "",
             [
+              "",
               [
-                "100000-1",
-                "Aggravated Theft in the First Degree (CONVICTED) Charged Sep 9, 2016",
+                [
+                  "100000-1",
+                  "Aggravated Theft in the First Degree (CONVICTED) Charged Sep 9, 2016",
+                ],
               ],
             ],
           ],
         ],
-        "Eligible Now": [
+        [
+          "Eligible Now",
           [
-            "",
             [
+              "",
               [
-                "200000-1",
-                "Obstruction of search warrant (DISMISSED) Charged Sep 9, 2019",
+                [
+                  "200000-1",
+                  "Obstruction of search warrant (DISMISSED) Charged Sep 9, 2019",
+                ],
               ],
             ],
-          ],
-          [
-            "",
             [
+              "",
               [
-                "110000-1",
-                "Theft in the Second Degree (CONVICTED) Charged May 26, 2015",
+                [
+                  "110000-1",
+                  "Theft in the Second Degree (CONVICTED) Charged May 26, 2015",
+                ],
               ],
             ],
-          ],
-          [
-            "",
             [
+              "",
               [
-                "120000-1",
-                "Poss under oz Marijuana (CONVICTED) Charged May 26, 2014",
-              ],
-            ],
-          ],
-        ],
-        "Needs More Analysis": [
-          [
-            "",
-            [
-              [
-                "210000-1",
-                "Poss Controlled Sub (CONVICTED) Charged Nov 16, 2018",
+                [
+                  "120000-1",
+                  "Poss under oz Marijuana (CONVICTED) Charged May 26, 2014",
+                ],
               ],
             ],
           ],
         ],
-      },
+
+        [
+          "Needs More Analysis",
+          [
+            [
+              "",
+              [
+                [
+                  "210000-1",
+                  "Poss Controlled Sub (CONVICTED) Charged Nov 16, 2018",
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
       county_fines: [
         { case_fines: [], county_name: "Baker", total_fines_due: 0 },
         { case_fines: [], county_name: "Benton", total_fines_due: 0 },

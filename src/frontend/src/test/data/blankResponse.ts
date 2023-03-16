@@ -7,7 +7,7 @@ const blankResponse: SearchResponse = {
     questions: {},
     summary: {
       total_charges: 0,
-      charges_grouped_by_eligibility_and_case: { "Eligible Now": [] },
+      charges_grouped_by_eligibility_and_case: [["Eligible Now", []]],
       county_fines: [],
       total_fines_due: 0,
       total_cases: 0,

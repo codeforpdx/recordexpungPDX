@@ -13,7 +13,7 @@ class ChargesSummarizer:
         visible_charges = [
             charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary(charge.disposition)
         ]
-        eligible_charges_by_date: Dict[str, List[Tuple[str, List[Tuple[str, str]]]]] = {}
+        eligible_charges_by_date: Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]] = []
         sorted_charges = sorted(
             sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
@@ -32,7 +32,7 @@ class ChargesSummarizer:
                     if case_charge.edit_status != EditStatus.DELETE
                 ]
                 charges_in_section.append((case_info_line, charges_tuples))
-            eligible_charges_by_date[label] = charges_in_section
+            eligible_charges_by_date.append((label, charges_in_section))
         return eligible_charges_by_date
 
     @staticmethod
@@ -52,11 +52,11 @@ class ChargesSummarizer:
                     return 9, "Eligible If Balance Paid on case with Ineligible charge"
 
             if label == "Eligible Now" and future_eligibility_label_on_case:
-                label = "Eligible on case with charge " + future_eligibility_label_on_case
+                label = future_eligibility_label_on_case
                 if no_balance:
-                    return 10, label
+                    return 6, label
                 else:
-                    return 11, label + " If Balance Paid"
+                    return 7, label + " If Balance Paid"
 
             if label == "Needs More Analysis":
                 return 0, label
