@@ -57,7 +57,6 @@ If the above assumptions are not true for you and you would like an updated anal
     @staticmethod
     def _build_listed_charges(eligible_case_charges_tuples: List[Tuple[str, List[Tuple[str, str]]]]) -> str:
         listed_charges = ""
-        print("build...", eligible_case_charges_tuples)
         for case_info, charges_info in eligible_case_charges_tuples:
             if case_info:
                 listed_charges += f" - {case_info} \n"
