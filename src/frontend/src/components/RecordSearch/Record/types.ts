@@ -57,7 +57,7 @@ export interface RecordData {
 
 export interface RecordSummaryData {
   total_charges: number;
-  charges_grouped_by_eligibility_and_case: { [label: string]: any[] };
+  charges_grouped_by_eligibility_and_case: [string, any[]][];
   county_fines: CountyFinesData[];
   total_fines_due: number;
   total_cases: number;
