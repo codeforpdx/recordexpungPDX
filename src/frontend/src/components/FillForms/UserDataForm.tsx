@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
 import { selectSearchFormValues } from "../../redux/searchFormSlice";
-import { isBlank, isDate, objectToArray } from "../../service/validators";
+import { isBlank, objectToArray } from "../../service/validators";
 import { Redirect } from "react-router-dom";
 
 const isPresent = (str: string) => !isBlank(str);
@@ -51,10 +51,9 @@ export default function UserDataForm() {
 
   function allInputsValid() {
     const errorMessages = {
-      "Date Birth format must be mm/dd/yyyy": isPresent(dob) && !isDate(dob),
       "Zip code must lead with five digits":
         isPresent(zipCode) && !isZipCode(zipCode),
-      "Phone number must be a valid number":
+      "Phone number must be a valid 10 digit number":
         isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
     };
 
