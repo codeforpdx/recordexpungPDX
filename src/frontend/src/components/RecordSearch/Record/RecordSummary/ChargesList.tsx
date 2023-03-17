@@ -18,7 +18,7 @@ interface EligibilityGroupProps {
 }
 
 interface ChargeListProps {
-  chargesGroupedByEligibilityAndCase: { [label: string]: any[] };
+  chargesGroupedByEligibilityAndCase: [string, any[]][];
   totalCharges: number;
 }
 
@@ -101,7 +101,7 @@ export default function ChargesList({
         <p className="f6 fw5 pt1">Excludes traffic violations</p>
       </h3>
 
-      {Object.entries(chargesGroupedByEligibilityAndCase).map(
+      {chargesGroupedByEligibilityAndCase.map(
         ([eligibility, headerAndCharges]) => {
           return (
             <EligibilityGroup

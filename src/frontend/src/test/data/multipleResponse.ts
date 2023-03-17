@@ -273,34 +273,40 @@ const multipleResponse: SearchResponse = {
     errors: [],
     questions: {},
     summary: {
-      charges_grouped_by_eligibility_and_case: {
-        "Eligible Now": [
+      charges_grouped_by_eligibility_and_case: [
+        [
+          "Eligible Now",
           [
-            "",
             [
+              "",
               [
-                "110000-1",
-                "Theft in the Third Degree (DISMISSED) Charged Jan 21, 2022",
+                [
+                  "110000-1",
+                  "Theft in the Third Degree (DISMISSED) Charged Jan 21, 2022",
+                ],
               ],
             ],
           ],
         ],
-        "Eligible Now If Balance Paid": [
+        [
+          "Eligible Now If Balance Paid",
           [
-            "Baker 100000 \u2013 $1000.0",
             [
+              "Baker 100000 \u2013 $1000.0",
               [
-                "100000-1",
-                "Disorderly Conduct in the First Degree (CONVICTED) Charged Jan 21, 2019",
-              ],
-              [
-                "100000-2",
-                "Disorderly Conduct in the Second Degree (DISMISSED) Charged Jan 21, 2019",
+                [
+                  "100000-1",
+                  "Disorderly Conduct in the First Degree (CONVICTED) Charged Jan 21, 2019",
+                ],
+                [
+                  "100000-2",
+                  "Disorderly Conduct in the Second Degree (DISMISSED) Charged Jan 21, 2019",
+                ],
               ],
             ],
           ],
         ],
-      },
+      ],
       county_fines: [
         {
           case_fines: [{ balance: 1000.0, case_number: "100000" }],
