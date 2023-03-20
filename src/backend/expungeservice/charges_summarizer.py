@@ -45,18 +45,31 @@ class ChargesSummarizer:
             label = charge_eligibility.label
             no_balance = this_case.summary.balance_due_in_cents == 0
 
+            '''
+            Order is:
+            0 Needs More Analysis
+            1 Ineligible
+            2 Eligible Now
+            3 Eligible on case with Ineligible charge
+            4 Eligible Now If Balance Paid
+            5 Eligible If Balance Paid on case with Ineligible charge
+            6 Eligible Now Or Future Eligible
+            7 Eligible Now Or Future Eligible If Balance Paid
+            8 Future Eligible
+            9 Future Eligible If Balance Paid
+            '''
             if label == "Eligible Now" and case_has_ineligible_charge:
                 if no_balance:
-                    return 8, "Eligible on case with Ineligible charge"
+                    return 3, "Eligible on case with Ineligible charge"
                 else:
-                    return 9, "Eligible If Balance Paid on case with Ineligible charge"
+                    return 5, "Eligible If Balance Paid on case with Ineligible charge"
 
             if label == "Eligible Now" and future_eligibility_label_on_case:
                 label = future_eligibility_label_on_case
                 if no_balance:
-                    return 6, label
+                    return 8, label
                 else:
-                    return 7, label + " If Balance Paid"
+                    return 9, label + " If Balance Paid"
 
             if label == "Needs More Analysis":
                 return 0, label
@@ -66,17 +79,17 @@ class ChargesSummarizer:
                 if no_balance:
                     return 2, label
                 else:
-                    return 3, label + " If Balance Paid"
+                    return 4, label + " If Balance Paid"
             elif "Eligible Now" in label:
-                if no_balance:
-                    return 4, label
-                else:
-                    return 5, label + " If Balance Paid"
-            else:
                 if no_balance:
                     return 6, label
                 else:
                     return 7, label + " If Balance Paid"
+            else:
+                if no_balance:
+                    return 8, label
+                else:
+                    return 9, label + " If Balance Paid"
         else:
             return 0, ""
 
