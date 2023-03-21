@@ -5,12 +5,10 @@ import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
 import { selectSearchFormValues } from "../../redux/searchFormSlice";
-import { isBlank, objectToArray } from "../../service/validators";
+import { isBlank } from "../../service/validators";
 import { Redirect } from "react-router-dom";
 
 const isPresent = (str: string) => !isBlank(str);
-
-const errorMessagesObjectToArray = (obj: object) => objectToArray(obj);
 
 const isPhoneNumber = (str: string) => {
   //the phone RegEx accepts the following formats (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, (123)-456-7890
@@ -46,10 +44,10 @@ export default function UserDataForm() {
     fullName += middle_name ? middle_name + " " : "";
     fullName += last_name;
 
-    return fullName.includes("*") ? "" : fullName || " ";
+    return fullName.includes("*") ? "" : fullName;
   }
 
-  function allInputsValid() {
+  function inputsMeetCriteriaAndSetErrors() {
     const errorMessages = {
       "Zip code must lead with five digits":
         isPresent(zipCode) && !isZipCode(zipCode),
@@ -57,9 +55,17 @@ export default function UserDataForm() {
         isPresent(phoneNumber) && !isPhoneNumber(phoneNumber),
     };
 
-    if (errorMessagesObjectToArray(errorMessages).length === 0) return true;
+    const newErrorMessages = Object.entries(errorMessages).reduce(
+      (array, [message, shouldShow]) => {
+        if (shouldShow) array.push(message);
+        return array;
+      },
+      [] as string[]
+    );
 
-    setErrorMessages(errorMessagesObjectToArray(errorMessages));
+    if (newErrorMessages.length === 0) return true;
+
+    setErrorMessages(newErrorMessages);
     return false;
   }
 
@@ -80,7 +86,7 @@ export default function UserDataForm() {
   function handleSubmit(e: React.BaseSyntheticEvent) {
     e.preventDefault();
 
-    if (!allInputsValid()) return;
+    if (!inputsMeetCriteriaAndSetErrors()) return;
 
     setErrorMessages([]);
 

@@ -36,7 +36,7 @@ exports[`renders correctly on initial display 1`] = `
             name="name"
             required=""
             type="text"
-            value=" "
+            value=""
           />
         </div>
         <div
