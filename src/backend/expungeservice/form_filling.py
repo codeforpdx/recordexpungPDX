@@ -18,6 +18,7 @@ from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorCl
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.violation import Violation
+from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.util import DateWithFuture
@@ -233,8 +234,21 @@ class CaseResults(UserInfo):
         return not self.eligible_charges.empty
 
     @property
+    def has_future_eligible_charges(self) -> bool:
+        return (
+            len(
+                [
+                    c
+                    for c in self.ineligible_charges._charges
+                    if c.expungement_result.charge_eligibility and c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+                ]
+            )
+            > 0
+        )
+
+    @property
     def is_expungeable_now(self) -> bool:
-        return self.has_eligible_charges and self.has_no_balance
+        return self.has_eligible_charges and self.has_no_balance and not self.has_future_eligible_charges
 
     ##### Ineligible charges #####
 

@@ -2167,7 +2167,7 @@ exports[`the nav checkbox that hides traffic charges works 1`] = `
                 name="name"
                 required=""
                 type="text"
-                value=" "
+                value=""
               />
             </div>
             <div
@@ -4708,7 +4708,7 @@ exports[`the show colors option works 1`] = `
                 name="name"
                 required=""
                 type="text"
-                value=" "
+                value=""
               />
             </div>
             <div
@@ -7249,7 +7249,7 @@ exports[`the show colors option works 2`] = `
                 name="name"
                 required=""
                 type="text"
-                value=" "
+                value=""
               />
             </div>
             <div
@@ -9887,7 +9887,7 @@ exports[`the summary checkbox that hides traffic charges works 1`] = `
                 name="name"
                 required=""
                 type="text"
-                value=" "
+                value=""
               />
             </div>
             <div

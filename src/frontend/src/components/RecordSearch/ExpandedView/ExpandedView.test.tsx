@@ -2,7 +2,11 @@ import React from "react";
 import "@testing-library/jest-dom";
 import axios from "axios";
 import { screen } from "@testing-library/react";
-import { setupUserAndRender, clickButton } from "../../../test/testHelpers";
+import {
+  setupUserAndRender,
+  clickButton,
+  fillExpungementPacketForm,
+} from "../../../test/testHelpers";
 import ExpandedView from ".";
 
 function setup(showColor = true) {
@@ -48,6 +52,10 @@ test("the button to download the summary PDF works", async () => {
 
 test("the button to download the expungement packet works", async () => {
   const { user, requestSpy } = setup();
+
+  await user.click(screen.getByLabelText(/full name/i));
+  await user.keyboard("username");
+  await fillExpungementPacketForm(user);
 
   await clickButton(user, "download packet");
   expect(requestSpy).toHaveBeenCalled();

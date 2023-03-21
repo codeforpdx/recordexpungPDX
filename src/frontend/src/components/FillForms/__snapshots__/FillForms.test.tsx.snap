@@ -1,625 +1,477 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<main
-  className="mw8 center f6 f5-l ph3 pt4 pb6"
->
-  <h1
-    className="f3 f2-l fw9 mb4"
+exports[`renders correctly on initial display 1`] = `
+<DocumentFragment>
+  <main
+    class="mw6"
   >
-    Generate Expungement Forms
-  </h1>
-  <div
-    className="flex-l pt2"
-  >
-    <div
-      className="w-50-l pr4-l mb4"
+    <section
+      class="cf pa3 pa4-ns bg-white shadow br3"
     >
-      <section
-        className="mw6 lh-copy"
+      <h1
+        class="f4 fw7 mt0 mb4"
       >
-        <p
-          className="mb3"
-        >
-          This will fill and download the required paperwork forms as PDF files for all cases that have charges eligible for expungement.
-        </p>
-        <p
-          className="mb3"
-        >
-          It includes cases that have an outstanding balance. These balances must be paid off before filing the paperwork. Consult the section on
-           
-          <a
-            className="link bb hover-dark-blue"
-            href="/manual#paybalances"
-            onClick={[Function]}
-          >
-            paying balances
-          </a>
-           
-          in the Manual.
-        </p>
-        <p
-          className="mb3"
-        >
-          On this page, you may optionally provide the person's name, address, and other information and it will be used to populate the forms. It is not required if you would prefer to fill out the information later, and we do not save any of this information.
-        </p>
-        <p
-          className="mb2"
-        >
-          The following required information is obtained from OECI and will be provided in the form:
-        </p>
-        <ol
-          className="pl4 mb3"
-        >
-          <li>
-            Case number
-          </li>
-          <li>
-            Names of charges
-          </li>
-          <li>
-            Dates of arrest
-          </li>
-          <li>
-            Dates of conviction or dismissal
-          </li>
-        </ol>
-        <p
-          className="mb2"
-        >
-          The following information might be missing from OECI. If it's available, it will be provided in the form. If it is not present in OECI, some of the information may or may not be required in the application; please consult the
-           
-          <a
-            className="link hover-dark-blue bb"
-            href="/manual#file"
-            onClick={[Function]}
-          >
-            Manual
-          </a>
-          .
-        </p>
-        <ol
-          className="pl4 mb3"
-        >
-          <li>
-            Arresting Agency
-          </li>
-          <li>
-            DA Number
-          </li>
-        </ol>
-        <p
-          className="mb3"
-        >
-          The form that is filled out for each case is selected based on the 
-          <strong>
-            County
-          </strong>
-           information for that case.
-        </p>
-        <p
-          className="mb3"
-        >
-          RecordSponge supports automatic form-filling for all the counties in our
-           
-          <a
-            className="link hover-dark-blue bb"
-            href="/appendix"
-            onClick={[Function]}
-          >
-            appendix
-          </a>
-          , and will use the Stock Form for those not listed.
-        </p>
-        <p
-          className="mb3"
-        >
-          Please read the complete instructions in the
-           
-          <a
-            className="link hover-dark-blue bb"
-            href="/manual#file"
-            onClick={[Function]}
-          >
-            Manual
-          </a>
-           
-          for filing the required forms for expungement. After downloading the PDFs, review their contents to verify that all the required information is present and correct.
-        </p>
-      </section>
-    </div>
-    <div
-      className="w-50-l pl4-l"
-    >
-      <div
-        className="mw6"
+        User Information
+      </h1>
+      <form
+        novalidate=""
       >
-        <section
-          className="lh-copy"
+        <legend
+          class="visually-hidden"
         >
-          <main
-            className="mw6"
+          User Information
+        </legend>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1 fw6"
+            for="name"
           >
-            <section
-              className="cf pa3 pa4-ns bg-white shadow br3"
+            Full Name
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="name"
+            name="name"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1"
+            for="dob"
+          >
+            <span
+              class="fw6"
             >
-              <h1
-                className="f4 fw7 mt0 mb4"
-              >
-                User Information
-              </h1>
-              <form
-                noValidate={true}
-                onSubmit={[Function]}
-              >
-                <legend
-                  className="visually-hidden"
-                >
-                  User Information
-                </legend>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1 fw6"
-                    htmlFor="name"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="name"
-                    name="name"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=" "
-                  />
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1"
-                    htmlFor="dob"
-                  >
-                    <span
-                      className="fw6"
-                    >
-                       Date of Birth 
-                    </span>
-                     
-                    <span
-                      className="fw2"
-                    >
-                      mm/dd/yyyy 
-                    </span>
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="dob"
-                    name="dob"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1 fw6"
-                    htmlFor="mailingAddress"
-                  >
-                    Mailing Street Address
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="mailingAddress"
-                    name="mailingAddress"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1 fw6"
-                    htmlFor="city"
-                  >
-                    City
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="city"
-                    name="city"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1 fw6"
-                    htmlFor="state"
-                  >
-                    State
-                  </label>
-                  <div
-                    className="relative"
-                  >
-                    <select
-                      className="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
-                      id="state"
-                      name="state"
-                      onChange={[Function]}
-                      required={true}
-                      value=""
-                    >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="Alabama"
-                      >
-                        Alabama
-                      </option>
-                      <option
-                        value="Alaska"
-                      >
-                        Alaska
-                      </option>
-                      <option
-                        value="American Samoa"
-                      >
-                        American Samoa
-                      </option>
-                      <option
-                        value="Arizona"
-                      >
-                        Arizona
-                      </option>
-                      <option
-                        value="Arkansas"
-                      >
-                        Arkansas
-                      </option>
-                      <option
-                        value="California"
-                      >
-                        California
-                      </option>
-                      <option
-                        value="Colorado"
-                      >
-                        Colorado
-                      </option>
-                      <option
-                        value="Connecticut"
-                      >
-                        Connecticut
-                      </option>
-                      <option
-                        value="Delaware"
-                      >
-                        Delaware
-                      </option>
-                      <option
-                        value="District Of Columbia"
-                      >
-                        District Of Columbia
-                      </option>
-                      <option
-                        value="Florida"
-                      >
-                        Florida
-                      </option>
-                      <option
-                        value="Georgia"
-                      >
-                        Georgia
-                      </option>
-                      <option
-                        value="Guam"
-                      >
-                        Guam
-                      </option>
-                      <option
-                        value="Hawaii"
-                      >
-                        Hawaii
-                      </option>
-                      <option
-                        value="Idaho"
-                      >
-                        Idaho
-                      </option>
-                      <option
-                        value="Illinois"
-                      >
-                        Illinois
-                      </option>
-                      <option
-                        value="Indiana"
-                      >
-                        Indiana
-                      </option>
-                      <option
-                        value="Iowa"
-                      >
-                        Iowa
-                      </option>
-                      <option
-                        value="Kansas"
-                      >
-                        Kansas
-                      </option>
-                      <option
-                        value="Kentucky"
-                      >
-                        Kentucky
-                      </option>
-                      <option
-                        value="Louisiana"
-                      >
-                        Louisiana
-                      </option>
-                      <option
-                        value="Maine"
-                      >
-                        Maine
-                      </option>
-                      <option
-                        value="Maryland"
-                      >
-                        Maryland
-                      </option>
-                      <option
-                        value="Massachusetts"
-                      >
-                        Massachusetts
-                      </option>
-                      <option
-                        value="Michigan"
-                      >
-                        Michigan
-                      </option>
-                      <option
-                        value="Minnesota"
-                      >
-                        Minnesota
-                      </option>
-                      <option
-                        value="Mississippi"
-                      >
-                        Mississippi
-                      </option>
-                      <option
-                        value="Missouri"
-                      >
-                        Missouri
-                      </option>
-                      <option
-                        value="Montana"
-                      >
-                        Montana
-                      </option>
-                      <option
-                        value="Nebraska"
-                      >
-                        Nebraska
-                      </option>
-                      <option
-                        value="Nevada"
-                      >
-                        Nevada
-                      </option>
-                      <option
-                        value="New Hampshire"
-                      >
-                        New Hampshire
-                      </option>
-                      <option
-                        value="New Jersey"
-                      >
-                        New Jersey
-                      </option>
-                      <option
-                        value="New Mexico"
-                      >
-                        New Mexico
-                      </option>
-                      <option
-                        value="New York"
-                      >
-                        New York
-                      </option>
-                      <option
-                        value="North Carolina"
-                      >
-                        North Carolina
-                      </option>
-                      <option
-                        value="North Dakota"
-                      >
-                        North Dakota
-                      </option>
-                      <option
-                        value="Northern Mariana Islands"
-                      >
-                        Northern Mariana Islands
-                      </option>
-                      <option
-                        value="Ohio"
-                      >
-                        Ohio
-                      </option>
-                      <option
-                        value="Oklahoma"
-                      >
-                        Oklahoma
-                      </option>
-                      <option
-                        value="Oregon"
-                      >
-                        Oregon
-                      </option>
-                      <option
-                        value="Pennsylvania"
-                      >
-                        Pennsylvania
-                      </option>
-                      <option
-                        value="Puerto Rico"
-                      >
-                        Puerto Rico
-                      </option>
-                      <option
-                        value="Rhode Island"
-                      >
-                        Rhode Island
-                      </option>
-                      <option
-                        value="South Carolina"
-                      >
-                        South Carolina
-                      </option>
-                      <option
-                        value="South Dakota"
-                      >
-                        South Dakota
-                      </option>
-                      <option
-                        value="Tennessee"
-                      >
-                        Tennessee
-                      </option>
-                      <option
-                        value="Texas"
-                      >
-                        Texas
-                      </option>
-                      <option
-                        value="United States Minor Outlying Islands"
-                      >
-                        United States Minor Outlying Islands
-                      </option>
-                      <option
-                        value="Utah"
-                      >
-                        Utah
-                      </option>
-                      <option
-                        value="Vermont"
-                      >
-                        Vermont
-                      </option>
-                      <option
-                        value="Virgin Islands"
-                      >
-                        Virgin Islands
-                      </option>
-                      <option
-                        value="Virginia"
-                      >
-                        Virginia
-                      </option>
-                      <option
-                        value="Washington"
-                      >
-                        Washington
-                      </option>
-                      <option
-                        value="West Virginia"
-                      >
-                        West Virginia
-                      </option>
-                      <option
-                        value="Wisconsin"
-                      >
-                        Wisconsin
-                      </option>
-                      <option
-                        value="Wyoming"
-                      >
-                        Wyoming
-                      </option>
-                    </select>
-                    <div
-                      className="absolute pa3 right-0 top-0 bottom-0 pointer-events-none"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="fas fa-angle-down"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1 fw6"
-                    htmlFor="zipCode"
-                  >
-                    Zip code
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="zipCode"
-                    name="zipCode"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div
-                  className="mb4"
-                >
-                  <label
-                    className="db mb1"
-                    htmlFor="phoneNumber"
-                  >
-                    <span
-                      className="fw6"
-                    >
-                       Phone Number 
-                    </span>
-                     
-                  </label>
-                  <input
-                    className="w-100 pa3 br2 b--black-20"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    onChange={[Function]}
-                    required={true}
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <button
-                  className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
-                >
-                  Download Expungement Packet
-                </button>
-              </form>
-              <div
-                className="black-70 w-100"
-                role="alert"
+               Date of Birth 
+            </span>
+             
+            <span
+              class="fw2"
+            >
+              mm/dd/yyyy 
+            </span>
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="dob"
+            name="dob"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1 fw6"
+            for="mailingAddress"
+          >
+            Mailing Street Address
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="mailingAddress"
+            name="mailingAddress"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1 fw6"
+            for="city"
+          >
+            City
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="city"
+            name="city"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1 fw6"
+            for="state"
+          >
+            State
+          </label>
+          <div
+            class="relative"
+          >
+            <select
+              class="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
+              id="state"
+              name="state"
+              required=""
+            >
+              <option
+                value=""
               />
-            </section>
-          </main>
-        </section>
-      </div>
-    </div>
-  </div>
-</main>
+              <option
+                value="Alabama"
+              >
+                Alabama
+              </option>
+              <option
+                value="Alaska"
+              >
+                Alaska
+              </option>
+              <option
+                value="American Samoa"
+              >
+                American Samoa
+              </option>
+              <option
+                value="Arizona"
+              >
+                Arizona
+              </option>
+              <option
+                value="Arkansas"
+              >
+                Arkansas
+              </option>
+              <option
+                value="California"
+              >
+                California
+              </option>
+              <option
+                value="Colorado"
+              >
+                Colorado
+              </option>
+              <option
+                value="Connecticut"
+              >
+                Connecticut
+              </option>
+              <option
+                value="Delaware"
+              >
+                Delaware
+              </option>
+              <option
+                value="District Of Columbia"
+              >
+                District Of Columbia
+              </option>
+              <option
+                value="Florida"
+              >
+                Florida
+              </option>
+              <option
+                value="Georgia"
+              >
+                Georgia
+              </option>
+              <option
+                value="Guam"
+              >
+                Guam
+              </option>
+              <option
+                value="Hawaii"
+              >
+                Hawaii
+              </option>
+              <option
+                value="Idaho"
+              >
+                Idaho
+              </option>
+              <option
+                value="Illinois"
+              >
+                Illinois
+              </option>
+              <option
+                value="Indiana"
+              >
+                Indiana
+              </option>
+              <option
+                value="Iowa"
+              >
+                Iowa
+              </option>
+              <option
+                value="Kansas"
+              >
+                Kansas
+              </option>
+              <option
+                value="Kentucky"
+              >
+                Kentucky
+              </option>
+              <option
+                value="Louisiana"
+              >
+                Louisiana
+              </option>
+              <option
+                value="Maine"
+              >
+                Maine
+              </option>
+              <option
+                value="Maryland"
+              >
+                Maryland
+              </option>
+              <option
+                value="Massachusetts"
+              >
+                Massachusetts
+              </option>
+              <option
+                value="Michigan"
+              >
+                Michigan
+              </option>
+              <option
+                value="Minnesota"
+              >
+                Minnesota
+              </option>
+              <option
+                value="Mississippi"
+              >
+                Mississippi
+              </option>
+              <option
+                value="Missouri"
+              >
+                Missouri
+              </option>
+              <option
+                value="Montana"
+              >
+                Montana
+              </option>
+              <option
+                value="Nebraska"
+              >
+                Nebraska
+              </option>
+              <option
+                value="Nevada"
+              >
+                Nevada
+              </option>
+              <option
+                value="New Hampshire"
+              >
+                New Hampshire
+              </option>
+              <option
+                value="New Jersey"
+              >
+                New Jersey
+              </option>
+              <option
+                value="New Mexico"
+              >
+                New Mexico
+              </option>
+              <option
+                value="New York"
+              >
+                New York
+              </option>
+              <option
+                value="North Carolina"
+              >
+                North Carolina
+              </option>
+              <option
+                value="North Dakota"
+              >
+                North Dakota
+              </option>
+              <option
+                value="Northern Mariana Islands"
+              >
+                Northern Mariana Islands
+              </option>
+              <option
+                value="Ohio"
+              >
+                Ohio
+              </option>
+              <option
+                value="Oklahoma"
+              >
+                Oklahoma
+              </option>
+              <option
+                value="Oregon"
+              >
+                Oregon
+              </option>
+              <option
+                value="Pennsylvania"
+              >
+                Pennsylvania
+              </option>
+              <option
+                value="Puerto Rico"
+              >
+                Puerto Rico
+              </option>
+              <option
+                value="Rhode Island"
+              >
+                Rhode Island
+              </option>
+              <option
+                value="South Carolina"
+              >
+                South Carolina
+              </option>
+              <option
+                value="South Dakota"
+              >
+                South Dakota
+              </option>
+              <option
+                value="Tennessee"
+              >
+                Tennessee
+              </option>
+              <option
+                value="Texas"
+              >
+                Texas
+              </option>
+              <option
+                value="United States Minor Outlying Islands"
+              >
+                United States Minor Outlying Islands
+              </option>
+              <option
+                value="Utah"
+              >
+                Utah
+              </option>
+              <option
+                value="Vermont"
+              >
+                Vermont
+              </option>
+              <option
+                value="Virgin Islands"
+              >
+                Virgin Islands
+              </option>
+              <option
+                value="Virginia"
+              >
+                Virginia
+              </option>
+              <option
+                value="Washington"
+              >
+                Washington
+              </option>
+              <option
+                value="West Virginia"
+              >
+                West Virginia
+              </option>
+              <option
+                value="Wisconsin"
+              >
+                Wisconsin
+              </option>
+              <option
+                value="Wyoming"
+              >
+                Wyoming
+              </option>
+            </select>
+            <div
+              class="absolute pa3 right-0 top-0 bottom-0 pointer-events-none"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-angle-down"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1 fw6"
+            for="zipCode"
+          >
+            Zip code
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="zipCode"
+            name="zipCode"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="mb4"
+        >
+          <label
+            class="db mb1"
+            for="phoneNumber"
+          >
+            <span
+              class="fw6"
+            >
+               Phone Number 
+            </span>
+             
+          </label>
+          <input
+            class="w-100 pa3 br2 b--black-20"
+            id="phoneNumber"
+            name="phoneNumber"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <button
+          class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
+        >
+          Download Expungement Packet
+        </button>
+      </form>
+      <div
+        class="black-70 w-100"
+        role="alert"
+      />
+    </section>
+  </main>
+</DocumentFragment>
 `;

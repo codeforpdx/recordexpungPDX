@@ -20,7 +20,8 @@ class CountyFines:
         return round(sum([case_fines.balance for case_fines in self.case_fines]), 2)
 
 
-ChargesForSummaryPanel = Dict[str, List[Tuple[str,List[Tuple[str, str]]]]]
+ChargesForSummaryPanel = List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]]
+
 
 @dataclass
 class RecordSummary:

@@ -69,29 +69,36 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _gen_eligible_charges_block(record):
-        eligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Eligible Now")
-        if eligible_case_charges_tuples:
-            listed_charges = MarkdownSerializer._build_listed_charges(eligible_case_charges_tuples)
+        eligible_case_charges_tuples = [
+            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"
+        ]
+        if len(eligible_case_charges_tuples) > 0:
+            listed_charges = MarkdownSerializer._build_listed_charges(eligible_case_charges_tuples[0][1])
         else:
             listed_charges = "You are not currently eligible to expunge any charges."
         return "## Charges Eligible Now  \n" + listed_charges + "  \n"
 
     @staticmethod
     def _gen_eligible_charges_if_balance_paid_block(record):
-        eligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get(
-            "Eligible Now If Balance Paid"
-        )
-        if eligible_case_charges_tuples:
-            listed_charges = MarkdownSerializer._build_listed_charges(eligible_case_charges_tuples)
+        eligible_case_charges_tuples = [
+            x
+            for x in record["summary"]["charges_grouped_by_eligibility_and_case"]
+            if x[0] == "Eligible Now If Balance Paid"
+        ]
+
+        if len(eligible_case_charges_tuples) > 0:
+            listed_charges = MarkdownSerializer._build_listed_charges(eligible_case_charges_tuples[0][1])
             return f"## Charges Eligible Now If Balance Paid  \nThese convictions are eligible as soon as the balance of fines on the case is paid.  \n\n{listed_charges}  \n"
         else:
             return ""
 
     @staticmethod
     def _gen_ineligible_charges_block(record):
-        ineligible_case_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get("Ineligible")
-        if ineligible_case_charges_tuples:
-            listed_charges = MarkdownSerializer._build_listed_charges(ineligible_case_charges_tuples)
+        ineligible_case_charges_tuples = [
+            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Ineligible"
+        ]
+        if len(ineligible_case_charges_tuples) > 0:
+            listed_charges = MarkdownSerializer._build_listed_charges(ineligible_case_charges_tuples[0][1])
             return f"## Ineligible Charges  \nThese convictions are not eligible for expungement at any time under the current law.  \n\n{listed_charges}  \n"
         else:
             return ""
@@ -100,8 +107,8 @@ If the above assumptions are not true for you and you would like an updated anal
     def _gen_future_eligible_block(record):
         eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
-            (key, eligible_charges_by_date[key])
-            for key in eligible_charges_by_date.keys()
+            (key, eligible_charges_for_date)
+            for key, eligible_charges_for_date in eligible_charges_by_date
             if key not in ["Eligible Now", "Ineligible", "Needs More Analysis", "Eligible Now If Balance Paid"]
         ]
         if future_eligible_charges:
@@ -128,12 +135,12 @@ If the above assumptions are not true for you and you would like an updated anal
 
     @staticmethod
     def _gen_needs_more_analysis_block(record):
-        needs_more_analysis_charges_tuples = record["summary"]["charges_grouped_by_eligibility_and_case"].get(
-            "Needs More Analysis"
-        )
-        if needs_more_analysis_charges_tuples:
+        needs_more_analysis_charges_tuples = [
+            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Needs More Analysis"
+        ]
+        if len(needs_more_analysis_charges_tuples) > 0:
             text_block = "## Charges Needing More Analysis  \nAdditionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.  \n\n"
-            listed_charges = MarkdownSerializer._build_listed_charges(needs_more_analysis_charges_tuples)
+            listed_charges = MarkdownSerializer._build_listed_charges(needs_more_analysis_charges_tuples[0][1])
             text_block += listed_charges + "  \n\n"
             return text_block
         else:

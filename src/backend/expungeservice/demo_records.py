@@ -360,83 +360,6 @@ class DemoRecords:
                 ),
             ),
         ],
-        Alias("portland", "protester", "", ""): [
-            OeciCase(
-                summary=from_dict(
-                    data_class=CaseSummary,
-                    data={
-                        **shared_case_data,
-                        "current_status": "Open",
-                        "name": "DEFUND POLICE",
-                        "case_number": "100000",
-                        "violation_type": "Offense Misdemeanor",
-                    },
-                ),
-                charges=(
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-1",
-                            "name": "Assaulting a Public Safety Officer",
-                            "statute": "163.208",
-                            "level": "Felony Class C",
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-3",
-                            "name": "Interfering w/ Peace/Parole and Probation Officer",
-                            "statute": "162.247",
-                            "level": "Misdemeanor Class A",
-                            "date": date_class.today() + relativedelta(days=1),
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-4",
-                            "name": "Disorderly Conduct in the First Degree",
-                            "statute": "166.0232A",
-                            "level": "Misdemeanor Class A",
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-5",
-                            "name": "Resisting Arrest",
-                            "statute": "162.315",
-                            "level": "Misdemeanor Class A",
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-6",
-                            "name": "Riot",
-                            "statute": "166.015",
-                            "level": "Felony Class C",
-                        },
-                    ),
-                    from_dict(
-                        data_class=OeciCharge,
-                        data={
-                            **shared_charge_data,
-                            "ambiguous_charge_id": "100000-7",
-                            "name": "Riot While Masked",
-                            "statute": "166.015A",
-                            "level": "Felony Class B",
-                        },
-                    ),
-                ),
-            ),
-        ],
         Alias("more", "categories", "", ""): [
             OeciCase(
                 summary=from_dict(
@@ -509,6 +432,20 @@ class DemoRecords:
                             ),
                         },
                     ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "234567-2",
+                            "name": "Assaulting a Public Safety Officer",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Dismissed"
+                            ),
+                        },
+                    ),
                 ),
             ),
             OeciCase(
@@ -565,6 +502,50 @@ class DemoRecords:
                                 date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
                             ),
                             "balance_due_in_cents": 50000,
+                        },
+                    ),
+                ),
+            ),
+            # Has an eligible and an ineligible charge
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "555555",
+                        "violation_type": "Offense Felony",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "555555-1",
+                            "name": "Assault in the First Degree",
+                            "statute": "999999",
+                            "level": "Felony Class A",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 0,
+                        },
+                    ),
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "555555-2",
+                            "name": "Harassment",
+                            "statute": "163.208",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=5),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=4, months=9), ruling="Dismissed"
+                            ),
                         },
                     ),
                 ),
