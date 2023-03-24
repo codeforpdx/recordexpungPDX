@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { oeciLogout } from "../../service/cookie-service";
+import store, { RootState } from "../../redux/store";
+import { setLoggedIn } from "../../redux/authSlice";
+
 import Logo from "../Logo";
-import { isLoggedIn, oeciLogout } from "../../service/cookie-service";
 
-export default function Header() {
-  const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-  const location = useLocation();
+type HeaderProps = {
+  isLoggedIn: boolean;
+};
 
-  useEffect(() => {
-    setLoggedIn(isLoggedIn());
-  }, [location]);
+const mapStateToProps = (state: RootState) => ({
+  isLoggedIn: state.auth.loggedIn,
+});
+
+function Header({ isLoggedIn }: HeaderProps) {
+  const handleLogOut = () => {
+    oeciLogout();
+    store.dispatch(setLoggedIn(false));
+  };
 
   return (
     <div className="bg-white shadow">
@@ -35,9 +45,9 @@ export default function Header() {
           >
             Search
           </Link>
-          {loggedIn && (
+          {isLoggedIn && (
             <button
-              onClick={oeciLogout}
+              onClick={handleLogOut}
               className="absolute top-1 left-2 static-ns bg-white f5 fw6 br2 ba b--blue blue link hover-dark-blue pv2 ph3 ml2"
             >
               Log Out
@@ -48,3 +58,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default connect(mapStateToProps)(Header);
