@@ -519,3 +519,10 @@ $lightest-blue2: #e8f2ff;
 .smooth-scroll {
   scroll-behavior: smooth;
 }
+
+//style for EmptyFieldsModal
+.modalContainer {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
