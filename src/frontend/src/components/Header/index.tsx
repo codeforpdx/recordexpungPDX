@@ -1,20 +1,19 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../Logo";
 import { isLoggedIn, oeciLogout } from "../../service/cookie-service";
 
-
-export default function Header (){
+export default function Header() {
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
   const location = useLocation();
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
   }, [location]);
-  
+
   return (
     <div className="bg-white shadow">
-      <nav 
+      <nav
         className="mw8 relative center flex flex-wrap justify-between pa3"
         aria-label="Primary"
       >
