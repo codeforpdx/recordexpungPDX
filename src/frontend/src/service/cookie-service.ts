@@ -1,5 +1,5 @@
 import history from "../service/history";
-import store, {clearAllData} from "../redux/store";
+import store, { clearAllData } from "../redux/store";
 
 interface Cookie {
   [key: string]: string;
@@ -49,4 +49,3 @@ export function oeciLogout() {
   store.dispatch(clearAllData());
   history.replace("/oeci");
 }
-
