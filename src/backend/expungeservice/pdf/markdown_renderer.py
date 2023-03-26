@@ -7,10 +7,14 @@ class MarkdownRenderer:
         eligible_case_charges_tuples = [
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"
         ]
+        ineligible_case_charges_tuples = [
+            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Ineligible"
+        ]
 
         return MarkdownRenderer.render_without_request(
             "expungement_analysis_report.md",
-            header=header, has_open_cases=has_open_cases, eligible_case_charges_tuples=eligible_case_charges_tuples
+            header=header, has_open_cases=has_open_cases, eligible_case_charges_tuples=eligible_case_charges_tuples,
+            ineligible_case_charges_tuples=ineligible_case_charges_tuples
         )
 
     @staticmethod

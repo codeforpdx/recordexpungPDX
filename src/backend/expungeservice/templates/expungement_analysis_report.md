@@ -41,3 +41,21 @@ If the above assumptions are not true for you and you would like an updated anal
 {% else %}
 You are not currently eligible to expunge any charges.
 {% endif %}
+
+{% if ineligible_case_charges_tuples | count > 0 %}
+## Ineligible Charges
+These convictions are not eligible for expungement at any time under the current law.
+
+  {% for case_info, charges_info in ineligible_case_charges_tuples %}
+    {% if case_info %}
+ - {{ case_info }}
+      {% for id, description in charges_info %}
+     - description
+      {% endfor %}
+    {% else %}
+      {% for id, description in charges_info %}
+ - description
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
