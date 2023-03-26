@@ -3,6 +3,7 @@ from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from typing import Dict
 
 class MarkdownRenderer:
+    @staticmethod
     def to_markdown(record: Dict, header: str) -> str:
         has_open_cases = ["open case" in error for error in record["errors"]]
         eligible_case_charges_tuples = [
