@@ -77,3 +77,43 @@ These convictions are eligible as soon as the balance of fines on the case is pa
     {% endif %}
   {% endfor %}
 {% endif %}
+
+{% if future_eligible_charges | count > 0 %}
+## Furture Eligible Charges
+The following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.
+
+  {% for label, section in future_eligible_charges %}
+### {{ label }}
+    {% for case_info, charges_info in section %}
+      {% if case_info %}
+ - {{ case_info }}
+        {% for id, description in charges_info %}
+     - {{ description }}
+        {% endfor %}
+      {% else %}
+        {% for id, description in charges_info %}
+ - {{ description }}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+  {% endfor %}
+{% endif %}
+
+{% if needs_more_analysis_charges_tuples | count > 0 %}
+## Charges Needing More Analysis
+Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
+
+  {% for case_info, charges_info in needs_more_analysis_charges_tuples[0][1] %}
+    {% if case_info %}
+ - {{ case_info }}
+      {% for id, description in charges_info %}
+     - {{ description }}
+      {% endfor %}
+    {% else %}
+      {% for id, description in charges_info %}
+ - {{ description }}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
