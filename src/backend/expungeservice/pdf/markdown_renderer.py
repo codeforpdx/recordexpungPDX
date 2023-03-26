@@ -3,7 +3,12 @@ from typing import Dict
 
 class MarkdownRenderer:
     def to_markdown(record: Dict, header: str) -> str:
-        return MarkdownRenderer.render_without_request("expungement_analysis_report.md", record=record, header=header)
+        has_open_cases = ["open case" in error for error in record["errors"]]
+
+        return MarkdownRenderer.render_without_request(
+            "expungement_analysis_report.md",
+            header=header, has_open_cases=has_open_cases
+        )
 
     @staticmethod
     def render_without_request(template_name, **template_vars):
