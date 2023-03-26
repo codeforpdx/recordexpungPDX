@@ -26,15 +26,15 @@ If the above assumptions are not true for you and you would like an updated anal
 
 ## Charges Eligible Now
 {% if eligible_case_charges_tuples | count > 0 %}
-  {% for case_info, charges_info in eligible_case_charges_tuples %}
+  {% for case_info, charges_info in eligible_case_charges_tuples[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
-     - description
+     - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - description
+ - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}
@@ -46,15 +46,33 @@ You are not currently eligible to expunge any charges.
 ## Ineligible Charges
 These convictions are not eligible for expungement at any time under the current law.
 
-  {% for case_info, charges_info in ineligible_case_charges_tuples %}
+  {% for case_info, charges_info in ineligible_case_charges_tuples[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
-     - description
+     - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - description
+ - {{ description }}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if eligible_if_paid_case_charges_tuples | count > 0 %}
+## Charges Eligible Now If Balance Paid
+These convictions are eligible as soon as the balance of fines on the case is paid.
+
+  {% for case_info, charges_info in eligible_if_paid_case_charges_tuples[0][1] %}
+    {% if case_info %}
+ - {{ case_info }}
+      {% for id, description in charges_info %}
+     - {{ description }}
+      {% endfor %}
+    {% else %}
+      {% for id, description in charges_info %}
+ - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}
