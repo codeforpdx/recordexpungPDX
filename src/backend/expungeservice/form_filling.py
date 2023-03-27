@@ -18,6 +18,7 @@ from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorCl
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
 from expungeservice.models.charge_types.violation import Violation
+from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.util import DateWithFuture
@@ -62,6 +63,13 @@ DA_ADDRESSES = {
 }
 
 
+def join_dates_or_strings(arr: List[Union[DateWithFuture, str]], connector: str, date_format: str) -> str:
+    def date_to_str(elem):
+        return elem.strftime(date_format) if isinstance(elem, DateWithFuture) else elem
+
+    return connector.join(date_to_str(elem) for elem in arr if elem)
+
+
 class Charges:
     def __init__(self, charges: List[Charge]):
         self._charges = charges
@@ -70,7 +78,7 @@ class Charges:
     def names(self) -> List[str]:
         return [charge.name.title() for charge in self._charges]
 
-    def dates(self, is_disposition=False) -> List[DateWithFuture]:
+    def dates(self, is_disposition=False, unique=True) -> List[DateWithFuture]:
         """
         Collects the dates of the charges.
 
@@ -78,13 +86,20 @@ class Charges:
             If false, the charge.date wil be returned.
         """
         dates = [charge.disposition.date if is_disposition else charge.date for charge in self._charges]
-        return list(dict.fromkeys(dates))
+
+        if unique:
+            return list(dict.fromkeys(dates))
+        else:
+            return list(dates)
+
+    def dispositions(self) -> List[str]:
+        return [charge.disposition.status for charge in self._charges]
 
     @property
     def empty(self) -> bool:
         return len(self._charges) == 0
 
-    def has_any(self, type) -> bool:
+    def has_any(self, class_or_level) -> bool:
         """
         Check whether there are any charges with a certain attribute.
 
@@ -93,12 +108,12 @@ class Charges:
             * class: a charge_type class, ex. FelonyClassC
             * list: a list of strings and/or classes
         """
-        if isinstance(type, str):
-            return any([charge.charge_type.severity_level == type for charge in self._charges])
-        elif isinstance(type, list):
-            return any([self.has_any(a_type) for a_type in type])
+        if isinstance(class_or_level, str):
+            return any([charge.charge_type.severity_level == class_or_level for charge in self._charges])
+        elif isinstance(class_or_level, list):
+            return any([self.has_any(a_type) for a_type in class_or_level])
         else:
-            return any([isinstance(charge.charge_type, type) for charge in self._charges])
+            return any([isinstance(charge.charge_type, class_or_level) for charge in self._charges])
 
     def has_any_with_getter(self, getter: Callable) -> bool:
         """
@@ -179,9 +194,32 @@ class CaseResults(UserInfo):
 
     @property
     def arrest_dates(self) -> List[DateWithFuture]:
+        """
+        Duplicates are removed. Date at position i does not necessary correspond
+        to charge at position i.
+        """
         return self.charges.dates()
 
     ##### Eligible charges #####
+
+    @property
+    def eligible_charge_names(self) -> List[str]:
+        return self.eligible_charges.names
+
+    @property
+    def eligible_charges_list(self) -> List[Charge]:
+        return list(self.eligible_charges._charges)
+
+    @property
+    def eligible_arrest_dates_all(self) -> List[DateWithFuture]:
+        """
+        Duplicates are kept. Date at position i corresponds to charge i.
+        """
+        return self.eligible_charges.dates(unique=False)
+
+    @property
+    def eligible_dispositions(self) -> List[str]:
+        return self.eligible_charges.dispositions()
 
     @property
     def short_eligible_ids(self) -> List[str]:
@@ -196,8 +234,21 @@ class CaseResults(UserInfo):
         return not self.eligible_charges.empty
 
     @property
+    def has_future_eligible_charges(self) -> bool:
+        return (
+            len(
+                [
+                    c
+                    for c in self.ineligible_charges._charges
+                    if c.expungement_result.charge_eligibility and c.expungement_result.charge_eligibility.status == ChargeEligibilityStatus.WILL_BE_ELIGIBLE
+                ]
+            )
+            > 0
+        )
+
+    @property
     def is_expungeable_now(self) -> bool:
-        return self.has_eligible_charges and self.has_no_balance
+        return self.has_eligible_charges and self.has_no_balance and not self.has_future_eligible_charges
 
     ##### Ineligible charges #####
 
@@ -266,32 +317,29 @@ class CaseResults(UserInfo):
         return self.convictions.has_any_with_getter(lambda charge: charge.probation_revoked)
 
 
-"""
-https://westhealth.github.io/exploring-fillable-forms-with-pdfrw.html
-https://akdux.com/python/2020/10/31/python-fill-pdf-files/
-https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
+# https://westhealth.github.io/exploring-fillable-forms-with-pdfrw.html
+# https://akdux.com/python/2020/10/31/python-fill-pdf-files/
+# https://stackoverflow.com/questions/60082481/how-to-edit-checkboxes-and-save-changes-in-an-editable-pdf-using-the-python-pdfr
 
-* The PDF fields can be manually named using Acrobat and the source_data
-property can be inferred from the field name. For example, a field labeled
-"Full Name" will be mapped to `source_data.full_name`.
+# * The PDF fields can be manually named using Acrobat and the source_data
+# property can be inferred from the field name. For example, a field labeled
+# "Full Name" will be mapped to `source_data.full_name`.
 
-However, PDF annotation fields should have unique names. So for forms that have repeat
-field names, append `---[unique_character_sequence]` to the field name. Ex:
-"Full Name---2" will also be mapped to `source_data.full_name`. (The `unique_character_sequence`
-does not affect the source_data mapping.)
+# However, PDF annotation fields should have unique names. So for forms that have repeat
+# field names, append `---[unique_character_sequence]` to the field name. Ex:
+# "Full Name---2" will also be mapped to `source_data.full_name`. (The `unique_character_sequence`
+# does not affect the source_data mapping.)
 
-* If a value is not found, the supplementary mapping will be used.
+# * If a value is not found, the supplementary mapping will be used.
 
-* When testing, test in Chrome, Firefox, Safari, Apple Preview and Acrobat Reader.
-Chrome and Firefox seem to have similar behavior while Safari and Apple Preview behvave similarly.
-For example, Apple will show a checked AcroForm checkbox field when an annotation's AP has been set to ""
-while Chrome and Firefox won't.
-
-Note: when printing pdfrw objects to screen during debugging, not all attributes are displayed. Stream objects
-can have many more nested properties.
-"""
+# * When testing, test in Chrome, Firefox, Safari, Apple Preview and Acrobat Reader.
+# Chrome and Firefox seem to have similar behavior while Safari and Apple Preview behvave similarly.
+# For example, Apple will show a checked AcroForm checkbox field when an annotation's AP has been set to ""
+# while Chrome and Firefox won't.
 
 
+# Note: when printing pdfrw objects to screen during debugging, not all attributes are displayed. Stream objects
+# can have many more nested properties.
 class PDFFieldMapper(UserDict):
     STRING_FOR_DUPLICATES = "---"
 
@@ -304,9 +352,10 @@ class PDFFieldMapper(UserDict):
 
     def __getitem__(self, key):
         attr = key[1:-1].lower().replace(" ", "_").split(self.STRING_FOR_DUPLICATES)[0]
-        try:
+
+        if hasattr(self.source_data, attr):
             return getattr(self.source_data, attr)
-        except:
+        else:
             return super().__getitem__(key)
 
     """
@@ -318,11 +367,18 @@ class PDFFieldMapper(UserDict):
     2. Click on "Prepare Form". This will add all of the form's fields and
        make them available via Root.AcroForm.Fields and the PDF's annotations.
     3. Adjust any fields as necessary, ex. move "(Address)" up to the
-       correct line. Sometimes a AcroForm.Field is created, but no annotation
+       correct line.
+       * Sometimes a AcroForm.Field is created, but no annotation
        is assocated with it, ex "undefined" field that has no label. In this
        case, delete the field and create a new text field via the
-       "Add a new text field" button. Also, if there are fields with the same
-       names, then they wont' get annotations and would need to be renamed.
+       "Add a new text field" button.
+       * If there are fields with the same names, then they wont' get annotations
+       and would need to be renamed.
+       * If adjusting a field after the file has been saved then the field value
+       might not be displayed. Try recreating the field.
+       * When something's not working recreate the field.
+       * If a field is not wide enough, try to increase the height and make it a
+       multiline field (Text Properties > Options.)
     4. Save the PDF.
     """
 
@@ -369,7 +425,11 @@ class PDFFieldMapper(UserDict):
             "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": s.has_dismissed,
             "(have sent)": True,
             "(Name typed or printed)": s.full_name,
-            "(Address)": ",    ".join([s.mailing_address, s.city, s.state, s.zip_code, s.phone_number]),
+            "(Address)": join_dates_or_strings(
+                [s.mailing_address, s.city, s.state, s.zip_code, s.phone_number],
+                connector=",    ",
+                date_format="%b %-d, %Y",
+            ),
             "(the District Attorney at address 2)": s.da_address,
             "(Name typed or printed_2)": s.full_name,
         }
@@ -387,7 +447,13 @@ class PDF:
 
     @classmethod
     def fill_form(cls, mapper: PDFFieldMapper, should_validate=False):
-        pdf = cls(mapper)
+        klass = cls
+        county = mapper.get("(County)")
+
+        if county and county.lower() == "clackamas":
+            klass = ClackamasPDF
+
+        pdf = klass(mapper)
         if should_validate:
             pdf.validate_initial_state()
 
@@ -405,13 +471,10 @@ class PDF:
         self.annotations = [annot for page in self._pdf.pages for annot in page.Annots or []]
         self.fields = {field.T: field for field in self._pdf.Root.AcroForm.Fields}
 
-    """
-    Need to update both the V and AS fields of a Btn and they should be the same.
-    The value to use is found in annotation.AP.N.keys() and not
-    necessarily "/Yes". If a new form has been made, make sure to check
-    which value to use here and redefine BUTTON_ON if needed.
-    """
-
+    # Need to update both the V and AS fields of a Btn and they should be the same.
+    # The value to use is found in annotation.AP.N.keys() and not
+    # necessarily "/Yes". If a new form has been made, make sure to check
+    # which value to use here and redefine BUTTON_ON if needed.
     def set_checkbox_on(self, annotation):
         assert self.BUTTON_ON in annotation.AP.N.keys()
         annotation.V = self.BUTTON_ON
@@ -423,8 +486,7 @@ class PDF:
         if isinstance(value, list):
             if len(value) == 0:
                 return
-            get_attr = lambda elem: elem.strftime(self.DATE_FORMAT) if isinstance(elem, DateWithFuture) else elem
-            new_value = self.STR_CONNECTOR.join(get_attr(elem) for elem in value if elem)
+            new_value = join_dates_or_strings(value, self.STR_CONNECTOR, self.DATE_FORMAT)
 
         annotation.V = PdfString.encode(new_value)
         self.set_font(annotation)
@@ -489,9 +551,71 @@ class PDF:
         ), "[PDF] PDF fields do not match annotations"
 
 
+class ClackamasPDF(PDF):
+    FONT_SIZE_MEDIUM = "8"
+
+    def set_text_value(self, annotation, value):
+        index, is_rest = self._get_list_index(annotation)
+
+        if index is None:
+            super().set_text_value(annotation, value)
+            return
+
+        if index >= len(value):
+            return
+
+        if is_rest:
+            new_value = "\n".join(
+                [
+                    f"{c.name},   {c.disposition.date.strftime(self.DATE_FORMAT)}, {c.disposition.status}"
+                    for i, c in enumerate(value)
+                    if i >= index
+                ]
+            )
+        elif isinstance(value[index], DateWithFuture):
+            new_value = value[index].strftime(self.DATE_FORMAT)
+        else:
+            new_value = value[index]
+
+        annotation.V = PdfString.encode(new_value)
+        self._set_charges_font(annotation)
+        annotation.update(PdfDict(AP=""))
+
+    def _get_list_index(self, annotation) -> Tuple[Optional[int], bool]:
+        """
+        Parses annotation names and returns the index and whether there
+        is a "rest" parameter. Ex,
+        "(Full Name---)"                  -> (None, False)
+        "(Eligible Charge Names---1)"     -> (1, False)
+        "(Eligible Charges List---2rest)" -> (2, True)
+        """
+        split_str = annotation.T[1:-1].split(self.mapper.STRING_FOR_DUPLICATES)
+
+        if len(split_str) < 2:
+            return None, False
+
+        index_str = split_str[1]
+        is_rest = "rest" in index_str
+        idx = None if index_str == "" else int(index_str.split("rest")[0])
+        return idx, is_rest
+
+    def _set_charges_font(self, annotation):
+        font_size = self.FONT_SIZE
+
+        if not "Eligible Charge" in annotation.T:
+            return super().set_font(annotation)
+
+        if "Names" in annotation.T:
+            font_size = self.FONT_SIZE_SMALL
+        else:  # List
+            font_size = self.FONT_SIZE_MEDIUM
+
+        annotation.DA = PdfString.encode(f"/{self.FONT_FAMILY} {font_size} Tf 0 g")
+
+
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
-    NON_OREGON_PDF_COUNTIES = ["multnomah"]
+    NON_OREGON_PDF_COUNTIES = ["multnomah", "clackamas"]
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["douglas", "umatilla", "multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["douglas", "umatilla"]
     OSP_PDF_NAME = "OSP_Form"
@@ -551,7 +675,7 @@ class FormFilling:
         return text
 
     @staticmethod
-    def _build_download_file_path(dir: str, source_data: Union[UserInfo, CaseResults]) -> Tuple[str, str]:
+    def _build_download_file_path(download_dir: str, source_data: Union[UserInfo, CaseResults]) -> Tuple[str, str]:
         if isinstance(source_data, CaseResults):
             base_name = source_data.county.lower()
 
@@ -566,7 +690,7 @@ class FormFilling:
 
         file_name += ".pdf"
 
-        return path.join(dir, file_name), file_name
+        return path.join(download_dir, file_name), file_name
 
     @staticmethod
     def _get_pdf_file_name(source_data: Union[UserInfo, CaseResults]) -> str:
@@ -584,8 +708,8 @@ class FormFilling:
     @staticmethod
     def _create_pdf(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
         file_name = FormFilling._get_pdf_file_name(source_data)
-        dir = path.join(Path(__file__).parent, "files")
-        pdf_path = path.join(dir, file_name)
+        source_dir = path.join(Path(__file__).parent, "files")
+        pdf_path = path.join(source_dir, file_name)
 
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)

@@ -1934,251 +1934,272 @@ const complexResponse: SearchResponse = {
     errors: [],
     summary: {
       total_charges: 41,
-      charges_grouped_by_eligibility_and_case: {
-        "Needs More Analysis": [
+      charges_grouped_by_eligibility_and_case: [
+        [
+          "Needs More Analysis",
           [
-            "",
             [
+              "",
               [
-                "996271-1",
-                "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014",
-              ],
-              [
-                "996271-2",
-                "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014",
+                [
+                  "996271-1",
+                  "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014",
+                ],
+                [
+                  "996271-2",
+                  "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014",
+                ],
               ],
             ],
-          ],
-          [
-            "",
             [
+              "",
               [
-                "9999323-9",
-                "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 23, 1996",
-              ],
-            ],
-          ],
-        ],
-        Ineligible: [
-          [
-            "",
-            [
-              [
-                "99AV3457-1",
-                "A traffic charge (CONVICTED) Charged Jan 11, 2019",
-              ],
-            ],
-          ],
-          [
-            "",
-            [
-              [
-                "99DF09900-1",
-                "A traffic charge (CONVICTED) Charged Jan 1, 2019",
-              ],
-            ],
-          ],
-          ["", [["999933-1", "ABC/Felony (CONVICTED) Charged Jan 27, 1996"]]],
-          ["", [["999252-D-1", "SUII (CONVICTED) Charged Jan 10, 1995"]]],
-          [
-            "",
-            [
-              [
-                "XX99972-D-1",
-                "ABC/Misdemeanor (CONVICTED) Charged Jan 30, 1989",
-              ],
-            ],
-          ],
-          ["", [["XX99057-X-1", "SUII (CONVICTED) Charged Jan 14, 1988"]]],
-        ],
-        "Eligible Now": [
-          [
-            "",
-            [
-              [
-                "9910A9-1",
-                "Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002",
-              ],
-              [
-                "9910A9-2",
-                "Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002",
-              ],
-              [
-                "9910A9-6",
-                "Resisting An Orange (DISMISSED) Charged Jan 11, 2002",
-              ],
-            ],
-          ],
-          [
-            "",
-            [
-              ["9960799-1", "Frowning (DISMISSED) Charged Jan 1, 2000"],
-              ["9960799-2", "Skipping Rope (DISMISSED) Charged Jan 1, 2000"],
-            ],
-          ],
-          [
-            "",
-            [
-              [
-                "9950699A-1",
-                "Contempt of Court - Punitive (CONVICTED) Charged Jan 1, 1998",
-              ],
-              [
-                "9950699A-2",
-                "Contempt of Court - Punitive (DISMISSED) Charged Jan 11, 1998",
-              ],
-            ],
-          ],
-          [
-            "",
-            [
-              [
-                "99506871AA-1",
-                "Contempt of Court (DISMISSED) Charged Jan 23, 1998",
-              ],
-            ],
-          ],
-          ["", [["999345-2", "Frowning (DISMISSED) Charged Jan 5, 1998"]]],
-          [
-            "",
-            [
-              [
-                "9999323-1",
-                "Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-2",
-                "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-3",
-                "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-4",
-                "Something illegal (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-5",
-                "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-6",
-                "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-7",
-                "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323-8",
-                "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-            ],
-          ],
-          [
-            "",
-            [
-              [
-                "9999323D-D-1",
-                "Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323D-D-2",
-                "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323D-D-3",
-                "Something illegal (DISMISSED) Charged Jan 23, 1996",
-              ],
-              [
-                "9999323D-D-4",
-                "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
-              ],
-            ],
-          ],
-          [
-            "",
-            [["999933D-D-1", "ABC/Felony (DISMISSED) Charged Jan 27, 1996"]],
-          ],
-          [
-            "",
-            [
-              [
-                "999620-X-1",
-                "Discarding Hot Dogs w/in 100 Yards of State Waters (CONVICTED) Charged Jan 22, 1991",
+                [
+                  "9999323-9",
+                  "Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 23, 1996",
+                ],
               ],
             ],
           ],
         ],
-        "Eligible Now If Balance Paid": [
+        [
+          "Ineligible",
           [
-            "Washington 99AV3457 \u2013 $100",
             [
+              "",
               [
-                "99AV3457-2",
-                "Reckless Diving (DISMISSED) Charged Jan 11, 2019",
-              ],
-              [
-                "99AV3457-3",
-                "Failure to Perform Duties of Golfer-Property Damage (DISMISSED) Charged Jan 11, 2019",
+                [
+                  "99AV3457-1",
+                  "A traffic charge (CONVICTED) Charged Jan 11, 2019",
+                ],
               ],
             ],
-          ],
-          [
-            "Washington 99DF09900 \u2013 $100",
             [
+              "",
               [
-                "99DF09900-2",
-                "Resisting An Orange (DISMISSED) Charged Jan 1, 2019",
+                [
+                  "99DF09900-1",
+                  "A traffic charge (CONVICTED) Charged Jan 1, 2019",
+                ],
+              ],
+            ],
+            ["", [["999933-1", "ABC/Felony (CONVICTED) Charged Jan 27, 1996"]]],
+            ["", [["999252-D-1", "SUII (CONVICTED) Charged Jan 10, 1995"]]],
+            [
+              "",
+              [
+                [
+                  "XX99972-D-1",
+                  "ABC/Misdemeanor (CONVICTED) Charged Jan 30, 1989",
+                ],
+              ],
+            ],
+            ["", [["XX99057-X-1", "SUII (CONVICTED) Charged Jan 14, 1988"]]],
+          ],
+        ],
+        [
+          "Eligible Now",
+          [
+            [
+              "",
+              [
+                [
+                  "9910A9-1",
+                  "Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002",
+                ],
+                [
+                  "9910A9-2",
+                  "Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002",
+                ],
+                [
+                  "9910A9-6",
+                  "Resisting An Orange (DISMISSED) Charged Jan 11, 2002",
+                ],
+              ],
+            ],
+            [
+              "",
+              [
+                ["9960799-1", "Frowning (DISMISSED) Charged Jan 1, 2000"],
+                ["9960799-2", "Skipping Rope (DISMISSED) Charged Jan 1, 2000"],
+              ],
+            ],
+            [
+              "",
+              [
+                [
+                  "9950699A-1",
+                  "Contempt of Court - Punitive (CONVICTED) Charged Jan 1, 1998",
+                ],
+                [
+                  "9950699A-2",
+                  "Contempt of Court - Punitive (DISMISSED) Charged Jan 11, 1998",
+                ],
+              ],
+            ],
+            [
+              "",
+              [
+                [
+                  "99506871AA-1",
+                  "Contempt of Court (DISMISSED) Charged Jan 23, 1998",
+                ],
+              ],
+            ],
+            ["", [["999345-2", "Frowning (DISMISSED) Charged Jan 5, 1998"]]],
+            [
+              "",
+              [
+                [
+                  "9999323-1",
+                  "Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-2",
+                  "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-3",
+                  "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-4",
+                  "Something illegal (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-5",
+                  "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-6",
+                  "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-7",
+                  "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323-8",
+                  "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+              ],
+            ],
+            [
+              "",
+              [
+                [
+                  "9999323D-D-1",
+                  "Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323D-D-2",
+                  "Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323D-D-3",
+                  "Something illegal (DISMISSED) Charged Jan 23, 1996",
+                ],
+                [
+                  "9999323D-D-4",
+                  "Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996",
+                ],
+              ],
+            ],
+            [
+              "",
+              [["999933D-D-1", "ABC/Felony (DISMISSED) Charged Jan 27, 1996"]],
+            ],
+            [
+              "",
+              [
+                [
+                  "999620-X-1",
+                  "Discarding Hot Dogs w/in 100 Yards of State Waters (CONVICTED) Charged Jan 22, 1991",
+                ],
               ],
             ],
           ],
         ],
-        "Eligible Jan 30, 2025": [
+        [
+          "Eligible Now If Balance Paid",
           [
-            "",
             [
-              ["9910A9-4", "Frowning (CONVICTED) Charged Jan 11, 2002"],
+              "Washington 99AV3457 \u2013 $100",
               [
-                "9910A9-5",
-                "Resisting An Orange (CONVICTED) Charged Jan 11, 2002",
+                [
+                  "99AV3457-2",
+                  "Reckless Diving (DISMISSED) Charged Jan 11, 2019",
+                ],
+                [
+                  "99AV3457-3",
+                  "Failure to Perform Duties of Golfer-Property Damage (DISMISSED) Charged Jan 11, 2019",
+                ],
               ],
             ],
-          ],
-          [
-            "",
             [
+              "Washington 99DF09900 \u2013 $100",
               [
-                "999345-1",
-                "Derping in the Fourth Degree (CONVICTED) Charged Jan 5, 1998",
-              ],
-            ],
-          ],
-        ],
-        "Eligible Jan 11, 2027": [
-          [
-            "",
-            [
-              [
-                "9910A9-3",
-                "Derping in the Fourth Degree (CONVICTED) Charged Jan 11, 2002",
+                [
+                  "99DF09900-2",
+                  "Resisting An Orange (DISMISSED) Charged Jan 1, 2019",
+                ],
               ],
             ],
           ],
         ],
-        "Eligible Jan 30, 2025 If Balance Paid": [
+        [
+          "Eligible Jan 30, 2025",
           [
-            "Washington 999388 \u2013 $1400.6",
             [
+              "",
               [
-                "999388-1",
-                "Improper Use of an Emergency Kazoo System (CONVICTED) Charged Jan 20, 2012",
+                ["9910A9-4", "Frowning (CONVICTED) Charged Jan 11, 2002"],
+                [
+                  "9910A9-5",
+                  "Resisting An Orange (CONVICTED) Charged Jan 11, 2002",
+                ],
+              ],
+            ],
+            [
+              "",
+              [
+                [
+                  "999345-1",
+                  "Derping in the Fourth Degree (CONVICTED) Charged Jan 5, 1998",
+                ],
               ],
             ],
           ],
         ],
-      },
+        [
+          "Eligible Jan 11, 2027",
+          [
+            [
+              "",
+              [
+                [
+                  "9910A9-3",
+                  "Derping in the Fourth Degree (CONVICTED) Charged Jan 11, 2002",
+                ],
+              ],
+            ],
+          ],
+        ],
+        [
+          "Eligible Jan 30, 2025 If Balance Paid",
+          [
+            [
+              "Washington 999388 \u2013 $1400.6",
+              [
+                [
+                  "999388-1",
+                  "Improper Use of an Emergency Kazoo System (CONVICTED) Charged Jan 20, 2012",
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
       total_cases: 18,
       county_fines: [
         {
