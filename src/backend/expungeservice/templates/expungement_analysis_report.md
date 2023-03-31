@@ -25,8 +25,8 @@ Below is a summary of your eligibility for expungement based on the assumptions 
 If the above assumptions are not true for you and you would like an updated analysis, email roe@qiu-qiulaw.com with your name and date of birth with subject line, “Updated Analysis”.
 
 ## Charges Eligible Now
-{% if eligible_case_charges_tuples | count > 0 %}
-  {% for case_info, charges_info in eligible_case_charges_tuples[0][1] %}
+{% if eligible_case_charges | count > 0 %}
+  {% for case_info, charges_info in eligible_case_charges[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
@@ -42,11 +42,11 @@ If the above assumptions are not true for you and you would like an updated anal
 You are not currently eligible to expunge any charges.
 {% endif %}
 
-{% if ineligible_case_charges_tuples | count > 0 %}
+{% if ineligible_case_charges | count > 0 %}
 ## Ineligible Charges
 These convictions are not eligible for expungement at any time under the current law.
 
-  {% for case_info, charges_info in ineligible_case_charges_tuples[0][1] %}
+  {% for case_info, charges_info in ineligible_case_charges[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
@@ -60,11 +60,11 @@ These convictions are not eligible for expungement at any time under the current
   {% endfor %}
 {% endif %}
 
-{% if eligible_if_paid_case_charges_tuples | count > 0 %}
+{% if eligible_if_paid_case_charges | count > 0 %}
 ## Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
-  {% for case_info, charges_info in eligible_if_paid_case_charges_tuples[0][1] %}
+  {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
@@ -100,11 +100,11 @@ The following charges (dismissed and convicted) are eligible at the designated d
   {% endfor %}
 {% endif %}
 
-{% if needs_more_analysis_charges_tuples | count > 0 %}
+{% if needs_more_analysis_charges | count > 0 %}
 ## Charges Needing More Analysis
 Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
 
-  {% for case_info, charges_info in needs_more_analysis_charges_tuples[0][1] %}
+  {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
     {% if case_info %}
  - {{ case_info }}
       {% for id, description in charges_info %}
