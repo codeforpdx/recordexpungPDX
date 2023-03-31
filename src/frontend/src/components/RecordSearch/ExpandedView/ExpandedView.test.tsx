@@ -8,19 +8,20 @@ import {
   fillExpungementPacketForm,
 } from "../../../test/testHelpers";
 import ExpandedView from ".";
+import { FakeResponseName } from "../../../test/hooks/useInjectSearchResponse";
 
-function setup(showColor = true) {
+function setup(recordName: FakeResponseName = "multiple", showColor = true) {
   const requestSpy = jest.spyOn(axios, "request").mockResolvedValue({});
   const { ...userAndRenderReturnValues } = setupUserAndRender(
     <ExpandedView showColor={showColor} />,
-    "multiple"
+    recordName
   );
   return { requestSpy, ...userAndRenderReturnValues };
 }
 
 test("the show colors option works", () => {
-  const { asFragment: asFragmentWithColor } = setup(true);
-  const { asFragment: asFragmentWithoutColor } = setup(false);
+  const { asFragment: asFragmentWithColor } = setup("multiple", true);
+  const { asFragment: asFragmentWithoutColor } = setup("multiple", false);
   const fragmentWithColor = asFragmentWithColor();
   const fragmentWithoutColor = asFragmentWithoutColor();
 
@@ -29,25 +30,42 @@ test("the show colors option works", () => {
   expect(fragmentWithColor).not.toBe(fragmentWithoutColor);
 });
 
-test("the summary checkbox that hides traffic charges works", async () => {
-  const { user, asFragment } = setup();
+describe("filter checkboxes", () => {
+  test("the summary checkbox that hides traffic charges works", async () => {
+    const { user, asFragment } = setup();
 
-  await user.click(screen.getByTestId("hide-traffic-charges-1"));
-  expect(asFragment()).toMatchSnapshot();
-});
+    await user.click(screen.getByTestId("hide-traffic-charges-1"));
+    expect(asFragment()).toMatchSnapshot();
+  });
 
-test("the nav checkbox that hides traffic charges works", async () => {
-  const { user, asFragment } = setup();
+  test("the nav checkbox that hides traffic charges works", async () => {
+    const { user, asFragment } = setup();
 
-  await user.click(screen.getByTestId("hide-traffic-charges-2"));
-  expect(asFragment()).toMatchSnapshot();
+    await user.click(screen.getByTestId("hide-traffic-charges-2"));
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  test("neither checkbox is displayed if there are no filtered cases", () => {
+    setup("common");
+
+    ["hide-traffic-charges-1", "hide-traffic-charges-2"].forEach((id) => {
+      expect(screen.queryByTestId(id)).not.toBeInTheDocument();
+    });
+  });
 });
 
 test("the button to download the summary PDF works", async () => {
   const { user, requestSpy } = setup();
 
+  requestSpy.mockImplementation(() => {
+    return new Promise(() => {});
+  });
+
   await clickButton(user, "summary");
   expect(requestSpy).toHaveBeenCalled();
+  expect(screen.getByRole("button", { name: /download summary/i })).toHaveClass(
+    "loading-btn"
+  );
 });
 
 test("the button to download the expungement packet works", async () => {

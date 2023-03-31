@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { startLoadingSummary } from "../../../redux/summarySlice";
+import {
+  startLoadingSummary,
+  selectSummaryIsLoading,
+} from "../../../redux/summarySlice";
 import { buildAndSendDownloadPdfRequest } from "../../../redux/search/actions";
 import { clearAllData } from "../../../redux/store";
 import { CaseData } from "../Record/types";
@@ -27,6 +30,7 @@ export const headingLargeClass = "f3 fw8 tc pt2 mb4 ph4";
 export default function ExpandedView({ showColor }: Props) {
   const dispatch = useAppDispatch();
   const record = useAppSelector((state) => state.search.record);
+  const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
   const [summaryFilterType, setSummaryFilterType] = useState<CaseFilterType>(
     "skipExcludedCharges"
   );
@@ -81,22 +85,31 @@ export default function ExpandedView({ showColor }: Props) {
 
   const navCases = cases.reduce(filters[navFilterType], [] as CaseData[]);
 
+  // In the future, the summary section may have more filter types which
+  // the nav section may not have. For now, the nav checkbox also uses
+  // this variable to determine whether it's displayed or not.
+  const summaryHasFilteredCases = cases.some((aCase) =>
+    aCase.charges.some((charge) => charge.isExcluded)
+  );
+
   return (
     <>
       <SplitSection
         leftHeading="Review Summary"
         leftComponent={
           <div>
-            <HideTrafficChargesCheckbox
-              id="1"
-              labelText="Hide Traffic Charges"
-              className="checkbox checkbox-sm fw4 f6 tr mb2"
-              showAllCharges={summaryFilterType === "skipExcludedCharges"}
-              setShowAllCharges={handleShowAllChargesToggle(
-                summaryFilterType,
-                setSummaryFilterType
-              )}
-            />
+            {summaryHasFilteredCases && (
+              <HideTrafficChargesCheckbox
+                id="1"
+                labelText="Hide Traffic Charges"
+                className="checkbox checkbox-sm fw4 f6 tr mb2"
+                checked={summaryFilterType === "skipExcludedCharges"}
+                onChange={handleShowAllChargesToggle(
+                  summaryFilterType,
+                  setSummaryFilterType
+                )}
+              />
+            )}
             <CasesSummary showColor={showColor} cases={summaryCases} />
           </div>
         }
@@ -110,16 +123,18 @@ export default function ExpandedView({ showColor }: Props) {
         rightHeading="Quick Links"
         rightComponent={
           <div>
-            <HideTrafficChargesCheckbox
-              id="2"
-              labelText="Hide Traffic Charges"
-              className="checkbox checkbox-sm fw4 f6 mb2 pl2"
-              showAllCharges={navFilterType === "skipExcludedCharges"}
-              setShowAllCharges={handleShowAllChargesToggle(
-                navFilterType,
-                setNavFilterType
-              )}
-            />
+            {summaryHasFilteredCases && (
+              <HideTrafficChargesCheckbox
+                id="2"
+                labelText="Hide Traffic Charges"
+                className="checkbox checkbox-sm fw4 f6 mb2 pl2"
+                checked={navFilterType === "skipExcludedCharges"}
+                onChange={handleShowAllChargesToggle(
+                  navFilterType,
+                  setNavFilterType
+                )}
+              />
+            )}
 
             <CasesNavList
               className="f6 overflow-y-auto vh-75"
@@ -136,7 +151,10 @@ export default function ExpandedView({ showColor }: Props) {
       >
         <IconButton
           styling="button"
-          buttonClassName="bg-blue white hover-bg-dark-blue"
+          buttonClassName={
+            "bg-blue white hover-bg-dark-blue" +
+            (summaryIsLoading ? " loading-btn" : "")
+          }
           iconClassName="fa-download pr2"
           displayText="Download Summary Now"
           onClick={handleDownloadSummaryClick}
