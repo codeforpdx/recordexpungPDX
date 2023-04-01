@@ -3,7 +3,6 @@ import json
 import pytest
 
 from expungeservice.pdf.markdown_renderer import MarkdownRenderer
-from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from expungeservice.record_summarizer import RecordSummarizer
 from expungeservice.serializer import ExpungeModelEncoder
 from tests.factories.crawler_factory import CrawlerFactory
@@ -27,6 +26,5 @@ def test_render_markdown(example_record):
         {"first_name": "john", "middle_name": "", "last_name": "smith", "birth_date": "2/2/2020"},
         {"first_name": "john", "middle_name": "", "last_name": "doe", "birth_date": ""},
     ]
-    header = MarkdownSerializer.default_header(aliases)
-    source = MarkdownRenderer.to_markdown(record, header)
+    source = MarkdownRenderer.to_markdown(record, aliases=aliases)
     assert source == open("./tests/pdf/expected_markdown.md").read()

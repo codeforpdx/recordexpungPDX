@@ -1,8 +1,7 @@
-# EXPUNGEMENT ANALYSIS REPORT  
-## Search Terms  
-Name: JOHN  SMITH DOB: 2/2/2020  
-Name: JOHN  DOE  
-
+# EXPUNGEMENT ANALYSIS REPORT
+## Search Terms
+Name: JOHN  SMITH DOB: 2/2/2020
+Name: JOHN  DOE
 
 ## PLEASE READ THIS
 
@@ -35,5 +34,5 @@ These convictions are eligible as soon as the balance of fines on the case is pa
        - Multnomah CASEJD1 – $529.08
            - Possession of Cocaine (CONVICTED) Charged Jun 13, 2009
            - Possession of Cocaine (DISMISSED) Charged Feb 17, 2009
-            
+
 

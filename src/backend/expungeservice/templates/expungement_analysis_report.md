@@ -1,4 +1,18 @@
+{% if header %}
 {{ header }}
+{% else %}
+# EXPUNGEMENT ANALYSIS REPORT
+## Search Terms
+  {% for name, birth_date in aliases %}
+    {% if name %}
+      {% if birth_date %}
+Name: {{ name }} DOB: {{ birth_date }}
+      {% else %}
+Name: {{ name }}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 
 ## PLEASE READ THIS
 
@@ -28,13 +42,13 @@ If the above assumptions are not true for you and you would like an updated anal
 {% if eligible_case_charges | count > 0 %}
   {% for case_info, charges_info in eligible_case_charges[0][1] %}
     {% if case_info %}
- - {{ case_info }}
+       - {{ case_info }}
       {% for id, description in charges_info %}
-     - {{ description }}
+           - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - {{ description }}
+       - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}
@@ -48,13 +62,13 @@ These convictions are not eligible for expungement at any time under the current
 
   {% for case_info, charges_info in ineligible_case_charges[0][1] %}
     {% if case_info %}
- - {{ case_info }}
+       - {{ case_info }}
       {% for id, description in charges_info %}
-     - {{ description }}
+           - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - {{ description }}
+       - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}
@@ -66,13 +80,13 @@ These convictions are eligible as soon as the balance of fines on the case is pa
 
   {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
     {% if case_info %}
- - {{ case_info }}
+       - {{ case_info }}
       {% for id, description in charges_info %}
-     - {{ description }}
+           - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - {{ description }}
+       - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}
@@ -86,13 +100,13 @@ The following charges (dismissed and convicted) are eligible at the designated d
 ### {{ label }}
     {% for case_info, charges_info in section %}
       {% if case_info %}
- - {{ case_info }}
+       - {{ case_info }}
         {% for id, description in charges_info %}
-     - {{ description }}
+           - {{ description }}
         {% endfor %}
       {% else %}
         {% for id, description in charges_info %}
- - {{ description }}
+       - {{ description }}
         {% endfor %}
       {% endif %}
     {% endfor %}
@@ -106,13 +120,13 @@ Additionally, you have charges for which the online records do not contain enoug
 
   {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
     {% if case_info %}
- - {{ case_info }}
+       - {{ case_info }}
       {% for id, description in charges_info %}
-     - {{ description }}
+           - {{ description }}
       {% endfor %}
     {% else %}
       {% for id, description in charges_info %}
- - {{ description }}
+       - {{ description }}
       {% endfor %}
     {% endif %}
   {% endfor %}

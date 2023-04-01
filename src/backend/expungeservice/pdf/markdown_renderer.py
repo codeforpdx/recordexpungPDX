@@ -1,10 +1,11 @@
 import jinja2
 from expungeservice.pdf.markdown_serializer import MarkdownSerializer
-from typing import Dict
+from typing import Dict, List, Optional, Tuple
 
 class MarkdownRenderer:
     @staticmethod
-    def to_markdown(record: Dict, header: str) -> str:
+    def to_markdown(record: Dict, header: Optional[str] = None, aliases: List[Dict] = []) -> str:
+        mapped_aliases = map(MarkdownRenderer.name_and_birth_info, aliases)
         has_open_cases = ["open case" in error for error in record["errors"]]
         eligible_case_charges = [
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"
@@ -29,7 +30,8 @@ class MarkdownRenderer:
 
         return MarkdownRenderer.render_without_request(
             "expungement_analysis_report.md",
-            header=header, has_open_cases=has_open_cases, eligible_case_charges=eligible_case_charges,
+            header=header, aliases=mapped_aliases, has_open_cases=has_open_cases,
+            eligible_case_charges=eligible_case_charges,
             ineligible_case_charges=ineligible_case_charges,
             eligible_if_paid_case_charges=eligible_if_paid_case_charges,
             future_eligible_charges=sorted(future_eligible_charges, key=MarkdownSerializer._sort_future_eligible),
@@ -45,7 +47,16 @@ class MarkdownRenderer:
         """
         env = jinja2.Environment(
             loader=jinja2.PackageLoader('expungeservice','templates'),
-            trim_blocks=True
+            trim_blocks=True, lstrip_blocks=True
         )
         template = env.get_template(template_name)
         return template.render(**template_vars)
+
+    @staticmethod
+    def name_and_birth_info(alias: Dict) -> Tuple[str, Optional[str]]:
+        name = ' '.join([
+            alias.get('first_name', ''),
+            alias.get('middle_name',''),
+            alias.get('last_name','')
+        ]).upper()
+        return (name, alias.get('birth_date'))
