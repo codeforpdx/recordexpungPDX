@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the button to start over works 1`] = `<DocumentFragment />`;
-
-exports[`the nav checkbox that hides traffic charges works 1`] = `
+exports[`filter checkboxes the nav checkbox that hides traffic charges works 1`] = `
 <DocumentFragment>
   <section
     class="flex-l mh2 mt3"
@@ -2627,6 +2625,2646 @@ exports[`the nav checkbox that hides traffic charges works 1`] = `
   </section>
 </DocumentFragment>
 `;
+
+exports[`filter checkboxes the summary checkbox that hides traffic charges works 1`] = `
+<DocumentFragment>
+  <section
+    class="flex-l mh2 mt3"
+  >
+    <div
+      class="bg-white shadow br3 w-70-l f6 ph4 mr3"
+    >
+      <h2
+        class="f5 fw7 tc pv3 "
+      >
+        Review Summary
+      </h2>
+      <div>
+        <div
+          class="checkbox checkbox-sm fw4 f6 tr mb2"
+        >
+          <input
+            checked=""
+            data-testid="hide-traffic-charges-1"
+            id="hide-traffic-charges-1"
+            type="checkbox"
+          />
+          <label
+            class="pointer pl2"
+            for="hide-traffic-charges-1"
+          >
+            Hide Traffic Charges
+          </label>
+        </div>
+        <div>
+          <div
+            class="mb1"
+          >
+            <div
+              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
+            >
+              <div
+                class="w-25-ns w-50 pl4"
+              >
+                Jan 21, 2022
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                <a
+                  class="link hover-blue "
+                  href="/#110000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #110000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                Multnomah
+              </div>
+              <div
+                class="w-30-ns w-50"
+              />
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white green bg-washed-green"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-check w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Eligible Now
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  DISMISSED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  Theft in the Third Degree
+                </div>
+              </li>
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white red bg-washed-red"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-circle-xmark w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Ineligible
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  DISMISSED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  A low level infraction
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb1"
+          >
+            <div
+              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
+            >
+              <div
+                class="w-25-ns w-50 pl4"
+              >
+                Jan 21, 2019
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                <a
+                  class="link hover-blue "
+                  href="/#100000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #100000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                Baker
+              </div>
+              <div
+                class="w-30-ns w-50"
+              >
+                $1,000.00
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white dark-blue bg-washed-blue"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-dollar-sign w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Eligible
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  CONVICTED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  Disorderly Conduct in the First Degree
+                </div>
+              </li>
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white dark-blue bg-washed-blue"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-dollar-sign w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Eligible
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  UNRECOGNIZED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  Disorderly Conduct in the Second Degree
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="mb1"
+          >
+            <div
+              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
+            >
+              <div
+                class="w-25-ns w-50 pl4"
+              >
+                Jan 21, 2011
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                <a
+                  class="link hover-blue "
+                  href="/#120000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #120000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-20-ns w-50"
+              >
+                Washington
+              </div>
+              <div
+                class="w-30-ns w-50"
+              />
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white purple bg-washed-purple"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-question-circle w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Unknown
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  DISMISSED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  Failure to Obey Traffic Control Device
+                </div>
+              </li>
+              <li
+                class="flex-ns flex-wrap"
+              >
+                <div
+                  class="w-25-ns"
+                >
+                  <div
+                    class="w-80 tc pa1 br3 bb b--white red bg-washed-red"
+                  >
+                    <div
+                      class="flex flex-wrap"
+                    >
+                      <span
+                        class="fa fa-circle-xmark w-10"
+                      />
+                      <span
+                        class="fw6 w-90 pl1"
+                      >
+                        Ineligible
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-20-ns pt1 pl2"
+                >
+                  CONVICTED
+                </div>
+                <div
+                  class="w-50-ns pt1 pl2"
+                >
+                  Public Derpiness
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="bg-white shadow br3 w-30-l pl3 pb2 "
+    >
+      <h3
+        class="f5 fw7 tc pv3 "
+      >
+        Counts
+      </h3>
+    </div>
+  </section>
+  <section
+    class="flex-l mh2 mt3"
+  >
+    <div
+      class="bg-white shadow br3 w-70-l f6 ph4 mr3"
+    >
+      <h2
+        class="f5 fw7 tc pv3 "
+      >
+        Analyze Cases
+      </h2>
+      <div
+        class="tr"
+      >
+        <button
+          class="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
+        >
+          Enable Editing
+        </button>
+         
+        <a
+          class="link hover-blue "
+          href="/manual#editing"
+        >
+          <i
+            aria-hidden="true"
+            class="gray hover-dark-blue fas fa-question-circle"
+          />
+          <span
+            class="visually-hidden"
+          >
+            Editing Help
+          </span>
+        </a>
+      </div>
+      <div
+        class="mb3"
+      >
+        <ul
+          class="list"
+        >
+          <li
+            id="scroll-spy-trigger_case_110000"
+          >
+            <div
+              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
+              id="110000"
+            >
+              <div
+                class="cf relative pv2 pr5 pr6-ns"
+              >
+                <div
+                  class="cf mb2"
+                >
+                  <div
+                    class="ch1 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Case
+                    </div>
+                    <a
+                      class="link bb hover-blue"
+                      href="http://localhost:5000/api/case_detail_page/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      110000
+                    </a>
+                  </div>
+                  <div
+                    class="ch2 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Status
+                    </div>
+                    Closed
+                  </div>
+                  <div
+                    class="ch3 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DA Number
+                    </div>
+                    <span
+                      class="break-all"
+                    >
+                      01234567
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cl"
+                >
+                  <div
+                    class="ch4 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      County
+                    </div>
+                    Multnomah
+                  </div>
+                  <div
+                    class="ch5 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Balance
+                    </div>
+                    $0.00
+                  </div>
+                  <div
+                    class="ch6 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DOB
+                    </div>
+                    <span>
+                      1990
+                    </span>
+                  </div>
+                  <div
+                    class="ch7 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Name
+                    </div>
+                    <span>
+                      MULTIPLE CHARGES
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <ul
+                class="list"
+              >
+                <li
+                  id="scroll-spy-trigger_charge_110000-1"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="110000-1"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Eligible Now
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-time"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <span
+                              class="fw7"
+                            >
+                              Time:
+                            </span>
+                             Eligible Now
+                          </div>
+                        </div>
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-circle gray outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(d)
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            164043-Theft in the Third Degree
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             Misdemeanor Class C
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Dismissed - Apr 21, 2022
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 21, 2022
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  id="scroll-spy-trigger_charge_110000-2"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="110000-2"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="red bg-washed-red fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Ineligible
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-times-circle red bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Infraction reason
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            164043-A low level infraction
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             A low level infraction
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Dismissed - Apr 21, 2022
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 21, 2022
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li
+            id="scroll-spy-trigger_case_100000"
+          >
+            <div
+              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
+              id="100000"
+            >
+              <div
+                class="cf relative pv2 pr5 pr6-ns"
+              >
+                <div
+                  class="cf mb2"
+                >
+                  <div
+                    class="ch1 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Case
+                    </div>
+                    <a
+                      class="link bb hover-blue"
+                      href="http://localhost:5000/api/case_detail_page/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      100000
+                    </a>
+                  </div>
+                  <div
+                    class="ch2 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Status
+                    </div>
+                    Closed
+                  </div>
+                  <div
+                    class="ch3 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DA Number
+                    </div>
+                    <span
+                      class="break-all"
+                    >
+                      01234567
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cl"
+                >
+                  <div
+                    class="ch4 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      County
+                    </div>
+                    Baker
+                  </div>
+                  <div
+                    class="ch5 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Balance
+                    </div>
+                    $1,000.00
+                  </div>
+                  <div
+                    class="ch6 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DOB
+                    </div>
+                    <span>
+                      1990
+                    </span>
+                  </div>
+                  <div
+                    class="ch7 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Name
+                    </div>
+                    <span>
+                      MULTIPLE CHARGES
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-washed-red fw6 br3 pv2 ph3 ma2"
+              >
+                Eligible charges are ineligible until balance is paid
+                <a
+                  class="link nowrap bb hover-blue fw4 ml2"
+                  href="/manual#paybalances"
+                >
+                  Paying Balances
+                </a>
+              </div>
+              <ul
+                class="list"
+              >
+                <li
+                  id="scroll-spy-trigger_charge_100000-1"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="100000-1"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Eligible Now
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-time"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <span
+                              class="fw7"
+                            >
+                              Time:
+                            </span>
+                             Eligible Now
+                          </div>
+                        </div>
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-circle gray outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Misdemeanor Class A – Eligible under 137.225(1)(b)
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            166223-Disorderly Conduct in the First Degree
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             Misdemeanor Class A
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Convicted - Apr 21, 2019
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 21, 2019
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Convictions for misdemeanors are generally eligible under ORS 137.225(1)(b).
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(d). Exceptions include cases dismissed due to successful completion of DUII diversion.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  id="scroll-spy-trigger_charge_100000-2"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="100000-2"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Eligible Now
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-time"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <span
+                              class="fw7"
+                            >
+                              Time:
+                            </span>
+                             Eligible Now
+                          </div>
+                        </div>
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-circle gray outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(d)
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            1662250A-Disorderly Conduct in the Second Degree
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             Misdemeanor Class B
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Unrecognized ("Unrecognized")
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 21, 2019
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li
+            id="scroll-spy-trigger_case_120000"
+          >
+            <div
+              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
+              id="120000"
+            >
+              <div
+                class="cf relative pv2 pr5 pr6-ns"
+              >
+                <div
+                  class="cf mb2"
+                >
+                  <div
+                    class="ch1 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Case
+                    </div>
+                    <a
+                      class="link bb hover-blue"
+                      href="http://localhost:5000/api/case_detail_page/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      120000
+                    </a>
+                  </div>
+                  <div
+                    class="ch2 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Status
+                    </div>
+                    Closed
+                  </div>
+                  <div
+                    class="ch3 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DA Number
+                    </div>
+                    <span
+                      class="break-all"
+                    >
+                      01234567
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="cl"
+                >
+                  <div
+                    class="ch4 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      County
+                    </div>
+                    Washington
+                  </div>
+                  <div
+                    class="ch5 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Balance
+                    </div>
+                    $0.00
+                  </div>
+                  <div
+                    class="ch6 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      DOB
+                    </div>
+                    <span>
+                      1990
+                    </span>
+                  </div>
+                  <div
+                    class="ch7 fl ph3 pv1"
+                  >
+                    <div
+                      class="fw7"
+                    >
+                      Name
+                    </div>
+                    <span>
+                      MULTIPLE CHARGES
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <ul
+                class="list"
+              >
+                <li
+                  id="scroll-spy-trigger_charge_120000-1"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="120000-1"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="purple bg-washed-purple fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Possibly Eligible
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-question-circle purple bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Traffic Violation – Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            811265-Failure to Obey Traffic Control Device
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             Violation
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Dismissed - Apr 21, 2011
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 21, 2011
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Convictions for traffic-related offenses are not eligible for expungement under ORS 137.225(7)(a). This includes Violations, Misdemeanors, and Felonies.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          The eligibility of a dismissed traffic violation is subject to some debate. 137.225(1)(d) says that "At any time after an acquittal or a dismissal...an arrested, cited or charged person may apply to the court in the county in which the person was arrested, cited or charged, for entry of an order setting aside the record of the arrest, citation or charge." A driving offense probably qualifies as a citation under any definition of the word.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          However, DAs will probably object to filing for these, at least initially, based off their understanding of the previous version of the law, and their relationships with the other parts of the State, and the practical administrative burdens this would place on those systems.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          Most directly, it’s not clear that the local municipal systems have a good way of expunging traffic tickets, dismissed or not.
+                        </div>
+                        <div
+                          class="mb2"
+                        >
+                          As such, petitioners filing to expunge dismissed traffic tickets may receive pushback and have their petition rejected, and do so at their own risk.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  id="scroll-spy-trigger_charge_120001-1"
+                >
+                  <div
+                    class="relative br3 bg-white ma2"
+                    id="120001-1"
+                  >
+                    <div
+                      class="relative connect connect-result pr6"
+                    >
+                      <h2
+                        class="red bg-washed-red fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
+                      >
+                        Ineligible
+                      </h2>
+                    </div>
+                    <div
+                      class="flex-l ph3 pb2"
+                    >
+                      <div
+                        class="w-100 w-40-l relative pr6 pr4-l"
+                      >
+                        <div
+                          class="relative mb3 connect connect-type"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="absolute fas fa-question-circle purple bg-white outline-2-white z-1"
+                          />
+                          <div
+                            class="ml3 pl1"
+                          >
+                            <div
+                              class="false"
+                            >
+                              <span
+                                class="fw7"
+                              >
+                                Type: 
+                              </span>
+                              Public derpiness is never excusable.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="w-100 w-60-l pr3 pr6-l"
+                      >
+                        <ul
+                          class="list"
+                        >
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charge
+                            </span>
+                            811265-Public Derpiness
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Severity
+                            </span>
+                             Violation
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Disposition
+                            </span>
+                             Convicted - Apr 22, 2011
+                          </li>
+                          <li
+                            class="flex mb2"
+                          >
+                            <span
+                              class="w6rem shrink-none fw7"
+                            >
+                              Charged
+                            </span>
+                             Jan 22, 2011
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="bt b--light-gray pt2 mh3 pb2"
+                    >
+                      <button
+                        aria-controls="panel--disclosure"
+                        aria-expanded="false"
+                      >
+                        <span
+                          class="flex items-center fw5 mid-gray link hover-blue pb1"
+                        >
+                          More Info
+                          <span
+                            aria-hidden="true"
+                            class="pt1 pl1 fas fa-angle-down"
+                          />
+                        </span>
+                      </button>
+                      <div
+                        class="pt2"
+                        hidden=""
+                        id="panel--disclosure"
+                      >
+                        <div
+                          class="mb2"
+                        >
+                          Rule that everyone knows
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="bg-white shadow br3 w-30-l pl3 pb2 self-start sticky-l"
+    >
+      <h3
+        class="f5 fw7 tc pv3 "
+      >
+        Quick Links
+      </h3>
+      <div>
+        <div
+          class="checkbox checkbox-sm fw4 f6 mb2 pl2"
+        >
+          <input
+            checked=""
+            data-testid="hide-traffic-charges-2"
+            id="hide-traffic-charges-2"
+            type="checkbox"
+          />
+          <label
+            class="pointer pl2"
+            for="hide-traffic-charges-2"
+          >
+            Hide Traffic Charges
+          </label>
+        </div>
+        <div
+          class="f6 overflow-y-auto vh-75"
+        >
+          <div
+            class="pb1"
+          >
+            <div
+              class="fw6 lh-copy flex flex-wrap pv1 ph2"
+              id="scroll-spy-target-110000"
+            >
+              <div
+                class="w-50"
+              >
+                <span
+                  class="pr2"
+                >
+                  1)
+                </span>
+                <a
+                  class="link hover-blue "
+                  href="/#110000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #110000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-50 pl3"
+              >
+                Jan 21, 2022
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="pv1 flex-ns flex-wrap"
+                id="scroll-spy-target-110000-1"
+              >
+                <div
+                  class="w-1 pb1 pr1 pb0-ns"
+                >
+                  <span
+                    class="green bg-washed-green pv1 ph2 mr1 dib br3 relative z-1"
+                  >
+                    <span
+                      class="fa fa-check"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="w-80 pb1 pb0-ns"
+                >
+                  <a
+                    class="link hover-blue "
+                    href="/#110000-1"
+                  >
+                    <span
+                      class="bb b--moon-gray"
+                    >
+                      Theft in the Third Degree
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="pb1"
+          >
+            <div
+              class="fw6 lh-copy flex flex-wrap pv1 ph2"
+              id="scroll-spy-target-100000"
+            >
+              <div
+                class="w-50"
+              >
+                <span
+                  class="pr2"
+                >
+                  2)
+                </span>
+                <a
+                  class="link hover-blue "
+                  href="/#100000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #100000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-50 pl3"
+              >
+                Jan 21, 2019
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <li
+                class="pv1 flex-ns flex-wrap"
+                id="scroll-spy-target-100000-1"
+              >
+                <div
+                  class="w-1 pb1 pr1 pb0-ns"
+                >
+                  <span
+                    class="dark-blue bg-washed-blue pv1 ph2 mr1 dib br3 relative z-1"
+                  >
+                    <span
+                      class="fa fa-dollar-sign"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="w-80 pb1 pb0-ns"
+                >
+                  <a
+                    class="link hover-blue "
+                    href="/#100000-1"
+                  >
+                    <span
+                      class="bb b--moon-gray"
+                    >
+                      Disorderly Conduct in the First Degree
+                    </span>
+                  </a>
+                </div>
+              </li>
+              <li
+                class="pv1 flex-ns flex-wrap"
+                id="scroll-spy-target-100000-2"
+              >
+                <div
+                  class="w-1 pb1 pr1 pb0-ns"
+                >
+                  <span
+                    class="dark-blue bg-washed-blue pv1 ph2 mr1 dib br3 relative z-1"
+                  >
+                    <span
+                      class="fa fa-dollar-sign"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="w-80 pb1 pb0-ns"
+                >
+                  <a
+                    class="link hover-blue "
+                    href="/#100000-2"
+                  >
+                    <span
+                      class="bb b--moon-gray"
+                    >
+                      Disorderly Conduct in the Second Degree
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="pb1"
+          >
+            <div
+              class="fw6 lh-copy flex flex-wrap pv1 ph2"
+              id="scroll-spy-target-120000"
+            >
+              <div
+                class="w-50"
+              >
+                <span
+                  class="pr2"
+                >
+                  3)
+                </span>
+                <a
+                  class="link hover-blue "
+                  href="/#120000"
+                >
+                  <span
+                    class="bb b--moon-gray"
+                  >
+                    #120000
+                  </span>
+                </a>
+              </div>
+              <div
+                class="w-50 pl3"
+              >
+                Jan 21, 2011
+              </div>
+            </div>
+            <ul
+              class="list"
+            >
+              <aside
+                class="fw4 pb3 i "
+              >
+                Excluded charge(s) are hidden.
+              </aside>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 tc"
+  >
+    <h2
+      class="f3 fw8 tc pt2 mb4 ph4"
+    >
+      Get The Expungement Analysis Report
+    </h2>
+    <button
+      class="fw6 bg-animate br3 pv3 ph4 bg-blue white hover-bg-dark-blue"
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        class="fas fa-download pr2"
+      />
+      Download Summary Now
+    </button>
+  </section>
+  <section
+    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 "
+  >
+    <h2
+      class="f3 fw8 tc pt2 mb4 ph4"
+    >
+      Verify Assumptions
+    </h2>
+    <ul
+      class="f5 lh-copy mw6-ns mw5 pl4-ns center list"
+    >
+      <li
+        class="mb4"
+      >
+        <div
+          class="flex flex-wrap"
+        >
+          <i
+            class="fa fa-check green f3 fr pr3"
+          />
+          <p
+            class="w-90-l w-80"
+          >
+            No open cases in any court in the United States
+          </p>
+        </div>
+      </li>
+      <p
+        class="f4 fw7 mt4 mb3"
+      >
+        Within the last seven years:
+      </p>
+      <li
+        class="mb4"
+      >
+        <div
+          class="flex flex-wrap"
+        >
+          <i
+            class="fa fa-check green f3 fr pr3"
+          />
+          <p
+            class="w-90-l w-80"
+          >
+            No previously expunged cases
+          </p>
+        </div>
+      </li>
+      <li
+        class="mb4"
+      >
+        <div
+          class="flex flex-wrap"
+        >
+          <i
+            class="fa fa-check green f3 fr pr3"
+          />
+          <p
+            class="w-90-l w-80"
+          >
+            No cases are from states besides Oregon
+          </p>
+        </div>
+      </li>
+      <li
+        class="mb4"
+      >
+        <div
+          class="flex flex-wrap"
+        >
+          <i
+            class="fa fa-check green f3 fr pr3"
+          />
+          <p
+            class="w-90-l w-80"
+          >
+            No Federal Court cases
+          </p>
+        </div>
+      </li>
+      <li
+        class="mb4"
+      >
+        <div
+          class="flex flex-wrap"
+        >
+          <i
+            class="fa fa-check green f3 fr pr3"
+          />
+          <p
+            class="w-90-l w-80"
+          >
+            No local District Courts cases, e.g. Medford Municipal Court (not Jackson County Circuit Court)
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <section
+    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 flex-l"
+  >
+    <div
+      class="w-60-l"
+    >
+      <h2
+        class="f3 fw8 tc pt2 mb4 ph4"
+      >
+        Get Expungement Forms
+      </h2>
+      <div
+        class="f5 lh-copy mw6-ns mw5 pl4-ns center list"
+      >
+        <h3
+          class="f4 fw7 mb3 "
+        >
+          Pre-filled Information
+        </h3>
+        <p>
+          For eligible cases the following will be included:
+        </p>
+        <ul
+          class="list mb5"
+        >
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-check green"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Case number
+              </p>
+            </div>
+          </li>
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-check green"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Charge name
+              </p>
+            </div>
+          </li>
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-check green"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Arrest date
+              </p>
+            </div>
+          </li>
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-check green"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Conviction or dismissal date
+              </p>
+            </div>
+          </li>
+        </ul>
+        <h3
+          class="f4 fw7 mb3 "
+        >
+          Potentially Missing Information
+        </h3>
+        <ul
+          class="list mb5"
+        >
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-question blue"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Arresting agency
+              </p>
+            </div>
+          </li>
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-question blue"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                District attorney number
+              </p>
+            </div>
+          </li>
+        </ul>
+        <h3
+          class="f4 fw7 mb3 "
+        >
+          Before Mailing Forms
+        </h3>
+        <ul
+          class="list mb5"
+        >
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-exclamation red"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Verify all information is correct
+              </p>
+            </div>
+          </li>
+          <li
+            class="mv3"
+          >
+            <div
+              class="flex flex-wrap"
+            >
+              <i
+                class="f3 fr pr3 fa fa-exclamation red"
+              />
+              <p
+                class="w-90-l w-80"
+              >
+                Add additional information as required
+              </p>
+            </div>
+          </li>
+        </ul>
+        <h3
+          class="f4 fw7 mb3 mt5"
+        >
+          Note
+        </h3>
+        <aside
+          class="fw4 pb3 i "
+        >
+          Forms can be dowloaded without additional client information. Pre-filled information is based on county records.
+        </aside>
+      </div>
+    </div>
+    <div
+      class="w-40-l"
+    >
+      <main
+        class="mw6"
+      >
+        <section
+          class="cf pa3 pa4-ns bg-white shadow br3"
+        >
+          <h1
+            class="f4 fw7 mt0 mb4"
+          >
+            User Information
+          </h1>
+          <form
+            novalidate=""
+          >
+            <legend
+              class="visually-hidden"
+            >
+              User Information
+            </legend>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1 fw6"
+                for="name"
+              >
+                Full Name
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="name"
+                name="name"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1"
+                for="dob"
+              >
+                <span
+                  class="fw6"
+                >
+                   Date of Birth 
+                </span>
+                 
+                <span
+                  class="fw2"
+                >
+                  mm/dd/yyyy 
+                </span>
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="dob"
+                name="dob"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1 fw6"
+                for="mailingAddress"
+              >
+                Mailing Street Address
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="mailingAddress"
+                name="mailingAddress"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1 fw6"
+                for="city"
+              >
+                City
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="city"
+                name="city"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1 fw6"
+                for="state"
+              >
+                State
+              </label>
+              <div
+                class="relative"
+              >
+                <select
+                  class="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
+                  id="state"
+                  name="state"
+                  required=""
+                >
+                  <option
+                    value=""
+                  />
+                  <option
+                    value="Alabama"
+                  >
+                    Alabama
+                  </option>
+                  <option
+                    value="Alaska"
+                  >
+                    Alaska
+                  </option>
+                  <option
+                    value="American Samoa"
+                  >
+                    American Samoa
+                  </option>
+                  <option
+                    value="Arizona"
+                  >
+                    Arizona
+                  </option>
+                  <option
+                    value="Arkansas"
+                  >
+                    Arkansas
+                  </option>
+                  <option
+                    value="California"
+                  >
+                    California
+                  </option>
+                  <option
+                    value="Colorado"
+                  >
+                    Colorado
+                  </option>
+                  <option
+                    value="Connecticut"
+                  >
+                    Connecticut
+                  </option>
+                  <option
+                    value="Delaware"
+                  >
+                    Delaware
+                  </option>
+                  <option
+                    value="District Of Columbia"
+                  >
+                    District Of Columbia
+                  </option>
+                  <option
+                    value="Florida"
+                  >
+                    Florida
+                  </option>
+                  <option
+                    value="Georgia"
+                  >
+                    Georgia
+                  </option>
+                  <option
+                    value="Guam"
+                  >
+                    Guam
+                  </option>
+                  <option
+                    value="Hawaii"
+                  >
+                    Hawaii
+                  </option>
+                  <option
+                    value="Idaho"
+                  >
+                    Idaho
+                  </option>
+                  <option
+                    value="Illinois"
+                  >
+                    Illinois
+                  </option>
+                  <option
+                    value="Indiana"
+                  >
+                    Indiana
+                  </option>
+                  <option
+                    value="Iowa"
+                  >
+                    Iowa
+                  </option>
+                  <option
+                    value="Kansas"
+                  >
+                    Kansas
+                  </option>
+                  <option
+                    value="Kentucky"
+                  >
+                    Kentucky
+                  </option>
+                  <option
+                    value="Louisiana"
+                  >
+                    Louisiana
+                  </option>
+                  <option
+                    value="Maine"
+                  >
+                    Maine
+                  </option>
+                  <option
+                    value="Maryland"
+                  >
+                    Maryland
+                  </option>
+                  <option
+                    value="Massachusetts"
+                  >
+                    Massachusetts
+                  </option>
+                  <option
+                    value="Michigan"
+                  >
+                    Michigan
+                  </option>
+                  <option
+                    value="Minnesota"
+                  >
+                    Minnesota
+                  </option>
+                  <option
+                    value="Mississippi"
+                  >
+                    Mississippi
+                  </option>
+                  <option
+                    value="Missouri"
+                  >
+                    Missouri
+                  </option>
+                  <option
+                    value="Montana"
+                  >
+                    Montana
+                  </option>
+                  <option
+                    value="Nebraska"
+                  >
+                    Nebraska
+                  </option>
+                  <option
+                    value="Nevada"
+                  >
+                    Nevada
+                  </option>
+                  <option
+                    value="New Hampshire"
+                  >
+                    New Hampshire
+                  </option>
+                  <option
+                    value="New Jersey"
+                  >
+                    New Jersey
+                  </option>
+                  <option
+                    value="New Mexico"
+                  >
+                    New Mexico
+                  </option>
+                  <option
+                    value="New York"
+                  >
+                    New York
+                  </option>
+                  <option
+                    value="North Carolina"
+                  >
+                    North Carolina
+                  </option>
+                  <option
+                    value="North Dakota"
+                  >
+                    North Dakota
+                  </option>
+                  <option
+                    value="Northern Mariana Islands"
+                  >
+                    Northern Mariana Islands
+                  </option>
+                  <option
+                    value="Ohio"
+                  >
+                    Ohio
+                  </option>
+                  <option
+                    value="Oklahoma"
+                  >
+                    Oklahoma
+                  </option>
+                  <option
+                    value="Oregon"
+                  >
+                    Oregon
+                  </option>
+                  <option
+                    value="Pennsylvania"
+                  >
+                    Pennsylvania
+                  </option>
+                  <option
+                    value="Puerto Rico"
+                  >
+                    Puerto Rico
+                  </option>
+                  <option
+                    value="Rhode Island"
+                  >
+                    Rhode Island
+                  </option>
+                  <option
+                    value="South Carolina"
+                  >
+                    South Carolina
+                  </option>
+                  <option
+                    value="South Dakota"
+                  >
+                    South Dakota
+                  </option>
+                  <option
+                    value="Tennessee"
+                  >
+                    Tennessee
+                  </option>
+                  <option
+                    value="Texas"
+                  >
+                    Texas
+                  </option>
+                  <option
+                    value="United States Minor Outlying Islands"
+                  >
+                    United States Minor Outlying Islands
+                  </option>
+                  <option
+                    value="Utah"
+                  >
+                    Utah
+                  </option>
+                  <option
+                    value="Vermont"
+                  >
+                    Vermont
+                  </option>
+                  <option
+                    value="Virgin Islands"
+                  >
+                    Virgin Islands
+                  </option>
+                  <option
+                    value="Virginia"
+                  >
+                    Virginia
+                  </option>
+                  <option
+                    value="Washington"
+                  >
+                    Washington
+                  </option>
+                  <option
+                    value="West Virginia"
+                  >
+                    West Virginia
+                  </option>
+                  <option
+                    value="Wisconsin"
+                  >
+                    Wisconsin
+                  </option>
+                  <option
+                    value="Wyoming"
+                  >
+                    Wyoming
+                  </option>
+                </select>
+                <div
+                  class="absolute pa3 right-0 top-0 bottom-0 pointer-events-none"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-angle-down"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1 fw6"
+                for="zipCode"
+              >
+                Zip code
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="zipCode"
+                name="zipCode"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb4"
+            >
+              <label
+                class="db mb1"
+                for="phoneNumber"
+              >
+                <span
+                  class="fw6"
+                >
+                   Phone Number 
+                </span>
+                 
+              </label>
+              <input
+                class="w-100 pa3 br2 b--black-20"
+                id="phoneNumber"
+                name="phoneNumber"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
+            >
+              Download Expungement Packet
+            </button>
+          </form>
+          <div
+            class="black-70 w-100"
+            role="alert"
+          />
+        </section>
+      </main>
+    </div>
+  </section>
+  <section
+    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 tc pb5 mb3"
+  >
+    <h2
+      class="f3 fw8 tc pt2 mb4 ph4"
+    >
+      Finish Up
+    </h2>
+    <button
+      class="fw6 bg-animate br3 pv3 ph4 bg-red white hover-bg-dark-red "
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        class="fas fa-arrow-up pr2"
+      />
+      Clear Data And Start Over
+    </button>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`the button to start over works 1`] = `<DocumentFragment />`;
 
 exports[`the show colors option works 1`] = `
 <DocumentFragment>
@@ -5424,2644 +8062,6 @@ exports[`the show colors option works 2`] = `
               >
                 Excluded charge(s) are hidden for this case.
               </aside>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="bg-white shadow br3 w-30-l pl3 pb2 "
-    >
-      <h3
-        class="f5 fw7 tc pv3 "
-      >
-        Counts
-      </h3>
-    </div>
-  </section>
-  <section
-    class="flex-l mh2 mt3"
-  >
-    <div
-      class="bg-white shadow br3 w-70-l f6 ph4 mr3"
-    >
-      <h2
-        class="f5 fw7 tc pv3 "
-      >
-        Analyze Cases
-      </h2>
-      <div
-        class="tr"
-      >
-        <button
-          class="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3"
-        >
-          Enable Editing
-        </button>
-         
-        <a
-          class="link hover-blue "
-          href="/manual#editing"
-        >
-          <i
-            aria-hidden="true"
-            class="gray hover-dark-blue fas fa-question-circle"
-          />
-          <span
-            class="visually-hidden"
-          >
-            Editing Help
-          </span>
-        </a>
-      </div>
-      <div
-        class="mb3"
-      >
-        <ul
-          class="list"
-        >
-          <li
-            id="scroll-spy-trigger_case_110000"
-          >
-            <div
-              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
-              id="110000"
-            >
-              <div
-                class="cf relative pv2 pr5 pr6-ns"
-              >
-                <div
-                  class="cf mb2"
-                >
-                  <div
-                    class="ch1 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Case
-                    </div>
-                    <a
-                      class="link bb hover-blue"
-                      href="http://localhost:5000/api/case_detail_page/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      110000
-                    </a>
-                  </div>
-                  <div
-                    class="ch2 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Status
-                    </div>
-                    Closed
-                  </div>
-                  <div
-                    class="ch3 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DA Number
-                    </div>
-                    <span
-                      class="break-all"
-                    >
-                      01234567
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="cl"
-                >
-                  <div
-                    class="ch4 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      County
-                    </div>
-                    Multnomah
-                  </div>
-                  <div
-                    class="ch5 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Balance
-                    </div>
-                    $0.00
-                  </div>
-                  <div
-                    class="ch6 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DOB
-                    </div>
-                    <span>
-                      1990
-                    </span>
-                  </div>
-                  <div
-                    class="ch7 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Name
-                    </div>
-                    <span>
-                      MULTIPLE CHARGES
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <ul
-                class="list"
-              >
-                <li
-                  id="scroll-spy-trigger_charge_110000-1"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="110000-1"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Eligible Now
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-time"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <span
-                              class="fw7"
-                            >
-                              Time:
-                            </span>
-                             Eligible Now
-                          </div>
-                        </div>
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-circle gray outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(d)
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            164043-Theft in the Third Degree
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             Misdemeanor Class C
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Dismissed - Apr 21, 2022
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 21, 2022
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li
-                  id="scroll-spy-trigger_charge_110000-2"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="110000-2"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="red bg-washed-red fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Ineligible
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-times-circle red bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Infraction reason
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            164043-A low level infraction
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             A low level infraction
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Dismissed - Apr 21, 2022
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 21, 2022
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li
-            id="scroll-spy-trigger_case_100000"
-          >
-            <div
-              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
-              id="100000"
-            >
-              <div
-                class="cf relative pv2 pr5 pr6-ns"
-              >
-                <div
-                  class="cf mb2"
-                >
-                  <div
-                    class="ch1 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Case
-                    </div>
-                    <a
-                      class="link bb hover-blue"
-                      href="http://localhost:5000/api/case_detail_page/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      100000
-                    </a>
-                  </div>
-                  <div
-                    class="ch2 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Status
-                    </div>
-                    Closed
-                  </div>
-                  <div
-                    class="ch3 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DA Number
-                    </div>
-                    <span
-                      class="break-all"
-                    >
-                      01234567
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="cl"
-                >
-                  <div
-                    class="ch4 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      County
-                    </div>
-                    Baker
-                  </div>
-                  <div
-                    class="ch5 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Balance
-                    </div>
-                    $1,000.00
-                  </div>
-                  <div
-                    class="ch6 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DOB
-                    </div>
-                    <span>
-                      1990
-                    </span>
-                  </div>
-                  <div
-                    class="ch7 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Name
-                    </div>
-                    <span>
-                      MULTIPLE CHARGES
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="bg-washed-red fw6 br3 pv2 ph3 ma2"
-              >
-                Eligible charges are ineligible until balance is paid
-                <a
-                  class="link nowrap bb hover-blue fw4 ml2"
-                  href="/manual#paybalances"
-                >
-                  Paying Balances
-                </a>
-              </div>
-              <ul
-                class="list"
-              >
-                <li
-                  id="scroll-spy-trigger_charge_100000-1"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="100000-1"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Eligible Now
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-time"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <span
-                              class="fw7"
-                            >
-                              Time:
-                            </span>
-                             Eligible Now
-                          </div>
-                        </div>
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-circle gray outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Misdemeanor Class A – Eligible under 137.225(1)(b)
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            166223-Disorderly Conduct in the First Degree
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             Misdemeanor Class A
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Convicted - Apr 21, 2019
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 21, 2019
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Convictions for misdemeanors are generally eligible under ORS 137.225(1)(b).
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          Exceptions include convictions related to sex, child and elder abuse, and driving, including DUII.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          Dismissals for misdemeanors are generally eligible under ORS 137.225(1)(d). Exceptions include cases dismissed due to successful completion of DUII diversion.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li
-                  id="scroll-spy-trigger_charge_100000-2"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="100000-2"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="green bg-washed-green fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Eligible Now
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-time"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-check-circle green bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <span
-                              class="fw7"
-                            >
-                              Time:
-                            </span>
-                             Eligible Now
-                          </div>
-                        </div>
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-circle gray outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Dismissed Criminal Charge – Dismissals are generally eligible under 137.225(1)(d)
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            1662250A-Disorderly Conduct in the Second Degree
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             Misdemeanor Class B
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Unrecognized ("Unrecognized")
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 21, 2019
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Dismissed criminal charges are generally eligible under 137.225(1)(d).  All criminal charges and Contempt of Court charges that are dismissed fall under this charge type.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                                 Charges without a named charge level in OECI are not considered criminal charges, and are thus not eligible under this or any subsection.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li
-            id="scroll-spy-trigger_case_120000"
-          >
-            <div
-              class="f6 f5-l bg-gray-blue-3 shadow br3 pa1 mb4"
-              id="120000"
-            >
-              <div
-                class="cf relative pv2 pr5 pr6-ns"
-              >
-                <div
-                  class="cf mb2"
-                >
-                  <div
-                    class="ch1 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Case
-                    </div>
-                    <a
-                      class="link bb hover-blue"
-                      href="http://localhost:5000/api/case_detail_page/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      120000
-                    </a>
-                  </div>
-                  <div
-                    class="ch2 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Status
-                    </div>
-                    Closed
-                  </div>
-                  <div
-                    class="ch3 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DA Number
-                    </div>
-                    <span
-                      class="break-all"
-                    >
-                      01234567
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="cl"
-                >
-                  <div
-                    class="ch4 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      County
-                    </div>
-                    Washington
-                  </div>
-                  <div
-                    class="ch5 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Balance
-                    </div>
-                    $0.00
-                  </div>
-                  <div
-                    class="ch6 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      DOB
-                    </div>
-                    <span>
-                      1990
-                    </span>
-                  </div>
-                  <div
-                    class="ch7 fl ph3 pv1"
-                  >
-                    <div
-                      class="fw7"
-                    >
-                      Name
-                    </div>
-                    <span>
-                      MULTIPLE CHARGES
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <ul
-                class="list"
-              >
-                <li
-                  id="scroll-spy-trigger_charge_120000-1"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="120000-1"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="purple bg-washed-purple fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Possibly Eligible
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-question-circle purple bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Traffic Violation – Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            811265-Failure to Obey Traffic Control Device
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             Violation
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Dismissed - Apr 21, 2011
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 21, 2011
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Convictions for traffic-related offenses are not eligible for expungement under ORS 137.225(7)(a). This includes Violations, Misdemeanors, and Felonies.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          The eligibility of a dismissed traffic violation is subject to some debate. 137.225(1)(d) says that "At any time after an acquittal or a dismissal...an arrested, cited or charged person may apply to the court in the county in which the person was arrested, cited or charged, for entry of an order setting aside the record of the arrest, citation or charge." A driving offense probably qualifies as a citation under any definition of the word.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          However, DAs will probably object to filing for these, at least initially, based off their understanding of the previous version of the law, and their relationships with the other parts of the State, and the practical administrative burdens this would place on those systems.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          Most directly, it’s not clear that the local municipal systems have a good way of expunging traffic tickets, dismissed or not.
-                        </div>
-                        <div
-                          class="mb2"
-                        >
-                          As such, petitioners filing to expunge dismissed traffic tickets may receive pushback and have their petition rejected, and do so at their own risk.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li
-                  id="scroll-spy-trigger_charge_120001-1"
-                >
-                  <div
-                    class="relative br3 bg-white ma2"
-                    id="120001-1"
-                  >
-                    <div
-                      class="relative connect connect-result pr6"
-                    >
-                      <h2
-                        class="red bg-washed-red fw6 pv2 ph3 ma2 mb3 dib br3 relative outline-2-white z-1"
-                      >
-                        Ineligible
-                      </h2>
-                    </div>
-                    <div
-                      class="flex-l ph3 pb2"
-                    >
-                      <div
-                        class="w-100 w-40-l relative pr6 pr4-l"
-                      >
-                        <div
-                          class="relative mb3 connect connect-type"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="absolute fas fa-question-circle purple bg-white outline-2-white z-1"
-                          />
-                          <div
-                            class="ml3 pl1"
-                          >
-                            <div
-                              class="false"
-                            >
-                              <span
-                                class="fw7"
-                              >
-                                Type: 
-                              </span>
-                              Public derpiness is never excusable.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="w-100 w-60-l pr3 pr6-l"
-                      >
-                        <ul
-                          class="list"
-                        >
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charge
-                            </span>
-                            811265-Public Derpiness
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Severity
-                            </span>
-                             Violation
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Disposition
-                            </span>
-                             Convicted - Apr 22, 2011
-                          </li>
-                          <li
-                            class="flex mb2"
-                          >
-                            <span
-                              class="w6rem shrink-none fw7"
-                            >
-                              Charged
-                            </span>
-                             Jan 22, 2011
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
-                      class="bt b--light-gray pt2 mh3 pb2"
-                    >
-                      <button
-                        aria-controls="panel--disclosure"
-                        aria-expanded="false"
-                      >
-                        <span
-                          class="flex items-center fw5 mid-gray link hover-blue pb1"
-                        >
-                          More Info
-                          <span
-                            aria-hidden="true"
-                            class="pt1 pl1 fas fa-angle-down"
-                          />
-                        </span>
-                      </button>
-                      <div
-                        class="pt2"
-                        hidden=""
-                        id="panel--disclosure"
-                      >
-                        <div
-                          class="mb2"
-                        >
-                          Rule that everyone knows
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      class="bg-white shadow br3 w-30-l pl3 pb2 self-start sticky-l"
-    >
-      <h3
-        class="f5 fw7 tc pv3 "
-      >
-        Quick Links
-      </h3>
-      <div>
-        <div
-          class="checkbox checkbox-sm fw4 f6 mb2 pl2"
-        >
-          <input
-            checked=""
-            data-testid="hide-traffic-charges-2"
-            id="hide-traffic-charges-2"
-            type="checkbox"
-          />
-          <label
-            class="pointer pl2"
-            for="hide-traffic-charges-2"
-          >
-            Hide Traffic Charges
-          </label>
-        </div>
-        <div
-          class="f6 overflow-y-auto vh-75"
-        >
-          <div
-            class="pb1"
-          >
-            <div
-              class="fw6 lh-copy flex flex-wrap pv1 ph2"
-              id="scroll-spy-target-110000"
-            >
-              <div
-                class="w-50"
-              >
-                <span
-                  class="pr2"
-                >
-                  1)
-                </span>
-                <a
-                  class="link hover-blue "
-                  href="/#110000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #110000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-50 pl3"
-              >
-                Jan 21, 2022
-              </div>
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="pv1 flex-ns flex-wrap"
-                id="scroll-spy-target-110000-1"
-              >
-                <div
-                  class="w-1 pb1 pr1 pb0-ns"
-                >
-                  <span
-                    class="green bg-washed-green pv1 ph2 mr1 dib br3 relative z-1"
-                  >
-                    <span
-                      class="fa fa-check"
-                    />
-                  </span>
-                </div>
-                <div
-                  class="w-80 pb1 pb0-ns"
-                >
-                  <a
-                    class="link hover-blue "
-                    href="/#110000-1"
-                  >
-                    <span
-                      class="bb b--moon-gray"
-                    >
-                      Theft in the Third Degree
-                    </span>
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="pb1"
-          >
-            <div
-              class="fw6 lh-copy flex flex-wrap pv1 ph2"
-              id="scroll-spy-target-100000"
-            >
-              <div
-                class="w-50"
-              >
-                <span
-                  class="pr2"
-                >
-                  2)
-                </span>
-                <a
-                  class="link hover-blue "
-                  href="/#100000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #100000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-50 pl3"
-              >
-                Jan 21, 2019
-              </div>
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="pv1 flex-ns flex-wrap"
-                id="scroll-spy-target-100000-1"
-              >
-                <div
-                  class="w-1 pb1 pr1 pb0-ns"
-                >
-                  <span
-                    class="dark-blue bg-washed-blue pv1 ph2 mr1 dib br3 relative z-1"
-                  >
-                    <span
-                      class="fa fa-dollar-sign"
-                    />
-                  </span>
-                </div>
-                <div
-                  class="w-80 pb1 pb0-ns"
-                >
-                  <a
-                    class="link hover-blue "
-                    href="/#100000-1"
-                  >
-                    <span
-                      class="bb b--moon-gray"
-                    >
-                      Disorderly Conduct in the First Degree
-                    </span>
-                  </a>
-                </div>
-              </li>
-              <li
-                class="pv1 flex-ns flex-wrap"
-                id="scroll-spy-target-100000-2"
-              >
-                <div
-                  class="w-1 pb1 pr1 pb0-ns"
-                >
-                  <span
-                    class="dark-blue bg-washed-blue pv1 ph2 mr1 dib br3 relative z-1"
-                  >
-                    <span
-                      class="fa fa-dollar-sign"
-                    />
-                  </span>
-                </div>
-                <div
-                  class="w-80 pb1 pb0-ns"
-                >
-                  <a
-                    class="link hover-blue "
-                    href="/#100000-2"
-                  >
-                    <span
-                      class="bb b--moon-gray"
-                    >
-                      Disorderly Conduct in the Second Degree
-                    </span>
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="pb1"
-          >
-            <div
-              class="fw6 lh-copy flex flex-wrap pv1 ph2"
-              id="scroll-spy-target-120000"
-            >
-              <div
-                class="w-50"
-              >
-                <span
-                  class="pr2"
-                >
-                  3)
-                </span>
-                <a
-                  class="link hover-blue "
-                  href="/#120000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #120000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-50 pl3"
-              >
-                Jan 21, 2011
-              </div>
-            </div>
-            <ul
-              class="list"
-            >
-              <aside
-                class="fw4 pb3 i "
-              >
-                Excluded charge(s) are hidden.
-              </aside>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section
-    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 tc"
-  >
-    <h2
-      class="f3 fw8 tc pt2 mb4 ph4"
-    >
-      Get The Expungement Analysis Report
-    </h2>
-    <button
-      class="fw6 bg-animate br3 pv3 ph4 bg-blue white hover-bg-dark-blue"
-      type="button"
-    >
-      <i
-        aria-hidden="true"
-        class="fas fa-download pr2"
-      />
-      Download Summary Now
-    </button>
-  </section>
-  <section
-    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 "
-  >
-    <h2
-      class="f3 fw8 tc pt2 mb4 ph4"
-    >
-      Verify Assumptions
-    </h2>
-    <ul
-      class="f5 lh-copy mw6-ns mw5 pl4-ns center list"
-    >
-      <li
-        class="mb4"
-      >
-        <div
-          class="flex flex-wrap"
-        >
-          <i
-            class="fa fa-check green f3 fr pr3"
-          />
-          <p
-            class="w-90-l w-80"
-          >
-            No open cases in any court in the United States
-          </p>
-        </div>
-      </li>
-      <p
-        class="f4 fw7 mt4 mb3"
-      >
-        Within the last seven years:
-      </p>
-      <li
-        class="mb4"
-      >
-        <div
-          class="flex flex-wrap"
-        >
-          <i
-            class="fa fa-check green f3 fr pr3"
-          />
-          <p
-            class="w-90-l w-80"
-          >
-            No previously expunged cases
-          </p>
-        </div>
-      </li>
-      <li
-        class="mb4"
-      >
-        <div
-          class="flex flex-wrap"
-        >
-          <i
-            class="fa fa-check green f3 fr pr3"
-          />
-          <p
-            class="w-90-l w-80"
-          >
-            No cases are from states besides Oregon
-          </p>
-        </div>
-      </li>
-      <li
-        class="mb4"
-      >
-        <div
-          class="flex flex-wrap"
-        >
-          <i
-            class="fa fa-check green f3 fr pr3"
-          />
-          <p
-            class="w-90-l w-80"
-          >
-            No Federal Court cases
-          </p>
-        </div>
-      </li>
-      <li
-        class="mb4"
-      >
-        <div
-          class="flex flex-wrap"
-        >
-          <i
-            class="fa fa-check green f3 fr pr3"
-          />
-          <p
-            class="w-90-l w-80"
-          >
-            No local District Courts cases, e.g. Medford Municipal Court (not Jackson County Circuit Court)
-          </p>
-        </div>
-      </li>
-    </ul>
-  </section>
-  <section
-    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 flex-l"
-  >
-    <div
-      class="w-60-l"
-    >
-      <h2
-        class="f3 fw8 tc pt2 mb4 ph4"
-      >
-        Get Expungement Forms
-      </h2>
-      <div
-        class="f5 lh-copy mw6-ns mw5 pl4-ns center list"
-      >
-        <h3
-          class="f4 fw7 mb3 "
-        >
-          Pre-filled Information
-        </h3>
-        <p>
-          For eligible cases the following will be included:
-        </p>
-        <ul
-          class="list mb5"
-        >
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-check green"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Case number
-              </p>
-            </div>
-          </li>
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-check green"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Charge name
-              </p>
-            </div>
-          </li>
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-check green"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Arrest date
-              </p>
-            </div>
-          </li>
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-check green"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Conviction or dismissal date
-              </p>
-            </div>
-          </li>
-        </ul>
-        <h3
-          class="f4 fw7 mb3 "
-        >
-          Potentially Missing Information
-        </h3>
-        <ul
-          class="list mb5"
-        >
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-question blue"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Arresting agency
-              </p>
-            </div>
-          </li>
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-question blue"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                District attorney number
-              </p>
-            </div>
-          </li>
-        </ul>
-        <h3
-          class="f4 fw7 mb3 "
-        >
-          Before Mailing Forms
-        </h3>
-        <ul
-          class="list mb5"
-        >
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-exclamation red"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Verify all information is correct
-              </p>
-            </div>
-          </li>
-          <li
-            class="mv3"
-          >
-            <div
-              class="flex flex-wrap"
-            >
-              <i
-                class="f3 fr pr3 fa fa-exclamation red"
-              />
-              <p
-                class="w-90-l w-80"
-              >
-                Add additional information as required
-              </p>
-            </div>
-          </li>
-        </ul>
-        <h3
-          class="f4 fw7 mb3 mt5"
-        >
-          Note
-        </h3>
-        <aside
-          class="fw4 pb3 i "
-        >
-          Forms can be dowloaded without additional client information. Pre-filled information is based on county records.
-        </aside>
-      </div>
-    </div>
-    <div
-      class="w-40-l"
-    >
-      <main
-        class="mw6"
-      >
-        <section
-          class="cf pa3 pa4-ns bg-white shadow br3"
-        >
-          <h1
-            class="f4 fw7 mt0 mb4"
-          >
-            User Information
-          </h1>
-          <form
-            novalidate=""
-          >
-            <legend
-              class="visually-hidden"
-            >
-              User Information
-            </legend>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1 fw6"
-                for="name"
-              >
-                Full Name
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="name"
-                name="name"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1"
-                for="dob"
-              >
-                <span
-                  class="fw6"
-                >
-                   Date of Birth 
-                </span>
-                 
-                <span
-                  class="fw2"
-                >
-                  mm/dd/yyyy 
-                </span>
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="dob"
-                name="dob"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1 fw6"
-                for="mailingAddress"
-              >
-                Mailing Street Address
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="mailingAddress"
-                name="mailingAddress"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1 fw6"
-                for="city"
-              >
-                City
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="city"
-                name="city"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1 fw6"
-                for="state"
-              >
-                State
-              </label>
-              <div
-                class="relative"
-              >
-                <select
-                  class="w-100 pa3 br2 bw1 b--black-20 input-reset bg-white"
-                  id="state"
-                  name="state"
-                  required=""
-                >
-                  <option
-                    value=""
-                  />
-                  <option
-                    value="Alabama"
-                  >
-                    Alabama
-                  </option>
-                  <option
-                    value="Alaska"
-                  >
-                    Alaska
-                  </option>
-                  <option
-                    value="American Samoa"
-                  >
-                    American Samoa
-                  </option>
-                  <option
-                    value="Arizona"
-                  >
-                    Arizona
-                  </option>
-                  <option
-                    value="Arkansas"
-                  >
-                    Arkansas
-                  </option>
-                  <option
-                    value="California"
-                  >
-                    California
-                  </option>
-                  <option
-                    value="Colorado"
-                  >
-                    Colorado
-                  </option>
-                  <option
-                    value="Connecticut"
-                  >
-                    Connecticut
-                  </option>
-                  <option
-                    value="Delaware"
-                  >
-                    Delaware
-                  </option>
-                  <option
-                    value="District Of Columbia"
-                  >
-                    District Of Columbia
-                  </option>
-                  <option
-                    value="Florida"
-                  >
-                    Florida
-                  </option>
-                  <option
-                    value="Georgia"
-                  >
-                    Georgia
-                  </option>
-                  <option
-                    value="Guam"
-                  >
-                    Guam
-                  </option>
-                  <option
-                    value="Hawaii"
-                  >
-                    Hawaii
-                  </option>
-                  <option
-                    value="Idaho"
-                  >
-                    Idaho
-                  </option>
-                  <option
-                    value="Illinois"
-                  >
-                    Illinois
-                  </option>
-                  <option
-                    value="Indiana"
-                  >
-                    Indiana
-                  </option>
-                  <option
-                    value="Iowa"
-                  >
-                    Iowa
-                  </option>
-                  <option
-                    value="Kansas"
-                  >
-                    Kansas
-                  </option>
-                  <option
-                    value="Kentucky"
-                  >
-                    Kentucky
-                  </option>
-                  <option
-                    value="Louisiana"
-                  >
-                    Louisiana
-                  </option>
-                  <option
-                    value="Maine"
-                  >
-                    Maine
-                  </option>
-                  <option
-                    value="Maryland"
-                  >
-                    Maryland
-                  </option>
-                  <option
-                    value="Massachusetts"
-                  >
-                    Massachusetts
-                  </option>
-                  <option
-                    value="Michigan"
-                  >
-                    Michigan
-                  </option>
-                  <option
-                    value="Minnesota"
-                  >
-                    Minnesota
-                  </option>
-                  <option
-                    value="Mississippi"
-                  >
-                    Mississippi
-                  </option>
-                  <option
-                    value="Missouri"
-                  >
-                    Missouri
-                  </option>
-                  <option
-                    value="Montana"
-                  >
-                    Montana
-                  </option>
-                  <option
-                    value="Nebraska"
-                  >
-                    Nebraska
-                  </option>
-                  <option
-                    value="Nevada"
-                  >
-                    Nevada
-                  </option>
-                  <option
-                    value="New Hampshire"
-                  >
-                    New Hampshire
-                  </option>
-                  <option
-                    value="New Jersey"
-                  >
-                    New Jersey
-                  </option>
-                  <option
-                    value="New Mexico"
-                  >
-                    New Mexico
-                  </option>
-                  <option
-                    value="New York"
-                  >
-                    New York
-                  </option>
-                  <option
-                    value="North Carolina"
-                  >
-                    North Carolina
-                  </option>
-                  <option
-                    value="North Dakota"
-                  >
-                    North Dakota
-                  </option>
-                  <option
-                    value="Northern Mariana Islands"
-                  >
-                    Northern Mariana Islands
-                  </option>
-                  <option
-                    value="Ohio"
-                  >
-                    Ohio
-                  </option>
-                  <option
-                    value="Oklahoma"
-                  >
-                    Oklahoma
-                  </option>
-                  <option
-                    value="Oregon"
-                  >
-                    Oregon
-                  </option>
-                  <option
-                    value="Pennsylvania"
-                  >
-                    Pennsylvania
-                  </option>
-                  <option
-                    value="Puerto Rico"
-                  >
-                    Puerto Rico
-                  </option>
-                  <option
-                    value="Rhode Island"
-                  >
-                    Rhode Island
-                  </option>
-                  <option
-                    value="South Carolina"
-                  >
-                    South Carolina
-                  </option>
-                  <option
-                    value="South Dakota"
-                  >
-                    South Dakota
-                  </option>
-                  <option
-                    value="Tennessee"
-                  >
-                    Tennessee
-                  </option>
-                  <option
-                    value="Texas"
-                  >
-                    Texas
-                  </option>
-                  <option
-                    value="United States Minor Outlying Islands"
-                  >
-                    United States Minor Outlying Islands
-                  </option>
-                  <option
-                    value="Utah"
-                  >
-                    Utah
-                  </option>
-                  <option
-                    value="Vermont"
-                  >
-                    Vermont
-                  </option>
-                  <option
-                    value="Virgin Islands"
-                  >
-                    Virgin Islands
-                  </option>
-                  <option
-                    value="Virginia"
-                  >
-                    Virginia
-                  </option>
-                  <option
-                    value="Washington"
-                  >
-                    Washington
-                  </option>
-                  <option
-                    value="West Virginia"
-                  >
-                    West Virginia
-                  </option>
-                  <option
-                    value="Wisconsin"
-                  >
-                    Wisconsin
-                  </option>
-                  <option
-                    value="Wyoming"
-                  >
-                    Wyoming
-                  </option>
-                </select>
-                <div
-                  class="absolute pa3 right-0 top-0 bottom-0 pointer-events-none"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="fas fa-angle-down"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1 fw6"
-                for="zipCode"
-              >
-                Zip code
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="zipCode"
-                name="zipCode"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <div
-              class="mb4"
-            >
-              <label
-                class="db mb1"
-                for="phoneNumber"
-              >
-                <span
-                  class="fw6"
-                >
-                   Phone Number 
-                </span>
-                 
-              </label>
-              <input
-                class="w-100 pa3 br2 b--black-20"
-                id="phoneNumber"
-                name="phoneNumber"
-                required=""
-                type="text"
-                value=""
-              />
-            </div>
-            <button
-              class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
-            >
-              Download Expungement Packet
-            </button>
-          </form>
-          <div
-            class="black-70 w-100"
-            role="alert"
-          />
-        </section>
-      </main>
-    </div>
-  </section>
-  <section
-    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 tc pb5 mb3"
-  >
-    <h2
-      class="f3 fw8 tc pt2 mb4 ph4"
-    >
-      Finish Up
-    </h2>
-    <button
-      class="fw6 bg-animate br3 pv3 ph4 bg-red white hover-bg-dark-red "
-      type="button"
-    >
-      <i
-        aria-hidden="true"
-        class="fas fa-arrow-up pr2"
-      />
-      Clear Data And Start Over
-    </button>
-  </section>
-</DocumentFragment>
-`;
-
-exports[`the summary checkbox that hides traffic charges works 1`] = `
-<DocumentFragment>
-  <section
-    class="flex-l mh2 mt3"
-  >
-    <div
-      class="bg-white shadow br3 w-70-l f6 ph4 mr3"
-    >
-      <h2
-        class="f5 fw7 tc pv3 "
-      >
-        Review Summary
-      </h2>
-      <div>
-        <div
-          class="checkbox checkbox-sm fw4 f6 tr mb2"
-        >
-          <input
-            checked=""
-            data-testid="hide-traffic-charges-1"
-            id="hide-traffic-charges-1"
-            type="checkbox"
-          />
-          <label
-            class="pointer pl2"
-            for="hide-traffic-charges-1"
-          >
-            Hide Traffic Charges
-          </label>
-        </div>
-        <div>
-          <div
-            class="mb1"
-          >
-            <div
-              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
-            >
-              <div
-                class="w-25-ns w-50 pl4"
-              >
-                Jan 21, 2022
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                <a
-                  class="link hover-blue "
-                  href="/#110000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #110000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                Multnomah
-              </div>
-              <div
-                class="w-30-ns w-50"
-              />
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white green bg-washed-green"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-check w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Eligible Now
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  DISMISSED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  Theft in the Third Degree
-                </div>
-              </li>
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white red bg-washed-red"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-circle-xmark w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Ineligible
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  DISMISSED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  A low level infraction
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="mb1"
-          >
-            <div
-              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
-            >
-              <div
-                class="w-25-ns w-50 pl4"
-              >
-                Jan 21, 2019
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                <a
-                  class="link hover-blue "
-                  href="/#100000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #100000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                Baker
-              </div>
-              <div
-                class="w-30-ns w-50"
-              >
-                $1,000.00
-              </div>
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white dark-blue bg-washed-blue"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-dollar-sign w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Eligible
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  CONVICTED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  Disorderly Conduct in the First Degree
-                </div>
-              </li>
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white dark-blue bg-washed-blue"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-dollar-sign w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Eligible
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  UNRECOGNIZED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  Disorderly Conduct in the Second Degree
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="mb1"
-          >
-            <div
-              class="fw7 flex flex-wrap br3 mb1 pv1 pl2 bg-gray-blue-2"
-            >
-              <div
-                class="w-25-ns w-50 pl4"
-              >
-                Jan 21, 2011
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                <a
-                  class="link hover-blue "
-                  href="/#120000"
-                >
-                  <span
-                    class="bb b--moon-gray"
-                  >
-                    #120000
-                  </span>
-                </a>
-              </div>
-              <div
-                class="w-20-ns w-50"
-              >
-                Washington
-              </div>
-              <div
-                class="w-30-ns w-50"
-              />
-            </div>
-            <ul
-              class="list"
-            >
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white purple bg-washed-purple"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-question-circle w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Unknown
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  DISMISSED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  Failure to Obey Traffic Control Device
-                </div>
-              </li>
-              <li
-                class="flex-ns flex-wrap"
-              >
-                <div
-                  class="w-25-ns"
-                >
-                  <div
-                    class="w-80 tc pa1 br3 bb b--white red bg-washed-red"
-                  >
-                    <div
-                      class="flex flex-wrap"
-                    >
-                      <span
-                        class="fa fa-circle-xmark w-10"
-                      />
-                      <span
-                        class="fw6 w-90 pl1"
-                      >
-                        Ineligible
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-20-ns pt1 pl2"
-                >
-                  CONVICTED
-                </div>
-                <div
-                  class="w-50-ns pt1 pl2"
-                >
-                  Public Derpiness
-                </div>
-              </li>
             </ul>
           </div>
         </div>
