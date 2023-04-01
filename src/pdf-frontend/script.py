@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 from auth import Auth
 
-from expungeservice.pdf.markdown_serializer import MarkdownSerializer
+from expungeservice.pdf.markdown_renderer import MarkdownRenderer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 
@@ -44,7 +44,7 @@ def handle_person(output, client, row):
     header = build_header(aliases, name, birth_date, officer)
     if record.get("cases"):
         print(f"PROCESSING ANALYSIS FOR {name}")
-        source = MarkdownSerializer.to_markdown(record, header)
+        source = MarkdownRenderer.to_markdown(record, header=header)
         pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
         Path(f"{output}/{officer}/").mkdir(parents=True, exist_ok=True)
         filename = f"{output}/{officer}/{first_name}_{last_name}_{officer}.pdf"
