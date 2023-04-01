@@ -41,16 +41,7 @@ If the above assumptions are not true for you and you would like an updated anal
 ## Charges Eligible Now
 {% if eligible_case_charges | count > 0 %}
   {% for case_info, charges_info in eligible_case_charges[0][1] %}
-    {% if case_info %}
-       - {{ case_info }}
-      {% for id, description in charges_info %}
-           - {{ description }}
-      {% endfor %}
-    {% else %}
-      {% for id, description in charges_info %}
-       - {{ description }}
-      {% endfor %}
-    {% endif %}
+    {% include 'partials/case.md' %}
   {% endfor %}
 {% else %}
 You are not currently eligible to expunge any charges.
@@ -61,16 +52,7 @@ You are not currently eligible to expunge any charges.
 These convictions are not eligible for expungement at any time under the current law.
 
   {% for case_info, charges_info in ineligible_case_charges[0][1] %}
-    {% if case_info %}
-       - {{ case_info }}
-      {% for id, description in charges_info %}
-           - {{ description }}
-      {% endfor %}
-    {% else %}
-      {% for id, description in charges_info %}
-       - {{ description }}
-      {% endfor %}
-    {% endif %}
+    {% include 'partials/case.md' %}
   {% endfor %}
 {% endif %}
 
@@ -79,16 +61,7 @@ These convictions are not eligible for expungement at any time under the current
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
   {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
-    {% if case_info %}
-       - {{ case_info }}
-      {% for id, description in charges_info %}
-           - {{ description }}
-      {% endfor %}
-    {% else %}
-      {% for id, description in charges_info %}
-       - {{ description }}
-      {% endfor %}
-    {% endif %}
+    {% include 'partials/case.md' %}
   {% endfor %}
 {% endif %}
 
@@ -99,16 +72,7 @@ The following charges (dismissed and convicted) are eligible at the designated d
   {% for label, section in future_eligible_charges %}
 ### {{ label }}
     {% for case_info, charges_info in section %}
-      {% if case_info %}
-       - {{ case_info }}
-        {% for id, description in charges_info %}
-           - {{ description }}
-        {% endfor %}
-      {% else %}
-        {% for id, description in charges_info %}
-       - {{ description }}
-        {% endfor %}
-      {% endif %}
+      {% include 'partials/case.md' %}
     {% endfor %}
 
   {% endfor %}
@@ -119,15 +83,6 @@ The following charges (dismissed and convicted) are eligible at the designated d
 Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
 
   {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
-    {% if case_info %}
-       - {{ case_info }}
-      {% for id, description in charges_info %}
-           - {{ description }}
-      {% endfor %}
-    {% else %}
-      {% for id, description in charges_info %}
-       - {{ description }}
-      {% endfor %}
-    {% endif %}
+    {% include 'partials/case.md' %}
   {% endfor %}
 {% endif %}
