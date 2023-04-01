@@ -1,11 +1,10 @@
 import jinja2
-from expungeservice.pdf.markdown_serializer import MarkdownSerializer
 from typing import Dict, List, Optional, Tuple
 
 class MarkdownRenderer:
     @staticmethod
     def to_markdown(record: Dict, header: Optional[str] = None, aliases: List[Dict] = []) -> str:
-        mapped_aliases = map(MarkdownRenderer.name_and_birth_info, aliases)
+        mapped_aliases = map(MarkdownRenderer._name_and_birth_info, aliases)
         has_open_cases = ["open case" in error for error in record["errors"]]
         eligible_case_charges = [
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"
@@ -28,18 +27,18 @@ class MarkdownRenderer:
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Needs More Analysis"
         ]
 
-        return MarkdownRenderer.render_without_request(
+        return MarkdownRenderer._render_without_request(
             "expungement_analysis_report.md",
             header=header, aliases=mapped_aliases, has_open_cases=has_open_cases,
             eligible_case_charges=eligible_case_charges,
             ineligible_case_charges=ineligible_case_charges,
             eligible_if_paid_case_charges=eligible_if_paid_case_charges,
-            future_eligible_charges=sorted(future_eligible_charges, key=MarkdownSerializer._sort_future_eligible),
+            future_eligible_charges=sorted(future_eligible_charges, key=MarkdownRenderer._sort_future_eligible),
             needs_more_analysis_charges=needs_more_analysis_charges
         )
 
     @staticmethod
-    def render_without_request(template_name, **template_vars):
+    def _render_without_request(template_name, **template_vars):
         """
         Usage is the same as flask.render_template:
 
@@ -53,10 +52,23 @@ class MarkdownRenderer:
         return template.render(**template_vars)
 
     @staticmethod
-    def name_and_birth_info(alias: Dict) -> Tuple[str, Optional[str]]:
+    def _name_and_birth_info(alias: Dict) -> Tuple[str, Optional[str]]:
         name = ' '.join([
             alias.get('first_name', ''),
             alias.get('middle_name',''),
             alias.get('last_name','')
         ]).upper()
         return (name, alias.get('birth_date'))
+
+    @staticmethod
+    def _sort_future_eligible(group):
+        label = group[0]
+        split = label.split(" ")
+        for date_parts in zip(split, split[1:], split[2:]):
+            date_string = " ".join(date_parts)
+            try:
+                date = datetime.strptime(date_string, "%b %d, %Y")
+                return date.isoformat()
+            except ValueError:
+                pass
+        return label
