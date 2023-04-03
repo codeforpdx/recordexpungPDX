@@ -4,8 +4,8 @@ from typing import Dict, List, Optional, Tuple
 
 class MarkdownRenderer:
     @staticmethod
-    def to_markdown(record: Dict, header: Optional[str] = None, aliases: List[Dict] = []) -> str:
-        mapped_aliases = map(MarkdownRenderer._name_and_birth_info, aliases)
+    def to_markdown(record: Dict, header: Optional[str] = None, aliases: List[Dict] = None) -> str:
+        mapped_aliases = map(MarkdownRenderer._name_and_birth_info, aliases or [])
         has_open_cases = ["open case" in error for error in record["errors"]]
         eligible_case_charges = [
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"

@@ -18,7 +18,6 @@ def example_record():
         },
     )
 
-
 def test_render_markdown(example_record):
     record_summary = RecordSummarizer.summarize(example_record, {})
     record = json.loads(json.dumps(record_summary, cls=ExpungeModelEncoder))
@@ -27,4 +26,11 @@ def test_render_markdown(example_record):
         {"first_name": "john", "middle_name": "", "last_name": "doe", "birth_date": ""},
     ]
     source = MarkdownRenderer.to_markdown(record, aliases=aliases)
-    assert source == open("./tests/pdf/expected_markdown.md").read()
+    assert source == open("./tests/pdf/expected/default.md").read()
+
+def test_render_with_custom_header(example_record):
+    record_summary = RecordSummarizer.summarize(example_record, {})
+    record = json.loads(json.dumps(record_summary, cls=ExpungeModelEncoder))
+    header = "# Custom Header"
+    source = MarkdownRenderer.to_markdown(record, header=header)
+    assert source == open("./tests/pdf/expected/custom_header.md").read()
