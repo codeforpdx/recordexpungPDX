@@ -47,7 +47,7 @@ class MarkdownRenderer:
         """
         env = jinja2.Environment(
             loader=jinja2.PackageLoader('expungeservice','templates'),
-            trim_blocks=True, lstrip_blocks=True
+            trim_blocks=True, lstrip_blocks=True, autoescape=True
         )
         template = env.get_template(template_name)
         return template.render(**template_vars)
