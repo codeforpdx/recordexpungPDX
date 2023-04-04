@@ -29,7 +29,7 @@ class MarkdownRenderer:
         ]
 
         return MarkdownRenderer._render_without_request(
-            "expungement-analysis-report.md",
+            "expungement_analysis_report.md.j2",
             header=header, aliases=mapped_aliases, has_open_cases=has_open_cases,
             eligible_case_charges=eligible_case_charges,
             ineligible_case_charges=ineligible_case_charges,
