@@ -3,7 +3,7 @@ from expungeservice.form_filling import FormFilling
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
 
-from expungeservice.pdf.markdown_serializer import MarkdownSerializer
+from expungeservice.pdf.markdown_renderer import MarkdownRenderer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.endpoints.search import Search
 
@@ -16,8 +16,7 @@ class Pdf(MethodView):
         response = search().post()  # type: ignore
         record = json.loads(response)["record"]
         aliases = request_data["aliases"]
-        header = MarkdownSerializer.default_header(aliases)
-        source = MarkdownSerializer.to_markdown(record, header)
+        source = MarkdownRenderer.to_markdown(record, aliases=aliases)
         pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
         response = make_response(pdf)
         response.headers["Content-Type"] = "application/pdf"
