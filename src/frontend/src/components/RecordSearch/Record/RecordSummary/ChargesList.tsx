@@ -1,5 +1,4 @@
 import React from "react";
-import { getEligibilityColor } from "./utils";
 
 interface ChargeProps {
   id: string;
@@ -20,6 +19,17 @@ interface EligibilityGroupProps {
 interface ChargeListProps {
   chargesGroupedByEligibilityAndCase: [string, any[]][];
   totalCharges: number;
+}
+
+function getEligibilityColor(eligibility: string) {
+  return (
+    {
+      "Eligible Now": "green",
+      Ineligible: "red",
+      "Eligible on case with Ineligible charge": "red",
+      "Needs More Analysis": "purple",
+    }[eligibility] ?? "dark-blue"
+  );
 }
 
 function Charge({ id, name, hasBalance }: ChargeProps) {
