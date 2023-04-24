@@ -1,4 +1,3 @@
-import moment from "moment";
 import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import {
@@ -8,6 +7,7 @@ import {
   CHARGE_TYPES_DISMISSED_ONLY,
   SEVERITY_LEVELS,
 } from "./types";
+import { isDate } from "../../../service/validators";
 import InvalidInputs from "../../InvalidInputs";
 import { editCharge, deleteCharge } from "../../../redux/search/actions";
 import DateField from "./DateField";
@@ -199,26 +199,20 @@ export default class EditChargePanel extends React.Component<Props, State> {
           missingType: this.state.type_name === "",
           missingLevel: this.state.level === "",
           missingDate: this.state.date === "",
-          invalidDate:
-            this.state.date !== "" &&
-            !moment(this.state.date, "M/D/YYYY", true).isValid(),
+          invalidDate: this.state.date !== "" && !isDate(this.state.date),
           missingDispositionDate:
             (this.state.disposition_status === "Convicted" ||
               this.state.disposition_status === "Probation Revoked") &&
             this.state.disposition_date === "",
           invalidDispositionDate:
             this.state.disposition_date !== "" &&
-            !moment(this.state.disposition_date, "M/D/YYYY", true).isValid(),
+            !isDate(this.state.disposition_date),
           missingProbationRevoked:
             this.state.disposition_status === "Probation Revoked" &&
             this.state.probation_revoked_date === "",
           invalidProbationRevoked:
             this.state.probation_revoked_date !== "" &&
-            !moment(
-              this.state.probation_revoked_date,
-              "M/D/YYYY",
-              true
-            ).isValid(),
+            !isDate(this.state.probation_revoked_date),
         },
         resolve
       );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { QuestionData } from "./types";
 import store from "../../../redux/store";
-import moment from "moment";
+import { isDate } from "../../../service/validators";
 import { DispositionAnswer } from "./DispositionAnswer";
 
 interface Props {
@@ -75,13 +75,9 @@ export function DispositionQuestion(props: Props) {
       ((questionState.dispositionAnswer === "Convicted" ||
         questionState.dispositionAnswer === "Probation Revoked") &&
         questionState.conviction_date.length !== 0 &&
-        !moment(questionState.conviction_date, "M/D/YYYY", true).isValid()) ||
+        !isDate(questionState.conviction_date)) ||
       (questionState.probation_revoked_date.length !== 0 &&
-        !moment(
-          questionState.probation_revoked_date,
-          "M/D/YYYY",
-          true
-        ).isValid());
+        !isDate(questionState.probation_revoked_date));
     return [missingFields, invalidDate];
   }
 
