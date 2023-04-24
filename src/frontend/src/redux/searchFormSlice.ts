@@ -1,4 +1,4 @@
-import moment from "moment";
+import { DateTime } from "luxon";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import {
@@ -20,7 +20,7 @@ export const initialState: SearchFormState = {
       birth_date: "",
     },
   ],
-  date: moment().format("M/D/YYYY"),
+  date: DateTime.now().toFormat("M/d/yyyy"),
 };
 
 interface UpdateAliasPayload {

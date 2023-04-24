@@ -1,4 +1,4 @@
-import moment from "moment";
+import { DateTime } from "luxon";
 
 export function getEligibilityColor(eligibility: string) {
   return (
@@ -19,8 +19,8 @@ export function getFinalEligibility(
   let finalStatus = status;
 
   if (dateEligible) {
-    const eligibleDate = moment(dateEligible, "MMM D, YYYY");
-    const isEligibleNow = moment().isSameOrAfter(eligibleDate);
+    const eligibleDate = DateTime.fromFormat(dateEligible, "MMM d, yyyy");
+    const isEligibleNow = DateTime.now() >= eligibleDate;
 
     if (finalStatus === "Eligible") {
       if (isEligibleNow) {
