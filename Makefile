@@ -71,7 +71,7 @@ frontend_build: frontend_clean
 	docker run --rm \
 		-v `pwd`/src/frontend:/src/frontend \
 		-v recordexpungpdx_node_modules:/src/frontend/node_modules \
-		node:13.13.0-alpine /bin/sh -c 'cd /src/frontend && npm i && npm run build'
+		node:18.13-bullseye /bin/sh -c 'cd /src/frontend && npm i && npm run build'
 
 # delete react built files
 frontend_clean:

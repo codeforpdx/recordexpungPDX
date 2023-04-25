@@ -1,4 +1,4 @@
-import moment from "moment";
+import { DateTime } from "luxon";
 
 export type Validator<T> = (alias: T, index: number, array: T[]) => boolean;
 
@@ -8,8 +8,8 @@ export function isBlank(str: string) {
   return str.trim().length === 0;
 }
 
-export function isDate(str: string, format = "M/D/YYYY") {
-  return moment(str, format, true).isValid();
+export function isDate(str: string, format = "M/d/yyyy") {
+  return DateTime.fromFormat(str, format).isValid;
 }
 
 export function isValidWildcard(str: string, minLength = 2): boolean {
@@ -26,7 +26,7 @@ export function isPresent<T extends Record<string, any>>(
 export function isValidOptionalDate<T extends Record<string, any>>(
   attribute: keyof T,
   message: string,
-  opts = { format: "M/D/YYYY", indexes: undefined } as {
+  opts = { format: "M/d/yyyy", indexes: undefined } as {
     format?: string;
     indexes?: number[];
   }

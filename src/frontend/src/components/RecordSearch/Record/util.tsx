@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { ExpungementResultData, ChargeEligibilityStatus } from "./types";
 
 type EligibilityColor = "green" | "dark-blue" | "purple" | "red";
@@ -45,15 +45,15 @@ export function getShortLabel(
   dateStr?: string | null,
   caseBalance?: number
 ) {
-  const date = moment(dateStr, "MMM/D/YY");
+  const date = dateStr && DateTime.fromFormat(dateStr, "MMM d, yyyy");
 
   switch (status) {
     case "Eligible Now":
       if (caseBalance && caseBalance > 0) return "Eligible";
       return status;
     case "Will Be Eligible":
-      if (!dateStr || !date.isValid()) return "Eligible Future";
-      return "Eligible " + date.format("M/D/YY");
+      if (!date || !date.isValid) return "Eligible Future";
+      return "Eligible " + date.toFormat("M/d/yy");
     case "Needs More Analysis":
       return "Needs Analysis";
     case "Possibly Eligible":

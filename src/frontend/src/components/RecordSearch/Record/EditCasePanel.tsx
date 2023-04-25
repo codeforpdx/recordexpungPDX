@@ -1,6 +1,6 @@
 import React from "react";
-import moment from "moment";
 import { CaseData } from "./types";
+import { isDate } from "../../../service/validators";
 import {
   editCase,
   deleteCase,
@@ -180,7 +180,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
           invalidBirthYear:
             this.state.birth_year !== "" &&
             this.state.birth_year !== "0" &&
-            !moment(this.state.birth_year, "YYYY", true).isValid(),
+            !isDate(this.state.birth_year, "yyyy"),
         },
         resolve
       );
