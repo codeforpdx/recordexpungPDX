@@ -26,7 +26,7 @@ function getEligibilityColor(eligibility: string) {
     {
       "Eligible Now": "green",
       Ineligible: "red",
-      "Eligible on case with Ineligible charge": "red",
+      "Eligible on case with Ineligible charge": "green",
       "Needs More Analysis": "purple",
     }[eligibility] ?? "dark-blue"
   );
