@@ -1,7 +1,5 @@
 import React from "react";
-import { Redirect, Route, Router, Switch } from "react-router-dom";
-import history from "../../service/history";
-
+import { Routes, Route, Navigate } from "react-router-dom";
 import Footer from "../Footer";
 import Header from "../Header";
 import RecordSearch from "../RecordSearch";
@@ -18,35 +16,48 @@ import PartnerInterest from "../PartnerInterest";
 import AccessibilityStatement from "../AccessibilityStatement";
 import About from "../About";
 
-class App extends React.Component {
-  redirect = () => <Redirect to="/" />;
-  public render() {
-    return (
-      <Router history={history}>
-        <Header />
-        <Switch>
-          <Route component={Landing} exact={true} path="/" />
-          <Route component={OeciLogin} path="/oeci" />
-          <Route component={RecordSearch} path="/record-search" />
-          <Route component={Demo} path="/demo-record-search" />
-          <Route component={Manual} path="/manual" />
-          <Route component={Rules} path="/rules" />
-          <Route component={Faq} path="/faq" />
-          <Route component={Appendix} path="/appendix" />
-          <Route component={PrivacyPolicy} path="/privacy-policy" />
-          <Route component={FillForms} path="/fill-expungement-forms" />
-          <Route component={PartnerInterest} path="/partner-interest" />
-          <Route
-            component={AccessibilityStatement}
-            path="/accessibility-statement"
-          />
-          <Route component={About} path="/about" />
-          <Route render={this.redirect} />
-        </Switch>
-        <Footer />
-      </Router>
-    );
-  }
+export default function App() {
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route
+          path="/oeci"
+          element={
+            <OeciLogin
+              userId=""
+              password=""
+              missingUserId={false}
+              missingPassword={false}
+              expectedFailure={false}
+              expectedFailureMessage=""
+              invalidResponse={false}
+              missingInputs={false}
+              isLoggedIn={false}
+            />
+          }
+        />
+        <Route path="/record-search" element={<RecordSearch />} />
+        <Route path="/demo-record-search" element={<Demo />} />
+        <Route path="/manual" element={<Manual />} />
+        <Route path="/rules" element={<Rules />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/appendix" element={<Appendix />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/fill-expungement-forms" element={<FillForms />} />
+        <Route
+          path="/partner-interest"
+          element={<PartnerInterest email="" invalidEmail={true} />}
+        />
+        <Route
+          path="/accessibility-statement"
+          element={<AccessibilityStatement />}
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <Footer />
+    </>
+  );
 }
-
-export default App;
