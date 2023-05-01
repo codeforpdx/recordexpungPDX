@@ -1,9 +1,8 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { fireEvent, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { appRender } from "../../../../test/testHelpers";
-import history from "../../../../service/history";
 import RecordSummary from ".";
 
 jest.mock("axios", () => {
@@ -11,6 +10,13 @@ jest.mock("axios", () => {
     request: () => new Promise(() => {}),
   };
 });
+
+const mockUseNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...(jest.requireActual("react-router-dom") as any),
+  useNavigate: () => mockUseNavigate,
+}));
 
 // snapshot tests for the initial state are accounted
 // for in the RecordSearch tests
@@ -21,13 +27,14 @@ describe("When rendered with the John Common demo data", () => {
 
   test("the generate paperwork button works", async () => {
     const user = userEvent.setup();
-    const historySpy = jest.spyOn(history, "push").mockReturnValue();
     const generateButton = screen.getByRole("button", {
       name: /generate paperwork/i,
     });
+    const mockNavigate = jest.fn();
+    mockUseNavigate.mockImplementationOnce(mockNavigate);
 
     await user.click(generateButton);
-    expect(historySpy).toHaveBeenCalledWith("/fill-expungement-forms");
+    expect(mockNavigate).toHaveBeenCalledWith("/fill-expungement-forms");
   });
 
   test("the summary pdf button works", async () => {
