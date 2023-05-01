@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
 import {
@@ -15,6 +16,11 @@ const mockHasOeciToeken = jest.fn();
 jest.mock("../../service/cookie-service", () => ({
   ...jest.requireActual("../../service/cookie-service"),
   hasOeciToken: () => mockHasOeciToeken(),
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  Navigate: jest.fn(),
 }));
 
 const DemoOnComponent = () => {
@@ -78,5 +84,10 @@ describe("when not logged in", () => {
     expect(screen.queryByText(/search/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/case/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/assumptions/i)).not.toBeInTheDocument();
+  });
+
+  it("renders <Navigate> to /oeci", () => {
+    appRender(<RecordSearch />);
+    expect(Navigate).toHaveBeenCalledWith({ to: "/oeci" }, {});
   });
 });
