@@ -20,6 +20,7 @@ it("renders correctly", () => {
             expectedFailureMessage=""
             invalidResponse={false}
             missingInputs={false}
+            isLoggedIn={false}
           />
         </BrowserRouter>
       </Provider>
