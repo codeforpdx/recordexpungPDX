@@ -175,12 +175,12 @@ exports[`renders correctly 1`] = `
                 <div
                   className="response"
                   id="mce-error-response"
-                  visually-hidden={true}
+                  visually-hidden="true"
                 />
                 <div
                   className="response"
                   id="mce-success-response"
-                  visually-hidden={true}
+                  visually-hidden="true"
                 />
               </div>
                
