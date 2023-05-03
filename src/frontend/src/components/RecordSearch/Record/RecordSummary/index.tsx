@@ -30,7 +30,11 @@ export default function RecordSummary() {
 
   const handleGenerateFormsClick = () => {
     if (
-      groupedCharges?.filter((x) => x[0] === "Eligible Now" || x[0] === "Eligible on case with Ineligible charge")[0][1]?.length > 0
+      groupedCharges?.some(
+        (x) =>
+          x[0] === "Eligible Now" ||
+          x[0] === "Eligible on case with Ineligible charge"
+      )
     ) {
       history.push("/fill-expungement-forms");
     } else {
