@@ -169,12 +169,12 @@ export default class PartnerInterest extends React.Component<State> {
                         <div
                           className="response"
                           id="mce-error-response"
-                          visually-hidden
+                          visually-hidden="true"
                         ></div>
                         <div
                           className="response"
                           id="mce-success-response"
-                          visually-hidden
+                          visually-hidden="true"
                         ></div>
                       </div>{" "}
                       {/*This div captures bot signups, according to Mailchimp.*/}

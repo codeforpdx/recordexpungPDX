@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { stopDemo } from "../../redux/demoSlice";
 import { hasOeciToken } from "../../service/cookie-service";
@@ -10,7 +10,7 @@ export default function RecordSearch() {
   setupPage("Search Records");
   useAppDispatch()(stopDemo());
 
-  if (!hasOeciToken()) return <Redirect to="/oeci" />;
+  if (!hasOeciToken()) return <Navigate to="/oeci" />;
 
   return <Layout />;
 }

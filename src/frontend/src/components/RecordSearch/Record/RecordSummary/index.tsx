@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../redux/hooks";
 import { useAppDispatch } from "../../../../redux/hooks";
 import {
@@ -6,12 +7,12 @@ import {
   selectSummaryIsLoading,
 } from "../../../../redux/summarySlice";
 import { buildAndSendDownloadPdfRequest } from "../../../../redux/search/actions";
-import history from "../../../../service/history";
 import ChargesList from "./ChargesList";
 import CountyFines from "./CountyFines";
 import IconButton from "../../../common/IconButton";
 
 export default function RecordSummary() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const record = useAppSelector((state) => state.search.record);
   const summaryIsLoading = useAppSelector(selectSummaryIsLoading);
@@ -39,7 +40,7 @@ export default function RecordSummary() {
       (chargesEligibleNow[0] && chargesEligibleNow[0][1].length > 0) ||
       (chargesEligibleOnIneligible[0] && chargesEligibleOnIneligible[0][1].length > 0)
     ) {
-      history.push("/fill-expungement-forms");
+      navigate("/fill-expungement-forms");
     } else {
       setCanGenerateForms(false);
     }

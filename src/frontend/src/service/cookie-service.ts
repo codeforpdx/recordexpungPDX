@@ -1,5 +1,3 @@
-import history from "../service/history";
-
 interface Cookie {
   [key: string]: string;
 }
@@ -31,10 +29,4 @@ export function hasOeciToken() {
 
 export function isAdmin() {
   return document.cookie.includes("is_admin");
-}
-
-export function checkOeciRedirect() {
-  if (!hasOeciToken()) {
-    history.replace("/oeci");
-  }
 }

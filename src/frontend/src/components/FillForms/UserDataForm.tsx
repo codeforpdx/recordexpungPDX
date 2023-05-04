@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import EmptyFieldsModal from "./EmptyFieldsModal";
 import { selectSearchFormValues } from "../../redux/searchFormSlice";
 import { isBlank } from "../../service/validators";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const isPresent = (str: string) => !isBlank(str);
 
@@ -103,7 +103,7 @@ export default function UserDataForm() {
     allFormInputsPresent ? downloadPacket() : setShowModal(true);
   }
 
-  if (aliases.length === 0) return <Redirect to="/record-search" />;
+  if (aliases.length === 0) return <Navigate to="/record-search" />;
 
   return (
     <main className="mw6">

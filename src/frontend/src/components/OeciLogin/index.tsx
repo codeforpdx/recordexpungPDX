@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import InvalidInputs from "../InvalidInputs";
 import oeciLogIn from "../../service/oeci";
 import { Link } from "react-router-dom";
@@ -12,11 +13,11 @@ interface State {
   expectedFailureMessage: string;
   invalidResponse: boolean;
   missingInputs: boolean;
+  isLoggedIn: boolean;
 }
 
 class OeciLogin extends React.Component<State> {
-
-  componentDidMount(){
+  componentDidMount() {
     document.title = "Log In - RecordSponge";
   }
 
@@ -29,6 +30,7 @@ class OeciLogin extends React.Component<State> {
     expectedFailureMessage: "",
     invalidResponse: false,
     missingInputs: false,
+    isLoggedIn: false,
   };
 
   handleChange = (e: React.BaseSyntheticEvent) => {
@@ -52,8 +54,11 @@ class OeciLogin extends React.Component<State> {
       },
       () => {
         if (this.state.missingInputs === false) {
-          oeciLogIn(this.state.userId, this.state.password).catch(
-            (error: any) => {
+          oeciLogIn(this.state.userId, this.state.password)
+            .then((isLoggedIn: boolean) => {
+              this.setState({ isLoggedIn });
+            })
+            .catch((error: any) => {
               error.response.status === 401 || error.response.status === 404
                 ? // error: 40x
                   this.setState({
@@ -62,14 +67,17 @@ class OeciLogin extends React.Component<State> {
                   })
                 : // error: technical difficulties
                   this.setState({ invalidResponse: true });
-            }
-          );
+            });
         }
       }
     );
   };
 
   public render() {
+    if (this.state.isLoggedIn) {
+      return <Navigate to="/record-search" />;
+    }
+
     return (
       <>
         <main className="flex-l f6 f5-l">
