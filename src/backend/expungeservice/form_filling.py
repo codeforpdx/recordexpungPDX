@@ -445,10 +445,10 @@ class PDF:
     DATE_FORMAT = "%b %-d, %Y"
     STR_CONNECTOR = "; "
 
-    @classmethod
-    def fill_form(cls, mapper: PDFFieldMapper, should_validate=False):
+    @staticmethod
+    def fill_form(mapper: PDFFieldMapper, should_validate=False):
 
-        pdf = cls(mapper)
+        pdf = PDF(mapper)
         if should_validate:
             pdf.validate_initial_state()
 
