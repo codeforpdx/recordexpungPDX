@@ -448,10 +448,12 @@ class PDF:
     @classmethod
     def fill_form(cls, mapper: PDFFieldMapper, should_validate=False):
         klass = cls
-        county = mapper.get("(County)")
 
-        if county and county.lower() == "clackamas":
-            klass = ClackamasPDF
+        # Until recently Clackamas required an additional form, but a recent change
+        # in the court means this logic is no longer needed. Keeping here in case there is a reversion.
+        # county = mapper.get("(County)")
+        # if county and county.lower() == "clackamas":
+        #     klass = ClackamasPDF
 
         pdf = klass(mapper)
         if should_validate:
@@ -615,7 +617,7 @@ class ClackamasPDF(PDF):
 
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
-    NON_OREGON_PDF_COUNTIES = ["multnomah", "clackamas"]
+    NON_OREGON_PDF_COUNTIES = ["multnomah"]
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["douglas", "umatilla", "multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["douglas", "umatilla"]
     OSP_PDF_NAME = "OSP_Form"
