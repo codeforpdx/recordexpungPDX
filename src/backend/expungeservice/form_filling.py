@@ -445,15 +445,10 @@ class PDF:
     DATE_FORMAT = "%b %-d, %Y"
     STR_CONNECTOR = "; "
 
-    @classmethod
-    def fill_form(cls, mapper: PDFFieldMapper, should_validate=False):
-        klass = cls
-        county = mapper.get("(County)")
+    @staticmethod
+    def fill_form(mapper: PDFFieldMapper, should_validate=False):
 
-        if county and county.lower() == "clackamas":
-            klass = ClackamasPDF
-
-        pdf = klass(mapper)
+        pdf = PDF(mapper)
         if should_validate:
             pdf.validate_initial_state()
 
@@ -550,72 +545,9 @@ class PDF:
             self.get_annotation_dict()
         ), "[PDF] PDF fields do not match annotations"
 
-
-class ClackamasPDF(PDF):
-    FONT_SIZE_MEDIUM = "8"
-
-    def set_text_value(self, annotation, value):
-        index, is_rest = self._get_list_index(annotation)
-
-        if index is None:
-            super().set_text_value(annotation, value)
-            return
-
-        if index >= len(value):
-            return
-
-        if is_rest:
-            new_value = "\n".join(
-                [
-                    f"{c.name},   {c.disposition.date.strftime(self.DATE_FORMAT)}, {c.disposition.status}"
-                    for i, c in enumerate(value)
-                    if i >= index
-                ]
-            )
-        elif isinstance(value[index], DateWithFuture):
-            new_value = value[index].strftime(self.DATE_FORMAT)
-        else:
-            new_value = value[index]
-
-        annotation.V = PdfString.encode(new_value)
-        self._set_charges_font(annotation)
-        annotation.update(PdfDict(AP=""))
-
-    def _get_list_index(self, annotation) -> Tuple[Optional[int], bool]:
-        """
-        Parses annotation names and returns the index and whether there
-        is a "rest" parameter. Ex,
-        "(Full Name---)"                  -> (None, False)
-        "(Eligible Charge Names---1)"     -> (1, False)
-        "(Eligible Charges List---2rest)" -> (2, True)
-        """
-        split_str = annotation.T[1:-1].split(self.mapper.STRING_FOR_DUPLICATES)
-
-        if len(split_str) < 2:
-            return None, False
-
-        index_str = split_str[1]
-        is_rest = "rest" in index_str
-        idx = None if index_str == "" else int(index_str.split("rest")[0])
-        return idx, is_rest
-
-    def _set_charges_font(self, annotation):
-        font_size = self.FONT_SIZE
-
-        if not "Eligible Charge" in annotation.T:
-            return super().set_font(annotation)
-
-        if "Names" in annotation.T:
-            font_size = self.FONT_SIZE_SMALL
-        else:  # List
-            font_size = self.FONT_SIZE_MEDIUM
-
-        annotation.DA = PdfString.encode(f"/{self.FONT_FAMILY} {font_size} Tf 0 g")
-
-
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
-    NON_OREGON_PDF_COUNTIES = ["multnomah", "clackamas"]
+    NON_OREGON_PDF_COUNTIES = ["multnomah"]
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["douglas", "umatilla", "multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["douglas", "umatilla"]
     OSP_PDF_NAME = "OSP_Form"
