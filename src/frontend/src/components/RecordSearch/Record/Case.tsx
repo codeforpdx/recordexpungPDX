@@ -9,7 +9,6 @@ import EditedBadge from "./EditedBadge";
 import currencyFormat from "../../../service/currency-format";
 import { undoEditCase } from "../../../redux/search/actions";
 import store from "../../../redux/store";
-import { HashLink as Link } from "react-router-hash-link";
 
 interface Props {
   case: CaseData;
@@ -185,12 +184,6 @@ export default class Case extends React.Component<Props, State> {
         {balance_due > 0 && !allIneligible && (
           <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">
             Eligible charges are ineligible until balance is paid
-            <Link
-              className="link nowrap bb hover-blue fw4 ml2"
-              to="/manual#paybalances"
-            >
-              Paying Balances
-            </Link>
           </div>
         )}
         {this.state.editing && (

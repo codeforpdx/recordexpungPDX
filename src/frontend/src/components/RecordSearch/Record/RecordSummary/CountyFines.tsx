@@ -39,19 +39,7 @@ export default class CountyFines extends React.Component<Props> {
 
     return (
       <div className="mb4">
-        <h3 className="fw7 bt b--light-gray pt2 mb3">
-          Balance due by county{" "}
-          <Link
-            to="/manual#paybalances"
-            className=" gray link hover-blue underline"
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-question-circle link hover-dark-blue"
-            ></i>
-            <span className="visually-hidden">Learn more about balances</span>
-          </Link>
-        </h3>
+        <h3 className="fw7 bt b--light-gray pt2 mb3">Balance due by county</h3>
         <ul className="mw5 list">
           {listItems.length > 0 ? (
             <>
