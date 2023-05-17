@@ -807,12 +807,6 @@ exports[`filter checkboxes the nav checkbox that hides traffic charges works 1`]
                 class="bg-washed-red fw6 br3 pv2 ph3 ma2"
               >
                 Eligible charges are ineligible until balance is paid
-                <a
-                  class="link nowrap bb hover-blue fw4 ml2"
-                  href="/manual#paybalances"
-                >
-                  Paying Balances
-                </a>
               </div>
               <ul
                 class="list"
@@ -3530,12 +3524,6 @@ exports[`filter checkboxes the summary checkbox that hides traffic charges works
                 class="bg-washed-red fw6 br3 pv2 ph3 ma2"
               >
                 Eligible charges are ineligible until balance is paid
-                <a
-                  class="link nowrap bb hover-blue fw4 ml2"
-                  href="/manual#paybalances"
-                >
-                  Paying Balances
-                </a>
               </div>
               <ul
                 class="list"
@@ -6073,12 +6061,6 @@ exports[`the show colors option works 1`] = `
                 class="bg-washed-red fw6 br3 pv2 ph3 ma2"
               >
                 Eligible charges are ineligible until balance is paid
-                <a
-                  class="link nowrap bb hover-blue fw4 ml2"
-                  href="/manual#paybalances"
-                >
-                  Paying Balances
-                </a>
               </div>
               <ul
                 class="list"
@@ -8614,12 +8596,6 @@ exports[`the show colors option works 2`] = `
                 class="bg-washed-red fw6 br3 pv2 ph3 ma2"
               >
                 Eligible charges are ineligible until balance is paid
-                <a
-                  class="link nowrap bb hover-blue fw4 ml2"
-                  href="/manual#paybalances"
-                >
-                  Paying Balances
-                </a>
               </div>
               <ul
                 class="list"

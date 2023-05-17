@@ -703,21 +703,6 @@ exports[`With the multiple charges record renders correctly 1`] = `
                   class="fw7 bt b--light-gray pt2 mb3"
                 >
                   Balance due by county
-                   
-                  <a
-                    class=" gray link hover-blue underline"
-                    href="/manual#paybalances"
-                  >
-                    <i
-                      aria-hidden="true"
-                      class="fas fa-question-circle link hover-dark-blue"
-                    />
-                    <span
-                      class="visually-hidden"
-                    >
-                      Learn more about balances
-                    </span>
-                  </a>
                 </h3>
                 <ul
                   class="mw5 list"
@@ -1300,12 +1285,6 @@ exports[`With the multiple charges record renders correctly 1`] = `
                   class="bg-washed-red fw6 br3 pv2 ph3 ma2"
                 >
                   Eligible charges are ineligible until balance is paid
-                  <a
-                    class="link nowrap bb hover-blue fw4 ml2"
-                    href="/manual#paybalances"
-                  >
-                    Paying Balances
-                  </a>
                 </div>
                 <ul
                   class="list"

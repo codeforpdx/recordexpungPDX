@@ -678,21 +678,7 @@ exports[`can displays request errors 1`] = `
                 <h3
                   class="fw7 bt b--light-gray pt2 mb3"
                 >
-                  Balance due by county 
-                  <a
-                    class=" gray link hover-blue underline"
-                    href="/manual#paybalances"
-                  >
-                    <i
-                      aria-hidden="true"
-                      class="fas fa-question-circle link hover-dark-blue"
-                    />
-                    <span
-                      class="visually-hidden"
-                    >
-                      Learn more about balances
-                    </span>
-                  </a>
+                  Balance due by county
                 </h3>
                 <ul
                   class="mw5 list"
