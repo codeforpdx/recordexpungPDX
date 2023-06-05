@@ -298,18 +298,6 @@ Array [
                         Free
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -432,18 +420,6 @@ Array [
                       </span>
                       <span>
                         $100/case
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
                       </span>
                     </li>
                   </ul>
@@ -570,18 +546,6 @@ Array [
                         $100/case
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -702,18 +666,6 @@ Array [
                       </span>
                       <span>
                         Unknown
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
                       </span>
                     </li>
                   </ul>
@@ -840,18 +792,6 @@ Array [
                         Unknown
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -976,18 +916,6 @@ Array [
                         Unknown
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -1110,18 +1038,6 @@ Array [
                       </span>
                       <span>
                         $100/case
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
                       </span>
                     </li>
                   </ul>
@@ -1258,18 +1174,6 @@ Array [
                         Unknown
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -1394,18 +1298,6 @@ Array [
                         Free
                       </span>
                     </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Court Fees
-                      </span>
-                      <span>
-                        Not Included
-                      </span>
-                    </li>
                   </ul>
                   <p
                     className="mw6 lh-copy mb3"
@@ -1447,6 +1339,393 @@ Array [
                     href="https://www.facebook.com/pendletonlegalaid/"
                   >
                     https://www.facebook.com/pendletonlegalaid/
+                  </a>
+                </div>
+              </li>
+              <li
+                className="bt bw2 b--lightest-blue1"
+              >
+                <button
+                  aria-controls="accordion-panel-Bay Area First Step"
+                  aria-expanded={false}
+                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="w-70 db pr3 mb2 mb0-ns"
+                  >
+                    Bay Area First Step
+                  </span>
+                  <span
+                    className="w-30 pr3"
+                  >
+                    Coos Bay
+                  </span>
+                  <span
+                    className="absolute top-0 right-0 pt3 ph3"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pt0 pl0 fas fa-angle-down"
+                    />
+                  </span>
+                </button>
+                <div
+                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
+                  hidden={true}
+                  id="accordion-panel-Bay Area First Step"
+                >
+                  <ul
+                    className="list mb2"
+                  >
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Locations
+                      </span>
+                      <span>
+                        Southern Oregon Coast
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Income Restrictions
+                      </span>
+                      <span>
+                        None
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Analysis Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Paperwork Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                  </ul>
+                  <p
+                    className="mw6 lh-copy mb3"
+                  >
+                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
+                     
+                    <a
+                      className="link hover-blue bb"
+                      href="/manual#filepaperwork"
+                      onClick={[Function]}
+                    >
+                      Learn More
+                    </a>
+                  </p>
+                  <hr
+                    className="bt b--black-05 mb3"
+                  />
+                  <p
+                    className="fw6 mb3"
+                  >
+                    Contact
+                  </p>
+                  <ul
+                    className="list mb3"
+                  >
+                    <li
+                      className="mb3"
+                    >
+                      Devin Bailey Wilson
+                    </li>
+                    <li
+                      className="mb3"
+                    >
+                      dwilson@bayareafirststep.org
+                    </li>
+                  </ul>
+                  <a
+                    className="link hover-blue bb"
+                    href="https://bayareafirststep.org/"
+                  >
+                    https://bayareafirststep.org/
+                  </a>
+                </div>
+              </li>
+              <li
+                className="bt bw2 b--lightest-blue1"
+              >
+                <button
+                  aria-controls="accordion-panel-Linn-Benton Community College"
+                  aria-expanded={false}
+                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="w-70 db pr3 mb2 mb0-ns"
+                  >
+                    Linn-Benton Community College
+                  </span>
+                  <span
+                    className="w-30 pr3"
+                  >
+                    Albany
+                  </span>
+                  <span
+                    className="absolute top-0 right-0 pt3 ph3"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pt0 pl0 fas fa-angle-down"
+                    />
+                  </span>
+                </button>
+                <div
+                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
+                  hidden={true}
+                  id="accordion-panel-Linn-Benton Community College"
+                >
+                  <ul
+                    className="list mb2"
+                  >
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Locations
+                      </span>
+                      <span>
+                        Central Oregon
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Income Restrictions
+                      </span>
+                      <span>
+                        None
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Analysis Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Paperwork Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                  </ul>
+                  <p
+                    className="mw6 lh-copy mb3"
+                  >
+                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
+                     
+                    <a
+                      className="link hover-blue bb"
+                      href="/manual#filepaperwork"
+                      onClick={[Function]}
+                    >
+                      Learn More
+                    </a>
+                  </p>
+                  <hr
+                    className="bt b--black-05 mb3"
+                  />
+                  <p
+                    className="fw6 mb3"
+                  >
+                    Contact
+                  </p>
+                  <ul
+                    className="list mb3"
+                  >
+                    <li
+                      className="mb3"
+                    >
+                      Drew Hastings
+                    </li>
+                    <li
+                      className="mb3"
+                    >
+                      hastind@linnbenton.edu
+                    </li>
+                  </ul>
+                  <a
+                    className="link hover-blue bb"
+                    href="https://www.linnbenton.edu"
+                  >
+                    https://www.linnbenton.edu
+                  </a>
+                </div>
+              </li>
+              <li
+                className="bt bw2 b--lightest-blue1"
+              >
+                <button
+                  aria-controls="accordion-panel-WorkSource Oregon"
+                  aria-expanded={false}
+                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                >
+                  <span
+                    className="w-70 db pr3 mb2 mb0-ns"
+                  >
+                    WorkSource Oregon
+                  </span>
+                  <span
+                    className="w-30 pr3"
+                  >
+                    Roseburg
+                  </span>
+                  <span
+                    className="absolute top-0 right-0 pt3 ph3"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pt0 pl0 fas fa-angle-down"
+                    />
+                  </span>
+                </button>
+                <div
+                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
+                  hidden={true}
+                  id="accordion-panel-WorkSource Oregon"
+                >
+                  <ul
+                    className="list mb2"
+                  >
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Locations
+                      </span>
+                      <span>
+                        Southern Oregon
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Income Restrictions
+                      </span>
+                      <span>
+                        None
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Analysis Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                    <li
+                      className="flex-ns mb3"
+                    >
+                      <span
+                        className="w10rem db fw6 mr3"
+                      >
+                        Paperwork Cost
+                      </span>
+                      <span>
+                        Free
+                      </span>
+                    </li>
+                  </ul>
+                  <p
+                    className="mw6 lh-copy mb3"
+                  >
+                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
+                     
+                    <a
+                      className="link hover-blue bb"
+                      href="/manual#filepaperwork"
+                      onClick={[Function]}
+                    >
+                      Learn More
+                    </a>
+                  </p>
+                  <hr
+                    className="bt b--black-05 mb3"
+                  />
+                  <p
+                    className="fw6 mb3"
+                  >
+                    Contact
+                  </p>
+                  <ul
+                    className="list mb3"
+                  >
+                    <li
+                      className="mb3"
+                    >
+                      Therese Roche
+                    </li>
+                    <li
+                      className="mb3"
+                    >
+                      Theresa.ROCHE@employ.oregon.gov
+                    </li>
+                  </ul>
+                  <a
+                    className="link hover-blue bb"
+                    href="https://worksourceoregon.org/"
+                  >
+                    https://worksourceoregon.org/
                   </a>
                 </div>
               </li>
