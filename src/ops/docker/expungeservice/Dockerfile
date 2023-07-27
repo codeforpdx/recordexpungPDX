@@ -20,13 +20,16 @@ FROM base AS build
 
 RUN apt install git libffi-dev
 
-COPY Pipfile* setup.py /src/backend/
+# adjusted paths for Pipfile, Pipfile.lock and setup.py
+COPY ../../../backend/Pipfile* ../../../backend/setup.py /src/backend/
 RUN cd /src/backend && pipenv install
 
-COPY backend /src/backend
+# adjusted path for backend directory
+COPY ../../../backend /src/backend
 RUN mkdir -p /src/backend/logs && chown nobody /src/backend/logs
 RUN mkdir -p /src/backend/flask_session && chown nobody /src/backend/flask_session
 
-COPY frontend /src/frontend
+# assuming that frontend directory is at the same level as backend
+COPY ../../../frontend /src/frontend
 
 CMD ["pipenv", "run", "uwsgi", "-b 8192", "--http-timeout", "300", "--harakiri", "300", "--enable-threads", "--master", "--processes", "2", "--http", "0.0.0.0:5000", "--module", "expungeservice.wsgi", "--die-on-term", "--uid", "nobody"]
