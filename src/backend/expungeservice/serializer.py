@@ -92,5 +92,4 @@ class ExpungeModelEncoder(JSONEncoder):
         elif is_dataclass(o):
             return asdict(o)
         else:
-            print(o)
             return JSONEncoder.default(self, o)
