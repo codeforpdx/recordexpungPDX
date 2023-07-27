@@ -30,7 +30,11 @@ def mock_login_failure(_, __, ___):
 def test_oeci_login_success(service, monkeypatch):
     monkeypatch.setattr(oeci_login.Crawler, "attempt_login", mock_login("Successful login response"))
     service.client.post("/api/oeci_login", json={"oeci_username": "correctname", "oeci_password": "correctpwd"})
-    credentials_cookie_string = service.client.cookie_jar._cookies["localhost.local"]["/"]["oeci_token"].value
+    credentials_cookie_string = None
+    for cookie in service.client.cookie_jar:
+        if cookie.key == "oeci_token":
+            credentials_cookie_string = cookie.value
+            break
     creds = service.cipher.decrypt(credentials_cookie_string)
     assert creds["oeci_username"] == "correctname"
     assert creds["oeci_password"] == "correctpwd"

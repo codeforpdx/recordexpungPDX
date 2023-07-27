@@ -1,6 +1,7 @@
 from dacite import from_dict
 from flask.views import MethodView
-from flask import request, json
+from flask import request
+import json
 
 from expungeservice.models.record import Alias
 from expungeservice.record_creator import RecordCreator
