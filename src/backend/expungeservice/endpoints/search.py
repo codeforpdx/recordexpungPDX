@@ -2,7 +2,8 @@ from datetime import datetime
 from dacite import from_dict
 from expungeservice.models.record_summary import RecordSummary
 from flask.views import MethodView
-from flask import request, current_app, json
+from flask import request, current_app
+import json
 
 from expungeservice.models.record import QuestionSummary, Alias
 from expungeservice.record_creator import RecordCreator

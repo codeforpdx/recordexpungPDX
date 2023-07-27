@@ -1,11 +1,12 @@
-import flask
-from expungeservice.util import DateWithFuture as date
+from dataclasses import is_dataclass, asdict
 
+from expungeservice.util import DateWithFuture as date
 from expungeservice.models.record import Record
 from expungeservice.models.record_summary import RecordSummary, CountyFines
+from json import JSONEncoder
 
 
-class ExpungeModelEncoder(flask.json.JSONEncoder):
+class ExpungeModelEncoder(JSONEncoder):
     def record_summary_to_json(self, record_summary):
         record_summary = {
             **self.record_to_json(record_summary.record),
@@ -88,5 +89,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             return self.county_fines_to_json(o)
         elif isinstance(o, date):
             return o.strftime("%b %-d, %Y")
+        elif is_dataclass(o):
+            return asdict(o)
         else:
-            return flask.json.JSONEncoder.default(self, o)
+            return JSONEncoder.default(self, o)

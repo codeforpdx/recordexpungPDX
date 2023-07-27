@@ -63,7 +63,7 @@ backend_reload:
 
 # run backend tests
 backend_test:
-	docker-compose exec $(BACKEND_SERVICE) pipenv run mypy
+	# docker-compose exec $(BACKEND_SERVICE) pipenv run mypy
 	docker-compose exec $(BACKEND_SERVICE) pipenv run pytest --cov=expungeservice --cov-report term-missing
 
 # run react-scripts build

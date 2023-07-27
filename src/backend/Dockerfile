@@ -1,9 +1,9 @@
-FROM python:3.7-alpine3.13 AS base
+FROM python:3.9 AS base
 LABEL authors="Kenichi Nakamura <kenichi.nakamura@gmail.com>"
 
 RUN  pip install --upgrade pip && \
      pip install pipenv
-RUN apk update
+RUN apt update
 
 RUN mkdir -p /src/backend/expungeservice
 WORKDIR /src/backend
@@ -12,16 +12,13 @@ ENV WORKON_HOME=/src/venvs
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-RUN apk add --update --no-cache \
-    libgcc libstdc++ libx11 glib libxrender libxext libintl \
-    ttf-dejavu ttf-droid ttf-freefont ttf-liberation ttf-ubuntu-font-family \
-    libffi openssl libpq wkhtmltopdf pcre-dev
+RUN apt install -y wkhtmltopdf openssl
 
 # ---
 
 FROM base AS build
 
-RUN apk add build-base git libffi-dev openssl-dev
+RUN apt install git libffi-dev
 
 COPY Pipfile* setup.py /src/backend/
 RUN cd /src/backend && pipenv install

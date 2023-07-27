@@ -1,7 +1,8 @@
 from expungeservice.endpoints.demo import Demo
 from expungeservice.form_filling import FormFilling
 from flask.views import MethodView
-from flask import request, json, make_response, send_file
+from flask import request, make_response, send_file
+import json
 
 from expungeservice.pdf.markdown_renderer import MarkdownRenderer
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
