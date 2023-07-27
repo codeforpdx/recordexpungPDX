@@ -32,7 +32,7 @@ def test_oeci_login_success(service, monkeypatch):
     service.client.post("/api/oeci_login", json={"oeci_username": "correctname", "oeci_password": "correctpwd"})
     credentials_cookie_string = None
     for cookie in service.client.cookie_jar:
-        if cookie.key == "oeci_token":
+        if cookie.name == "oeci_token":
             credentials_cookie_string = cookie.value
             break
     creds = service.cipher.decrypt(credentials_cookie_string)

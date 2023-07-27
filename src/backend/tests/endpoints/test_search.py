@@ -68,7 +68,7 @@ def test_search(service, monkeypatch):
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
     )
 
-    assert any(cookie.key == "oeci_token" for cookie in service.client.cookie_jar)
+    assert any(cookie.name == "oeci_token" for cookie in service.client.cookie_jar)
 
     response = service.client.post("/api/search", json=service.search_request_data)
     assert response.status_code == 200
@@ -92,7 +92,7 @@ def test_search_creates_save_search_event(service, monkeypatch):
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
     )
-    assert any(cookie.key == "oeci_token" for cookie in service.client.cookie_jar)
+    assert any(cookie.name == "oeci_token" for cookie in service.client.cookie_jar)
 
     response = service.client.post("/api/search", json=service.search_request_data)
 
@@ -111,7 +111,7 @@ def test_search_with_failing_save_event(service, monkeypatch):
     service.client.post(
         "/api/oeci_login", json={"oeci_username": "correctusername", "oeci_password": "correctpassword"}
     )
-    assert any(cookie.key == "oeci_token" for cookie in service.client.cookie_jar)
+    assert any(cookie.name == "oeci_token" for cookie in service.client.cookie_jar)
 
     response = service.client.post("/api/search", json=service.search_request_data)
 
