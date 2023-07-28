@@ -87,7 +87,7 @@ exports[`renders correctly 1`] = `
                 className="db mb1 fw6"
                 htmlFor="password"
               >
-                Password (WARNING: we have temporarily disabled security - we are working hard to get it restored - proceed at your own risk of getting your password stolen)
+                Password
               </label>
               <input
                 aria-invalid={false}
