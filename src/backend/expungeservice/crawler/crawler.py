@@ -36,7 +36,7 @@ class Crawler:
     def attempt_login(session: Session, username, password) -> str:
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
-        response = session.post(url, data=payload, verify=False)
+        response = session.post(url, data=payload)
         if Crawler._succeed_login(response):
             return response.text
         elif "Oregon eCourt is temporarily unavailable due to maintenance" in response.text:
@@ -47,7 +47,7 @@ class Crawler:
     @staticmethod
     def fetch_link(link: str, session: Session = None):
         if session:
-            response = session.get(link, verify=False)
+            response = session.get(link)
             Crawler.cached_links[link] = response
             return response
         else:
@@ -78,7 +78,7 @@ class Crawler:
     @staticmethod
     def _search_record(session: Session, node_response, search_url, first_name, last_name, middle_name, birth_date):
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
-        response = session.post(search_url, data=payload, timeout=30, verify=False)
+        response = session.post(search_url, data=payload, timeout=30)
         record_parser = RecordParser()
         record_parser.feed(response.text)
         return record_parser
@@ -110,7 +110,7 @@ class Crawler:
         node_parser = NodeParser()
         node_parser.feed(login_response)
         payload = {"NodeID": node_parser.node_id, "NodeDesc": "All+Locations"}
-        return session.post(url, data=payload, verify=False)
+        return session.post(url, data=payload)
 
     @staticmethod
     def _parse_case(session: Session, case: CaseSummary):

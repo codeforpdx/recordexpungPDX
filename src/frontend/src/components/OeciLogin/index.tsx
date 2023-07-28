@@ -138,9 +138,7 @@ class OeciLogin extends React.Component<State> {
                         />
                       </div>
                       <label htmlFor="password" className="db mb1 fw6">
-                        Password (WARNING: we have temporarily disabled security
-                        - we are working hard to get it restored - proceed at
-                        your own risk of getting your password stolen)
+                        Password
                       </label>
                       <input
                         id="password"
