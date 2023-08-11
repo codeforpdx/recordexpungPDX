@@ -19,6 +19,9 @@ from expungeservice.crawler.parsers.record_parser import RecordParser
 from expungeservice.crawler.parsers.case_parser import CaseParser
 
 
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0"}
+
+
 class InvalidOECIUsernamePassword(Exception):
     def __str__(self, *args, **kwargs):
         return "Invalid OECI username or password."
@@ -36,7 +39,7 @@ class Crawler:
     def attempt_login(session: Session, username, password) -> str:
         url = URL.login_url()
         payload = Payload.login_payload(username, password)
-        response = session.post(url, data=payload)
+        response = session.post(url, data=payload, headers=HEADERS)
         if Crawler._succeed_login(response):
             return response.text
         elif "Oregon eCourt is temporarily unavailable due to maintenance" in response.text:
@@ -47,8 +50,7 @@ class Crawler:
     @staticmethod
     def fetch_link(link: str, session: Session = None):
         if session:
-            headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0"}
-            response = session.get(link, headers=headers)
+            response = session.get(link, headers=HEADERS)
             Crawler.cached_links[link] = response
             return response
         else:
@@ -79,7 +81,7 @@ class Crawler:
     @staticmethod
     def _search_record(session: Session, node_response, search_url, first_name, last_name, middle_name, birth_date):
         payload = Crawler.__extract_payload(node_response, last_name, first_name, middle_name, birth_date)
-        response = session.post(search_url, data=payload, timeout=30)
+        response = session.post(search_url, data=payload, timeout=30, headers=HEADERS)
         record_parser = RecordParser()
         record_parser.feed(response.text)
         return record_parser
@@ -111,7 +113,7 @@ class Crawler:
         node_parser = NodeParser()
         node_parser.feed(login_response)
         payload = {"NodeID": node_parser.node_id, "NodeDesc": "All+Locations"}
-        return session.post(url, data=payload)
+        return session.post(url, data=payload, headers=HEADERS)
 
     @staticmethod
     def _parse_case(session: Session, case: CaseSummary):
