@@ -36,7 +36,7 @@ function Charge({ id, name, hasBalance }: ChargeProps) {
   return (
     <li className="f6 bb b--light-gray pv2">
       <a href={"#" + id} className={hasBalance ? "ml2" : "link hover-blue"}>
-        {name}
+        {id.slice(0, id.length - 2)}: {name}
       </a>
     </li>
   );
