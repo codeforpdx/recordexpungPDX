@@ -780,6 +780,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#996271-1"
                   >
+                    996271
+                    : 
                     Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014
                   </a>
                 </li>
@@ -790,6 +792,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#996271-2"
                   >
+                    996271
+                    : 
                     Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 29, 2014
                   </a>
                 </li>
@@ -800,6 +804,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-9"
                   >
+                    9999323
+                    : 
                     Attempt to Commit a Class C/Unclassified Felony (CONVICTED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -829,6 +835,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#99AV3457-1"
                   >
+                    99AV3457
+                    : 
                     A traffic charge (CONVICTED) Charged Jan 11, 2019
                   </a>
                 </li>
@@ -839,6 +847,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#99DF09900-1"
                   >
+                    99DF09900
+                    : 
                     A traffic charge (CONVICTED) Charged Jan 1, 2019
                   </a>
                 </li>
@@ -849,6 +859,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999933-1"
                   >
+                    999933
+                    : 
                     ABC/Felony (CONVICTED) Charged Jan 27, 1996
                   </a>
                 </li>
@@ -859,6 +871,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999252-D-1"
                   >
+                    999252-D
+                    : 
                     SUII (CONVICTED) Charged Jan 10, 1995
                   </a>
                 </li>
@@ -869,6 +883,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#XX99972-D-1"
                   >
+                    XX99972-D
+                    : 
                     ABC/Misdemeanor (CONVICTED) Charged Jan 30, 1989
                   </a>
                 </li>
@@ -879,6 +895,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#XX99057-X-1"
                   >
+                    XX99057-X
+                    : 
                     SUII (CONVICTED) Charged Jan 14, 1988
                   </a>
                 </li>
@@ -908,6 +926,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-1"
                   >
+                    9910A9
+                    : 
                     Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -918,6 +938,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-2"
                   >
+                    9910A9
+                    : 
                     Attempt to Commit a Class B Felony (DISMISSED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -928,6 +950,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-6"
                   >
+                    9910A9
+                    : 
                     Resisting An Orange (DISMISSED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -938,6 +962,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9960799-1"
                   >
+                    9960799
+                    : 
                     Frowning (DISMISSED) Charged Jan 1, 2000
                   </a>
                 </li>
@@ -948,6 +974,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9960799-2"
                   >
+                    9960799
+                    : 
                     Skipping Rope (DISMISSED) Charged Jan 1, 2000
                   </a>
                 </li>
@@ -958,6 +986,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9950699A-1"
                   >
+                    9950699A
+                    : 
                     Contempt of Court - Punitive (CONVICTED) Charged Jan 1, 1998
                   </a>
                 </li>
@@ -968,6 +998,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9950699A-2"
                   >
+                    9950699A
+                    : 
                     Contempt of Court - Punitive (DISMISSED) Charged Jan 11, 1998
                   </a>
                 </li>
@@ -978,6 +1010,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#99506871AA-1"
                   >
+                    99506871AA
+                    : 
                     Contempt of Court (DISMISSED) Charged Jan 23, 1998
                   </a>
                 </li>
@@ -988,6 +1022,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999345-2"
                   >
+                    999345
+                    : 
                     Frowning (DISMISSED) Charged Jan 5, 1998
                   </a>
                 </li>
@@ -998,6 +1034,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-1"
                   >
+                    9999323
+                    : 
                     Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1008,6 +1046,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-2"
                   >
+                    9999323
+                    : 
                     Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1018,6 +1058,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-3"
                   >
+                    9999323
+                    : 
                     Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1028,6 +1070,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-4"
                   >
+                    9999323
+                    : 
                     Something illegal (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1038,6 +1082,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-5"
                   >
+                    9999323
+                    : 
                     Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1048,6 +1094,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-6"
                   >
+                    9999323
+                    : 
                     Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1058,6 +1106,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-7"
                   >
+                    9999323
+                    : 
                     Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1068,6 +1118,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323-8"
                   >
+                    9999323
+                    : 
                     Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1078,6 +1130,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323D-D-1"
                   >
+                    9999323D-D
+                    : 
                     Illegal stuff in the First Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1088,6 +1142,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323D-D-2"
                   >
+                    9999323D-D
+                    : 
                     Something else illegal in the First Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1098,6 +1154,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323D-D-3"
                   >
+                    9999323D-D
+                    : 
                     Something illegal (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1108,6 +1166,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9999323D-D-4"
                   >
+                    9999323D-D
+                    : 
                     Something illegal in the Second Degree (DISMISSED) Charged Jan 23, 1996
                   </a>
                 </li>
@@ -1118,6 +1178,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999933D-D-1"
                   >
+                    999933D-D
+                    : 
                     ABC/Felony (DISMISSED) Charged Jan 27, 1996
                   </a>
                 </li>
@@ -1128,6 +1190,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999620-X-1"
                   >
+                    999620-X
+                    : 
                     Discarding Hot Dogs w/in 100 Yards of State Waters (CONVICTED) Charged Jan 22, 1991
                   </a>
                 </li>
@@ -1162,6 +1226,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="ml2"
                     href="#99AV3457-2"
                   >
+                    99AV3457
+                    : 
                     Reckless Diving (DISMISSED) Charged Jan 11, 2019
                   </a>
                 </li>
@@ -1172,6 +1238,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="ml2"
                     href="#99AV3457-3"
                   >
+                    99AV3457
+                    : 
                     Failure to Perform Duties of Golfer-Property Damage (DISMISSED) Charged Jan 11, 2019
                   </a>
                 </li>
@@ -1187,6 +1255,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="ml2"
                     href="#99DF09900-2"
                   >
+                    99DF09900
+                    : 
                     Resisting An Orange (DISMISSED) Charged Jan 1, 2019
                   </a>
                 </li>
@@ -1216,6 +1286,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-4"
                   >
+                    9910A9
+                    : 
                     Frowning (CONVICTED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -1226,6 +1298,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-5"
                   >
+                    9910A9
+                    : 
                     Resisting An Orange (CONVICTED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -1236,6 +1310,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#999345-1"
                   >
+                    999345
+                    : 
                     Derping in the Fourth Degree (CONVICTED) Charged Jan 5, 1998
                   </a>
                 </li>
@@ -1265,6 +1341,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="link hover-blue"
                     href="#9910A9-3"
                   >
+                    9910A9
+                    : 
                     Derping in the Fourth Degree (CONVICTED) Charged Jan 11, 2002
                   </a>
                 </li>
@@ -1299,6 +1377,8 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
                     class="ml2"
                     href="#999388-1"
                   >
+                    999388
+                    : 
                     Improper Use of an Emergency Kazoo System (CONVICTED) Charged Jan 20, 2012
                   </a>
                 </li>
