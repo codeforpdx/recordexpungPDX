@@ -643,6 +643,8 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       class="link hover-blue"
                       href="#110000-1"
                     >
+                      110000
+                      : 
                       Theft in the Third Degree (DISMISSED) Charged Jan 21, 2022
                     </a>
                   </li>
@@ -677,6 +679,8 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       class="ml2"
                       href="#100000-1"
                     >
+                      100000
+                      : 
                       Disorderly Conduct in the First Degree (CONVICTED) Charged Jan 21, 2019
                     </a>
                   </li>
@@ -687,6 +691,8 @@ exports[`With the multiple charges record renders correctly 1`] = `
                       class="ml2"
                       href="#100000-2"
                     >
+                      100000
+                      : 
                       Disorderly Conduct in the Second Degree (DISMISSED) Charged Jan 21, 2019
                     </a>
                   </li>
