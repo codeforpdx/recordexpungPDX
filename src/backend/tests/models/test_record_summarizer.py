@@ -162,7 +162,7 @@ def test_record_summarizer_multiple_cases():
             ],
         ),
         (
-            "Eligible If Balance Paid on case with Ineligible charge",
+            "Eligible Now If Balance Paid on case with Ineligible charge",
             [
                 (
                     "Clackamas 2 – $200.0",
