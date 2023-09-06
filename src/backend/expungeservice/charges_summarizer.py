@@ -10,6 +10,7 @@ from typing import Dict, List, Tuple
 class ChargesSummarizer:
     @staticmethod
     def build_charges_for_summary_panel(record: Record) -> ChargesForSummaryPanel:
+        #take all charges that aren't set to be invisible, sort by date then by charge type
         visible_charges = [
             charge for charge in record.charges if not charge.charge_type.hidden_in_record_summary(charge.disposition)
         ]
@@ -18,11 +19,13 @@ class ChargesSummarizer:
             sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
         )
-
+        print('line 21')
+        #sort the charges out by the record description
         for label, charges in groupby(
             sorted_charges, key=lambda charge: ChargesSummarizer._primary_sort(charge, record)[1]
         ):
             charges_in_section: List[Tuple[str, List[Tuple[str, str]]]] = []
+            #separate each of the charges by case number
             for case_number, case_charges in groupby(charges, key=lambda charge: charge.case_number):
                 case = ChargesSummarizer._get_case_by_case_number(record, case_number)
                 case_info_line = ChargesSummarizer._get_case_balance_header_info_for_case(case, label)
@@ -58,6 +61,11 @@ class ChargesSummarizer:
             8 Future Eligible
             9 Future Eligible If Balance Paid
             '''
+
+            # if charge.case_number == '23CR20421':
+            #     print(charge)
+            #     print(case_has_ineligible_charge)
+
             if label == "Eligible Now" and case_has_ineligible_charge:
                 if no_balance:
                     return 3, "Eligible on case with Ineligible charge"
@@ -67,6 +75,7 @@ class ChargesSummarizer:
             if label == "Eligible Now" and future_eligibility_label_on_case:
                 label = future_eligibility_label_on_case
                 if no_balance:
+                    print(charge.case_number)
                     return 8, label
                 else:
                     return 9, label + " If Balance Paid"
@@ -81,12 +90,16 @@ class ChargesSummarizer:
                 else:
                     return 4, label + " If Balance Paid"
             elif "Eligible Now" in label:
+                print('case 6 or 7')
+                print(charge.case_number)
                 if no_balance:
                     return 6, label
                 else:
                     return 7, label + " If Balance Paid"
             else:
                 if no_balance:
+                    print(charge.case_number)
+                    print('8')
                     return 8, label
                 else:
                     return 9, label + " If Balance Paid"
