@@ -1,0 +1,242 @@
+[
+  [
+    "Ineligible",
+    [
+      [
+        "",
+        [
+          [
+            "23CR20421-1",
+            "Failure to Perform Duties of Driver to Injured Persons (CONVICTED) Charged May 1, 2023"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "21CR54338-1",
+            "Fleeing or Attempting to Elude a Police Officer (CONVICTED) Charged Nov 6, 2021"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible Now",
+    [
+      [
+        "",
+        [
+          [
+            "21CR08357-1",
+            "Unauthorized Use of a Vehicle (NO_COMPLAINT) Charged Feb 17, 2021"
+          ],
+          [
+            "21CR08357-2",
+            "Possession of a Stolen Vehicle (NO_COMPLAINT) Charged Feb 17, 2021"
+          ],
+          [
+            "21CR08357-3",
+            "Fleeing or Attempting to Elude a Police Officer (NO_COMPLAINT) Charged Feb 17, 2021"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "16CR77480-1",
+            "Unauthorized Use of a Vehicle (NO_COMPLAINT) Charged Dec 6, 2016"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible on case with Ineligible charge",
+    [
+      [
+        "",
+        [
+          [
+            "23CR20421-3",
+            "Failure to Perform Duties of Driver-Property Damage (DISMISSED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-4",
+            "Criminal Mischief in the Second Degree (DISMISSED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-5",
+            "Failure to Perform Duties of Driver-Property Damage (DISMISSED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-6",
+            "Criminal Mischief in the Second Degree (DISMISSED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-7",
+            "Reckless Driving (DISMISSED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-999",
+            "Unauthorized Use of a Vehicle (NO_COMPLAINT) Charged May 1, 2023"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible If Balance Paid on case with Ineligible charge",
+    [
+      [
+        "Multnomah 21CR54338 – $45.0",
+        [
+          [
+            "21CR54338-2",
+            "Reckless Driving (DISMISSED) Charged Nov 6, 2021"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible Jul 13, 2026",
+    [
+      [
+        "",
+        [
+          [
+            "23CR20421-2",
+            "Assault in the Fourth Degree (CONVICTED) Charged May 1, 2023"
+          ],
+          [
+            "23CR20421-8",
+            "Recklessly Endangering Another Person (CONVICTED) Charged May 1, 2023"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible Jul 13, 2028",
+    [
+      [
+        "",
+        [
+          [
+            "19CR12697-2",
+            "Possession of a Stolen Vehicle (DISMISSED) Charged Feb 21, 2019"
+          ],
+          [
+            "19CR12697-999",
+            "Unlawful Entry into a Motor Vehicle (NO_COMPLAINT) Charged Feb 21, 2019"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "18CR81781-2",
+            "Unauthorized Use of a Vehicle (DISMISSED) Charged Dec 10, 2018"
+          ],
+          [
+            "18CR81781-3",
+            "Unlawful Possession of Methamphetamine (DISMISSED) Charged Dec 10, 2018"
+          ],
+          [
+            "18CR81781-4",
+            "Possession of a Stolen Vehicle (DISMISSED) Charged Dec 10, 2018"
+          ],
+          [
+            "18CR81781-5",
+            "Possession of a Stolen Vehicle (DISMISSED) Charged Dec 10, 2018"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "17CR54181-2",
+            "Possession of a Stolen Vehicle (DISMISSED) Charged Aug 15, 2017"
+          ],
+          [
+            "17CR54181-999",
+            "Unlawful Entry into a Motor Vehicle (NO_COMPLAINT) Charged Aug 15, 2017"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "19CR12697-1",
+            "Unauthorized Use of a Vehicle (CONVICTED) Charged Feb 21, 2019"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "18CR81781-1",
+            "Unauthorized Use of a Vehicle (CONVICTED) Charged Dec 10, 2018"
+          ]
+        ]
+      ],
+      [
+        "",
+        [
+          [
+            "17CR54181-1",
+            "Unauthorized Use of a Vehicle (CONVICTED) Charged Aug 15, 2017"
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "Eligible Jul 13, 2024 If Balance Paid",
+    [
+      [
+        "Multnomah 20VI54361 – $224.0",
+        [
+          [
+            "20VI54361-1",
+            "Fare Violation (CONVICTED) Charged Jan 22, 2020"
+          ]
+        ]
+      ],
+      [
+        "Multnomah 20VI50652 – $224.0",
+        [
+          [
+            "20VI50652-1",
+            "Fare Violation (CONVICTED) Charged Jan 15, 2020"
+          ]
+        ]
+      ],
+      [
+        "Multnomah 17VI218642 – $259.0",
+        [
+          [
+            "17VI218642-1",
+            "Fare Violation (CONVICTED) Charged Dec 15, 2017"
+          ]
+        ]
+      ],
+      [
+        "Multnomah 16VI184893 – $259.0",
+        [
+          [
+            "16VI184893-1",
+            "Fare Violation (CONVICTED) Charged Nov 22, 2016"
+          ]
+        ]
+      ]
+    ]
+  ]
+]
