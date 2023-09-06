@@ -15,10 +15,10 @@ class ChargesSummarizer:
         ]
         eligible_charges_by_date: List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]] = []
         sorted_charges = sorted(
-            sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
+            visible_charges,
+            #sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
         )
-
         for label, charges in groupby(
             sorted_charges, key=lambda charge: ChargesSummarizer._primary_sort(charge, record)[1]
         ):
@@ -38,6 +38,8 @@ class ChargesSummarizer:
     @staticmethod
     def _primary_sort(charge: Charge, record: Record):
         charge_eligibility = charge.expungement_result.charge_eligibility
+
+        charge_dict = {"nma":0,"ine":1,"nnn":2, "nni":3, "ncn":4, "nci":5, "fnn":6, "fcn":7, "fni":8, "fci":9 }
         if charge_eligibility:
             this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
             case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
@@ -55,43 +57,37 @@ class ChargesSummarizer:
             5 Eligible If Balance Paid on case with Ineligible charge
             6 Eligible Now Or Future Eligible
             7 Eligible Now Or Future Eligible If Balance Paid
-            8 Future Eligible
-            9 Future Eligible If Balance Paid
+            8 Eligible Now Or Future Eligible on case with Ineligible charge
+            9 Eligible Now Or Future Eligible If Balance Paid on case with Ineligible charge
             '''
-            if label == "Eligible Now" and case_has_ineligible_charge:
-                if no_balance:
-                    return 3, "Eligible on case with Ineligible charge"
-                else:
-                    return 5, "Eligible If Balance Paid on case with Ineligible charge"
-
-            if label == "Eligible Now" and future_eligibility_label_on_case:
-                label = future_eligibility_label_on_case
-                if no_balance:
-                    return 8, label
-                else:
-                    return 9, label + " If Balance Paid"
 
             if label == "Needs More Analysis":
-                return 0, label
+                return 0, label, charge.case_number
             elif label == "Ineligible":
-                return 1, label
-            elif label == "Eligible Now":
-                if no_balance:
-                    return 2, label
-                else:
-                    return 4, label + " If Balance Paid"
-            elif "Eligible Now" in label:
-                if no_balance:
-                    return 6, label
-                else:
-                    return 7, label + " If Balance Paid"
+                return 1, label, charge.case_number
+            classification = ""
+
+            if future_eligibility_label_on_case:
+                label = future_eligibility_label_on_case
+                classification += "f"
+            else: 
+                classification += "n"
+
+            if no_balance:
+                classification += "n"
             else:
-                if no_balance:
-                    return 8, label
-                else:
-                    return 9, label + " If Balance Paid"
+                classification += "c"
+                label += " If Balance Paid"
+            
+            if case_has_ineligible_charge:
+                classification += "i"
+                label += " on case with Ineligible charge"
+            else:
+                classification += "n"
+            return charge_dict[classification], label, charge.case_number
+
         else:
-            return 0, ""
+            return 0, "", ""
 
     @staticmethod
     def _secondary_sort(charge: Charge):
