@@ -15,7 +15,8 @@ class ChargesSummarizer:
         ]
         eligible_charges_by_date: List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]] = []
         sorted_charges = sorted(
-            sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
+            visible_charges,
+            #sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
         )
         for label, charges in groupby(
@@ -61,9 +62,9 @@ class ChargesSummarizer:
             '''
 
             if label == "Needs More Analysis":
-                return 0, label
+                return 0, label, charge.case_number
             elif label == "Ineligible":
-                return 1, label
+                return 1, label, charge.case_number
             classification = ""
 
             if future_eligibility_label_on_case:
@@ -83,10 +84,10 @@ class ChargesSummarizer:
                 label += " on case with Ineligible charge"
             else:
                 classification += "n"
-            return charge_dict[classification], label
+            return charge_dict[classification], label, charge.case_number
 
         else:
-            return 0, ""
+            return 0, "", ""
 
     @staticmethod
     def _secondary_sort(charge: Charge):
