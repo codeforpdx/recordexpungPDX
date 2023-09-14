@@ -5,7 +5,7 @@ from expungeservice.models.record import Record
 from expungeservice.models.record_summary import ChargesForSummaryPanel
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
-
+from enum import Enum
 
 class ChargesSummarizer:
     @staticmethod
@@ -16,7 +16,6 @@ class ChargesSummarizer:
         eligible_charges_by_date: List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]] = []
         sorted_charges = sorted(
             visible_charges,
-            #sorted(visible_charges, key=ChargesSummarizer._secondary_sort, reverse=True),
             key=lambda charge: ChargesSummarizer._primary_sort(charge, record),
         )
         for label, charges in groupby(
@@ -39,27 +38,23 @@ class ChargesSummarizer:
     def _primary_sort(charge: Charge, record: Record):
         charge_eligibility = charge.expungement_result.charge_eligibility
 
-        charge_dict = {"nma":0,"ine":1,"nnn":2, "nni":3, "ncn":4, "nci":5, "fnn":6, "fcn":7, "fni":8, "fci":9 }
+        class ChargeList(str, Enum):
+            NEEDS_MORE_ANALYSIS = 0
+            INELIGIBLE_NOW = 1
+            NOWELIGIBLE_NOCHARGE_NOINELIGIBLE = 2
+            NOWELIGIBLE_NOCHARGE_HASINELIGIBLE = 3
+            NOWELIGIBLE_HASCHARGE_NOINELIGIBLE = 4
+            NOWELIGIBLE_HASCHARGE_HASINELIGIBLE = 5
+            FUTUREELIGIBLE_NOCHARGE_NOINELIGIBLE = 6
+            FUTUREELIGIBLE_HASCHARGE_NOINELIGIBLE = 7
+            FUTUREELIGIBLE_NOCHARGE_HASINELIGIBLE = 8
+            FUTUREELIGIBLE_HASCHARGE_HASINELIGIBLE = 9
         if charge_eligibility:
             this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
             case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
             future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
             label = charge_eligibility.label
             no_balance = this_case.summary.balance_due_in_cents == 0
-
-            '''
-            Order is:
-            0 Needs More Analysis
-            1 Ineligible
-            2 Eligible Now
-            3 Eligible on case with Ineligible charge
-            4 Eligible Now If Balance Paid
-            5 Eligible If Balance Paid on case with Ineligible charge
-            6 Eligible Now Or Future Eligible
-            7 Eligible Now Or Future Eligible If Balance Paid
-            8 Eligible Now Or Future Eligible on case with Ineligible charge
-            9 Eligible Now Or Future Eligible If Balance Paid on case with Ineligible charge
-            '''
 
             if label == "Needs More Analysis":
                 return 0, label, charge.case_number
@@ -69,22 +64,23 @@ class ChargesSummarizer:
 
             if future_eligibility_label_on_case:
                 label = future_eligibility_label_on_case
-                classification += "f"
+                classification += "FUTUREELIGIBLE_"
             else: 
-                classification += "n"
+                classification += "NOWELIGIBLE_"
 
             if no_balance:
-                classification += "n"
+                classification += "NOCHARGE_"
             else:
-                classification += "c"
+                classification += "HASCHARGE_"
                 label += " If Balance Paid"
             
             if case_has_ineligible_charge:
-                classification += "i"
+                classification += "HASINELIGIBLE"
                 label += " on case with Ineligible charge"
             else:
-                classification += "n"
-            return charge_dict[classification], label, charge.case_number
+                classification += "NOINELIGIBLE"
+                
+            return int(ChargeList[classification]), label, charge.case_number
 
         else:
             return 0, "", ""
