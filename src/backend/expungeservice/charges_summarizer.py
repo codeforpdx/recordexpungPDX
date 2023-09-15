@@ -38,49 +38,53 @@ class ChargesSummarizer:
     def _primary_sort(charge: Charge, record: Record):
         charge_eligibility = charge.expungement_result.charge_eligibility
 
-        class ChargeList(str, Enum):
-            NEEDS_MORE_ANALYSIS = 0
-            INELIGIBLE_NOW = 1
-            NOWELIGIBLE_NOCHARGE_NOINELIGIBLE = 2
-            NOWELIGIBLE_NOCHARGE_HASINELIGIBLE = 3
-            NOWELIGIBLE_HASCHARGE_NOINELIGIBLE = 4
-            NOWELIGIBLE_HASCHARGE_HASINELIGIBLE = 5
-            FUTUREELIGIBLE_NOCHARGE_NOINELIGIBLE = 6
-            FUTUREELIGIBLE_HASCHARGE_NOINELIGIBLE = 7
-            FUTUREELIGIBLE_NOCHARGE_HASINELIGIBLE = 8
-            FUTUREELIGIBLE_HASCHARGE_HASINELIGIBLE = 9
+        '''
+            Order is:
+            0 Needs More Analysis
+            1 Ineligible
+            2 Eligible Now
+            3 Eligible on case with Ineligible charge
+            4 Eligible Now If Balance Paid
+            5 Eligible If Balance Paid on case with Ineligible charge
+            6 Eligible Now Or Future Eligible
+            7 Eligible Now Or Future Eligible If Balance Paid
+            8 Future Eligible
+            9 Future Eligible If Balance Paid
+        '''
         if charge_eligibility:
             this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
             case_has_ineligible_charge = ChargesSummarizer._get_case_has_ineligible_charge(this_case)
             future_eligibility_label_on_case = ChargesSummarizer._get_future_eligibility_label_on_case(this_case)
             label = charge_eligibility.label
-            no_balance = this_case.summary.balance_due_in_cents == 0
+            has_balance = this_case.summary.balance_due_in_cents != 0
 
             if label == "Needs More Analysis":
                 return 0, label, charge.case_number
             elif label == "Ineligible":
                 return 1, label, charge.case_number
-            classification = ""
+            elif not future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+                return 2, label, charge.case_number
 
-            if future_eligibility_label_on_case:
-                label = future_eligibility_label_on_case
-                classification += "FUTUREELIGIBLE_"
-            else: 
-                classification += "NOWELIGIBLE_"
+            elif not future_eligibility_label_on_case and not has_balance and case_has_ineligible_charge:
+                return 3, label+" on case with Ineligible charge", charge.case_number
 
-            if no_balance:
-                classification += "NOCHARGE_"
-            else:
-                classification += "HASCHARGE_"
-                label += " If Balance Paid"
-            
-            if case_has_ineligible_charge:
-                classification += "HASINELIGIBLE"
-                label += " on case with Ineligible charge"
-            else:
-                classification += "NOINELIGIBLE"
-                
-            return int(ChargeList[classification]), label, charge.case_number
+            elif not future_eligibility_label_on_case and has_balance and not case_has_ineligible_charge:
+                return 4, label+" If Balance Paid", charge.case_number
+
+            elif not future_eligibility_label_on_case and has_balance and case_has_ineligible_charge:
+                return 5, label+" If Balance Paid on case with Ineligible charge", charge.case_number
+
+            elif future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+                return 6, future_eligibility_label_on_case, charge.case_number
+
+            elif future_eligibility_label_on_case and has_balance and not case_has_ineligible_charge:
+                return 7, future_eligibility_label_on_case+" If Balance Paid", charge.case_number
+
+            elif future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+                return 8, future_eligibility_label_on_case+" on case with Ineligible charge", charge.case_number
+
+            elif future_eligibility_label_on_case and has_balance and case_has_ineligible_charge:
+                return 9, future_eligibility_label_on_case+" If Balance Paid on case with Ineligible charge", charge.case_number
 
         else:
             return 0, "", ""
