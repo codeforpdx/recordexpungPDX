@@ -5,7 +5,6 @@ from expungeservice.models.record import Record
 from expungeservice.models.record_summary import ChargesForSummaryPanel
 from expungeservice.util import DateWithFuture as date
 from typing import Dict, List, Tuple
-from enum import Enum
 
 class ChargesSummarizer:
     @staticmethod
