@@ -29,17 +29,17 @@ class TestSingleChargeDismissals(unittest.TestCase):
             disposition=DispositionCreator.create(ruling="Dismissed", date=Time.THREE_YEARS_AGO),
         )
 
-        violation = ChargeFactory.create_ambiguous_charge(
+        violation = ChargeFactory.create(
             level="Violation",
             case_number="1",
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
-        )[1]
+        )
 
-        violation_2 = ChargeFactory.create_ambiguous_charge(
+        violation_2 = ChargeFactory.create(
             level="Violation",
             case_number="1",
             disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_THREE_YEARS_AGO),
-        )[1]
+        )
         case = CaseFactory.create(charges=tuple([three_yr_conviction, arrest, violation, violation_2]))
         record = Record(tuple([case]))
         expunger_result = Expunger.run(record)
@@ -472,11 +472,11 @@ def test_doubly_eligible_b_felony_gets_normal_eligibility_rule():
 
 def test_single_violation_is_time_restricted():
     # A single violation doesn't block other records, but it is still subject to the 3 year rule.
-    violation_charge = ChargeFactory.create_ambiguous_charge(
+    violation_charge = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TEN_YEARS_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_ONE_YEAR_AGO),
-    )[1]
+    )
 
     case = CaseFactory.create(charges=tuple([violation_charge]))
     expunger_result = Expunger.run(Record(tuple([case])))
@@ -492,16 +492,16 @@ def test_single_violation_is_time_restricted():
 
 
 def test_2_violations_are_time_restricted():
-    violation_charge_1 = ChargeFactory.create_ambiguous_charge(
+    violation_charge_1 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.THREE_YEARS_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.THREE_YEARS_AGO),
-    )[1]
-    violation_charge_2 = ChargeFactory.create_ambiguous_charge(
+    )
+    violation_charge_2 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TWO_YEARS_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.TWO_YEARS_AGO),
-    )[1]
+    )
 
     case = CaseFactory.create(charges=tuple([violation_charge_1, violation_charge_2]))
     expunger_result = Expunger.run(Record(tuple([case])))
@@ -521,21 +521,21 @@ def test_2_violations_are_time_restricted():
     )
 
 def test_3_violations_are_time_restricted():
-    violation_charge_1 = ChargeFactory.create_ambiguous_charge(
+    violation_charge_1 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TWO_YEARS_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_TWO_YEARS_AGO),
-    )[1]
-    violation_charge_2 = ChargeFactory.create_ambiguous_charge(
+    )
+    violation_charge_2 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.ONE_YEAR_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.LESS_THAN_ONE_YEAR_AGO),
-    )[1]
-    violation_charge_3 = ChargeFactory.create_ambiguous_charge(
+    )
+    violation_charge_3 = ChargeFactory.create(
         level="Class A Violation",
         date=Time.YESTERDAY,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.YESTERDAY),
-    )[1]
+    )
 
     case = CaseFactory.create(charges=tuple([violation_charge_3, violation_charge_2, violation_charge_1]))
     expunger_result = Expunger.run(Record(tuple([case])))
@@ -573,11 +573,11 @@ def test_nonblocking_charge_is_not_skipped_and_does_not_block():
         level="N/A", statute="1.000", disposition=DispositionCreator.create(ruling="Convicted", date=Time.ONE_YEAR_AGO)
     )
 
-    violation_charge = ChargeFactory.create_ambiguous_charge(
+    violation_charge = ChargeFactory.create(
         level="Class A Violation",
         date=Time.TEN_YEARS_AGO,
         disposition=DispositionCreator.create(ruling="Convicted", date=Time.TEN_YEARS_AGO),
-    )[1]
+    )
 
     case = CaseFactory.create(charges=tuple([civil_offense, violation_charge]))
     expunger_result = Expunger.run(Record(tuple([case])))

@@ -8,12 +8,12 @@ from tests.models.test_charge import Dispositions
 
 
 def test_reduced_to_violation_convicted():
-    charge = ChargeFactory.create_ambiguous_charge(
+    charge = ChargeFactory.create(
         name="Theft in the Second Degree (Reduced - DA Elected)",
         statute="164045",
         level="Violation Class A",
         disposition=Dispositions.CONVICTED,
-    )[1]
+    )
 
     assert isinstance(charge.charge_type, ReducedToViolation)
     assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
@@ -21,11 +21,39 @@ def test_reduced_to_violation_convicted():
 
 
 def test_reduced_to_violation_dismissed():
+    charge = ChargeFactory.create(
+        name="Misdemeanor Treated as a Violation",
+        statute="161.566(1)",
+        level="Violation Class A",
+        disposition=Dispositions.DISMISSED,
+    )
+
+    assert isinstance(charge.charge_type, ReducedToViolation)
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Dismissed criminal charge eligible under 137.225(1)(b)"
+
+
+def test_reduced_to_violation_multnomah_convicted():
+    charge = ChargeFactory.create_ambiguous_charge(
+        name="Theft in the Second Degree (Reduced - DA Elected)",
+        statute="164045",
+        level="Violation Class A",
+        disposition=Dispositions.CONVICTED,
+        location="Multnomah"
+    )[1]
+
+    assert isinstance(charge.charge_type, ReducedToViolation)
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(d)"
+
+
+def test_reduced_to_violation_multnomah_dismissed():
     charges = ChargeFactory.create_ambiguous_charge(
         name="Misdemeanor Treated as a Violation",
         statute="161.566(1)",
         level="Violation Class A",
         disposition=Dispositions.DISMISSED,
+        location="Multnomah"
     )
 
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
@@ -39,12 +67,14 @@ def test_reduced_to_violation_dismissed():
     assert isinstance(charges[1].charge_type, ReducedToViolation)
 
 
-def test_reduced_to_violation_unrecognized_disposition():
+def test_reduced_to_violation_multnomah_unrecognized_disposition():
     charges = ChargeFactory.create_ambiguous_charge(
         name="Theft in the Second Degree (Reduced - DA Elected)",
         statute="164045",
         level="Violation Class A",
         disposition=Dispositions.UNRECOGNIZED_DISPOSITION,
+        location="Multnomah"
+
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 

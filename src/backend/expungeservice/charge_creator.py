@@ -19,8 +19,9 @@ class ChargeCreator:
         section = ChargeCreator._set_section(statute)
         birth_year = kwargs.get("birth_year")
         disposition = kwargs["disposition"]
+        location = kwargs["location"]
         ambiguous_charge_type_with_questions = ChargeClassifier(
-            violation_type, name, statute, level, section, birth_year, disposition
+            violation_type, name, statute, level, section, birth_year, disposition, location
         ).classify()
         kwargs["statute"] = statute
         kwargs["ambiguous_charge_id"] = ambiguous_charge_id

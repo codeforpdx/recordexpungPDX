@@ -170,6 +170,7 @@ class RecordCreator:
                 "balance_due_in_cents": oeci_charge.balance_due_in_cents,
                 "case_number": oeci_case.summary.case_number,
                 "violation_type": oeci_case.summary.violation_type,
+                "location": oeci_case.summary.location,
                 "birth_year": oeci_case.summary.birth_year,
                 "edit_status": EditStatus(oeci_charge.edit_status),
             }

@@ -570,7 +570,38 @@ class DemoRecords:
                         data={
                             **shared_charge_data,
                             "ambiguous_charge_id": "123456-1",
-                            "name": "Assaulting a Public Safety Officer",
+                            "name": "Something minor",
+                            "statute": "163.208",
+                            "level": "Violation",
+                            "date": date_class.today() - relativedelta(years=2),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=1, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 50000,
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "1234567",
+                        "violation_type": "Offense Violation",
+                        "balance_due_in_cents": 0,
+                        "location":"Benton"
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "1234567-1",
+                            "name": "Something minor",
                             "statute": "163.208",
                             "level": "Violation",
                             "date": date_class.today() - relativedelta(years=2),

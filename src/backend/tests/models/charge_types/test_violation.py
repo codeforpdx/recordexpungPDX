@@ -6,10 +6,28 @@ from expungeservice.models.charge_types.traffic_violation import TrafficViolatio
 from tests.factories.charge_factory import ChargeFactory
 from tests.models.test_charge import Dispositions
 
-
 def test_violation_convicted():
-    charges = ChargeFactory.create_ambiguous_charge(
+    charge = ChargeFactory.create(
         name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.CONVICTED
+    )
+
+    assert isinstance(charge.charge_type, Violation)
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(c)"
+
+
+def test_violation_dismissed():
+    charge = ChargeFactory.create(
+        name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.DISMISSED
+    )
+
+    assert isinstance(charge.charge_type, Violation)
+    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
+    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(b)"
+    
+def test_violation_multnomah_convicted():
+    charges = ChargeFactory.create_ambiguous_charge(
+        name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.CONVICTED, location="Multnomah"
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
@@ -22,9 +40,9 @@ def test_violation_convicted():
     assert isinstance(charges[1].charge_type, Violation)
 
 
-def test_violation_dismissed():
+def test_violation_multnomah_dismissed():
     charges = ChargeFactory.create_ambiguous_charge(
-        name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.DISMISSED
+        name="Viol Treatment", statute="1615662", level="Violation Unclassified", disposition=Dispositions.DISMISSED, location="Multnomah"
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
 
