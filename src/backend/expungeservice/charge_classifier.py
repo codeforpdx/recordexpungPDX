@@ -108,9 +108,13 @@ class ChargeClassifier:
     def _violation(level, name):
         if "violation" in level:
             if "reduced" in name or "treated as" in name:
-                return AmbiguousChargeTypeWithQuestion([ReducedToViolation()])
+                question_string = "For Multnomah County only: Was the underlying charge traffic-related?"
+                options = {"Yes": TrafficViolation(), "No (or not Multnomah County)": ReducedToViolation()}
+                return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
             else:
-                return AmbiguousChargeTypeWithQuestion([Violation()])
+                question_string = "For Multnomah County only: Was the underlying charge traffic-related?"
+                options = {"Yes": TrafficViolation(), "No (or not Multnomah County)": Violation()}
+                return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     @staticmethod
     def _drug_crime(
