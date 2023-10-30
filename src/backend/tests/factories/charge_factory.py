@@ -18,8 +18,9 @@ class ChargeFactory:
         date: date_class = None,
         disposition: Disposition = DispositionCreator.empty(),
         violation_type="Offense Misdemeanor",
+        location="Benton"
     ) -> Charge:
-        charges = cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type)
+        charges = cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type, location)
         assert len(charges) == 1
         return charges[0]
 
@@ -33,11 +34,12 @@ class ChargeFactory:
         date: date_class = None,
         disposition: Disposition = DispositionCreator.empty(),
         violation_type="Offense Misdemeanor",
+        location="Benton"
     ) -> AmbiguousCharge:
-        return cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type)
+        return cls._build_ambiguous_charge(case_number, date, disposition, level, name, statute, violation_type, location)
 
     @classmethod
-    def _build_ambiguous_charge(cls, case_number, date, disposition, level, name, statute, violation_type):
+    def _build_ambiguous_charge(cls, case_number, date, disposition, level, name, statute, violation_type, location):
         cls.charge_count += 1
         if disposition.status != DispositionStatus.UNKNOWN and not date:
             updated_date = disposition.date
@@ -53,6 +55,7 @@ class ChargeFactory:
             "date": updated_date,
             "disposition": disposition,
             "violation_type": violation_type,
+            "location": location,
             "balance_due_in_cents": 0,
             "edit_status": EditStatus.UNCHANGED,
         }
@@ -68,6 +71,7 @@ class ChargeFactory:
         level="Misdemeanor Class A",
         date=date_class(1901, 1, 1),
         violation_type="Offense Misdemeanor",
+        location="Benton"
     ) -> Charge:
         cls.charge_count += 1
         disposition = DispositionCreator.create(date=date_class.today(), ruling="Dismissed")
@@ -79,6 +83,7 @@ class ChargeFactory:
             "date": date,
             "disposition": disposition,
             "violation_type": violation_type,
+            "location": location,
             "balance_due_in_cents": 0,
             "edit_status": EditStatus.UNCHANGED,
         }
