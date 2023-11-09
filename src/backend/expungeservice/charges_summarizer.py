@@ -1,5 +1,4 @@
 from itertools import groupby
-
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.record import Record
 from expungeservice.models.record_summary import ChargesForSummaryPanel
@@ -79,11 +78,13 @@ class ChargesSummarizer:
             elif future_eligibility_label_on_case and has_balance and not case_has_ineligible_charge:
                 return 7, future_eligibility_label_on_case+" If Balance Paid", charge.case_number
 
-            elif future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+            elif future_eligibility_label_on_case and not has_balance and case_has_ineligible_charge:
                 return 8, future_eligibility_label_on_case+" on case with Ineligible charge", charge.case_number
 
             elif future_eligibility_label_on_case and has_balance and case_has_ineligible_charge:
                 return 9, future_eligibility_label_on_case+" If Balance Paid on case with Ineligible charge", charge.case_number
+            else:
+                return 0, "", ""
 
         else:
             return 0, "", ""
