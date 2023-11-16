@@ -34,7 +34,7 @@ export default function RecordSummary() {
       (x) => x[0] === "Eligible Now"
     );
     const chargesEligibleOnIneligible = groupedCharges?.filter(
-      (x) => x[0] === "Eligible on case with Ineligible charge"
+      (x) => x[0] === "Eligible Now on case with Ineligible charge"
     );
     if (
       (chargesEligibleNow[0] && chargesEligibleNow[0][1].length > 0) ||
