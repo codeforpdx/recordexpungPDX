@@ -20,8 +20,8 @@ class PossibleTrafficViolation(ChargeType):
             )
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(
-                EligibilityStatus.NEEDS_MORE_ANALYSIS, 
-                reason="Either ineligible under 137.225(7)(a) or eligible under 137.225(5)(c)"
+                EligibilityStatus.NEEDS_MORE_ANALYSIS,
+                reason="Either ineligible under 137.225(7)(a) or eligible under 137.225(5)(c)",
             )
         else:
             return TypeEligibility(
