@@ -26,6 +26,7 @@ from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorCl
 from expungeservice.models.charge_types.misdemeanor_class_bc import MisdemeanorClassBC
 from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.charge_types.reduced_to_violation import ReducedToViolation
+from expungeservice.models.charge_types.possible_traffic_violation import PossibleTrafficViolation
 from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
@@ -110,14 +111,7 @@ class ChargeClassifier:
     def _violation(level, name, location):
         if "violation" in level:
             if location == "multnomah":
-                if "reduced" in name or "treated as" in name:
-                    question_string = "Was the underlying charge traffic-related?"
-                    options = {"Yes": TrafficViolation(), "No": ReducedToViolation()}
-                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
-                else:
-                    question_string = "Was the underlying charge traffic-related?"
-                    options = {"Yes": TrafficViolation(), "No": Violation()}
-                    return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
+                return AmbiguousChargeTypeWithQuestion([PossibleTrafficViolation()])
             else:
                 if "reduced" in name or "treated as" in name:
                     return AmbiguousChargeTypeWithQuestion([ReducedToViolation()])
