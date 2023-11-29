@@ -1,7 +1,4 @@
 from expungeservice.models.expungement_result import EligibilityStatus
-from expungeservice.models.charge_types.violation import Violation
-from expungeservice.record_merger import RecordMerger
-from expungeservice.models.charge_types.traffic_violation import TrafficViolation
 from expungeservice.models.charge_types.possible_traffic_violation import PossibleTrafficViolation
 
 from tests.factories.charge_factory import ChargeFactory
