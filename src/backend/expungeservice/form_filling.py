@@ -53,7 +53,7 @@ DA_ADDRESSES = {
     "polk": "District Attorney - 850 Main Street - Dallas, OR 97338",
     "sherman": "District Attorney - P.O. Box 393 - Moro, OR 97039",
     "tillamook": "District Attorney - 201 Laurel Ave - Tillamook, OR 97141",
-    "umatilla": "District Attorney - 216 SE Court Ave #3 - Pendleton, OR 97801",
+    "umatilla": "District Attorney - 216 SE 4th St, Pendleton, OR 97801",
     "union": "District Attorney - 1104 K Ave - La Grande, OR 97850",
     "wallowa": "District Attorney - 101 S. River Street, Rm. 201 - Enterprise, OR 97828",
     "wasco": "District Attorney - 511 Washington St #304 - The Dalles, OR 97058",
