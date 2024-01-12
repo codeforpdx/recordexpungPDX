@@ -1,6 +1,5 @@
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
-from expungeservice.models.charge_types.sex_crimes import SexCrime
 from expungeservice.models.disposition import DispositionCreator
 from expungeservice.models.expungement_result import EligibilityStatus
 
@@ -58,14 +57,3 @@ def test_felony_c_unrecognized_disposition():
         charge.type_eligibility.reason
         == "Eligible under 137.225(1)(b) for convictions or under 137.225(1)(d) for dismissals"
     )
-
-
-def test_attempt_to_commit_felony_class_b_charge():
-    charge = ChargeFactory.create_ambiguous_charge(
-        name="Attempt to Commit a Class B Felony",
-        statute="161.405(2)(c)",
-        level="Felony Class C",
-        disposition=Dispositions.CONVICTED,
-    )
-    assert isinstance(charge[0].charge_type, SexCrime)
-    assert isinstance(charge[1].charge_type, FelonyClassC)

@@ -142,12 +142,12 @@ class ChargeClassifier:
     @staticmethod
     def _attempt_to_commit(name, level, statute):
         if (level == "misdemeanor class a" or level == "felony class c") and "attempt to commit" in name:
-            question_string = "Was the underlying conduct a sex crime?"
+            question_string = "Was the underlying conduct a sex crime or traffic offense?"
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
-            options = {"Yes": SexCrime(), "No": charge_type_by_level}
+            options = {"Yes; sex crime": SexCrime(), "Yes; traffic offense": TrafficOffense(), "No": charge_type_by_level}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         if level == "felony class b" and "attempt to commit" in name:
-            question_string = "Was this a drug-related charge?"
+            question_string = "Was this a drug-related or traffic-related charge?"
             drug_crime_question_string = "Was the underlying substance marijuana?"
             drug_crime_options = {
                 "Yes": MarijuanaEligible(severity_level="Felony Class C"),
@@ -158,16 +158,22 @@ class ChargeClassifier:
             )
             drug_crime_question_id = f"{question_string}-Yes-{drug_crime_classification.question.question_id}"  # type: ignore
             drug_crime_question = replace(drug_crime_classification.question, question_id=drug_crime_question_id)
-            charge_types = drug_crime_classification.ambiguous_charge_type + [PersonFelonyClassB()]
+            charge_types = drug_crime_classification.ambiguous_charge_type + [PersonFelonyClassB(), TrafficOffense()]
             question = Question(
                 question_string,
                 question_string,
                 {
-                    "Yes": Answer(question=drug_crime_question),
+                    "Yes; drug-related": Answer(question=drug_crime_question),
+                    "Yes; traffic-related": Answer(edit={"charge_type": TrafficOffense.__name__}),
                     "No": Answer(edit={"charge_type": PersonFelonyClassB.__name__}),
                 },
             )
             return AmbiguousChargeTypeWithQuestion(charge_types, question)
+        if "attempt to commit" in name:  # for any other severity level
+            question_string = "Was the underlying conduct a traffic crime?"
+            charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
+            options = {"Yes": TrafficOffense(), "No": charge_type_by_level}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     @staticmethod
     def _classification_by_level(level, statute):

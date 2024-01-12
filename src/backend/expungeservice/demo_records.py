@@ -614,4 +614,97 @@ class DemoRecords:
                 ),
             ),
         ],
+        Alias("various", "attempts", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "123456",
+                        "violation_type": "Offense Felony",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "123456-1",
+                            "name": "Attempt to Commit a Class A Felony",
+                            "statute": "161.405(2)(c)",
+                            "level": "Felony Class B",
+                            "date": date_class.today() - relativedelta(years=10),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=9, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 0,
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "Jon Notaperson",
+                        "case_number": "223456",
+                        "violation_type": "Offense Felony",
+                        "d"
+                        "balance_due_in_cents": 0,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "223456-1",
+                            "name": "Attempt to Commit a Class B Felony",
+                            "statute": "161.405(2)(c)",
+                            "level": "Felony Class C",
+                            "date": date_class.today() - relativedelta(years=10),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=9, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 0,
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "current_status": "Closed",
+                        "name": "John Notaperson",
+                        "case_number": "323456",
+                        "violation_type": "Offense Misdemeanor",
+                        "d"
+                        "balance_due_in_cents": 0,
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "323456-1",
+                            "name": "Attempt to Commit a Class A Misdemeanor",
+                            "statute": "161.405(2)(c)",
+                            "level": "Misdemeanor Class B",
+                            "date": date_class.today() - relativedelta(years=10),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=9, months=9), ruling="Convicted"
+                            ),
+                            "balance_due_in_cents": 0,
+                        },
+                    ),
+                ),
+            ),
+        ],
     }
