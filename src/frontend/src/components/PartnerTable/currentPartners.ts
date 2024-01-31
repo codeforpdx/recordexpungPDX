@@ -142,19 +142,6 @@ const currentPartners = [
     contacts: ["Drew Hastings", "hastind@linnbenton.edu"],
     website: "https://www.linnbenton.edu",
   },
-  {
-    details: [
-      ["Locations", "Southern Oregon"],
-      ["Income Restrictions", "None"],
-      ["Analysis Cost", "Free"],
-      ["Paperwork Cost", "Free"],
-    ],
-    name: "WorkSource Oregon",
-    area: "Roseburg",
-    instructions: "Contact",
-    contacts: ["Therese Roche", "Theresa.ROCHE@employ.oregon.gov"],
-    website: "https://worksourceoregon.org/",
-  },
 ];
 
 export default currentPartners;
