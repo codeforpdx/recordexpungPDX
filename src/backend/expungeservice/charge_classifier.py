@@ -40,6 +40,7 @@ from expungeservice.models.charge_types.sex_crimes import (
 )
 from expungeservice.models.disposition import DispositionStatus, Disposition
 from expungeservice.models.record import Question, Answer
+from expungeservice.models.charge_types.lesser_charge import LesserChargeEligible, LesserChargeIneligible
 
 
 @dataclass
@@ -67,6 +68,7 @@ class ChargeClassifier:
         name = self.name.lower()
         level = self.level.lower()
         location = self.location.lower()
+        yield ChargeClassifier._lesser_charge(self.disposition)
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
@@ -101,6 +103,13 @@ class ChargeClassifier:
         yield ChargeClassifier._other_criminal_charges(statute)
         yield ChargeClassifier._attempt_to_commit(name, level, statute)
         yield ChargeClassifier._classification_by_level(level, statute)
+
+    @staticmethod
+    def _lesser_charge(dispostion: Disposition):
+        if dispostion.lesser_charge: 
+            question_string = "Is the convicted charge on this case that this charge was reduced to eligible?"
+            options = {"Yes": LesserChargeEligible(), "No": LesserChargeIneligible()}
+            return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
     @staticmethod
     def _juvenile_charge(violation_type: str):

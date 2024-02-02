@@ -22,6 +22,7 @@ class Dispositions:
     DISMISSED = DispositionCreator.create(ruling="Dismissed", date=LAST_WEEK)
     UNRECOGNIZED_DISPOSITION = DispositionCreator.create(ruling="Something unrecognized", date=LAST_WEEK)
     NO_COMPLAINT = DispositionCreator.create(ruling="No Complaint", date=LAST_WEEK)
+    LESSER_CHARGE = DispositionCreator.create(ruling="Convicted - Lesser Charge", date=LAST_WEEK)
 
 
 class TestChargeClass(unittest.TestCase):
