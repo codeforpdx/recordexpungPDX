@@ -427,6 +427,11 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
         >
           From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years
         </li>
+        <li
+          class="mb2"
+        >
+          In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
+        </li>
       </ul>
       <p>
         <a
@@ -9883,7 +9888,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
       <p
         class="mb2"
       >
-        Your analysis may be different if you have had cases which were:
+        Your analysis may be different if you have had cases:
       </p>
       <ul
         class="lh-copy pl4 mw6 mb3"
