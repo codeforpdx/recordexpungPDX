@@ -8,7 +8,6 @@ from expungeservice.models.expungement_result import TypeEligibility, Eligibilit
 class LesserChargeEligible(ChargeType):
     type_name: str = "Lesser Charge, Eligible"
     expungement_rules: str = """A conviction that has been dismissed due to a reduction to a lesser charge is eligible if and only if the new charge is eligible."""
-    blocks_other_charges: bool = False
 
     def type_eligibility(self, disposition):
         return TypeEligibility(
@@ -20,7 +19,6 @@ class LesserChargeEligible(ChargeType):
 class LesserChargeIneligible(ChargeType):
     type_name: str = "Lesser Charge, Ineligible"
     expungement_rules: str = """A conviction that has been dismissed due to a reduction to a lesser charge is eligible if and only if the new charge is eligible."""
-    blocks_other_charges: bool = False
 
     def type_eligibility(self, disposition):
         return TypeEligibility(
