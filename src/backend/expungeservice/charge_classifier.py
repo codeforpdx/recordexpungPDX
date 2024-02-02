@@ -106,7 +106,7 @@ class ChargeClassifier:
 
     @staticmethod
     def _lesser_charge(dispostion: Disposition):
-        if dispostion.lesser_charge: 
+        if dispostion.lesser_charge:
             question_string = "Is the convicted charge on this case that this charge was reduced to eligible?"
             options = {"Yes": LesserChargeEligible(), "No": LesserChargeIneligible()}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
