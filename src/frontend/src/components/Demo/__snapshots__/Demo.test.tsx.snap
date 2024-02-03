@@ -2038,7 +2038,7 @@ exports[`With the multiple charges record renders correctly 1`] = `
           <li
           class="mb2"
         >
-          In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
+            In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
         </li>
         </ul>
         <p>
