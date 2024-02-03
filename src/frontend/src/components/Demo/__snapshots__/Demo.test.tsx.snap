@@ -2036,10 +2036,10 @@ exports[`With the multiple charges record renders correctly 1`] = `
             From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years
           </li>
           <li
-          class="mb2"
-        >
+            class="mb2"
+          >
             In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
-        </li>
+          </li>
         </ul>
         <p>
           <a
@@ -2674,10 +2674,10 @@ exports[`Without a record renders correctly 1`] = `
             From local District Courts, e.g. Medford Municipal Court (not Jackson County Circuit Court) from within the last ten years
           </li>
           <li
-          class="mb2"
-        >
-          In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
-        </li>
+            class="mb2"
+          >
+            In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
+          </li>
         </ul>
         <p>
           <a
