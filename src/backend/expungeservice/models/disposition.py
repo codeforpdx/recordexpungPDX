@@ -21,6 +21,7 @@ class Disposition:
     ruling: str
     status: DispositionStatus
     amended: bool = False
+    lesser_charge: bool = False
 
 
 class DispositionCreator:
@@ -31,7 +32,8 @@ class DispositionCreator:
     @staticmethod
     def create(date: date, ruling: str, amended: bool = False) -> Disposition:
         status = DispositionCreator.__build_status(ruling)
-        return Disposition(date, ruling, status, amended)
+        lesser_charge = "lesser charge" in ruling.lower()
+        return Disposition(date, ruling, status, amended, lesser_charge)
 
     @staticmethod
     def __build_status(ruling_string):
