@@ -9,7 +9,7 @@ export default function Assumptions() {
         We are only able to access your public Oregon records.
       </p>
       <p className="mb2">
-        Your analysis may be different if you have had cases which were:
+        Your analysis may be different if you have had cases:
       </p>
       <ul className="lh-copy pl4 mw6 mb3">
         <li className="mb2">Previously expunged</li>
@@ -20,6 +20,9 @@ export default function Assumptions() {
         <li className="mb2">
           From local District Courts, e.g. Medford Municipal Court (not Jackson
           County Circuit Court) from within the last ten years
+        </li>
+        <li className="mb2">
+          In which balances were sent to collections; due to gaps in OECI, RecordSponge may not reflect actual case balances.
         </li>
       </ul>
       <p>
