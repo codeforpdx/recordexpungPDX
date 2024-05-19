@@ -1,3 +1,17 @@
+court_fields = {
+    "(Court 1)": "(Circuit Court for Benton County)",
+    "(Court 2)": "(Circuit Court for Baker County)",
+    "(Court 3)": "<>",
+    "(Court 4)": "<>",
+    "(Court 5)": "<>",
+    "(Court 6)": "<>",
+    "(Court 7)": "<>",
+    "(Court 8)": "<>",
+    "(Court 9)": "<>",
+    "(Court 10)": "<>",
+    "(Include a Conviction Yes)": "/Yes",
+    "(Include a Conviction No)": "/Off",
+}
 oregon_john_common_pdf_fields = {
     "document_0": {
         0: {
@@ -206,6 +220,7 @@ oregon_john_common_pdf_fields = {
             "(City)": "(Portland)",
             "(State)": "(OR)",
             "(Zip Code)": "(97222)",
+            **court_fields,
         }
     },
 }
@@ -448,6 +463,7 @@ oregon_arrest_john_common_pdf_fields = {
             "(City)": "(Portland)",
             "(State)": "(OR)",
             "(Zip Code)": "(97222)",
+            **court_fields
         }
     },
 }
@@ -693,6 +709,7 @@ oregon_conviction_john_common_pdf_fields = {
             "(City)": "(Portland)",
             "(State)": "(OR)",
             "(Zip Code)": "(97222)",
+            **court_fields
         }
     },
 }
@@ -761,6 +778,7 @@ multnomah_arrest_john_common_pdf_fields = {
             "(City)": "(Portland)",
             "(State)": "(OR)",
             "(Zip Code)": "(97222)",
+            **court_fields
         }
     },
 }
@@ -832,6 +850,8 @@ multnomah_conviction_john_common_pdf_fields = {
             "(City)": "(Portland)",
             "(State)": "(OR)",
             "(Zip Code)": "(97222)",
+            **court_fields
         }
     },
 }
+
