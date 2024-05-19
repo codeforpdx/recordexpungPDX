@@ -135,7 +135,7 @@ class UserInfo:
     zip_code: str
     phone_number: str
     counties_with_cases_to_expunge: List[str]
-    has_eligible_convictions: str
+    has_eligible_convictions: bool
 
 
 @dataclass
@@ -160,7 +160,7 @@ class CaseResults(UserInfo):
             has_no_balance=case.summary.balance_due_in_cents == 0,
             da_number=case.summary.district_attorney_number,
             counties_with_cases_to_expunge=[],
-            has_eligible_convictions="",
+            has_eligible_convictions=False,
             **user_info_dict,
         )
 
@@ -394,9 +394,9 @@ class PDFFieldMapper(UserDict):
         s = self.source_data
         if not isinstance(s, CaseResults):
             # Is the OSP Form
-            osp_fields = {}
-            for i in range(len(s.counties_with_cases_to_expunge[:10])):
-                osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County"
+            osp_fields: Dict[str, object] = {}
+            for i in range(10):
+                osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County" if i<len(s.counties_with_cases_to_expunge) else ""
             if s.has_eligible_convictions:
                 osp_fields["(Include a Conviction Yes)"] = True
             else:
@@ -555,10 +555,10 @@ class PDF:
         not_blank_message = lambda elem, type: f"[PDF] PDF {type} not blank: {elem.T} - {elem.V}"
 
         for field in self._pdf.Root.AcroForm.Fields:
-            assert field.V is None, not_blank_message(field, "field")
+            assert field.V in [None, "/Off", "()"], not_blank_message(field, "field")
 
         for annotation in self.annotations:
-            assert annotation.V is None, not_blank_message(annotation, "annotation")
+            assert annotation.V in [None, "/Off", "()"], not_blank_message(annotation, "annotation")
 
         assert set(self.get_field_dict()) == set(
             self.get_annotation_dict()
@@ -592,11 +592,12 @@ class FormFilling:
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
                 zip_file.write(*file_info)
-        user_information_dict["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
+        user_information_dict_2: Dict[str, object] = {**user_information_dict}
+        user_information_dict_2["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
             all_case_results
         )
-        user_information_dict["has_eligible_convictions"] = "True" if has_eligible_convictions else ""
-        osp_file_info = FormFilling._create_and_write_pdf(user_information_dict, temp_dir)
+        user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
+        osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info)
         zip_file.close()
 
@@ -676,7 +677,7 @@ class FormFilling:
 
     @staticmethod
     def _create_and_write_pdf(
-        data: Union[Dict[str, str], UserInfo], dir: str, validate_initial_pdf_state=False
+        data: Union[Dict, UserInfo], dir: str, validate_initial_pdf_state=False
     ) -> Tuple[str, str]:
         if isinstance(data, UserInfo):
             source_data = data
@@ -696,7 +697,7 @@ class FormFilling:
 
     @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
-        counties = []
+        counties: List[str] = []
         for case_result in all_case_results:
             if case_result.has_eligible_charges and case_result.case.summary.location not in counties:
                 counties.append(case_result.case.summary.location)

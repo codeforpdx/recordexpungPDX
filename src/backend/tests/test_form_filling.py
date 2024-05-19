@@ -1,7 +1,7 @@
 import os
 from tempfile import mkdtemp
 from zipfile import ZipFile
-from typing import Dict, List, Callable, Any
+from typing import Dict, List, Callable, Any, Union
 from pathlib import Path
 import pickle
 from datetime import datetime
@@ -53,7 +53,7 @@ def assert_pdf_values(pdf: PDF, expected: Dict[str, str]):
     for key in set(annotation_dict) - set(expected):
         value = annotation_dict[key].V
         if annotation_dict[key].FT == PDF.TEXT_TYPE:
-            assert value is None, key
+            assert value in [None, "<>"], key
         if annotation_dict[key].FT == PDF.BUTTON_TYPE:
             assert value != PDF.BUTTON_ON, key
 
@@ -310,7 +310,11 @@ class TestBuildOSPPDF:
             "(State)": "(OR)",
             "(Zip Code)": "(97111)",
         }
-        user_info = UserInfo(**user_data)
+        user_info = UserInfo(
+            counties_with_cases_to_expunge=[],
+            has_eligible_convictions=False,
+            **user_data,
+        )
         pdf = FormFilling._create_pdf(user_info, validate_initial_pdf_state=True)
         assert_pdf_values(pdf, expected_values)
 
