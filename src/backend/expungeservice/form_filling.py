@@ -134,6 +134,8 @@ class UserInfo:
     state: str
     zip_code: str
     phone_number: str
+    counties_with_cases_to_expunge: List[str]
+    has_eligible_convictions: str
 
 
 @dataclass
@@ -157,6 +159,8 @@ class CaseResults(UserInfo):
             case_name=case.summary.name,
             has_no_balance=case.summary.balance_due_in_cents == 0,
             da_number=case.summary.district_attorney_number,
+            counties_with_cases_to_expunge=[],
+            has_eligible_convictions="",
             **user_info_dict,
         )
 
@@ -232,6 +236,10 @@ class CaseResults(UserInfo):
     @property
     def has_eligible_charges(self) -> bool:
         return not self.eligible_charges.empty
+
+    @property
+    def get_has_eligible_convictions(self) -> bool:
+        return any([charge for charge in self.eligible_charges._charges if charge.convicted])
 
     @property
     def has_future_eligible_charges(self) -> bool:
@@ -385,8 +393,15 @@ class PDFFieldMapper(UserDict):
     def extra_mappings(self):
         s = self.source_data
         if not isinstance(s, CaseResults):
-            return {}
-
+            # Is the OSP Form
+            osp_fields = {}
+            for i in range(len(s.counties_with_cases_to_expunge[:10])):
+                osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County"
+            if s.has_eligible_convictions:
+                osp_fields["(Include a Conviction Yes)"] = True
+            else:
+                osp_fields["(Include a Conviction No)"] = True
+            return osp_fields
         return {
             "(FOR THE COUNTY OF)": s.county,
             "(Plaintiff)": "State of Oregon",
@@ -438,6 +453,7 @@ class PDFFieldMapper(UserDict):
 class PDF:
     BUTTON_TYPE = "/Btn"
     BUTTON_ON = PdfName("On")
+    BUTTON_YES = PdfName("Yes")
     TEXT_TYPE = "/Tx"
     FONT_FAMILY = "TimesNewRoman"
     FONT_SIZE = "10"
@@ -471,9 +487,12 @@ class PDF:
     # necessarily "/Yes". If a new form has been made, make sure to check
     # which value to use here and redefine BUTTON_ON if needed.
     def set_checkbox_on(self, annotation):
-        assert self.BUTTON_ON in annotation.AP.N.keys()
-        annotation.V = self.BUTTON_ON
-        annotation.AS = self.BUTTON_ON
+        if self.BUTTON_ON in annotation.AP.N.keys():
+            annotation.V = self.BUTTON_ON
+            annotation.AS = self.BUTTON_ON
+        elif self.BUTTON_YES in annotation.AP.N.keys():
+            annotation.V = self.BUTTON_YES
+            annotation.AS = self.BUTTON_YES
 
     def set_text_value(self, annotation, value):
         new_value = value
@@ -545,6 +564,7 @@ class PDF:
             self.get_annotation_dict()
         ), "[PDF] PDF fields do not match annotations"
 
+
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
     NON_OREGON_PDF_COUNTIES = ["multnomah"]
@@ -561,13 +581,21 @@ class FormFilling:
 
         sid = FormFilling._unify_sids(record_summary)
 
+        all_case_results = []
+        has_eligible_convictions = False
         for case in record_summary.record.cases:
             case_results = CaseResults.build(case, user_information_dict, sid)
 
+            if case_results.get_has_eligible_convictions:
+                has_eligible_convictions = True
+            all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
                 zip_file.write(*file_info)
-
+        user_information_dict["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
+            all_case_results
+        )
+        user_information_dict["has_eligible_convictions"] = "True" if has_eligible_convictions else ""
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict, temp_dir)
         zip_file.write(*osp_file_info)
         zip_file.close()
@@ -665,3 +693,11 @@ class FormFilling:
         pdf.write(write_file_path)
 
         return write_file_path, write_file_name
+
+    @staticmethod
+    def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
+        counties = []
+        for case_result in all_case_results:
+            if case_result.has_eligible_charges and case_result.case.summary.location not in counties:
+                counties.append(case_result.case.summary.location)
+        return counties
