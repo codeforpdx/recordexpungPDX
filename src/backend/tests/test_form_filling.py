@@ -1,7 +1,7 @@
 import os
 from tempfile import mkdtemp
 from zipfile import ZipFile
-from typing import Dict, List, Callable, Any, Union
+from typing import Dict, List, Callable, Any
 from pathlib import Path
 import pickle
 from datetime import datetime
