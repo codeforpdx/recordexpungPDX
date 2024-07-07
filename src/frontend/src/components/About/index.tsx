@@ -96,7 +96,8 @@ export default class About extends React.Component {
                     Portland State University, completing his masters in 2019.
                     Seeking ways to contribute locally to progressive causes, he
                     joined Code for PDX in March of 2019 to work on its Record
-                    Expungement software project. He currently volunteers
+                    Expungement software project. He has since continued to pursue
+                    social impact work through software engineering.
                     full-time at Code for PDX.
                   </dd>
                 </dl>
