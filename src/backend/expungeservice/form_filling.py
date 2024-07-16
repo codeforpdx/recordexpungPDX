@@ -568,8 +568,8 @@ class PDF:
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
     NON_OREGON_PDF_COUNTIES = ["multnomah"]
-    COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["douglas", "umatilla", "multnomah"]
-    COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["douglas", "umatilla"]
+    COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["umatilla", "multnomah"]
+    COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["umatilla"]
     OSP_PDF_NAME = "OSP_Form"
 
     @staticmethod

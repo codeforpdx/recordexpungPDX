@@ -115,7 +115,7 @@ exports[`renders correctly 1`] = `
             <dd
               className="lh-copy"
             >
-              Jordan studied computer science and machine learning at Portland State University, completing his masters in 2019. Seeking ways to contribute locally to progressive causes, he joined Code for PDX in March of 2019 to work on its Record Expungement software project. He currently volunteers full-time at Code for PDX.
+              Jordan studied computer science and machine learning at Portland State University, completing his masters in 2019. Seeking ways to contribute locally to progressive causes, he joined Code for PDX in March of 2019 to work on its Record Expungement software project. He has since continued to pursue social impact work through software engineering.
             </dd>
           </dl>
         </div>

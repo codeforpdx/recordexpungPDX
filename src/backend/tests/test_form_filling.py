@@ -201,9 +201,6 @@ class TestPDFFileNameAndDownloadPath:
         assert file_path == "dir/case_name_case_number_" + expected_file_name
 
     def test_correct_pdf_path_is_built(self):
-        self.assert_correct_pdf_file_name("Douglas", "oregon_arrest.pdf", has_convictions=False)
-        self.assert_correct_pdf_file_name("Douglas", "oregon_conviction.pdf", has_convictions=True)
-
         self.assert_correct_pdf_file_name("Umatilla", "oregon_arrest.pdf", has_convictions=False)
         self.assert_correct_pdf_file_name("Umatilla", "oregon_conviction.pdf", has_convictions=True)
 
@@ -214,9 +211,6 @@ class TestPDFFileNameAndDownloadPath:
         self.assert_correct_pdf_file_name("unknown", "oregon.pdf", has_convictions=True)
 
     def test_correct_download_file_path_is_built(self):
-        self.assert_correct_download_file_path("Douglas", "douglas_with_arrest_order.pdf", has_convictions=False)
-        self.assert_correct_download_file_path("Douglas", "douglas_with_conviction_order.pdf", has_convictions=True)
-
         self.assert_correct_download_file_path("Umatilla", "umatilla_with_arrest_order.pdf", has_convictions=False)
         self.assert_correct_download_file_path("Umatilla", "umatilla_with_conviction_order.pdf", has_convictions=True)
 
@@ -581,14 +575,14 @@ class TestBuildOregonPDF(PDFTestFixtures):
         )
 
 
-class TestBuildDouglasPDF(TestBuildOregonPDF):
-    county = "Douglas"
+class TestBuildUmatillaPDF(TestBuildOregonPDF):
+    county = "Umatilla"
     expected_county_data = {
         # county
-        "(FOR THE COUNTY OF)": "(Douglas)",
+        "(FOR THE COUNTY OF)": "(Umatilla)",
         # da_address
-        "(the District Attorney at address 2)": "(District Attorney - 1036 SE Douglas Avenue - Justice Building, Room 204 - Roseburg, OR 97470)",
-        "(County)": "(Douglas)",
+        "(the District Attorney at address 2)": "(District Attorney - 216 SE 4th St, Pendleton, OR 97801)",
+        "(County)": "(Umatilla)",
     }
     expected_conviction_order_values = {
         "(Case Number)": "(base case number)",
