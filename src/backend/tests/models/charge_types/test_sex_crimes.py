@@ -26,8 +26,8 @@ def test_sex_crimes_with_romeo_and_juliet_exception(sex_crimes_statute):
         name="Generic", statute=sex_crimes_statute, level="Misdemeanor Class A", disposition=Dispositions.CONVICTED
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
-    assert isinstance(charges[0].charge_type, RomeoAndJulietNMASexCrime)
-    assert isinstance(charges[1].charge_type, RomeoAndJulietIneligibleSexCrime)
+    assert isinstance(charges[1].charge_type, RomeoAndJulietNMASexCrime)
+    assert isinstance(charges[0].charge_type, RomeoAndJulietIneligibleSexCrime)
     assert type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         type_eligibility.reason
