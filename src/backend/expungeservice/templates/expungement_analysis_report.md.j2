@@ -16,9 +16,6 @@ Name: {{ name }}
 
 ## PLEASE READ THIS
 
-### Disclaimer:
-RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.
-
 {% if has_open_cases %}
 <b>You have open charges. You are not eligible to expunge ANY records, including old charges, while you have open charges.</b>
 {% endif %}
@@ -86,3 +83,21 @@ Additionally, you have charges for which the online records do not contain enoug
     {% include 'partials/case.md.j2' %}
   {% endfor %}
 {% endif %}
+
+{% if county_fines | count > 0 %}
+##Balance Due by County
+  {% for county in county_fines %}
+    {% if county['case_fines'] | length > 0 %}
+      {{county['county_name']}}
+      {% for fine in county['case_fines'] %}
+        {{fine['case_number']}} - {{fine['balance']}}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+
+
+
+### Disclaimer:
+RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.
