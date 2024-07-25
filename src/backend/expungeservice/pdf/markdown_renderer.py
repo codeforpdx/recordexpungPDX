@@ -13,8 +13,6 @@ class MarkdownRenderer:
         ineligible_case_charges = [
             x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Ineligible"
         ]
-
-        #print(ineligible_case_charges)
         eligible_if_paid_case_charges = [
             x
             for x in record["summary"]["charges_grouped_by_eligibility_and_case"]
@@ -22,8 +20,6 @@ class MarkdownRenderer:
         ]
         
         county_fines = [x for x in record["summary"]["county_fines"]]
-        
-        #fines_total = record["summary"]["total_fines_due"]
         eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
             (key, eligible_charges_for_date)

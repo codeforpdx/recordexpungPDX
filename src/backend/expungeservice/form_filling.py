@@ -3,7 +3,7 @@ from os import path
 from pathlib import Path
 from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
-from zipfile import ZipFile
+from file import ZipFile
 from collections import UserDict
 
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
@@ -598,7 +598,9 @@ class FormFilling:
         )
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
+        pdf_path, zip_name = FormFilling.build_zip(record_summary, user_information_dict_2)
         zip_file.write(*osp_file_info)
+        zip_file.write(*pdf_path)
         zip_file.close()
 
         return zip_path, zip_file_name
