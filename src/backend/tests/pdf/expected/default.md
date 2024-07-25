@@ -5,10 +5,6 @@ Name: JOHN  DOE
 
 ## PLEASE READ THIS
 
-### Disclaimer:
-RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.
-
-
 ### Assumptions
 <b>1) Successful completion of court requirements</b> &nbsp; If you are currently on probation or conditional discharge, the analysis below assumes that you will successfully complete those requirements.
 
@@ -26,7 +22,6 @@ If the above assumptions are not true for you and you would like an updated anal
 
 ## Charges Eligible Now
 You are not currently eligible to expunge any charges.
-
 
 ## Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
