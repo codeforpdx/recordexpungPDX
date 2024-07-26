@@ -26,10 +26,10 @@ def test_sex_crimes_with_romeo_and_juliet_exception(sex_crimes_statute):
         name="Generic", statute=sex_crimes_statute, level="Misdemeanor Class A", disposition=Dispositions.CONVICTED
     )
     type_eligibility = RecordMerger.merge_type_eligibilities(charges)
-    assert isinstance(charges[0].charge_type, RomeoAndJulietNMASexCrime)
-    assert isinstance(charges[1].charge_type, RomeoAndJulietIneligibleSexCrime)
+    assert isinstance(charges[1].charge_type, RomeoAndJulietNMASexCrime)
+    assert isinstance(charges[0].charge_type, RomeoAndJulietIneligibleSexCrime)
     assert type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         type_eligibility.reason
-        == "Young Offender Sex Crime, Needs More Analysis – Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis OR Young Offender Sex Crime, Ineligible – Fails to meet requirements under 137.225(6)(f)"
+        == "Young Offender Sex Crime, Ineligible – Fails to meet requirements under 137.225(6)(f) OR Young Offender Sex Crime, Needs More Analysis – Possibly meets requirements under 137.225(6)(f) - Email michael@qiu-qiulaw.com with subject line '6F' for free and confidential further analysis"
     )

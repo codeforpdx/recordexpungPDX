@@ -1608,7 +1608,7 @@ Array [
           <p
             className="tc fw7 white mw7 mh4"
           >
-            Over 10,000 analyses delivered as of January 2023
+            Over 20,000 analyses delivered as of July 2024
           </p>
         </div>
       </div>
@@ -1764,7 +1764,7 @@ Array [
               <p
                 className="mw7 lh-copy tc center mb3"
               >
-                Having performed expungement analysis both with and without the assistance of RecordSponge, I know that this program vastly decreases the time needed to perform expungement analysis, and vastly increases the number of people we can assist with expungements.
+                Having performed expungement analysis both with and without the assistance of RecordSponge, I know that this program vastly decreases the time to perform expungement analysis, and vastly increases the number of people we can assist with expungements.
               </p>
               <footer
                 className="mw7 tc center fw6 f5-ns mb5"

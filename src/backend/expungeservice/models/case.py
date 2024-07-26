@@ -74,6 +74,7 @@ class Case(OeciCase):
 
     def has_eligible_conviction(self):
         eligible_charges, ineligible_charges = Case.partition_by_eligibility(self.charges)
+        #add needs more analysis charges if made eligible
         dismissals, convictions = Case.categorize_charges(eligible_charges)
         return len(convictions) > 0
 

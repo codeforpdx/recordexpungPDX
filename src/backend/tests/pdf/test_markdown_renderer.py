@@ -17,7 +17,7 @@ def example_record():
             "CASEJD1": CaseDetails.CASE_WITH_REVOKED_PROBATION,
         },
     )
-
+    
 def test_render_markdown(example_record):
     record_summary = RecordSummarizer.summarize(example_record, {})
     record = json.loads(json.dumps(record_summary, cls=ExpungeModelEncoder))
