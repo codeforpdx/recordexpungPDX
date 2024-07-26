@@ -1,23 +1,9 @@
-{% if header %}
-{{ header }}
-{% else %}
 # EXPUNGEMENT ANALYSIS REPORT
 ## Search Terms
-  {% for name, birth_date in aliases %}
-    {% if name %}
-      {% if birth_date %}
-Name: {{ name }} DOB: {{ birth_date }}
-      {% else %}
-Name: {{ name }}
-      {% endif %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
+Name: JOHN  SMITH DOB: 2/2/2020
+Name: JOHN  DOE
 
 ## PLEASE READ THIS
-{% if has_open_cases %}
-<b>You have open charges. You are not eligible to expunge ANY records, including old charges, while you have open charges.</b>
-{% endif %}
 
 ### Assumptions
 <b>1) Successful completion of court requirements</b> &nbsp; If you are currently on probation or conditional discharge, the analysis below assumes that you will successfully complete those requirements.
@@ -35,63 +21,19 @@ Below is a summary of your eligibility for expungement based on the assumptions 
 If the above assumptions are not true for you and you would like an updated analysis, email roe@qiu-qiulaw.com with your name and date of birth with subject line, “Updated Analysis”.
 
 ## Charges Eligible Now
-{% if eligible_case_charges | count > 0 %}
-  {% for case_info, charges_info in eligible_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
-  {% endfor %}
-{% else %}
 You are not currently eligible to expunge any charges.
-{% endif %}
 
-{% if ineligible_case_charges | count > 0 %}
-## Ineligible Charges
-These convictions are not eligible for expungement at any time under the current law.
-
-  {% for case_info, charges_info in ineligible_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
-  {% endfor %}
-{% endif %}
-{% if eligible_if_paid_case_charges | count > 0 %}
 ## Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
-  {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
-  {% endfor %}
-{% endif %}
+ - Multnomah CASEJD1 – $529.08
+     - CASEJD1: Possession of Cocaine (CONVICTED) Charged Jun 13, 2009
+     - CASEJD1: Possession of Cocaine (DISMISSED) Charged Feb 17, 2009
 
-{% if future_eligible_charges | count > 0 %}
-## Future Eligible Charges
-The following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.
-
-  {% for label, section in future_eligible_charges %}
-### {{ label }}
-    {% for case_info, charges_info in section %}
-      {% include 'partials/case.md.j2' %}
-    {% endfor %}
-
-  {% endfor %}
-{% endif %}
-
-{% if needs_more_analysis_charges | count > 0 %}
-## Charges Needing More Analysis
-Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
-
-  {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
-  {% endfor %}
-{% endif %}
-{% if county_fines | count > 0 %}
 ## Balance Due by County
-  {% for county in county_fines %}
-    {% if county['case_fines'] | length > 0 %}
-      {{county['county_name']}}
-      {% for fine in county['case_fines'] %}
-        {{fine['case_number']}} - {{fine['balance']}}
-      {% endfor %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
+
+  Multnomah
+    CASEJD1 - 529.08
 
 ### Disclaimer:
 RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.

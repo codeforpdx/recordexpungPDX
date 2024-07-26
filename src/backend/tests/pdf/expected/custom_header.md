@@ -27,9 +27,12 @@ These convictions are eligible as soon as the balance of fines on the case is pa
      - CASEJD1: Possession of Cocaine (CONVICTED) Charged Jun 13, 2009
      - CASEJD1: Possession of Cocaine (DISMISSED) Charged Feb 17, 2009
 
+
+
 ## Balance Due by County
-    Multnomah
-      CASEJD1 - 529.08
+
+      Multnomah
+        CASEJD1 - 529.08
 
 ### Disclaimer:
 RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record please email roe@qiu-qiulaw.com for free consultation.
