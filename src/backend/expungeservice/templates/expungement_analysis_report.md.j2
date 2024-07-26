@@ -15,7 +15,6 @@ Name: {{ name }}
 {% endif %}
 
 ## PLEASE READ THIS
-
 {% if has_open_cases %}
 <b>You have open charges. You are not eligible to expunge ANY records, including old charges, while you have open charges.</b>
 {% endif %}
@@ -52,7 +51,6 @@ These convictions are not eligible for expungement at any time under the current
     {% include 'partials/case.md.j2' %}
   {% endfor %}
 {% endif %}
-
 {% if eligible_if_paid_case_charges | count > 0 %}
 ## Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
@@ -83,9 +81,8 @@ Additionally, you have charges for which the online records do not contain enoug
     {% include 'partials/case.md.j2' %}
   {% endfor %}
 {% endif %}
-
 {% if county_fines | count > 0 %}
-##Balance Due by County
+## Balance Due by County
   {% for county in county_fines %}
     {% if county['case_fines'] | length > 0 %}
       {{county['county_name']}}
