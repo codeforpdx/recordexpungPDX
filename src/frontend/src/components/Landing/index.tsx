@@ -59,7 +59,7 @@ class Landing extends React.Component {
                 <PartnerTable />
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc fw7 white mw7 mh4">
-                  Over 10,000 analyses delivered as of January 2023
+                  Over 20,000 analyses delivered as of July 2024
                 </p>
               </div>
             </div>
@@ -175,7 +175,7 @@ class Landing extends React.Component {
                     <p className="mw7 lh-copy tc center mb3">
                       Having performed expungement analysis both with and
                       without the assistance of RecordSponge, I know that this
-                      program vastly decreases the time needed to perform
+                      program vastly decreases the time to perform
                       expungement analysis, and vastly increases the number of
                       people we can assist with expungements.
                     </p>

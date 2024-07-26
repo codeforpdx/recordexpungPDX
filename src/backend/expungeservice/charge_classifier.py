@@ -464,14 +464,17 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([SexCrime()])
         elif statute in SexCrime.romeo_and_juliet_exceptions:
             question_string = """
-            Select "Yes" if ALL of the following are true:
-            1. The victim's lack of consent was solely due to age (statutory rape) AND
-            2. You were under 23 years old when the act occurred AND
-            3. The victim was less than five years younger than you when the act occurred
+            Select "No" if all of the following are true:
+            
+                1. Are you required to report as a sex offender?
+                2. Do you have any charges that are not eligible for expungement?
+                3. Is your sex offense conviction a Class A or Class B Felony?
+
+            If your answer to ALL 3 of these questions is "NO", this charge may be eligible for expungement.
             """
             options = {
-                "Yes (Rare, contact michael@qiu-qiulaw.com)": RomeoAndJulietNMASexCrime(),
-                "No": RomeoAndJulietIneligibleSexCrime(),
+                "Yes": RomeoAndJulietIneligibleSexCrime(),
+                "No (Rare, contact michael@qiu-qiulaw.com)": RomeoAndJulietNMASexCrime(),
             }
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
 
