@@ -3,7 +3,7 @@ from os import path
 from pathlib import Path
 from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
-from file import ZipFile
+from zipfile import ZipFile
 from collections import UserDict
 
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
