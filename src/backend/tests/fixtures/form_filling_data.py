@@ -1,6 +1,6 @@
 court_fields = {
-    "(Court 1)": "<>",
-    "(Court 2)": "<>",
+    "(Court 1)": "(Circuit Court for Benton County)",
+    "(Court 2)": "(Circuit Court for Baker County)",
     "(Court 3)": "<>",
     "(Court 4)": "<>",
     "(Court 5)": "<>",

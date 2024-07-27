@@ -396,8 +396,7 @@ class PDFFieldMapper(UserDict):
             # Is the OSP Form
             osp_fields: Dict[str, object] = {}
             for i in range(10):
-                #osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County" if i<len(s.counties_with_cases_to_expunge) else ""
-                osp_fields[f"(Court {i+1})"] = ""
+                osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County" if i<len(s.counties_with_cases_to_expunge) else ""
             if s.has_eligible_convictions:
                 osp_fields["(Include a Conviction Yes)"] = True
             else:
@@ -706,5 +705,4 @@ class FormFilling:
             if case_result.case.summary.balance_due_in_cents != 0:
                 counties_with_balances.append(case_result.case.summary.location)
         counties_with_expungements = [county for county in counties_with_eligible_charge if county not in counties_with_balances]
-        return []
-        #return counties_with_expungements
+        return counties_with_expungements

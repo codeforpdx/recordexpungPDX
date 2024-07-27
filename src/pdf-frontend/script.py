@@ -39,7 +39,6 @@ def handle_person(output, client, row):
     aliases = [alias]
     response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
     record = json.loads(response.text)["record"]
-    print(record)
     name = f"{first_name} {middle} {last_name}"
     officer = row.get("Officer", "").upper().strip()
     header = build_header(aliases, name, birth_date, officer)
