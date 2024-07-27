@@ -39,7 +39,7 @@ def handle_person(output, client, row):
     aliases = [alias]
     response = client.post("http://localhost:5000/api/search", json={"aliases": aliases})
     record = json.loads(response.text)["record"]
-    print(record)
+ 
     name = f"{first_name} {middle} {last_name}"
     officer = row.get("Officer", "").upper().strip()
     header = build_header(aliases, name, birth_date, officer)
@@ -55,6 +55,7 @@ def handle_person(output, client, row):
         print(f"TOO LARGE TO ANALYZE: {name} {aliases}")
     else:
         print(f"BLANK RECORD: {name} {aliases}")
+    return pdf
 
 
 def search_and_dump_many_records(source_filename="source/names.csv", output="output/"):

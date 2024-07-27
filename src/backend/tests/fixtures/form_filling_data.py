@@ -9,7 +9,7 @@ court_fields = {
     "(Court 8)": "<>",
     "(Court 9)": "<>",
     "(Court 10)": "<>",
-    "(Include a Conviction Yes)": "/Yes",
+    "(Include a Conviction Yes)": "/Off",
     "(Include a Conviction No)": "/Off",
 }
 oregon_john_common_pdf_fields = {
@@ -854,4 +854,3 @@ multnomah_conviction_john_common_pdf_fields = {
         }
     },
 }
-

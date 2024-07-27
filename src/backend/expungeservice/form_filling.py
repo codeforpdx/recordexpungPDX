@@ -398,10 +398,12 @@ class PDFFieldMapper(UserDict):
             for i in range(10):
                 #osp_fields[f"(Court {i+1})"] = f"Circuit Court for {s.counties_with_cases_to_expunge[i]} County" if i<len(s.counties_with_cases_to_expunge) else ""
                 osp_fields[f"(Court {i+1})"] = ""
-            if s.has_eligible_convictions:
+                
+            """if s.has_eligible_convictions:
+
                 osp_fields["(Include a Conviction Yes)"] = True
             else:
-                osp_fields["(Include a Conviction No)"] = True
+                osp_fields["(Include a Conviction No)"] = True"""
             return osp_fields
         return {
             "(FOR THE COUNTY OF)": s.county,
