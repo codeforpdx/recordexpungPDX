@@ -1,6 +1,6 @@
 court_fields = {
-    "(Court 1)": "(Circuit Court for Benton County)",
-    "(Court 2)": "(Circuit Court for Baker County)",
+    "(Court 1)": "<>",
+    "(Court 2)": "<>",
     "(Court 3)": "<>",
     "(Court 4)": "<>",
     "(Court 5)": "<>",
@@ -9,7 +9,7 @@ court_fields = {
     "(Court 8)": "<>",
     "(Court 9)": "<>",
     "(Court 10)": "<>",
-    "(Include a Conviction Yes)": "/Yes",
+    "(Include a Conviction Yes)": "/Off",
     "(Include a Conviction No)": "/Off",
 }
 oregon_john_common_pdf_fields = {
@@ -854,4 +854,3 @@ multnomah_conviction_john_common_pdf_fields = {
         }
     },
 }
-
