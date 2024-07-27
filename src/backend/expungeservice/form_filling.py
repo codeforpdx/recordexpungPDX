@@ -696,7 +696,7 @@ class FormFilling:
 
         return write_file_path, write_file_name
 
-    """@staticmethod
+    @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
         counties_with_eligible_charge: List[str] = []
         counties_with_balances: List[str] = []
@@ -706,4 +706,5 @@ class FormFilling:
             if case_result.case.summary.balance_due_in_cents != 0:
                 counties_with_balances.append(case_result.case.summary.location)
         counties_with_expungements = [county for county in counties_with_eligible_charge if county not in counties_with_balances]
-        return counties_with_expungements"""
+        return []
+        #return counties_with_expungements
