@@ -81,7 +81,7 @@ export default function SearchPanel() {
                 dispatch(updateSearchFormAlias({ index, attribute, value }));
               }}
               onRemoveClick={() => {
-                dispatch(removeSearchFormAlias(index));
+                dispatch(removeSearchFormAlias(index + 1));
               }}
               hideRemoveButton={aliases.length === 1}
             />
