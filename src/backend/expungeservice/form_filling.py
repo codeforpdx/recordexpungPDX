@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from flask import request, json, make_response
+from expungeservice.endpoints.demo import Demo
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
@@ -21,7 +23,10 @@ from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
+from expungeservice.pdf.markdown_renderer import MarkdownRenderer
+from expungeservice.endpoints.search import Search
 from expungeservice.util import DateWithFuture
+
 
 DA_ADDRESSES = {
     "baker": "Baker County Courthouse - 1995 Third Street, Suite 320 - Baker City, OR 97814",
@@ -576,7 +581,7 @@ class FormFilling:
     OSP_PDF_NAME = "OSP_Form"
 
     @staticmethod
-    def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str]) -> Tuple[str, str]:
+    def build_zip(record_summary: RecordSummary, record: Dict, user_information_dict: Dict[str, str]) -> Tuple[str, str]:
         temp_dir = mkdtemp()
         zip_file_name = "expungement_packet.zip"
         zip_path = path.join(mkdtemp(), zip_file_name)
@@ -601,10 +606,36 @@ class FormFilling:
         )
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
+        print(osp_file_info)
+        print(type(osp_file_info))
         zip_file.write(*osp_file_info)
+
+        request_data = request.get_json()
+        demo = request_data.get("demo")
+        search = Demo if demo else Search
+        response = search().post()  # type: ignore
+        record = json.loads(response)["record"]
+        aliases = request_data["aliases"]
+        source = MarkdownRenderer.to_markdown(record, aliases=aliases)
+        pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
+        #print(pdf)
+        response = make_response(pdf)
+        response.headers["Content-Type"] = "application/pdf"
+        first_alias = aliases[0]
+        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
+        filename = f"{name}_record_summary.pdf"
+        response.headers["Content-Disposition"] = f"inline; filename={filename}"
+        print(response.headers["Content-Disposition"])
+        #print(response.headers)
+        filepath = path.join(temp_dir, filename), filename
+        #zip_file.write(*filepath)
         zip_file.close()
 
         return zip_path, zip_file_name
+
+    '''@staticmethod
+    def all_motions_set_aside(record_summary: RecordSummary, record: Dict, user_information_dict: Dict[str, str]):'''
+
 
     @staticmethod
     def _unify_sids(record_summary: RecordSummary) -> str:
@@ -654,6 +685,7 @@ class FormFilling:
 
         file_name += ".pdf"
 
+        #print(download_dir)
         return path.join(download_dir, file_name), file_name
 
     @staticmethod
