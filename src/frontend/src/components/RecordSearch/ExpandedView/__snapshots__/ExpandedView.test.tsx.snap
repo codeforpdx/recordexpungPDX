@@ -2598,25 +2598,6 @@ exports[`filter checkboxes the nav checkbox that hides traffic charges works 1`]
       </main>
     </div>
   </section>
-  <section
-    class="mw8 center f6 f5-l bg-white shadow br3 pa4 mt3 tc pb5 mb3"
-  >
-    <h2
-      class="f3 fw8 tc pt2 mb4 ph4"
-    >
-      Finish Up
-    </h2>
-    <button
-      class="fw6 bg-animate br3 pv3 ph4 bg-red white hover-bg-dark-red "
-      type="button"
-    >
-      <i
-        aria-hidden="true"
-        class="fas fa-arrow-up pr2"
-      />
-      Clear Data And Start Over
-    </button>
-  </section>
 </DocumentFragment>
 `;
 
