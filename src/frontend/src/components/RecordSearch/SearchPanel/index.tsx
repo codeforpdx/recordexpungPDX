@@ -99,7 +99,7 @@ export default function SearchPanel() {
         <IconButton
           styling="blank"
           displayText="Alias"
-          buttonClassName="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray tc fw5 pv3 ph3 mr2"
+          buttonClassName="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray w-20 tc fw5 pv3 ph3 mr2"
           iconClassName="fa-plus-circle pr1"
           onClick={() => dispatch(addSearchFormAlias())}
         />
@@ -114,7 +114,7 @@ export default function SearchPanel() {
 
         <IconButton
           styling="button"
-          buttonClassName="w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray tc fw5 pv3 ph3 w-50"
+          buttonClassName="w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray w-30 tc fw5 pv3 ph3"
           iconClassName="fa-arrow-up pr2"
           displayText="Clear Data"
           onClick={handleStartOverClick}
