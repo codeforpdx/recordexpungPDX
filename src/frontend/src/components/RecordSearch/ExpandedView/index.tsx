@@ -175,16 +175,6 @@ export default function ExpandedView({ showColor }: Props) {
           <UserDataForm />
         </div>
       </SingleSection>
-
-      <SingleSection heading="Finish Up" className="tc pb5 mb3">
-        <IconButton
-          styling="button"
-          buttonClassName="bg-red white hover-bg-dark-red "
-          iconClassName="fa-arrow-up pr2"
-          displayText="Clear Data And Start Over"
-          onClick={handleStartOverClick}
-        />
-      </SingleSection>
     </>
   );
 }

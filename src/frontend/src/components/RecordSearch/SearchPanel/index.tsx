@@ -116,7 +116,7 @@ export default function SearchPanel() {
           styling="button"
           buttonClassName="w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray tc fw5 pv3 ph3 w-50"
           iconClassName="fa-arrow-up pr2"
-          displayText="Clear Data And Start Over"
+          displayText="Clear Data"
           onClick={handleStartOverClick}
         />
 
