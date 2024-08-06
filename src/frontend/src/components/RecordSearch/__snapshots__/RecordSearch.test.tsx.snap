@@ -181,13 +181,13 @@ exports[`when logged in renders correctly with blank fake response 1`] = `
             />
             Search
           </button>
-          <button 
-            class =" w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray w-30 tc fw5 pv3 ph3"
-            type = "button"
+          <button
+            class="fw6 bg-animate br3 pv3 ph4 w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray w-30 tc fw5 pv3 ph3"
+            type="button"
           >
             <i
               aria-hidden="true"
-              class="ffa-arrow-up pr2"
+              class="fas fa-arrow-up pr2"
             />
             Clear Data
           </button>
@@ -618,7 +618,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
           class="flex"
         >
           <button
-            class=" w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+            class=" w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray w-20 tc fw5 pv3 ph3 mr2"
             type="button"
           >
             <i
@@ -628,7 +628,7 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
             Alias
           </button>
           <button
-            class=" fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+            class=" fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-90 tc fw5 pv3 ph3 btn--search mr2"
             type="submit"
           >
             <i
@@ -636,6 +636,16 @@ exports[`when logged in renders correctly with complex fake response 1`] = `
               class="fas fa-search pr2"
             />
             Search
+          </button>
+          <button
+            class="fw6 bg-animate br3 pv3 ph4 w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray w-30 tc fw5 pv3 ph3"
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              class="fas fa-arrow-up pr2"
+            />
+            Clear Data
           </button>
         </div>
         <div
