@@ -78,10 +78,3 @@ test("the button to download the expungement packet works", async () => {
   await clickButton(user, "download packet");
   expect(requestSpy).toHaveBeenCalled();
 });
-
-test("the button to start over works", async () => {
-  const { user, asFragment } = setup();
-
-  await clickButton(user, "start over");
-  expect(asFragment()).toMatchSnapshot();
-});

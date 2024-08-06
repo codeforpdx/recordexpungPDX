@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AliasData, AliasFieldNames } from "./types";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import { clearAllData } from "../../../redux/store";
 import {
   selectSearchFormValues,
   setSearchFormDate,
@@ -40,6 +41,11 @@ export default function SearchPanel() {
       { minLength: 3 }
     ),
   ];
+
+  const handleStartOverClick = () => {
+    dispatch(clearAllData());
+    window.scrollTo(0, 0);
+  };
 
   return (
     <form
@@ -93,7 +99,7 @@ export default function SearchPanel() {
         <IconButton
           styling="blank"
           displayText="Alias"
-          buttonClassName="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray fw5 pv3 ph3 mr2"
+          buttonClassName="w4 tc br2 bg-gray-blue-2 link hover-dark-blue mid-gray w-20 tc fw5 pv3 ph3 mr2"
           iconClassName="fa-plus-circle pr1"
           onClick={() => dispatch(addSearchFormAlias())}
         />
@@ -102,9 +108,18 @@ export default function SearchPanel() {
           styling="blank"
           type="submit"
           displayText="Search"
-          buttonClassName="fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-100 tc pv3 btn--search"
+          buttonClassName="fw7 br2 bg-blue white bg-animate hover-bg-dark-blue db w-90 tc fw5 pv3 ph3 btn--search mr2"
           iconClassName="fa-search pr2"
         />
+
+        <IconButton
+          styling="button"
+          buttonClassName="w4 tc br2 bg-gray-blue-2 hover-dark-blue mid-gray w-30 tc fw5 pv3 ph3"
+          iconClassName="fa-arrow-up pr2"
+          displayText="Clear Data"
+          onClick={handleStartOverClick}
+        />
+
       </div>
 
       <InvalidInputs contents={errorMessages} />
