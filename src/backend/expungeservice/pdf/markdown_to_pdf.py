@@ -22,7 +22,7 @@ class MarkdownToPDF:
         </body>
         </html>
         """
-        return pdfkit.from_string(html, False, options={"quiet": ""})
+        #return pdfkit.from_string(html, False, options={"quiet": ""})
 
     @staticmethod
     def css():
