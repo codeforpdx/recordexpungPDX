@@ -22,15 +22,6 @@ from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 from expungeservice.util import DateWithFuture
-from expungeservice.pdf.markdown_renderer import MarkdownRenderer
-
-from expungeservice.endpoints.demo import Demo
-from flask import request, json, make_response, send_file
-
-from expungeservice.pdf.markdown_renderer import MarkdownRenderer
-from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
-from expungeservice.endpoints.search import Search
-
 
 DA_ADDRESSES = {
     "baker": "Baker County Courthouse - 1995 Third Street, Suite 320 - Baker City, OR 97814",
@@ -461,26 +452,6 @@ class PDFFieldMapper(UserDict):
             "(Name typed or printed_2)": s.full_name,
         }
 
-class SUMMARY_REPORT:
-
-    @staticmethod
-    def fill_form(mapper: PDFFieldMapper):
-        pdf = SUMMARY_REPORT(mapper)
-        return pdf
-
-    def __init__(self, mapper: PDFFieldMapper):
-        self._pdf = PdfReader()
-        self.mapper = mapper
-        self.writer = PdfWriter()
-
-    def write(self, path: str):
-        self.writer.addpages(self._pdf.pages)
-
-        trailer = self.writer.trailer
-        trailer.Root.AcroForm = self._pdf.Root.AcroForm
-
-        self.writer.write(path, trailer=trailer)
-
 
 class PDF:
     BUTTON_TYPE = "/Btn"
@@ -596,20 +567,6 @@ class PDF:
             self.get_annotation_dict()
         ), "[PDF] PDF fields do not match annotations"
 
-def build_summary_header(aliases, name, birth_date, officer):
-        title = f"# EXPUNGEMENT ANALYSIS REPORT  \n"
-        name = f"Name: {name}  \n" if name else ""
-        dob = f"DOB: {birth_date}  \n" if birth_date else ""
-        officer = f"Officer: {officer}  \n" if officer else ""
-        header1 = title + name + dob + officer
-        header2 = "## Search Terms  \n"
-        for alias in aliases:
-            name = f"{alias.get('first_name', '')} {alias.get('middle_name', '')} {alias.get('last_name', '')}".upper()
-            name_line = f"Name: {name} " if name else ""
-            dob = f"DOB: {alias.get('birth_date')}  \n" if alias.get("birth_date") else " \n"
-            alias_line = name_line + dob
-            header2 += alias_line
-        return header1 + header2
 
 class FormFilling:
     OREGON_PDF_NAME = "oregon"
@@ -645,30 +602,6 @@ class FormFilling:
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info)
-
-        request_data = request.get_json()
-        demo = request_data.get("demo")
-        search = Demo if demo else Search
-        response = search().post()  # type: ignore
-        record = json.loads(response)["record"]
-        aliases = request_data["aliases"]
-        source = MarkdownRenderer.to_markdown(record, aliases=aliases)
-        #pdf = MarkdownToPDF.to_pdf("Expungement analysis", source)
-        #response = make_response(pdf)
-        #response.headers["Content-Type"] = "application/pdf"
-
-        first_alias = aliases[0]
-        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
-        filename = f"{name}_record_summary.pdf"
-
-        filename = path.join(temp_dir, filename)
-
-        header = build_summary_header(aliases, "", "", "")
-        
-        summary_markdown = MarkdownRenderer.to_markdown(record, aliases=aliases)
-        summary_pdf = MarkdownToPDF.to_pdf("Expungement analysis", summary_markdown)
-        #summary_pdf.write(filename)
-        zip_file.write("tmpv8nhgjvg/SARAH_LOFGREN_record_summary.pdf")
         zip_file.close()
 
         return zip_path, zip_file_name
@@ -744,20 +677,6 @@ class FormFilling:
 
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
-
-    @staticmethod
-    def _create_summary_report(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
-        file_name = "PLACEHOLDER"
-        source_dir = path.join(Path(__file__).parent, "files")
-        pdf_path = path.join(source_dir, file_name)
-        mapper = PDFFieldMapper(pdf_path, source_data)
-        return SUMMARY_REPORT.fill_form(mapper)
-
-    @staticmethod
-    def _write_summary_report(data: UserInfo, dir: str):
-        pdf = FormFilling._create_summary_report(data)
-
-
 
     @staticmethod
     def _create_and_write_pdf(
