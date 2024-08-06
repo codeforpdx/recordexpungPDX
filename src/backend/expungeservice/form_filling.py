@@ -469,6 +469,7 @@ class SUMMARY_REPORT:
         return pdf
 
     def __init__(self, mapper: PDFFieldMapper):
+        self._pdf = PdfReader()
         self.mapper = mapper
         self.writer = PdfWriter()
 
@@ -745,12 +746,16 @@ class FormFilling:
         return PDF.fill_form(mapper, validate_initial_pdf_state)
 
     @staticmethod
-    def _create_summary_pdf(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
+    def _create_summary_report(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
         file_name = "PLACEHOLDER"
         source_dir = path.join(Path(__file__).parent, "files")
         pdf_path = path.join(source_dir, file_name)
         mapper = PDFFieldMapper(pdf_path, source_data)
         return SUMMARY_REPORT.fill_form(mapper)
+
+    @staticmethod
+    def _write_summary_report(data: UserInfo, dir: str):
+        pdf = FormFilling._create_summary_report(data)
 
 
 
