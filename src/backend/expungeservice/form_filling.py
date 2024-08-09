@@ -357,7 +357,7 @@ class PDFFieldMapper(UserDict):
 
     def __init__(self, pdf_source_path: str, source_data: UserInfo):
         super().__init__()
-
+        #print(pdf_source_path)
         self.pdf_source_path = pdf_source_path
         self.source_data = source_data
         self.data = self.extra_mappings()
@@ -516,7 +516,7 @@ class PDF:
         return pdf
 
     def __init__(self, mapper: PDFFieldMapper):
-        print(mapper.pdf_source_path)
+        #print(mapper.pdf_source_path)
         self.set_pdf(PdfReader(mapper.pdf_source_path))
         self.mapper = mapper
         self.shrunk_fields: Dict[str, str] = {}
@@ -646,8 +646,8 @@ class FormFilling:
         source = MarkdownRenderer.to_markdown(record, aliases=aliases)
         summary_pdf_bytes = MarkdownToPDF.to_pdf("Expungement analysis", source)
         filename = FormFilling.build_summary_filename(aliases)
-        summary_report = FormFilling._create_and_write_summary_pdf(filename, summary_pdf_bytes)
-        zip_file.write(summary_report, filename)
+        summary_report = FormFilling._create_and_write_summary_pdf(filename, summary_pdf_bytes, temp_dir)
+        zip_file.write(*summary_report)
         #call create_and_write_summary_pdf(summary_pdf_bytes, temp_dir) -- should use writer that writes bytes to filepath
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
         user_information_dict_2["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
@@ -734,7 +734,7 @@ class FormFilling:
         file_name = FormFilling._get_pdf_file_name(source_data)
         source_dir = path.join(Path(__file__).parent, "files")
         pdf_path = path.join(source_dir, file_name)
-
+        #print(pdf_path)
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
 
@@ -745,16 +745,15 @@ class FormFilling:
         pdf_path = path.join(source_dir, file_name)'''
 
     @staticmethod
-    def _create_and_write_summary_pdf(file_name: str, markdown: bytes):
+    def _create_and_write_summary_pdf(file_name: str, markdown: bytes, temp_dir: str):
         source_dir = path.join(Path(__file__).parent, "files")
         pdf_path = path.join(source_dir, file_name)
         pdf = SUMMARY_REPORT(pdf_path)
-        print(os.path.isfile(pdf_path))
         
         pdf.add_text(markdown)
-        write_file_path = pdf_path
+        write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
         pdf.write(write_file_path)
-        #return write_file_path
+        return write_file_path, write_file_name
     
 
     @staticmethod
@@ -772,6 +771,7 @@ class FormFilling:
         if warnings_text:
             pdf.add_text(warnings_text)
 
+        print(dir)
         write_file_path, write_file_name = FormFilling._build_download_file_path(dir, source_data)
         pdf.write(write_file_path)
 
