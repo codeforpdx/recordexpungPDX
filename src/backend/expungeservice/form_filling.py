@@ -602,7 +602,7 @@ class FormFilling:
     OSP_PDF_NAME = "OSP_Form"
 
     @staticmethod
-    def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str]) -> Tuple[str, str]:
+    def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str], summary: bytes, summary_filename: str) -> Tuple[str, str]:
         temp_dir = mkdtemp()
         zip_file_name = "expungement_packet.zip"
         zip_path = path.join(mkdtemp(), zip_file_name)
@@ -623,7 +623,7 @@ class FormFilling:
                 zip_file.write(*file_info)
 
         
-        request_data = request.get_json()
+        """request_data = request.get_json()
         demo = request_data.get("demo")
         search = Demo if demo else Search
         response = search().post()  # type: ignore
@@ -631,8 +631,8 @@ class FormFilling:
         aliases = request_data["aliases"]
         source = MarkdownRenderer.to_markdown(record, aliases=aliases)
         summary_pdf_bytes = MarkdownToPDF.to_pdf("Expungement analysis", source)
-        filename = FormFilling.build_summary_filename(aliases)
-        summary_report = FormFilling._create_and_write_summary_pdf(filename, summary_pdf_bytes, temp_dir)
+        filename = FormFilling.build_summary_filename(aliases)"""
+        summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         zip_file.write(*summary_report)
               
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
