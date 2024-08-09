@@ -357,7 +357,6 @@ class PDFFieldMapper(UserDict):
 
     def __init__(self, pdf_source_path: str, source_data: UserInfo):
         super().__init__()
-        #print(pdf_source_path)
         self.pdf_source_path = pdf_source_path
         self.source_data = source_data
         self.data = self.extra_mappings()
@@ -455,31 +454,17 @@ class PDFFieldMapper(UserDict):
             "(the District Attorney at address 2)": s.da_address,
             "(Name typed or printed_2)": s.full_name,
         }
-
-
-"""class SUMMARY_FILLLER(UserDict):
-    STRING_FOR_DUPLICATES = "---"
-
-    def __init__(self, pdf_source_path: str, source_data: UserInfo):
-        super().__init__()
-
-        self.pdf_source_path = pdf_source_path
-        self.source_data = source_data
-
-    def __getitem__(self, key):
-        attr = key[1:-1].lower().replace(" ", "_").split(self.STRING_FOR_DUPLICATES)[0]
-
-        if hasattr(self.source_data, attr):
-            return getattr(self.source_data, attr)
-        else:
-            return super().__getitem__(key)"""
     
 
 class SUMMARY_REPORT:
     def __init__(self, path: str):
-        self._pdf = PdfReader(path)
         self.writer = PdfWriter()
-        self.data = bytes
+        try:
+            self._pdf = PdfReader(path)
+        except:
+            with open(path, 'wb') as f:
+                self.writer.write(f)
+            self._pdf = f
 
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
@@ -516,7 +501,6 @@ class PDF:
         return pdf
 
     def __init__(self, mapper: PDFFieldMapper):
-        #print(mapper.pdf_source_path)
         self.set_pdf(PdfReader(mapper.pdf_source_path))
         self.mapper = mapper
         self.shrunk_fields: Dict[str, str] = {}
@@ -637,6 +621,8 @@ class FormFilling:
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
                 zip_file.write(*file_info)
+
+        
         request_data = request.get_json()
         demo = request_data.get("demo")
         search = Demo if demo else Search
@@ -648,7 +634,7 @@ class FormFilling:
         filename = FormFilling.build_summary_filename(aliases)
         summary_report = FormFilling._create_and_write_summary_pdf(filename, summary_pdf_bytes, temp_dir)
         zip_file.write(*summary_report)
-        #call create_and_write_summary_pdf(summary_pdf_bytes, temp_dir) -- should use writer that writes bytes to filepath
+              
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
         user_information_dict_2["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
             all_case_results
@@ -734,7 +720,6 @@ class FormFilling:
         file_name = FormFilling._get_pdf_file_name(source_data)
         source_dir = path.join(Path(__file__).parent, "files")
         pdf_path = path.join(source_dir, file_name)
-        #print(pdf_path)
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
 
@@ -752,7 +737,7 @@ class FormFilling:
         
         pdf.add_text(markdown)
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
-        pdf.write(write_file_path)
+        pdf.writer.write(write_file_path)
         return write_file_path, write_file_name
     
 
@@ -771,7 +756,6 @@ class FormFilling:
         if warnings_text:
             pdf.add_text(warnings_text)
 
-        print(dir)
         write_file_path, write_file_name = FormFilling._build_download_file_path(dir, source_data)
         pdf.write(write_file_path)
 
