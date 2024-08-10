@@ -611,6 +611,7 @@ class FormFilling:
         sid = FormFilling._unify_sids(record_summary)
 
         all_case_results = []
+        all_motions_to_set_aside = []
         has_eligible_convictions = False
         for case in record_summary.record.cases:
             case_results = CaseResults.build(case, user_information_dict, sid)
@@ -620,8 +621,17 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-                zip_file.write(*file_info)
-                
+                all_motions_to_set_aside.append(file_info[2])
+                zip_file.write(*file_info[0:2])
+
+        compiled = all_motions_to_set_aside[0]
+        for pdf in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
+            compiled.writer.addpages(pdf._pdf.pages)
+        comp_name = "COMPILED.pdf"
+        comp_path = path.join(temp_dir, comp_name)
+        compiled.write(comp_path)
+        zip_file.write(comp_path, comp_name)
+
         summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         zip_file.write(*summary_report)
               
@@ -631,7 +641,7 @@ class FormFilling:
         )
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
-        zip_file.write(*osp_file_info)
+        zip_file.write(*osp_file_info[0:2])
         zip_file.close()
 
         return zip_path, zip_file_name
@@ -723,6 +733,16 @@ class FormFilling:
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
         pdf.writer.write(write_file_path)
         return write_file_path, write_file_name
+
+    """@staticmethod
+    def _compile_pdfs(pdfs: List[PDF], download_dir: str) -> PDF:
+        compiled = pdfs[0]
+        for pdf in pdfs[1:len(pdfs)]:
+            compiled.writer.addpages(pdf._pdf.pages)
+        file_name = "COMPILED.pdf"
+        file_path = path.join(download_dir, file_name)
+        compiled.write(file_path)
+        return file_path, file_name"""
     
 
     @staticmethod
@@ -743,7 +763,7 @@ class FormFilling:
         write_file_path, write_file_name = FormFilling._build_download_file_path(dir, source_data)
         pdf.write(write_file_path)
 
-        return write_file_path, write_file_name
+        return write_file_path, write_file_name, pdf
 
     @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
