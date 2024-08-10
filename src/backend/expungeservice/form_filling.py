@@ -621,17 +621,7 @@ class FormFilling:
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
                 zip_file.write(*file_info)
-
-        
-        """request_data = request.get_json()
-        demo = request_data.get("demo")
-        search = Demo if demo else Search
-        response = search().post()  # type: ignore
-        record = json.loads(response)["record"]
-        aliases = request_data["aliases"]
-        source = MarkdownRenderer.to_markdown(record, aliases=aliases)
-        summary_pdf_bytes = MarkdownToPDF.to_pdf("Expungement analysis", source)
-        filename = FormFilling.build_summary_filename(aliases)"""
+                
         summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         zip_file.write(*summary_report)
               
@@ -722,12 +712,6 @@ class FormFilling:
         pdf_path = path.join(source_dir, file_name)
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
-
-    '''@staticmethod
-    def _create_compiled(source_data: UserInfo, validate_initial_pdf_state=False) -> PDF:
-        file_name = file_name = FormFilling._get_pdf_file_name(source_data)
-        source_dir = path.join(Path(__file__).parent, "files")
-        pdf_path = path.join(source_dir, file_name)'''
 
     @staticmethod
     def _create_and_write_summary_pdf(file_name: str, markdown: bytes, temp_dir: str):
