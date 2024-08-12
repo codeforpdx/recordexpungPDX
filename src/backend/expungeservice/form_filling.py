@@ -5,9 +5,8 @@ from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
-from flask import request, json
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
-import os
+
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
@@ -22,10 +21,7 @@ from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
-from expungeservice.pdf.markdown_renderer import MarkdownRenderer
 from expungeservice.util import DateWithFuture
-from expungeservice.endpoints.demo import Demo
-from expungeservice.endpoints.search import Search
 
 DA_ADDRESSES = {
     "baker": "Baker County Courthouse - 1995 Third Street, Suite 320 - Baker City, OR 97814",
@@ -461,9 +457,10 @@ class SUMMARY_REPORT:
         self.writer = PdfWriter()
         try:
             self._pdf = PdfReader(path)
-        except:
+        except Exception as e:
             with open(path, 'wb') as f:
                 self.writer.write(f)
+                print(e)
             self._pdf = f
 
     def add_text(self, markdown: bytes):
