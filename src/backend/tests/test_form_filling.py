@@ -7,6 +7,7 @@ import pickle
 from datetime import datetime
 
 import pytest
+import pdfkit
 from unittest.mock import patch, Mock, MagicMock
 
 from expungeservice.expunger import Expunger
@@ -66,8 +67,7 @@ def test_normal_conviction_uses_multnomah_conviction_form():
     merged_record = RecordMerger.merge([record], [expunger_result], [])
     
     record_summary = RecordSummarizer.summarize(merged_record, {})
-    source = MarkdownRenderer.to_markdown(record)
-    summary = MarkdownToPDF.to_pdf("Expungement analysis", source)
+
     user_information = {
         "full_name": "",
         "date_of_birth": "",
@@ -77,12 +77,14 @@ def test_normal_conviction_uses_multnomah_conviction_form():
         "state": "",
         "zip_code": "",
     }
-    zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, summary, "JOHN_DOE_record_summary.pdf")
+
+    mock_pdf = pdfkit.from_string("jd", False, options={"quiet": ""})
+    zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")
     temp_dir = mkdtemp()
     with ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
         for _root, _dir, files in os.walk(temp_dir):
-            assert len(files) == 1
+            assert len(files) == 2
 
 
 #########################################
@@ -92,7 +94,7 @@ class TestJohnCommonBuildZip:
     filename = "oregon.pdf"
     BASE_DIR = os.path.join(Path(__file__).parent.parent, "expungeservice", "files")
     expected_form_values = oregon_john_common_pdf_fields
-"""
+
     @patch("expungeservice.form_filling.FormFilling._get_pdf_file_name")
     @patch("expungeservice.form_filling.PdfWriter")
     @patch("expungeservice.form_filling.ZipFile")
@@ -122,21 +124,20 @@ class TestJohnCommonBuildZip:
         with open(pickle_file, "rb") as file:
             record_summary = pickle.load(file)
 
-        
-        source = MarkdownRenderer(record, aliases = None)
-        summary = MarkdownToPDF.to_pdf("Expungement analysis", source)
+        mock_pdf = pdfkit.from_string("jd", False, options={"quiet": ""})
 
-        FormFilling.build_zip(record_summary, user_information, )
+        FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")
 
         # Check PDF form fields are correct.
         addpages_call_args_list = MockPdfWriter.return_value.addpages.call_args_list
-        for i, args_list in enumerate(addpages_call_args_list):
+        for i, args_list in enumerate(addpages_call_args_list[0:4]):
             document_id = "document_" + str(i)
             args, _ = args_list
             pages = args[0]
             for idx, page in enumerate(pages):
                 for annotation in page.Annots or []:
                     assert self.expected_form_values[document_id][idx][annotation.T] == annotation.V, annotation.T
+
 
         # Check PDF writer write paths.
         pdf_write_call_args_list = MockPdfWriter.return_value.write.call_args_list
@@ -146,6 +147,8 @@ class TestJohnCommonBuildZip:
             "foo/COMMON NAME_110000_baker.pdf",
             "foo/COMMON A NAME_120000_baker.pdf",
             "foo/OSP_Form.pdf",
+            "foo/COMPILED.pdf",
+            "foo/JOHN_DOE_record_summary.pdf"
         ]
         assert set(file_paths) == set(expected_file_paths)
 
@@ -157,8 +160,10 @@ class TestJohnCommonBuildZip:
             ("foo/COMMON NAME_110000_baker.pdf", "COMMON NAME_110000_baker.pdf"),
             ("foo/COMMON A NAME_120000_baker.pdf", "COMMON A NAME_120000_baker.pdf"),
             ("foo/OSP_Form.pdf", "OSP_Form.pdf"),
+            ("foo/COMPILED.pdf", "COMPILED.pdf"),
+            ("foo/JOHN_DOE_record_summary.pdf", "JOHN_DOE_record_summary.pdf")
         ]
-        assert set(zip_write_args) == set(expected_zip_write_args)"""
+        assert set(zip_write_args) == set(expected_zip_write_args)
 
 
 BuildZipResult = Dict[str, Any]

@@ -29,7 +29,8 @@ These convictions are eligible as soon as the balance of fines on the case is pa
 
 
 ## Balance Due by County
-      **Multnomah**
+      <b>Multnomah</b>
+      
         CASEJD1 - $529.08
 
 ### Disclaimer:
