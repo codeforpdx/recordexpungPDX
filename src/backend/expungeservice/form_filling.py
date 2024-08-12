@@ -644,7 +644,7 @@ class FormFilling:
 
         summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         zip_file.write(*summary_report)
-        
+
         zip_file.close()
 
         return zip_path, zip_file_name
@@ -736,16 +736,6 @@ class FormFilling:
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
         pdf.writer.write(write_file_path)
         return write_file_path, write_file_name
-
-    """@staticmethod
-    def _compile_pdfs(pdfs: List[PDF], download_dir: str) -> PDF:
-        compiled = pdfs[0]
-        for pdf in pdfs[1:len(pdfs)]:
-            compiled.writer.addpages(pdf._pdf.pages)
-        file_name = "COMPILED.pdf"
-        file_path = path.join(download_dir, file_name)
-        compiled.write(file_path)
-        return file_path, file_name"""
     
 
     @staticmethod
