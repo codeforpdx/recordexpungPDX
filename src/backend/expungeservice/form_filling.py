@@ -600,6 +600,7 @@ class FormFilling:
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["umatilla", "multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["umatilla"]
     OSP_PDF_NAME = "OSP_Form"
+    #COMPILED_PDF_NAME = "COMPILED_MOTIONS"
 
     @staticmethod
     def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str], summary: bytes, summary_filename: str) -> Tuple[str, str]:
