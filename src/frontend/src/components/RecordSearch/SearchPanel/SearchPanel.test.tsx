@@ -175,3 +175,10 @@ test("the Remove button removes an added alias", async () => {
   expect(screen.getAllByText(/last name/i)).toHaveLength(1);
   expect(screen.getAllByText(/date of birth/i)).toHaveLength(1);
 });
+
+/*test("the button to start over works", async () => {
+  const { user, asFragment } = setup();
+
+  await clickButton(user, "start over");
+  expect(asFragment()).toMatchSnapshot();
+});*/
