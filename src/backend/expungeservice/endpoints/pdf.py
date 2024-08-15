@@ -38,8 +38,20 @@ class FormPDF(MethodView):
         demo = request_data.get("demo")
         search = Demo if demo else Search
         record_summary = search().build_response()  # type: ignore
-        zip_path, zip_name = FormFilling.build_zip(record_summary, user_information)
+        response = search().post()  # type: ignore
+        record = json.loads(response)["record"]
+        aliases = request_data["aliases"]
+        source = MarkdownRenderer.to_markdown(record, aliases=aliases)
+        summary_pdf_bytes = MarkdownToPDF.to_pdf("Expungement analysis", source)
+        summary_filename = FormFilling.build_summary_filename(aliases)
+        zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, summary_pdf_bytes, summary_filename)
         return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
+
+    @staticmethod
+    def build_summary_filename(aliases):
+        first_alias = aliases[0]
+        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
+        return f"{name}_record_summary.pdf"
 
 
 def register(app):

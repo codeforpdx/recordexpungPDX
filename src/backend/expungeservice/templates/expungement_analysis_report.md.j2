@@ -85,9 +85,10 @@ Additionally, you have charges for which the online records do not contain enoug
 ## Balance Due by County
   {% for county in county_fines %}
     {% if county['case_fines'] | length > 0 %}
-      {{county['county_name']}}
+      <b>{{county['county_name']}}</b>
+      
       {% for fine in county['case_fines'] %}
-        {{fine['case_number']}} - {{fine['balance']}}
+        {{fine['case_number']}} - ${{fine['balance']}}
       {% endfor %}
     {% endif %}
   {% endfor %}

@@ -465,12 +465,8 @@ class ChargeClassifier:
         elif statute in SexCrime.romeo_and_juliet_exceptions:
             question_string = """
             Select "No" if all of the following are true:
-            
-                1. Are you required to report as a sex offender?
-                2. Do you have any charges that are not eligible for expungement?
-                3. Is your sex offense conviction a Class A or Class B Felony?
-
-            If your answer to ALL 3 of these questions is "NO", this charge may be eligible for expungement.
+            1. Are you required to report as a sex offender?
+            2. Do you have any charges that are not eligible for expungement?
             """
             options = {
                 "Yes": RomeoAndJulietIneligibleSexCrime(),
