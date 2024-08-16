@@ -27,8 +27,6 @@ from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.util import DateWithFuture
-from expungeservice.pdf.markdown_renderer import MarkdownRenderer
-from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
