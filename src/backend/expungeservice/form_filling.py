@@ -456,11 +456,12 @@ class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
         try:
+            self._pdf = PdfReader(path)
+        except Exception as e:
             with open(path, 'wb') as f:
                 self.writer.write(f)
-            self._pdf = f
-        except Exception as e:
-            print(e)
+                print(e)
+                self._pdf = f
 
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
