@@ -5,8 +5,8 @@ from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
 
+from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
 
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
@@ -353,6 +353,7 @@ class PDFFieldMapper(UserDict):
 
     def __init__(self, pdf_source_path: str, source_data: UserInfo):
         super().__init__()
+
         self.pdf_source_path = pdf_source_path
         self.source_data = source_data
         self.data = self.extra_mappings()
@@ -455,9 +456,16 @@ class PDFFieldMapper(UserDict):
 class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
-        with open(path, 'wb') as f:
-            self.writer.write(f)
-            self._pdf = f
+        print(stat(path))
+        try:
+            self._pdf = PdfReader()
+            print("file opened by reader")
+        except Exception as e:
+            with open(path, 'wb') as f:
+                self.writer.write(f)
+                print(e, "caught")
+                print(path)
+                self._pdf = f
 
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
@@ -593,10 +601,9 @@ class FormFilling:
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["umatilla", "multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME = ["umatilla"]
     OSP_PDF_NAME = "OSP_Form"
-    #COMPILED_PDF_NAME = "COMPILED_MOTIONS"
 
     @staticmethod
-    def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str], summary: bytes, summary_filename: str) -> Tuple[str, str]:
+    def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str]) -> Tuple[str, str]:
         temp_dir = mkdtemp()
         zip_file_name = "expungement_packet.zip"
         zip_path = path.join(mkdtemp(), zip_file_name)
@@ -605,7 +612,6 @@ class FormFilling:
         sid = FormFilling._unify_sids(record_summary)
 
         all_case_results = []
-        all_motions_to_set_aside = []
         has_eligible_convictions = False
         for case in record_summary.record.cases:
             case_results = CaseResults.build(case, user_information_dict, sid)
@@ -615,38 +621,17 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-                all_motions_to_set_aside.append(file_info[2])
-                zip_file.write(*file_info[0:2])
-              
+                zip_file.write(*file_info)
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
         user_information_dict_2["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
             all_case_results
         )
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
-        zip_file.write(*osp_file_info[0:2])
-
-        if len(all_motions_to_set_aside) > 1:
-            compiled = all_motions_to_set_aside[0]
-            for pdf in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
-                compiled.writer.addpages(pdf._pdf.pages)
-            comp_name = "COMPILED.pdf"
-            comp_path = path.join(temp_dir, comp_name)
-            compiled.write(comp_path)
-            zip_file.write(comp_path, comp_name)
-
-        summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
-        zip_file.write(*summary_report)
-
+        zip_file.write(*osp_file_info)
         zip_file.close()
 
         return zip_path, zip_file_name
-
-    @staticmethod
-    def build_summary_filename(aliases):
-        first_alias = aliases[0]
-        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
-        return f"{name}_record_summary.pdf"
 
     @staticmethod
     def _unify_sids(record_summary: RecordSummary) -> str:
@@ -716,25 +701,14 @@ class FormFilling:
         file_name = FormFilling._get_pdf_file_name(source_data)
         source_dir = path.join(Path(__file__).parent, "files")
         pdf_path = path.join(source_dir, file_name)
+
         mapper = PDFFieldMapper(pdf_path, source_data)
         return PDF.fill_form(mapper, validate_initial_pdf_state)
 
     @staticmethod
-    def _create_and_write_summary_pdf(file_name: str, markdown: bytes, temp_dir: str):
-        source_dir = path.join(Path(__file__).parent, "files")
-        pdf_path = path.join(source_dir, file_name)
-        pdf = SUMMARY_REPORT(pdf_path)
-        
-        pdf.add_text(markdown)
-        write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
-        pdf.writer.write(write_file_path)
-        return write_file_path, write_file_name
-    
-
-    @staticmethod
     def _create_and_write_pdf(
         data: Union[Dict, UserInfo], dir: str, validate_initial_pdf_state=False
-    ) -> Tuple[str, str, PDF]:
+    ) -> Tuple[str, str]:
         if isinstance(data, UserInfo):
             source_data = data
         else:
@@ -749,7 +723,7 @@ class FormFilling:
         write_file_path, write_file_name = FormFilling._build_download_file_path(dir, source_data)
         pdf.write(write_file_path)
 
-        return write_file_path, write_file_name, pdf
+        return write_file_path, write_file_name
 
     @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
