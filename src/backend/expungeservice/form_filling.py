@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from os import path
+from os import path, stat
 from pathlib import Path
 from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
@@ -455,12 +455,15 @@ class PDFFieldMapper(UserDict):
 class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
+        print(stat(path))
         try:
-            self._pdf = PdfReader(path)
+            self._pdf = PdfReader()
+            print("file opened by reader")
         except Exception as e:
             with open(path, 'wb') as f:
                 self.writer.write(f)
-                print(e)
+                print(e, "caught")
+                print(path)
                 self._pdf = f
 
     def add_text(self, markdown: bytes):
@@ -499,6 +502,7 @@ class PDF:
 
     def __init__(self, mapper: PDFFieldMapper):
         self.set_pdf(PdfReader(mapper.pdf_source_path))
+        print(mapper.pdf_source_path)
         self.mapper = mapper
         self.shrunk_fields: Dict[str, str] = {}
         self.writer = PdfWriter()
@@ -621,7 +625,8 @@ class FormFilling:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
                 all_motions_to_set_aside.append(file_info[2])
                 zip_file.write(*file_info[0:2])
-              
+                #print(stat(file_info[0]))
+
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
         user_information_dict_2["counties_with_cases_to_expunge"] = FormFilling.counties_with_cases_to_expunge(
             all_case_results
@@ -641,6 +646,7 @@ class FormFilling:
 
         summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         zip_file.write(*summary_report)
+        print(summary_filename, stat(summary_report[0]))
 
         zip_file.close()
 
