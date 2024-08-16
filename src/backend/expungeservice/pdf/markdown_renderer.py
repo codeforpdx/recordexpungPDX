@@ -21,6 +21,9 @@ class MarkdownRenderer:
         
         county_fines = [x for x in record["summary"]["county_fines"]]
         
+        '''for i in range(len(county_fines)):
+            county_fines[i] = "${:,.2f}".format(county_fines[i])'''
+
         eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
             (key, eligible_charges_for_date)

@@ -27,6 +27,8 @@ from expungeservice.models.charge_types.violation import Violation
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.disposition import DispositionStatus
 from expungeservice.util import DateWithFuture
+from expungeservice.pdf.markdown_renderer import MarkdownRenderer
+from expungeservice.pdf.markdown_to_pdf import MarkdownToPDF
 
 from tests.factories.crawler_factory import CrawlerFactory
 from tests.fixtures.case_details import CaseDetails
@@ -77,7 +79,7 @@ def test_normal_conviction_uses_multnomah_conviction_form():
     }
 
     mock_pdf = pdfkit.from_string("jd", False, options={"quiet": ""})
-    zip_path = FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")[0]
+    zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")
     temp_dir = mkdtemp()
     with ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
