@@ -461,8 +461,9 @@ class SUMMARY_REPORT:
             with open(path, 'wb') as f:
                 self.writer.write(f)
                 print(e)
+                
             self._pdf = f
-
+            
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
         self.writer.addpages(_pdf.pages)
