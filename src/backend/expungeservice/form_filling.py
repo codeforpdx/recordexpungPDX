@@ -455,7 +455,6 @@ class PDFFieldMapper(UserDict):
 class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
-        print(stat(path))
         try:
             self._pdf = PdfReader()
             print("file opened by reader")
@@ -463,7 +462,7 @@ class SUMMARY_REPORT:
             with open(path, 'wb') as f:
                 self.writer.write(f)
                 print(e, "caught")
-                print(path)
+                print(stat(path))
                 self._pdf = f
 
     def add_text(self, markdown: bytes):
