@@ -75,7 +75,6 @@ export default function SearchPanel() {
       </div>
 
       {aliases.map((alias: AliasData, index: number) => {
-        console.log(index);
         return (
           <React.Fragment key={index}>
             {index > 0 && (
