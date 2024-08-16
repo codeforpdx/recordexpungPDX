@@ -77,7 +77,7 @@ def test_normal_conviction_uses_multnomah_conviction_form():
     }
 
     mock_pdf = pdfkit.from_string("jd", False, options={"quiet": ""})
-    zip_path = FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")[0]
+    zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, mock_pdf, "JOHN_DOE_record_summary.pdf")
     temp_dir = mkdtemp()
     with ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
