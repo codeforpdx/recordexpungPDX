@@ -455,13 +455,10 @@ class PDFFieldMapper(UserDict):
 class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
-        try:
-            self._pdf = PdfReader(path)
-        except Exception as e:
+        if not path.exists(path):
             with open(path, 'wb') as f:
                 self.writer.write(f)
-                print(e)
-            self._pdf = f
+                self._pdf = f
 
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
