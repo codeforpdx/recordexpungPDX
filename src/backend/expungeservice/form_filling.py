@@ -642,8 +642,8 @@ class FormFilling:
             compiled.write(comp_path)
             zip_file.write(comp_path, comp_name)
 
-        summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
-        zip_file.write(*summary_report)
+        #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
+        #zip_file.write(*summary_report)
 
         zip_file.close()
 
