@@ -455,8 +455,10 @@ class PDFFieldMapper(UserDict):
 class SUMMARY_REPORT:
     def __init__(self, path: str):
         self.writer = PdfWriter()
+        print(stat(path))
         try:
             self._pdf = PdfReader(path)
+            print("file opened by reader")
         except Exception as e:
             with open(path, 'wb') as f:
                 self.writer.write(f)
