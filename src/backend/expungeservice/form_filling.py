@@ -458,7 +458,7 @@ class SUMMARY_REPORT:
         try:
             print(stat(path))
             self._pdf = PdfReader(path)
-            print("file opened by reader")
+            print(path, "opened by reader")
         except Exception as e:
             with open(path, 'wb') as f:
                 self.writer.write(f)
