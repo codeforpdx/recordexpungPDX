@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from os import path
+from os import path, stat
 from pathlib import Path
 from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
@@ -461,8 +461,9 @@ class SUMMARY_REPORT:
             with open(path, 'wb') as f:
                 self.writer.write(f)
                 print(e)
-                self._pdf = f
-
+                
+            self._pdf = f
+            
     def add_text(self, markdown: bytes):
         _pdf = PdfReader(fdata=markdown)
         self.writer.addpages(_pdf.pages)
