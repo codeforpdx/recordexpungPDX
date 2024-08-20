@@ -457,7 +457,7 @@ class SUMMARY_REPORT:
         self.writer = PdfWriter()
         try:
             print(stat(path))
-            self._pdf = PdfReader(path)
+            self._pdf = PdfReader()
             print("file opened by reader")
         except Exception as e:
             with open(path, 'wb') as f:
@@ -734,7 +734,11 @@ class FormFilling:
         
         pdf.add_text(markdown)
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
-        pdf.writer.write(write_file_path)
+        # pdf.writer.write(write_file_path)
+        with open(write_file_path, 'wb') as f:
+            f.write(markdown)
+
+
         return write_file_path, write_file_name
     
 
