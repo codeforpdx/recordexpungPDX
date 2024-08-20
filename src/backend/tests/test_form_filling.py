@@ -83,7 +83,7 @@ def test_normal_conviction_uses_multnomah_conviction_form():
     with ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
         for _root, _dir, files in os.walk(temp_dir):
-            assert len(files) == 1
+            assert len(files) == 2
 
 
 #########################################
@@ -147,7 +147,7 @@ class TestJohnCommonBuildZip:
             "foo/COMMON A NAME_120000_baker.pdf",
             "foo/OSP_Form.pdf",
             "foo/COMPILED.pdf",
-            #"foo/JOHN_DOE_record_summary.pdf"
+            "foo/JOHN_DOE_record_summary.pdf"
         ]
         assert set(file_paths) == set(expected_file_paths)
 
@@ -160,7 +160,7 @@ class TestJohnCommonBuildZip:
             ("foo/COMMON A NAME_120000_baker.pdf", "COMMON A NAME_120000_baker.pdf"),
             ("foo/OSP_Form.pdf", "OSP_Form.pdf"),
             ("foo/COMPILED.pdf", "COMPILED.pdf"),
-            #("foo/JOHN_DOE_record_summary.pdf", "JOHN_DOE_record_summary.pdf")
+            ("foo/JOHN_DOE_record_summary.pdf", "JOHN_DOE_record_summary.pdf")
         ]
         assert set(zip_write_args) == set(expected_zip_write_args)
 
