@@ -622,7 +622,8 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-                all_motions_to_set_aside.append(file_info[0])
+
+                all_motions_to_set_aside.append(file_info)
                 zip_file.write(*file_info[0:2])
               
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
@@ -633,10 +634,11 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
+        compiled = all_motions_to_set_aside[0][2]
         if len(all_motions_to_set_aside) > 1:
             print(len(all_motions_to_set_aside))
-            compiled = all_motions_to_set_aside[0]
-            for fp in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
+            for motion in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
+                fp = motion[0]
                 compiled.write(fp)
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
