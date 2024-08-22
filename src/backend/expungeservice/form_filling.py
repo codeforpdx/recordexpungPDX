@@ -636,19 +636,19 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
-
-        if len(all_motions_to_set_aside) > 1:
-            
-            writer = PdfWriter()
-
+        compiled = PdfWriter()
+        compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
+        
+        if all_motions_to_set_aside:
             for f in all_motions_to_set_aside:
-                print(f[1])
-                writer.addpages(PdfReader(f[0]).pages)
-    
-            comp_name = "COMPILED.pdf"
-            comp_path = path.join(temp_dir, comp_name)
-            writer.write(comp_path)
-            zip_file.write(comp_path, comp_name)
+                compiled.addpages(PdfReader(f[0]).pages)
+
+        compiled.addpages(PdfReader(osp_file_info[0]).pages)
+        comp_name = "COMPILED.pdf"
+        comp_path = path.join(temp_dir, comp_name)
+        compiled.write(comp_path)
+        zip_file.write(comp_path, comp_name)
+
 
         #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         #zip_file.write(*summary_report)
