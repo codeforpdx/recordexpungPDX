@@ -5,7 +5,7 @@ from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
+from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString, PageMerge
 
 
 from expungeservice.models.case import Case
@@ -625,7 +625,6 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-                print(file_info[1])
                 all_motions_to_set_aside.append(file_info)
                 zip_file.write(*file_info[0:2])
               
@@ -639,15 +638,16 @@ class FormFilling:
 
 
         if len(all_motions_to_set_aside) > 1:
-            compiled = all_motions_to_set_aside[0][2]
-            print(all_motions_to_set_aside.pop(0)[1])
-            print("*" + x[1] for x in all_motions_to_set_aside + "*")
-            for pdf in all_motions_to_set_aside:
-                print(pdf[1])
-                compiled.writer.addpages(pdf[2].get_pages())
+            
+            writer = PdfWriter()
+
+            for f in all_motions_to_set_aside:
+                print(f[1])
+                writer.addpages(PdfReader(f[0]).pages)
+    
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
-            compiled.write(comp_path)
+            writer.write(comp_path)
             zip_file.write(comp_path, comp_name)
 
         #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
