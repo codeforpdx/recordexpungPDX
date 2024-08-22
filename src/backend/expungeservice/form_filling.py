@@ -563,6 +563,9 @@ class PDF:
         _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
         self.writer.addpages(_pdf.pages)
 
+    def get_pages(self):
+        return self._pdf.pages
+
     def write(self, path: str):
         self.writer.addpages(self._pdf.pages)
 
@@ -622,7 +625,7 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-
+                print(file_info[1])
                 all_motions_to_set_aside.append(file_info)
                 zip_file.write(*file_info[0:2])
               
@@ -634,12 +637,14 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
-        compiled = all_motions_to_set_aside[0][2]
+
         if len(all_motions_to_set_aside) > 1:
-            print(len(all_motions_to_set_aside))
-            for motion in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
-                fp = motion[0]
-                compiled.write(fp)
+            compiled = all_motions_to_set_aside[0][2]
+            print(all_motions_to_set_aside.pop(0)[1])
+            print("*" + x[1] for x in all_motions_to_set_aside + "*")
+            for pdf in all_motions_to_set_aside:
+                print(pdf[1])
+                compiled.writer.addpages(pdf[2].get_pages())
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
             compiled.write(comp_path)
