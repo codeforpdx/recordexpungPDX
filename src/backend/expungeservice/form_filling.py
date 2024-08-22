@@ -636,18 +636,18 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
-        compiled = PdfWriter()
-        compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
-        
+        #todo: refactor and build separate method to compose compiled
         if all_motions_to_set_aside:
+            compiled = PdfWriter()
+            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
             for f in all_motions_to_set_aside:
                 compiled.addpages(PdfReader(f[0]).pages)
 
-        compiled.addpages(PdfReader(osp_file_info[0]).pages)
-        comp_name = "COMPILED.pdf"
-        comp_path = path.join(temp_dir, comp_name)
-        compiled.write(comp_path)
-        zip_file.write(comp_path, comp_name)
+            compiled.addpages(PdfReader(osp_file_info[0]).pages)
+            comp_name = "COMPILED.pdf"
+            comp_path = path.join(temp_dir, comp_name)
+            compiled.write(comp_path)
+            zip_file.write(comp_path, comp_name)
 
 
         #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
