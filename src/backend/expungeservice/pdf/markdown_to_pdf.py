@@ -29,6 +29,7 @@ class MarkdownToPDF:
         response = requests.get(
             "https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css"
         )
+
         return response.text
 
 
