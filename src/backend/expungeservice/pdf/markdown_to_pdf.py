@@ -1,6 +1,8 @@
 import markdown2
 import pdfkit
 import requests
+import pathlib
+from os import path
 
 
 class MarkdownToPDF:
@@ -8,6 +10,7 @@ class MarkdownToPDF:
     def to_pdf(title: str, markdown_source: str) -> bytes:
         html_style = MarkdownToPDF.css()
         html_body = markdown2.markdown(markdown_source)
+        print(type(html_style))
         html = f"""
         <html>
         <head>
@@ -26,10 +29,18 @@ class MarkdownToPDF:
 
     @staticmethod
     def css():
-        response = requests.get(
+        '''response = requests.get(
             "https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css"
-        )
-        return response.text
+        )'''
+        
+        fp = path.join(pathlib.Path(__file__).parent, "style.txt")
+        '''with open(fp, 'w') as f:
+            f = f.write(response.text)'''
+        with open(fp, 'r') as f:
+            text = f.read()
+
+        #return response.text
+        return text
 
 
 if __name__ == "__main__":
