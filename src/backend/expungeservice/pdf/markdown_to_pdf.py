@@ -34,8 +34,6 @@ class MarkdownToPDF:
       
         with open(fp, 'r') as f:
             text = f.read()
-
-        #return response.text
         return text
 
 

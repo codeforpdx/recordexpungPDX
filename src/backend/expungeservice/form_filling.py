@@ -5,7 +5,7 @@ from tempfile import mkdtemp
 from typing import List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
+from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString, PageMerge
 
 
 from expungeservice.models.case import Case
@@ -563,6 +563,9 @@ class PDF:
         _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
         self.writer.addpages(_pdf.pages)
 
+    def get_pages(self):
+        return self._pdf.pages
+
     def write(self, path: str):
         self.writer.addpages(self._pdf.pages)
 
@@ -622,7 +625,7 @@ class FormFilling:
             all_case_results.append(case_results)
             if case_results.is_expungeable_now:
                 file_info = FormFilling._create_and_write_pdf(case_results, temp_dir)
-                all_motions_to_set_aside.append(file_info[2])
+                all_motions_to_set_aside.append(file_info)
                 zip_file.write(*file_info[0:2])
               
         user_information_dict_2: Dict[str, object] = {**user_information_dict}
@@ -633,14 +636,19 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
-        if len(all_motions_to_set_aside) > 1:
-            compiled = all_motions_to_set_aside[0]
-            for pdf in all_motions_to_set_aside[1:len(all_motions_to_set_aside)]:
-                compiled.writer.addpages(pdf._pdf.pages)
+        #todo: refactor and build separate method to compose compiled
+        if all_motions_to_set_aside:
+            compiled = PdfWriter()
+            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
+            for f in all_motions_to_set_aside:
+                compiled.addpages(PdfReader(f[0]).pages)
+
+            compiled.addpages(PdfReader(osp_file_info[0]).pages)
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
             compiled.write(comp_path)
             zip_file.write(comp_path, comp_name)
+
 
         #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
         #zip_file.write(*summary_report)
