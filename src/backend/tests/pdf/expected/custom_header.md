@@ -13,6 +13,7 @@ These convictions are eligible as soon as the balance of fines on the case is pa
      - CASEJD1: Possession of Cocaine (DISMISSED) Charged Feb 17, 2009
 
 
+
 ## Balance Due by County
       <b>Multnomah</b>
       

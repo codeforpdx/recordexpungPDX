@@ -29,13 +29,9 @@ class MarkdownToPDF:
 
     @staticmethod
     def css():
-        '''response = requests.get(
-            "https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css"
-        )'''
         
         fp = path.join(pathlib.Path(__file__).parent, "style.txt")
-        '''with open(fp, 'w') as f:
-            f = f.write(response.text)'''
+      
         with open(fp, 'r') as f:
             text = f.read()
 
