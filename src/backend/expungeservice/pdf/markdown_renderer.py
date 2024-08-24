@@ -19,7 +19,8 @@ class MarkdownRenderer:
             if x[0] == "Eligible Now If Balance Paid"
         ]
         
-        county_fines = [x for x in record["summary"]["county_fines"]]
+        county_fines = [county for county in record["summary"]["county_fines"] if county['total_fines_due'] != 0]
+
         eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
             (key, eligible_charges_for_date)
