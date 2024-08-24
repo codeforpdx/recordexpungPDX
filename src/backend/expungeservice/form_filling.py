@@ -562,10 +562,7 @@ class PDF:
     def add_text(self, text: str):
         _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
         self.writer.addpages(_pdf.pages)
-
-    def get_pages(self):
-        return self._pdf.pages
-
+        
     def write(self, path: str):
         self.writer.addpages(self._pdf.pages)
 
