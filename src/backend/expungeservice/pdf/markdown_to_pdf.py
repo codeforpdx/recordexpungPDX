@@ -28,12 +28,14 @@ class MarkdownToPDF:
         return pdfkit.from_string(html, False, options={"quiet": ""})
 
     @staticmethod
+     # Reads 'style.txt' to string. 
+     ## 'style.txt' copied from https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css
     def css():
-        
         fp = path.join(pathlib.Path(__file__).parent, "style.txt")
       
         with open(fp, 'r') as f:
             text = f.read()
+
         return text
 
 
