@@ -452,33 +452,6 @@ class PDFFieldMapper(UserDict):
         }
     
 
-class SUMMARY_REPORT:
-    def __init__(self, path: str):
-        self.writer = PdfWriter()
-        try:
-            print(stat(path))
-            self._pdf = PdfReader(path)
-            print("file opened by reader")
-        except Exception as e:
-            with open(path, 'wb') as f:
-                self.writer.write(f)
-                print(e)
-                
-            self._pdf = f
-            
-    def add_text(self, markdown: bytes):
-        _pdf = PdfReader(fdata=markdown)
-        self.writer.addpages(_pdf.pages)
-
-    def write(self, path: str):
-        self.writer.addpages(self._pdf.pages)
-
-        trailer = self.writer.trailer
-        trailer.Root.AcroForm = self._pdf.Root.AcroForm
-
-        self.writer.write(path, trailer=trailer)
-
-
 class PDF:
     BUTTON_TYPE = "/Btn"
     BUTTON_ON = PdfName("On")
@@ -733,11 +706,8 @@ class FormFilling:
 
     @staticmethod
     def _create_and_write_summary_pdf(file_name: str, markdown: bytes, temp_dir: str):
-        #source_dir = path.join(Path(__file__).parent, "files")
-        #pdf_path = path.join(source_dir, file_name)
         pdf = PdfWriter().addpages(PdfReader(fdata = markdown).pages)
         
-        #pdf.add_text(markdown)
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
         pdf.write(write_file_path)
         return write_file_path, write_file_name
