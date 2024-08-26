@@ -628,12 +628,6 @@ class FormFilling:
         return zip_path, zip_file_name
 
     @staticmethod
-    def build_summary_filename(aliases):
-        first_alias = aliases[0]
-        name = f"{first_alias['first_name']}_{first_alias['last_name']}".upper()
-        return f"{name}_record_summary.pdf"
-
-    @staticmethod
     def _unify_sids(record_summary: RecordSummary) -> str:
         """
         We just take the first non-empty SID for now.
