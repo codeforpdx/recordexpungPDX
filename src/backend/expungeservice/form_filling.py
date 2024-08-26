@@ -647,8 +647,8 @@ class FormFilling:
             zip_file.write(comp_path, comp_name)
 
 
-        #summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
-        #zip_file.write(*summary_report)
+        summary_report = FormFilling._create_and_write_summary_pdf(summary_filename, summary, temp_dir)
+        zip_file.write(*summary_report)
 
         zip_file.close()
 
@@ -735,11 +735,11 @@ class FormFilling:
     def _create_and_write_summary_pdf(file_name: str, markdown: bytes, temp_dir: str):
         #source_dir = path.join(Path(__file__).parent, "files")
         #pdf_path = path.join(source_dir, file_name)
-        pdf = PdfWriter().addpages(PdfReader(fdata = markdown))
+        pdf = PdfWriter().addpages(PdfReader(fdata = markdown).pages)
         
         #pdf.add_text(markdown)
         write_file_path, write_file_name = path.join(temp_dir, file_name), file_name
-        pdf.writer.write(write_file_path)
+        pdf.write(write_file_path)
         return write_file_path, write_file_name
     
 
