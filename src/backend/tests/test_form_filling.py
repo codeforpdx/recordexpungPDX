@@ -88,7 +88,7 @@ def test_normal_conviction_uses_multnomah_conviction_form():
 
 #########################################
 
-'''
+
 class TestJohnCommonBuildZip:
     filename = "oregon.pdf"
     BASE_DIR = os.path.join(Path(__file__).parent.parent, "expungeservice", "files")
@@ -147,7 +147,7 @@ class TestJohnCommonBuildZip:
             "foo/COMMON A NAME_120000_baker.pdf",
             "foo/OSP_Form.pdf",
             "foo/COMPILED.pdf",
-            #"foo/JOHN_DOE_record_summary.pdf"
+            "foo/JOHN_DOE_record_summary.pdf"
         ]
         assert set(file_paths) == set(expected_file_paths)
 
@@ -160,7 +160,7 @@ class TestJohnCommonBuildZip:
             ("foo/COMMON A NAME_120000_baker.pdf", "COMMON A NAME_120000_baker.pdf"),
             ("foo/OSP_Form.pdf", "OSP_Form.pdf"),
             ("foo/COMPILED.pdf", "COMPILED.pdf"),
-            #("foo/JOHN_DOE_record_summary.pdf", "JOHN_DOE_record_summary.pdf")
+            ("foo/JOHN_DOE_record_summary.pdf", "JOHN_DOE_record_summary.pdf")
         ]
         assert set(zip_write_args) == set(expected_zip_write_args)
 
@@ -185,7 +185,7 @@ class TestJohnCommonMultnomahArrestBuildZip(TestJohnCommonBuildZip):
 
 class TestJohnCommonMultnomahConvictionBuildZip(TestJohnCommonBuildZip):
     filename = "multnomah_conviction.pdf"
-    expected_form_values: BuildZipResult = multnomah_conviction_john_common_pdf_fields'''
+    expected_form_values: BuildZipResult = multnomah_conviction_john_common_pdf_fields
 
 
 #########################################
