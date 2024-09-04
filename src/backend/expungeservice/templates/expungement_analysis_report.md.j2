@@ -19,7 +19,10 @@ Name: {{ name }}
 <b>You have open charges. You are not eligible to expunge ANY records, including old charges, while you have open charges.</b>
 {% endif %}
 
-## Charges Eligible Now
+## Charges
+Excludes traffic violations
+
+### Charges Eligible Now
 {% if eligible_case_charges | count > 0 %}
   {% for case_info, charges_info in eligible_case_charges[0][1] %}
     {% include 'partials/case.md.j2' %}
@@ -29,7 +32,7 @@ You are not currently eligible to expunge any charges.
 {% endif %}
 
 {% if ineligible_case_charges | count > 0 %}
-## Ineligible Charges
+### Ineligible Charges
 These convictions are not eligible for expungement at any time under the current law.
 
   {% for case_info, charges_info in ineligible_case_charges[0][1] %}
@@ -37,7 +40,7 @@ These convictions are not eligible for expungement at any time under the current
   {% endfor %}
 {% endif %}
 {% if eligible_if_paid_case_charges | count > 0 %}
-## Charges Eligible Now If Balance Paid
+### Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
   {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
@@ -46,8 +49,8 @@ These convictions are eligible as soon as the balance of fines on the case is pa
 {% endif %}
 
 {% if future_eligible_charges | count > 0 %}
-## Future Eligible Charges
-The following charges (dismissed and convicted) are eligible at the designated dates. Convictions in the future will set your eligibility dates back until ten years from the date of conviction.
+### Future Eligible Charges
+The following charges (dismissed and convicted) are eligible at the designated dates.
 
   {% for label, section in future_eligible_charges %}
 ### {{ label }}
@@ -59,7 +62,7 @@ The following charges (dismissed and convicted) are eligible at the designated d
 {% endif %}
 
 {% if needs_more_analysis_charges | count > 0 %}
-## Charges Needing More Analysis
+### Charges Needing More Analysis
 Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
 
   {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
@@ -68,7 +71,7 @@ Additionally, you have charges for which the online records do not contain enoug
 {% endif %}
 
 {% if county_fines | count > 0 %}
-## Balance Due by County
+### Balance Due by County
   {% for county in county_fines %}
     {% if county['case_fines'] | length > 0 %}
       <b>{{county['county_name']}}</b>
@@ -80,10 +83,10 @@ Additionally, you have charges for which the online records do not contain enoug
   {% endfor %}
 {% endif %}
 
-### Disclaimer:
+#### Disclaimer:
 RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.
 
-### Assumptions
+#### Assumptions
 <b>1) Successful completion of court requirements</b> &nbsp; If you are currently on probation or conditional discharge, the analysis below assumes that you will successfully complete those requirements.
 
 <b>2) Court debt paid off</b> &nbsp; You must pay off all court debt on a case before you file for expungement on any case which you are otherwise eligible to expunge.
