@@ -23,7 +23,6 @@ Name: {{ name }}
 Excludes traffic violations
 
 ### Charges Eligible Now
-Excludes traffic violations
 {% if eligible_case_charges | count > 0 %}
   {% for case_info, charges_info in eligible_case_charges[0][1] %}
     {% include 'partials/case.md.j2' %}
@@ -41,7 +40,7 @@ These convictions are not eligible for expungement at any time under the current
   {% endfor %}
 {% endif %}
 {% if eligible_if_paid_case_charges | count > 0 %}
-## Charges Eligible Now If Balance Paid
+### Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
   {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
@@ -50,7 +49,7 @@ These convictions are eligible as soon as the balance of fines on the case is pa
 {% endif %}
 
 {% if future_eligible_charges | count > 0 %}
-## Future Eligible Charges
+### Future Eligible Charges
 The following charges (dismissed and convicted) are eligible at the designated dates.
 
   {% for label, section in future_eligible_charges %}
