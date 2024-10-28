@@ -214,8 +214,11 @@ class TestPDFFileNameAndDownloadPath:
         assert file_path == "dir/case_name_case_number_" + expected_file_name
 
     def test_correct_pdf_path_is_built(self):
+        '''
+        No longer an active test because umatilla no longer has special behavior, but if we  add the Proposed Order back onto a county we will use this code
         self.assert_correct_pdf_file_name("Umatilla", "oregon_arrest.pdf", has_convictions=False)
         self.assert_correct_pdf_file_name("Umatilla", "oregon_conviction.pdf", has_convictions=True)
+        '''
 
         self.assert_correct_pdf_file_name("Multnomah", "multnomah_arrest.pdf", has_convictions=False)
         self.assert_correct_pdf_file_name("Multnomah", "multnomah_conviction.pdf", has_convictions=True)
@@ -224,9 +227,10 @@ class TestPDFFileNameAndDownloadPath:
         self.assert_correct_pdf_file_name("unknown", "oregon.pdf", has_convictions=True)
 
     def test_correct_download_file_path_is_built(self):
+        '''
         self.assert_correct_download_file_path("Umatilla", "umatilla_with_arrest_order.pdf", has_convictions=False)
         self.assert_correct_download_file_path("Umatilla", "umatilla_with_conviction_order.pdf", has_convictions=True)
-
+        '''
         self.assert_correct_download_file_path("Other", "other.pdf", has_convictions=False)
         self.assert_correct_download_file_path("Other", "other.pdf", has_convictions=True)
 
@@ -587,7 +591,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
             pdf_factory([conviction_charge]), {**self.expected_conviction_values, **new_expected_values}
         )
 
-
+'''
+No longer an active test because umatilla no longer has special behavior, but if we add the Proposed Order back onto a county we will use this code
 class TestBuildUmatillaPDF(TestBuildOregonPDF):
     county = "Umatilla"
     expected_county_data = {
@@ -639,7 +644,7 @@ class TestBuildUmatillaPDF(TestBuildOregonPDF):
             **new_expected_values,
         }
         self.assert_pdf_values(pdf_factory([conviction_charge]), all_expected_values)
-
+'''
 
 class TestBuildMultnomahPDF(PDFTestFixtures):
     county = "Multnomah"
