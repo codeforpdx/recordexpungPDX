@@ -190,6 +190,15 @@ class CaseResults(UserInfo):
 
         return with_comments
 
+    @property
+    def case_number_possibly_in_part(self):
+        case_name = self.case_number
+
+        if self.has_ineligible_charges:
+            case_name = f"{self.case_number} (in part)"
+
+        return case_name
+
     ##### All charges #####
 
     @property
@@ -589,6 +598,7 @@ class FormFilling:
         has_eligible_convictions = False
         for case in record_summary.record.cases:
             case_results = CaseResults.build(case, user_information_dict, sid)
+            case_results.case_number = case_results.case_number_possibly_in_part
 
             if case_results.get_has_eligible_convictions:
                 has_eligible_convictions = True
