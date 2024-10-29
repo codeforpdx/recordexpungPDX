@@ -689,7 +689,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
 
     def test_arrest(self, pdf_factory: Callable, dismissed_charge_factory: Callable):
         expected_values = {
-            "(Case Number)": "(base case number)",
+            "(Case Number Possibly In Part)": "(base case number)",
             "(DA Number)": "(DA num 0)",
             "(Case Name)": "(Case Name 0)",
             "(Full Name)": "(foo bar)",
@@ -714,7 +714,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             + "A.............. Very.................... Long................. Name......................"
         )
         expected_values = {
-            "(Case Number)": "(base case number)",
+            "(Case Number Possibly In Part)": "(base case number)",
             "(DA Number)": "(DA num 0)",
             "(Case Name)": "(Case Name 0)",
             "(Full Name)": "(foo bar)",
@@ -726,7 +726,6 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             "(Zip Code)": "(97111)",
             "(Dismissed Arrest Dates)": "(Feb 3, 2020)",
             "(Dismissed Charges)": f"({charge_name})",
-            "(Case Number)": "(base case number)",
             "(Full Name)": "(foo bar)",
             "(DA Number)": "(DA num 0)",
             "(Full Name---)": "(foo bar)",
