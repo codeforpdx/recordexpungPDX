@@ -417,6 +417,7 @@ class PDFFieldMapper(UserDict):
             "(FOR THE COUNTY OF)": s.county,
             "(Plaintiff)": "State of Oregon",
             "(Case No)": s.case_number_with_comments,
+            "(Case Number Possibly In Part)": s.case_number_possibly_in_part, # This field appears only on the Multnomah Arrest form.
             "(Defendant)": s.case_name,
             "(DOB)": s.date_of_birth,
             "(record of arrest with no charges filed)": s.has_no_complaint,
@@ -598,7 +599,6 @@ class FormFilling:
         has_eligible_convictions = False
         for case in record_summary.record.cases:
             case_results = CaseResults.build(case, user_information_dict, sid)
-            case_results.case_number = case_results.case_number_possibly_in_part
 
             if case_results.get_has_eligible_convictions:
                 has_eligible_convictions = True
