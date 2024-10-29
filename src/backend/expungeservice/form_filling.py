@@ -190,6 +190,15 @@ class CaseResults(UserInfo):
 
         return with_comments
 
+    @property
+    def case_number_possibly_in_part(self):
+        case_name = self.case_number
+
+        if self.has_ineligible_charges:
+            case_name = f"{self.case_number} (in part)"
+
+        return case_name
+
     ##### All charges #####
 
     @property
@@ -408,6 +417,7 @@ class PDFFieldMapper(UserDict):
             "(FOR THE COUNTY OF)": s.county,
             "(Plaintiff)": "State of Oregon",
             "(Case No)": s.case_number_with_comments,
+            "(Case Number Possibly In Part)": s.case_number_possibly_in_part, # This field appears only on the Multnomah Arrest form.
             "(Defendant)": s.case_name,
             "(DOB)": s.date_of_birth,
             "(record of arrest with no charges filed)": s.has_no_complaint,
