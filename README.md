@@ -3,9 +3,7 @@
 
 A project to automate expunging qualifying criminal records. This project is done in conjunction with Qiu-Qiu Law. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-Please read our [code of conduct](http://www.codeforpdx.org/about/conduct).
-
-If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/) You can also request an invite to join our [Slack channel](https://codeforpdx.slack.com/#record_expung) by contacting our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
+If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/)
 
 ## Table of Contents
 - [Tech Overview](#tech-overview)
@@ -24,7 +22,7 @@ This is a web app built using [React](https://reactjs.org/) for the in-browser i
 
 ## Installation
 
-You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code changes propagate on the local servers right away. If you have any trouble, don't hesitate to ask on our [Slack channel](https://codeforpdx.slack.com/#record_expung)!
+You can get your dev environment up and running with installing only Docker and docker-compose. The npm and backend dev servers run in docker containers, synced with source code directories so that code changes propagate on the local servers right away.
 
 1. **[Fork](https://help.github.com/articles/fork-a-repo/#fork-an-example-repository)** the repo to create a copy for your own github account,
   and **[clone](https://help.github.com/articles/fork-a-repo/#step-2-create-a-local-clone-of-your-fork)** your own copy. (Read [CONTRIBUTING.md](CONTRIBUTING.md) for important info about syncing code your on github) 

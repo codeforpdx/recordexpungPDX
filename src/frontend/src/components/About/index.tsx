@@ -250,7 +250,7 @@ export default class About extends React.Component {
             </dl>
             <a
               className="fw7 link dark-blue hover-navy"
-              href="https://www.codeforpdx.org"
+              href="https://www.codepdx.org"
             >
               Volunteer with us
             </a>
