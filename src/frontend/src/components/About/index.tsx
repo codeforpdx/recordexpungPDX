@@ -16,7 +16,7 @@ export default class About extends React.Component {
               expungement process in Oregon.
             </h1>
             <p className="f4 lh-copy">
-              RecordSponge is a collaboration between Code for PDX and Qiu-Qiu
+              RecordSponge is a collaboration between Code PDX and Qiu-Qiu
               Law. This project is an entirely volunteer effort and is part of
               the open tech group Code for PDX, a brigade of Code for America.
             </p>
