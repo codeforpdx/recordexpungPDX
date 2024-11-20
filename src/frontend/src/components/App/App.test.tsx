@@ -47,7 +47,7 @@ describe("App routing", () => {
     ["/fill-expungement-forms", "this will fill and download"],
     ["/partner-interest", "made for organizations to become expungement"],
     ["/accessibility-statement", "committed to ensuring digital"],
-    ["/about", "collaboration between Code for PDX"],
+    ["/about", "collaboration between Code PDX"],
     ["/foo", "winner"],
   ];
 

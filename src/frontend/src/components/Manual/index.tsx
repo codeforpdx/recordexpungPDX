@@ -62,9 +62,9 @@ class Manual extends React.Component {
                 collaboration between{" "}
                 <a
                   className="bb hover-blue"
-                  href="https://brigade.codeforamerica.org/brigades/Code-for-PDX"
+                  href="https://www.codepdx.org"
                 >
-                  Code for PDX
+                  Code PDX
                 </a>{" "}
                 and{" "}
                 <a className="bb hover-blue" href="https://www.qiu-qiulaw.com">

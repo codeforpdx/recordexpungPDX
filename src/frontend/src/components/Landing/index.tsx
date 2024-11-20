@@ -230,7 +230,7 @@ class Landing extends React.Component {
                     className="link bb hover-dark-blue"
                     href="http://www.codepdx.org"
                   >
-                    Code for PDX
+                    Code PDX
                   </a>{" "}
                   and{" "}
                   <a
