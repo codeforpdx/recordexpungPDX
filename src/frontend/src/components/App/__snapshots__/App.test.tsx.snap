@@ -1831,7 +1831,7 @@ Array [
           >
             <a
               className="link bb hover-dark-blue"
-              href="http://www.codeforpdx.org"
+              href="http://www.codepdx.org"
             >
               Code for PDX
             </a>
@@ -2185,9 +2185,9 @@ Array [
              
             <a
               className="link bb hover-dark-blue"
-              href="http://www.codeforpdx.org"
+              href="http://www.codepdx.org"
             >
-              Code for PDX
+              Code PDX
             </a>
              
             in collaboration with

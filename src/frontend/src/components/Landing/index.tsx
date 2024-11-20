@@ -228,7 +228,7 @@ class Landing extends React.Component {
                 <p className="lh-copy mb3">
                   <a
                     className="link bb hover-dark-blue"
-                    href="http://www.codeforpdx.org"
+                    href="http://www.codepdx.org"
                   >
                     Code for PDX
                   </a>{" "}
@@ -488,9 +488,9 @@ class Landing extends React.Component {
                   RecordSponge Oregon is a nonprofit service delivered by{" "}
                   <a
                     className="link bb hover-dark-blue"
-                    href="http://www.codeforpdx.org"
+                    href="http://www.codepdx.org"
                   >
-                    Code&nbsp;for&nbsp;PDX
+                    Code&nbsp;PDX
                   </a>{" "}
                   in collaboration with{" "}
                   <a

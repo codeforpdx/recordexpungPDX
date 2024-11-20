@@ -14,8 +14,7 @@ This document provides some overall guidelines and suggestions for how to get st
 ### First steps
 
 1. [Set up your local dev environment](README.md#installation)
-2. Be sure to read our [code of conduct](http://www.codeforpdx.org/about/conduct)
-3. Say hi on our Slack Channel!
+2. Say hi on our Slack Channel!
 
 ### Using Git
 
