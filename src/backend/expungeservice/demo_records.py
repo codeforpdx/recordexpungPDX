@@ -50,6 +50,7 @@ class DemoRecords:
         "date": date_class.today(),
         "district_attorney_number": "01234567",
         "sid": "OR12345678",
+        "restitution": False
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,

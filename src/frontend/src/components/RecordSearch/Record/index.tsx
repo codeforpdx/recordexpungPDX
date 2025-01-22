@@ -32,6 +32,7 @@ export default function Record() {
       name: "",
       violation_type: "",
       district_attorney_number: "",
+      restitution: false,
       edit_status: "ADD",
     };
   };

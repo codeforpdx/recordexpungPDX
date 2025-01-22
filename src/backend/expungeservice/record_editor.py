@@ -46,6 +46,8 @@ class RecordEditor:
                 case_summary_edits["balance_due_in_cents"] = CaseCreator.compute_balance_due_in_cents(value)
             elif key == "birth_year":
                 case_summary_edits["birth_year"] = int(value)
+            elif key == "restitution":
+                case_summary_edits["restitution"] = value == "True"
             else:
                 case_summary_edits[key] = value
         edited_summary = replace(case.summary, **case_summary_edits)

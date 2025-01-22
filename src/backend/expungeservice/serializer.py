@@ -52,6 +52,7 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "case_detail_link": case.case_detail_link,
             "district_attorney_number": case.district_attorney_number,
             "sid": case.sid,
+            "restitution": case.restitution,
             "edit_status": case.edit_status,
         }
 

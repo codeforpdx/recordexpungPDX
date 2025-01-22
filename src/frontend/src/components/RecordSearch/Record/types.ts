@@ -45,6 +45,7 @@ export interface CaseData {
   location: string;
   name: string;
   violation_type: string;
+  restitution: boolean;
 }
 
 export interface RecordData {

@@ -38,7 +38,7 @@ class ChargesSummarizer:
 
         '''
             Order is:
-            0 Needs More Analysis
+            0 Needs More Analysis / Restitution Owed
             1 Ineligible
             2 Eligible Now
             3 Eligible on case with Ineligible charge
@@ -56,7 +56,7 @@ class ChargesSummarizer:
             label = charge_eligibility.label
             has_balance = this_case.summary.balance_due_in_cents != 0
 
-            if label == "Needs More Analysis":
+            if label == "Needs More Analysis" or label == "Ineligible If Restitution Owed":
                 return 0, label, charge.case_number
             elif label == "Ineligible":
                 return 1, label, charge.case_number

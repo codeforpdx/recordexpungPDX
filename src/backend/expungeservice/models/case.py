@@ -22,6 +22,7 @@ class CaseSummary:
     violation_type: str
     current_status: str
     case_detail_link: str
+    restitution: bool
     balance_due_in_cents: int
     edit_status: EditStatus
 
@@ -61,6 +62,7 @@ class OeciCase:
                 current_status="",
                 case_detail_link="",
                 balance_due_in_cents=0,
+                restitution=False,
                 edit_status=EditStatus.UNCHANGED,
             ),
             (),
@@ -112,7 +114,8 @@ class CaseCreator:
         date_location,
         type_status,
         case_detail_link,
-        balance="0",
+        restitution,
+        balance,
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -133,6 +136,7 @@ class CaseCreator:
             violation_type,
             current_status,
             case_detail_link,
+            restitution,
             balance_due_in_cents,
             EditStatus.UNCHANGED,
         )

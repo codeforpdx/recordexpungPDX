@@ -22,6 +22,7 @@ class CaseParserData:
     hashed_charge_data: Dict[int, Dict[str, str]]
     hashed_dispo_data: Dict[int, Dict[str, str]]
     balance_due: str
+    restitution: bool
     probation_revoked: Optional[date]
 
 
@@ -41,8 +42,9 @@ class CaseParser:
             probation_revoked = date.fromdatetime(datetime.strptime(probation_revoked_date_string, "%m/%d/%Y"))
         else:
             probation_revoked = None  # type: ignore
+        restitution = "restitution" in soup.text.lower()
         return CaseParserData(
-            district_attorney_number, sid, hashed_charge_data, hashed_dispo_data, balance_due, probation_revoked
+            district_attorney_number, sid, hashed_charge_data, hashed_dispo_data, balance_due, restitution, probation_revoked
         )
 
     @staticmethod

@@ -6,7 +6,7 @@ from tests.factories.case_factory import CaseSummaryFactory
 
 class TestCaseBalanceDue(unittest.TestCase):
     def test_balance_due_getter_setter(self):
-        case_args = [("John Doe", "1990"), "", "", "", "", ("1/1/2019", ""), ("", ""), ""]
+        case_args = [("John Doe", "1990"), "", "", "", "", ("1/1/2019", ""), ("", ""), "", False]
 
         case_1 = CaseCreator.create(*case_args, "123.45")  # type: ignore
         assert case_1.get_balance_due() == 123.45

@@ -26,6 +26,7 @@ interface State {
   missingBalance: boolean;
   missingBirthYear: boolean;
   invalidBirthYear: boolean;
+  restitution: string;
 }
 
 const counties = [
@@ -78,11 +79,13 @@ export default class EditCasePanel extends React.Component<Props, State> {
     missingBalance: false,
     missingBirthYear: false,
     invalidBirthYear: false,
+    restitution: this.props.case.restitution ? "True" : "False",
   };
 
   anyFieldsChanged = () => {
     return !(
       this.props.case.current_status === this.state.current_status &&
+      ((this.props.case.restitution && this.state.restitution === "True") || (!this.props.case.restitution && this.state.restitution === "False")) &&
       this.props.case.location === this.state.location &&
       this.props.case.balance_due.toFixed(2) === this.state.balance_due &&
       this.props.case.birth_year.toString() === this.state.birth_year
@@ -117,6 +120,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
           : "UPDATE",
         this.props.case.case_number,
         this.state.current_status,
+        this.state.restitution,
         this.state.location,
         this.state.balance_due,
         this.state.birth_year
@@ -237,6 +241,46 @@ export default class EditCasePanel extends React.Component<Props, State> {
                     }
                   >
                     Closed
+                  </label>
+                </div>
+              </div>
+              <legend className="fw6">Restitution Owed</legend>
+
+              <div className="radio">
+                <div className="dib">
+                  <input
+                    type="radio"
+                    name="restitution"
+                    id={"case_edit_restitution_true_" + this.props.case.case_number}
+                    value="True"
+                    checked={this.state.restitution === "True"}
+                    onChange={this.handleChange}
+                  />
+                  <label
+                    htmlFor={
+                      "case_edit_restitution_true_" + this.props.case.case_number
+                    }
+                  >
+                    True
+                  </label>
+                </div>
+                <div className="dib">
+                  <input
+                    type="radio"
+                    name="restitution"
+                    id={
+                      "case_edit_restitution_false_" + this.props.case.case_number
+                    }
+                    value="False"
+                    checked={this.state.restitution === "False"}
+                    onChange={this.handleChange}
+                  />
+                  <label
+                    htmlFor={
+                      "case_edit_restitution_false_" + this.props.case.case_number
+                    }
+                  >
+                    False
                   </label>
                 </div>
               </div>
