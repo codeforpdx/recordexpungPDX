@@ -22,8 +22,8 @@ class CaseSummary:
     violation_type: str
     current_status: str
     case_detail_link: str
-    balance_due_in_cents: int
     restitution: bool
+    balance_due_in_cents: int
     edit_status: EditStatus
 
     def get_balance_due(self):
@@ -136,8 +136,8 @@ class CaseCreator:
             violation_type,
             current_status,
             case_detail_link,
-            balance_due_in_cents,
             restitution,
+            balance_due_in_cents,
             EditStatus.UNCHANGED,
         )
 
