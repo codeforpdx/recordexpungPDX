@@ -61,6 +61,10 @@ class RecordMerger:
                             charge_eligibility,
                             label=f"Eligibility date dependent on open charge: {charge_eligibility.label}",
                         )
+                if case.summary.restitution and charge_eligibility.status != ChargeEligibilityStatus.INELIGIBLE :
+                    charge_eligibility = ChargeEligibility(
+                        ChargeEligibilityStatus.INELIGIBLE_IF_RESTITUTION_OWED, "Ineligible If Restitution Owed"
+                    )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
                     time_eligibility=merged_time_eligibility,

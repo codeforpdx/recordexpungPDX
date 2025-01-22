@@ -83,6 +83,8 @@ class RecordParser(HTMLParser):
                 self.date_location,
                 self.type_status,
                 self.case_detail_link,
+                False,
+                "0"
             )
         )
 

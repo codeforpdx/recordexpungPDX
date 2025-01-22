@@ -23,6 +23,7 @@ class CaseSummary:
     current_status: str
     case_detail_link: str
     balance_due_in_cents: int
+    restitution: bool
     edit_status: EditStatus
 
     def get_balance_due(self):
@@ -61,6 +62,7 @@ class OeciCase:
                 current_status="",
                 case_detail_link="",
                 balance_due_in_cents=0,
+                restitution=False,
                 edit_status=EditStatus.UNCHANGED,
             ),
             (),
@@ -112,7 +114,8 @@ class CaseCreator:
         date_location,
         type_status,
         case_detail_link,
-        balance="0",
+        restitution,
+        balance,
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -134,6 +137,7 @@ class CaseCreator:
             current_status,
             case_detail_link,
             balance_due_in_cents,
+            restitution,
             EditStatus.UNCHANGED,
         )
 

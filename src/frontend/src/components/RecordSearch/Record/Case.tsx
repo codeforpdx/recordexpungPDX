@@ -83,6 +83,7 @@ export default class Case extends React.Component<Props, State> {
       location,
       current_status,
       district_attorney_number,
+      restitution,
       edit_status,
     } = this.props.case;
     const allIneligible = charges.every(
@@ -180,7 +181,11 @@ export default class Case extends React.Component<Props, State> {
               </div>
             ) : null)}
         </div>
-
+        {restitution && !allIneligible && (
+          <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">
+            Eligible charges are ineligible if restitution is owed
+          </div>
+        )}
         {balance_due > 0 && !allIneligible && (
           <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">
             Eligible charges are ineligible until balance is paid

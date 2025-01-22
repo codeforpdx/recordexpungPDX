@@ -24,6 +24,7 @@ case_1 = OeciCase(
         current_status="CLOSED",
         case_detail_link="alink",
         balance_due_in_cents=0,
+        restitution=False,
         edit_status=EditStatus.UNCHANGED,
     ),
     (
@@ -75,6 +76,7 @@ case_2 = OeciCase(
         current_status="CLOSED",
         case_detail_link="alink",
         balance_due_in_cents=0,
+        restitution=False,
         edit_status=EditStatus.UNCHANGED,
     ),
     (
