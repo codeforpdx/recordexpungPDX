@@ -60,6 +60,7 @@ interface EditCaseAction {
   edit_status: string;
   case_number: string;
   status: string;
+  restitution: string;
   county: string;
   balance: string;
   birth_year: string;
