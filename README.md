@@ -3,7 +3,9 @@
 
 A project to automate expunging qualifying criminal records. This project is done in conjunction with Qiu-Qiu Law. [Learn more in the wiki](https://github.com/codeforpdx/recordexpungPDX/wiki).
 
-If you're interested in learning more about our project and getting involved, please join us at one of our [meetup events!](https://www.meetup.com/Code-for-PDX/)
+This software is mature and currently has a sole maintainer, and doesn't need any further contributions.
+
+To connect with the creator community, come to one of our [meetup events!](https://www.meetup.com/Code-for-PDX/)
 
 ## Table of Contents
 - [Tech Overview](#tech-overview)
