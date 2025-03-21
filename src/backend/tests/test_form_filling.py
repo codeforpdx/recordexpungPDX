@@ -464,6 +464,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
             "(Case No)": "(base case number \\(charge  only\\))",
             # not has_no_complaint
             "(record of arrest with charges filed and the associated check all that apply)": "/On",
+            "(I was sentenced to probation in this case and)": None,
+            "(My probation WAS NOT revoked)": None,
         }
         case_results = CaseResults.build(case, self.user_data, sid="sid0")
         pdf = FormFilling._create_pdf(case_results)
@@ -479,6 +481,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
             "(record of citation or charge that was dismissedacquitted)": "/On",
             # case_number_with_comments
             "(Case No)": "(base case number)",
+            "(I was sentenced to probation in this case and)": None,
+            "(My probation WAS NOT revoked)": None,
         }
         self.assert_pdf_values(pdf_factory([dismissed_charge_factory()]), new_expected_values)
 
