@@ -430,6 +430,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
         "(Address)": "(1234 NE Dev St. #12,    Portland,    OR,    97111,    555-555-1234)",
         # full_name
         "(Name typed or printed_2)": "(foo bar)",
+        "(I was sentenced to probation in this case and)": "/On",
+        "(My probation WAS NOT revoked)": "/On"
     }
     expected_conviction_values = {
         # case_number_with_comments
@@ -486,6 +488,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
         new_expected_values = {
             "(I was sentenced to probation in this case and)": "/On",
             "(My probation WAS revoked and 3 years have passed since the date of revocation)": "/On",
+            "(My probation WAS NOT revoked)": None
+
         }
         conviction_charge.charge_type = Mock()
         conviction_charge.probation_revoked = create_date(1988, 5, 3)
