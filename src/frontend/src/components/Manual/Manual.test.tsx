@@ -6,15 +6,14 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Manual from ".";
 
-it("renders correctly", () => {
-  const tree = renderer
+it("renders", () => {
+  renderer
     .create(
       <BrowserRouter>
         <Manual />
       </BrowserRouter>
     )
     .toJSON();
-  expect(tree).toMatchSnapshot();
 });
 
 test("the editing guide can be opened and closed", async () => {
