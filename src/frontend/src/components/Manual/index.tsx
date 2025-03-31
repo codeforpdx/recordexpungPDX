@@ -60,10 +60,7 @@ class Manual extends React.Component {
                 RecordSponge is a volunteer-built web application used to
                 facilitate the expungement process in Oregon. It is a
                 collaboration between{" "}
-                <a
-                  className="bb hover-blue"
-                  href="https://www.codepdx.org"
-                >
+                <a className="bb hover-blue" href="https://www.codepdx.org">
                   Code PDX
                 </a>{" "}
                 and{" "}
@@ -106,12 +103,11 @@ class Manual extends React.Component {
                   className="bb hover-blue"
                   href="https://olis.oregonlegislature.gov/liz/2021R1/Measures/Overview/SB397"
                 >
-                Recent changes 
+                  Recent changes
                 </a>{" "}
-                to Oregon's expungement law make more types of
-                criminal records eligible than ever before, and on a much faster
-                timeline. Nevertheless, the complexity of the expungement
-                statutes, ORS{" "}
+                to Oregon's expungement law make more types of criminal records
+                eligible than ever before, and on a much faster timeline.
+                Nevertheless, the complexity of the expungement statutes, ORS{" "}
                 <a
                   className="bb hover-blue"
                   href="https://www.oregonlaws.org/ors/137.225"
@@ -434,6 +430,26 @@ class Manual extends React.Component {
                   to determine whether or not a case is eligible. RecordSponge
                   will then prompt the user to answer questions, and the
                   analysis will update based on those answers.
+                </p>
+              </div>
+              <div className="bg-white shadow pa3">
+                <h4 className="fw7 mb3">Restitution Owed</h4>
+                <div className="dark-blue bg-washed-blue fw6 pv2 ph3 mb3 dib br3">
+                  Ineligible If Restitution Owed
+                </div>
+                <p className="mb3">
+                  A case is ineligible if there is owed and unpaid restitution
+                  associated with it. OECI reports only that restitution was
+                  owed at some point, and does not report whether that
+                  restitution was paid. Thus, if RecordSponge detects that there
+                  was restitution on the case then it will apply this status.
+                </p>
+                <p>
+                  If restitution is no longer owed on the case, then you can
+                  edit the case to remove the restitution status. See the {" "}
+                  <Link className="bb hover-blue" to="#editing">
+                  editing guide
+                      </Link> below.
                 </p>
               </div>
               <div className="bg-white shadow pa3 mb4">
