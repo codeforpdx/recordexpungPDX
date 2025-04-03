@@ -438,19 +438,37 @@ class Manual extends React.Component {
                   Ineligible If Restitution Owed
                 </div>
                 <p className="mb3">
-                  A case is ineligible if there is owed and unpaid restitution
-                  associated with it. OECI reports only that restitution was
-                  owed at some point, and does not report whether that
-                  restitution was paid. Thus, if RecordSponge detects that there
-                  was restitution on the case then it will apply this status.
+                  There is not enough information on the OECI website to
+                  determine if Restitution is owed on this Case. Cases under
+                  this heading will not print unless updated to reflect that
+                  Restitution is not owed.
                 </p>
-                <p>
-                  If restitution is no longer owed on the case, then you can
-                  edit the case to remove the restitution status. See the {" "}
-                  <Link className="bb hover-blue" to="#editing">
-                  editing guide
-                      </Link> below.
+                <p className="mb3">
+                  RecordSponge can detect if Restitution is discussed in a
+                  Case's history of events, but OECI does not always show
+                  whether Restitution is still owed.
                 </p>
+                <p className="mb3">
+                  Ask the client directly if they currently owe Restitution on
+                  the Case. If Restitution has been paid, Edit the Case to
+                  remove this status:
+                </p>
+                <ol>
+                  <li className="ml3">
+                    Select “Enable Editing” (see the{" "}
+                    <Link className="bb hover-blue" to="#editing">
+                      editing guide
+                    </Link>{" "}
+                    below)
+                  </li>
+                  <li className="ml3">
+                    Click the editing pencil associated with the Case (not the
+                    Charge)
+                  </li>
+                  <li className="ml3">
+                    Select “False” under “Restitution Owed"
+                  </li>
+                </ol>
               </div>
               <div className="bg-white shadow pa3 mb4">
                 <h4 className="fw7 mb3">Ineligible</h4>
