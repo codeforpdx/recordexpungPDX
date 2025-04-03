@@ -103,7 +103,7 @@ class Crawler:
             district_attorney_number=district_attorney_number,
             sid=sid,
             balance_due_in_cents=balance_due_in_cents,
-            restitution=resitution,
+            restitution=resitution and case_summary.location.lower() in ["multnomah", "washington"],
             edit_status=EditStatus.UNCHANGED,
         )
         return OeciCase(updated_case_summary, charges=tuple(charges))
