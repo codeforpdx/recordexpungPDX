@@ -443,28 +443,32 @@ class Manual extends React.Component {
                   this heading will not print unless updated to reflect that
                   Restitution is not owed.
                 </p>
-                <p>
+                <p className="mb3">
                   RecordSponge can detect if Restitution is discussed in a
                   Case's history of events, but OECI does not always show
                   whether Restitution is still owed.
                 </p>
-                <p>
+                <p className="mb3">
                   Ask the client directly if they currently owe Restitution on
                   the Case. If Restitution has been paid, Edit the Case to
-                  remove this status.
+                  remove this status:
                 </p>
-                <p>
-                  Select “Enable Editing” (see the{" "}
-                  <Link className="bb hover-blue" to="#editing">
-                    editing guide
-                  </Link>{" "}
-                  below)
-                </p>
-                <p>
-                  Click the editing pencil associated with the Case (not the
-                  Charge)
-                </p>
-                <p>Select “False” under “Restitution Owed"</p>
+                <ol>
+                  <li className="ml3">
+                    Select “Enable Editing” (see the{" "}
+                    <Link className="bb hover-blue" to="#editing">
+                      editing guide
+                    </Link>{" "}
+                    below)
+                  </li>
+                  <li className="ml3">
+                    Click the editing pencil associated with the Case (not the
+                    Charge)
+                  </li>
+                  <li className="ml3">
+                    Select “False” under “Restitution Owed"
+                  </li>
+                </ol>
               </div>
               <div className="bg-white shadow pa3 mb4">
                 <h4 className="fw7 mb3">Ineligible</h4>
