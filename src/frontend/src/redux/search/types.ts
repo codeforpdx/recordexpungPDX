@@ -32,6 +32,7 @@ export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
 export interface SearchRecordState {
   loading: string;
   loadingExpungementPacket: boolean;
+  loadingWaiverPacket: boolean;
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;

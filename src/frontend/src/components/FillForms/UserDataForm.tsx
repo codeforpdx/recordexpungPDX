@@ -34,6 +34,17 @@ export default function UserDataForm() {
   const loadingExpungementPacket = useAppSelector(
     (state) => state.search.loadingExpungementPacket
   );
+  const [feesExpanded, setFeesExpanded] = useState(false);
+  const [explain, setExplain] = useState("");
+  const [explain2, setExplain2] = useState("");
+  const [snap, setSnap] = useState(false);
+  const [ssi, setSsi] = useState(false);
+  const [tanf, setTanf] = useState(false);
+  const [ohp, setOhp] = useState(false);
+  const [custody, setCustody] = useState(false)
+  const loadingWaiverPacket = useAppSelector(
+    (state) => state.search.loadingWaiverPacket
+  );
 
   const [showModal, setShowModal] = useState(false);
 
@@ -293,6 +304,95 @@ export default function UserDataForm() {
             Download Expungement Packet
           </button>
         </form>
+        <button
+          className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+          onClick={() => setFeesExpanded(!feesExpanded)}
+        >
+          {"Motions to Waive Fees >>"}{" "}
+        </button>
+        <div id="fees-expansion" hidden={!feesExpanded}>
+          <div className="mb4">
+            <label htmlFor="explain" className="db mb1">
+              <span className="fw6">
+                I have not paid as ordered or I missed a payment on a payment
+                plan because{" "}
+              </span>{" "}
+            </label>
+            <textarea
+              id="explain"
+              name="explain"
+              required={true}
+              className="w-100 pa3 br2 b--black-20"
+              onChange={(e) => setExplain(e.target.value)}
+              value={explain}
+            />
+          </div>
+          <div className="mb4">
+            <label htmlFor="explain" className="db mb1">
+              <span className="fw6">
+                {" "}
+                I ask the court to reduce or waive the outstanding amounts that
+                I owe because (explain the impact payment will have on you,
+                including any barriers to complying with any court orders){" "}
+              </span>{" "}
+            </label>
+            <textarea
+              id="explain"
+              name="explain"
+              required={true}
+              className="w-100 pa3 br2 b--black-20"
+              onChange={(e) => setExplain2(e.target.value)}
+              value={explain2}
+            />
+          </div>
+          <div className="mb4">
+            Active benefits (check all that apply):
+            {[
+              { name: "snap", text: "SNAP", value: snap, setter: setSnap },
+              { name: "ssi", text: "SSI", value: ssi, setter: setSsi },
+              { name: "tanf", text: "TANF", value: tanf, setter: setTanf },
+              { name: "ohp", text: "OHP", value: ohp, setter: setOhp },
+            ].map((item) => (
+              <div key={item.name} className="flex items-center mb2">
+                <div className="tr pr2" style={{ width: "100px" }}>
+                  {item.text}
+                </div>
+                <input
+                  id={item.name}
+                  name={item.name}
+                  type="checkbox"
+                  style={{ transform: 'scale(1.2)' }}
+                  className="pa2 br2 b--black-20"
+                  onChange={(e) => item.setter(e.target.checked)}
+                  checked={item.value}
+                />
+              </div>
+            ))}
+            <div></div>
+          </div>
+          <div className="flex items-center mb2">
+                <div className="tr pr2">
+                I am currently an adult in custody
+                </div>
+                <input
+                  id="custody"
+                  name="custody"
+                  type="checkbox"
+                  style={{ transform: 'scale(1.2)' }}
+                  className="pa2 br2 b--black-20"
+                  onChange={(e) => setCustody(e.target.checked)}
+                  checked={custody}
+                />
+              </div>
+          <button
+            className={`bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc ${
+              loadingWaiverPacket ? " loading-btn" : ""
+            }`}
+            onClick={()=>{}}
+          >
+            Download Fee Waiver Packet
+          </button>
+        </div>
         <InvalidInputs contents={errorMessages} />
       </section>
     </main>
