@@ -6,6 +6,7 @@ const initialState: SearchRecordState = {
   loadingWaiverPacket: false,
   edits: {},
   userInformation: {},
+  waiverInformation: {}
 };
 
 export default initialState;

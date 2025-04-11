@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { downloadExpungementPacket } from "../../redux/search/actions";
+import { downloadExpungementPacket, downloadWaiverPacket } from "../../redux/search/actions";
 import InvalidInputs from "../InvalidInputs";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
@@ -90,6 +90,26 @@ export default function UserDataForm() {
         city,
         state,
         zipCode
+      )
+    );
+  }
+  function downloadFeeWaiverPacket() {
+    dispatch(
+      downloadWaiverPacket(
+        name,
+        dob,
+        mailingAddress,
+        phoneNumber,
+        city,
+        state,
+        zipCode,
+        explain,
+        explain2,
+        snap,
+        ssi,
+        tanf,
+        ohp,
+        custody
       )
     );
   }
@@ -388,7 +408,7 @@ export default function UserDataForm() {
             className={`bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc ${
               loadingWaiverPacket ? " loading-btn" : ""
             }`}
-            onClick={()=>{}}
+            onClick={()=>{downloadFeeWaiverPacket()}}
           >
             Download Fee Waiver Packet
           </button>
