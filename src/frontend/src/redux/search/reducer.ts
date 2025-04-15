@@ -12,6 +12,8 @@ import {
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   SearchRecordState,
   SearchRecordActionType,
+  DOWNLOAD_WAIVER_PACKET,
+  LOADING_WAIVER_PACKET_COMPLETE,
 } from "./types";
 import {
   QuestionData,
@@ -373,6 +375,36 @@ export function searchReducer(
       return {
         ...state,
         loadingExpungementPacket: false,
+      };
+    case DOWNLOAD_WAIVER_PACKET:
+      const userInformation = {
+        full_name: action.name,
+        date_of_birth: action.dob,
+        mailing_address: action.mailingAddress,
+        phone_number: action.phoneNumber,
+        city: action.city,
+        state: action.state,
+        zip_code: action.zipCode,
+      };
+      const waiverInformation = {
+        explain: action.explain,
+        explain2: action.explain2,
+        snap: action.snap,
+        ssi: action.ssi,
+        tanf: action.tanf,
+        ohp: action.ohp,
+        custody: action.custody,
+      };
+      return {
+        ...state,
+        userInformation,
+        waiverInformation,
+        loadingWaiverPacket: true,
+      };
+    case LOADING_WAIVER_PACKET_COMPLETE:
+      return {
+        ...state,
+        loadingWaiverPacket: false,
       };
     default:
       return state;

@@ -19,6 +19,8 @@ import {
   UNDO_EDIT_CHARGE,
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
+  DOWNLOAD_WAIVER_PACKET,
+  LOADING_WAIVER_PACKET_COMPLETE
 } from "./types";
 import {
   RecordData,
@@ -312,6 +314,71 @@ export function downloadExpungementPacket(
         fileDownload(response.data, filename);
         dispatch({
           type: LOADING_EXPUNGEMENT_PACKET_COMPLETE,
+        });
+      })
+      .catch((error: AxiosError) => {
+        alert(error.message);
+      });
+  };
+}
+
+export function downloadWaiverPacket(
+  name: string,
+  dob: string,
+  mailingAddress: string,
+  phoneNumber: string,
+  city: string,
+  state: string,
+  zipCode: string,
+  explain: string,
+  explain2: string,
+  snap: boolean,
+  ssi: boolean,
+  tanf: boolean,
+  ohp: boolean,
+  custody: boolean,
+): any {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: DOWNLOAD_WAIVER_PACKET,
+      name,
+      dob,
+      mailingAddress,
+      phoneNumber,
+      city,
+      state,
+      zipCode,
+      explain,
+      explain2,
+      snap,
+      ssi,
+      tanf,
+      ohp,
+      custody,
+    });
+    return apiService(dispatch, {
+      url: "/api/waiver-packet",
+      data: {
+        demo: store.getState().demo.isOn,
+        aliases: store.getState().searchForm.aliases,
+        questions: store.getState().search.questions,
+        edits: store.getState().search.edits,
+        today: store.getState().searchForm.date,
+        userInformation: store.getState().search.userInformation,
+        waiverInformation: store.getState().search.waiverInformation
+      },
+      method: "post",
+      withCredentials: true,
+      responseType: "blob",
+    })
+      .then((response: AxiosResponse) => {
+        const filename =
+          response.headers["content-disposition"]!.split("filename=")[1].split(
+            " "
+          )[0];
+        fileDownload(response.data, filename);
+        dispatch({
+          type: LOADING_WAIVER_PACKET_COMPLETE,
         });
       })
       .catch((error: AxiosError) => {

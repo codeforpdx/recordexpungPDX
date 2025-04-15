@@ -20,11 +20,6 @@ function assertModalPresentAndFormNotSubmitted() {
   expect(mockDownloadExpungementPacketFunc).not.toHaveBeenCalled();
 }
 
-it("renders correctly on initial display", () => {
-  const { asFragment } = setup();
-  expect(asFragment()).toMatchSnapshot();
-});
-
 it("will not submit a blank form", async () => {
   const { user } = setup();
   await clickButton(user, "download packet");

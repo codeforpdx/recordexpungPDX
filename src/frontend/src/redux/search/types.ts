@@ -28,14 +28,17 @@ export const UNDO_EDIT_CHARGE = "UNDO_EDIT_CHARGE";
 export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
   "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
-
+export const DOWNLOAD_WAIVER_PACKET = "DOWNLOAD_WAIVER_PACKET";
+export const LOADING_WAIVER_PACKET_COMPLETE = "LOADING_WAIVER_PACKET_COMPLETE"
 export interface SearchRecordState {
   loading: string;
   loadingExpungementPacket: boolean;
+  loadingWaiverPacket: boolean;
   record?: RecordData;
   questions?: QuestionsData;
   edits?: any;
   userInformation?: any;
+  waiverInformation?: any;
 }
 
 interface SearchRecordAction {
@@ -117,6 +120,28 @@ interface ExpungementPacketActionComplete {
   type: typeof LOADING_EXPUNGEMENT_PACKET_COMPLETE;
 }
 
+interface WaiverPacketAction {
+  type: typeof DOWNLOAD_WAIVER_PACKET;
+  name: string;
+  dob: string;
+  mailingAddress: string;
+  phoneNumber: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  explain: string,
+  explain2: string,
+  snap: string,
+  ssi: string,
+  tanf: string,
+  ohp: string,
+  custody: string,
+}
+
+interface WaiverPacketActionComplete {
+  type: typeof LOADING_WAIVER_PACKET_COMPLETE;
+}
+
 export type SearchRecordActionType =
   | SearchRecordAction
   | QuestionsAction
@@ -127,4 +152,6 @@ export type SearchRecordActionType =
   | DeleteChargeAction
   | UndoEditChargeAction
   | ExpungementPacketAction
-  | ExpungementPacketActionComplete;
+  | ExpungementPacketActionComplete
+  | WaiverPacketAction
+  | WaiverPacketActionComplete;

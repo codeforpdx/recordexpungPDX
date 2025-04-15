@@ -38,7 +38,8 @@ export default function RecordSummary() {
     );
     if (
       (chargesEligibleNow[0] && chargesEligibleNow[0][1].length > 0) ||
-      (chargesEligibleOnIneligible[0] && chargesEligibleOnIneligible[0][1].length > 0)
+      (chargesEligibleOnIneligible[0] && chargesEligibleOnIneligible[0][1].length > 0) ||
+      fines.total_fines_due > 0
     ) {
       navigate("/fill-expungement-forms");
     } else {
