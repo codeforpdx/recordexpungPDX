@@ -90,7 +90,7 @@ class WaiverFormFilling:
         acroform = pdf.Root.AcroForm
         for key, val in acroform.items():
             print(f"Key: {key} (type: {type(key)}), Value: {val} (type: {type(val)})")
-    
+
         fields = acroform['/Fields']
         for field in fields:
             field_name = field.get('/T')
@@ -117,4 +117,3 @@ class WaiverFormFilling:
         case_number = case_data.case.summary.case_number
         PdfWriter().write(f"{temp_dir}/{case_number}.pdf", pdf)
         return f"{temp_dir}/{case_number}.pdf", f"{case_number}.pdf"
-    

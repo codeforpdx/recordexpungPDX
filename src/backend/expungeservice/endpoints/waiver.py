@@ -15,7 +15,6 @@ class WaiverPDF(MethodView):
         search = Demo if demo else Search
         record_summary = search().build_response()  # type: ignore
         response = search().post()  # type: ignore
-        record = json.loads(response)["record"]
         zip_path, zip_name = WaiverFormFilling.build_zip(record_summary, user_information, waiver_information)
         return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
 
