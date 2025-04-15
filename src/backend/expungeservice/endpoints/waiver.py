@@ -1,6 +1,6 @@
 from expungeservice.endpoints.demo import Demo
 from flask.views import MethodView
-from flask import request, json, send_file
+from flask import request, send_file
 
 from expungeservice.endpoints.search import Search
 from expungeservice.waiver_form_filling import WaiverFormFilling
@@ -14,7 +14,6 @@ class WaiverPDF(MethodView):
         demo = request_data.get("demo")
         search = Demo if demo else Search
         record_summary = search().build_response()  # type: ignore
-        response = search().post()  # type: ignore
         zip_path, zip_name = WaiverFormFilling.build_zip(record_summary, user_information, waiver_information)
         return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
 

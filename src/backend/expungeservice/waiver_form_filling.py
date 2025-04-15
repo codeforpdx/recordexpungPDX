@@ -97,7 +97,7 @@ class WaiverFormFilling:
             print(f"Field Name: {field_name}")
             mapping = get_mapping(case_data)
             value = mapping[field_name]
-            if isinstance(value, str):            
+            if isinstance(value, str):
                 field.update(PdfDict(
                     V=PdfString.encode(value),
                     DV=PdfString.encode(value)
