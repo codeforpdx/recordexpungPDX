@@ -80,6 +80,7 @@ class WaiverFormFilling:
 
         return zip_path, zip_file_name
 
+    @staticmethod
     def _create_and_write_pdf(case_data: CaseData, temp_dir: str):
         file_name = "fee_waiver.pdf"
         source_dir = path.join(Path(__file__).parent, "files")
