@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { downloadExpungementPacket, downloadWaiverPacket } from "../../redux/search/actions";
+import {
+  downloadExpungementPacket,
+  downloadWaiverPacket,
+} from "../../redux/search/actions";
 import InvalidInputs from "../InvalidInputs";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
@@ -41,12 +44,34 @@ export default function UserDataForm() {
   const [ssi, setSsi] = useState(false);
   const [tanf, setTanf] = useState(false);
   const [ohp, setOhp] = useState(false);
-  const [custody, setCustody] = useState(false)
+  const [custody, setCustody] = useState(false);
   const loadingWaiverPacket = useAppSelector(
     (state) => state.search.loadingWaiverPacket
   );
 
   const [showModal, setShowModal] = useState(false);
+
+  const record = useAppSelector((state) => state.search.record);
+
+  const summary = record?.summary??  {charges_grouped_by_eligibility_and_case: [], county_fines:[] };
+
+  const { charges_grouped_by_eligibility_and_case: groupedCharges, ...fines } =
+    summary;
+
+  const chargesEligibleNow = groupedCharges?.filter(
+    (x) => x[0] === "Eligible Now"
+  );
+  const chargesEligibleOnIneligible = groupedCharges?.filter(
+    (x) => x[0] === "Eligible Now on case with Ineligible charge"
+  );
+  const numEligibleCharges =
+    (chargesEligibleNow[0] ? chargesEligibleNow[0][1].length : 0) +
+    (chargesEligibleOnIneligible[0]
+      ? chargesEligibleOnIneligible[0][1].length
+      : 0);
+  const numCasesWithFines = fines.county_fines
+    .map((county) => county.case_fines.length)
+    .reduce((a, b) => a + b, 0);
 
   function buildName() {
     const { first_name, middle_name, last_name } = aliases[0];
@@ -317,18 +342,27 @@ export default function UserDataForm() {
             />
           </div>
           <button
-            className={`bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc ${
+            className={`${numEligibleCharges === 0? "bg-light-blue" : "bg-blue hover-bg-dark-blue bg-animate"} white fw6 db w-100 br2 pv3 ph4 mb4 tc ${
               loadingExpungementPacket ? " loading-btn" : ""
             }`}
           >
-            Download Expungement Packet
+            {"Download Expungement Packet ("}
+            {numEligibleCharges}
+            {" charge"}
+            {numEligibleCharges === 1 ? "" : "s"}
+            {")"}
           </button>
         </form>
         <button
-          className="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+          className={`${numCasesWithFines === 0 ? "bg-light-blue" : "bg-blue bg-animate hover-bg-dark-blue"} white  fw6 db w-100 br2 pv3 ph4 mb4 tc`}
+          disabled={numCasesWithFines === 0}
           onClick={() => setFeesExpanded(!feesExpanded)}
         >
-          {"Motions to Waive Fees >>"}{" "}
+          {"Motions to Waive Fees ("}
+          {numCasesWithFines}
+          {" case"}
+          {numCasesWithFines === 1 ? "" : "s"}
+          {") >>"}
         </button>
         <div id="fees-expansion" hidden={!feesExpanded}>
           <div className="mb4">
@@ -381,7 +415,7 @@ export default function UserDataForm() {
                   id={item.name}
                   name={item.name}
                   type="checkbox"
-                  style={{ transform: 'scale(1.2)' }}
+                  style={{ transform: "scale(1.2)" }}
                   className="pa2 br2 b--black-20"
                   onChange={(e) => item.setter(e.target.checked)}
                   checked={item.value}
@@ -391,24 +425,24 @@ export default function UserDataForm() {
             <div></div>
           </div>
           <div className="flex items-center mb2">
-                <div className="tr pr2">
-                I am currently an adult in custody
-                </div>
-                <input
-                  id="custody"
-                  name="custody"
-                  type="checkbox"
-                  style={{ transform: 'scale(1.2)' }}
-                  className="pa2 br2 b--black-20"
-                  onChange={(e) => setCustody(e.target.checked)}
-                  checked={custody}
-                />
-              </div>
+            <div className="tr pr2">I am currently an adult in custody</div>
+            <input
+              id="custody"
+              name="custody"
+              type="checkbox"
+              style={{ transform: "scale(1.2)" }}
+              className="pa2 br2 b--black-20"
+              onChange={(e) => setCustody(e.target.checked)}
+              checked={custody}
+            />
+          </div>
           <button
             className={`bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc ${
               loadingWaiverPacket ? " loading-btn" : ""
             }`}
-            onClick={()=>{downloadFeeWaiverPacket()}}
+            onClick={() => {
+              downloadFeeWaiverPacket();
+            }}
           >
             Download Fee Waiver Packet
           </button>

@@ -2500,15 +2500,15 @@ exports[`the show colors option works 1`] = `
               />
             </div>
             <button
-              class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
+              class="bg-blue hover-bg-dark-blue bg-animate white fw6 db w-100 br2 pv3 ph4 mb4 tc "
             >
-              Download Expungement Packet
+              Download Expungement Packet (1 charge)
             </button>
           </form>
           <button
-            class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+            class="bg-blue bg-animate hover-bg-dark-blue white  fw6 db w-100 br2 pv3 ph4 mb4 tc"
           >
-            Motions to Waive Fees &gt;&gt; 
+            Motions to Waive Fees (1 case) &gt;&gt;
           </button>
           <div
             hidden=""
@@ -5163,15 +5163,15 @@ exports[`the show colors option works 2`] = `
               />
             </div>
             <button
-              class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc "
+              class="bg-blue hover-bg-dark-blue bg-animate white fw6 db w-100 br2 pv3 ph4 mb4 tc "
             >
-              Download Expungement Packet
+              Download Expungement Packet (1 charge)
             </button>
           </form>
           <button
-            class="bg-blue white bg-animate hover-bg-dark-blue fw6 db w-100 br2 pv3 ph4 mb4 tc"
+            class="bg-blue bg-animate hover-bg-dark-blue white  fw6 db w-100 br2 pv3 ph4 mb4 tc"
           >
-            Motions to Waive Fees &gt;&gt; 
+            Motions to Waive Fees (1 case) &gt;&gt;
           </button>
           <div
             hidden=""
