@@ -345,7 +345,6 @@ export default function UserDataForm() {
             className={`${numEligibleCharges === 0? "bg-light-blue" : "bg-blue hover-bg-dark-blue bg-animate"} white fw6 db w-100 br2 pv3 ph4 mb4 tc ${
               loadingExpungementPacket ? " loading-btn" : ""
             }`}
-            disabled={numEligibleCharges === 0}
           >
             {"Download Expungement Packet ("}
             {numEligibleCharges}
