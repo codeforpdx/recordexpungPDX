@@ -52,10 +52,8 @@ export default function UserDataForm() {
   const [showModal, setShowModal] = useState(false);
 
   const record = useAppSelector((state) => state.search.record);
-  if (!record || !record.summary) {
-    return <div>No eligible charges or fees</div>;
-  }
-  const summary = record.summary;
+
+  const summary = record?.summary??  {charges_grouped_by_eligibility_and_case: [], county_fines:[] };
 
   const { charges_grouped_by_eligibility_and_case: groupedCharges, ...fines } =
     summary;
