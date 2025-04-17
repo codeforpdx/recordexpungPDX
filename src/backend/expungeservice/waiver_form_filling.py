@@ -6,12 +6,14 @@ from typing import Dict, Tuple
 from pdfrw import PdfReader, PdfDict, PdfString, PdfWriter, PdfName, PdfObject
 from zipfile import ZipFile
 from datetime import date
+import re
 
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.models.case import Case
 from expungeservice.form_filling import DA_ADDRESSES
 
 def wrap_text(text):
+    text = re.sub(r'\r\n?|\n', ' ', text)
     lines = []
     while text:
         if len(text) <= 90:

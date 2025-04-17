@@ -380,9 +380,10 @@ export default function UserDataForm() {
               onChange={(e) => setExplain(e.target.value)}
               value={explain}
             />
+            {explain.length > 0 ? `(${explain.length}/360)`:null}
           </div>
           <div className="mb4">
-            <label htmlFor="explain" className="db mb1">
+            <label htmlFor="explain2" className="db mb1">
               <span className="fw6">
                 {" "}
                 I ask the court to reduce or waive the outstanding amounts that
@@ -391,13 +392,14 @@ export default function UserDataForm() {
               </span>{" "}
             </label>
             <textarea
-              id="explain"
-              name="explain"
+              id="explain2"
+              name="explain2"
               required={true}
               className="w-100 pa3 br2 b--black-20"
               onChange={(e) => setExplain2(e.target.value)}
               value={explain2}
             />
+            {explain2.length > 0 ? `(${explain2.length}/360)` : null}
           </div>
           <div className="mb4">
             Active benefits (check all that apply):
