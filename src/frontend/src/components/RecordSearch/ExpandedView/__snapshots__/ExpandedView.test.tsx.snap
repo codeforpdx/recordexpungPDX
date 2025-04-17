@@ -2540,7 +2540,7 @@ exports[`the show colors option works 1`] = `
             >
               <label
                 class="db mb1"
-                for="explain"
+                for="explain2"
               >
                 <span
                   class="fw6"
@@ -2551,8 +2551,8 @@ exports[`the show colors option works 1`] = `
               </label>
               <textarea
                 class="w-100 pa3 br2 b--black-20"
-                id="explain"
-                name="explain"
+                id="explain2"
+                name="explain2"
                 required=""
               />
             </div>
@@ -5203,7 +5203,7 @@ exports[`the show colors option works 2`] = `
             >
               <label
                 class="db mb1"
-                for="explain"
+                for="explain2"
               >
                 <span
                   class="fw6"
@@ -5214,8 +5214,8 @@ exports[`the show colors option works 2`] = `
               </label>
               <textarea
                 class="w-100 pa3 br2 b--black-20"
-                id="explain"
-                name="explain"
+                id="explain2"
+                name="explain2"
                 required=""
               />
             </div>
