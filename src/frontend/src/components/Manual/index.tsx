@@ -482,6 +482,46 @@ class Manual extends React.Component {
                   conditional on the Assumption.
                 </p>
               </div>
+              <section>
+                <h3 className="f4 fw7 mb2" id="feewaiver">
+                  Motions to Modify Financial Obligation
+                </h3>
+                <p className="mb3">
+                  Oregon Circuit Courts other than Multnomah County now accept a
+                  form Motion to reduce fines and fees owed on criminal cases. A
+                  copy of this Motion is available{" "}
+                  <Link
+                    className="bb link hover-blue"
+                    to="https://www.courts.oregon.gov/forms/Documents/MotionModFinancialObligations.pdf"
+                  >
+                    here.
+                  </Link>
+                </p>
+                <ul className="mb3">
+                  <li className="ml3">
+                    A Motion must be filed in each case where the client seeks
+                    to reduce fines and fees
+                  </li>
+                  <li className="ml3">
+                    The content of the Motions can be identical
+                  </li>
+                  <li className="ml3">Restitution cannot be waived</li>
+                  <li className="ml3">No separate filing fee</li>
+                  <li className="ml3">
+                    Whether or not the Motion is granted is entirely at the
+                    Court's discretion
+                  </li>
+                  <li className="ml3">
+                    These Motions (like expungement motions) must be (i) filed
+                    with the Court and (ii) served on the District Attorney
+                  </li>
+                </ul>
+                <p className="mb3">
+                  RecordSponge facilitates users in filling out this Motion. On
+                  the Generate Paperwork page, click the "Motions to Waive Fees"
+                  button and complete the additional questions in the form.
+                </p>
+              </section>
               <section className="mb4" id="editing">
                 <EditingGuide />
               </section>
