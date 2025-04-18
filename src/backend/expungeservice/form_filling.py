@@ -625,6 +625,9 @@ class FormFilling:
                 compiled.addpages(PdfReader(f[0]).pages)
 
             compiled.addpages(PdfReader(osp_file_info[0]).pages)
+
+            compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
+
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
             compiled.write(comp_path)
