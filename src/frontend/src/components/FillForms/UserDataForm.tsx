@@ -53,7 +53,10 @@ export default function UserDataForm() {
 
   const record = useAppSelector((state) => state.search.record);
 
-  const summary = record?.summary??  {charges_grouped_by_eligibility_and_case: [], county_fines:[] };
+  const summary = record?.summary ?? {
+    charges_grouped_by_eligibility_and_case: [],
+    county_fines: [],
+  };
 
   const { charges_grouped_by_eligibility_and_case: groupedCharges, ...fines } =
     summary;
@@ -69,7 +72,10 @@ export default function UserDataForm() {
     (chargesEligibleOnIneligible[0]
       ? chargesEligibleOnIneligible[0][1].length
       : 0);
-  const numCasesWithFines = fines.county_fines
+  const nonMultnomahCases = fines.county_fines.filter(
+    (county) => county.county_name.toLowerCase() !== "multnomah"
+  );
+  const numCasesWithFines = nonMultnomahCases
     .map((county) => county.case_fines.length)
     .reduce((a, b) => a + b, 0);
 
@@ -342,7 +348,11 @@ export default function UserDataForm() {
             />
           </div>
           <button
-            className={`${numEligibleCharges === 0? "bg-light-blue" : "bg-blue hover-bg-dark-blue bg-animate"} white fw6 db w-100 br2 pv3 ph4 mb4 tc ${
+            className={`${
+              numEligibleCharges === 0
+                ? "bg-light-blue"
+                : "bg-blue hover-bg-dark-blue bg-animate"
+            } white fw6 db w-100 br2 pv3 ph4 mb4 tc ${
               loadingExpungementPacket ? " loading-btn" : ""
             }`}
           >
@@ -354,7 +364,11 @@ export default function UserDataForm() {
           </button>
         </form>
         <button
-          className={`${numCasesWithFines === 0 ? "bg-light-blue" : "bg-blue bg-animate hover-bg-dark-blue"} white  fw6 db w-100 br2 pv3 ph4 mb4 tc`}
+          className={`${
+            numCasesWithFines === 0
+              ? "bg-light-blue"
+              : "bg-blue bg-animate hover-bg-dark-blue"
+          } white  fw6 db w-100 br2 pv3 ph4 mb4 tc`}
           disabled={numCasesWithFines === 0}
           onClick={() => setFeesExpanded(!feesExpanded)}
         >
@@ -380,7 +394,7 @@ export default function UserDataForm() {
               onChange={(e) => setExplain(e.target.value)}
               value={explain}
             />
-            {explain.length > 0 ? `(${explain.length}/360)`:null}
+            {explain.length > 0 ? `(${explain.length}/360)` : null}
           </div>
           <div className="mb4">
             <label htmlFor="explain2" className="db mb1">

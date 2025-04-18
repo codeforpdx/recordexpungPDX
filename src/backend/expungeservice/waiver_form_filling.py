@@ -85,10 +85,9 @@ class WaiverFormFilling:
         zip_file = ZipFile(zip_path, "w")
 
         for case in record_summary.record.cases:
-
             if (
                 case.summary.balance_due_in_cents > 0
-                and case.summary.location not in WaiverFormFilling.COUNTIES_WITHOUT_WAIVER_PROGRAM
+                and case.summary.location.lower() not in WaiverFormFilling.COUNTIES_WITHOUT_WAIVER_PROGRAM
             ):
                 case_data = CaseData(case, user_information_dict, waiver_information_dict)
                 file_info = WaiverFormFilling._create_and_write_pdf(case_data, temp_dir)
