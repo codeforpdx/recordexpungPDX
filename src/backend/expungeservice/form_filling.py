@@ -26,7 +26,7 @@ from expungeservice.util import DateWithFuture
 DA_ADDRESSES = {
     "baker": "Baker County Courthouse - 1995 Third Street, Suite 320 - Baker City, OR 97814",
     "benton": "District Attorney's Office - 120 NW 4th St. - Corvallis, OR 97330",
-    "clackamas": "807 Main Street - Oregon City, OR 97045",
+    "clackamas": "1000 Courthouse Rd. - Oregon City, OR 97045",
     "clatsop": "Clatsop County District Attorney’s Office - PO Box 149 - Astoria, OR 97103",
     "columbia": "230 Strand St. - Columbia County Courthouse Annex - St. Helens, OR 97051",
     "coos": "Coos County District Attorney's Office - 250 N. Baxter - Coquille, Oregon 97423",
