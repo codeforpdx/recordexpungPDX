@@ -11,7 +11,7 @@ from expungeservice.crawler.fuzzy_search import FuzzySearch
 
 SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
 
-PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked"]
+PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked", "revoke probation"]
 EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
 
