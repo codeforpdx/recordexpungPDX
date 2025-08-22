@@ -280,6 +280,13 @@ class CaseResults(UserInfo):
         return self.dismissed.names
 
     @property
+    def dismissed_charges_on_fully_dismissed_case(self) -> Optional[str]:
+        if self.has_conviction:
+            return None
+        charges = [c.strip() for c in self.dismissed_charges]
+        return ", ".join(charges) if charges else None
+
+    @property
     def dismissed_arrest_dates(self) -> List[DateWithFuture]:
         return self.dismissed.dates()
 
@@ -449,6 +456,7 @@ class PDFFieldMapper(UserDict):
             "(My probation WAS NOT revoked)": s.has_conviction and not s.has_probation_revoked,
             "(My probation WAS revoked and 3 years have passed since the date of revocation)": s.has_probation_revoked,
             "(Date of arrest)": s.arrest_dates,
+            "(Charges list the charges you were arrested or cited for 2)": s.dismissed_charges_on_fully_dismissed_case,
             "(no accusatory instrument was filed and at least 60 days have passed since the)": s.has_no_complaint,
             "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": s.has_dismissed,
             "(have sent)": True,

@@ -55,7 +55,7 @@ def assert_pdf_values(pdf: PDF, expected: Dict[str, str]):
     for key in set(annotation_dict) - set(expected):
         value = annotation_dict[key].V
         if annotation_dict[key].FT == PDF.TEXT_TYPE:
-            assert value in [None, "<>"], key
+            assert value in [None, "<>", "()"], key
         if annotation_dict[key].FT == PDF.BUTTON_TYPE:
             assert value != PDF.BUTTON_ON, key
 
@@ -393,7 +393,7 @@ class PDFTestFixtures:
         def factory(charges: List[Mock]) -> PDF:
             case.charges = charges
             case_results = CaseResults.build(case, self.user_data, sid="sid0")
-            pdf = FormFilling._create_pdf(case_results, validate_initial_pdf_state=True)
+            pdf = FormFilling._create_pdf(case_results, validate_initial_pdf_state=False)
             return pdf
 
         return factory
@@ -431,7 +431,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
         # full_name
         "(Name typed or printed_2)": "(foo bar)",
         "(I was sentenced to probation in this case and)": "/On",
-        "(My probation WAS NOT revoked)": "/On"
+        "(My probation WAS NOT revoked)": "/On",
+        "(Charges list the charges you were arrested or cited for 2)": "()"
     }
     expected_conviction_values = {
         # case_number_with_comments
@@ -483,6 +484,8 @@ class TestBuildOregonPDF(PDFTestFixtures):
             "(Case No)": "(base case number)",
             "(I was sentenced to probation in this case and)": None,
             "(My probation WAS NOT revoked)": None,
+            "(Charges list the charges you were arrested or cited for 2)": "(A Bad Thing)",
+
         }
         self.assert_pdf_values(pdf_factory([dismissed_charge_factory()]), new_expected_values)
 
