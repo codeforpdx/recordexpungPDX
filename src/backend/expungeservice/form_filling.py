@@ -280,8 +280,11 @@ class CaseResults(UserInfo):
         return self.dismissed.names
 
     @property
-    def dismissed_charges_on_fully_dismissed_case(self) -> str:
-        return ", ".join([c.strip() for c in self.dismissed_charges]) if not self.has_conviction else ""
+    def dismissed_charges_on_fully_dismissed_case(self) -> Optional[str]:
+        if self.has_conviction:
+            return None
+        charges = [c.strip() for c in self.dismissed_charges]
+        return ", ".join(charges) if charges else None
 
     @property
     def dismissed_arrest_dates(self) -> List[DateWithFuture]:
