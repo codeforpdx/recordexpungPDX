@@ -459,7 +459,7 @@ class PDFFieldMapper(UserDict):
             "(I was sentenced to probation in this case and)": s.has_conviction or s.has_probation_revoked,
             "(My probation WAS NOT revoked)": s.has_conviction and not s.has_probation_revoked,
             "(My probation WAS revoked and 3 years have passed since the date of revocation)": s.has_probation_revoked,
-            "(Date of arrest)": s.arrest_dates,
+            "(Date of arrest)": s.arrest_dates if s.has_dismissed else None,
             "(Charges list the charges you were arrested or cited for 2)": s.dismissed_charges_comma_separated,
             "(no accusatory instrument was filed and at least 60 days have passed since the)": s.has_no_complaint,
             "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": s.has_dismissed and not s.has_any_convictions,

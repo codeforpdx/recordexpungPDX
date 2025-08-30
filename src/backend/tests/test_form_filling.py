@@ -421,7 +421,7 @@ class TestBuildOregonPDF(PDFTestFixtures):
         "(I am not currently charged with a crime)": "/On",
         "(The arrest or citation I want to set aside is not for a charge of Driving Under the Influence of)": "/On",
         # arrest_dates
-        "(Date of arrest)": "(Feb 3, 2020)",
+        "(Date of arrest)": "()",
         # True
         "(have sent)": "/On",
         # full_name
@@ -480,6 +480,7 @@ class TestBuildOregonPDF(PDFTestFixtures):
             # has_dismissed
             "(an accusatory instrument was filed and I was acquitted or the case was dismissed)": "/On",
             "(record of citation or charge that was dismissedacquitted)": "/On",
+            "(Date of arrest)": "(Feb 3, 2020)",
             # case_number_with_comments
             "(Case No)": "(base case number)",
             "(I was sentenced to probation in this case and)": None,
