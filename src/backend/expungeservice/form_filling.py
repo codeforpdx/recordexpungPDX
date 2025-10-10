@@ -533,7 +533,7 @@ class PDF:
 
     def set_font(self, annotation):
         x1, x2 = float(annotation.Rect[0]), float(annotation.Rect[2])
-        max_chars = (x2 - x1) * 0.3125  # Times New Roman size 10
+        max_chars = min((x2 - x1) * 0.3125, 90)  # Times New Roman size 10; and 90 because the equation doesn't scale well to the longest field on the form, the Charges line in the non-Multnomah form
         num_chars = len(annotation.V) - 2  # minus parens
         font_size = self.FONT_SIZE
 
