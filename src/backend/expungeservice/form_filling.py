@@ -762,11 +762,11 @@ class FormFilling:
     @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):
         counties_with_eligible_charge: List[str] = []
-        counties_with_balances: List[str] = []
         for case_result in all_case_results:
-            if case_result.has_eligible_charges and case_result.case.summary.location not in counties_with_eligible_charge:
+            if (
+                case_result.has_eligible_charges and
+                case_result.case.summary.balance_due_in_cents == 0 and
+                case_result.case.summary.location not in counties_with_eligible_charge
+                ):
                 counties_with_eligible_charge.append(case_result.case.summary.location)
-            if case_result.case.summary.balance_due_in_cents != 0:
-                counties_with_balances.append(case_result.case.summary.location)
-        counties_with_expungements = [county for county in counties_with_eligible_charge if county not in counties_with_balances]
-        return counties_with_expungements
+        return counties_with_eligible_charge
