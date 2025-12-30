@@ -295,7 +295,7 @@ Array [
                         Paperwork Cost
                       </span>
                       <span>
-                        Free
+                        $34
                       </span>
                     </li>
                   </ul>
@@ -328,136 +328,17 @@ Array [
                     >
                       Leni Tupper
                     </li>
-                  </ul>
-                  <a
-                    className="link hover-blue bb"
-                    href="https://www.pcc.edu/clear-clinic/intake-form/"
-                  >
-                    https://www.pcc.edu/clear-clinic/intake-form/
-                  </a>
-                </div>
-              </li>
-              <li
-                className="bt bw2 b--lightest-blue1"
-              >
-                <button
-                  aria-controls="accordion-panel-Criminals Anonymous"
-                  aria-expanded={false}
-                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                >
-                  <span
-                    className="w-70 db pr3 mb2 mb0-ns"
-                  >
-                    Criminals Anonymous
-                  </span>
-                  <span
-                    className="w-30 pr3"
-                  >
-                    East Portland
-                  </span>
-                  <span
-                    className="absolute top-0 right-0 pt3 ph3"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pt0 pl0 fas fa-angle-down"
-                    />
-                  </span>
-                </button>
-                <div
-                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
-                  hidden={true}
-                  id="accordion-panel-Criminals Anonymous"
-                >
-                  <ul
-                    className="list mb2"
-                  >
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Locations
-                      </span>
-                      <span>
-                        Multnomah County
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Income Restrictions
-                      </span>
-                      <span>
-                        No
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Analysis Cost
-                      </span>
-                      <span>
-                        Free
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Paperwork Cost
-                      </span>
-                      <span>
-                        $100/case
-                      </span>
-                    </li>
-                  </ul>
-                  <p
-                    className="mw6 lh-copy mb3"
-                  >
-                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
-                     
-                    <a
-                      className="link hover-blue bb"
-                      href="/manual#filepaperwork"
-                      onClick={[Function]}
-                    >
-                      Learn More
-                    </a>
-                  </p>
-                  <hr
-                    className="bt b--black-05 mb3"
-                  />
-                  <p
-                    className="fw6 mb3"
-                  >
-                    Contact
-                  </p>
-                  <ul
-                    className="list mb3"
-                  >
                     <li
                       className="mb3"
                     >
-                      hrcubbedge1776@gmail.com
+                      info@clear-clinic.org
                     </li>
                   </ul>
                   <a
                     className="link hover-blue bb"
-                    href="https://www.qiu-qiulaw.com/crimanon"
+                    href="https://clear-clinic.org/"
                   >
-                    https://www.qiu-qiulaw.com/crimanon
+                    https://clear-clinic.org/
                   </a>
                 </div>
               </li>
@@ -543,7 +424,7 @@ Array [
                         Paperwork Cost
                       </span>
                       <span>
-                        $100/case
+                        $434 flat fee
                       </span>
                     </li>
                   </ul>
@@ -577,9 +458,9 @@ Array [
                   </ul>
                   <a
                     className="link hover-blue bb"
-                    href="https://www.qiu-qiulaw.com/recordsponge"
+                    href="https://www.qiu-qiulaw.com/register"
                   >
-                    https://www.qiu-qiulaw.com/recordsponge
+                    https://www.qiu-qiulaw.com/register
                   </a>
                 </div>
               </li>
@@ -698,136 +579,17 @@ Array [
                     >
                       Amanda Wall
                     </li>
-                  </ul>
-                  <a
-                    className="link hover-blue bb"
-                    href="https://www.clackamasworkforce.org"
-                  >
-                    https://www.clackamasworkforce.org
-                  </a>
-                </div>
-              </li>
-              <li
-                className="bt bw2 b--lightest-blue1"
-              >
-                <button
-                  aria-controls="accordion-panel-Lane Public Defender Services"
-                  aria-expanded={false}
-                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                >
-                  <span
-                    className="w-70 db pr3 mb2 mb0-ns"
-                  >
-                    Lane Public Defender Services
-                  </span>
-                  <span
-                    className="w-30 pr3"
-                  >
-                    Eugene
-                  </span>
-                  <span
-                    className="absolute top-0 right-0 pt3 ph3"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pt0 pl0 fas fa-angle-down"
-                    />
-                  </span>
-                </button>
-                <div
-                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
-                  hidden={true}
-                  id="accordion-panel-Lane Public Defender Services"
-                >
-                  <ul
-                    className="list mb2"
-                  >
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Locations
-                      </span>
-                      <span>
-                        Central Oregon
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Income Restrictions
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Analysis Cost
-                      </span>
-                      <span>
-                        Free
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Paperwork Cost
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                  </ul>
-                  <p
-                    className="mw6 lh-copy mb3"
-                  >
-                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
-                     
-                    <a
-                      className="link hover-blue bb"
-                      href="/manual#filepaperwork"
-                      onClick={[Function]}
-                    >
-                      Learn More
-                    </a>
-                  </p>
-                  <hr
-                    className="bt b--black-05 mb3"
-                  />
-                  <p
-                    className="fw6 mb3"
-                  >
-                    Contact
-                  </p>
-                  <ul
-                    className="list mb3"
-                  >
                     <li
                       className="mb3"
                     >
-                      Zara Lukens
+                      expungement@clackamasworkforce.org
                     </li>
                   </ul>
                   <a
                     className="link hover-blue bb"
-                    href="http://www.lanepds.org"
+                    href="https://www.clackamasworkforce.org/for-people/expungement-clinics/"
                   >
-                    http://www.lanepds.org
+                    https://www.clackamasworkforce.org/for-people/expungement-clinics/
                   </a>
                 </div>
               </li>
@@ -835,7 +597,7 @@ Array [
                 className="bt bw2 b--lightest-blue1"
               >
                 <button
-                  aria-controls="accordion-panel-Redmond Housing Works"
+                  aria-controls="accordion-panel-Signs of Hope (Qiu-Qiu Law)"
                   aria-expanded={false}
                   className="flex-ns w-100 relative navy hover-blue pv3 ph3"
                   onClick={[Function]}
@@ -844,131 +606,7 @@ Array [
                   <span
                     className="w-70 db pr3 mb2 mb0-ns"
                   >
-                    Redmond Housing Works
-                  </span>
-                  <span
-                    className="w-30 pr3"
-                  >
-                    Redmond
-                  </span>
-                  <span
-                    className="absolute top-0 right-0 pt3 ph3"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pt0 pl0 fas fa-angle-down"
-                    />
-                  </span>
-                </button>
-                <div
-                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
-                  hidden={true}
-                  id="accordion-panel-Redmond Housing Works"
-                >
-                  <ul
-                    className="list mb2"
-                  >
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Locations
-                      </span>
-                      <span>
-                        Central Oregon
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Income Restrictions
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Analysis Cost
-                      </span>
-                      <span>
-                        Free
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Paperwork Cost
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                  </ul>
-                  <p
-                    className="mw6 lh-copy mb3"
-                  >
-                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
-                     
-                    <a
-                      className="link hover-blue bb"
-                      href="/manual#filepaperwork"
-                      onClick={[Function]}
-                    >
-                      Learn More
-                    </a>
-                  </p>
-                  <hr
-                    className="bt b--black-05 mb3"
-                  />
-                  <p
-                    className="fw6 mb3"
-                  >
-                    Contact
-                  </p>
-                  <ul
-                    className="list mb3"
-                  >
-                    <li
-                      className="mb3"
-                    >
-                      Andy Hall
-                    </li>
-                  </ul>
-                  <a
-                    className="link hover-blue bb"
-                    href="https://www.facebook.com/OregonHousingWorks"
-                  >
-                    https://www.facebook.com/OregonHousingWorks
-                  </a>
-                </div>
-              </li>
-              <li
-                className="bt bw2 b--lightest-blue1"
-              >
-                <button
-                  aria-controls="accordion-panel-Signs of Hope"
-                  aria-expanded={false}
-                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                >
-                  <span
-                    className="w-70 db pr3 mb2 mb0-ns"
-                  >
-                    Signs of Hope
+                    Signs of Hope (Qiu-Qiu Law)
                   </span>
                   <span
                     className="w-30 pr3"
@@ -987,7 +625,7 @@ Array [
                 <div
                   className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
                   hidden={true}
-                  id="accordion-panel-Signs of Hope"
+                  id="accordion-panel-Signs of Hope (Qiu-Qiu Law)"
                 >
                   <ul
                     className="list mb2"
@@ -1037,7 +675,7 @@ Array [
                         Paperwork Cost
                       </span>
                       <span>
-                        $100/case
+                        $434 flat fee
                       </span>
                     </li>
                   </ul>
@@ -1086,130 +724,6 @@ Array [
                     href="https://www.janekolb.com"
                   >
                     https://www.janekolb.com
-                  </a>
-                </div>
-              </li>
-              <li
-                className="bt bw2 b--lightest-blue1"
-              >
-                <button
-                  aria-controls="accordion-panel-Probation and Parole, Community Justice Center"
-                  aria-expanded={false}
-                  className="flex-ns w-100 relative navy hover-blue pv3 ph3"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                >
-                  <span
-                    className="w-70 db pr3 mb2 mb0-ns"
-                  >
-                    Probation and Parole, Community Justice Center
-                  </span>
-                  <span
-                    className="w-30 pr3"
-                  >
-                    Medford
-                  </span>
-                  <span
-                    className="absolute top-0 right-0 pt3 ph3"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pt0 pl0 fas fa-angle-down"
-                    />
-                  </span>
-                </button>
-                <div
-                  className="bl bw2 f5 b--blue pv3 ph3 mb3 ml3"
-                  hidden={true}
-                  id="accordion-panel-Probation and Parole, Community Justice Center"
-                >
-                  <ul
-                    className="list mb2"
-                  >
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Locations
-                      </span>
-                      <span>
-                        Southern Oregon
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Income Restrictions
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Analysis Cost
-                      </span>
-                      <span>
-                        Free
-                      </span>
-                    </li>
-                    <li
-                      className="flex-ns mb3"
-                    >
-                      <span
-                        className="w10rem db fw6 mr3"
-                      >
-                        Paperwork Cost
-                      </span>
-                      <span>
-                        Unknown
-                      </span>
-                    </li>
-                  </ul>
-                  <p
-                    className="mw6 lh-copy mb3"
-                  >
-                    The majority of court fees are subject to waiver for income-qualified individuals who complete the waiver form.
-                     
-                    <a
-                      className="link hover-blue bb"
-                      href="/manual#filepaperwork"
-                      onClick={[Function]}
-                    >
-                      Learn More
-                    </a>
-                  </p>
-                  <hr
-                    className="bt b--black-05 mb3"
-                  />
-                  <p
-                    className="fw6 mb3"
-                  >
-                    Contact
-                  </p>
-                  <ul
-                    className="list mb3"
-                  >
-                    <li
-                      className="mb3"
-                    >
-                      Eric Guyer
-                    </li>
-                  </ul>
-                  <a
-                    className="link hover-blue bb"
-                    href="https://jacksoncountyor.org/community-justice"
-                  >
-                    https://jacksoncountyor.org/community-justice
                   </a>
                 </div>
               </li>
