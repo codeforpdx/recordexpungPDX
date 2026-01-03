@@ -30,6 +30,7 @@ export default function UserDataForm() {
   const [dob, setDob] = useState(aliases[0].birth_date);
   const [mailingAddress, setMailingAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("Oregon");
   const [zipCode, setZipCode] = useState("");
@@ -120,7 +121,8 @@ export default function UserDataForm() {
         phoneNumber,
         city,
         state,
-        zipCode
+        zipCode,
+        emailAddress
       )
     );
   }
@@ -345,6 +347,20 @@ export default function UserDataForm() {
               className="w-100 pa3 br2 b--black-20"
               onChange={(e) => setPhoneNumber(e.target.value)}
               value={phoneNumber}
+            />
+          </div>
+          <div className="mb4">
+            <label htmlFor="emailAddress" className="db mb1">
+              <span className="fw6"> Email Address </span>{" "}
+            </label>
+            <input
+              id="emailAddress"
+              name="emailAddress"
+              type="email"
+              required={true}
+              className="w-100 pa3 br2 b--black-20"
+              onChange={(e) => setEmailAddress(e.target.value)}
+              value={emailAddress}
             />
           </div>
           <button

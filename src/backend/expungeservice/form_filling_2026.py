@@ -69,6 +69,21 @@ def get_pdf_filename(case_results: CaseResults) -> str:
         return "oregon_arrest.pdf"
 
 
+def get_sorted_eligible_charges(case_results: CaseResults) -> List:
+    """Get eligible charges sorted by count number."""
+    eligible_charges = case_results.eligible_charges_list
+
+    def get_count_num(charge):
+        if charge.ambiguous_charge_id:
+            try:
+                return int(charge.ambiguous_charge_id.split("-")[-1])
+            except ValueError:
+                return 999
+        return 999
+
+    return sorted(eligible_charges, key=get_count_num)
+
+
 class PDFFieldMapper2026(PDFFieldMapper):
     """
     Field mapper for the 2026 Oregon expungement form.
@@ -140,7 +155,7 @@ class PDFFieldMapper2026(PDFFieldMapper):
             # Signature section
             "(declaration_date)": today,
             "(signature)": "",  # User signs
-            "(email)": "",  # Leave blank
+            "(email)": s.email_address,
             "(printed_name)": s.full_name,
             "(address)": s.mailing_address,
             "(city_state_zip)": f"{s.city}, {s.state} {s.zip_code}",
@@ -163,16 +178,17 @@ class PDFFieldMapper2026(PDFFieldMapper):
             mapping[f"(charge_count_{i})"] = ""
 
         # Fill charge names only for partial expungement (Option 1 with some ineligible convictions)
-        # Only list CONVICTIONS, not dismissed charges
+        # List ALL eligible charges (convictions AND dismissals), sorted by count number
         if is_partial_expungement:
-            eligible_convictions = list(s.convictions._charges)  # Only convictions, not dismissals
-            for i, charge in enumerate(eligible_convictions[:5]):  # Max 5 charges in table
+            sorted_charges = get_sorted_eligible_charges(s)
+
+            for i, charge in enumerate(sorted_charges[:5]):  # Max 5 charges in table
                 mapping[f"(charge_name_{i+1})"] = charge.name.title()
                 # Get the count number from charge ID (last part after hyphen)
                 count_num = charge.ambiguous_charge_id.split("-")[-1] if charge.ambiguous_charge_id else str(i+1)
                 mapping[f"(charge_count_{i+1})"] = count_num
 
-            if len(eligible_convictions) > 5:
+            if len(sorted_charges) > 5:
                 mapping["(additional_charges_attached)"] = True
 
         # Offense fields (for Option 3 - not used in RecordSponge)
@@ -180,6 +196,20 @@ class PDFFieldMapper2026(PDFFieldMapper):
             mapping[f"(offense_{i})"] = ""
 
         return mapping
+
+
+def build_appendix_text(extra_charges: List) -> str:
+    """Build markdown text for the appendix listing additional charges."""
+    lines = ["# Additional Eligible Charges to Be Set Aside", ""]
+    lines.append("| Count | Charge Name |")
+    lines.append("|-------|-------------|")
+
+    for charge in extra_charges:
+        count_num = charge.ambiguous_charge_id.split("-")[-1] if charge.ambiguous_charge_id else "?"
+        charge_name = charge.name.title()
+        lines.append(f"| {count_num} | {charge_name} |")
+
+    return "\n".join(lines)
 
 
 def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> Tuple[Optional[PDF], Optional[str]]:
@@ -200,6 +230,17 @@ def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> T
     # CaseResults already has the user info from build()
     mapper = PDFFieldMapper2026(pdf_path, case_results)
     pdf = PDF.fill_form(mapper)
+
+    # Check if we need an appendix for extra charges (partial expungement with >5 eligible)
+    ineligible_convictions = [c for c in case_results.ineligible_charges._charges if c.convicted()]
+    is_partial_expungement = case_results.has_conviction and len(ineligible_convictions) > 0
+
+    if is_partial_expungement:
+        sorted_charges = get_sorted_eligible_charges(case_results)
+        if len(sorted_charges) > 5:
+            extra_charges = sorted_charges[5:]
+            appendix_text = build_appendix_text(extra_charges)
+            pdf.add_text(appendix_text)
 
     # Build filename
     base_name = case_results.county.lower()

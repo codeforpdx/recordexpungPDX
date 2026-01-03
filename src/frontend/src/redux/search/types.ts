@@ -114,6 +114,7 @@ interface ExpungementPacketAction {
   city: string;
   state: string;
   zipCode: string;
+  emailAddress: string;
 }
 
 interface ExpungementPacketActionComplete {

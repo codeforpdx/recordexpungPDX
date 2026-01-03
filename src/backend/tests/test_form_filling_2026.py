@@ -26,6 +26,7 @@ USER_DATA = {
     "state": "OR",
     "zip_code": "97201",
     "phone_number": "555-555-1234",
+    "email_address": "test@example.com",
 }
 
 
@@ -172,11 +173,11 @@ class TestPDFFieldMapper2026ChargeList:
         assert mappings["(charge_name_1)"] == ""
         assert mappings["(charge_count_1)"] == ""
 
-    def test_charge_list_for_partial_expungement_shows_only_convictions(self):
-        """Partial expungement should list only eligible convictions, not dismissals."""
+    def test_charge_list_for_partial_expungement_shows_all_eligible_charges(self):
+        """Partial expungement should list all eligible charges (convictions AND dismissals)."""
         charges = [
             make_eligible_conviction("Theft", "case1-1"),
-            make_eligible_dismissal("Trespass", "case1-2"),  # Should NOT be listed
+            make_eligible_dismissal("Trespass", "case1-2"),  # Should be listed
             make_ineligible_conviction("Assault", "case1-3"),
         ]
         case = make_case(charges)
@@ -185,10 +186,12 @@ class TestPDFFieldMapper2026ChargeList:
         mapper = PDFFieldMapper2026("dummy_path", case_results)
         mappings = mapper.extra_mappings()
 
-        # Should only list the eligible conviction, not the dismissal
+        # Should list both the eligible conviction AND the dismissal
         assert mappings["(charge_name_1)"] == "Theft"
         assert mappings["(charge_count_1)"] == "1"
-        assert mappings["(charge_name_2)"] == ""  # No second charge listed
+        assert mappings["(charge_name_2)"] == "Trespass"
+        assert mappings["(charge_count_2)"] == "2"
+        assert mappings["(charge_name_3)"] == ""  # No third charge listed
 
     def test_no_partial_expungement_when_only_dismissals_ineligible(self):
         """If all convictions are eligible but some dismissals aren't, it's still full expungement."""
@@ -211,10 +214,16 @@ class TestPDFFieldMapper2026ChargeList:
         assert mappings["(option_1_some_charges)"] is False
         assert mappings["(charge_name_1)"] == ""
 
-    def test_additional_charges_checkbox_when_more_than_5_convictions(self):
-        """When there are more than 5 eligible convictions, check additional_charges_attached."""
+    def test_additional_charges_checkbox_when_more_than_5_eligible_charges(self):
+        """When there are more than 5 eligible charges, check additional_charges_attached."""
+        # Mix of convictions and dismissals - all should count toward the 5+ limit
         charges = [
-            make_eligible_conviction(f"Charge{i}", f"case1-{i}") for i in range(1, 7)
+            make_eligible_conviction("Conviction1", "case1-1"),
+            make_eligible_dismissal("Dismissal1", "case1-2"),
+            make_eligible_conviction("Conviction2", "case1-3"),
+            make_eligible_dismissal("Dismissal2", "case1-4"),
+            make_eligible_conviction("Conviction3", "case1-5"),
+            make_eligible_dismissal("Dismissal3", "case1-6"),  # 6th eligible charge
         ]
         charges.append(make_ineligible_conviction("Ineligible", "case1-99"))
         case = make_case(charges)
@@ -225,7 +234,7 @@ class TestPDFFieldMapper2026ChargeList:
 
         assert mappings["(option_1_some_charges)"] is True
         assert mappings["(additional_charges_attached)"] is True
-        # Should only fill first 5
+        # Should only fill first 5 (form only has 5 charge fields)
         assert mappings["(charge_name_5)"] != ""
 
 
