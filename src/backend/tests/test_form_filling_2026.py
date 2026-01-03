@@ -2,16 +2,14 @@
 Tests for the 2026 Oregon expungement form filling logic.
 """
 
-import pytest
 from datetime import datetime
 from unittest.mock import Mock
 
-from expungeservice.form_filling import CaseResults, PDF
+from expungeservice.form_filling import CaseResults
 from expungeservice.form_filling_2026 import PDFFieldMapper2026, get_pdf_filename, FormFilling2026
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
-from expungeservice.models.charge_types.misdemeanor_class_a import MisdemeanorClassA
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.util import DateWithFuture
 
