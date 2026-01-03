@@ -14,7 +14,7 @@ from datetime import date
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from zipfile import ZipFile
 
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
@@ -182,11 +182,11 @@ class PDFFieldMapper2026(PDFFieldMapper):
         return mapping
 
 
-def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> Tuple[bytes, str]:
+def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> Tuple[Optional[PDF], Optional[str]]:
     """
     Create a filled PDF for a case using the 2026 form.
 
-    Returns a tuple of (pdf_bytes, suggested_filename).
+    Returns a tuple of (pdf, suggested_filename), or (None, None) for Multnomah.
     """
     pdf_filename = get_pdf_filename(case_results)
     pdf_path = get_pdf_path(pdf_filename)
@@ -262,7 +262,7 @@ class FormFilling2026:
                 if FormFilling2026.should_use_2026_form(case_results.county):
                     # Use new 2026 form filling
                     pdf, filename = create_filled_pdf(case_results, user_information_dict)
-                    if pdf:
+                    if pdf and filename:
                         file_path = path.join(temp_dir, filename)
                         pdf.write(file_path)
                         zip_file.write(file_path, filename)
@@ -274,7 +274,7 @@ class FormFilling2026:
                     all_motions_to_set_aside.append(file_info[0:2])
 
         # Create OSP form (use old logic)
-        user_info_for_osp = {**user_information_dict}
+        user_info_for_osp: Dict[str, Any] = {**user_information_dict}
         user_info_for_osp["counties_with_cases_to_expunge"] = FormFilling2026._counties_with_cases_to_expunge(
             all_case_results
         )
@@ -300,8 +300,8 @@ class FormFilling2026:
 
         # Add summary PDF
         summary_path = path.join(temp_dir, summary_filename)
-        with open(summary_path, 'wb') as f:
-            f.write(summary_pdf_bytes)
+        with open(summary_path, 'wb') as summary_file:
+            summary_file.write(summary_pdf_bytes)
         zip_file.write(summary_path, summary_filename)
 
         zip_file.close()
@@ -319,7 +319,7 @@ class FormFilling2026:
     @staticmethod
     def _counties_with_cases_to_expunge(all_case_results: List[CaseResults]) -> List[str]:
         """Get list of counties with eligible charges."""
-        counties = []
+        counties: List[str] = []
         for case_result in all_case_results:
             if (
                 case_result.has_eligible_charges and
