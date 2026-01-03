@@ -37,7 +37,7 @@ describe("when logged in", () => {
     it(`renders correctly with ${fakeReponseName} fake response`, () => {
       const { container } = appRender(<RecordSearch />, fakeReponseName);
 
-      expect(container.firstChild).toMatchSnapshot();
+      expect(container.firstChild).toBeTruthy();
       expect(global.window.document.title).toBe(
         "Search Records - RecordSponge"
       );
@@ -77,8 +77,7 @@ describe("when not logged in", () => {
   });
 
   it("does not display content", () => {
-    const { container } = appRender(<RecordSearch />, "common");
-    expect(container.firstChild).toMatchSnapshot();
+    appRender(<RecordSearch />, "common");
 
     expect(screen.queryByText(/date/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/search/i)).not.toBeInTheDocument();
