@@ -14,19 +14,17 @@ from datetime import date
 from os import path
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 from zipfile import ZipFile
 
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString
+from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
 
 from expungeservice.form_filling import (
     CaseResults,
     DA_ADDRESSES,
-    UserInfo,
     FormFilling as OldFormFilling,
     PDFFieldMapper,
     PDF,
-    join_dates_or_strings,
 )
 from expungeservice.models.record_summary import RecordSummary
 

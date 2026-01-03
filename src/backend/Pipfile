@@ -27,7 +27,6 @@ markdown2 = "==2.3.9"
 pdfkit = "==0.6.1"
 pytest-cov = "==2.10.0"
 pdfrw = "==0.4"
-pymupdf = "*"
 
 [dev-packages]
 pipenv-setup = "*"
