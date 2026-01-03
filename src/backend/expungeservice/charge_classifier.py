@@ -31,7 +31,7 @@ from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
-from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt, SevereContemptOfCourt
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import (
     SexCrime,
@@ -351,7 +351,39 @@ class ChargeClassifier:
     @staticmethod
     def _contempt_of_court(name):
         if "contempt" in name:
-            return AmbiguousChargeTypeWithQuestion([ContemptOfCourt()])
+            # Build nested question tree bottom-up
+            question_3_string = "Did this contempt of court proceeding arise from a criminal case in which a family member or member of your household was the legal victim?"
+            question_3 = Question(
+                question_3_string,
+                question_3_string,
+                {
+                    "Yes": Answer(edit={"charge_type": SevereContemptOfCourt.__name__}),
+                    "No": Answer(edit={"charge_type": ContemptOfCourt.__name__}),
+                },
+            )
+
+            question_2_string = "Was this contempt of court proceeding initiated after someone said you violated a restraining order, stalking order, or no contact order?"
+            question_2 = Question(
+                question_2_string,
+                question_2_string,
+                {
+                    "Yes": Answer(edit={"charge_type": ContemptOfCourt.__name__}),
+                    "No": Answer(question=question_3),
+                },
+            )
+
+            question_1_string = "Was this contempt of court proceeding initiated for failure to pay child support?"
+            question_1 = Question(
+                question_1_string,
+                question_1_string,
+                {
+                    "Yes": Answer(edit={"charge_type": ContemptOfCourt.__name__}),
+                    "No": Answer(question=question_2),
+                },
+            )
+
+            charge_types = [ContemptOfCourt(), SevereContemptOfCourt()]
+            return AmbiguousChargeTypeWithQuestion(charge_types, question_1)
 
     @staticmethod
     def _civil_offense(statute, name):

@@ -1,5 +1,6 @@
 from expungeservice.endpoints.demo import Demo
 from expungeservice.form_filling import FormFilling
+from expungeservice.form_filling_2026 import FormFilling2026
 from flask.views import MethodView
 from flask import request, json, make_response, send_file
 
@@ -44,7 +45,8 @@ class FormPDF(MethodView):
         source = MarkdownRenderer.to_markdown(record, aliases=aliases)
         summary_pdf_bytes = MarkdownToPDF.to_pdf("Expungement analysis", source)
         summary_filename = FormFilling.build_summary_filename(aliases)
-        zip_path, zip_name = FormFilling.build_zip(record_summary, user_information, summary_pdf_bytes, summary_filename)
+        # Use new 2026 form filler
+        zip_path, zip_name = FormFilling2026.build_zip(record_summary, user_information, summary_pdf_bytes, summary_filename)
         return send_file(zip_path, as_attachment=True, attachment_filename=zip_name)
 
     @staticmethod
