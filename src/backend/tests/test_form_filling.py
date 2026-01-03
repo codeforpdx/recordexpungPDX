@@ -399,7 +399,12 @@ class PDFTestFixtures:
         return factory
 
 
-class TestBuildOregonPDF(PDFTestFixtures):
+'''
+TestBuildOregonPDF is commented out because it tests the pre-2026 Oregon form which has been
+replaced by the new 2026 form. The new form has different field names and logic.
+See test_form_filling_2026.py for tests of the new form.
+'''
+class _TestBuildOregonPDF_DISABLED(PDFTestFixtures):
     county = "Washington"
     expected_county_data = {
         # county

@@ -17,3 +17,16 @@ class ContemptOfCourt(ChargeType):
 
     def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(e) for convictions or under 137.225(1)(b) for dismissals")
+
+
+@dataclass(frozen=True)
+class SevereContemptOfCourt(ChargeType):
+    type_name: str = "Severe Contempt of Court"
+    expungement_rules: Any = (
+        """Under a recent law change, contempt of court convictions related to domestic abuse and other issues are treated like Class C Felonies for purposes of eligibility."""
+    )
+    severity_level: str = "Felony Class C"
+
+    def type_eligibility(self, disposition):
+        return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under something for convictions or under 137.225(1)(b) for dismissals")
+

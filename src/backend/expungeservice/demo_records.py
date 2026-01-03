@@ -708,4 +708,36 @@ class DemoRecords:
                 ),
             ),
         ],
+        Alias("contempt", "one", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "name": "CONTEMPT ONE",
+                        "birth_year": 1990,
+                        "case_number": "600000",
+                        "location": "Multnomah",
+                        "date": date_class.today() - relativedelta(years=2),
+                        "violation_type": "Offense Violation",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "600000-1",
+                            "name": "Contempt of Court",
+                            "statute": "33.015",
+                            "level": "Violation",
+                            "date": date_class.today() - relativedelta(years=2),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=1, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+        ],
     }

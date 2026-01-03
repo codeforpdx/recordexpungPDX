@@ -507,6 +507,8 @@ class PDF:
         self.annotations = [annot for page in self._pdf.pages for annot in page.Annots or []]
         self.fields = {field.T: field for field in self._pdf.Root.AcroForm.Fields}
 
+    BUTTON_OFF = PdfName("Off")
+
     # Need to update both the V and AS fields of a Btn and they should be the same.
     # The value to use is found in annotation.AP.N.keys() and not
     # necessarily "/Yes". If a new form has been made, make sure to check
@@ -518,6 +520,10 @@ class PDF:
         elif self.BUTTON_YES in annotation.AP.N.keys():
             annotation.V = self.BUTTON_YES
             annotation.AS = self.BUTTON_YES
+
+    def set_checkbox_off(self, annotation):
+        annotation.V = self.BUTTON_OFF
+        annotation.AS = self.BUTTON_OFF
 
     def set_text_value(self, annotation, value):
         new_value = value
@@ -547,8 +553,12 @@ class PDF:
         for annotation in self.annotations:
             new_value = self.mapper.get(annotation.T)
 
-            if annotation.FT == self.BUTTON_TYPE and new_value:
-                self.set_checkbox_on(annotation)
+            if annotation.FT == self.BUTTON_TYPE:
+                if new_value is True:
+                    self.set_checkbox_on(annotation)
+                elif new_value is False:
+                    self.set_checkbox_off(annotation)
+                # If new_value is None (not in mapping), leave checkbox as-is
 
             if annotation.FT == self.TEXT_TYPE and new_value is not None:
                 self.set_text_value(annotation, new_value)
