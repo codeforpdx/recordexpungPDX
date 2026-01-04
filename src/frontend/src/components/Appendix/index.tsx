@@ -33,17 +33,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/baker/help/Pages/forms.aspx"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/baker/help/Pages/forms.aspx"
-                    >
-                      Arrest
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -54,27 +46,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20C%20Forms%20and%20Instructions.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20A%20Forms%20and%20Instructions.pdf"
-                    >
-                      Arrest but no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Exp%20Section%20B%20Forms%20and%20Instructions.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -85,17 +59,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="/docs/Clackamas-Conviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Clackamas-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -106,17 +72,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/COO-ExpungementAffidavitMotionOrderSetAsideConvictionCoos.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/COO-ExpungementAffidavitMotionOrderSetAsideArrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -127,17 +85,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/CUR-ExpungementAffidavitMotionOrderSetAsideConviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/CUR-ExpungementAffidavitMotionOrdeSetAsideArrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -148,28 +98,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktC-CrimSetAside-Conviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktA-CrimSetAside-Arrest.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/JAC-PktB-CrimSetAside-DismissalAcquittal.pdf"
-                    >
-                      Arrested and a case filed with the Court but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -180,17 +111,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="http://www.co.josephine.or.us/Files/Setting%20Aside%20Conviction%20Form.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="http://www.co.josephine.or.us/Files/Setting%20Aside%20Arrest%20Form.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -201,17 +124,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Motion%20and%20Affidavit%20to%20Set%20Aside%20Conviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Motion%20and%20Affidavit%20to%20Set%20Aside%20Charges.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -222,17 +137,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Lincoln%20Set%20Aside%20Conviction%20-%20PACKET.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/Lincoln%20Set%20Aside%20Arrest%20-%20PACKET.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -243,17 +150,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/LIN-Criminal-SetAsideRecordsOfConviction-C.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/LIN-Criminal-SetAsideRecordsOfCharge-B.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -264,28 +163,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAside-PacketC.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketA.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/MAR-SetAsidePacketB.pdf"
-                    >
-                      Arrested and a case filed with the Court, but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -296,17 +176,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Conviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -317,7 +189,7 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.mcda.us/index.php/documents/conviction-motion-and-affidavit-form.pdf"
+                      href="/docs/Multnomah-Conviction-Form.pdf"
                     >
                       Conviction <span className="f7 fw7">PDF</span>
                     </a>
@@ -325,9 +197,17 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.mcda.us/index.php/documents/arrest-motion-and-affidavit-form.pdf"
+                      href="/docs/Multnomah-Arrest-Form.pdf"
                     >
-                      Arrest
+                      Arrest <span className="f7 fw7">PDF</span>
+                    </a>
+                  </li>
+                  <li className="mb3">
+                    <a
+                      className="bb hover-blue"
+                      href="/docs/Multnomah-marijuana.pdf"
+                    >
+                      Marijuana <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -338,28 +218,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETC.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETA.pdf"
-                    >
-                      Arrest but no charges or cases were filed with the Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/PLK-ExpungementPACKETB.pdf"
-                    >
-                      Arrested and a case filed with the court, but later
-                      charge(s) were dismissed or acquitted{" "}
-                      <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -370,27 +231,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementConviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementArrest.pdf"
-                    >
-                      Arrest but no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/TIL-ExpungementCharge.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -401,17 +244,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Conviction.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Umatilla-Morrow-Arrest.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -422,17 +257,9 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/washington/programs-services/Documents/WSH-ConvictionRecordExpungementPacket.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/courts/washington/programs-services/Documents/WSH-ArrestRecordExpungementPacket.pdf"
-                    >
-                      Arrest <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
@@ -443,47 +270,26 @@ class Landing extends React.Component {
                   <li className="mb3">
                     <a
                       className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketC.pdf"
+                      href="/docs/Blank-County-Expungement-Form.pdf"
                     >
-                      Conviction <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketA.pdf"
-                    >
-                      Arrest only no charge ever filed in Court{" "}
-                      <span className="f7 fw7">PDF</span>
-                    </a>
-                  </li>
-                  <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="https://www.courts.oregon.gov/forms/Documents/YAM-SetAsidePacketB.pdf"
-                    >
-                      Arrested and charged in Court but later dismissed or
-                      acquitted of charge(s) <span className="f7 fw7">PDF</span>
+                      Expungement Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
               </div>
               <div className="bg-white shadow pa3" id="stockforms">
                 <h3 className="fw7 mb2">
-                  Stock Form (if county is not listed above)
+                  Stock Forms
                 </h3>
                 <ul className="list ml2">
                   <li className="mb3">
-                    <a
-                      className="bb hover-blue"
-                      href="/docs/Stock-Conviction-HM.pdf"
-                    >
-                      Conviction <span className="f7 fw7">PDF</span>
+                    <a className="bb hover-blue" href="/docs/osp-criminal-history-request-form.pdf">
+                      Criminal History Request Form <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                   <li className="mb3">
-                    <a className="bb hover-blue" href="/docs/Stock-Arrest.pdf">
-                      Arrest <span className="f7 fw7">PDF</span>
+                    <a className="bb hover-blue" href="/docs/Blank-MUNICIPAL-Expungement-Form.pdf">
+                      Municipal Courts <span className="f7 fw7">PDF</span>
                     </a>
                   </li>
                 </ul>
