@@ -109,6 +109,7 @@ function ProvidersSection() {
 }
 
 function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
+  const [postType, setPostType] = useState<"experience" | "tips">("experience");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
@@ -124,6 +125,7 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          type: postType === "experience" ? "Share your experience" : "Offer filing tips",
           county,
           title,
           message,
@@ -166,7 +168,31 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
       ) : (
         <form onSubmit={handleSubmit} className="mt3 pt3 bt b--light-gray">
           <input type="text" name="_gotcha" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
-          <h4 className="f6 fw7 mb2">Share Your Experience</h4>
+          <div className="mb3 flex items-center">
+            <button
+              type="button"
+              className={`fw6 br2 pv2 ph3 pointer bn mr2 ${
+                postType === "experience"
+                  ? "bg-blue white"
+                  : "bg-light-gray dark-gray"
+              }`}
+              onClick={() => setPostType("experience")}
+            >
+              Share your experience
+            </button>
+            <span className="gray mr2">or</span>
+            <button
+              type="button"
+              className={`fw6 br2 pv2 ph3 pointer bn ${
+                postType === "tips"
+                  ? "bg-blue white"
+                  : "bg-light-gray dark-gray"
+              }`}
+              onClick={() => setPostType("tips")}
+            >
+              Offer filing tips
+            </button>
+          </div>
           {status === "error" && (
             <p className="dark-red mb2">Something went wrong. Please try again.</p>
           )}
@@ -186,7 +212,11 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
           </div>
           <textarea
             className="w-100 pa2 br2 ba b--light-gray mb2"
-            placeholder="Share your experience with record expungement in this county..."
+            placeholder={
+              postType === "experience"
+                ? "Share your experience with record expungement in this county..."
+                : "Share some suggestions to help others through the filing process in this county..."
+            }
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
