@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import { selectStats } from "../../../redux/statsSlice";
+import { dismissAllRestitution } from "../../../redux/search/actions";
 import useRadioGroup from "../../../hooks/useRadioGroup";
 import setUpScrollSpy from "../ExpandedView/setupScrollSpy";
 import SearchPanel from "../SearchPanel";
@@ -17,6 +18,28 @@ function ErrorMessage({ message, idx }: { message: string; idx: number }) {
   return (
     <p role="status" id={id} key={id} className="bg-washed-red mv3 pa3 br3 fw6">
       {convertCaseNumberIntoLinks(message)}
+    </p>
+  );
+}
+
+function RestitutionBanner() {
+  const dispatch = useAppDispatch();
+  const record = useAppSelector((state) => state.search.record);
+  const cases = record?.cases || [];
+  const casesWithRestitution = cases.filter((c) => c.restitution === true);
+
+  if (casesWithRestitution.length === 0) return null;
+
+  return (
+    <p role="status" className="bg-washed-red mv3 pa3 br3 fw6">
+      One or more case record mentions restitution. If no
+      restitution is still owed on any case, you may{" "}
+      <button
+        className="bg-navy white fw6 br2 pv1 ph2 pointer nowrap"
+        onClick={() => dispatch(dismissAllRestitution(casesWithRestitution))}
+      >
+        Dismiss All
+      </button>
     </p>
   );
 }
@@ -78,6 +101,8 @@ export default function Layout({
         {record?.errors?.map((message: string, idx: number) => (
           <ErrorMessage key={idx} message={message} idx={idx} />
         ))}
+
+        <RestitutionBanner />
 
         {!isExpandedView && (
           <>

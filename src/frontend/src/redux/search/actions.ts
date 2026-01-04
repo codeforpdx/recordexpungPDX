@@ -20,9 +20,11 @@ import {
   DOWNLOAD_EXPUNGEMENT_PACKET,
   LOADING_EXPUNGEMENT_PACKET_COMPLETE,
   DOWNLOAD_WAIVER_PACKET,
-  LOADING_WAIVER_PACKET_COMPLETE
+  LOADING_WAIVER_PACKET_COMPLETE,
+  DISMISS_ALL_RESTITUTION,
 } from "./types";
 import {
+  CaseData,
   RecordData,
   ShortLabel,
 } from "../../components/RecordSearch/Record/types";
@@ -208,6 +210,16 @@ export function undoEditCase(case_number: string): any {
     dispatch({
       type: UNDO_EDIT_CASE,
       case_number,
+    });
+    return buildAndSendSearchRequest(dispatch);
+  };
+}
+
+export function dismissAllRestitution(cases: CaseData[]): any {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: DISMISS_ALL_RESTITUTION,
+      cases,
     });
     return buildAndSendSearchRequest(dispatch);
   };
