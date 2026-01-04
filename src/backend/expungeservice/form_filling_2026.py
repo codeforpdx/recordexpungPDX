@@ -240,7 +240,7 @@ def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> T
         if len(sorted_charges) > 5:
             extra_charges = sorted_charges[5:]
             appendix_text = build_appendix_text(extra_charges)
-            pdf.add_text(appendix_text)
+            pdf.add_text_at_end(appendix_text)
 
     # Build filename
     base_name = case_results.county.lower()
