@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import multipleResponse from "../data/multipleResponse";
 import {
   setupIntegrationTests as setup,
@@ -29,6 +29,8 @@ import {
 import RecordSearch from "../../components/RecordSearch";
 import SearchPanel from "../../components/RecordSearch/SearchPanel";
 
+jest.setTimeout(30000);
+
 test("Search and download summary PDF and expungement packet", async () => {
   const { user, requestSpy } = setup();
 
@@ -43,6 +45,11 @@ test("Search and download summary PDF and expungement packet", async () => {
   await fillLoginForm(user);
   await clickButton(user, "login");
   assertRequest(requestSpy, expectedLoginRequest);
+
+  // wait for search form to appear after login redirect
+  await waitFor(() => {
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+  });
 
   // perform a search
   requestSpy.mockResolvedValue({ data: multipleResponse });

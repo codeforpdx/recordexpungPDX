@@ -192,7 +192,7 @@ export async function fillExpungementPacketForm(user: UserEvent, dobIndex = 0) {
   await user.click(screen.getAllByLabelText(/birth/i)[dobIndex]);
   await user.keyboard("12/12/1999");
 
-  await user.click(screen.getByLabelText(/address/i));
+  await user.click(screen.getByLabelText(/mailing street address/i));
   await user.keyboard("1111 NE anywhere");
 
   await user.click(screen.getByLabelText(/city/i));

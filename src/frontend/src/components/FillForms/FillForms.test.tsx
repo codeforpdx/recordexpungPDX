@@ -90,7 +90,7 @@ it("5 modal renders correctly when only name, DOB, ZipCode, PhoneNumber, and Mai
   await user.keyboard("12345");
   await user.click(screen.getByLabelText(/phone/i));
   await user.keyboard("123-456-7890");
-  await user.click(screen.getByLabelText(/address/i));
+  await user.click(screen.getByLabelText(/mailing street address/i));
   await user.keyboard("1111 NE anywhere");
   await clickButton(user, "download packet");
 
@@ -108,7 +108,7 @@ it("6 modal does NOT render when all fields are filled out", async () => {
   await user.keyboard("12345");
   await user.click(screen.getByLabelText(/phone/i));
   await user.keyboard("123-456-7890");
-  await user.click(screen.getByLabelText(/address/i));
+  await user.click(screen.getByLabelText(/mailing street address/i));
   await user.keyboard("1111 NE anywhere");
   await user.click(screen.getByLabelText(/city/i));
   await user.keyboard("Portland");
@@ -133,7 +133,7 @@ it("7 modal and download cannot happen at the same time when city field isnt com
   await user.keyboard("12345");
   await user.click(screen.getByLabelText(/phone/i));
   await user.keyboard("123-456-7890");
-  await user.click(screen.getByLabelText(/address/i));
+  await user.click(screen.getByLabelText(/mailing street address/i));
   await user.keyboard("1111 NE anywhere");
   await user.selectOptions(
     screen.getByRole("combobox"),
