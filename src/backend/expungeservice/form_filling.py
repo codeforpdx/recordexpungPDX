@@ -134,6 +134,7 @@ class UserInfo:
     state: str
     zip_code: str
     phone_number: str
+    email_address: str
     counties_with_cases_to_expunge: List[str]
     has_eligible_convictions: bool
 

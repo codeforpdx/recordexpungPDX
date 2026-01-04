@@ -63,6 +63,7 @@ export const expectedPacketRequest = {
     userInformation: {
       city: "Portland",
       date_of_birth: "12/12/1999",
+      email_address: "",
       full_name: "foo bar",
       mailing_address: "1111 NE anywhere",
       phone_number: "123-456-7890",

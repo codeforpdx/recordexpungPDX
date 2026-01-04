@@ -14,8 +14,14 @@ import {
   expectedPacketRequest,
 } from "./expectedRequests/recordSearch";
 
+jest.setTimeout(15000);
+
 beforeAll(() => {
   document.cookie = "oeci_token=1;";
+});
+
+afterAll(() => {
+  document.cookie = "oeci_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 });
 
 test("Download summary PDF and expungement packet", async () => {

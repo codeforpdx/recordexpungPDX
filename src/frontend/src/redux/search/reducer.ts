@@ -365,6 +365,7 @@ export function searchReducer(
         city: action.city,
         state: action.state,
         zip_code: action.zipCode,
+        email_address: action.emailAddress,
       };
       return {
         ...state,

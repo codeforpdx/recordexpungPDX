@@ -279,7 +279,8 @@ export function downloadExpungementPacket(
   phoneNumber: string,
   city: string,
   state: string,
-  zipCode: string
+  zipCode: string,
+  emailAddress: string
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -291,6 +292,7 @@ export function downloadExpungementPacket(
       city,
       state,
       zipCode,
+      emailAddress,
     });
     return apiService(dispatch, {
       url: "/api/expungement-packet",
