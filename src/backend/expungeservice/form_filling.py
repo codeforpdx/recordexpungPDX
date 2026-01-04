@@ -569,9 +569,18 @@ class PDF:
     def add_text(self, text: str):
         _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
         self.writer.addpages(_pdf.pages)
-        
+
+    def add_text_at_end(self, text: str):
+        """Store text to be added at the end of the PDF (after form pages)."""
+        _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
+        if not hasattr(self, '_end_pages'):
+            self._end_pages = []
+        self._end_pages.extend(_pdf.pages)
+
     def write(self, path: str):
         self.writer.addpages(self._pdf.pages)
+        if hasattr(self, '_end_pages') and self._end_pages:
+            self.writer.addpages(self._end_pages)
 
         trailer = self.writer.trailer
         trailer.Root.AcroForm = self._pdf.Root.AcroForm
