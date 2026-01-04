@@ -1,4 +1,5 @@
 import {
+  CaseData,
   RecordData,
   RecordSummaryData,
   QuestionsData,
@@ -29,7 +30,8 @@ export const DOWNLOAD_EXPUNGEMENT_PACKET = "DOWNLOAD_EXPUNGEMENT_PACKET";
 export const LOADING_EXPUNGEMENT_PACKET_COMPLETE =
   "LOADING_EXPUNGEMENT_PACKET_COMPLETE";
 export const DOWNLOAD_WAIVER_PACKET = "DOWNLOAD_WAIVER_PACKET";
-export const LOADING_WAIVER_PACKET_COMPLETE = "LOADING_WAIVER_PACKET_COMPLETE"
+export const LOADING_WAIVER_PACKET_COMPLETE = "LOADING_WAIVER_PACKET_COMPLETE";
+export const DISMISS_ALL_RESTITUTION = "DISMISS_ALL_RESTITUTION";
 export interface SearchRecordState {
   loading: string;
   loadingExpungementPacket: boolean;
@@ -143,6 +145,11 @@ interface WaiverPacketActionComplete {
   type: typeof LOADING_WAIVER_PACKET_COMPLETE;
 }
 
+interface DismissAllRestitutionAction {
+  type: typeof DISMISS_ALL_RESTITUTION;
+  cases: CaseData[];
+}
+
 export type SearchRecordActionType =
   | SearchRecordAction
   | QuestionsAction
@@ -155,4 +162,5 @@ export type SearchRecordActionType =
   | ExpungementPacketAction
   | ExpungementPacketActionComplete
   | WaiverPacketAction
-  | WaiverPacketActionComplete;
+  | WaiverPacketActionComplete
+  | DismissAllRestitutionAction;

@@ -14,6 +14,7 @@ import {
   SearchRecordActionType,
   DOWNLOAD_WAIVER_PACKET,
   LOADING_WAIVER_PACKET_COMPLETE,
+  DISMISS_ALL_RESTITUTION,
 } from "./types";
 import {
   QuestionData,
@@ -232,6 +233,30 @@ export function searchReducer(
       }
 
       return { ...state, edits: filtered_edits };
+    }
+
+    case DISMISS_ALL_RESTITUTION: {
+      const edits = JSON.parse(JSON.stringify(state.edits));
+      action.cases
+        .filter((c) => c.restitution === true)
+        .forEach((c) => {
+          edits[c.case_number] = edits[c.case_number] || {};
+          edits[c.case_number]["summary"] = {
+            ...edits[c.case_number]["summary"],
+            case_number: c.case_number,
+            current_status: c.current_status,
+            restitution: "False",
+            location: c.location,
+            balance_due: String(c.balance_due),
+            birth_year: c.birth_year ? String(c.birth_year) : "",
+            edit_status: edits[c.case_number]?.summary?.edit_status || "UPDATE",
+          };
+        });
+      return {
+        ...state,
+        edits: edits,
+        loading: "edit",
+      };
     }
 
     case EDIT_CHARGE: {
