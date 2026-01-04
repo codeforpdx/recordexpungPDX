@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from os import path, stat
 from pathlib import Path
 from tempfile import mkdtemp
-from typing import List, Dict, Tuple, Union, Callable, Optional
+from typing import Any, List, Dict, Tuple, Union, Callable, Optional
 from zipfile import ZipFile
 from collections import UserDict
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString, PageMerge
@@ -574,7 +574,7 @@ class PDF:
         """Store text to be added at the end of the PDF (after form pages)."""
         _pdf = PdfReader(fdata=MarkdownToPDF.to_pdf("Addendum", text))
         if not hasattr(self, '_end_pages'):
-            self._end_pages = []
+            self._end_pages: List[Any] = []
         self._end_pages.extend(_pdf.pages)
 
     def write(self, path: str):
