@@ -32,8 +32,8 @@ function RestitutionBanner() {
 
   return (
     <p role="status" className="bg-washed-red mv3 pa3 br3 fw6">
-      One or more case record mentions restitution. If no
-      restitution is still owed on any case, you may{" "}
+      OECI records for cases under "Ineligible if Restitution Owed" mention
+      Restitution. If no Restitution is owed on any case, you may{" "}
       <button
         className="bg-navy white fw6 br2 pv1 ph2 pointer nowrap"
         onClick={() => dispatch(dismissAllRestitution(casesWithRestitution))}
