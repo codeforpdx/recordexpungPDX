@@ -16,7 +16,7 @@ function CountyFilingNotes({ county }: { county: string }) {
   if (notes.length === 0) {
     return (
       <li className="mb2">
-        <strong>{county}</strong> expected filing time: {waitMonths} months
+        <strong>{county}</strong> estimated response time: {waitMonths} months
       </li>
     );
   }
@@ -25,7 +25,7 @@ function CountyFilingNotes({ county }: { county: string }) {
     <li className="mb2">
       <strong>{county}:</strong>
       <ul className="pl3 mt1">
-        <li>Expected filing time: {waitMonths} months</li>
+        <li>Estimated response time: {waitMonths} months</li>
         {notes.map((note, idx) => (
           <li key={idx}>{note}</li>
         ))}
@@ -82,7 +82,7 @@ function PerCountyFilingNotes() {
         ))}
         {countiesWithDefaults.length > 0 && (
           <li className="mb2">
-            <strong>All other counties</strong> expected filing time: 4 months
+            <strong>All other counties</strong> estimated response time: 4 months
           </li>
         )}
       </ul>

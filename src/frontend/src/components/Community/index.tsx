@@ -82,38 +82,122 @@ function FilingNotesSection({ county }: { county: string }) {
   const waitMonths = info?.waitMonths ?? 4;
   const notes = info?.notes ?? [];
 
+  const [showTipsForm, setShowTipsForm] = useState(false);
+  const [tips, setTips] = useState("");
+  const [nameOrg, setNameOrg] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!tips.trim()) return;
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("https://formspree.io/f/xeeovpoj", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "Offer filing tips",
+          county,
+          message: tips,
+          name: nameOrg || "(anonymous)",
+          _subject: `Filing Tips: ${county} County`,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <div className="mb4">
       <h3 className="f5 fw7 mb2">Filing Notes</h3>
       <ul className="list pl3 ma0">
-        <li className="mb1">Expected filing time: {waitMonths} months</li>
+        <li className="mb1">Estimated response time: {waitMonths} months</li>
         {notes.map((note, idx) => (
           <li key={idx} className="mb1">
             {note}
           </li>
         ))}
       </ul>
-    </div>
-  );
-}
 
-function ProvidersSection() {
-  return (
-    <div className="mb4">
-      <h3 className="f5 fw7 mb2">Providers</h3>
-      <ul className="list pl3 ma0">
-        <li>Placeholder 1</li>
-      </ul>
+      <div className="mt3">
+        {status === "success" ? (
+          <p className="green fw6">Thank you! Your tips will be reviewed and added soon.</p>
+        ) : !showTipsForm ? (
+          <p className="f6">
+            If you are a provider in this county,{" "}
+            <button
+              type="button"
+              className="bg-transparent bn blue pointer underline pa0 f6"
+              onClick={() => setShowTipsForm(true)}
+            >
+              Offer filing tips
+            </button>
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt2">
+            <input type="text" name="_gotcha" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+            {status === "error" && (
+              <p className="dark-red mb2">Something went wrong. Please try again.</p>
+            )}
+            <textarea
+              className="w-100 pa2 br2 ba b--light-gray mb2"
+              placeholder="Share filing tips for this county..."
+              rows={3}
+              value={tips}
+              onChange={(e) => setTips(e.target.value)}
+              required
+            />
+            <div className="mb2">
+              <label htmlFor="tips-name-org" className="db f6 mb1">
+                Your name & organization:
+              </label>
+              <input
+                id="tips-name-org"
+                type="text"
+                className="w-100 pa2 br2 ba b--light-gray"
+                value={nameOrg}
+                onChange={(e) => setNameOrg(e.target.value)}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue white fw6 br2 pv2 ph3 pointer bn"
+              disabled={status === "submitting"}
+            >
+              {status === "submitting" ? "Submitting..." : "Submit"}
+            </button>
+            <button
+              type="button"
+              className="bg-lightest-blue dark-blue fw6 br2 pv2 ph3 pointer bn ml2"
+              onClick={() => setShowTipsForm(false)}
+            >
+              Cancel
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
 
 function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
-  const [postType, setPostType] = useState<"experience" | "tips">("experience");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const visiblePosts = showAllComments ? posts : posts.slice(0, 3);
+  const hasMoreComments = posts.length > 3;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,7 +209,7 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: postType === "experience" ? "Share your experience" : "Offer filing tips",
+          type: "Share your experience",
           county,
           title,
           message,
@@ -151,13 +235,22 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
         <p className="gray i">No comments yet for this county.</p>
       ) : (
         <div>
-          {posts.map((post) => (
+          {visiblePosts.map((post) => (
             <div key={post.id} className="bg-white pa3 mb2 br2 shadow-1">
               <h4 className="f6 fw7 mv0 mb1">{post.title}</h4>
               <p className="f6 mv0 gray">{post.preview}</p>
               {post.name && <p className="f6 mv0 mt2 i">-{post.name}</p>}
             </div>
           ))}
+          {hasMoreComments && !showAllComments && (
+            <button
+              type="button"
+              className="bg-light-gray dark-gray fw6 br2 pv2 ph3 pointer bn mt2"
+              onClick={() => setShowAllComments(true)}
+            >
+              Show {posts.length - 3} more comment{posts.length - 3 > 1 ? "s" : ""}
+            </button>
+          )}
         </div>
       )}
 
@@ -168,31 +261,7 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
       ) : (
         <form onSubmit={handleSubmit} className="mt3 pt3 bt b--light-gray">
           <input type="text" name="_gotcha" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
-          <div className="mb3 flex items-center">
-            <button
-              type="button"
-              className={`fw6 br2 pv2 ph3 pointer bn mr2 ${
-                postType === "experience"
-                  ? "bg-blue white"
-                  : "bg-light-gray dark-gray"
-              }`}
-              onClick={() => setPostType("experience")}
-            >
-              Share your experience
-            </button>
-            <span className="gray mr2">or</span>
-            <button
-              type="button"
-              className={`fw6 br2 pv2 ph3 pointer bn ${
-                postType === "tips"
-                  ? "bg-blue white"
-                  : "bg-light-gray dark-gray"
-              }`}
-              onClick={() => setPostType("tips")}
-            >
-              Offer filing tips
-            </button>
-          </div>
+          <h4 className="f6 fw7 mv0 mb3">Share your experience</h4>
           {status === "error" && (
             <p className="dark-red mb2">Something went wrong. Please try again.</p>
           )}
@@ -212,11 +281,7 @@ function CommentsSection({ posts, county }: { posts: Post[]; county: string }) {
           </div>
           <textarea
             className="w-100 pa2 br2 ba b--light-gray mb2"
-            placeholder={
-              postType === "experience"
-                ? "Share your experience with record expungement in this county..."
-                : "Share some suggestions to help others through the filing process in this county..."
-            }
+            placeholder="Share your experience with record expungement in this county..."
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -276,7 +341,6 @@ function CountyContent({
         </button>
       </div>
 
-      <ProvidersSection />
       <FilingNotesSection county={county.name} />
       <CommentsSection posts={county.posts} county={county.name} />
     </div>
