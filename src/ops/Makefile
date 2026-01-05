@@ -68,7 +68,7 @@ endif
 ssh_deploy: env_check port_check
 	@ssh recordsponge -C \
 		'docker pull recordsponge/expungeservice:$(DEPLOY_TAG); \
-		 docker stop $(RS_ENV); \
+		 docker rm -f $(RS_ENV) || true; \
 		 docker run --rm -d \
 		            --name $(RS_ENV) \
 								--env-file /etc/recordsponge/$(RS_ENV).env \
