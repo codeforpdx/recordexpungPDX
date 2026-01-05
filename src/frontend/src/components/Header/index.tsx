@@ -22,6 +22,14 @@ export default class Header extends React.Component {
             >
               Manual
             </Link>
+            {/* 
+            <Link
+              to="/community"
+              className="link hover-blue f5 fw6 pv2 ph0 ph3-ns mr4-ns"
+            >
+              Community
+            </Link>
+            */}
             <Link
               to="/record-search"
               className="absolute top-1 right-1 static-ns bg-blue white bg-animate hover-bg-dark-blue f5 fw6 br2 pv2 ph3"

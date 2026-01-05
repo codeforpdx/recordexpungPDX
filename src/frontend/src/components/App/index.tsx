@@ -15,6 +15,7 @@ import FillForms from "../FillForms";
 import PartnerInterest from "../PartnerInterest";
 import AccessibilityStatement from "../AccessibilityStatement";
 import About from "../About";
+import Community from "../Community";
 
 export default function App() {
   return (
@@ -55,6 +56,7 @@ export default function App() {
           element={<AccessibilityStatement />}
         />
         <Route path="/about" element={<About />} />
+        <Route path="/community" element={<Community />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
