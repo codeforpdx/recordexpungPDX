@@ -75,7 +75,7 @@ function PerCountyFilingNotes() {
 
   return (
     <section className="mw6 lh-copy mb4">
-      <h2 className="f4 fw7 mb3">Per-county filing notes</h2>
+      <h2 className="f4 fw7 mb3">Notes</h2>
       <ul className="pl3">
         {countiesWithCustomInfo.map((county) => (
           <CountyFilingNotes key={county} county={county} />
@@ -85,6 +85,12 @@ function PerCountyFilingNotes() {
             <strong>All other counties</strong> estimated response time: 4 months
           </li>
         )}
+        <li className="mb2">
+          See more at{" "}
+          <Link to="/community" className="link hover-dark-blue bb">
+            Community Page
+          </Link>
+        </li>
       </ul>
     </section>
   );
