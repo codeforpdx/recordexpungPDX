@@ -56,7 +56,7 @@ export default class Header extends React.Component {
               Common Myths
             </Link>
             <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/community" onClick={this.toggleMenu}>
-              Community Page
+              Community Board
             </Link>
             <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/manual" onClick={this.toggleMenu}>
               Manual
