@@ -44,6 +44,39 @@ class Landing extends React.Component {
                 </p>
               </div>
             </div>
+            <div className="flex justify-center">
+              <div className="flex justify-center items-center w-100 shadow bg-navy white pv4 ph4"
+              style={{flexDirection: "column"}}>
+                <div className="flex"
+                style={{width: "667px"}}>
+                  <i
+                    className="fa-regular fa-file light-blue"
+                    aria-hidden="true"
+                    style={{fontSize: "28px"}}
+                  ></i>
+                  <p className="fw6 ml3">
+                    <a
+                      href="/community"
+                      className="underline-hover"
+                      style={{fontSize: "20px"}}
+                    >
+                      Check out our new Community page!<span className="fas fa-arrow-right lh-solid underline-hover"
+                      style={{paddingLeft: "18px", fontSize:"16px"}}></span>
+                    </a>
+                  </p>
+                </div>
+                  <ul
+                  style={{position: "relative", width: "521px", marginTop: "10px", paddingLeft: "0px"}}>
+                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>Submit a review</span></li>
+                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>See and submit process notes by county</span></li>
+                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>View user testimonials</span></li>
+                  </ul>
+              </div>
+            </div>
+            <div style={{width: "100vw", backgroundColor: "navy", height: "4px", marginTop: "18px", marginBottom: "19px"}}>
+                <span
+                style={{height:"4px", width: "60vw", background: "#357edd"}}></span>
+            </div>
 
             <div className="bg-navy pv6">
               <div className="mw7 center">
