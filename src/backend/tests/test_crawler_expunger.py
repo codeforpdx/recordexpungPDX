@@ -36,7 +36,7 @@ def test_expunger_with_open_case(record_with_open_case):
     errors = record_with_open_case.errors
     expunger_result = Expunger.run(record_with_open_case)
 
-    assert len(expunger_result) == 2
+    assert len(expunger_result) == 4
     assert "All charges are ineligible because there is one or more open case" in errors[0]
 
 

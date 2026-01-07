@@ -19,8 +19,8 @@ As such, petitioners filing to expunge dismissed traffic tickets may receive pus
     def type_eligibility(self, disposition):
         if ChargeUtil.dismissed(disposition):
             return TypeEligibility(
-                EligibilityStatus.NEEDS_MORE_ANALYSIS,
-                reason="Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge.",
+                EligibilityStatus.INELIGIBLE,
+                reason="Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)",
             )
         elif ChargeUtil.convicted(disposition):
             return TypeEligibility(EligibilityStatus.INELIGIBLE, reason="Ineligible under 137.225(7)(a)")

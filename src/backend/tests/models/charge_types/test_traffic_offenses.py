@@ -48,10 +48,10 @@ def test_dismissed_violation_is_not_type_eligible():
     )
 
     assert isinstance(charge.charge_type, TrafficViolation)
-    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         charge.type_eligibility.reason
-        == "Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge."
+        == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
     assert not charge.charge_type.blocks_other_charges
 
@@ -69,10 +69,10 @@ def test_dismissed_infraction_is_not_type_eligible():
     charge = ChargeFactory.create(statute="811135", level="Infraction Class B", disposition=Dispositions.DISMISSED)
 
     assert isinstance(charge.charge_type, TrafficViolation)
-    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         charge.type_eligibility.reason
-        == "Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge."
+        == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
     assert not charge.charge_type.blocks_other_charges
 
@@ -88,10 +88,10 @@ def test_old_traffic_statute():
     )
 
     assert isinstance(charge.charge_type, TrafficViolation)
-    assert charge.type_eligibility.status is EligibilityStatus.NEEDS_MORE_ANALYSIS
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
     assert (
         charge.type_eligibility.reason
-        == "Dismissed violations are eligible under 137.225(1)(b) but administrative reasons may make this difficult to expunge."
+        == "Always ineligible under 137.225(7)(a) (for convictions) or by omission from statute (for dismissals)"
     )
     assert not charge.charge_type.blocks_other_charges
 
