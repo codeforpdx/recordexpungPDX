@@ -1,14 +1,15 @@
 import { ReactNode } from "react";
 import Logo from "./Logo";
 import OregonMap from "./OregonMap";
+import OregonMap2 from "./OregonMap2";
 import WhoWeAreLogos from "./WhoWeAreLogos";
 import OeciLogo from "./OeciLogo";
 
-type Keys = "logo" | "oregonMap" | "whoWeAreLogos" | "oeciLogo";
-
+type Keys = "logo" | "oregonMap" | "oregonMap2" | "whoWeAreLogos" | "oeciLogo";
 const nameDetailsMap: { [key in Keys]: ReactNode } = {
   logo: <Logo />,
   oregonMap: <OregonMap />,
+  oregonMap2: <OregonMap2 />,
   whoWeAreLogos: <WhoWeAreLogos />,
   oeciLogo: <OeciLogo />,
 };

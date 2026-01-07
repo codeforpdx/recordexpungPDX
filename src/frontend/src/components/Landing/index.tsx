@@ -1,6 +1,7 @@
 import React from "react";
 import PartnerTable from "../PartnerTable";
 import { Link } from "react-router-dom";
+import SVG from "../common/SVG";
 
 class Landing extends React.Component {
   componentDidMount() {
@@ -44,36 +45,30 @@ class Landing extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="flex justify-center">
-              <div className="flex justify-center items-center w-100 shadow bg-navy white pv4 ph4"
-              style={{flexDirection: "column"}}>
+              <div className="flex justify-center items-center w-100 shadow white pv4 ph4"
+              style={{flexDirection: "column", backgroundColor: "#d5e8fb", borderTop: "1px solid azure", paddingTop: "28px", paddingBottom: "28px"}}>
                 <div className="flex"
-                style={{width: "667px"}}>
-                  <i
-                    className="fa-regular fa-file light-blue"
-                    aria-hidden="true"
-                    style={{fontSize: "28px"}}
-                  ></i>
-                  <p className="fw6 ml3">
+                style={{width: "645px", maxWidth: "80vw", position: "relative", left: "-20px"}}>
+                  <SVG
+                    name="oregonMap2"
+                    className="mr3"
+                    style={{ width: "110px", height: "80px", minWidth: "110px", minHeight: "80px" }}
+                    viewBox="0 0 110 80"
+                  />
+                  <p className="fw6 ml3"
+                  style={{marginTop: "13px", marginLeft: "10px"}}>
+                    
                     <a
                       href="/community"
-                      className="underline-hover"
-                      style={{fontSize: "20px"}}
+                      style={{fontSize: "20px", color: "rgb(12,73,166)", fontWeight: "475"}}
                     >
-                      Check out our new Community page!<span className="fas fa-arrow-right lh-solid underline-hover"
-                      style={{paddingLeft: "18px", fontSize:"16px"}}></span>
+                      <span style={{color: "#001b44", fontWeight: "900", marginRight: "1px"}}>NEW</span> Visit the Community Board for insights into best practices by County<span className="fas fa-arrow-right lh-solid"
+                      style={{paddingLeft: "14px", fontSize:"16px", fontWeight: "900"}}></span>
                     </a>
                   </p>
                 </div>
-                  <ul
-                  style={{position: "relative", width: "521px", marginTop: "10px", paddingLeft: "0px"}}>
-                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>Submit a review</span></li>
-                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>See and submit process notes by county</span></li>
-                    <li style={{ marginBottom: "7.5px"}}><span style={{position: "relative", left: "-2.5px"}}>View user testimonials</span></li>
-                  </ul>
-              </div>
             </div>
-            <div style={{width: "100vw", backgroundColor: "navy", height: "4px", marginTop: "18px", marginBottom: "19px"}}>
+            <div style={{width: "100vw", backgroundColor: "navy", height: "4px", marginTop: "0px", marginBottom: "0px"}}>
                 <span
                 style={{height:"4px", width: "60vw", background: "#357edd"}}></span>
             </div>
