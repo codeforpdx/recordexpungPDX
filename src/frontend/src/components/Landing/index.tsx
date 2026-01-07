@@ -87,7 +87,7 @@ class Landing extends React.Component {
                 <PartnerTable />
                 <span className="db w4 center bb bw2 b--blue mb3"></span>
                 <p className="tc fw7 white mw7 mh4">
-                  Over 20,000 analyses delivered as of July 2024
+                  Over 27,000 analyses delivered as of January 2026
                 </p>
               </div>
             </div>
