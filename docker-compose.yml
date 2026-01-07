@@ -11,7 +11,7 @@ services:
       - "5001:5000"
 
   node:
-    command: sh -c "cd /src/frontend && npm install && npm start"
+    command: sh -c "cd /src/frontend && npm ci && npm start"
     depends_on:
       - expungeservice
     image: node:18.13-bullseye

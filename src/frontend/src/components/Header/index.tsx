@@ -61,6 +61,14 @@ export default class Header extends React.Component {
             <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/manual" onClick={this.toggleMenu}>
               Manual
             </Link>
+            {/* 
+            <Link
+              to="/community"
+              className="link hover-blue f5 fw6 pv2 ph0 ph3-ns mr4-ns"
+            >
+              Community
+            </Link>
+            */}
             <Link
               to="/record-search"
               className="search-link f5 fw6 pv2 ph3 blue br2 hover-bg-dark-blue hover-white"
