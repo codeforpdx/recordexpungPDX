@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo";
-import { forEach } from "lodash";
 
 export default class Header extends React.Component {
-  // 1. Initialize state to track if menu is open
   state = {
     isOpen: false,
   };
@@ -17,126 +15,92 @@ export default class Header extends React.Component {
     const { isOpen } = this.state;
 
     return (
-      <div 
-        className="header-wrapper bg-white shadow"
-        style={{ position: "sticky", zIndex: "1000000", top: "0px", backgroundColor: "rgba(255,255,255)" }}
-      >
+      <header className="fixed top-0 w-100 z-max bg-white shadow-4">
         <nav 
-          id="nav-nav"
-          className="relative flex flex-wrap justify-between items-center pa3 center"
-          style={{ maxWidth: "90vw" }}
+          className="flex justify-between items-center pa3 center mw9 relative h3-l"
           aria-label="Primary"
         >
-          <div className="logo">
-            <Link to="/" aria-label="Home">
-              <Logo />
+          {/* LOGO SECTION 
+              - 'w4': Fixed width (~128px) applied globally (no -l override).
+              - 'h-auto': Maintains aspect ratio.
+          */}
+          <div className="flex-shrink-0 z-max mr3">
+            <Link to="/" aria-label="Home" className="link db flex items-center">
+              <Logo className="db w4 h-auto blue" />
             </Link>
           </div>
 
-          {/* 2. Hamburger Button - Only visible via CSS on small screens */}
+          {/* HAMBURGER BUTTON */}
           <button 
-            className="hamburger-btn pointer bg-transparent bn"
+            className="db dn-l pointer bg-transparent bn pa2 z-max"
             onClick={this.toggleMenu}
             aria-label="Toggle navigation"
           >
-            <div className={`bar ${isOpen ? "open" : ""}`}></div>
-            <div className={`bar ${isOpen ? "open" : ""}`}></div>
-            <div className={`bar ${isOpen ? "open" : ""}`}></div>
+            <div className="w2">
+              <div className={`bg-dark-gray mb1 br-pill ${isOpen ? "rotate-45 absolute" : ""}`} 
+                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
+              <div className={`bg-dark-gray mb1 br-pill ${isOpen ? "dn" : ""}`} 
+                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
+              <div className={`bg-dark-gray br-pill ${isOpen ? "rotate-135 absolute" : ""}`} 
+                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
+            </div>
           </button>
 
-          {/* 3. Navigation Items - Class toggled based on state */}
-          <div id="nav-items" className={`nav-links ${isOpen ? "is-open" : ""}`}>
-            <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/about" onClick={this.toggleMenu}>
+          {/* NAVIGATION LINKS 
+              - 'left-0 top-100 w-100': Replicates the full-width mobile dropdown placement.
+              - 'pl5': Replicates the 50px mobile padding.
+              - 'static-l w-auto-l': Resets to a horizontal row on desktop.
+          */}
+          <div className={`
+            ${isOpen ? "flex flex-column absolute left-0 top-100 w-100 bg-white pa4 shadow-5 z-999" : "dn"} 
+            flex-l items-center-l static-l pa0-l shadow-none-l w-auto-l
+          `}>
+            <Link 
+              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              to="/about" 
+              onClick={() => isOpen && this.toggleMenu()}
+            >
               About Us
             </Link>
-            <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/partner-interest" onClick={this.toggleMenu}>
+            <Link 
+              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              to="/partner-interest" 
+              onClick={() => isOpen && this.toggleMenu()}
+            >
               Hey Partner
             </Link>
-            <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/faq" onClick={this.toggleMenu}>
+            <Link 
+              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              to="/faq" 
+              onClick={() => isOpen && this.toggleMenu()}
+            >
               Common Myths
             </Link>
-            <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/community" onClick={this.toggleMenu}>
+            <Link 
+              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              to="/community" 
+              onClick={() => isOpen && this.toggleMenu()}
+            >
               Community Board
             </Link>
-            <Link className="link hover-blue f5 fw6 pv2 ph3-ns mr4-ns" to="/manual" onClick={this.toggleMenu}>
+            <Link 
+              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              to="/manual" 
+              onClick={() => isOpen && this.toggleMenu()}
+            >
               Manual
             </Link>
-            {/* 
-            <Link
-              to="/community"
-              className="link hover-blue f5 fw6 pv2 ph0 ph3-ns mr4-ns"
-            >
-              Community
-            </Link>
-            */}
+            
             <Link
               to="/record-search"
-              className="search-link f5 fw6 pv2 ph3 blue br2 hover-bg-dark-blue hover-white"
-              onClick={this.toggleMenu}
+              className="link f5 fw6 pv2 ph3 blue br2 ba b--blue hover-bg-dark-blue hover-white tc mt3 mt0-l ml5 ml0-l"
+              onClick={() => isOpen && this.toggleMenu()}
             >
               Search
             </Link>
           </div>
         </nav>
-
-        <style>{`
-          /* Desktop Default */
-          .hamburger-btn { display: none; }
-          .nav-links { display: flex; align-items: center; }
-
-          /* Mobile Logic (< 1000px) */
-          @media (max-width: 1000px) {
-            .hamburger-btn {
-              display: block;
-              z-index: 1001;
-            }
-
-            /* Hamburger Lines */
-            .bar {
-              width: 25px;
-              height: 3px;
-              background-color: #333;
-              margin: 5px 0;
-              transition: 0.4s;
-            }
-
-            /* Animate to "X" when open */
-            .bar.open:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
-            .bar.open:nth-child(2) { opacity: 0; }
-            .bar.open:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
-
-            /* Dropdown Menu Styling */
-            .nav-links {
-              display: none; /* Hidden by default */
-              flex-direction: column;
-              // width: 100%;
-              background: white;
-              position: absolute;
-              top: 100%;
-              left: -43px;
-              padding: 20px;
-              box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            }
-
-            .nav-links.is-open {
-              display: flex; /* Show when clicked */
-            }
-
-            .nav-links a {
-              margin-bottom: 15px;
-              width: 100%;
-              text-align: left;
-              padding-left: 50px;
-            }
-
-            .search-link {
-              position: static !important; /* Remove the absolute positioning from your original code on mobile */
-              margin-top: 10px;
-              margin-right: 1.75rem;
-            }
-          }
-        `}</style>
-      </div>
+      </header>
     );
   }
 }

@@ -1,4 +1,4 @@
-export default function OregonMap2() {
+export default function OregonSilouhette() {
   return (
     <>
       <path
