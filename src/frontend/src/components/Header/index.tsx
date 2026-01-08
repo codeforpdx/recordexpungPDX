@@ -24,9 +24,9 @@ export default class Header extends React.Component {
               - 'w4': Fixed width (~128px) applied globally (no -l override).
               - 'h-auto': Maintains aspect ratio.
           */}
-          <div className="flex-shrink-0 z-max mr3">
-            <Link to="/" aria-label="Home" className="link db flex items-center">
-              <Logo className="db w4 h-auto blue" />
+          <div className="logo mb4 mb0-ns">
+            <Link to="/" aria-label="Home">
+              <Logo />
             </Link>
           </div>
 
