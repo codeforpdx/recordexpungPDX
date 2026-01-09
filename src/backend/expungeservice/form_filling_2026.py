@@ -162,9 +162,9 @@ class PDFFieldMapper2026(PDFFieldMapper):
             "(phone)": s.phone_number,
 
             # Certificate of mailing
-            "(mailing_date)": "",  # User fills
+            "(mailing_date)": today,
             "(prosecutor_address)": get_da_address(s.county),
-            "(certificate_date)": "",  # User fills
+            "(certificate_date)": today,
             "(defendant_signature_certificate)": "",  # User signs
             "(defendant_name_printed)": s.full_name,
 
