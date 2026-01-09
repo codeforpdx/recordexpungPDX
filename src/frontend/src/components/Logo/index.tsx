@@ -6,7 +6,7 @@ function Logo({className}: {className?: string}) {
       className={className}
       xmlns="http://www.w3.org/2000/svg"
       data-name="Layer 1"
-      viewBox="0 0 489.53 78.73"
+      viewBox="0 0 489.53 90"
     >
       <path
         fill="#092556"

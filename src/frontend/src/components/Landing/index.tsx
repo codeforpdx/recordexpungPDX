@@ -11,7 +11,7 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <main className="f5 f4-ns navy bg-white">
+        <main className="f5 f4-ns navy bg-white mt5">
           <div className="overflow-x-hidden relative">
             <div className="flex justify-center mb5">
               <div className="flex justify-center items-center w-100 shadow bg-blue white pv3 ph4">
@@ -46,7 +46,6 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            {/* Community Banner - Style tags removed and replaced with Tachyons */}
             <div className="flex flex-column justify-center items-center w-100 shadow white pv4 ph4 bg-washed-blue bt b--lightest-blue">
               <div className="flex w-100 mw7 relative left--1-ns">
                 <SVG
@@ -57,7 +56,7 @@ class Landing extends React.Component {
                 <p className="fw6 ml3 mt3">
                   <a
                     href="/community"
-                    className="f4 blue fw5 link underline-hover"
+                    className="f4 blue fw5 link"
                   >
                     <span className="navy fw9 mr1">NEW</span> 
                     Visit the Community Board for insights into best practices by County
@@ -67,7 +66,6 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            {/* Separator Bar - Style tags removed */}
             <div className="w-100 bg-navy h1 overflow-hidden">
                 <span className="db h-25 w-100 bg-dark-blue"></span>
             </div>

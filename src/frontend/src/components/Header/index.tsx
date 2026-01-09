@@ -2,13 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo";
 
-export default class Header extends React.Component {
-  state = {
-    isOpen: false,
-  };
+interface HeaderState {
+  isOpen: boolean;
+}
 
-  toggleMenu = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+export default class Header extends React.Component<{}, HeaderState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
+
+  private toggleMenu = (): void => {
+    this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
   };
 
   public render() {
@@ -17,84 +24,46 @@ export default class Header extends React.Component {
     return (
       <header className="fixed top-0 w-100 z-max bg-white shadow-4">
         <nav 
-          className="flex justify-between items-center pa3 center mw9 relative h3-l"
+          className="relative flex flex-column flex-row-l justify-between-l items-center pa3 center mw9"
           aria-label="Primary"
         >
-          {/* LOGO SECTION 
-              - 'w4': Fixed width (~128px) applied globally (no -l override).
-              - 'h-auto': Maintains aspect ratio.
-          */}
-          <div className="logo mb4 mb0-ns">
-            <Link to="/" aria-label="Home">
-              <Logo />
-            </Link>
+          <div className="w-100 w-auto-l flex justify-between items-center">
+            <div className="logo">
+              <Link to="/" aria-label="Home" className="mh4">
+                <Logo className="" />
+              </Link>
+            </div>
+
+            <button 
+              className="db dn-l pointer bg-transparent bn pa2 z-max"
+              onClick={this.toggleMenu}
+              aria-label="Toggle navigation"
+            >
+              <div className="w2 h1 relative pointer">
+                <div className={`bg-navy h-25 w-100 mb1 transition-all ${isOpen ? "rotate-45 absolute top-0" : ""}`} />
+                <div className={`bg-navy h-25 w-100 mb1 transition-all ${isOpen ? "dn" : ""}`} />
+                <div className={`bg-navy h-25 w-100 transition-all ${isOpen ? "rotate-135 absolute top-0" : ""}`} />
+              </div>
+            </button>
           </div>
 
-          {/* HAMBURGER BUTTON */}
-          <button 
-            className="db dn-l pointer bg-transparent bn pa2 z-max"
-            onClick={this.toggleMenu}
-            aria-label="Toggle navigation"
-          >
-            <div className="w2">
-              <div className={`bg-dark-gray mb1 br-pill ${isOpen ? "rotate-45 absolute" : ""}`} 
-                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
-              <div className={`bg-dark-gray mb1 br-pill ${isOpen ? "dn" : ""}`} 
-                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
-              <div className={`bg-dark-gray br-pill ${isOpen ? "rotate-135 absolute" : ""}`} 
-                   style={{ height: '3px', width: '25px', transition: '0.4s' }}></div>
-            </div>
-          </button>
-
-          {/* NAVIGATION LINKS 
-              - 'left-0 top-100 w-100': Replicates the full-width mobile dropdown placement.
-              - 'pl5': Replicates the 50px mobile padding.
-              - 'static-l w-auto-l': Resets to a horizontal row on desktop.
-          */}
-          <div className={`
-            ${isOpen ? "flex flex-column absolute left-0 top-100 w-100 bg-white pa4 shadow-5 z-999" : "dn"} 
-            flex-l items-center-l static-l pa0-l shadow-none-l w-auto-l
-          `}>
+          <div className={`${isOpen ? "flex" : "dn"} flex-l flex-column flex-row-l items-center static-l pa0-l shadow-none-l w-auto-l z-999 mt3 mt0-l`}>
             <Link 
-              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
-              to="/about" 
-              onClick={() => isOpen && this.toggleMenu()}
-            >
-              About Us
-            </Link>
-            <Link 
-              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
-              to="/partner-interest" 
-              onClick={() => isOpen && this.toggleMenu()}
-            >
-              Hey Partner
-            </Link>
-            <Link 
-              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
-              to="/faq" 
-              onClick={() => isOpen && this.toggleMenu()}
-            >
-              Common Myths
-            </Link>
-            <Link 
-              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              className="link navy hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
               to="/community" 
-              onClick={() => isOpen && this.toggleMenu()}
             >
               Community Board
             </Link>
             <Link 
-              className="link navy hover-blue f5 fw6 pv2 ph3-l mr4-l pl5 pl3-l" 
+              className="link navy hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
               to="/manual" 
-              onClick={() => isOpen && this.toggleMenu()}
             >
               Manual
             </Link>
             
             <Link
               to="/record-search"
-              className="link f5 fw6 pv2 ph3 blue br2 ba b--blue hover-bg-dark-blue hover-white tc mt3 mt0-l ml5 ml0-l"
-              onClick={() => isOpen && this.toggleMenu()}
+              className="link f5 fw6 pv2 ph3 blue br2 ba b--blue hover-bg-dark-blue hover-white tc mt3 mt0-l ml4-l"
             >
               Search
             </Link>
