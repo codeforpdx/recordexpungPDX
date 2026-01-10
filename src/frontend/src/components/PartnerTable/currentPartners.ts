@@ -6,7 +6,7 @@ const currentPartners = [
       ["Analysis Cost", "Free"],
       ["Paperwork Cost", "$34"],
     ],
-    name: "Portland Community College",
+    name: "CLEAR Clinic",
     area: "Northeast Portland",
     instructions: "Contact",
     contacts: ["Leni Tupper", "info@clear-clinic.org"],
