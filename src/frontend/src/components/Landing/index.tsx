@@ -205,7 +205,7 @@ class Landing extends React.Component {
                       people we can assist with expungements.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
-                      Leni Tupper, Portland Community College CLEAR Clinic
+                      Leni Tupper, CLEAR Clinic
                     </footer>
                   </blockquote>
 
