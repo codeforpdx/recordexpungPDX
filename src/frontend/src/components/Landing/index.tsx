@@ -13,7 +13,7 @@ class Landing extends React.Component {
       <>
         <main className="f5 f4-ns navy bg-white mt5">
           <div className="overflow-x-hidden relative">
-            <div className="flex justify-center mb5">
+            <div className="flex justify-center">
               <div className="flex justify-center items-center w-100 shadow bg-blue white pv3 ph4">
                 <i
                   className="fas fa-award f2 light-blue"
@@ -31,22 +31,47 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <div className="mw8 center ph4 pb5">
-              <div className="flex-l mt5">
-                <h1 className="f3 f2-ns fw9 w-60-l mr2-l mt0 mb3">
-                  Making Record <br />
-                  Expungement Affordable
-                </h1>
-                <p className="f5 w-40-l lh-title mw6">
-                  <span className="db w4 bb bw2 b--blue pt3 mt2 mb2"></span>
-                  RecordSponge is software that helps community organizations
-                  quickly analyze an individual’s criminal history to determine
-                  if they qualify to have their records expunged.
-                </p>
+            <div className="bg-navy pt5 pb5">
+              <div className="flex flex-column flex-row-l justify-between mw8 center white pa4">
+                
+                <div className="w-100 mb6 ml5-l mb0-l tl">
+                  <h4 className="f3 f2-ns fw9 lh-title mt0 mb4">
+                    Clear your record
+                  </h4>
+                  <Link
+                    className="f4 f3-ns fw7 link light-blue hover-white"
+                    to="/"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
+                    Find a partner
+                    <span
+                      className="fas fa-arrow-right f5 lh-solid pt1 pl2"
+                      aria-hidden="true"
+                    ></span>
+                  </Link>
+                </div>
+
+                <div className="w-100 ml6-l tl">
+                  <h4 className="f3 f2-ns fw9 lh-title mt0 mb4">
+                    Use our software
+                  </h4>
+
+                  <Link
+                    className="f4 f3-ns fw7 link light-blue hover-white"
+                    to="/partner-interest"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
+                    Getting started
+                    <span
+                      className="fas fa-arrow-right f5 lh-solid pt1 pl2"
+                      aria-hidden="true"
+                    ></span>
+                  </Link>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-column justify-center items-center w-100 shadow white pv4 ph4 bg-washed-blue bt b--lightest-blue">
+            <div className="flex flex-column justify-center items-center w-100 shadow white pv4 ph4 bg-washed-blue bt bb  b--lightest-blue">
               <div className="flex w-100 mw7 relative left--1-ns">
                 <SVG
                   name="oregonSilouhette"
@@ -66,32 +91,9 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <div className="w-100 bg-navy h1 overflow-hidden">
-                <span className="db h-25 w-100 bg-dark-blue"></span>
-            </div>
-
-            <div className="bg-navy pv6">
-              <div className="mw7 center">
-                <div className="mh4">
-                  <h2 className="white tc f3 f2-ns fw9 mb3">
-                    Are you looking to clear your record?
-                  </h2>
-                  <p className="white tc center mw6 mb4">
-                    Select a partner below near you. They can provide your
-                    analysis and help you file for expungement.
-                  </p>
-                </div>
-                <PartnerTable />
-                <span className="db w4 center bb bw2 b--blue mb3"></span>
-                <p className="tc fw7 white mw7 mh4">
-                  Over 27,000 analyses delivered as of January 2026
-                </p>
-              </div>
-            </div>
-
             <div className="bg-lightest-blue1 pv6">
               <div className="flex flex-wrap justify-around w-90 center ph4 pb0">
-                <div className="mw7 flex-auto mb5">
+                <div className="mw7 w5 flex-auto mb5">
                   <div className="mw7 center">
                     <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
                     <p className="lh-copy mb5">
@@ -140,9 +142,9 @@ class Landing extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div className="pl5-l">
                   <ul className="feature-list center list">
-                    <li className="flex pv3">
+                    <li className="flex pv4 mt5">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
@@ -156,7 +158,7 @@ class Landing extends React.Component {
                       </span>
                     </li>
 
-                    <li className="flex pv3">
+                    <li className="flex pv4">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
@@ -170,7 +172,7 @@ class Landing extends React.Component {
                       </span>
                     </li>
 
-                    <li className="flex pv3">
+                    <li className="flex pv4">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
@@ -184,7 +186,7 @@ class Landing extends React.Component {
                       </span>
                     </li>
 
-                    <li className="flex pv3">
+                    <li className="flex pv4">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
@@ -198,7 +200,7 @@ class Landing extends React.Component {
                       </span>
                     </li>
 
-                    <li className="flex pv3">
+                    <li className="flex pv4">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
@@ -232,13 +234,9 @@ class Landing extends React.Component {
           <div className="bg-lightest-blue1 pt0 pb6">
             <div className="flex flex-column items-center justify-center w-100">
               <div className="mh4 w-100">
-                <div className="flex flex-wrap justify-around items-center relative pa3 w-100">
-                  <span
-                    className="fas fa-arrow-left lh-solid blue pt1 pl2"
-                    aria-hidden="true"
-                  ></span>
+                <div className="flex flex-column flex-row-l justify-around items-center relative pa3 w-100">
                   
-                  <blockquote className="w-100 w-30-ns">
+                  <blockquote className="w-100 w-30-l mh0 mb4 mb0-l">
                     <div className="center tc f3 mb1">
                       <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
@@ -253,7 +251,7 @@ class Landing extends React.Component {
                     </footer>
                   </blockquote>
 
-                  <blockquote className="w-100 w-30-ns">
+                  <blockquote className="w-100 w-30-l mh0 mb4 mb0-l">
                     <div className="center tc f3 mb1">
                       <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
@@ -268,7 +266,7 @@ class Landing extends React.Component {
                     </footer>
                   </blockquote>
 
-                  <blockquote className="w-100 w-30-ns">
+                  <blockquote className="w-100 w-30-l mh0 mb4 mb0-l">
                     <div className="center tc f3 mb1">
                       <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
@@ -281,12 +279,26 @@ class Landing extends React.Component {
                     </footer>
                   </blockquote>
                   
-                  <span
-                    className="fas fa-arrow-right lh-solid blue pt1 pl2"
-                    aria-hidden="true"
-                  ></span>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="bg-navy pv6">
+            <div className="mw7 center">
+              <div className="mh4">
+                <h2 className="white tc f3 f2-ns fw9 mb3">
+                  Are you looking to clear your record?
+                </h2>
+                <p className="white tc center mw6 mb4">
+                  Select a partner below near you. They can provide your
+                  analysis and help you file for expungement.
+                </p>
+              </div>
+              <PartnerTable />
+              <span className="db w4 center bb bw2 b--blue mb3"></span>
+              <p className="tc fw7 white mw7 mh4">
+                Over 27,000 analyses delivered as of January 2026
+              </p>
             </div>
           </div>
 
@@ -401,7 +413,7 @@ class Landing extends React.Component {
               </div>
             </div>
 
-            <footer className="f5 pt6 pb5">
+            <footer className="f5 pt5 pb5">
               <div className="flex-l mw8 center ph4">
                 <p className="mw6 lh-copy mr3-l mb4">
                   RecordSponge Oregon is a nonprofit service delivered by{" "}
