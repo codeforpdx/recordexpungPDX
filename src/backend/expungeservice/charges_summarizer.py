@@ -119,11 +119,17 @@ class ChargesSummarizer:
 
     @staticmethod
     def _get_future_eligibility_label_on_case(case: Record):
-        date_sorted_charges = sorted(
-            case.charges,
-            key=lambda charge: charge.expungement_result.charge_eligibility.date_to_sort_label_by or date.max(),
-        )
-        if date_sorted_charges[0].expungement_result.charge_eligibility.date_to_sort_label_by:
-            return date_sorted_charges[0].expungement_result.charge_eligibility.label
-        else:
+        # Filter to charges with a future eligibility date, excluding ineligible charges (date.max())
+        future_eligible_charges = [
+            charge for charge in case.charges
+            if charge.expungement_result.charge_eligibility.date_to_sort_label_by
+            and charge.expungement_result.charge_eligibility.date_to_sort_label_by != date.max()
+        ]
+        if not future_eligible_charges:
             return None
+        # Return the label of the charge with the latest date (case can't be expunged until all eligible charges are eligible)
+        date_sorted_charges = sorted(
+            future_eligible_charges,
+            key=lambda charge: charge.expungement_result.charge_eligibility.date_to_sort_label_by,
+        )
+        return date_sorted_charges[-1].expungement_result.charge_eligibility.label
