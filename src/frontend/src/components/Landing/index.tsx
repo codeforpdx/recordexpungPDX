@@ -90,35 +90,58 @@ class Landing extends React.Component {
             </div>
 
             <div className="bg-lightest-blue1 pv6">
-              <div className="mw7 center">
-                <div className="mh4">
-                  <h2 className="tc f3 f2-ns fw9 mb3">
-                    Are you interested in providing expungement help with this
-                    tool?
-                  </h2>
-                  <p className="tc center mw6 mb3">
-                    We’re looking to partner with organizations who have contact
-                    with many people who have criminal records.
-                  </p>
-                  <div className="tc mb6">
-                    <Link
-                      className="inline-flex items-center f3-ns blue hover-dark-blue fw7"
-                      to="/partner-interest"
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      <span>Learn more about partnering</span>
-                      <span
-                        className="fas fa-arrow-right lh-solid pt1 pl2"
-                        aria-hidden="true"
-                      ></span>
-                    </Link>
+              <div className="flex flex-wrap justify-around w-90 center ph4 pb0">
+                <div className="mw7 flex-auto mb5">
+                  <div className="mw7 center">
+                    <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
+                    <p className="lh-copy mb5">
+                      For many folks who have had run-ins with the criminal justice system,
+                      punishment doesn't end with the end of their sentence. A criminal
+                      conviction or arrest can follow a person around for the rest of their
+                      life, well past the period of incarceration, probation, and financial
+                      penalty. This prevents them from accessing education, employment,
+                      housing, and services which might otherwise help them integrate back
+                      into society.
+                    </p>
                   </div>
-
-                  <h2 className="mw6 center tc f3 f2-ns fw9 mb3">
-                    Your complete toolkit to expunge records
-                  </h2>
-
-                  <ul className="feature-list center list mb6">
+                  <div className="mw9 center tc mb5">
+                    <img
+                      className="wipe-illustrations"
+                      alt=""
+                      src="/img/wipe-illustrations-v3.jpg"
+                    />
+                  </div>
+                  <div className="mw7 center">
+                    <p className="lh-copy mb4">
+                      The State of Oregon provides a way for people to seal certain items
+                      from their records (effectively removing them), but the rules for
+                      determining which items are eligible are complex and prone to error
+                      when applying them by hand. As a result, expungement analysis is
+                      expensive in Portland - ranging from $1,000 to $3,000 when performed
+                      by private attorneys.
+                    </p>
+                    <p className="lh-copy mb5">
+                      And so we created RecordSponge to greatly increase access to
+                      expungement by automating the legal analysis. We are seeking more
+                      partners to administer RecordSponge.
+                    </p>
+                    <div className="mb0">
+                      <Link
+                        className="inline-flex items-center f3-ns blue hover-dark-blue fw7"
+                        to="/partner-interest"
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        <span>Learn more about partnering</span>
+                        <span
+                          className="fas fa-arrow-right lh-solid pt1 pl2"
+                          aria-hidden="true"
+                        ></span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <ul className="feature-list center list">
                     <li className="flex pv3">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
@@ -188,64 +211,84 @@ class Landing extends React.Component {
                         Guidance on how to file for expungement
                       </span>
                     </li>
+                    <div className="hover-navy pt4">
+                      <Link
+                        className="f4 f3-ns fw7 link blue hover-navy"
+                        to="/partner-interest"
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        Getting started
+                        <span
+                          className="fas fa-arrow-right f5 blue pt1 pl2 hover-navy"
+                          aria-hidden="true"
+                        ></span>
+                      </Link>
+                    </div>
                   </ul>
+                </div>
+              </div>
+            </div>
 
-                  <blockquote>
+          <div className="bg-lightest-blue1 pt0 pb6">
+            <div className="flex flex-column items-center justify-center w-100">
+              <div className="mh4 w-100">
+                <div className="flex flex-wrap justify-around items-center relative pa3 w-100">
+                  <span
+                    className="fas fa-arrow-left lh-solid blue pt1 pl2"
+                    aria-hidden="true"
+                  ></span>
+                  
+                  <blockquote className="w-100 w-30-ns">
                     <div className="center tc f3 mb1">
-                      <span
-                        className="fas fa-quote-left blue"
-                        aria-hidden="true"
-                      ></span>
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
                     <p className="mw7 lh-copy tc center mb3">
-                      Having performed expungement analysis both with and
-                      without the assistance of RecordSponge, I know that this
-                      program vastly decreases the time to perform
-                      expungement analysis, and vastly increases the number of
-                      people we can assist with expungements.
+                      Having performed expungement analysis both with and without the
+                      assistance of RecordSponge, I know that this program vastly
+                      decreases the time to perform expungement analysis, and vastly
+                      increases the number of people we can assist with expungements.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
-                      Leni Tupper, CLEAR Clinic
+                      Leni Tupper, Portland Community College CLEAR Clinic
                     </footer>
                   </blockquote>
 
-                  <blockquote>
+                  <blockquote className="w-100 w-30-ns">
                     <div className="center tc f3 mb1">
-                      <span
-                        className="fas fa-quote-left blue"
-                        aria-hidden="true"
-                      ></span>
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
                     <p className="mw7 lh-copy tc center mb3">
-                      RecordSponge levels the playing field. It has been
-                      inspiring to see people fully return to our community as
-                      their records are expunged – Michael and his team have a
-                      heart for people, a knowledge of the system, and a
-                      solution that works in RecordSponge.
+                      RecordSponge levels the playing field. It has been inspiring to see
+                      people fully return to our community as their records are expunged –
+                      Michael and his team have a heart for people, a knowledge of the
+                      system, and a solution that works in RecordSponge.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
                       Eric Guyer, Jackson County Community Justice Director
                     </footer>
                   </blockquote>
 
-                  <blockquote>
+                  <blockquote className="w-100 w-30-ns">
                     <div className="center tc f3 mb1">
-                      <span
-                        className="fas fa-quote-left blue"
-                        aria-hidden="true"
-                      ></span>
+                      <span className="fas fa-quote-left blue" aria-hidden="true"></span>
                     </div>
                     <p className="mw6 lh-copy tc center mb3">
-                      I love that I can just pull my phone out and tell someone
-                      whether they can get their record expunged.
+                      I love that I can just pull my phone out and tell someone whether
+                      they can get their record expunged.
                     </p>
                     <footer className="mw7 tc center fw6 f5-ns mb5">
                       Sarah Kolb, Signs of Hope
                     </footer>
                   </blockquote>
+                  
+                  <span
+                    className="fas fa-arrow-right lh-solid blue pt1 pl2"
+                    aria-hidden="true"
+                  ></span>
                 </div>
               </div>
             </div>
+          </div>
 
             <div className="mw8 flex-l center ph4 pv6">
               <div className="w-50-l mb5">
@@ -355,60 +398,6 @@ class Landing extends React.Component {
                     </g>
                   </g>
                 </svg>
-              </div>
-            </div>
-
-            <div className="bg-lightest-blue1 pv6">
-              <div className="ph4">
-                <div className="mw7 center">
-                  <h3 className="f3 f2-ns fw9 mb3">Expungement in Oregon</h3>
-                  <p className="lh-copy mb5">
-                    For many folks who have had run-ins with the criminal
-                    justice system, punishment doesn't end with the end of their
-                    sentence. A criminal conviction or arrest can follow a
-                    person around for the rest of their life, well past the
-                    period of incarceration, probation, and financial penalty.
-                    This prevents them from accessing education, employment,
-                    housing, and services which might otherwise help them
-                    integrate back into society.
-                  </p>
-                </div>
-                <div className="mw9 center tc mb5">
-                  <img
-                    className="wipe-illustrations"
-                    alt=""
-                    src="/img/wipe-illustrations-v3.jpg"
-                  />
-                </div>
-                <div className="mw7 center">
-                  <p className="lh-copy mb4">
-                    The State of Oregon provides a way for people to seal
-                    certain items from their records (effectively removing
-                    them), but the rules for determining which items are
-                    eligible are complex and prone to error when applying them
-                    by hand. As a result, expungement analysis is expensive in
-                    Portland - ranging from $1,000 to $3,000 when performed by
-                    private attorneys.
-                  </p>
-                  <p className="lh-copy mb5">
-                    And so we created RecordSponge to greatly increase access to
-                    expungement by automating the legal analysis. We are seeking
-                    more partners to administer RecordSponge.
-                  </p>
-                  <div className="mb6">
-                    <Link
-                      className="inline-flex items-center f3-ns blue hover-dark-blue fw7"
-                      to="/partner-interest"
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      <span>Learn more about partnering</span>
-                      <span
-                        className="fas fa-arrow-right lh-solid pt1 pl2"
-                        aria-hidden="true"
-                      ></span>
-                    </Link>
-                  </div>
-                </div>
               </div>
             </div>
 
