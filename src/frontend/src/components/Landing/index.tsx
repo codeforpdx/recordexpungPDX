@@ -11,7 +11,7 @@ class Landing extends React.Component {
   render() {
     return (
       <>
-        <main className="f5 f4-ns navy bg-white mt5">
+        <main className="f5 f4-ns navy bg-white">
           <div className="overflow-x-hidden relative">
             <div className="flex justify-center mb5">
               <div className="flex justify-center items-center w-100 shadow bg-blue white pv3 ph4">

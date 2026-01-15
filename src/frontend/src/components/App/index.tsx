@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Footer from "../Footer";
 import Header from "../Header";
@@ -18,47 +19,62 @@ import About from "../About";
 import Community from "../Community";
 
 export default function App() {
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    if (headerRef?.current) {
+      const element = ReactDOM.findDOMNode(headerRef?.current);
+      if (element instanceof Element) {
+        const height = element?.getBoundingClientRect().height;
+        setHeaderHeight(height);
+      }
+    }
+  }, []);
+
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route
-          path="/oeci"
-          element={
-            <OeciLogin
-              userId=""
-              password=""
-              missingUserId={false}
-              missingPassword={false}
-              expectedFailure={false}
-              expectedFailureMessage=""
-              invalidResponse={false}
-              missingInputs={false}
-              isLoggedIn={false}
-            />
-          }
-        />
-        <Route path="/record-search" element={<RecordSearch />} />
-        <Route path="/demo-record-search" element={<Demo />} />
-        <Route path="/manual" element={<Manual />} />
-        <Route path="/rules" element={<Rules />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/appendix" element={<Appendix />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/fill-expungement-forms" element={<FillForms />} />
-        <Route
-          path="/partner-interest"
-          element={<PartnerInterest email="" invalidEmail={true} />}
-        />
-        <Route
-          path="/accessibility-statement"
-          element={<AccessibilityStatement />}
-        />
-        <Route path="/about" element={<About />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <Header ref={headerRef} />
+      <div style={{ marginTop: `${headerHeight}px` }}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/oeci"
+            element={
+              <OeciLogin
+                userId=""
+                password=""
+                missingUserId={false}
+                missingPassword={false}
+                expectedFailure={false}
+                expectedFailureMessage=""
+                invalidResponse={false}
+                missingInputs={false}
+                isLoggedIn={false}
+              />
+            }
+          />
+          <Route path="/record-search" element={<RecordSearch />} />
+          <Route path="/demo-record-search" element={<Demo />} />
+          <Route path="/manual" element={<Manual />} />
+          <Route path="/rules" element={<Rules />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/appendix" element={<Appendix />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/fill-expungement-forms" element={<FillForms />} />
+          <Route
+            path="/partner-interest"
+            element={<PartnerInterest email="" invalidEmail={true} />}
+          />
+          <Route
+            path="/accessibility-statement"
+            element={<AccessibilityStatement />}
+          />
+          <Route path="/about" element={<About />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
       <Footer />
     </>
   );
