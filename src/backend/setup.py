@@ -58,7 +58,7 @@ setup(
         "urllib3==1.25.9",
         "uwsgi==2.0.18",
         "wcwidth==0.1.9",
-        "werkzeug==1.0.1",
+        "werkzeug==2.2.3",
         "zipp==3.1.0",
     ],
     name="expungeservice",
