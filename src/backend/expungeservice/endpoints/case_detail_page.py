@@ -1,5 +1,6 @@
 from os import path
 from pathlib import Path
+import time
 
 from bs4 import BeautifulSoup
 from flask.views import MethodView
@@ -10,11 +11,19 @@ from expungeservice.crawler.crawler import Crawler
 class CaseDetailPage(MethodView):
     def get(self, id):
         url = f"https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID={id}"
-        html = Crawler.fetch_link(url)
-        if html:
-            return CaseDetailPage._strip_links(html)
-        else:
-            return f"Case detail page with ID of {id} does not exist."
+
+        max_retries = 3
+        backoff_seconds = 2
+        # Retry loop with backoff
+        for attempt in range(max_retries):
+            html = Crawler.fetch_link(url)
+            if html:
+                return CaseDetailPage._strip_links(html)
+
+            if attempt < max_retries - 1:
+                time.sleep(backoff_seconds)
+
+        return f"Case detail page with ID of {id} does not exist."
 
     @staticmethod
     def _strip_links(html):
