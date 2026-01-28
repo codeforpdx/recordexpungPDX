@@ -14,43 +14,45 @@ class Manual extends React.Component {
           <div className="mw8 center ph4 visually-hidden">
             <h1 className="f3 fw6 mv4">Manual</h1>
           </div>
-          <nav
-            className="shrink-none order-2 self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l"
-            aria-label="Manual"
-          >
-            <ul className="list">
-              <li className="mb3">
-                <a href="#intro" className="link hover-blue">
-                  Introduction
-                </a>
-              </li>
-              <li className="mb3 pb1">
-                <a href="#generalinfo" className="link hover-blue">
-                  General Info
-                </a>
-              </li>
-              <li className="bt b--light-gray pt3 mb3 ">
-                <a href="#overview" className="link hover-blue">
-                  Use RecordSponge
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#assumption" className="link hover-blue">
-                  Assumption
-                </a>
-              </li>
-              <li className="mb3 ml3">
-                <a href="#search" className="link hover-blue">
-                  Search
-                </a>
-              </li>
-              <li className="ml3">
-                <a href="#file" className="link hover-blue">
-                  File for Expungement
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <aside className="pa1 order-2">
+            <nav
+              className="shrink-none self-start sticky-l w5 bg-white shadow pa4 mt4 ml5-l"
+              aria-label="Manual"
+            >
+              <ul className="list">
+                <li className="mb3">
+                  <a href="#intro" className="link hover-blue">
+                    Introduction
+                  </a>
+                </li>
+                <li className="mb3 pb1">
+                  <a href="#generalinfo" className="link hover-blue">
+                    General Info
+                  </a>
+                </li>
+                <li className="bt b--light-gray pt3 mb3 ">
+                  <a href="#overview" className="link hover-blue">
+                    Use RecordSponge
+                  </a>
+                </li>
+                <li className="mb3 ml3">
+                  <a href="#assumption" className="link hover-blue">
+                    Assumption
+                  </a>
+                </li>
+                <li className="mb3 ml3">
+                  <a href="#search" className="link hover-blue">
+                    Search
+                  </a>
+                </li>
+                <li className="ml3">
+                  <a href="#file" className="link hover-blue">
+                    File for Expungement
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
           <article className="order-1 lh-copy">
             <section className="mb5">
               <h2 className="f2 fw9 mb3 mt4" id="intro">
