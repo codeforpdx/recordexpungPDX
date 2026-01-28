@@ -231,7 +231,7 @@ class Landing extends React.Component {
               </div>
             </div>
 
-          <div className="bg-lightest-blue1 pt0 pb6">
+          <div className="bg-lightest-blue1 pt0 pb6-l pb5">
             <div className="flex flex-column items-center justify-center w-100">
               <div className="mh4 w-100">
                 <div className="flex flex-column flex-row-l justify-around items-center relative pa3 w-100">
