@@ -326,11 +326,22 @@ class FormFilling2026:
         # Build compiled PDF
         if all_motions_to_set_aside:
             compiled = PdfWriter()
-            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
-            for f in all_motions_to_set_aside:
-                compiled.addpages(PdfReader(f[0]).pages)
 
-            compiled.addpages(PdfReader(osp_file_info[0]).pages)
+            # Must rename all the fields in the file so they are unique so that Acrobat doesn't mess with their values.
+            reader = PdfReader(all_motions_to_set_aside.pop(0)[0])
+            start_index = 0
+            field_count = OldFormFilling.rename_fields(reader, start_index)
+            start_index += field_count
+            compiled.addpages(reader.pages)
+            for f in all_motions_to_set_aside:
+                reader = PdfReader(f[0])
+                field_count = OldFormFilling.rename_fields(reader, start_index)
+                start_index += field_count
+                compiled.addpages(reader.pages)
+
+            reader = PdfReader(osp_file_info[0])
+            OldFormFilling.rename_fields(reader, start_index)
+            compiled.addpages(reader.pages)
 
             compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
 

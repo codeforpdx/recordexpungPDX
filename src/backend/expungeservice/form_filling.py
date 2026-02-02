@@ -616,7 +616,6 @@ class FormFilling:
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME : List[str] = []
     OSP_PDF_NAME = "OSP_Form"
-    #COMPILED_PDF_NAME = "COMPILED_MOTIONS"
 
     @staticmethod
     def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str], summary: bytes, summary_filename: str) -> Tuple[str, str]:
@@ -652,12 +651,24 @@ class FormFilling:
         #todo: refactor and build separate method to compose compiled
         if all_motions_to_set_aside:
             compiled = PdfWriter()
-            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
+
+            # Must rename all the fields in the file so they are unique so that Acrobat doesn't mess with their values.
+            reader = PdfReader(all_motions_to_set_aside.pop(0)[0])
+            start_index = 0
+            field_count = FormFilling.rename_fields(reader, start_index)
+            start_index += field_count
+            compiled.addpages(reader.pages)
             for f in all_motions_to_set_aside:
-                compiled.addpages(PdfReader(f[0]).pages)
+                reader = PdfReader(f[0])
+                field_count = FormFilling.rename_fields(reader, start_index)
+                start_index += field_count
+                compiled.addpages(reader.pages)
 
-            compiled.addpages(PdfReader(osp_file_info[0]).pages)
+            reader = PdfReader(osp_file_info[0])
+            FormFilling.rename_fields(reader, start_index)
+            compiled.addpages(reader.pages)
 
+            # Must update the appearances property so that the fields render correctly in Acrobat.
             compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
 
             comp_name = "COMPILED.pdf"
@@ -672,6 +683,19 @@ class FormFilling:
         zip_file.close()
 
         return zip_path, zip_file_name
+
+    @staticmethod
+    def rename_fields(reader: PdfReader, start_index: int) -> int:
+        acro_form = reader.Root.AcroForm
+        if not acro_form or not acro_form.Fields:
+            return 0
+        fields = acro_form.Fields
+        for i, field in enumerate(fields):
+            if field.get(PdfName('T')):
+                old_name = field[PdfName('T')].to_unicode()
+                new_name = f"{old_name}_{start_index + i}"
+                field[PdfName('T')] = new_name
+        return len(fields)
 
     @staticmethod
     def build_summary_filename(aliases):
