@@ -59,22 +59,6 @@ export default class Header extends React.Component<{}, HeaderState> {
             </button>
           </div>
 
-          {/* <div className={`${isOpen ? "flex" : "dn"} flex-l flex-column flex-row-l items-center static-l pa0-l shadow-none-l w-auto-l z-999 mt3 mt0-l`}>
-             <Link className="link hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
-             to="/about">
-              About Us
-            </Link>
-            <Link className="link hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
-            to="/partner-interest">
-              Hey Partner
-            </Link>
-            <Link className="link hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
-            to="/faq">
-              Common Myths
-            </Link>
-            <Link 
-              className="link navy hover-blue f5 fw6 pv3 pv2-l ph3-l mr4-l nowrap" 
-              to="/community"  */}
           <div
             className={`${
               isOpen ? "flex" : "dn"
