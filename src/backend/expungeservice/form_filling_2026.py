@@ -122,7 +122,7 @@ class PDFFieldMapper2026(PDFFieldMapper):
             "(defendant_name)": s.case_name,
             "(dob)": s.date_of_birth,
             "(sid_number)": s.sid or "",
-            "(law_enforcement_agency)": "Not Known",  # Per guidance, to avoid rejection
+            "(law_enforcement_agency)": "",  # Left blank, to avoid attracting attention
             "(arrest_date)": first_arrest_date,
             "(fpn_number)": "",  # Leave blank
 
