@@ -10,7 +10,7 @@ import re
 
 from expungeservice.models.record_summary import RecordSummary
 from expungeservice.models.case import Case
-from expungeservice.form_filling import DA_ADDRESSES
+from expungeservice.form_filling import DA_ADDRESSES, FormFilling
 
 def wrap_text(text):
     text = re.sub(r'\r\n?|\n', ' ', text)
@@ -84,6 +84,7 @@ class WaiverFormFilling:
         zip_path = path.join(mkdtemp(), zip_file_name)
         zip_file = ZipFile(zip_path, "w")
 
+        all_waiver_files = []
         for case in record_summary.record.cases:
             if (
                 case.summary.balance_due_in_cents > 0
@@ -92,6 +93,13 @@ class WaiverFormFilling:
                 case_data = CaseData(case, user_information_dict, waiver_information_dict)
                 file_info = WaiverFormFilling._create_and_write_pdf(case_data, temp_dir)
                 zip_file.write(*file_info[0:2])
+                all_waiver_files.append(file_info)
+
+        if all_waiver_files:
+            file_paths = [f[0] for f in all_waiver_files]
+            comp_path = path.join(temp_dir, "COMPILED_FINES_AND_FEES.pdf")
+            FormFilling.compile_pdfs(file_paths, comp_path)
+            zip_file.write(comp_path, "COMPILED_FINES_AND_FEES.pdf")
 
         zip_file.close()
 

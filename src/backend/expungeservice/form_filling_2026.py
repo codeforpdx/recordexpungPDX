@@ -17,8 +17,6 @@ from tempfile import mkdtemp
 from typing import Any, Dict, List, Optional, Tuple
 from zipfile import ZipFile
 
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
-
 from expungeservice.form_filling import (
     CaseResults,
     DA_ADDRESSES,
@@ -325,29 +323,10 @@ class FormFilling2026:
 
         # Build compiled PDF
         if all_motions_to_set_aside:
-            compiled = PdfWriter()
-
-            # Must rename all the fields in the file so they are unique so that Acrobat doesn't mess with their values.
-            reader = PdfReader(all_motions_to_set_aside.pop(0)[0])
-            start_index = 0
-            field_count = OldFormFilling.rename_fields(reader, start_index)
-            start_index += field_count
-            compiled.addpages(reader.pages)
-            for f in all_motions_to_set_aside:
-                reader = PdfReader(f[0])
-                field_count = OldFormFilling.rename_fields(reader, start_index)
-                start_index += field_count
-                compiled.addpages(reader.pages)
-
-            reader = PdfReader(osp_file_info[0])
-            OldFormFilling.rename_fields(reader, start_index)
-            compiled.addpages(reader.pages)
-
-            compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
-
+            file_paths = [f[0] for f in all_motions_to_set_aside] + [osp_file_info[0]]
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
-            compiled.write(comp_path)
+            OldFormFilling.compile_pdfs(file_paths, comp_path)
             zip_file.write(comp_path, comp_name)
 
         # Add summary PDF
