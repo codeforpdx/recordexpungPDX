@@ -616,7 +616,6 @@ class FormFilling:
     COUNTIES_NEEDING_CONVICTION_OR_ARREST_ORDER = ["multnomah"]
     COUNTIES_NEEDING_COUNTY_SPECIFIC_DOWNLOAD_NAME : List[str] = []
     OSP_PDF_NAME = "OSP_Form"
-    #COMPILED_PDF_NAME = "COMPILED_MOTIONS"
 
     @staticmethod
     def build_zip(record_summary: RecordSummary, user_information_dict: Dict[str, str], summary: bytes, summary_filename: str) -> Tuple[str, str]:
@@ -649,20 +648,11 @@ class FormFilling:
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
-        #todo: refactor and build separate method to compose compiled
         if all_motions_to_set_aside:
-            compiled = PdfWriter()
-            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
-            for f in all_motions_to_set_aside:
-                compiled.addpages(PdfReader(f[0]).pages)
-
-            compiled.addpages(PdfReader(osp_file_info[0]).pages)
-
-            compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
-
+            file_paths = [f[0] for f in all_motions_to_set_aside] + [osp_file_info[0]]
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
-            compiled.write(comp_path)
+            FormFilling.compile_pdfs(file_paths, comp_path)
             zip_file.write(comp_path, comp_name)
 
 
@@ -672,6 +662,31 @@ class FormFilling:
         zip_file.close()
 
         return zip_path, zip_file_name
+
+    @staticmethod
+    def rename_fields(reader: PdfReader, start_index: int) -> int:
+        acro_form = reader.Root.AcroForm
+        if not acro_form or not acro_form.Fields:
+            return 0
+        fields = acro_form.Fields
+        for i, field in enumerate(fields):
+            if field.get(PdfName('T')):
+                old_name = field[PdfName('T')].to_unicode()
+                new_name = f"{old_name}_{start_index + i}"
+                field[PdfName('T')] = new_name
+        return len(fields)
+
+    @staticmethod
+    def compile_pdfs(file_paths: List[str], output_path: str) -> None:
+        compiled = PdfWriter()
+        start_index = 0
+        for file_path in file_paths:
+            reader = PdfReader(file_path)
+            field_count = FormFilling.rename_fields(reader, start_index)
+            start_index += field_count
+            compiled.addpages(reader.pages)
+        compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
+        compiled.write(output_path)
 
     @staticmethod
     def build_summary_filename(aliases):

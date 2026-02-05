@@ -17,8 +17,6 @@ from tempfile import mkdtemp
 from typing import Any, Dict, List, Optional, Tuple
 from zipfile import ZipFile
 
-from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject
-
 from expungeservice.form_filling import (
     CaseResults,
     DA_ADDRESSES,
@@ -124,7 +122,7 @@ class PDFFieldMapper2026(PDFFieldMapper):
             "(defendant_name)": s.case_name,
             "(dob)": s.date_of_birth,
             "(sid_number)": s.sid or "",
-            "(law_enforcement_agency)": "Not Known",  # Per guidance, to avoid rejection
+            "(law_enforcement_agency)": "",  # Left blank, to avoid attracting attention
             "(arrest_date)": first_arrest_date,
             "(fpn_number)": "",  # Leave blank
 
@@ -325,18 +323,10 @@ class FormFilling2026:
 
         # Build compiled PDF
         if all_motions_to_set_aside:
-            compiled = PdfWriter()
-            compiled.addpages(PdfReader(all_motions_to_set_aside.pop(0)[0]).pages)
-            for f in all_motions_to_set_aside:
-                compiled.addpages(PdfReader(f[0]).pages)
-
-            compiled.addpages(PdfReader(osp_file_info[0]).pages)
-
-            compiled.trailer.Root.AcroForm = PdfDict(NeedAppearances=PdfObject("true"))
-
+            file_paths = [f[0] for f in all_motions_to_set_aside] + [osp_file_info[0]]
             comp_name = "COMPILED.pdf"
             comp_path = path.join(temp_dir, comp_name)
-            compiled.write(comp_path)
+            OldFormFilling.compile_pdfs(file_paths, comp_path)
             zip_file.write(comp_path, comp_name)
 
         # Add summary PDF
