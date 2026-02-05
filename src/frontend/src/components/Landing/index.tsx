@@ -144,7 +144,7 @@ class Landing extends React.Component {
                 </div>
                 <div className="pl4 pl5-l">
                   <ul className="feature-list center list">
-                    <li className="flex pv4 mt5">
+                    <li className="flex pv4 mt3 mt5-ns">
                       <span>
                         <span className="diamond dib rotate-45 br4 bg-white pa3">
                           <span
