@@ -72,16 +72,16 @@ class Landing extends React.Component {
             </div>
 
             <div className="flex flex-column justify-center items-center w-100 shadow white pv4 ph4 bg-washed-blue bt bb  b--lightest-blue">
-              <div className="flex w-100 mw7 relative left--1-ns">
+              <div className="flex flex-row-l flex-row-m flex-column w-100 mw7 relative left--1-ns">
                 <SVG
                   name="oregonSilouhette"
                   className="mr3 w4 h3 mw4 mh3 flex-none" 
                   viewBox="0 0 110 80"
                 />
-                <p className="fw6 ml3 mt3">
+                <p className="fw6 ml3 f4-ns f5 mt3 pt3 pt0-ns">
                   <a
                     href="/community"
-                    className="f4 blue fw5 link"
+                    className="f4-ns f5 blue fw5 link"
                   >
                     <span className="navy fw9 mr1">NEW</span> 
                     Visit the Community Board for insights into best practices by County
@@ -142,7 +142,7 @@ class Landing extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="pl5-l">
+                <div className="pl4 pl5-l">
                   <ul className="feature-list center list">
                     <li className="flex pv4 mt5">
                       <span>
