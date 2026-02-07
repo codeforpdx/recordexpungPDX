@@ -250,9 +250,6 @@ class TestWarningsGeneration:
     )
     partial_expungement_warning = "\\* This form will attempt to expunge a case in part. This is relatively rare, and thus these forms should be reviewed particularly carefully.  \n"
 
-    def font_warning(self, field_name, value):
-        return f'\\* * The font size of "{value[1:-1]}" was shrunk to fit the bounding box of "{field_name[1:-1]}". An addendum might be required if it still doesn\'t fit.  \n'
-
     @pytest.fixture
     def mapper_factory(self):
         def factory(has_ineligible_charges=False):
@@ -263,40 +260,16 @@ class TestWarningsGeneration:
 
         return factory
 
-    @pytest.fixture
-    def shrunk_fields(self):
-        shrunk_fields: Dict[str, str] = {}
-        return shrunk_fields
-
-    def test_no_warnings_generated_if_no_ineligible_charges_or_shrunk_fields(self, mapper_factory, shrunk_fields):
-        warnings = FormFilling._generate_warnings_text(shrunk_fields, mapper_factory())
+    def test_no_warnings_generated_if_no_ineligible_charges(self, mapper_factory):
+        warnings = FormFilling._generate_warnings_text(mapper_factory())
         assert warnings is None
 
-    def test_warnings_generated_if_there_are_ineligible_charges(self, mapper_factory, shrunk_fields):
+    def test_warnings_generated_if_there_are_ineligible_charges(self, mapper_factory):
         expected = self.lead_warning
         expected += self.partial_expungement_warning
 
         mapper = mapper_factory(has_ineligible_charges=True)
-        warnings = FormFilling._generate_warnings_text(shrunk_fields, mapper)
-        assert warnings == expected
-
-    def test_warnings_generated_if_there_are_shrunk_fields(self, mapper_factory, shrunk_fields):
-        expected = self.lead_warning
-        expected += self.font_warning("(foo)", "(foo value)")
-        expected += self.font_warning("(bar)", "(bar value)")
-
-        shrunk_fields = {"(foo)": "(foo value)", "(bar)": "(bar value)"}
-        warnings = FormFilling._generate_warnings_text(shrunk_fields, mapper_factory())
-        assert warnings == expected
-
-    def test_warnings_generated_if_there_are_shrunk_fields_and_ineligible_charges(self, mapper_factory, shrunk_fields):
-        expected = self.lead_warning
-        expected += self.partial_expungement_warning
-        expected += self.font_warning("(foo)", "(foo value)")
-
-        mapper = mapper_factory(has_ineligible_charges=True)
-        shrunk_fields = {"(foo)": "(foo value)"}
-        warnings = FormFilling._generate_warnings_text(shrunk_fields, mapper)
+        warnings = FormFilling._generate_warnings_text(mapper)
         assert warnings == expected
 
 
@@ -729,7 +702,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
         assert_pdf_values(pdf_factory(charges), expected_values)
 
     @patch("expungeservice.form_filling.PdfWriter")
-    def test_font_shrinking_and_pdf_write_text(self, MockPdfWriter, pdf_factory: Mock, dismissed_charge_factory: Mock):
+    def test_long_charge_name_and_pdf_write_text(self, MockPdfWriter, pdf_factory: Mock, dismissed_charge_factory: Mock):
         charge_name = (
             "A.............. Very.................... Long................. Name......................"
             + "A.............. Very.................... Long................. Name......................"
@@ -755,9 +728,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
         charge.name = charge_name
         pdf: PDF = pdf_factory([charge])
 
-        assert pdf.shrunk_fields.get("(Dismissed Charges)") == f"({charge_name})"
-        assert len(pdf.shrunk_fields) == 1
-        assert pdf.get_annotation_dict()["(Dismissed Charges)"].DA == "(/TimesNewRoman 6 Tf 0 g)"
+        assert pdf.get_annotation_dict()["(Dismissed Charges)"].DA == "(/TimesNewRoman 0 Tf 0 g)"
         assert_pdf_values(pdf, expected_values)
 
         assert not MockPdfWriter.return_value.addpages.called
