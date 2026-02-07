@@ -482,8 +482,7 @@ class PDF:
     BUTTON_YES = PdfName("Yes")
     TEXT_TYPE = "/Tx"
     FONT_FAMILY = "TimesNewRoman"
-    FONT_SIZE = "10"
-    FONT_SIZE_SMALL = "6"
+    FONT_SIZE = "0"
     DATE_FORMAT = "%b %-d, %Y"
     STR_CONNECTOR = "; "
 
@@ -500,7 +499,6 @@ class PDF:
     def __init__(self, mapper: PDFFieldMapper):
         self.set_pdf(PdfReader(mapper.pdf_source_path))
         self.mapper = mapper
-        self.shrunk_fields: Dict[str, str] = {}
         self.writer = PdfWriter()
 
     def set_pdf(self, pdf: PdfReader):
@@ -539,16 +537,7 @@ class PDF:
         annotation.update(PdfDict(AP=""))
 
     def set_font(self, annotation):
-        x1, x2 = float(annotation.Rect[0]), float(annotation.Rect[2])
-        max_chars = min((x2 - x1) * 0.3125, 90)  # Times New Roman size 10; and 90 because the equation doesn't scale well to the longest field on the form, the Charges line in the non-Multnomah form
-        num_chars = len(annotation.V) - 2  # minus parens
-        font_size = self.FONT_SIZE
-
-        if num_chars > max_chars:
-            font_size = self.FONT_SIZE_SMALL
-            self.shrunk_fields[annotation.T] = annotation.V
-
-        annotation.DA = PdfString.encode(f"/{self.FONT_FAMILY} {font_size} Tf 0 g")
+        annotation.DA = PdfString.encode(f"/{self.FONT_FAMILY} {self.FONT_SIZE} Tf 0 g")
 
     def update_annotations(self):
         for annotation in self.annotations:
@@ -705,18 +694,13 @@ class FormFilling:
         return ""
 
     @staticmethod
-    def _generate_warnings_text(shrunk_fields: Dict[str, str], mapper: PDFFieldMapper) -> Optional[str]:
+    def _generate_warnings_text(mapper: PDFFieldMapper) -> Optional[str]:
         text = None
         warnings: List[str] = []
 
         if mapper.get("(has_ineligible_charges)"):
             message = "This form will attempt to expunge a case in part. This is relatively rare, and thus these forms should be reviewed particularly carefully."
             warnings.append(message)
-
-        if shrunk_fields:
-            for field_name, value in shrunk_fields.items():
-                message = f'* The font size of "{value[1:-1]}" was shrunk to fit the bounding box of "{field_name[1:-1]}". An addendum might be required if it still doesn\'t fit.'
-                warnings.append(message)
 
         if warnings:
             text = "# Warnings from RecordSponge  \n"
@@ -784,7 +768,7 @@ class FormFilling:
             source_data = UserInfo(**data)
 
         pdf = FormFilling._create_pdf(source_data, validate_initial_pdf_state)
-        warnings_text = FormFilling._generate_warnings_text(pdf.shrunk_fields, pdf.mapper)
+        warnings_text = FormFilling._generate_warnings_text(pdf.mapper)
 
         if warnings_text:
             pdf.add_text(warnings_text)
