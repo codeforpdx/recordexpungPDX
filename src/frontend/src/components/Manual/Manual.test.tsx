@@ -28,8 +28,8 @@ test("the editing guide can be opened and closed", async () => {
   const part2 = screen.getByLabelText("Part 2: Search Client Records");
   await user.click(part2);
 
-  const eligibility = screen.getByLabelText("Eligibility");
-  await user.click(eligibility);
+  const results = screen.getByLabelText("Results");
+  await user.click(results);
 
   const summary = screen.getByLabelText("Editing Guide");
 
