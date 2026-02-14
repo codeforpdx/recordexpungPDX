@@ -22,7 +22,7 @@ class Landing extends React.Component {
                 counties listed here, and will use the Stock Form for those 
                 not listed. You can also fill out the forms manually if 
                 preferred.{" "}
-                <Link to="/manual#file" className="link hover-dark-blue bb">
+                <Link to="/manual#generate-paperwork" className="link hover-dark-blue bb">
                   Learn more in the Manual
                 </Link>
                 .

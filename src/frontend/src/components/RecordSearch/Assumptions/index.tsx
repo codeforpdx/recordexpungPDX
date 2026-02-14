@@ -26,7 +26,7 @@ export default function Assumptions() {
         </li>
       </ul>
       <p>
-        <Link className="link hover-blue underline" to="/manual#assumption1">
+        <Link className="link hover-blue underline" to="/manual#assumptions">
           Learn more in the Manual
         </Link>
       </p>

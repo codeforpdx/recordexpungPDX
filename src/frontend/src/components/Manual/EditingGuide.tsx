@@ -1,49 +1,31 @@
 import React from "react";
 import { HashLink as Link } from "react-router-hash-link";
-import useDisclosure from "../../hooks/useDisclosure";
 import AddButton from "../RecordSearch/Record/AddButton";
 import EditButton from "../RecordSearch/Record/EditButton";
 import EditedBadge from "../RecordSearch/Record/EditedBadge";
 import { createNextBlankCharge } from "../RecordSearch/Record/Case";
 import EditChargePanel from "../RecordSearch/Record/EditChargePanel";
-import DisclosureIcon from "../common/DisclosureIcon";
+import Accordion from "../common/Accordion";
 
 export default function EditingGuide() {
-  const {
-    disclosureIsExpanded,
-    disclosureButtonProps,
-    disclosureContentProps,
-  } = useDisclosure();
-
   return (
-    <div className="bg-gray-blue-2 shadow br3 pa3 mb3">
-      <h3 className="f3 fw7 mb2">Editing Results</h3>
-      <p className="mb2">
-        RecordSponge allows in-line editing of search results to correct any
-        errors or missing information. This is an advanced feature.
-      </p>
-      <button {...disclosureButtonProps}>
-        <span className="flex items-center fw6 mid-gray link hover-blue pb1">
-          Editing Guide
-          <DisclosureIcon
-            disclosureIsExpanded={disclosureIsExpanded}
-            className="pt1 pl1"
-          />
-        </span>
-      </button>
-      <div {...disclosureContentProps} className="pt3">
-        <h3 className="f4 fw7 mb2">Why Edit</h3>
-        <section className="mb4">
+    <Accordion title="Editing Guide" id="editing">
+      <div className="mt1">
+        <p className="mb3">
+          RecordSponge allows in-line editing of search results to correct any
+          errors or missing information. This is an advanced feature.
+        </p>
+        <h3 className="f4 fw7">Why Edit</h3>
+        <section className="mb2">
           <p className="mb3">
             Sometimes the result of a Search doesn’t completely match a person’s
             true record. This can happen for a few reasons:
           </p>
           <ol className="mh4">
             <li className="mb3 pb1">
-              The search returns the wrong person’s record: In the rare event
-              that a different person’s Oregon record shares a birth date and
-              name with the person of interest, these records may appear in the
-              search result.
+              The search returns the wrong person's record: In rare cases,
+              another person with the same name and birth date may appear in
+              results.
             </li>
             <li className="mb3 pb1">
               One or more of a person’s cases cannot be found: If the record has
@@ -65,26 +47,27 @@ export default function EditingGuide() {
             If any of these issues appear in the record, they can be corrected
             with the Editing feature. You can also use the Editing feature to
             build a record from scratch and run an analysis without relying on
-            OECI at all. Editing is built directly in to the main Search
-            feature.
+            OECI at all. Editing is built directly into the main Search feature.
           </p>
-          <h3 className="f4 fw7 mb2">Enable Editing</h3>
+          <h3 className="f4 fw7">Enable Editing</h3>
           <p className="mb3">
-            Click the Enable Editing button on the Record Search page:
+            Click the "Enable Editing" button on the Record Search page:
           </p>
-          <button className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray link hover-blue pv1 ph2 mb3">
+          <span
+            className="inline-flex bg-white f6 fw5 br2 ba b--black-10 mid-gray pv1 ph2 mb3"
+            aria-hidden="true"
+          >
             Enable Editing
-          </button>
+          </span>
           <p className="mb3">
             You can now perform the following actions to change the contents of
-            the record. These changes exist only temporarily in your session and
-            will disappear if you run another search. The edits will persist if
-            you navigate between Search and the Manual or other pages on
-            recordsponge.com, but they will disappear if you leave the website.
+            the record. Edits are temporary and persist while you navigate the
+            site, but will reset if you run a new search or leave
+            recordsponge.com.
           </p>
-          <h3 className="f4 fw7 mb2">Add Case</h3>
+          <h3 className="f4 fw7">Add Case</h3>
           <p className="mb3">
-            Click the Add Case button just below the Summary panel:
+            Click the "Add Case" button just below the Summary panel:
           </p>
           <div className="ma3">
             <AddButton onClick={() => {}} actionName="Add" text="Case" />
@@ -95,10 +78,10 @@ export default function EditingGuide() {
             Balance, and Birth Year, all of which are used to provide complete
             analysis of the record.
           </p>
-          <h3 className="f4 fw7 mb2">Edit Case</h3>
+          <h3 className="f4 fw7">Edit Case</h3>
           <p className="mb3">
             You can edit any of these fields on an existing or newly created
-            case by clicking the edit button in the case's header.
+            case by clicking the "Edit" button in the case's header.
           </p>
           <div className="ml3 mb3">
             <EditButton onClick={() => {}} actionName="Edit Case" />
@@ -122,8 +105,8 @@ export default function EditingGuide() {
               showEditButtons={true}
             />
           </div>
-          <h3 className="f4 fw7 mb2">Add Charge</h3>
-          <p className="mb2">
+          <h3 className="f4 fw7">Add Charge</h3>
+          <p>
             Next to the Edit Case{" "}
             <EditButton onClick={() => {}} actionName="Edit Case" /> button is
             another Add{" "}
@@ -138,13 +121,13 @@ export default function EditingGuide() {
             button. This allows you to add charges to a newly-created or
             existing case.
           </p>
-          <p className="mb2">
-            For an existing charge, you can also the information by clicking the
-            Edit
+          <p>
+            For an existing charge, you can also edit the information by
+            clicking the Edit
             <EditButton onClick={() => {}} actionName="Edit Case" />
             button on that charge.
           </p>
-          <p className="mb2">
+          <p>
             Both of these operations open a similar panel to allow creating or
             editing the charge:
           </p>
@@ -164,15 +147,19 @@ export default function EditingGuide() {
             disposition and a Charge Type. The charge type and disposition
             jointly determine the type-eligibility of the charge. See our
             complete list of{" "}
-            <Link className="bb hover-blue" to="/rules#chargetypes">
-              {" "}
-              Charge Types{" "}
+            <Link
+              className="bb hover-blue"
+              to="/rules#chargetypes"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Charge Types
             </Link>{" "}
             so that you can accurately select a charge type for each new or
             edited charge.
           </p>
         </section>
       </div>
-    </div>
+    </Accordion>
   );
 }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default class Footer extends React.Component {
   public render() {
     return (
-      <footer className="footer-main mw8 center f6 f5-l bg-white pt5 pb6 ph4">
+      <footer className="footer-main mw8 center f6 f5-l bg-white pt5 pb5 ph4">
         <div className="flex">
           <ul className="list mr5 mr6-ns">
             <li className="pb3">
