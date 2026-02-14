@@ -52,7 +52,7 @@ function PartnerElement({ partner, useAccordionSection }: PartnerElementProps) {
         <p className="mw6 lh-copy mb3">
           The majority of court fees are subject to waiver for income-qualified
           individuals who complete the waiver form.{" "}
-          <Link className="link hover-blue bb" to="/manual#filepaperwork">
+          <Link className="link hover-blue bb" to="/manual#feewaiver">
             Learn More
           </Link>
         </p>

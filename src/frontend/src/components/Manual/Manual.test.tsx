@@ -11,7 +11,7 @@ it("renders", () => {
     .create(
       <BrowserRouter>
         <Manual />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
     .toJSON();
 });
@@ -22,16 +22,24 @@ test("the editing guide can be opened and closed", async () => {
   render(
     <BrowserRouter>
       <Manual />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
+
+  const part2 = screen.getByLabelText("Part 2: Search Client Records");
+  await user.click(part2);
+
+  const eligibility = screen.getByLabelText("Eligibility");
+  await user.click(eligibility);
+
+  const summary = screen.getByLabelText("Editing Guide");
 
   expect(screen.queryByText(/why edit/i)).not.toBeVisible();
 
-  await user.click(screen.getByRole("button"));
+  await user.click(summary);
 
-  expect(screen.queryByText(/why edit/i)).toBeVisible();
+  expect(screen.getByText(/why edit/i)).toBeVisible();
 
-  await user.click(screen.getByRole("button", { name: /editing guide/i }));
+  await user.click(summary);
 
   expect(screen.queryByText(/why edit/i)).not.toBeVisible();
 });

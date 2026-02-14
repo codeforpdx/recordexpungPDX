@@ -39,7 +39,7 @@ describe("App routing", () => {
     ["/", "winner"],
     ["/oeci", "ecourt"],
     ["/demo-record-search", "app demo"],
-    ["/manual", "introduction"],
+    ["/manual", "RecordSponge"],
     ["/rules", "type eligibility rules"],
     ["/faq", "myth"],
     ["/appendix", "forms to file"],

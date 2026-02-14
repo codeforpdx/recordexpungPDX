@@ -136,7 +136,7 @@ export default function FillFormsIndex() {
               available, it will be provided in the form. If it is not present
               in OECI, some of the information may or may not be required in the
               application; please consult the{" "}
-              <Link to="/manual#file" className="link hover-dark-blue bb">
+              <Link to="/manual#generate-paperwork" className="link hover-dark-blue bb">
                 Manual
               </Link>
               .
@@ -162,7 +162,7 @@ export default function FillFormsIndex() {
 
             <p className="mb3">
               Please read the complete instructions in the{" "}
-              <Link to="/manual#file" className="link hover-dark-blue bb">
+              <Link to="/manual#file-paperwork" className="link hover-dark-blue bb">
                 Manual
               </Link>{" "}
               for filing the required forms for expungement. After downloading
