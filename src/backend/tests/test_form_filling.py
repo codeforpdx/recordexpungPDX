@@ -677,6 +677,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             "(Conviction Charges)": "(A Bad Thing; A Bad Thing)",
             "(Arrest Dates)": "(Feb 3, 2020)",
             "(Full Name---)": "(foo bar)",
+            "(Service Printed Name)": "(foo bar)",
         }
         charges = [conviction_charge_factory(2000, 3, 9), conviction_charge_factory(2001, 4, 1)]
         assert_pdf_values(pdf_factory(charges), expected_values)
@@ -697,6 +698,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             "(Dismissed Charges)": "(A Bad Thing; A Bad Thing)",
             "(DA Number)": "(DA num 0)",
             "(Full Name---)": "(foo bar)",
+            "(Service Printed Name)": "(foo bar)",
         }
         charges = [dismissed_charge_factory(2001, 4, 1), dismissed_charge_factory(2000, 3, 9)]
         assert_pdf_values(pdf_factory(charges), expected_values)
@@ -723,6 +725,7 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
             "(Full Name)": "(foo bar)",
             "(DA Number)": "(DA num 0)",
             "(Full Name---)": "(foo bar)",
+            "(Service Printed Name)": "(foo bar)",
         }
         charge = dismissed_charge_factory()
         charge.name = charge_name
