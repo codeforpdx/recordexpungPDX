@@ -430,6 +430,7 @@ class PDFFieldMapper(UserDict):
             "(Plaintiff)": "State of Oregon",
             "(Case No)": s.case_number_with_comments,
             "(Case Number Possibly In Part)": s.case_number_possibly_in_part, # This field appears only on the Multnomah Arrest form.
+            "(In Part)": s.has_ineligible_charges,
             "(Defendant)": s.case_name,
             "(DOB)": s.date_of_birth,
             "(record of arrest with no charges filed)": s.has_no_complaint,
@@ -473,6 +474,7 @@ class PDFFieldMapper(UserDict):
             ),
             "(the District Attorney at address 2)": s.da_address,
             "(Name typed or printed_2)": s.full_name,
+            "(Service Printed Name)": s.full_name,
         }
     
 
@@ -541,6 +543,8 @@ class PDF:
 
     def update_annotations(self):
         for annotation in self.annotations:
+            if not annotation.T:
+                continue
             new_value = self.mapper.get(annotation.T)
 
             if annotation.FT == self.BUTTON_TYPE:
