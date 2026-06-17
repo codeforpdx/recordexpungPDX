@@ -13,5 +13,5 @@ class FareViolation(ChargeType):
     def type_eligibility(self, disposition):
         return TypeEligibility(
             EligibilityStatus.INELIGIBLE,
-            reason="Trimet-related fare violations are not prosecuted by the county DA and are not problematic for individuals, so we don't file them for expungement.",
+            reason="Ineligible",
         )
