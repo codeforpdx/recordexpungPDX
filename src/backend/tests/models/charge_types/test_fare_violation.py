@@ -14,8 +14,11 @@ def test_fare_violation_convicted():
     )
 
     assert isinstance(charge.charge_type, FareViolation)
-    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(5)(c)"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert (
+        charge.type_eligibility.reason
+        == "Trimet-related fare violations are not prosecuted by the county DA and are not problematic for individuals, so we don't file them for expungement."
+    )
 
 
 def test_fare_violation_dismissed():
@@ -27,5 +30,8 @@ def test_fare_violation_dismissed():
     )
 
     assert isinstance(charge.charge_type, FareViolation)
-    assert charge.type_eligibility.status is EligibilityStatus.ELIGIBLE
-    assert charge.type_eligibility.reason == "Eligible under 137.225(1)(d)"
+    assert charge.type_eligibility.status is EligibilityStatus.INELIGIBLE
+    assert (
+        charge.type_eligibility.reason
+        == "Trimet-related fare violations are not prosecuted by the county DA and are not problematic for individuals, so we don't file them for expungement."
+    )
