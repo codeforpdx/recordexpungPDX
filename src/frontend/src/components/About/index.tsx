@@ -264,8 +264,8 @@ export default class About extends React.Component {
               </h4>
               <Link
                 className="f4 f3-ns fw7 link light-blue hover-white"
-                to="/"
-                onClick={() => window.scrollTo(0, 0)}
+                to="/#find-a-partner"
+                smooth
               >
                 Find a partner
                 <span

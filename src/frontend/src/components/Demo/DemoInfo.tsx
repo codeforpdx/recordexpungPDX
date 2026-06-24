@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 
 class DemoInfo extends React.Component {
   formattedInfo = (
@@ -97,9 +97,9 @@ class DemoInfo extends React.Component {
             evaluate different examples. If you are looking to evaluate your own
             record for expungement eligibility, we urge you to contact{" "}
             <Link
-              to="/"
+              to="/#find-a-partner"
+              smooth
               className="link bb hover-blue"
-              onClick={() => window.scrollTo(0, 0)}
             >
               {" "}
               one of our partners{" "}
