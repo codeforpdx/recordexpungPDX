@@ -6,11 +6,11 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     container:
-      image: node:13.13.0-alpine
+      image: node:20-alpine
       env:
         CI: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: run frontend tests
         run: cd src/frontend && npm i && npm run-script ci-test
 
@@ -20,7 +20,12 @@ jobs:
       image: recordsponge/expungeservice:dev
 
     steps:
-      - uses: actions/checkout@v2
+      # The expungeservice:dev image is built on alpine 3.13, whose musl lacks
+      # pthread_getname_np, so the runner's default Node 24 binary can't load.
+      # Pin checkout's runtime to Node 20 until the base image moves to alpine 3.16+.
+      - uses: actions/checkout@v4
+        env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
       - name: copy to pipenv project dir
         run: cp -R src/backend/* /src/backend && ls -l /src/backend
       - name: run backend tests

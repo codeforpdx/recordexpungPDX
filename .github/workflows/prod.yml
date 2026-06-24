@@ -21,7 +21,7 @@ jobs:
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
