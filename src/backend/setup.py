@@ -11,7 +11,7 @@ setup(
         "cffi==1.14.0",
         "chardet==3.0.4",
         "click==7.1.2",
-        "cryptography==2.9.2",
+        "cryptography==39.0.1",
         "dacite==1.0.2",
         "decorator==4.4.2",
         "flask==1.1.2",
