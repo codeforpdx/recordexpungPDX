@@ -1,6 +1,6 @@
 import React from "react";
 import PartnerTable from "../PartnerTable";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import SVG from "../common/SVG";
 
 class Landing extends React.Component {
@@ -40,8 +40,8 @@ class Landing extends React.Component {
                   </h4>
                   <Link
                     className="f4 f3-ns fw7 link light-blue hover-white"
-                    to="/"
-                    onClick={() => window.scrollTo(0, 0)}
+                    to="/#find-a-partner"
+                    smooth
                   >
                     Find a partner
                     <span
@@ -283,7 +283,7 @@ class Landing extends React.Component {
               </div>
             </div>
           </div>
-          <div className="bg-navy pv6">
+          <div id="find-a-partner" className="bg-navy pv6">
             <div className="mw7 center">
               <div className="mh4">
                 <h2 className="white tc f3 f2-ns fw9 mb3">
