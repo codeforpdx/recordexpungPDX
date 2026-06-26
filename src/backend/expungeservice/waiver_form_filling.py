@@ -37,7 +37,7 @@ class CaseData:
 def get_mapping(case_data: CaseData):
     benefit = case_data.waiver_information_dict["snap"] or case_data.waiver_information_dict["ssi"] or case_data.waiver_information_dict["tanf"] or case_data.waiver_information_dict["ohp"]
     today = date.today().strftime("%b %-d, %Y")
-    da_address_lines = DA_ADDRESSES[case_data.case.summary.location.lower()].split("-")
+    da_address_lines = DA_ADDRESSES[case_data.case.summary.location.replace(" ", "_").lower()].split("-")
     explain_lines = wrap_text(case_data.waiver_information_dict["explain"])
     ask_lines = wrap_text(case_data.waiver_information_dict["explain2"])
     mapping = {
