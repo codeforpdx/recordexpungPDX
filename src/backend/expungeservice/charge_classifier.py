@@ -301,12 +301,12 @@ class ChargeClassifier:
         assault_three = "163165"  # ( ineligible if under subection(1)(h) ; Assault in the third degree of a minor 10 years or younger)
         if section == mistreatment_one:
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
-            question_string = "Was the victim between the ages of 18 and 65?"
+            question_string = "Was the victim between the ages of 18 and 64?"
             options = {"Yes": charge_type_by_level, "No": Subsection6()}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == mistreatment_two:
             charge_type_by_level = ChargeClassifier._classification_by_level(level, statute).ambiguous_charge_type[0]
-            question_string = "Was the victim older than 65?"
+            question_string = "Was the victim older than 64?"
             options = {"Yes": Subsection6(), "No": charge_type_by_level}
             return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
         elif section == endangering_welfare:
