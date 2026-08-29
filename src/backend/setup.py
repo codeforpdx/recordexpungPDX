@@ -7,7 +7,7 @@ setup(
         "backcall==0.1.0",
         "bcrypt==3.1.7",
         "beautifulsoup4==4.8.1",
-        "certifi==2020.4.5.1",
+        "certifi==2022.12.7",
         "cffi==1.14.0",
         "chardet==3.0.4",
         "click==7.1.2",
