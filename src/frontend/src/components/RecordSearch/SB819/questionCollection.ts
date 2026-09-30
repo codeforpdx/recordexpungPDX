@@ -1,3 +1,11 @@
+/**
+ * Question state: which questions are answered, which are live, and which are dormant.
+ *
+ * Every function here reads the resolved analysis (see resolve.ts), so "unknown" on a
+ * criterion means the record left it open and no answer has settled it.
+ */
+
+import { SB819Answers } from "./resolveAnalysis";
 import {
   SB819AnalysisData,
   SB819ChargeAnalysisData,
@@ -6,155 +14,133 @@ import {
   answerTarget,
 } from "./types";
 
-export interface PendingQuestion {
-  criterion: SB819CriterionResultData;
-  target: string;
-  /** True once no charge can still be affected by the answer. */
-  moot: boolean;
-  /** The question upstream of this one that has not let it through, while there is one on
-   * every charge. Answered against its pathway, it never will. */
-  heldBy?: SB819CriterionResultData;
-}
-
-function isQuestion(criterion: SB819CriterionResultData) {
+/** A criterion the client can settle: screenable, and the record left it a question. */
+export function isQuestion(criterion: SB819CriterionResultData) {
   return criterion.is_screenable && criterion.question !== null;
 }
 
-function noChargeStillAffectedBy(
-  analysis: SB819AnalysisData,
-  criterion: SB819CriterionResultData,
-  chargeIds: string[]
-) {
-  return chargeIds.every((id) => {
-    const charge = analysis.charges[id];
-    if (charge.pathways.length === 0) return true; // a main criterion already ended it
-    const pathway = charge.pathways.find(
-      (p) => p.pathway === criterion.pathway
-    );
-    return !pathway || pathway.status === "SB-819 Ineligible";
-  });
+export interface Question {
+  /** The criterion as the first charge that carries it reports it. */
+  criterion: SB819CriterionResultData;
+  target: string;
+  /** Every charge that puts this question, with that charge's own copy of the criterion. */
+  carriers: {
+    charge: SB819ChargeAnalysisData;
+    criterion: SB819CriterionResultData;
+  }[];
 }
 
+export type QuestionState = "answered" | "live" | "dormant";
+
+const mainFailed = (charge: SB819ChargeAnalysisData) =>
+  charge.main_criteria.some((c) => c.is_screenable && c.outcome === "Failed");
+
+const openMainQuestion = (charge: SB819ChargeAnalysisData) =>
+  charge.main_criteria.some((c) => isQuestion(c) && c.outcome === "Unknown");
+
 /**
- * The question that has to be met before this one is put to the client, if any.
+ * Whether answering this criterion's question now could change a status on this charge.
  *
- * A main criterion still open on the charge comes before every pathway question, because a
- * conviction that fails it is out under every application type. Within a pathway, the gate
- * comes before the rest: it defines who the pathway is for, so a volunteer is not asked how
- * long an applicant has served before it is known that the applicant is in custody. A gate
- * that has been answered against the pathway keeps holding, since nothing behind it can
- * change anything. A question is never held by itself.
+ * It cannot when the record or an answer has already settled it; when the charge is out on
+ * its main criteria; when the pathway is already ruled out; while a main-criterion question
+ * on the charge is open, since a conviction not sentenced as a felony is out under every
+ * pathway; while the pathway's gate has not passed, since the gate says who the pathway is
+ * for; or once another alternative in its group has passed, since one met alternative
+ * satisfies the group.
  */
-export function holdingQuestion(
+export function liveOnCharge(
   charge: SB819ChargeAnalysisData,
   criterion: SB819CriterionResultData
-): SB819CriterionResultData | undefined {
-  if (criterion.pathway === null) return undefined;
+): boolean {
+  if (!isQuestion(criterion) || criterion.outcome !== "Unknown") return false;
+  if (mainFailed(charge)) return false;
+  if (criterion.pathway === null) return true;
 
-  const openMain = charge.main_criteria.find(
-    (c) => isQuestion(c) && c.outcome === "Unknown"
-  );
-  if (openMain) return openMain;
-
-  if (criterion.is_gate) return undefined;
+  if (openMainQuestion(charge)) return false;
   const pathway = charge.pathways.find((p) => p.pathway === criterion.pathway);
-  const gate = pathway?.criteria.find((c) => c.is_gate && isQuestion(c));
-  return gate && gate.outcome !== "Passed" ? gate : undefined;
+  if (!pathway || pathway.status === "SB-819 Ineligible") return false;
+  if (!criterion.is_gate) {
+    const gate = pathway.criteria.find((c) => c.is_gate);
+    if (gate && gate.outcome !== "Passed") return false;
+  }
+  if (criterion.disjunction_group) {
+    const groupMet = pathway.criteria.some(
+      (c) =>
+        c.disjunction_group === criterion.disjunction_group &&
+        c.outcome === "Passed"
+    );
+    if (groupMet) return false;
+  }
+  return true;
 }
 
 /**
- * The distinct questions at a given scope, in the order the criteria are evaluated.
- *
- * A record-scope question appears identically on every charge, so it is collected once.
- * Questions whose pathway is already ruled out everywhere are kept and marked moot, so the
- * reasoning stays visible without demanding an answer that changes nothing.
- * A question held back on every charge it appears on carries the question holding it; one
- * that is live on any charge is not held at all.
+ * The distinct questions at a scope over some charges, in evaluation order: main criteria
+ * first, then each pathway's criteria in turn. A record-scope question is carried by every
+ * charge it is a question on and collected once.
  */
-export function collectQuestions(
+export function questionsAt(
   analysis: SB819AnalysisData,
   scope: SB819Scope,
   chargeIds: string[] = Object.keys(analysis.charges)
-): PendingQuestion[] {
-  const collected = new Map<string, PendingQuestion>();
-  const holders = new Map<string, (SB819CriterionResultData | undefined)[]>();
-
+): Question[] {
+  const byTarget = new Map<string, Question>();
   chargeIds.forEach((id) => {
     const charge = analysis.charges[id];
-    const all = [
-      ...charge.main_criteria,
-      ...charge.pathways.flatMap((p) => p.criteria),
-    ];
-    all
-      .filter((criterion) => criterion.scope === scope && isQuestion(criterion))
+    [...charge.main_criteria, ...charge.pathways.flatMap((p) => p.criteria)]
+      .filter((c) => c.scope === scope && isQuestion(c))
       .forEach((criterion) => {
         const target = answerTarget(
           criterion,
           charge.case_number,
           charge.ambiguous_charge_id
         );
-        holders.set(target, [
-          ...(holders.get(target) ?? []),
-          holdingQuestion(charge, criterion),
-        ]);
-        if (collected.has(target)) return;
-        collected.set(target, {
+        const question = byTarget.get(target) ?? {
           criterion,
           target,
-          moot: noChargeStillAffectedBy(analysis, criterion, chargeIds),
-        });
+          carriers: [],
+        };
+        question.carriers.push({ charge, criterion });
+        byTarget.set(target, question);
       });
   });
-
-  return Array.from(collected.values()).map((question) => {
-    const onEachCharge = holders.get(question.target) ?? [];
-    const heldEverywhere =
-      onEachCharge.length > 0 && onEachCharge.every(Boolean);
-    return heldEverywhere
-      ? { ...question, heldBy: onEachCharge.find(Boolean) }
-      : question;
-  });
+  return Array.from(byTarget.values());
 }
 
-export interface PartitionedQuestions {
-  /** Shown as normal: still live, or already answered. */
-  asked: PendingQuestion[];
-  /** Tucked away: nothing turns on them any more and nobody has answered them. */
-  setAside: PendingQuestion[];
-  /** The pathways whose collapse put those questions aside. */
-  setAsideReason: string[];
+/** Answered on its target; else live if live on any charge that carries it; else dormant. */
+export function stateOf(
+  question: Question,
+  answers: SB819Answers
+): QuestionState {
+  if (answers[question.target]) return "answered";
+  const live = question.carriers.some(({ charge, criterion }) =>
+    liveOnCharge(charge, criterion)
+  );
+  return live ? "live" : "dormant";
 }
 
-/**
- * Splits questions into the ones worth showing and the ones worth folding away. A question
- * waiting on another is in neither: it appears once the question it waits on lets it
- * through.
- *
- * An answered question is never folded away, however moot it has become. It is the record
- * of a decision and the only way back from it, and hiding it would strand the volunteer
- * with an answer they could no longer change. A held question outranks a moot one: the
- * gate that holds it is the same answer that made it moot, and the volunteer never saw it,
- * so there is nothing to fold away.
- */
-export function partitionQuestions(
-  questions: PendingQuestion[],
-  answers: { [target: string]: string | undefined }
-): PartitionedQuestions {
-  const answered = (q: PendingQuestion) => Boolean(answers[q.target]);
-  const asked = questions.filter((q) => answered(q) || (!q.heldBy && !q.moot));
-  const setAside = questions.filter((q) => !answered(q) && !q.heldBy && q.moot);
-  const setAsideReason = Array.from(
-    new Set(setAside.map((q) => q.criterion.pathway).filter(Boolean))
-  ) as string[];
-  return { asked, setAside, setAsideReason };
+/** The questions a panel shows: every one that is answered or live. */
+export function shown(
+  questions: Question[],
+  answers: SB819Answers
+): Question[] {
+  return questions.filter((q) => stateOf(q, answers) !== "dormant");
 }
 
-/** Charge ids belonging to one case, for gathering that case's questions. */
+/** Whether a panel still has a live question with no answer, which holds everything below it. */
+export function awaiting(
+  questions: Question[],
+  answers: SB819Answers
+): boolean {
+  return questions.some((q) => stateOf(q, answers) === "live");
+}
+
+/** The charge ids on one case, for the case's own questions. */
 export function chargeIdsForCase(
   analysis: SB819AnalysisData,
   caseNumber: string
 ): string[] {
   return Object.values(analysis.charges)
-    .filter((charge) => charge.case_number === caseNumber)
-    .map((charge) => charge.ambiguous_charge_id);
+    .filter((c) => c.case_number === caseNumber)
+    .map((c) => c.ambiguous_charge_id);
 }

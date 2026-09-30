@@ -1,26 +1,28 @@
 import React from "react";
 import { ChargeData } from "../Record/types";
 import ExpungementRules from "../Record/ExpungementRules";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
-import { collectQuestions, partitionQuestions } from "./questionCollection";
+import { awaiting, questionsAt, shown } from "./questionCollection";
+import { SB819Answers } from "./resolveAnalysis";
 import SB819Criteria from "./SB819Criteria";
 import SB819Question from "./SB819Question";
 import SB819QuestionBlock from "./SB819QuestionBlock";
-import SB819SetAside from "./SB819SetAside";
 import { SB819AnalysisData } from "./types";
 
 interface Props {
   charge: ChargeData;
   analysis: SB819AnalysisData;
+  answers: SB819Answers;
 }
 
 export function chargeTitle({ statute, name }: ChargeData) {
   return `${statute}${statute && "-"}${name}`;
 }
 
-function describeDisposition(disposition: ChargeData["disposition"]) {
-  const { status, ruling, date } = disposition;
+function describeDisposition({
+  status,
+  ruling,
+  date,
+}: ChargeData["disposition"]) {
   if (status === "Convicted" || status === "Dismissed")
     return `${status} - ${date}`;
   if (status === "Unrecognized") return `${status} ("${ruling}")`;
@@ -28,29 +30,22 @@ function describeDisposition(disposition: ChargeData["disposition"]) {
 }
 
 /**
- * A conviction as the SB-819 view presents it.
+ * A conviction as the SB-819 view presents it: its detail lines, then its own questions in
+ * the form RecordSponge's eligibility questions take, and once every live one is answered,
+ * the criteria and what follows from them. Changing an answer above changes the reasoning
+ * below.
  *
  * Deliberately not the record view's charge panel. Everything here is a conviction that
- * expungement cannot reach, so that view's verdict badge and its type eligibility would
- * read the same on every charge and say nothing.
- *
- * What is left is the charge itself, then its questions in the form RecordSponge's own
- * eligibility questions take, and once every question on offer is answered, the criteria
- * and the reasoning that follows from those answers. Changing an answer above changes the
- * reasoning below.
+ * expungement cannot reach, so that view's verdict badge would read the same on every
+ * charge and say nothing.
  */
-export default function SB819Charge({ charge, analysis }: Props) {
-  const { ambiguous_charge_id, level, date, disposition } = charge;
-  const answers = useAppSelector(selectSB819Answers);
-  const { asked, setAside, setAsideReason } = partitionQuestions(
-    collectQuestions(analysis, "charge", [ambiguous_charge_id]),
-    answers
-  );
-  const hasQuestions = asked.length + setAside.length > 0;
-  const answered = asked.every((q) => answers[q.target]);
+export default function SB819Charge({ charge, analysis, answers }: Props) {
+  const id = charge.ambiguous_charge_id;
+  const questions = questionsAt(analysis, "charge", [id]);
+  const visible = shown(questions, answers);
 
   return (
-    <div className="relative br3 bg-white ma2" id={ambiguous_charge_id}>
+    <div className="relative br3 bg-white ma2" id={id}>
       <div className="ph3 pt3 pb1">
         <ul className="list mw6">
           <li className="flex mb2">
@@ -58,42 +53,37 @@ export default function SB819Charge({ charge, analysis }: Props) {
             {chargeTitle(charge)}
           </li>
           <li className="flex mb2">
-            <span className="w6rem shrink-none fw7">Severity</span> {level}
+            <span className="w6rem shrink-none fw7">Severity</span>{" "}
+            {charge.level}
           </li>
           <li className="flex mb2">
             <span className="w6rem shrink-none fw7">Disposition</span>{" "}
-            {describeDisposition(disposition)}
+            {describeDisposition(charge.disposition)}
           </li>
           <li className="flex mb2">
-            <span className="w6rem shrink-none fw7">Charged</span> {date}
+            <span className="w6rem shrink-none fw7">Charged</span> {charge.date}
           </li>
         </ul>
       </div>
 
       <ExpungementRules expungement_rules={charge.expungement_rules} />
 
-      {hasQuestions && (
+      {visible.length > 0 && (
         <div className="bt b--light-gray">
           <SB819QuestionBlock>
-            {asked.map(({ criterion, target }) => (
+            {visible.map(({ criterion, target }) => (
               <SB819Question
                 key={target}
                 criterion={criterion}
                 target={target}
               />
             ))}
-
-            <SB819SetAside
-              id={`sb819-charge-set-aside-${ambiguous_charge_id}`}
-              setAside={setAside}
-              setAsideReason={setAsideReason}
-            />
           </SB819QuestionBlock>
         </div>
       )}
 
-      {answered && (
-        <SB819Criteria analysis={analysis.charges[ambiguous_charge_id]} />
+      {!awaiting(questions, answers) && (
+        <SB819Criteria analysis={analysis.charges[id]} />
       )}
     </div>
   );

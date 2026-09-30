@@ -3,7 +3,6 @@ import useSelectableDisclosure from "./useSelectableDisclosure";
 import DisclosureIcon from "../../common/DisclosureIcon";
 import SB819Collapse from "./SB819Collapse";
 import { disqualifyingCriteria, resolveOutcomes } from "./resolveAnalysis";
-import { holdingQuestion } from "./questionCollection";
 import {
   SB819ChargeAnalysisData,
   SB819CriterionResultData,
@@ -29,22 +28,8 @@ function DeterminationTag({ result }: { result: SB819CriterionResultData }) {
   );
 }
 
-/**
- * One criterion: its outcome, its name, and how it is settled. The questions themselves are
- * asked in the blocks above, and a pathway that is ruled out names what ruled it out, so
- * the row carries nothing more. A criterion behind a gate answered against its pathway is
- * not shown at all, since nothing turns on it and the gate's answer already says so.
- */
-function Criterion({
-  result,
-  charge,
-}: {
-  result: SB819CriterionResultData;
-  charge: SB819ChargeAnalysisData;
-}) {
-  const holder = result.question ? holdingQuestion(charge, result) : undefined;
-  if (holder?.outcome === "Failed") return null;
-
+/** The outcome, the name, and how it is settled; nothing else. */
+function Criterion({ result }: { result: SB819CriterionResultData }) {
   return (
     <li className="pv2 bb b--light-gray">
       <div className="flex flex-wrap items-baseline">
@@ -56,6 +41,21 @@ function Criterion({
         <DeterminationTag result={result} />
       </div>
     </li>
+  );
+}
+
+/**
+ * The rows of a pathway: its screenable criteria that are not about the applicant, minus
+ * the questions nothing turns on. Record-scope criteria are answered once at the top. By
+ * the time the criteria are shown every live question on the charge is answered, so an
+ * unknown question left here is dormant.
+ */
+function pathwayRows(pathway: SB819PathwayResultData) {
+  return pathway.criteria.filter(
+    (c) =>
+      c.is_screenable &&
+      c.scope !== "record" &&
+      !(c.question && c.outcome === "Unknown")
   );
 }
 
@@ -102,11 +102,6 @@ function Pathway({
     if (decided) setIsExpanded(false);
   }, [decided, setIsExpanded]);
 
-  // Questions about the applicant are answered once, above, so their rows are not repeated
-  // on every charge. Criteria nobody can settle are not criteria rows at all.
-  const own = pathway.criteria.filter(
-    (c) => c.scope !== "record" && c.is_screenable
-  );
   const blocker = disqualifyingCriteria(pathway.criteria)[0];
 
   return (
@@ -134,8 +129,8 @@ function Pathway({
 
       <SB819Collapse contentProps={disclosureContentProps}>
         <ul className="list">
-          {own.map((result) => (
-            <Criterion key={result.key} result={result} charge={charge} />
+          {pathwayRows(pathway).map((result) => (
+            <Criterion key={result.key} result={result} />
           ))}
         </ul>
       </SB819Collapse>
@@ -212,7 +207,7 @@ export default function SB819Criteria({ analysis }: Props) {
       <SB819Collapse contentProps={disclosureContentProps}>
         <ul className="list mb3">
           {analysis.main_criteria.map((result) => (
-            <Criterion key={result.key} result={result} charge={analysis} />
+            <Criterion key={result.key} result={result} />
           ))}
         </ul>
       </SB819Collapse>

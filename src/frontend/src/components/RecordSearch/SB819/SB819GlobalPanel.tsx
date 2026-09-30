@@ -4,27 +4,23 @@ import DisclosureIcon from "../../common/DisclosureIcon";
 import SB819Collapse from "./SB819Collapse";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
-import { PartitionedQuestions } from "./questionCollection";
-import SB819SetAside from "./SB819SetAside";
+import { Question } from "./questionCollection";
 import SB819Question from "./SB819Question";
 import SB819QuestionBlock from "./SB819QuestionBlock";
 
 interface Props {
-  questions: PartitionedQuestions;
+  /** The record-scope questions that are answered or live. */
+  questions: Question[];
 }
 
 /**
- * The questions that are facts about the applicant rather than about any conviction.
- *
- * Asked once here and applied to every charge, so a volunteer answers "is the applicant
- * currently incarcerated" one time instead of once per conviction. The panel opens with the
- * questions that gate a pathway and grows as they are met; it renders nothing at all while
- * every question in it waits on an answer given elsewhere.
+ * The questions that are facts about the applicant rather than about any conviction, asked
+ * once and applied to every charge. Absent while every such question waits on a
+ * main-criterion question somewhere below.
  */
 export default function SB819GlobalPanel({ questions }: Props) {
   const answers = useAppSelector(selectSB819Answers);
-  const { asked, setAside, setAsideReason } = questions;
-  const answered = asked.filter((q) => answers[q.target]).length;
+  const answered = questions.filter((q) => answers[q.target]).length;
   const {
     disclosureIsExpanded,
     disclosureButtonProps,
@@ -34,7 +30,7 @@ export default function SB819GlobalPanel({ questions }: Props) {
     isOpenToStart: true,
   });
 
-  if (asked.length === 0 && setAside.length === 0) return null;
+  if (questions.length === 0) return null;
 
   return (
     <div
@@ -47,24 +43,16 @@ export default function SB819GlobalPanel({ questions }: Props) {
       >
         <h3 className="f5 fw7 mr-auto">About the applicant</h3>
         <span className="f6 gray mr2">
-          {asked.length > 0
-            ? `${answered} of ${asked.length} answered`
-            : `${setAside.length} not needed`}
+          {answered} of {questions.length} answered
         </span>
         <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
       </button>
 
       <SB819Collapse contentProps={disclosureContentProps}>
         <SB819QuestionBlock>
-          {asked.map(({ criterion, target }) => (
+          {questions.map(({ criterion, target }) => (
             <SB819Question key={target} criterion={criterion} target={target} />
           ))}
-
-          <SB819SetAside
-            id="sb819-applicant-set-aside"
-            setAside={setAside}
-            setAsideReason={setAsideReason}
-          />
         </SB819QuestionBlock>
       </SB819Collapse>
     </div>

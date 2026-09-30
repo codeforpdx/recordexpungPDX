@@ -1,36 +1,27 @@
 import React from "react";
 import { CaseData, ChargeData } from "../Record/types";
 import currencyFormat from "../../../service/currency-format";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
 import {
+  awaiting,
   chargeIdsForCase,
-  collectQuestions,
-  partitionQuestions,
+  questionsAt,
+  shown,
 } from "./questionCollection";
+import { SB819Answers } from "./resolveAnalysis";
 import SB819Charge, { chargeTitle } from "./SB819Charge";
 import SB819CaseQuestions from "./SB819CaseQuestions";
-import { SB819AnalysisData, SB819ChargeAnalysisData } from "./types";
+import { SB819AnalysisData } from "./types";
 
 interface Props {
   aCase: CaseData;
   analysis: SB819AnalysisData;
+  answers: SB819Answers;
 }
 
 const OECI_CASE_DETAIL =
   "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
 
-/**
- * A conviction the record itself rules out under the main criteria. Nothing about it
- * turns on an answer, so its reasoning is shown whatever is still open on its case.
- */
-function ruledOutByTheRecord(charge: SB819ChargeAnalysisData) {
-  return charge.main_criteria.some(
-    (c) => c.outcome === "Failed" && c.question === null
-  );
-}
-
-/** A conviction named and nothing more, while the case it is on still has a question open. */
+/** A conviction named and nothing more, while a question on its case still holds it. */
 function ChargeLine({ charge }: { charge: ChargeData }) {
   return (
     <div className="br3 bg-white ma2 ph3 pv2" id={charge.ambiguous_charge_id}>
@@ -43,14 +34,11 @@ function ChargeLine({ charge }: { charge: ChargeData }) {
 }
 
 /**
- * A case as the SB-819 view presents it: enough to identify the prosecution, the questions
- * that are answered once for it, and its convictions.
- *
- * The case's questions come first. Until each one on offer is answered, the convictions
- * are listed by name only, so the volunteer works down the page in the order the answers
- * are needed.
+ * A case: enough to identify the prosecution, the questions answered once for it, and its
+ * convictions. A conviction is listed by name alone while a case question live on it is
+ * unanswered, so a conviction the record rules out shows in full at once.
  */
-export default function SB819Case({ aCase, analysis }: Props) {
+export default function SB819Case({ aCase, analysis, answers }: Props) {
   const {
     case_number,
     location,
@@ -59,12 +47,11 @@ export default function SB819Case({ aCase, analysis }: Props) {
     case_detail_link,
     charges,
   } = aCase;
-  const answers = useAppSelector(selectSB819Answers);
-  const questions = partitionQuestions(
-    collectQuestions(analysis, "case", chargeIdsForCase(analysis, case_number)),
-    answers
+  const caseQuestions = questionsAt(
+    analysis,
+    "case",
+    chargeIdsForCase(analysis, case_number)
   );
-  const caseAnswered = questions.asked.every((q) => answers[q.target]);
 
   // Matches the record view: in development the API is not behind the same origin.
   const prefix = window.location.href.includes("localhost")
@@ -103,21 +90,28 @@ export default function SB819Case({ aCase, analysis }: Props) {
         </div>
       </div>
 
-      <SB819CaseQuestions caseNumber={case_number} questions={questions} />
+      <SB819CaseQuestions questions={shown(caseQuestions, answers)} />
 
       <ul className="list">
-        {charges.map((charge) => (
-          <li key={charge.ambiguous_charge_id}>
-            {caseAnswered ||
-            ruledOutByTheRecord(
-              analysis.charges[charge.ambiguous_charge_id]
-            ) ? (
-              <SB819Charge charge={charge} analysis={analysis} />
-            ) : (
-              <ChargeLine charge={charge} />
-            )}
-          </li>
-        ))}
+        {charges.map((charge) => {
+          const heldByCase = awaiting(
+            questionsAt(analysis, "case", [charge.ambiguous_charge_id]),
+            answers
+          );
+          return (
+            <li key={charge.ambiguous_charge_id}>
+              {heldByCase ? (
+                <ChargeLine charge={charge} />
+              ) : (
+                <SB819Charge
+                  charge={charge}
+                  analysis={analysis}
+                  answers={answers}
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
