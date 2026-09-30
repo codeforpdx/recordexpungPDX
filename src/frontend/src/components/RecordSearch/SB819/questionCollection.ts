@@ -11,7 +11,8 @@ export interface PendingQuestion {
   target: string;
   /** True once no charge can still be affected by the answer. */
   moot: boolean;
-  /** The unanswered question upstream of this one, while there is one on every charge. */
+  /** The question upstream of this one that has not let it through, while there is one on
+   * every charge. Answered against its pathway, it never will. */
   heldBy?: SB819CriterionResultData;
 }
 
@@ -59,21 +60,6 @@ export function holdingQuestion(
   const pathway = charge.pathways.find((p) => p.pathway === criterion.pathway);
   const gate = pathway?.criteria.find((c) => c.is_gate && isQuestion(c));
   return gate && gate.outcome !== "Passed" ? gate : undefined;
-}
-
-/** Whether a charge-scope question is shown as a question on its charge or waits on another. */
-export function isHeld(
-  charge: SB819ChargeAnalysisData,
-  criterion: SB819CriterionResultData
-) {
-  return holdingQuestion(charge, criterion) !== undefined;
-}
-
-/** The answer to a holding question that lets the questions behind it through. */
-export function revealingAnswer(
-  holder: SB819CriterionResultData
-): "Yes" | "No" {
-  return holder.question?.if_yes === "SB-819 Ineligible" ? "No" : "Yes";
 }
 
 /**
@@ -133,8 +119,6 @@ export function collectQuestions(
 export interface PartitionedQuestions {
   /** Shown as normal: still live, or already answered. */
   asked: PendingQuestion[];
-  /** Waiting on the answer to another question, and not yet answered themselves. */
-  held: PendingQuestion[];
   /** Tucked away: nothing turns on them any more and nobody has answered them. */
   setAside: PendingQuestion[];
   /** The pathways whose collapse put those questions aside. */
@@ -142,14 +126,15 @@ export interface PartitionedQuestions {
 }
 
 /**
- * Splits questions into the ones worth showing, the ones not yet reached, and the ones
- * worth folding away.
+ * Splits questions into the ones worth showing and the ones worth folding away. A question
+ * waiting on another is in neither: it appears once the question it waits on lets it
+ * through.
  *
- * An answered question is never held or folded away, however moot it has become. It is the
- * record of a decision and the only way back from it, and hiding it would strand the
- * volunteer with an answer they could no longer change. A held question outranks a moot
- * one: the gate that holds it is the same answer that made it moot, and the volunteer
- * never saw it, so there is nothing to fold away.
+ * An answered question is never folded away, however moot it has become. It is the record
+ * of a decision and the only way back from it, and hiding it would strand the volunteer
+ * with an answer they could no longer change. A held question outranks a moot one: the
+ * gate that holds it is the same answer that made it moot, and the volunteer never saw it,
+ * so there is nothing to fold away.
  */
 export function partitionQuestions(
   questions: PendingQuestion[],
@@ -157,14 +142,11 @@ export function partitionQuestions(
 ): PartitionedQuestions {
   const answered = (q: PendingQuestion) => Boolean(answers[q.target]);
   const asked = questions.filter((q) => answered(q) || (!q.heldBy && !q.moot));
-  const held = questions.filter((q) => !answered(q) && q.heldBy);
-  const setAside = questions.filter(
-    (q) => !answered(q) && !q.heldBy && q.moot
-  );
+  const setAside = questions.filter((q) => !answered(q) && !q.heldBy && q.moot);
   const setAsideReason = Array.from(
     new Set(setAside.map((q) => q.criterion.pathway).filter(Boolean))
   ) as string[];
-  return { asked, held, setAside, setAsideReason };
+  return { asked, setAside, setAsideReason };
 }
 
 /** Charge ids belonging to one case, for gathering that case's questions. */

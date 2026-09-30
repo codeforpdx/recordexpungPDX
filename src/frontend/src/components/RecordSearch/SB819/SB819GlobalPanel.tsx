@@ -4,14 +4,13 @@ import DisclosureIcon from "../../common/DisclosureIcon";
 import SB819Collapse from "./SB819Collapse";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
-import { collectQuestions, partitionQuestions } from "./questionCollection";
+import { PartitionedQuestions } from "./questionCollection";
 import SB819SetAside from "./SB819SetAside";
-import SB819Held from "./SB819Held";
 import SB819Question from "./SB819Question";
-import { SB819AnalysisData } from "./types";
+import SB819QuestionBlock from "./SB819QuestionBlock";
 
 interface Props {
-  analysis: SB819AnalysisData;
+  questions: PartitionedQuestions;
 }
 
 /**
@@ -22,13 +21,9 @@ interface Props {
  * questions that gate a pathway and grows as they are met; it renders nothing at all while
  * every question in it waits on an answer given elsewhere.
  */
-export default function SB819GlobalPanel({ analysis }: Props) {
-  const questions = collectQuestions(analysis, "record");
+export default function SB819GlobalPanel({ questions }: Props) {
   const answers = useAppSelector(selectSB819Answers);
-  const { asked, held, setAside, setAsideReason } = partitionQuestions(
-    questions,
-    answers
-  );
+  const { asked, setAside, setAsideReason } = questions;
   const answered = asked.filter((q) => answers[q.target]).length;
   const {
     disclosureIsExpanded,
@@ -60,21 +55,17 @@ export default function SB819GlobalPanel({ analysis }: Props) {
       </button>
 
       <SB819Collapse contentProps={disclosureContentProps}>
-        <p className="f6 mb3">
-          These are facts about the applicant rather than about any one
-          conviction, so each is asked once and applied to every charge below.
-        </p>
-        {asked.map(({ criterion, target }) => (
-          <SB819Question key={target} criterion={criterion} target={target} />
-        ))}
+        <SB819QuestionBlock>
+          {asked.map(({ criterion, target }) => (
+            <SB819Question key={target} criterion={criterion} target={target} />
+          ))}
 
-        <SB819Held held={held} />
-
-        <SB819SetAside
-          id="sb819-applicant-set-aside"
-          setAside={setAside}
-          setAsideReason={setAsideReason}
-        />
+          <SB819SetAside
+            id="sb819-applicant-set-aside"
+            setAside={setAside}
+            setAsideReason={setAsideReason}
+          />
+        </SB819QuestionBlock>
       </SB819Collapse>
     </div>
   );

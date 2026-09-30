@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import useSelectableDisclosure from "./useSelectableDisclosure";
 import DisclosureIcon from "../../common/DisclosureIcon";
 import SB819Collapse from "./SB819Collapse";
-import { disqualifyingCriteria, openQuestionCount } from "./resolveAnalysis";
+import { disqualifyingCriteria, resolveOutcomes } from "./resolveAnalysis";
 import { holdingQuestion } from "./questionCollection";
-import { HeldNote } from "./SB819Held";
-import SB819Question from "./SB819Question";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
 import {
   SB819ChargeAnalysisData,
   SB819CriterionResultData,
   SB819PathwayResultData,
+  SB819QuestionData,
   answerTarget,
   failureReason,
   outcomeIcon,
@@ -32,6 +33,37 @@ function DeterminationTag({ result }: { result: SB819CriterionResultData }) {
   );
 }
 
+/** The answer a question was given, in the same shape as a pathway's stated bar. */
+function AnswerLine({
+  question,
+  answer,
+}: {
+  question: SB819QuestionData;
+  answer: "yes" | "no";
+}) {
+  const outcome = answer === "yes" ? question.if_yes : question.if_no;
+  return (
+    <p className="f6 mt1 mb0">
+      <span className="gray">{question.text}</span>{" "}
+      <span className={"fw7 " + statusColor(outcome)}>
+        {answer === "yes" ? "Yes" : "No"}
+      </span>
+    </p>
+  );
+}
+
+/**
+ * Criteria whose row is the name and outcome alone. The Collateral Consequences criteria
+ * and the innocence claim are each settled by a single plain question or by a document the
+ * applicant assembles later, so the explanation and the answer add nothing to the icon.
+ */
+function isTerse(result: SB819CriterionResultData) {
+  return (
+    result.pathway === "Collateral Consequences" ||
+    result.key === "innocence-claim"
+  );
+}
+
 function Criterion({
   result,
   charge,
@@ -39,10 +71,20 @@ function Criterion({
   result: SB819CriterionResultData;
   charge: SB819ChargeAnalysisData;
 }) {
-  // Shown whether or not it has been answered, so an answer can always be revisited. A
-  // question waiting on another is named as waiting rather than asked.
-  const askedHere = result.scope === "charge" && result.question;
-  const holder = askedHere ? holdingQuestion(charge, result) : undefined;
+  const answers = useAppSelector(selectSB819Answers);
+  // The question itself is asked in a question block above, so a criterion settled by one
+  // carries only the answer it was given. A question whose gate was answered against the
+  // pathway is not shown at all, since nothing turns on it and the gate's answer already
+  // says so. Every other gate is answered before the reasoning is shown, so no row waits.
+  const holder = result.question ? holdingQuestion(charge, result) : undefined;
+  if (holder?.outcome === "Failed") return null;
+  const terse = isTerse(result);
+
+  const answer = result.question
+    ? answers[
+        answerTarget(result, charge.case_number, charge.ambiguous_charge_id)
+      ]
+    : undefined;
 
   return (
     <li className="pv2 bb b--light-gray">
@@ -53,24 +95,15 @@ function Criterion({
         ></span>
         <span className="fw6">{result.name}</span>
         <DeterminationTag result={result} />
-        <span className="f7 gray ml2 nowrap">{result.citation}</span>
       </div>
-      <div className="f6 mt1 ml3 pl1">{result.explanation}</div>
-      {holder && (
+      {!terse && <div className="f6 mt1 ml3 pl1">{result.explanation}</div>}
+      {!terse && result.question && (
         <div className="ml3 pl1">
-          <HeldNote holder={holder} />
-        </div>
-      )}
-      {askedHere && !holder && (
-        <div className="ml3 pl1">
-          <SB819Question
-            criterion={result}
-            target={answerTarget(
-              result,
-              charge.case_number,
-              charge.ambiguous_charge_id
-            )}
-          />
+          {answer ? (
+            <AnswerLine question={result.question} answer={answer} />
+          ) : (
+            <p className="f6 gray mt1 mb0">Not yet answered.</p>
+          )}
         </div>
       )}
     </li>
@@ -109,7 +142,9 @@ function Pathway({
     setIsExpanded,
   } = useSelectableDisclosure({
     id: `pathway-${charge.ambiguous_charge_id}-${pathway.pathway}`,
-    isOpenToStart: !decided,
+    // Actual Innocence turns on a claim and an investigation, so its criteria are worth
+    // reading only on request.
+    isOpenToStart: !decided && pathway.pathway !== "Actual Innocence",
   });
 
   // An answer can rule the pathway out after it has already been rendered open, so the
@@ -118,8 +153,8 @@ function Pathway({
     if (decided) setIsExpanded(false);
   }, [decided, setIsExpanded]);
 
-  // Questions about the applicant are answered once, above, and summarised separately.
-  // Criteria nobody can settle are not criteria rows at all; they render as instructions.
+  // Questions about the applicant are answered once, above, so their rows are not repeated
+  // on every charge. Criteria nobody can settle are not criteria rows at all.
   const own = pathway.criteria.filter(
     (c) => c.scope !== "record" && c.is_screenable
   );
@@ -160,19 +195,23 @@ function Pathway({
 }
 
 interface Props {
-  analysis?: SB819ChargeAnalysisData;
+  analysis: SB819ChargeAnalysisData;
 }
 
+/**
+ * The criteria applied to one conviction and what follows from them. Rendered once every
+ * question the conviction turns on has been answered, so every row is settled or moot.
+ */
 export default function SB819Criteria({ analysis }: Props) {
-  const allMainPassed =
-    analysis?.main_criteria.every((c) => c.outcome === "Passed") ?? false;
+  const mainStatus = resolveOutcomes(analysis.main_criteria);
+  const allMainPassed = mainStatus === "Possibly SB-819 Eligible";
   const {
     disclosureIsExpanded,
     disclosureButtonProps,
     disclosureContentProps,
     setIsExpanded,
   } = useSelectableDisclosure({
-    id: `main-${analysis?.ambiguous_charge_id ?? "none"}`,
+    id: `main-${analysis.ambiguous_charge_id}`,
     isOpenToStart: !allMainPassed,
   });
 
@@ -181,21 +220,11 @@ export default function SB819Criteria({ analysis }: Props) {
     if (allMainPassed) setIsExpanded(false);
   }, [allMainPassed, setIsExpanded]);
 
-  if (!analysis) return null;
-
   const blockedOnMainCriteria = analysis.pathways.length === 0;
-  const remaining = openQuestionCount(analysis);
 
   return (
     <div className="bt b--light-gray ph3 pv3">
-      <div className="flex flex-wrap items-baseline mb2">
-        <h3 className="fw7 mr-auto">SB-819 Limiting Criteria</h3>
-        {remaining > 0 && (
-          <span className="f6 purple">
-            {remaining} {remaining === 1 ? "question" : "questions"} to answer
-          </span>
-        )}
-      </div>
+      <h3 className="fw7 mb2">SB-819 Limiting Criteria</h3>
 
       {blockedOnMainCriteria && (
         <p className="f6 mb3">
@@ -218,12 +247,17 @@ export default function SB819Criteria({ analysis }: Props) {
       >
         <h4 className="fw7 mr2">Main Criteria</h4>
         {allMainPassed ? (
-          <span className="f6 green mr-auto">&mdash; all four met</span>
+          <span className="f6 green">&mdash; all four met</span>
         ) : (
-          <span className="f6 gray mr-auto">
-            &mdash; required for every application type
+          <span
+            className={`f6 fw6 br2 ph2 pv1 mr2 ${statusColor(
+              mainStatus
+            )} ${statusBackground(mainStatus)}`}
+          >
+            {mainStatus}
           </span>
         )}
+        <span className="mr-auto"></span>
         <DisclosureIcon disclosureIsExpanded={disclosureIsExpanded} />
       </button>
       <SB819Collapse contentProps={disclosureContentProps}>

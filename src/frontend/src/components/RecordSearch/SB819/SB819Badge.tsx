@@ -20,7 +20,7 @@ export default function SB819Badge() {
 
   const possible = analysis.has_possibly_eligible;
   const label = possible
-    ? "Charges possibly SB-819 eligible"
+    ? "Check SB-819 eligibility"
     : "No charges SB-819 eligible";
 
   return (

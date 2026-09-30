@@ -1,4 +1,4 @@
-/** Ids of the two summary panels that swap places when the SB-819 view is toggled. */
+/** Ids of the two panels that swap places at the top when the SB-819 view is toggled. */
 export const RECORD_SUMMARY_PANEL_ID = "record-summary-panel";
 export const SB819_SUMMARY_PANEL_ID = "sb819-summary-panel";
 

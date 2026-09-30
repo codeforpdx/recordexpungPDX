@@ -235,6 +235,31 @@ const REHABILITATION = criterion(
   }
 );
 
+/** The one Actual Innocence criterion that can be screened: the claim itself. */
+const INNOCENCE_CLAIM = criterion(
+  "innocence-claim",
+  "Applicant asserts actual innocence of the conviction",
+  {
+    determination: "Question",
+    outcome: "Unknown",
+    pathway: "Actual Innocence",
+    question: {
+      ...CLEARS_ON_YES,
+      text: "Is the applicant asserting that they are actually innocent of this conviction?",
+    },
+  }
+);
+
+const INVESTIGATION_AVENUE = criterion(
+  "investigation-avenue",
+  "The JIU can identify an avenue of investigation",
+  {
+    determination: "Discretion",
+    outcome: "Unknown",
+    pathway: "Actual Innocence",
+  }
+);
+
 function pathway(
   name: SB819PathwayResultData["pathway"],
   status: SB819Status,
@@ -265,6 +290,7 @@ function chargeAnalysis(
     registerableFails?: boolean;
     mainFails?: boolean;
     felonyUncertain?: boolean;
+    withActualInnocence?: boolean;
   } = {}
 ): SB819ChargeAnalysisData {
   if (options.mainFails) {
@@ -314,6 +340,14 @@ function chargeAnalysis(
     status: "Needs More Analysis",
     main_criteria: main,
     pathways: [
+      ...(options.withActualInnocence
+        ? [
+            pathway("Actual Innocence", "Needs More Analysis", [
+              INNOCENCE_CLAIM,
+              INVESTIGATION_AVENUE,
+            ]),
+          ]
+        : []),
       pathway("Excessive Sentencing", "Needs More Analysis", [
         CURRENTLY_INCARCERATED,
         OVER_60_OR_ILL,
@@ -326,9 +360,15 @@ function chargeAnalysis(
         collateral
       ),
     ],
-    available_pathways: options.registerableFails
-      ? ["Excessive Sentencing"]
-      : ["Excessive Sentencing", "Collateral Consequences"],
+    available_pathways: [
+      ...(options.withActualInnocence
+        ? (["Actual Innocence"] as SB819PathwayResultData["pathway"][])
+        : []),
+      "Excessive Sentencing",
+      ...(options.registerableFails
+        ? []
+        : (["Collateral Consequences"] as SB819PathwayResultData["pathway"][])),
+    ],
     blocked_pathways: options.registerableFails
       ? ["Collateral Consequences"]
       : [],
@@ -346,6 +386,8 @@ interface Options {
   twoChargesOnFirstCase?: boolean;
   /** The first charge's sentencing level is a question, which holds everything behind it. */
   felonyUncertain?: boolean;
+  /** The first charge also carries the Actual Innocence pathway. */
+  withActualInnocence?: boolean;
 }
 
 export function buildAnalysis({
@@ -354,6 +396,7 @@ export function buildAnalysis({
   empty = false,
   twoChargesOnFirstCase = false,
   felonyUncertain = false,
+  withActualInnocence = false,
 }: Options = {}): SB819AnalysisData {
   const charges: { [id: string]: SB819ChargeAnalysisData } = {};
 
@@ -366,6 +409,7 @@ export function buildAnalysis({
         registerableFails: blockCollateralConsequences,
         mainFails: !possible,
         felonyUncertain,
+        withActualInnocence,
       }
     );
     if (twoChargesOnFirstCase) {
