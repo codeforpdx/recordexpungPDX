@@ -4,14 +4,10 @@ import DisclosureIcon from "../../common/DisclosureIcon";
 import SB819Collapse from "./SB819Collapse";
 import { disqualifyingCriteria, resolveOutcomes } from "./resolveAnalysis";
 import { holdingQuestion } from "./questionCollection";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
 import {
   SB819ChargeAnalysisData,
   SB819CriterionResultData,
   SB819PathwayResultData,
-  SB819QuestionData,
-  answerTarget,
   failureReason,
   outcomeIcon,
   statusBackground,
@@ -33,37 +29,12 @@ function DeterminationTag({ result }: { result: SB819CriterionResultData }) {
   );
 }
 
-/** The answer a question was given, in the same shape as a pathway's stated bar. */
-function AnswerLine({
-  question,
-  answer,
-}: {
-  question: SB819QuestionData;
-  answer: "yes" | "no";
-}) {
-  const outcome = answer === "yes" ? question.if_yes : question.if_no;
-  return (
-    <p className="f6 mt1 mb0">
-      <span className="gray">{question.text}</span>{" "}
-      <span className={"fw7 " + statusColor(outcome)}>
-        {answer === "yes" ? "Yes" : "No"}
-      </span>
-    </p>
-  );
-}
-
 /**
- * Criteria whose row is the name and outcome alone. The Collateral Consequences criteria
- * and the innocence claim are each settled by a single plain question or by a document the
- * applicant assembles later, so the explanation and the answer add nothing to the icon.
+ * One criterion: its outcome, its name, and how it is settled. The questions themselves are
+ * asked in the blocks above, and a pathway that is ruled out names what ruled it out, so
+ * the row carries nothing more. A criterion behind a gate answered against its pathway is
+ * not shown at all, since nothing turns on it and the gate's answer already says so.
  */
-function isTerse(result: SB819CriterionResultData) {
-  return (
-    result.pathway === "Collateral Consequences" ||
-    result.key === "innocence-claim"
-  );
-}
-
 function Criterion({
   result,
   charge,
@@ -71,20 +42,8 @@ function Criterion({
   result: SB819CriterionResultData;
   charge: SB819ChargeAnalysisData;
 }) {
-  const answers = useAppSelector(selectSB819Answers);
-  // The question itself is asked in a question block above, so a criterion settled by one
-  // carries only the answer it was given. A question whose gate was answered against the
-  // pathway is not shown at all, since nothing turns on it and the gate's answer already
-  // says so. Every other gate is answered before the reasoning is shown, so no row waits.
   const holder = result.question ? holdingQuestion(charge, result) : undefined;
   if (holder?.outcome === "Failed") return null;
-  const terse = isTerse(result);
-
-  const answer = result.question
-    ? answers[
-        answerTarget(result, charge.case_number, charge.ambiguous_charge_id)
-      ]
-    : undefined;
 
   return (
     <li className="pv2 bb b--light-gray">
@@ -96,16 +55,6 @@ function Criterion({
         <span className="fw6">{result.name}</span>
         <DeterminationTag result={result} />
       </div>
-      {!terse && <div className="f6 mt1 ml3 pl1">{result.explanation}</div>}
-      {!terse && result.question && (
-        <div className="ml3 pl1">
-          {answer ? (
-            <AnswerLine question={result.question} answer={answer} />
-          ) : (
-            <p className="f6 gray mt1 mb0">Not yet answered.</p>
-          )}
-        </div>
-      )}
     </li>
   );
 }

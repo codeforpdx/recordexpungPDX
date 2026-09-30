@@ -792,37 +792,25 @@ describe("working down a charge", () => {
     expect(screen.getByText("SB-819 Limiting Criteria")).toBeInTheDocument();
   });
 
-  it("shows the answer on the criterion row, and asks the question once", async () => {
+  it("keeps every criterion row to the name and outcome, and asks the question once", async () => {
     const { user } = renderWith(buildAnalysis());
     await openTheAnalysis(user);
     await reachTheReasoning(user);
     await meetTheGate(user);
     await answer(user, "charge:100-1:five-years-served", "yes");
 
-    const row = screen
-      .getByText("Applicant has served at least five years")
-      .closest("li");
-    expect(row).toHaveTextContent(
-      /Has the applicant served at least five years on this sentence\?\s*Yes/
-    );
-    expect(row?.querySelector("input")).toBeNull();
+    for (const name of [
+      "Applicant has served at least five years",
+      "Conviction did not involve domestic violence",
+      "Conviction is not aggravated murder",
+    ]) {
+      const row = screen.getByText(name).closest("li");
+      expect(row).not.toHaveTextContent(/explanation/);
+      expect(row).not.toHaveTextContent(/\?/);
+      expect(row?.querySelector("input")).toBeNull();
+    }
     expect(
       document.querySelectorAll('[id="charge:100-1:five-years-served-yes"]')
-    ).toHaveLength(1);
-  });
-
-  it("keeps the Collateral Consequences rows to the name and outcome", async () => {
-    const { user } = renderWith(buildAnalysis());
-    await openTheAnalysis(user);
-    await reachTheReasoning(user);
-
-    const row = screen
-      .getByText("Conviction did not involve domestic violence")
-      .closest("li");
-    expect(row).not.toHaveTextContent(/explanation/);
-    expect(row).not.toHaveTextContent(/Did this conviction involve/);
-    expect(
-      document.querySelectorAll('[id="charge:100-1:no-domestic-violence-no"]')
     ).toHaveLength(1);
   });
 
@@ -942,9 +930,6 @@ describe("the SB-819 view", () => {
     expect(
       screen.getByRole("button", { name: /Main Criteria/i })
     ).toHaveTextContent(/SB-819 Ineligible/);
-    expect(
-      screen.getByText("Conviction is not aggravated murder").closest("li")
-    ).toHaveTextContent(/explanation/);
   });
 
   it("links each listed charge to its case", async () => {
