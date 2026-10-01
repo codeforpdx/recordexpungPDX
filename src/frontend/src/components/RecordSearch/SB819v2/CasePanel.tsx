@@ -1,44 +1,26 @@
 import React from "react";
-import { CaseData, ChargeData } from "../Record/types";
+import { CaseData } from "../Record/types";
 import currencyFormat from "../../../service/currency-format";
-import {
-  awaiting,
-  chargeIdsForCase,
-  questionsAt,
-  shown,
-} from "./questionCollection";
-import { SB819Answers } from "./resolveAnalysis";
-import SB819Charge, { chargeTitle } from "./SB819Charge";
-import SB819CaseQuestions from "./SB819CaseQuestions";
-import { SB819AnalysisData } from "./types";
+import { awaiting, chargeIdsOnCase, questionsAt, shown } from "./questions";
+import { AnalysisData, Answers } from "./types";
+import QuestionBlock from "./QuestionBlock";
+import ChargePanel, { ChargeLine } from "./ChargePanel";
 
 interface Props {
   aCase: CaseData;
-  analysis: SB819AnalysisData;
-  answers: SB819Answers;
+  analysis: AnalysisData;
+  answers: Answers;
 }
 
 const OECI_CASE_DETAIL =
   "https://publicaccess.courts.oregon.gov/PublicAccessLogin/CaseDetail.aspx?CaseID=";
 
-/** A conviction named and nothing more, while a question on its case still holds it. */
-function ChargeLine({ charge }: { charge: ChargeData }) {
-  return (
-    <div className="br3 bg-white ma2 ph3 pv2" id={charge.ambiguous_charge_id}>
-      <div className="flex">
-        <span className="w6rem shrink-none fw7">Charge</span>
-        {chargeTitle(charge)}
-      </div>
-    </div>
-  );
-}
-
 /**
  * A case: enough to identify the prosecution, the questions answered once for it, and its
  * convictions. A conviction is listed by name alone while a case question live on it is
- * unanswered, so a conviction the record rules out shows in full at once.
+ * unanswered.
  */
-export default function SB819Case({ aCase, analysis, answers }: Props) {
+export default function CasePanel({ aCase, analysis, answers }: Props) {
   const {
     case_number,
     location,
@@ -50,8 +32,9 @@ export default function SB819Case({ aCase, analysis, answers }: Props) {
   const caseQuestions = questionsAt(
     analysis,
     "case",
-    chargeIdsForCase(analysis, case_number)
+    chargeIdsOnCase(analysis, case_number)
   );
+  const visible = shown(caseQuestions, answers);
 
   // Matches the record view: in development the API is not behind the same origin.
   const prefix = window.location.href.includes("localhost")
@@ -90,7 +73,11 @@ export default function SB819Case({ aCase, analysis, answers }: Props) {
         </div>
       </div>
 
-      <SB819CaseQuestions questions={shown(caseQuestions, answers)} />
+      {visible.length > 0 && (
+        <div className="bg-white br3 mh2 mb2">
+          <QuestionBlock questions={visible} />
+        </div>
+      )}
 
       <ul className="list">
         {charges.map((charge) => {
@@ -103,7 +90,7 @@ export default function SB819Case({ aCase, analysis, answers }: Props) {
               {heldByCase ? (
                 <ChargeLine charge={charge} />
               ) : (
-                <SB819Charge
+                <ChargePanel
                   charge={charge}
                   analysis={analysis}
                   answers={answers}

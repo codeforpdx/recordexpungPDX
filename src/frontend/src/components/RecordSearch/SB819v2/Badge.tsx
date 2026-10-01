@@ -1,22 +1,20 @@
 import React from "react";
 import { useAppDispatch } from "../../../redux/hooks";
 import { showSB819View } from "../../../redux/sb819Slice";
-import scrollToPanel, { SB819_SUMMARY_PANEL_ID } from "./scrollToPanel";
 import { sb819IsEnabled } from "../../../service/featureFlags";
-import useResolvedAnalysis from "./useResolvedAnalysis";
+import { SB819_HEADER_PANEL_ID, scrollToPanel } from "./panels";
+import useAnalysis from "./useAnalysis";
 
-/** Sits beside the Ineligible heading in the search summary.
- *
- * It reports whether any ineligible Multnomah conviction survived the SB-819 limiting
- * criteria, given the answers so far, and opens the analysis either way, since the reasons
- * are worth reading even when nothing qualifies.
+/**
+ * Sits beside the Ineligible heading in the record summary and opens the view. It reports
+ * whether any analyzed conviction is still possible on the answers so far, and opens the
+ * view either way, since the reasons are worth reading when nothing qualifies.
  */
-export default function SB819Badge() {
+export default function Badge() {
   const dispatch = useAppDispatch();
-  const analysis = useResolvedAnalysis();
+  const analysis = useAnalysis();
 
-  if (!sb819IsEnabled()) return null;
-  if (!analysis?.has_analyzed_charges) return null;
+  if (!sb819IsEnabled() || !analysis?.has_analyzed_charges) return null;
 
   const possible = analysis.has_possibly_eligible;
   const label = possible
@@ -27,7 +25,7 @@ export default function SB819Badge() {
     <button
       onClick={() => {
         dispatch(showSB819View());
-        scrollToPanel(SB819_SUMMARY_PANEL_ID);
+        scrollToPanel(SB819_HEADER_PANEL_ID);
       }}
       aria-label={`${label}. Open the SB-819 eligibility analysis.`}
       className={

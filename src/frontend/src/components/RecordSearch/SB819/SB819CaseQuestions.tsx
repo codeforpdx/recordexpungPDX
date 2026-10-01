@@ -1,55 +1,25 @@
 import React from "react";
-import {
-  chargeIdsForCase,
-  collectQuestions,
-  partitionQuestions,
-} from "./questionCollection";
-import SB819SetAside from "./SB819SetAside";
-import SB819Held from "./SB819Held";
+import { Question } from "./questionCollection";
 import SB819Question from "./SB819Question";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
-import { SB819AnalysisData } from "./types";
-
-interface Props {
-  analysis: SB819AnalysisData;
-  caseNumber: string;
-}
+import SB819QuestionBlock from "./SB819QuestionBlock";
 
 /**
- * The questions that are facts about a prosecution rather than about one conviction.
- *
- * Answered once for the case, so two convictions on the same case cannot disagree about
- * whether its sentence was completed.
+ * The questions that are facts about a prosecution rather than about one conviction,
+ * answered once for the case so two convictions on it cannot disagree.
  */
-export default function SB819CaseQuestions({ analysis, caseNumber }: Props) {
-  const chargeIds = chargeIdsForCase(analysis, caseNumber);
-  const answers = useAppSelector(selectSB819Answers);
-  const questions = collectQuestions(analysis, "case", chargeIds);
-  const { asked, held, setAside, setAsideReason } = partitionQuestions(
-    questions,
-    answers
-  );
-
-  if (asked.length === 0 && setAside.length === 0) return null;
-
+export default function SB819CaseQuestions({
+  questions,
+}: {
+  questions: Question[];
+}) {
+  if (questions.length === 0) return null;
   return (
-    <div className="bg-white br3 ph3 pv2 mh2 mb2">
-      <h4 className="fw7 mv2">About this case</h4>
-      <p className="f6 mb2">
-        Answered once for the case, and applied to every conviction on it.
-      </p>
-      {asked.map(({ criterion, target }) => (
-        <SB819Question key={target} criterion={criterion} target={target} />
-      ))}
-
-      <SB819Held held={held} />
-
-      <SB819SetAside
-        id={`sb819-case-set-aside-${caseNumber}`}
-        setAside={setAside}
-        setAsideReason={setAsideReason}
-      />
+    <div className="bg-white br3 mh2 mb2">
+      <SB819QuestionBlock>
+        {questions.map(({ criterion, target }) => (
+          <SB819Question key={target} criterion={criterion} target={target} />
+        ))}
+      </SB819QuestionBlock>
     </div>
   );
 }

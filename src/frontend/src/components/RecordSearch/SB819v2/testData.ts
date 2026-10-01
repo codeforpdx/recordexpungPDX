@@ -5,43 +5,38 @@
  */
 
 import { CaseData, RecordData } from "../Record/types";
-import resolveAnalysis from "./resolveAnalysis";
+import resolveAnalysis from "./resolve";
 import {
-  SB819AnalysisData,
-  SB819ChargeAnalysisData,
-  SB819CriterionResultData,
-  SB819Determination,
-  SB819Outcome,
-  SB819Pathway,
-  SB819PathwayResultData,
-  SB819Scope,
-  SB819Status,
+  AnalysisData,
+  ChargeAnalysisData,
+  CriterionData,
+  Determination,
+  Outcome,
+  Pathway,
+  PathwayData,
+  Scope,
+  Status,
 } from "./types";
 
-const P: SB819Status = "Possibly SB-819 Eligible";
-const I: SB819Status = "SB-819 Ineligible";
+const P: Status = "Possibly SB-819 Eligible";
+const I: Status = "SB-819 Ineligible";
 const ALTERNATIVES = "excessive-sentencing-alternatives";
 
 interface Options {
-  scope?: SB819Scope;
-  pathway?: SB819Pathway | null;
-  determination?: SB819Determination;
-  outcome?: SB819Outcome;
+  scope?: Scope;
+  pathway?: Pathway | null;
+  determination?: Determination;
+  outcome?: Outcome;
   group?: string;
   gate?: boolean;
-  question?: {
-    text: string;
-    if_yes: SB819Status;
-    if_no: SB819Status;
-    note?: string;
-  };
+  question?: { text: string; if_yes: Status; if_no: Status; note?: string };
 }
 
 export function criterion(
   key: string,
   name: string,
   o: Options = {}
-): SB819CriterionResultData {
+): CriterionData {
   const determination = o.determination ?? "OECI";
   return {
     key,
@@ -73,7 +68,7 @@ const FELONY = criterion(
   "sentenced-as-felony",
   "Conviction was sentenced as a felony"
 );
-const FELONY_FAILED = { ...FELONY, outcome: "Failed" as SB819Outcome };
+const FELONY_FAILED = { ...FELONY, outcome: "Failed" as Outcome };
 const FELONY_UNCERTAIN = criterion(
   "sentenced-as-felony",
   "Conviction was sentenced as a felony",
@@ -89,10 +84,10 @@ const NOT_AGG_MURDER = criterion(
   "not-aggravated-murder",
   "Conviction is not aggravated murder"
 );
-const AGG_MURDER = { ...NOT_AGG_MURDER, outcome: "Failed" as SB819Outcome };
+const AGG_MURDER = { ...NOT_AGG_MURDER, outcome: "Failed" as Outcome };
 
 // Actual Innocence
-const AI: SB819Pathway = "Actual Innocence";
+const AI: Pathway = "Actual Innocence";
 const INNOCENCE = criterion(
   "innocence-claim",
   "Applicant asserts actual innocence of the conviction",
@@ -117,7 +112,7 @@ const AVENUE = criterion(
 );
 
 // Excessive Sentencing
-const ES: SB819Pathway = "Excessive Sentencing";
+const ES: Pathway = "Excessive Sentencing";
 const INCARCERATED = criterion(
   "currently-incarcerated",
   "Applicant is currently incarcerated",
@@ -194,7 +189,7 @@ const JUVENILE = criterion(
     },
   }
 );
-const under18 = (outcome: SB819Outcome) =>
+const under18 = (outcome: Outcome) =>
   criterion(
     "under-18-at-offense",
     "Applicant committed the crime when under 18",
@@ -266,7 +261,7 @@ const personOver16 = (personCrime: boolean) =>
   );
 
 // Collateral Consequences
-const CC: SB819Pathway = "Collateral Consequences";
+const CC: Pathway = "Collateral Consequences";
 const SENTENCE_COMPLETED = criterion(
   "sentence-completed",
   "Applicant has fully completed the sentence",
@@ -282,7 +277,7 @@ const SENTENCE_COMPLETED = criterion(
     },
   }
 );
-const registerable = (outcome: SB819Outcome) =>
+const registerable = (outcome: Outcome) =>
   criterion(
     "not-registerable-sex-offense",
     "Conviction is not a registerable sex offense",
@@ -337,15 +332,15 @@ export interface ChargeShape {
   name: string;
   /** Whether the statute is on the person-felony list, which decides the sentence alternative. */
   personCrime?: boolean;
-  under18?: SB819Outcome;
-  registerable?: SB819Outcome;
+  under18?: Outcome;
+  registerable?: Outcome;
   /** The record carries a felony sex crime conviction, so ORS 137.690/137.719 is a question. */
   repeatSexQuestion?: boolean;
   felonyUncertain?: boolean;
   mainFails?: "felony" | "murder";
 }
 
-export function chargeAnalysis(shape: ChargeShape): SB819ChargeAnalysisData {
+export function chargeAnalysis(shape: ChargeShape): ChargeAnalysisData {
   const main = [
     IN_MULTNOMAH,
     NOT_EXPUNGEABLE,
@@ -357,7 +352,7 @@ export function chargeAnalysis(shape: ChargeShape): SB819ChargeAnalysisData {
     shape.mainFails === "murder" ? AGG_MURDER : NOT_AGG_MURDER,
   ];
   const person = shape.personCrime ?? true;
-  const pathways: SB819PathwayResultData[] = shape.mainFails
+  const pathways: PathwayData[] = shape.mainFails
     ? []
     : [
         {
@@ -417,23 +412,12 @@ export interface DemoOptions {
   arson?: boolean;
   /** No charge in scope at all. */
   empty?: boolean;
-  /** Only the DUII, so nothing survives the main criteria. */
-  ruledOutOnly?: boolean;
 }
 
 /** The demo-shaped analysis: Robbery II on case 100 always, and the rest by option. */
-export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
+export function buildAnalysis(o: DemoOptions = {}): AnalysisData {
   const shapes: ChargeShape[] = o.empty
     ? []
-    : o.ruledOutOnly
-    ? [
-        {
-          id: "300-1",
-          caseNumber: "300",
-          name: "Driving Under the Influence of Intoxicants",
-          mainFails: "felony" as const,
-        },
-      ]
     : [
         {
           id: "100-1",
@@ -468,7 +452,7 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
                 id: "500-1",
                 caseNumber: "500",
                 name: "Rape in the Second Degree",
-                registerable: "Failed" as SB819Outcome,
+                registerable: "Failed" as Outcome,
                 repeatSexQuestion: true,
               },
             ]
@@ -490,13 +474,13 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
                 id: "900-1",
                 caseNumber: "900",
                 name: "Arson in the First Degree",
-                under18: "Passed" as SB819Outcome,
+                under18: "Passed" as Outcome,
                 repeatSexQuestion: o.rape,
               },
             ]
           : []),
       ];
-  const charges: SB819AnalysisData["charges"] = {};
+  const charges: AnalysisData["charges"] = {};
   shapes.forEach((shape) => (charges[shape.id] = chargeAnalysis(shape)));
   return resolveAnalysis(
     {
@@ -564,7 +548,7 @@ function aCase(caseNumber: string, location: string, charges: any[]): CaseData {
 }
 
 /** Every demo case, whichever of its charges the analysis covers. */
-export function buildRecord(analysis: SB819AnalysisData): RecordData {
+export function buildRecord(analysis: AnalysisData): RecordData {
   return {
     total_balance_due: 0,
     errors: [],

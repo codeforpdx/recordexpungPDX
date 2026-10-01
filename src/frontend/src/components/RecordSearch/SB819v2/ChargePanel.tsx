@@ -1,17 +1,15 @@
 import React from "react";
 import { ChargeData } from "../Record/types";
 import ExpungementRules from "../Record/ExpungementRules";
-import { awaiting, questionsAt, shown } from "./questionCollection";
-import { SB819Answers } from "./resolveAnalysis";
-import SB819Criteria from "./SB819Criteria";
-import SB819Question from "./SB819Question";
-import SB819QuestionBlock from "./SB819QuestionBlock";
-import { SB819AnalysisData } from "./types";
+import { awaiting, questionsAt, shown } from "./questions";
+import { AnalysisData, Answers } from "./types";
+import QuestionBlock from "./QuestionBlock";
+import Criteria from "./Criteria";
 
 interface Props {
   charge: ChargeData;
-  analysis: SB819AnalysisData;
-  answers: SB819Answers;
+  analysis: AnalysisData;
+  answers: Answers;
 }
 
 export function chargeTitle({ statute, name }: ChargeData) {
@@ -29,17 +27,23 @@ function describeDisposition({
   return status;
 }
 
+/** A conviction by name alone, while a question on its case still holds it. */
+export function ChargeLine({ charge }: { charge: ChargeData }) {
+  return (
+    <div className="br3 bg-white ma2 ph3 pv2" id={charge.ambiguous_charge_id}>
+      <div className="flex">
+        <span className="w6rem shrink-none fw7">Charge</span>
+        {chargeTitle(charge)}
+      </div>
+    </div>
+  );
+}
+
 /**
- * A conviction as the SB-819 view presents it: its detail lines, then its own questions in
- * the form RecordSponge's eligibility questions take, and once every live one is answered,
- * the criteria and what follows from them. Changing an answer above changes the reasoning
- * below.
- *
- * Deliberately not the record view's charge panel. Everything here is a conviction that
- * expungement cannot reach, so that view's verdict badge would read the same on every
- * charge and say nothing.
+ * A conviction: its detail lines, then its own questions, and once every live one is
+ * answered, the criteria and what follows from them.
  */
-export default function SB819Charge({ charge, analysis, answers }: Props) {
+export default function ChargePanel({ charge, analysis, answers }: Props) {
   const id = charge.ambiguous_charge_id;
   const questions = questionsAt(analysis, "charge", [id]);
   const visible = shown(questions, answers);
@@ -70,20 +74,12 @@ export default function SB819Charge({ charge, analysis, answers }: Props) {
 
       {visible.length > 0 && (
         <div className="bt b--light-gray">
-          <SB819QuestionBlock>
-            {visible.map(({ criterion, target }) => (
-              <SB819Question
-                key={target}
-                criterion={criterion}
-                target={target}
-              />
-            ))}
-          </SB819QuestionBlock>
+          <QuestionBlock questions={visible} />
         </div>
       )}
 
       {!awaiting(questions, answers) && (
-        <SB819Criteria analysis={analysis.charges[id]} />
+        <Criteria charge={analysis.charges[id]} />
       )}
     </div>
   );

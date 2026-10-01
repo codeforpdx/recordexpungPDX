@@ -6,7 +6,6 @@
  * `src/shared/sb819ResolutionFixtures.json` so they cannot drift apart unnoticed.
  */
 
-import { isHeld } from "./questionCollection";
 import {
   SB819AnalysisData,
   SB819Answer,
@@ -203,26 +202,4 @@ export function disqualifyingCriteria(
       c.outcome === "Failed" &&
       (!c.disjunction_group || fullyFailedGroups.has(c.disjunction_group))
   );
-}
-
-/** Questions that can be answered on a charge right now, which is how far it is from a result. */
-export function openQuestionCount(charge: SB819ChargeAnalysisData): number {
-  // Questions on a pathway that is already ruled out cannot change the outcome, and
-  // questions waiting on another are not on offer yet, so counting either would overstate
-  // how much work is in front of the volunteer.
-  const live = [
-    ...charge.main_criteria,
-    ...charge.pathways
-      .filter((pathway) => pathway.status !== "SB-819 Ineligible")
-      .flatMap((pathway) => pathway.criteria),
-  ];
-  const seen = new Set<string>();
-  return live.filter((c) => {
-    if (!c.is_screenable || !c.question || c.outcome !== "Unknown")
-      return false;
-    if (isHeld(charge, c)) return false;
-    if (seen.has(c.key)) return false; // one question, however many pathways cite it
-    seen.add(c.key);
-    return true;
-  }).length;
 }

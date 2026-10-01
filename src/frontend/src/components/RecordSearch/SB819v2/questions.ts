@@ -5,37 +5,30 @@
  * criterion means the record left it open and no answer has settled it.
  */
 
-import { SB819Answers } from "./resolveAnalysis";
 import {
-  SB819AnalysisData,
-  SB819ChargeAnalysisData,
-  SB819CriterionResultData,
-  SB819Scope,
-  answerTarget,
+  AnalysisData,
+  Answers,
+  ChargeAnalysisData,
+  CriterionData,
+  Scope,
+  isQuestion,
+  targetOf,
 } from "./types";
-
-/** A criterion the client can settle: screenable, and the record left it a question. */
-export function isQuestion(criterion: SB819CriterionResultData) {
-  return criterion.is_screenable && criterion.question !== null;
-}
 
 export interface Question {
   /** The criterion as the first charge that carries it reports it. */
-  criterion: SB819CriterionResultData;
+  criterion: CriterionData;
   target: string;
   /** Every charge that puts this question, with that charge's own copy of the criterion. */
-  carriers: {
-    charge: SB819ChargeAnalysisData;
-    criterion: SB819CriterionResultData;
-  }[];
+  carriers: { charge: ChargeAnalysisData; criterion: CriterionData }[];
 }
 
 export type QuestionState = "answered" | "live" | "dormant";
 
-const mainFailed = (charge: SB819ChargeAnalysisData) =>
+const mainFailed = (charge: ChargeAnalysisData) =>
   charge.main_criteria.some((c) => c.is_screenable && c.outcome === "Failed");
 
-const openMainQuestion = (charge: SB819ChargeAnalysisData) =>
+const openMainQuestion = (charge: ChargeAnalysisData) =>
   charge.main_criteria.some((c) => isQuestion(c) && c.outcome === "Unknown");
 
 /**
@@ -49,8 +42,8 @@ const openMainQuestion = (charge: SB819ChargeAnalysisData) =>
  * satisfies the group.
  */
 export function liveOnCharge(
-  charge: SB819ChargeAnalysisData,
-  criterion: SB819CriterionResultData
+  charge: ChargeAnalysisData,
+  criterion: CriterionData
 ): boolean {
   if (!isQuestion(criterion) || criterion.outcome !== "Unknown") return false;
   if (mainFailed(charge)) return false;
@@ -80,8 +73,8 @@ export function liveOnCharge(
  * charge it is a question on and collected once.
  */
 export function questionsAt(
-  analysis: SB819AnalysisData,
-  scope: SB819Scope,
+  analysis: AnalysisData,
+  scope: Scope,
   chargeIds: string[] = Object.keys(analysis.charges)
 ): Question[] {
   const byTarget = new Map<string, Question>();
@@ -90,11 +83,7 @@ export function questionsAt(
     [...charge.main_criteria, ...charge.pathways.flatMap((p) => p.criteria)]
       .filter((c) => c.scope === scope && isQuestion(c))
       .forEach((criterion) => {
-        const target = answerTarget(
-          criterion,
-          charge.case_number,
-          charge.ambiguous_charge_id
-        );
+        const target = targetOf(criterion, charge);
         const question = byTarget.get(target) ?? {
           criterion,
           target,
@@ -108,10 +97,7 @@ export function questionsAt(
 }
 
 /** Answered on its target; else live if live on any charge that carries it; else dormant. */
-export function stateOf(
-  question: Question,
-  answers: SB819Answers
-): QuestionState {
+export function stateOf(question: Question, answers: Answers): QuestionState {
   if (answers[question.target]) return "answered";
   const live = question.carriers.some(({ charge, criterion }) =>
     liveOnCharge(charge, criterion)
@@ -120,24 +106,18 @@ export function stateOf(
 }
 
 /** The questions a panel shows: every one that is answered or live. */
-export function shown(
-  questions: Question[],
-  answers: SB819Answers
-): Question[] {
+export function shown(questions: Question[], answers: Answers): Question[] {
   return questions.filter((q) => stateOf(q, answers) !== "dormant");
 }
 
 /** Whether a panel still has a live question with no answer, which holds everything below it. */
-export function awaiting(
-  questions: Question[],
-  answers: SB819Answers
-): boolean {
+export function awaiting(questions: Question[], answers: Answers): boolean {
   return questions.some((q) => stateOf(q, answers) === "live");
 }
 
 /** The charge ids on one case, for the case's own questions. */
-export function chargeIdsForCase(
-  analysis: SB819AnalysisData,
+export function chargeIdsOnCase(
+  analysis: AnalysisData,
   caseNumber: string
 ): string[] {
   return Object.values(analysis.charges)

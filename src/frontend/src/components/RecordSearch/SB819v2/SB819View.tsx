@@ -2,19 +2,16 @@ import React from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectSB819Answers } from "../../../redux/sb819AnswersSlice";
 import { CaseData } from "../Record/types";
-import SB819ViewHeader from "./SB819ViewHeader";
-import SB819Summary from "./SB819Summary";
-import SB819GlobalPanel from "./SB819GlobalPanel";
-import SB819Case from "./SB819Case";
-import useResolvedAnalysis from "./useResolvedAnalysis";
-import { awaiting, questionsAt, shown } from "./questionCollection";
-import { SB819AnalysisData } from "./types";
+import { awaiting, questionsAt, shown } from "./questions";
+import { AnalysisData } from "./types";
+import useAnalysis from "./useAnalysis";
+import Header from "./Header";
+import ApplicantPanel from "./ApplicantPanel";
+import Summary from "./Summary";
+import CasePanel from "./CasePanel";
 
 /** The cases with a charge the analysis covers, each reduced to those charges. */
-function analyzedCases(
-  cases: CaseData[],
-  analysis: SB819AnalysisData
-): CaseData[] {
+function analyzedCases(cases: CaseData[], analysis: AnalysisData): CaseData[] {
   return cases
     .map((aCase) => ({
       ...aCase,
@@ -32,7 +29,7 @@ function analyzedCases(
 export default function SB819View() {
   const record = useAppSelector((state) => state.search.record);
   const answers = useAppSelector(selectSB819Answers);
-  const analysis = useResolvedAnalysis();
+  const analysis = useAnalysis();
 
   if (!record?.cases || !analysis) return null;
 
@@ -40,15 +37,15 @@ export default function SB819View() {
 
   return (
     <section>
-      <SB819ViewHeader />
-      <SB819GlobalPanel questions={shown(applicant, answers)} />
+      <Header />
+      <ApplicantPanel questions={shown(applicant, answers)} answers={answers} />
       {!awaiting(applicant, answers) && (
         <>
-          <SB819Summary analysis={analysis} />
+          <Summary analysis={analysis} />
           <ul className="list mb3">
             {analyzedCases(record.cases, analysis).map((aCase) => (
               <li key={aCase.case_number}>
-                <SB819Case
+                <CasePanel
                   aCase={aCase}
                   analysis={analysis}
                   answers={answers}

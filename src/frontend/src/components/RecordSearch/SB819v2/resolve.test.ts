@@ -6,16 +6,14 @@
 
 import fs from "fs";
 import path from "path";
-import resolveAnalysis, {
-  SB819Answers,
-  disqualifyingCriteria,
-} from "./resolveAnalysis";
+import resolveAnalysis, { disqualifyingCriteria } from "./resolve";
 import {
-  SB819AnalysisData,
-  SB819CriterionResultData,
-  SB819Determination,
-  SB819Outcome,
-  SB819Status,
+  AnalysisData,
+  Answers,
+  CriterionData,
+  Determination,
+  Outcome,
+  Status,
 } from "./types";
 
 const FIXTURES = path.resolve(
@@ -25,10 +23,10 @@ const FIXTURES = path.resolve(
 
 interface FixtureCriterion {
   key: string;
-  determination: SB819Determination;
-  outcome: SB819Outcome;
+  determination: Determination;
+  outcome: Outcome;
   group?: string;
-  question?: { if_yes: SB819Status; if_no: SB819Status };
+  question?: { if_yes: Status; if_no: Status };
 }
 
 interface Scenario {
@@ -37,8 +35,8 @@ interface Scenario {
   pathways: { pathway: string; criteria: FixtureCriterion[] }[];
   answers?: { [key: string]: "yes" | "no" };
   expect: {
-    charge: SB819Status;
-    pathways?: { [pathway: string]: SB819Status };
+    charge: Status;
+    pathways?: { [pathway: string]: Status };
     pathways_not_evaluated?: boolean;
     disqualifying?: string[];
   };
@@ -46,7 +44,7 @@ interface Scenario {
 
 const CHARGE = "c1";
 
-function build(entry: FixtureCriterion): SB819CriterionResultData {
+function build(entry: FixtureCriterion): CriterionData {
   return {
     key: entry.key,
     scope: "charge",
@@ -67,7 +65,7 @@ function build(entry: FixtureCriterion): SB819CriterionResultData {
   };
 }
 
-function analysisFor(scenario: Scenario): SB819AnalysisData {
+function analysisFor(scenario: Scenario): AnalysisData {
   return {
     counties_analyzed: ["Multnomah"],
     has_analyzed_charges: true,
@@ -93,7 +91,7 @@ function analysisFor(scenario: Scenario): SB819AnalysisData {
 }
 
 function runScenario(scenario: Scenario) {
-  const answers: SB819Answers = {};
+  const answers: Answers = {};
   Object.entries(scenario.answers ?? {}).forEach(([key, answer]) => {
     answers[`charge:${CHARGE}:${key}`] = answer;
   });
@@ -138,7 +136,7 @@ it("re-buckets the sections and the badge flag on every answer", () => {
   const scenario = (table.answer_scenarios as Scenario[]).find((s) =>
     s.name.startsWith("a disqualifying answer")
   )!;
-  const answers: SB819Answers = {};
+  const answers: Answers = {};
   Object.entries(scenario.answers!).forEach(([key, answer]) => {
     answers[`charge:${CHARGE}:${key}`] = answer;
   });
