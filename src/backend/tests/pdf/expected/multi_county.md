@@ -6,37 +6,47 @@
 Excludes traffic violations
 
 ### Charges Eligible Now
- - Baker X0003
-     - X0003: Theft of time (DISMISSED) Charged Jan 1, 2010
- - Clackamas X0002
-     - X0002: Theft of services (DISMISSED) Charged Jan 1, 2010
- - Multnomah X0001
-     - X0001: Theft of dignity (DISMISSED) Charged Jan 1, 2010
+
+#### Baker
+ - X0003: Theft of time (DISMISSED) Charged Jan 1, 2010
+
+#### Clackamas
+ - X0002: Theft of services (DISMISSED) Charged Jan 1, 2010
+
+#### Multnomah
+ - X0001: Theft of dignity (DISMISSED) Charged Jan 1, 2010
 
 ### Ineligible Charges
 These convictions are not eligible for expungement at any time under the current law.
 
- - Baker X0005
-     - X0005: Assault in the Second Degree (CONVICTED) Charged Jan 1, 2010
- - Multnomah X0004
-     - X0004: Assault in the First Degree (CONVICTED) Charged Jan 1, 2010
+
+#### Baker
+ - X0005: Assault in the Second Degree (CONVICTED) Charged Jan 1, 2010
+
+#### Multnomah
+ - X0004: Assault in the First Degree (CONVICTED) Charged Jan 1, 2010
+
 ### Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
- - Baker X0007 – $200.0
+
+#### Baker
+ - X0007 – $200.0
      - X0007: Trespass in the Second Degree (DISMISSED) Charged Jan 1, 2010
- - Multnomah X0006 – $100.0
+
+#### Multnomah
+ - X0006 – $100.0
      - X0006: Trespass in the First Degree (DISMISSED) Charged Jan 1, 2010
 
 
 
 ### Balance Due by County
-      <b>Baker</b>
-      
-        X0007 - $200.0
-      <b>Multnomah</b>
-      
-        X0006 - $100.0
+
+#### Baker
+ - X0007 – $200.0
+
+#### Multnomah
+ - X0006 – $100.0
 
 #### Disclaimer:
 RecordSponge is not your lawyer. The results below should be used as a guide only. If you are relying on this information to expunge your record, please email roe@qiu-qiulaw.com for free consultation.

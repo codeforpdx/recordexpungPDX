@@ -1,5 +1,6 @@
 import jinja2
 from datetime import datetime
+from itertools import groupby
 from typing import Dict, List, Optional, Tuple
 
 class MarkdownRenderer:
@@ -33,11 +34,11 @@ class MarkdownRenderer:
         )
 
     @staticmethod
-    def _group_sections_by_county(record: Dict) -> List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]]:
+    def _group_sections_by_county(record: Dict) -> List[Tuple[str, List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]]]]:
         """
-        Every case entry in every eligibility section carries a "County CaseNumber" header, and the
-        entries within a section are ordered by county, then case number. A balance-paid header
-        already reads "County CaseNumber – $balance" and is kept as is.
+        Each eligibility section becomes (county, cases) groups, counties alphabetical and cases by case
+        number. A case line exists only where the summarizer supplied a balance header, and reads
+        "CaseNumber – $balance"; the county heading above it carries the location.
         """
         case_by_charge_id = {
             charge["ambiguous_charge_id"]: case for case in record["cases"] for charge in case["charges"]
@@ -49,11 +50,15 @@ class MarkdownRenderer:
                 case = case_by_charge_id.get(charges[0][0]) if charges else None
                 location = case["location"] if case else ""
                 case_number = case["case_number"] if case else ""
-                if not header and case:
-                    header = f"{location} {case_number}"
+                if header and case:
+                    header = f"{case_number} – ${round(case['balance_due'], 2)}"
                 keyed_entries.append(((location, case_number), (header, charges)))
             keyed_entries.sort(key=lambda keyed: keyed[0])
-            sections.append((label, [entry for _, entry in keyed_entries]))
+            counties = [
+                (county, [entry for _, entry in group])
+                for county, group in groupby(keyed_entries, key=lambda keyed: keyed[0][0])
+            ]
+            sections.append((label, counties))
         return sections
 
     @staticmethod
