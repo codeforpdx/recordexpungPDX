@@ -7,29 +7,19 @@ class MarkdownRenderer:
     def to_markdown(record: Dict, header: Optional[str] = None, aliases: List[Dict] = None) -> str:
         mapped_aliases = map(MarkdownRenderer._name_and_birth_info, aliases or [])
         has_open_cases = ["open case" in error for error in record["errors"]]
-        eligible_case_charges = [
-            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Eligible Now"
-        ]
-        ineligible_case_charges = [
-            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Ineligible"
-        ]
-        eligible_if_paid_case_charges = [
-            x
-            for x in record["summary"]["charges_grouped_by_eligibility_and_case"]
-            if x[0] == "Eligible Now If Balance Paid"
-        ]
-        
+        eligible_charges_by_date = MarkdownRenderer._group_sections_by_county(record)
+        eligible_case_charges = [x for x in eligible_charges_by_date if x[0] == "Eligible Now"]
+        ineligible_case_charges = [x for x in eligible_charges_by_date if x[0] == "Ineligible"]
+        eligible_if_paid_case_charges = [x for x in eligible_charges_by_date if x[0] == "Eligible Now If Balance Paid"]
+
         county_fines = [county for county in record["summary"]["county_fines"] if county['total_fines_due'] != 0]
 
-        eligible_charges_by_date = record["summary"]["charges_grouped_by_eligibility_and_case"]
         future_eligible_charges = [
             (key, eligible_charges_for_date)
             for key, eligible_charges_for_date in eligible_charges_by_date
             if key not in ["Eligible Now", "Ineligible", "Needs More Analysis", "Eligible Now If Balance Paid"]
         ]
-        needs_more_analysis_charges = [
-            x for x in record["summary"]["charges_grouped_by_eligibility_and_case"] if x[0] == "Needs More Analysis"
-        ]
+        needs_more_analysis_charges = [x for x in eligible_charges_by_date if x[0] == "Needs More Analysis"]
 
         return MarkdownRenderer._render_without_request(
             "expungement_analysis_report.md.j2",
@@ -41,6 +31,30 @@ class MarkdownRenderer:
             needs_more_analysis_charges=needs_more_analysis_charges,
             county_fines = county_fines,
         )
+
+    @staticmethod
+    def _group_sections_by_county(record: Dict) -> List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]]:
+        """
+        Every case entry in every eligibility section carries a "County CaseNumber" header, and the
+        entries within a section are ordered by county, then case number. A balance-paid header
+        already reads "County CaseNumber – $balance" and is kept as is.
+        """
+        case_by_charge_id = {
+            charge["ambiguous_charge_id"]: case for case in record["cases"] for charge in case["charges"]
+        }
+        sections = []
+        for label, entries in record["summary"]["charges_grouped_by_eligibility_and_case"]:
+            keyed_entries = []
+            for header, charges in entries:
+                case = case_by_charge_id.get(charges[0][0]) if charges else None
+                location = case["location"] if case else ""
+                case_number = case["case_number"] if case else ""
+                if not header and case:
+                    header = f"{location} {case_number}"
+                keyed_entries.append(((location, case_number), (header, charges)))
+            keyed_entries.sort(key=lambda keyed: keyed[0])
+            sections.append((label, [entry for _, entry in keyed_entries]))
+        return sections
 
     @staticmethod
     def _render_without_request(template_name, **template_vars):
