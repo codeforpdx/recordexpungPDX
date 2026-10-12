@@ -24,8 +24,8 @@ Excludes traffic violations
 
 ### Charges Eligible Now
 {% if eligible_case_charges | count > 0 %}
-  {% for case_info, charges_info in eligible_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
+  {% for county, cases in eligible_case_charges[0][1] %}
+    {% include 'partials/county.md.j2' %}
   {% endfor %}
 {% else %}
 You are not currently eligible to expunge any charges.
@@ -35,16 +35,17 @@ You are not currently eligible to expunge any charges.
 ### Ineligible Charges
 These convictions are not eligible for expungement at any time under the current law.
 
-  {% for case_info, charges_info in ineligible_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
+  {% for county, cases in ineligible_case_charges[0][1] %}
+    {% include 'partials/county.md.j2' %}
   {% endfor %}
 {% endif %}
+
 {% if eligible_if_paid_case_charges | count > 0 %}
 ### Charges Eligible Now If Balance Paid
 These convictions are eligible as soon as the balance of fines on the case is paid.
 
-  {% for case_info, charges_info in eligible_if_paid_case_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
+  {% for county, cases in eligible_if_paid_case_charges[0][1] %}
+    {% include 'partials/county.md.j2' %}
   {% endfor %}
 {% endif %}
 
@@ -54,8 +55,8 @@ The following charges (dismissed and convicted) are eligible at the designated d
 
   {% for label, section in future_eligible_charges %}
 ### {{ label }}
-    {% for case_info, charges_info in section %}
-      {% include 'partials/case.md.j2' %}
+    {% for county, cases in section %}
+      {% include 'partials/county.md.j2' %}
     {% endfor %}
 
   {% endfor %}
@@ -65,8 +66,8 @@ The following charges (dismissed and convicted) are eligible at the designated d
 ### Charges Needing More Analysis
 Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.
 
-  {% for case_info, charges_info in needs_more_analysis_charges[0][1] %}
-    {% include 'partials/case.md.j2' %}
+  {% for county, cases in needs_more_analysis_charges[0][1] %}
+    {% include 'partials/county.md.j2' %}
   {% endfor %}
 {% endif %}
 
@@ -74,10 +75,10 @@ Additionally, you have charges for which the online records do not contain enoug
 ### Balance Due by County
   {% for county in county_fines %}
     {% if county['case_fines'] | length > 0 %}
-      <b>{{county['county_name']}}</b>
-      
+
+#### {{ county['county_name'] }}
       {% for fine in county['case_fines'] %}
-        {{fine['case_number']}} - ${{fine['balance']}}
+ - {{ fine['case_number'] }} – ${{ fine['balance'] }}
       {% endfor %}
     {% endif %}
   {% endfor %}

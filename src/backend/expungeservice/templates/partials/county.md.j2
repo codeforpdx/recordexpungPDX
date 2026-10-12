@@ -1,0 +1,6 @@
+{# The blank line keeps the heading out of the list item above it. #}
+
+#### {{ county }}
+{% for case_info, charges_info in cases %}
+  {% include 'partials/case.md.j2' %}
+{% endfor %}
