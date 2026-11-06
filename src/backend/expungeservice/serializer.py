@@ -46,8 +46,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "status": charge_analysis.status,
             "main_criteria": [self.sb819_criterion_result_to_json(r) for r in charge_analysis.main_criterion_results],
             "pathways": [self.sb819_pathway_result_to_json(p) for p in charge_analysis.pathway_results],
-            "available_pathways": list(charge_analysis.available_pathways),
-            "blocked_pathways": list(charge_analysis.blocked_pathways),
         }
 
     def sb819_pathway_result_to_json(self, pathway_result):
@@ -62,7 +60,6 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
         return {
             "key": criterion.key,
             "scope": criterion.scope,
-            "disjunction_group": criterion.disjunction_group,
             "is_gate": criterion.is_gate,
             "is_screenable": criterion.is_screenable,
             "name": criterion.name,

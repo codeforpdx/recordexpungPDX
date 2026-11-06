@@ -41,42 +41,6 @@ HOW_DETERMINED: Dict[str, str] = {
         "The statute is ORS 163.095, or the charge name contains the words aggravated murder. "
         "Murder in the second degree, ORS 163.115, is not excluded."
     ),
-    "innocence-claim": "Asked of the client.",
-    "investigation-avenue": "Neither the record nor the client settles this. See section 5.5.",
-    "currently-incarcerated": "Asked of the client. OECI does not record custody status.",
-    "five-years-served": "Asked of the client. OECI does not record sentence length or time served.",
-    "not-global-plea": "Asked of the client. OECI does not record the terms of a plea agreement.",
-    "not-repeat-sex-offender": (
-        "Passes where the record, across every county, contains no felony conviction for a sex "
-        "crime listed in ORS 163A.005(5), since both statutes reach sex crimes only and both "
-        "require prior convictions. Asked of the client where the record does contain one, "
-        "because priors cannot be counted from this record alone."
-    ),
-    "juvenile-transfer": "Asked of the client.",
-    "under-18-at-offense": (
-        "The applicant's birth year, subtracted from the year of the date OECI lists against "
-        "the charge. Under 18 passes; 19 or more fails; exactly 18 is asked of the client, "
-        "because OECI records a birth year and not a birth date, so the offence may fall either "
-        "side of the birthday. The birth year is read across every case on the record, and is "
-        "treated as unknown, so that the question is asked, where no case records one or the "
-        "cases disagree."
-    ),
-    "over-60-or-ill": (
-        "Passes where the applicant's birth year, read across the record as for 3.2.5(b), puts "
-        "the applicant clearly past 60. Otherwise asked of the client, since age alone cannot "
-        "fail this criterion: an applicant under 60 may still be ill or on hospice care, and "
-        "OECI records neither."
-    ),
-    "non-person-over-10-years": (
-        "Fails where the conviction's statute is on the person felony list at OAR 213-003-0001(14), "
-        "which includes the sex crimes, inmate weapon possession, and the felony traffic offences "
-        "it names, since the threshold then does not apply. Otherwise asked of the client, as OECI "
-        "does not record sentence length."
-    ),
-    "person-over-16-years": (
-        "Fails where the conviction's statute is not on the person felony list at OAR "
-        "213-003-0001(14). Otherwise asked of the client, as OECI does not record sentence length."
-    ),
     "sentence-completed": (
         "Asked of the client. OECI records no post-prison supervision or probation end date, "
         "and a case status of Closed describes the court case rather than supervision."
@@ -92,23 +56,16 @@ HOW_DETERMINED: Dict[str, str] = {
     "no-domestic-violence": (
         "Asked of the client. OECI does not record whether a conviction involved domestic " "violence."
     ),
-    "substantial-rehabilitation": "Neither the record nor the client settles this. See section 5.5.",
-    "manifest-hardship": "Neither the record nor the client settles this. See section 5.5.",
+    "substantial-rehabilitation": "Neither the record nor the client settles this. See section 5.4.",
+    "manifest-hardship": "Neither the record nor the client settles this. See section 5.4.",
 }
 
 SCOPE_WORDING = {
-    SB819Scope.RECORD: "the applicant, and is answered once for the whole record",
     SB819Scope.CASE: "the case, and is answered once for that prosecution",
     SB819Scope.CHARGE: "this conviction",
 }
 
-LETTERS = "abcdefghijklmnopqrstuvwxyz"
-
-PATHWAY_ORDER = [
-    SB819Pathway.ACTUAL_INNOCENCE,
-    SB819Pathway.EXCESSIVE_SENTENCING,
-    SB819Pathway.COLLATERAL_CONSEQUENCES,
-]
+PATHWAY_ORDER = [SB819Pathway.COLLATERAL_CONSEQUENCES]
 
 SCOPE_KEYS = ["in-multnomah", "not-expungeable"]
 
@@ -134,27 +91,20 @@ RESOLUTION = [
     ),
     (
         "5.2",
-        "Where a pathway offers alternatives, the set is Met if any one of them is Met; "
-        "Unresolved if none is Met but any is Unresolved; and Not met only if every one of "
-        "them is Not met. A single failed alternative is never treated as a bar.",
-    ),
-    (
-        "5.3",
         "A pathway is unavailable if any of its criteria is Not met; unresolved if none is "
         "Not met but any is Unresolved; and available only if all of them are Met.",
     ),
     (
-        "5.4",
-        "A conviction takes the best result among its pathways, and is never better than its "
-        "main criteria. A main criterion that is Not met ends the analysis, and no pathway is "
+        "5.3",
+        "A conviction takes the result of its pathway, and is never better than its main "
+        "criteria. A main criterion that is Not met ends the analysis, and the pathway is not "
         "considered.",
     ),
     (
-        "5.5",
-        "Three criteria are settled by neither the record nor the client: the Justice "
-        "Integrity Unit's own judgment that an avenue of investigation exists, and the two "
-        "showings the applicant assembles afterwards. Counting them would hold two of the "
-        "three pathways unresolved permanently, so they take no part in 5.1 to 5.4. A "
+        "5.4",
+        "Two criteria are settled by neither the record nor the client: the showings of "
+        "rehabilitation and of hardship that the applicant assembles afterwards. Counting them "
+        "would hold the pathway unresolved permanently, so they take no part in 5.1 to 5.3. A "
         "conviction reported as possibly eligible has cleared every criterion the record and "
         "the client can settle, and nothing further.",
     ),
@@ -239,49 +189,30 @@ def build(module, questions_by_key: Dict[str, SB819Question]) -> Dict:
     sections.append(
         {
             "number": "3",
-            "title": "Pathways",
-            "rule": "A conviction that passes section 2 is considered under each of the three "
-            "application types, and takes the best result of 3.1 OR 3.2 OR 3.3.",
+            "title": "Pathway",
+            "rule": f"A conviction that passes section 2 is considered under the {PATHWAY_ORDER[0].value} "
+            "application type, and takes the result of 3.1.",
             "blocks": [],
         }
     )
 
     for p_index, pathway in enumerate(PATHWAY_ORDER, start=1):
         members = [c for c in criteria if c.pathway is pathway]
-        plain = [c for c in members if not c.disjunction_group]
-        grouped = [c for c in members if c.disjunction_group]
-        screened = [c for c in plain if c.is_screenable]
-        unscreened = [c for c in plain if not c.is_screenable]
+        screened = [c for c in members if c.is_screenable]
+        unscreened = [c for c in members if not c.is_screenable]
 
         clause = " AND ".join(f"3.{p_index}.{i}" for i in range(1, len(screened) + 1))
-        if grouped:
-            alternatives_number = f"3.{p_index}.{len(screened) + 1}"
-            clause += f" AND one of {alternatives_number}(a) to ({LETTERS[len(grouped) - 1]})"
 
         blocks = []
         for i, criterion in enumerate(screened, start=1):
             numbers[criterion.key] = f"3.{p_index}.{i}"
             blocks.append(_criterion_block(f"3.{p_index}.{i}", criterion))
 
-        if grouped:
-            blocks.append(
-                {
-                    "kind": "heading",
-                    "number": alternatives_number,
-                    "text": "At least one of the following. Failing one of these is not a bar "
-                    "while another is met or still unresolved.",
-                }
-            )
-            for letter, criterion in zip(LETTERS, grouped):
-                number = f"{alternatives_number}({letter})"
-                numbers[criterion.key] = number
-                blocks.append(_criterion_block(number, criterion))
-
         for criterion in unscreened:
             numbers[criterion.key] = ""
             blocks.append(_criterion_block("", criterion, screened=False))
 
-        rule = f"Available if and only if {clause}." if clause else "This pathway adds no criterion that can be screened."
+        rule = f"Available if and only if {clause}."
         gates = [c for c in screened if c.is_gate]
         if gates:
             rule += (

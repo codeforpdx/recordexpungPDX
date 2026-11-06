@@ -17,7 +17,6 @@ function DeterminationTag({ result }: { result: SB819CriterionResultData }) {
   const styling = {
     OECI: "green bg-washed-green",
     Question: "purple bg-washed-purple",
-    Discretion: "mid-gray bg-light-gray",
     "Part 2": "mid-gray bg-light-gray",
   }[result.determination];
 
@@ -45,17 +44,13 @@ function Criterion({ result }: { result: SB819CriterionResultData }) {
 }
 
 /**
- * The rows of a pathway: its screenable criteria that are not about the applicant, minus
- * the questions nothing turns on. Record-scope criteria are answered once at the top. By
+ * The rows of a pathway: its screenable criteria, minus the questions nothing turns on. By
  * the time the criteria are shown every live question on the charge is answered, so an
  * unknown question left here is dormant.
  */
 function pathwayRows(pathway: SB819PathwayResultData) {
   return pathway.criteria.filter(
-    (c) =>
-      c.is_screenable &&
-      c.scope !== "record" &&
-      !(c.question && c.outcome === "Unknown")
+    (c) => c.is_screenable && !(c.question && c.outcome === "Unknown")
   );
 }
 
@@ -91,9 +86,7 @@ function Pathway({
     setIsExpanded,
   } = useSelectableDisclosure({
     id: `pathway-${charge.ambiguous_charge_id}-${pathway.pathway}`,
-    // Actual Innocence turns on a claim and an investigation, so its criteria are worth
-    // reading only on request.
-    isOpenToStart: !decided && pathway.pathway !== "Actual Innocence",
+    isOpenToStart: !decided,
   });
 
   // An answer can rule the pathway out after it has already been rendered open, so the
@@ -176,14 +169,6 @@ export default function SB819Criteria({ analysis }: Props) {
           so the Justice Integrity Unit cannot accept it under any pathway.
         </p>
       )}
-
-      {analysis.blocked_pathways.length > 0 &&
-        analysis.available_pathways.length > 0 && (
-          <p className="f6 mb3">
-            Blocked under {analysis.blocked_pathways.join(", ")}, but still open
-            under {analysis.available_pathways.join(" and ")}.
-          </p>
-        )}
 
       <button
         {...disclosureButtonProps}

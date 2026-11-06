@@ -346,7 +346,7 @@ class DemoRecords:
                 ),
             ),
         ),
-        # Registerable sex offense: blocks Collateral Consequences, survives the other pathways.
+        # Registerable sex offense: ruled out under Collateral Consequences.
         OeciCase(
             summary=from_dict(
                 data_class=CaseSummary,
@@ -377,7 +377,7 @@ class DemoRecords:
                 ),
             ),
         ),
-        # Person felony: passes every main criterion, and exercises the person-crime alternative.
+        # Passes every main criterion, so every pathway question is put to the client.
         OeciCase(
             summary=from_dict(
                 data_class=CaseSummary,
@@ -403,37 +403,6 @@ class DemoRecords:
                         "date": date_class.today() - relativedelta(years=16),
                         "disposition": DispositionCreator.create(
                             date=date_class.today() - relativedelta(years=16), ruling="Convicted"
-                        ),
-                    },
-                ),
-            ),
-        ),
-        # Non-person felony: exercises the non-person alternative.
-        OeciCase(
-            summary=from_dict(
-                data_class=CaseSummary,
-                data={
-                    **shared_case_data,
-                    "name": "SB 819",
-                    "birth_year": sb819_birth_year,
-                    "case_number": "SB819-700",
-                    "location": "Multnomah",
-                    "violation_type": "Offense Felony",
-                    "date": date_class.today() - relativedelta(years=17),
-                },
-            ),
-            charges=(
-                from_dict(
-                    data_class=OeciCharge,
-                    data={
-                        **shared_charge_data,
-                        "ambiguous_charge_id": "SB819-700-1",
-                        "name": "Racketeering",
-                        "statute": "166.720",
-                        "level": "Felony Class A",
-                        "date": date_class.today() - relativedelta(years=17),
-                        "disposition": DispositionCreator.create(
-                            date=date_class.today() - relativedelta(years=17), ruling="Convicted"
                         ),
                     },
                 ),
@@ -465,37 +434,6 @@ class DemoRecords:
                         "date": date_class.today() - relativedelta(years=18),
                         "disposition": DispositionCreator.create(
                             date=date_class.today() - relativedelta(years=18), ruling="Convicted", amended=True
-                        ),
-                    },
-                ),
-            ),
-        ),
-        # Committed before the applicant turned 18: satisfies an Excessive Sentencing alternative.
-        OeciCase(
-            summary=from_dict(
-                data_class=CaseSummary,
-                data={
-                    **shared_case_data,
-                    "name": "SB 819",
-                    "birth_year": sb819_birth_year,
-                    "case_number": "SB819-900",
-                    "location": "Multnomah",
-                    "violation_type": "Offense Felony",
-                    "date": date_class.today() - relativedelta(years=19),
-                },
-            ),
-            charges=(
-                from_dict(
-                    data_class=OeciCharge,
-                    data={
-                        **shared_charge_data,
-                        "ambiguous_charge_id": "SB819-900-1",
-                        "name": "Arson in the First Degree",
-                        "statute": "164.325",
-                        "level": "Felony Class A",
-                        "date": date_class.today() - relativedelta(years=19),
-                        "disposition": DispositionCreator.create(
-                            date=date_class.today() - relativedelta(years=19), ruling="Convicted"
                         ),
                     },
                 ),

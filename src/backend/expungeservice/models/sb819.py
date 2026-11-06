@@ -46,8 +46,6 @@ def worst_status(statuses) -> SB819Status:
 
 
 class SB819Pathway(str, Enum):
-    ACTUAL_INNOCENCE = "Actual Innocence"
-    EXCESSIVE_SENTENCING = "Excessive Sentencing"
     COLLATERAL_CONSEQUENCES = "Collateral Consequences"
 
     def __repr__(self):
@@ -59,7 +57,6 @@ class SB819Determination(str, Enum):
 
     OECI = "OECI"  # From record data.
     QUESTION = "Question"  # Asked of the client; the answer is not in the record.
-    DISCRETION = "Discretion"  # The DA's judgment; nothing to screen.
     PART_TWO = "Part 2"  # Narrative showing, assessed outside this analysis.
 
     def __repr__(self):
@@ -69,11 +66,10 @@ class SB819Determination(str, Enum):
 class SB819Scope(str, Enum):
     """What a criterion is a fact about, and therefore how often it is asked.
 
-    A record-scope criterion is a fact about the applicant, so it is asked once however
-    many charges the record carries. A case-scope criterion is a fact about a prosecution.
+    A case-scope criterion is a fact about a prosecution, so it is asked once however many
+    convictions the case carries.
     """
 
-    RECORD = "record"
     CASE = "case"
     CHARGE = "charge"
 
@@ -104,10 +100,10 @@ class SB819Question:
     note: str = ""
 
 
-# Only these two kinds of criterion count toward a status. The others are settled by the
-# District Attorney's own judgment or by documents the applicant assembles later, so nothing
-# the volunteer can read or ask resolves them. Counting them would pin two of the three
-# pathways at Needs More Analysis permanently; they are presented as instructions instead.
+# Only these two kinds of criterion count toward a status. The other is settled by documents
+# the applicant assembles later, so nothing the volunteer can read or ask resolves it.
+# Counting it would pin the pathway at Needs More Analysis permanently; such criteria are
+# presented as instructions instead.
 SCREENABLE_DETERMINATIONS = (SB819Determination.OECI, SB819Determination.QUESTION)
 
 
@@ -120,11 +116,9 @@ class SB819Criterion:
     determination: SB819Determination
     pathway: Optional[SB819Pathway] = None  # None marks a main criterion.
     scope: SB819Scope = SB819Scope.CHARGE
-    # Criteria sharing a disjunction group satisfy the pathway if any one of them passes.
-    disjunction_group: str = ""
     # The question that defines who a pathway is for. The pathway's other questions are put
     # to the client only once this one is answered in the pathway's favor, so a volunteer
-    # is not asked about time served for an applicant who is not in custody.
+    # is not asked about domestic violence for an applicant still under supervision.
     is_gate: bool = False
 
     @property
@@ -143,24 +137,9 @@ class SB819CriterionResult:
 def _resolve_outcomes(results: Tuple[SB819CriterionResult, ...]) -> SB819Status:
     """A pathway fails on any failed criterion, and is unresolved on any unknown one.
 
-    Criteria in a disjunction group resolve together: the group passes if any member
-    passes, is unknown if any member is unknown, and fails only if every member fails.
-
     Criteria that are not screenable take no part; see SCREENABLE_DETERMINATIONS.
     """
-    results = tuple(r for r in results if r.criterion.is_screenable)
-    outcomes: List[SB819Outcome] = [r.outcome for r in results if not r.criterion.disjunction_group]
-
-    group_names = list(dict.fromkeys([r.criterion.disjunction_group for r in results if r.criterion.disjunction_group]))
-    for group_name in group_names:
-        group = [r.outcome for r in results if r.criterion.disjunction_group == group_name]
-        if SB819Outcome.PASSED in group:
-            outcomes.append(SB819Outcome.PASSED)
-        elif SB819Outcome.UNKNOWN in group:
-            outcomes.append(SB819Outcome.UNKNOWN)
-        else:
-            outcomes.append(SB819Outcome.FAILED)
-
+    outcomes = [r.outcome for r in results if r.criterion.is_screenable]
     if SB819Outcome.FAILED in outcomes:
         return SB819Status.INELIGIBLE
     elif SB819Outcome.UNKNOWN in outcomes:
@@ -172,26 +151,10 @@ def _resolve_outcomes(results: Tuple[SB819CriterionResult, ...]) -> SB819Status:
 def disqualifying_results(results) -> Tuple["SB819CriterionResult", ...]:
     """The failed criteria that bar a pathway, in the order they were evaluated.
 
-    A criterion in a disjunction group only disqualifies when every alternative in that group
-    failed. One failed alternative among several is not a bar, and reporting it as one would
-    read as a disqualification the criteria do not impose. Criteria that are not screenable
-    take no part in a status, so they cannot be what barred it.
+    Criteria that are not screenable take no part in a status, so they cannot be what
+    barred it.
     """
-    results = tuple(r for r in results if r.criterion.is_screenable)
-    disqualifying = []
-    fully_failed_groups = set()
-    group_names = [r.criterion.disjunction_group for r in results if r.criterion.disjunction_group]
-    for group_name in dict.fromkeys(group_names):
-        group = [r for r in results if r.criterion.disjunction_group == group_name]
-        if all(r.outcome == SB819Outcome.FAILED for r in group):
-            fully_failed_groups.add(group_name)
-    for result in results:
-        if result.outcome != SB819Outcome.FAILED:
-            continue
-        group = result.criterion.disjunction_group
-        if not group or group in fully_failed_groups:
-            disqualifying.append(result)
-    return tuple(disqualifying)
+    return tuple(r for r in results if r.criterion.is_screenable and r.outcome == SB819Outcome.FAILED)
 
 
 @dataclass(frozen=True)
@@ -252,14 +215,6 @@ class SB819ChargeAnalysis:
         return tuple(
             r for pathway in self.pathway_results for r in pathway.criterion_results if not r.criterion.is_screenable
         )
-
-    @property
-    def available_pathways(self) -> Tuple[SB819Pathway, ...]:
-        return tuple(p.pathway for p in self.pathway_results if p.status != SB819Status.INELIGIBLE)
-
-    @property
-    def blocked_pathways(self) -> Tuple[SB819Pathway, ...]:
-        return tuple(p.pathway for p in self.pathway_results if p.status == SB819Status.INELIGIBLE)
 
 
 @dataclass(frozen=True)

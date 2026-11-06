@@ -12,10 +12,10 @@
       ],
       "pathways": [
         {
-          "pathway": "Actual Innocence",
+          "pathway": "Collateral Consequences",
           "criteria": [
             {
-              "key": "a1",
+              "key": "c1",
               "determination": "Question",
               "outcome": "Passed"
             }
@@ -24,7 +24,7 @@
       ],
       "expect": {
         "pathways": {
-          "Actual Innocence": "Possibly SB-819 Eligible"
+          "Collateral Consequences": "Possibly SB-819 Eligible"
         },
         "charge": "Possibly SB-819 Eligible",
         "disqualifying": []
@@ -41,15 +41,15 @@
       ],
       "pathways": [
         {
-          "pathway": "Actual Innocence",
+          "pathway": "Collateral Consequences",
           "criteria": [
             {
-              "key": "a1",
+              "key": "c1",
               "determination": "Question",
               "outcome": "Passed"
             },
             {
-              "key": "a2",
+              "key": "c2",
               "determination": "OECI",
               "outcome": "Failed"
             }
@@ -58,11 +58,11 @@
       ],
       "expect": {
         "pathways": {
-          "Actual Innocence": "SB-819 Ineligible"
+          "Collateral Consequences": "SB-819 Ineligible"
         },
         "charge": "SB-819 Ineligible",
         "disqualifying": [
-          "a2"
+          "c2"
         ]
       }
     },
@@ -77,15 +77,15 @@
       ],
       "pathways": [
         {
-          "pathway": "Actual Innocence",
+          "pathway": "Collateral Consequences",
           "criteria": [
             {
-              "key": "a1",
+              "key": "c1",
               "determination": "Question",
               "outcome": "Passed"
             },
             {
-              "key": "a2",
+              "key": "c2",
               "determination": "Question",
               "outcome": "Unknown"
             }
@@ -94,134 +94,7 @@
       ],
       "expect": {
         "pathways": {
-          "Actual Innocence": "Needs More Analysis"
-        },
-        "charge": "Needs More Analysis",
-        "disqualifying": []
-      }
-    },
-    {
-      "name": "one satisfied alternative carries a disjunction group",
-      "main": [
-        {
-          "key": "m1",
-          "determination": "OECI",
-          "outcome": "Passed"
-        }
-      ],
-      "pathways": [
-        {
-          "pathway": "Excessive Sentencing",
-          "criteria": [
-            {
-              "key": "e1",
-              "determination": "Question",
-              "outcome": "Passed"
-            },
-            {
-              "key": "e2",
-              "determination": "OECI",
-              "outcome": "Passed",
-              "group": "alts"
-            },
-            {
-              "key": "e3",
-              "determination": "Question",
-              "outcome": "Failed",
-              "group": "alts"
-            },
-            {
-              "key": "e4",
-              "determination": "Question",
-              "outcome": "Failed",
-              "group": "alts"
-            }
-          ]
-        }
-      ],
-      "expect": {
-        "pathways": {
-          "Excessive Sentencing": "Possibly SB-819 Eligible"
-        },
-        "charge": "Possibly SB-819 Eligible",
-        "disqualifying": []
-      }
-    },
-    {
-      "name": "a disjunction group fails only when every alternative fails",
-      "main": [
-        {
-          "key": "m1",
-          "determination": "OECI",
-          "outcome": "Passed"
-        }
-      ],
-      "pathways": [
-        {
-          "pathway": "Excessive Sentencing",
-          "criteria": [
-            {
-              "key": "e1",
-              "determination": "Question",
-              "outcome": "Passed"
-            },
-            {
-              "key": "e2",
-              "determination": "OECI",
-              "outcome": "Failed",
-              "group": "alts"
-            },
-            {
-              "key": "e3",
-              "determination": "Question",
-              "outcome": "Failed",
-              "group": "alts"
-            }
-          ]
-        }
-      ],
-      "expect": {
-        "pathways": {
-          "Excessive Sentencing": "SB-819 Ineligible"
-        },
-        "charge": "SB-819 Ineligible",
-        "disqualifying": [
-          "e2",
-          "e3"
-        ]
-      }
-    },
-    {
-      "name": "an unresolved alternative leaves the group unresolved",
-      "main": [
-        {
-          "key": "m1",
-          "determination": "OECI",
-          "outcome": "Passed"
-        }
-      ],
-      "pathways": [
-        {
-          "pathway": "Excessive Sentencing",
-          "criteria": [
-            {
-              "key": "e2",
-              "determination": "OECI",
-              "outcome": "Failed",
-              "group": "alts"
-            },
-            {
-              "key": "e3",
-              "determination": "Question",
-              "outcome": "Unknown",
-              "group": "alts"
-            }
-          ]
-        }
-      ],
-      "expect": {
-        "pathways": {
-          "Excessive Sentencing": "Needs More Analysis"
+          "Collateral Consequences": "Needs More Analysis"
         },
         "charge": "Needs More Analysis",
         "disqualifying": []
@@ -252,7 +125,7 @@
             },
             {
               "key": "c3",
-              "determination": "Discretion",
+              "determination": "Part 2",
               "outcome": "Unknown"
             }
           ]
@@ -282,10 +155,10 @@
       ],
       "pathways": [
         {
-          "pathway": "Actual Innocence",
+          "pathway": "Collateral Consequences",
           "criteria": [
             {
-              "key": "a1",
+              "key": "c1",
               "determination": "Question",
               "outcome": "Passed"
             }
@@ -308,49 +181,10 @@
       ],
       "pathways": [
         {
-          "pathway": "Actual Innocence",
-          "criteria": [
-            {
-              "key": "a1",
-              "determination": "Question",
-              "outcome": "Passed"
-            }
-          ]
-        }
-      ],
-      "expect": {
-        "pathways": {
-          "Actual Innocence": "Possibly SB-819 Eligible"
-        },
-        "charge": "Needs More Analysis",
-        "disqualifying": []
-      }
-    },
-    {
-      "name": "a charge takes its best pathway",
-      "main": [
-        {
-          "key": "m1",
-          "determination": "OECI",
-          "outcome": "Passed"
-        }
-      ],
-      "pathways": [
-        {
           "pathway": "Collateral Consequences",
           "criteria": [
             {
               "key": "c1",
-              "determination": "OECI",
-              "outcome": "Failed"
-            }
-          ]
-        },
-        {
-          "pathway": "Actual Innocence",
-          "criteria": [
-            {
-              "key": "a1",
               "determination": "Question",
               "outcome": "Passed"
             }
@@ -359,13 +193,10 @@
       ],
       "expect": {
         "pathways": {
-          "Collateral Consequences": "SB-819 Ineligible",
-          "Actual Innocence": "Possibly SB-819 Eligible"
+          "Collateral Consequences": "Possibly SB-819 Eligible"
         },
-        "charge": "Possibly SB-819 Eligible",
-        "disqualifying": [
-          "c1"
-        ]
+        "charge": "Needs More Analysis",
+        "disqualifying": []
       }
     }
   ],
@@ -513,10 +344,10 @@
       ],
       "pathways": [
         {
-          "pathway": "Excessive Sentencing",
+          "pathway": "Collateral Consequences",
           "criteria": [
             {
-              "key": "currently-incarcerated",
+              "key": "sentence-completed",
               "determination": "Question",
               "outcome": "Unknown",
               "question": {
@@ -525,23 +356,23 @@
               }
             },
             {
-              "key": "five-years-served",
+              "key": "no-domestic-violence",
               "determination": "Question",
               "outcome": "Unknown",
               "question": {
-                "if_yes": "Possibly SB-819 Eligible",
-                "if_no": "SB-819 Ineligible"
+                "if_yes": "SB-819 Ineligible",
+                "if_no": "Possibly SB-819 Eligible"
               }
             }
           ]
         }
       ],
       "answers": {
-        "currently-incarcerated": "no"
+        "sentence-completed": "no"
       },
       "expect": {
         "pathways": {
-          "Excessive Sentencing": "SB-819 Ineligible"
+          "Collateral Consequences": "SB-819 Ineligible"
         },
         "charge": "SB-819 Ineligible"
       }

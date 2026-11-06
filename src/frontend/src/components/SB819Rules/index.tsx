@@ -17,19 +17,11 @@ interface CriterionBlock {
   screened: boolean;
 }
 
-interface HeadingBlock {
-  kind: "heading";
-  number: string;
-  text: string;
-}
-
-type Block = CriterionBlock | HeadingBlock;
-
 interface Section {
   number: string;
   title: string;
   rule: string;
-  blocks: Block[];
+  blocks: CriterionBlock[];
 }
 
 interface LogicSheet {
@@ -149,16 +141,9 @@ export default function SB819Rules() {
             </h2>
             <p className="mb3">{section.rule}</p>
             <div className="ml3">
-              {section.blocks.map((block, index) =>
-                block.kind === "heading" ? (
-                  <h3 key={index} className="fw7 mb3 mt4">
-                    <span className="mr2">{block.number}</span>
-                    {block.text}
-                  </h3>
-                ) : (
-                  <Criterion key={index} block={block} />
-                )
-              )}
+              {section.blocks.map((block, index) => (
+                <Criterion key={index} block={block} />
+              ))}
             </div>
           </section>
         ))}

@@ -44,9 +44,8 @@ const openMainQuestion = (charge: SB819ChargeAnalysisData) =>
  * It cannot when the record or an answer has already settled it; when the charge is out on
  * its main criteria; when the pathway is already ruled out; while a main-criterion question
  * on the charge is open, since a conviction not sentenced as a felony is out under every
- * pathway; while the pathway's gate has not passed, since the gate says who the pathway is
- * for; or once another alternative in its group has passed, since one met alternative
- * satisfies the group.
+ * pathway; or while the pathway's gate has not passed, since the gate says who the pathway
+ * is for.
  */
 export function liveOnCharge(
   charge: SB819ChargeAnalysisData,
@@ -63,21 +62,13 @@ export function liveOnCharge(
     const gate = pathway.criteria.find((c) => c.is_gate);
     if (gate && gate.outcome !== "Passed") return false;
   }
-  if (criterion.disjunction_group) {
-    const groupMet = pathway.criteria.some(
-      (c) =>
-        c.disjunction_group === criterion.disjunction_group &&
-        c.outcome === "Passed"
-    );
-    if (groupMet) return false;
-  }
   return true;
 }
 
 /**
  * The distinct questions at a scope over some charges, in evaluation order: main criteria
- * first, then each pathway's criteria in turn. A record-scope question is carried by every
- * charge it is a question on and collected once.
+ * first, then the pathway's criteria. A case-scope question is carried by every charge on
+ * the case it is a question on and collected once.
  */
 export function questionsAt(
   analysis: SB819AnalysisData,
