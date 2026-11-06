@@ -1,6 +1,8 @@
 import unittest
 
 from expungeservice.crawler.parsers.case_parser import CaseParser
+from expungeservice.models.case import SetAsideMotion, SetAsideMotionStatus
+from expungeservice.util import DateWithFuture as date
 from tests.fixtures.case_details import CaseDetails
 
 
@@ -48,6 +50,9 @@ class TestCaseWithDisposition(unittest.TestCase):
 
     def test_probation_revoked_is_parsed(self):
         assert not self.parser.probation_revoked
+
+    def test_no_set_aside_motion_is_parsed(self):
+        assert self.parser.set_aside_motion is None
 
     def test_district_attorney_number_is_parsed(self):
         assert self.parser.district_attorney_number == ""
@@ -327,3 +332,69 @@ class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
 
     def test_it_parses_all_charge_rows(self):
         assert len(self.parser.hashed_charge_data) == 10
+
+
+class TestSetAsideMotion(unittest.TestCase):
+    """
+    Event names and texts below are the forms seen in OECI across counties; see the project's
+    oeci-findings for the record. Dates are the rows' own, not the "Created:" lines.
+    """
+
+    @staticmethod
+    def motion(rows):
+        return CaseParser.feed(CaseDetails.case_x_with_events(rows)).set_aside_motion
+
+    def test_a_motion_with_nothing_after_it_is_open(self):
+        assert self.motion([("02/18/2026", "Motion - Set Aside", "")]) == SetAsideMotion(
+            SetAsideMotionStatus.FILED, date(2026, 2, 18)
+        )
+
+    def test_the_wording_varies_by_county(self):
+        for name in ["Motion - Set Aside record of arrest", "Motion - Set Aside Conviction", "Motion - Expunction"]:
+            assert self.motion([("07/01/2026", name, "")]).status == SetAsideMotionStatus.FILED
+        assert self.motion([("07/01/2026", "Motion - Set Aside and Declaration", "(in Support)")]).filed_date == date(
+            2026, 7, 1
+        )
+
+    def test_an_order_of_denial_naming_the_motion_resolves_it(self):
+        rows = [
+            ("02/18/2026", "Motion - Set Aside", ""),
+            ("06/05/2026", "Objection", ""),
+            ("08/21/2026", "Hearing - Objection", "(11:00 AM)"),
+            ("08/24/2026", "Order - Denial", "mo/set aside Signed: 08/21/2026"),
+        ]
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.DENIED, date(2026, 2, 18), date(2026, 8, 24))
+
+    def test_a_withdrawal_naming_the_motion_resolves_it(self):
+        rows = [
+            ("11/04/2024", "Motion - Set Aside record of arrest", ""),
+            ("12/02/2024", "Withdrawal", "To withdraw motion to set aside"),
+        ]
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.WITHDRAWN, date(2024, 11, 4), date(2024, 12, 2))
+
+    def test_the_latest_motion_governs_and_an_old_denial_does_not_resolve_it(self):
+        rows = [
+            ("03/02/2009", "Motion - Set Aside", ""),
+            ("04/10/2009", "Order - Denial", "motion to set aside"),
+            ("05/15/2023", "Motion - Set Aside", ""),
+        ]
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2023, 5, 15))
+
+    def test_filings_about_the_motion_are_not_motions(self):
+        rows = [
+            ("02/18/2026", "Motion - Set Aside", ""),
+            ("03/01/2026", "Notice", "Opposition to def's motions to set aside"),
+            ("03/01/2026", "Memorandum - Opposing Motion", "to set aside"),
+        ]
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18))
+
+    def test_setting_aside_a_default_judgment_is_not_a_motion(self):
+        rows = [
+            ("01/10/2019", "Order - Set Aside Default Judgment and Dismiss", ""),
+            ("01/10/2019", "Hearing - Set Aside", "(9:00 AM)"),
+            ("01/12/2019", "Order - Denial", "motion to set aside"),
+        ]
+        assert self.motion(rows) is None
+
+    def test_a_motion_about_something_else_is_not_a_motion(self):
+        assert self.motion([("02/18/2026", "Motion - Recognizance Release", "")]) is None

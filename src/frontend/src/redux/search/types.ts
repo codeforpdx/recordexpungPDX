@@ -3,6 +3,7 @@ import {
   RecordData,
   RecordSummaryData,
   QuestionsData,
+  SetAsideMotionEdit,
 } from "../../components/RecordSearch/Record/types";
 
 export interface SearchResponse {
@@ -66,6 +67,7 @@ interface EditCaseAction {
   case_number: string;
   status: string;
   restitution: string;
+  set_aside_motion: SetAsideMotionEdit;
   county: string;
   balance: string;
   birth_year: string;
@@ -132,13 +134,13 @@ interface WaiverPacketAction {
   city: string;
   state: string;
   zipCode: string;
-  explain: string,
-  explain2: string,
-  snap: string,
-  ssi: string,
-  tanf: string,
-  ohp: string,
-  custody: string,
+  explain: string;
+  explain2: string;
+  snap: string;
+  ssi: string;
+  tanf: string;
+  ohp: string;
+  custody: string;
 }
 
 interface WaiverPacketActionComplete {

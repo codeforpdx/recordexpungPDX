@@ -8,11 +8,23 @@ from more_itertools import split_at
 
 from expungeservice.util import DateWithFuture as date
 from expungeservice.crawler.fuzzy_search import FuzzySearch
+from expungeservice.models.case import SetAsideMotion, SetAsideMotionStatus
 
 SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
 
 PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked", "revoke probation"]
 EVENTS_TO_EXCLUDE = ["", "dispositions"]
+
+# A set-aside motion is an event whose name is a motion and whose row mentions the relief,
+# which the courts also record as expunction. Filings about a motion (objections, memoranda,
+# withdrawals) keep "motion" in their names, so those are ruled out by name before the row
+# text is read. Rows that set aside a default judgment carry no motion in their names.
+MOTION_NAME_EXCLUSIONS = ["oppos", "object", "response", "withdraw", "memorandum"]
+SET_ASIDE_MOTION_TERMS = ["set aside", "set-aside", "expunge", "expunction"]
+DENIAL_NAME_TERMS = ["denial", "denied"]
+DENIAL_TEXT_TERMS = ["set aside", "set-aside", "expunge", "expunction"]
+WITHDRAWAL_NAME_TERMS = ["withdraw"]
+WITHDRAWAL_TEXT_TERMS = ["set aside", "set-aside", "expunge", "expunction", "motion"]
 
 
 @dataclass
@@ -24,6 +36,7 @@ class CaseParserData:
     balance_due: str
     restitution: bool
     probation_revoked: Optional[date]
+    set_aside_motion: Optional[SetAsideMotion]
 
 
 class CaseParser:
@@ -43,8 +56,16 @@ class CaseParser:
         else:
             probation_revoked = None  # type: ignore
         restitution = "restitution" in soup.text.lower()
+        set_aside_motion = CaseParser.__parse_set_aside_motion(soup)
         return CaseParserData(
-            district_attorney_number, sid, hashed_charge_data, hashed_dispo_data, balance_due, restitution, probation_revoked
+            district_attorney_number,
+            sid,
+            hashed_charge_data,
+            hashed_dispo_data,
+            balance_due,
+            restitution,
+            probation_revoked,
+            set_aside_motion,
         )
 
     @staticmethod
@@ -118,6 +139,54 @@ class CaseParser:
         date, empty_one, empty_two, event_table_wrapper = event_parts
         if FuzzySearch.search(event_table_wrapper.text, PROBATION_REVOKED_SEARCH_TERMS):
             return date.text
+
+    @staticmethod
+    def __parse_set_aside_motion(soup) -> Optional[SetAsideMotion]:
+        """
+        The latest set-aside motion among the case's other events, and whether a later denial
+        or withdrawal resolved it. Only events after the latest motion can resolve it, so a
+        denial of an earlier motion leaves a refiled one open.
+        """
+        rows = []
+        _, other_events = CaseParser.__parse_events(soup)
+        for event in other_events:
+            if CaseParser.__valid_event_table(event) and len(event.contents) == 4:
+                date_cell, _, _, wrapper = event.contents
+                name_tag = wrapper.find("b")
+                name = name_tag.get_text(" ", strip=True).lower() if name_tag else ""
+                text = wrapper.get_text(" ", strip=True).lower()
+                try:
+                    event_date = date.fromdatetime(datetime.strptime(date_cell.text.strip(), "%m/%d/%Y"))
+                except ValueError:
+                    continue
+                rows.append((event_date, name, text))
+        motions = [i for i, (_, name, text) in enumerate(rows) if CaseParser.__is_set_aside_motion(name, text)]
+        if not motions:
+            return None
+        latest = motions[-1]
+        filed_date = rows[latest][0]
+        for event_date, name, text in rows[latest + 1 :]:
+            if event_date < filed_date:
+                continue
+            if CaseParser.__names_any(name, DENIAL_NAME_TERMS) and CaseParser.__names_any(text, DENIAL_TEXT_TERMS):
+                return SetAsideMotion(SetAsideMotionStatus.DENIED, filed_date, event_date)
+            if CaseParser.__names_any(name, WITHDRAWAL_NAME_TERMS) and CaseParser.__names_any(
+                text, WITHDRAWAL_TEXT_TERMS
+            ):
+                return SetAsideMotion(SetAsideMotionStatus.WITHDRAWN, filed_date, event_date)
+        return SetAsideMotion(SetAsideMotionStatus.FILED, filed_date)
+
+    @staticmethod
+    def __is_set_aside_motion(name: str, text: str) -> bool:
+        return (
+            "motion" in name
+            and not CaseParser.__names_any(name, MOTION_NAME_EXCLUSIONS)
+            and CaseParser.__names_any(text, SET_ASIDE_MOTION_TERMS)
+        )
+
+    @staticmethod
+    def __names_any(text: str, terms: List[str]) -> bool:
+        return any(term in text for term in terms)
 
     @staticmethod
     def __parse_events(soup):

@@ -7,6 +7,7 @@ export const shortLabels = [
   "Needs Analysis",
   "Eligible?",
   "Ineligible",
+  "Motion Filed",
   "Unknown",
 ];
 
@@ -33,6 +34,28 @@ export interface ChargeData {
   isExcluded?: boolean;
 }
 
+export const setAsideMotionStatuses = ["Filed", "Denied", "Withdrawn"] as const;
+
+export type SetAsideMotionStatus = (typeof setAsideMotionStatuses)[number];
+
+/**
+ * The latest motion to set aside the case, from its court events or the editor. A filed
+ * motion is open: the case is before the court and gets no new paperwork. Dates are in
+ * the API's "MMM d, yyyy" form.
+ */
+export interface SetAsideMotionData {
+  status: SetAsideMotionStatus;
+  filed_date: string;
+  resolved_date: string | null;
+}
+
+/** The editor's form of the motion; the status "None" clears it. */
+export interface SetAsideMotionEdit {
+  status: SetAsideMotionStatus | "None";
+  filed_date: string;
+  resolved_date: string;
+}
+
 export interface CaseData {
   balance_due: number;
   birth_year: number;
@@ -48,6 +71,7 @@ export interface CaseData {
   name: string;
   violation_type: string;
   restitution: boolean;
+  set_aside_motion: SetAsideMotionData | null;
 }
 
 export interface RecordData {
@@ -102,6 +126,7 @@ export const chargeEligibilityStatuses = [
   "Possibly Will Be Eligible",
   "Needs More Analysis",
   "Ineligible",
+  "Motion Previously Filed",
   "Unknown",
 ] as const;
 

@@ -7,7 +7,7 @@ from dacite import from_dict
 
 from expungeservice.generator import get_charge_classes
 from expungeservice.models.charge import Charge, OeciCharge, ChargeType, EditStatus
-from expungeservice.models.case import OeciCase, CaseCreator
+from expungeservice.models.case import OeciCase, CaseCreator, SetAsideMotion, SetAsideMotionStatus
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.disposition import DispositionCreator
 
@@ -48,6 +48,8 @@ class RecordEditor:
                 case_summary_edits["birth_year"] = int(value)
             elif key == "restitution":
                 case_summary_edits["restitution"] = value == "True"
+            elif key == "set_aside_motion":
+                case_summary_edits["set_aside_motion"] = RecordEditor._parse_set_aside_motion(value)
             else:
                 case_summary_edits[key] = value
         edited_summary = replace(case.summary, **case_summary_edits)
@@ -61,6 +63,21 @@ class RecordEditor:
         else:
             edited_charges = case.charges
         return OeciCase(edited_summary, edited_charges), new_charges
+
+    @staticmethod
+    def _parse_set_aside_motion(edit) -> Optional[SetAsideMotion]:
+        """
+        The editor sends {"status", "filed_date", "resolved_date"}, with the status "None" to clear
+        the motion. The resolved date is read only for a denied or withdrawn motion.
+        """
+        if not edit or edit.get("status") in (None, "", "None"):
+            return None
+        status = SetAsideMotionStatus(edit["status"])
+        filed_date = date_class.fromdatetime(datetime.strptime(edit["filed_date"], "%m/%d/%Y"))
+        resolved_date = None
+        if status != SetAsideMotionStatus.FILED and edit.get("resolved_date"):
+            resolved_date = date_class.fromdatetime(datetime.strptime(edit["resolved_date"], "%m/%d/%Y"))
+        return SetAsideMotion(status, filed_date, resolved_date)
 
     @staticmethod
     def _mark_charges_as_deleted(charges: Tuple[OeciCharge, ...]) -> Tuple[OeciCharge, ...]:

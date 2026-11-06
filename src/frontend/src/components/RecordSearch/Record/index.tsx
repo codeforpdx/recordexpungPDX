@@ -33,6 +33,7 @@ export default function Record() {
       violation_type: "",
       district_attorney_number: "",
       restitution: false,
+      set_aside_motion: null,
       edit_status: "ADD",
     };
   };

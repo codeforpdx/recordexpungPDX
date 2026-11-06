@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
 
 from expungeservice.models.charge import OeciCharge, Charge, EditStatus
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
@@ -7,6 +8,33 @@ from expungeservice.util import DateWithFuture as date_class
 from typing import Optional, Tuple, Iterable
 import re
 from more_itertools import partition
+
+
+class SetAsideMotionStatus(str, Enum):
+    FILED = "Filed"
+    DENIED = "Denied"
+    WITHDRAWN = "Withdrawn"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}.{self.name}"
+
+
+@dataclass(frozen=True)
+class SetAsideMotion:
+    """
+    The latest motion to set aside the case, read from its court events or entered by the
+    editor. A filed motion is open: the case is in the court's hands and needs no new
+    paperwork. A denied or withdrawn motion leaves the case in the ordinary analysis, with
+    the date the court or the filer closed it.
+    """
+
+    status: SetAsideMotionStatus
+    filed_date: date_class
+    resolved_date: Optional[date_class] = None
+
+    @property
+    def open(self) -> bool:
+        return self.status == SetAsideMotionStatus.FILED
 
 
 @dataclass(frozen=True)
@@ -25,6 +53,7 @@ class CaseSummary:
     restitution: bool
     balance_due_in_cents: int
     edit_status: EditStatus
+    set_aside_motion: Optional[SetAsideMotion] = None
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -116,6 +145,7 @@ class CaseCreator:
         case_detail_link,
         restitution,
         balance,
+        set_aside_motion: Optional[SetAsideMotion] = None,
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -139,6 +169,7 @@ class CaseCreator:
             restitution,
             balance_due_in_cents,
             EditStatus.UNCHANGED,
+            set_aside_motion,
         )
 
     @staticmethod

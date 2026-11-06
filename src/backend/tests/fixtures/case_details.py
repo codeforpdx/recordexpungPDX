@@ -34,6 +34,29 @@ class CaseDetails:
 
         return read_html("x").format(**locals())
 
+    @staticmethod
+    def event_row(event_date: str, name: str, text: str = "", row_id: str = "RCDER9") -> str:
+        """One row of the "OTHER EVENTS AND HEARINGS" list, as OECI renders it."""
+        return (
+            f'<tr><th class="ssTableHeaderLabel" valign="top" id="{row_id}">{event_date}</th>'
+            '<td style="border-right: 1px solid black">&nbsp;</td><td>&nbsp;</td>'
+            f'<td headers="COtherEventsAndHearings {row_id}"><b>{name}</b>'
+            f'<div style="padding-left: 10px"><i>{text}</i></div>'
+            '<div style="padding-left: 10px;font-size:8pt;">Created: 01/01/2020 12:00 AM</div></td></tr>'
+        )
+
+    @staticmethod
+    def case_x_with_events(rows: list) -> str:
+        """case_x with the given (date, name, text) rows appended to its other events, in order."""
+        page = CaseDetails.case_x()
+        citation_row = page.index('id="RCDER1">')
+        insert_at = page.index("</tr>", citation_row) + len("</tr>")
+        events = "".join(
+            CaseDetails.event_row(event_date, name, text, f"RCDER{i + 2}")
+            for i, (event_date, name, text) in enumerate(rows)
+        )
+        return page[:insert_at] + events + page[insert_at:]
+
     CASE_WITH_REVOKED_PROBATION = read_html("with_revoked_probation")
     COMMENTS_ENTERED_UNDER_SEPARATE_DISPOSITION_HEADERS = read_html(
         "comments_entered_under_separate_disposition_headers"

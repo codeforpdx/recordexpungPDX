@@ -114,7 +114,13 @@ class ExpungeModelEncoder(flask.json.JSONEncoder):
             "sid": case.sid,
             "restitution": case.restitution,
             "edit_status": case.edit_status,
+            "set_aside_motion": self.set_aside_motion_to_json(case.set_aside_motion),
         }
+
+    def set_aside_motion_to_json(self, motion):
+        if not motion:
+            return None
+        return {"status": motion.status, "filed_date": motion.filed_date, "resolved_date": motion.resolved_date}
 
     def charge_to_json(self, charge):
         return {

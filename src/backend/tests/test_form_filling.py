@@ -300,6 +300,7 @@ class TestBuildOSPPDF:
         user_info = UserInfo(
             counties_with_cases_to_expunge=[],
             has_eligible_convictions=False,
+            open_motion_warnings=[],
             **user_data,
         )
         pdf = FormFilling._create_pdf(user_info, validate_initial_pdf_state=True)

@@ -22,6 +22,7 @@ class ChargeEligibilityStatus(str, Enum):
     INELIGIBLE = "Ineligible"
     NEEDS_MORE_ANALYSIS = "Needs More Analysis"
     INELIGIBLE_IF_RESTITUTION_OWED = "Ineligible If Restitution Owed"
+    MOTION_FILED = "Motion Previously Filed"
 
     def __repr__(self):
         return f"{self.__class__.__name__}.{self.name}"

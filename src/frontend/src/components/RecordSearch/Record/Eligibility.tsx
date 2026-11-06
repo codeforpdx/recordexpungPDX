@@ -28,7 +28,9 @@ export default class Eligibility extends React.Component<Props> {
           return "purple bg-washed-purple";
         case "Ineligible If Restitution Owed":
           return "purple bg-washed-purple";
-            }
+        case "Motion Previously Filed":
+          return "blue bg-washed-blue";
+      }
     };
 
     const eligibility = () => {

@@ -348,6 +348,7 @@ function aCase(caseNumber: string, location: string, charges: any[]): CaseData {
     name: "SB 819",
     violation_type: "Offense Felony",
     restitution: false,
+    set_aside_motion: null,
   };
 }
 
