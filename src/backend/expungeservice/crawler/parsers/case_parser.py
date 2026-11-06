@@ -142,11 +142,9 @@ class CaseParser:
 
     @staticmethod
     def __parse_set_aside_motion(soup) -> Optional[SetAsideMotion]:
-        """
-        The latest set-aside motion among the case's other events, and whether a later denial
-        or withdrawal resolved it. Only events after the latest motion can resolve it, so a
-        denial of an earlier motion leaves a refiled one open.
-        """
+        """The latest set-aside motion among the case's other events, and whether a later event resolved it."""
+        # Only events after the latest motion can resolve it, so a denial of an earlier
+        # motion leaves a refiled one open.
         rows = []
         _, other_events = CaseParser.__parse_events(soup)
         for event in other_events:

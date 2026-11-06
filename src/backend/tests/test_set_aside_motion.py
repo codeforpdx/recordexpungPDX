@@ -1,7 +1,5 @@
-"""
-A case with a set-aside motion already filed, from the merged record through to the
-paperwork. The parser side is in tests/parser/test_case_parser.py.
-"""
+"""A case with a set-aside motion already filed, from the merged record through to the paperwork."""
+# The parser side is in tests/parser/test_case_parser.py.
 import json
 from dataclasses import replace
 from unittest.mock import MagicMock

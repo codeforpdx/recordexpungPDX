@@ -66,10 +66,8 @@ class RecordEditor:
 
     @staticmethod
     def _parse_set_aside_motion(edit) -> Optional[SetAsideMotion]:
-        """
-        The editor sends {"status", "filed_date", "resolved_date"}, with the status "None" to clear
-        the motion. The resolved date is read only for a denied or withdrawn motion.
-        """
+        """The motion the editor sent as status, filed_date, and resolved_date, with the status None to clear it."""
+        # The resolved date is read only for a denied or withdrawn motion.
         if not edit or edit.get("status") in (None, "", "None"):
             return None
         status = SetAsideMotionStatus(edit["status"])

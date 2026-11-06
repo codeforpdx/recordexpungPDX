@@ -15,19 +15,14 @@ class SetAsideMotionStatus(str, Enum):
     DENIED = "Denied"
     WITHDRAWN = "Withdrawn"
 
-    def __repr__(self):
-        return f"{self.__class__.__name__}.{self.name}"
-
 
 @dataclass(frozen=True)
 class SetAsideMotion:
-    """
-    The latest motion to set aside the case, read from its court events or entered by the
-    editor. A filed motion is open: the case is in the court's hands and needs no new
-    paperwork. A denied or withdrawn motion leaves the case in the ordinary analysis, with
-    the date the court or the filer closed it.
-    """
+    """The latest motion to set aside the case, read from its court events or entered by the editor."""
 
+    # A filed motion is open: the case is in the court's hands and needs no new paperwork.
+    # A denied or withdrawn motion leaves the case in the ordinary analysis, with the date
+    # the court or the filer closed it.
     status: SetAsideMotionStatus
     filed_date: date_class
     resolved_date: Optional[date_class] = None

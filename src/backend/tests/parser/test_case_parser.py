@@ -335,10 +335,9 @@ class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
 
 
 class TestSetAsideMotion(unittest.TestCase):
-    """
-    Event names and texts below are the forms seen in OECI across counties; see the project's
-    oeci-findings for the record. Dates are the rows' own, not the "Created:" lines.
-    """
+    """Detection on the event wordings seen in OECI across counties, recorded in the project's oeci-findings."""
+
+    # Dates are the rows' own, not the "Created:" lines.
 
     @staticmethod
     def motion(rows):

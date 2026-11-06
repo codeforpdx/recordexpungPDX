@@ -190,7 +190,7 @@ filed on _ and was skipped." Whether the summary PDF alone would do instead is u
 **OECI probe.** `probe_set_aside.py` in this folder logs in to OECI with the app's own
 crawler, searches each subject, fetches every case detail page, and prints any event row
 mentioning "set aside" along with the case's county, number, type, and status. It saves
-the raw page of each hit under `/tmp/probe/` inside the container. An empty or failed
+the raw page of each hit under `probe/` in the container's temp directory. An empty or failed
 search gets one retry on a fresh login, because OECI silently drops a session after an
 aborted fetch and a dropped session answers every search with zero cases.
 

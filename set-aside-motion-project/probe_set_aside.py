@@ -1,14 +1,13 @@
-"""Search OECI for each subject and report cases whose court events mention "Set Aside".
-
-Subjects come from stdin, one per line:  first|last|mm/dd/yyyy   (DOB optional).
-Credentials come from env OECI_USER / OECI_PASS at run time.
-The detail page of every matching case is saved under /tmp/probe/<case_number>.html
-inside the container so the event rows can be inspected.
-"""
+"""Search OECI for each subject and report cases whose court events mention "Set Aside"."""
+# Subjects come from stdin, one per line:  first|last|mm/dd/yyyy   (DOB optional).
+# Credentials come from env OECI_USER / OECI_PASS at run time.
+# The detail page of every matching case is saved as <case_number>.html under a "probe"
+# folder in the system temp directory, inside the container, so the event rows can be inspected.
 import os
 import pathlib
 import re
 import sys
+import tempfile
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,7 +15,7 @@ from bs4 import BeautifulSoup
 from expungeservice.crawler.crawler import Crawler
 from expungeservice.crawler.request import URL
 
-OUT = pathlib.Path("/tmp/probe")
+OUT = pathlib.Path(tempfile.gettempdir()) / "probe"
 OUT.mkdir(exist_ok=True)
 SET_ASIDE = re.compile(r"set\s*aside", re.I)
 
