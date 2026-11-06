@@ -88,12 +88,6 @@ function EligibilityGroup({
             can be determined
           </p>
         )}
-        {eligibility === "Motion Previously Filed" && (
-          <p className="f6 fw5">
-            A motion to set aside these cases is already before the court. No
-            paperwork is generated for them.
-          </p>
-        )}
       </div>
 
       <ul className="list">
