@@ -1,7 +1,7 @@
 import jinja2
 from datetime import datetime
 from itertools import groupby
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 class MarkdownRenderer:
     @staticmethod
@@ -15,12 +15,20 @@ class MarkdownRenderer:
 
         county_fines = [county for county in record["summary"]["county_fines"] if county['total_fines_due'] != 0]
 
+        fixed_sections = [
+            "Eligible Now",
+            "Ineligible",
+            "Needs More Analysis",
+            "Eligible Now If Balance Paid",
+            "Motion Previously Filed",
+        ]
         future_eligible_charges = [
             (key, eligible_charges_for_date)
             for key, eligible_charges_for_date in eligible_charges_by_date
-            if key not in ["Eligible Now", "Ineligible", "Needs More Analysis", "Eligible Now If Balance Paid"]
+            if key not in fixed_sections
         ]
         needs_more_analysis_charges = [x for x in eligible_charges_by_date if x[0] == "Needs More Analysis"]
+        motion_filed_charges = [x for x in eligible_charges_by_date if x[0] == "Motion Previously Filed"]
 
         return MarkdownRenderer._render_without_request(
             "expungement_analysis_report.md.j2",
@@ -30,20 +38,25 @@ class MarkdownRenderer:
             eligible_if_paid_case_charges=eligible_if_paid_case_charges,
             future_eligible_charges=sorted(future_eligible_charges, key=MarkdownRenderer._sort_future_eligible),
             needs_more_analysis_charges=needs_more_analysis_charges,
+            motion_filed_charges=motion_filed_charges,
             county_fines = county_fines,
         )
 
     @staticmethod
-    def _group_sections_by_county(record: Dict) -> List[Tuple[str, List[Tuple[str, List[Tuple[str, List[Tuple[str, str]]]]]]]]:
+    def _group_sections_by_county(
+        record: Dict,
+    ) -> List[Tuple[str, List[Tuple[str, List[Tuple[str, List[Tuple[str, str]], str]]]]]]:
         """
         Each eligibility section becomes (county, cases) groups, counties alphabetical and cases by case
         number. A case line exists only where the summarizer supplied a balance header, and reads
-        "CaseNumber – $balance"; the county heading above it carries the location.
+        "CaseNumber – $balance"; the county heading above it carries the location. A case whose
+        set-aside motion was denied or withdrawn carries a note, printed once, under its first charges.
         """
         case_by_charge_id = {
             charge["ambiguous_charge_id"]: case for case in record["cases"] for charge in case["charges"]
         }
         sections = []
+        noted_cases: Set[str] = set()
         for label, entries in record["summary"]["charges_grouped_by_eligibility_and_case"]:
             keyed_entries = []
             for header, charges in entries:
@@ -52,7 +65,12 @@ class MarkdownRenderer:
                 case_number = case["case_number"] if case else ""
                 if header and case:
                     header = f"{case_number} – ${round(case['balance_due'], 2)}"
-                keyed_entries.append(((location, case_number), (header, charges)))
+                note = ""
+                if case and case_number not in noted_cases:
+                    note = MarkdownRenderer._set_aside_motion_note(case)
+                    if note:
+                        noted_cases.add(case_number)
+                keyed_entries.append(((location, case_number), (header, charges, note)))
             keyed_entries.sort(key=lambda keyed: keyed[0])
             counties = [
                 (county, [entry for _, entry in group])
@@ -60,6 +78,15 @@ class MarkdownRenderer:
             ]
             sections.append((label, counties))
         return sections
+
+    @staticmethod
+    def _set_aside_motion_note(case: Dict) -> str:
+        motion = case.get("set_aside_motion")
+        if not motion or motion["status"] == "Filed":
+            return ""
+        verb = "denied" if motion["status"] == "Denied" else "withdrawn"
+        when = f" on {motion['resolved_date']}" if motion.get("resolved_date") else ""
+        return f"A motion to set aside case {case['case_number']} was filed on {motion['filed_date']} and {verb}{when}."
 
     @staticmethod
     def _render_without_request(template_name, **template_vars):

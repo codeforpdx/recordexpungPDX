@@ -1,6 +1,7 @@
 import React from "react";
-import { CaseData } from "./types";
+import { CaseData, SetAsideMotionEdit } from "./types";
 import { isDate } from "../../../service/validators";
+import { motionEditFrom } from "./util";
 import {
   editCase,
   deleteCase,
@@ -27,7 +28,21 @@ interface State {
   missingBirthYear: boolean;
   invalidBirthYear: boolean;
   restitution: string;
+  motion_status: SetAsideMotionEdit["status"];
+  motion_filed_date: string;
+  motion_resolved_date: string;
+  missingMotionFiledDate: boolean;
+  invalidMotionFiledDate: boolean;
+  missingMotionResolvedDate: boolean;
+  invalidMotionResolvedDate: boolean;
 }
+
+const motionStatuses: SetAsideMotionEdit["status"][] = [
+  "None",
+  "Filed",
+  "Denied",
+  "Withdrawn",
+];
 
 const counties = [
   "Baker",
@@ -80,12 +95,39 @@ export default class EditCasePanel extends React.Component<Props, State> {
     missingBirthYear: false,
     invalidBirthYear: false,
     restitution: this.props.case.restitution ? "True" : "False",
+    motion_status: motionEditFrom(this.props.case.set_aside_motion).status,
+    motion_filed_date: motionEditFrom(this.props.case.set_aside_motion)
+      .filed_date,
+    motion_resolved_date: motionEditFrom(this.props.case.set_aside_motion)
+      .resolved_date,
+    missingMotionFiledDate: false,
+    invalidMotionFiledDate: false,
+    missingMotionResolvedDate: false,
+    invalidMotionResolvedDate: false,
+  };
+
+  motionEdit = (): SetAsideMotionEdit => {
+    const resolved =
+      this.state.motion_status === "Denied" ||
+      this.state.motion_status === "Withdrawn";
+    return {
+      status: this.state.motion_status,
+      filed_date:
+        this.state.motion_status === "None" ? "" : this.state.motion_filed_date,
+      resolved_date: resolved ? this.state.motion_resolved_date : "",
+    };
   };
 
   anyFieldsChanged = () => {
+    const motionBefore = motionEditFrom(this.props.case.set_aside_motion);
+    const motionNow = this.motionEdit();
     return !(
       this.props.case.current_status === this.state.current_status &&
-      ((this.props.case.restitution && this.state.restitution === "True") || (!this.props.case.restitution && this.state.restitution === "False")) &&
+      ((this.props.case.restitution && this.state.restitution === "True") ||
+        (!this.props.case.restitution && this.state.restitution === "False")) &&
+      motionBefore.status === motionNow.status &&
+      motionBefore.filed_date === motionNow.filed_date &&
+      motionBefore.resolved_date === motionNow.resolved_date &&
       this.props.case.location === this.state.location &&
       this.props.case.balance_due.toFixed(2) === this.state.balance_due &&
       this.props.case.birth_year.toString() === this.state.birth_year
@@ -104,7 +146,11 @@ export default class EditCasePanel extends React.Component<Props, State> {
         !this.state.missingLocation &&
         !this.state.missingBalance &&
         !this.state.missingBirthYear &&
-        !this.state.invalidBirthYear
+        !this.state.invalidBirthYear &&
+        !this.state.missingMotionFiledDate &&
+        !this.state.invalidMotionFiledDate &&
+        !this.state.missingMotionResolvedDate &&
+        !this.state.invalidMotionResolvedDate
       ) {
         this.dispatchEdit();
         this.props.whenDoneEditing();
@@ -121,6 +167,7 @@ export default class EditCasePanel extends React.Component<Props, State> {
         this.props.case.case_number,
         this.state.current_status,
         this.state.restitution,
+        this.motionEdit(),
         this.state.location,
         this.state.balance_due,
         this.state.birth_year
@@ -173,9 +220,24 @@ export default class EditCasePanel extends React.Component<Props, State> {
   };
 
   validateForm = () => {
+    const motion = this.motionEdit();
+    const needsFiledDate = motion.status !== "None";
+    const needsResolvedDate =
+      motion.status === "Denied" || motion.status === "Withdrawn";
     return new Promise((resolve: (value?: unknown) => void) => {
       this.setState(
         {
+          missingMotionFiledDate: needsFiledDate && motion.filed_date === "",
+          invalidMotionFiledDate:
+            needsFiledDate &&
+            motion.filed_date !== "" &&
+            !isDate(motion.filed_date),
+          missingMotionResolvedDate:
+            needsResolvedDate && motion.resolved_date === "",
+          invalidMotionResolvedDate:
+            needsResolvedDate &&
+            motion.resolved_date !== "" &&
+            !isDate(motion.resolved_date),
           missingStatus: this.state.current_status.length === 0,
           missingLocation: this.state.location === "",
           missingBalance: this.state.balance_due.length === 0,
@@ -251,14 +313,18 @@ export default class EditCasePanel extends React.Component<Props, State> {
                   <input
                     type="radio"
                     name="restitution"
-                    id={"case_edit_restitution_true_" + this.props.case.case_number}
+                    id={
+                      "case_edit_restitution_true_" +
+                      this.props.case.case_number
+                    }
                     value="True"
                     checked={this.state.restitution === "True"}
                     onChange={this.handleChange}
                   />
                   <label
                     htmlFor={
-                      "case_edit_restitution_true_" + this.props.case.case_number
+                      "case_edit_restitution_true_" +
+                      this.props.case.case_number
                     }
                   >
                     True
@@ -269,7 +335,8 @@ export default class EditCasePanel extends React.Component<Props, State> {
                     type="radio"
                     name="restitution"
                     id={
-                      "case_edit_restitution_false_" + this.props.case.case_number
+                      "case_edit_restitution_false_" +
+                      this.props.case.case_number
                     }
                     value="False"
                     checked={this.state.restitution === "False"}
@@ -277,13 +344,98 @@ export default class EditCasePanel extends React.Component<Props, State> {
                   />
                   <label
                     htmlFor={
-                      "case_edit_restitution_false_" + this.props.case.case_number
+                      "case_edit_restitution_false_" +
+                      this.props.case.case_number
                     }
                   >
                     False
                   </label>
                 </div>
               </div>
+              <legend className="fw6">Set-aside Motion</legend>
+              <div className="radio">
+                {motionStatuses.map((status) => (
+                  <div className="dib" key={status}>
+                    <input
+                      type="radio"
+                      name="motion_status"
+                      id={
+                        "case_edit_motion_" +
+                        status.toLowerCase() +
+                        "_" +
+                        this.props.case.case_number
+                      }
+                      value={status}
+                      checked={this.state.motion_status === status}
+                      onChange={this.handleChange}
+                    />
+                    <label
+                      htmlFor={
+                        "case_edit_motion_" +
+                        status.toLowerCase() +
+                        "_" +
+                        this.props.case.case_number
+                      }
+                    >
+                      {status}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {this.state.motion_status !== "None" && (
+                <div className="mw5 mb3">
+                  <label
+                    htmlFor={
+                      "case_edit_motion_filed_date_" +
+                      this.props.case.case_number
+                    }
+                    className="db fw6 mb1"
+                  >
+                    Motion Filed <span className="normal">mm/dd/yyyy</span>
+                  </label>
+                  <input
+                    name="motion_filed_date"
+                    value={this.state.motion_filed_date}
+                    id={
+                      "case_edit_motion_filed_date_" +
+                      this.props.case.case_number
+                    }
+                    type="text"
+                    className="w-100 br2 b--black-20 pa3"
+                    required
+                    aria-invalid="false"
+                    onChange={this.handleChange}
+                  />
+                </div>
+              )}
+              {(this.state.motion_status === "Denied" ||
+                this.state.motion_status === "Withdrawn") && (
+                <div className="mw5 mb3">
+                  <label
+                    htmlFor={
+                      "case_edit_motion_resolved_date_" +
+                      this.props.case.case_number
+                    }
+                    className="db fw6 mb1"
+                  >
+                    Motion {this.state.motion_status}{" "}
+                    <span className="normal">mm/dd/yyyy</span>
+                  </label>
+                  <input
+                    name="motion_resolved_date"
+                    value={this.state.motion_resolved_date}
+                    id={
+                      "case_edit_motion_resolved_date_" +
+                      this.props.case.case_number
+                    }
+                    type="text"
+                    className="w-100 br2 b--black-20 pa3"
+                    required
+                    aria-invalid="false"
+                    onChange={this.handleChange}
+                  />
+                </div>
+              )}
             </fieldset>
             <div className="mw5 mb3">
               <label
@@ -388,6 +540,10 @@ export default class EditCasePanel extends React.Component<Props, State> {
                 this.state.missingBalance,
                 this.state.missingBirthYear,
                 this.state.invalidBirthYear,
+                this.state.missingMotionFiledDate,
+                this.state.invalidMotionFiledDate,
+                this.state.missingMotionResolvedDate,
+                this.state.invalidMotionResolvedDate,
               ]}
               contents={[
                 <span>Current Status is required</span>,
@@ -395,6 +551,10 @@ export default class EditCasePanel extends React.Component<Props, State> {
                 <span>Balance is required</span>,
                 <span>Birth Year is required</span>,
                 <span>Birth Year format is invalid</span>,
+                <span>Motion Filed date is required</span>,
+                <span>Motion Filed date format is invalid</span>,
+                <span>Motion Denied or Withdrawn date is required</span>,
+                <span>Motion Denied or Withdrawn date format is invalid</span>,
               ]}
             />{" "}
           </fieldset>

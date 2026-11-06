@@ -27,7 +27,8 @@ const mockData = {
         location: "Josephine",
         name: "Last, First Middle",
         violation_type: "Offense Felony",
-        restitution: false
+        restitution: false,
+        set_aside_motion: null,
       },
       {
         balance_due: 0.0,
@@ -43,7 +44,8 @@ const mockData = {
         location: "Josephine",
         name: "Last, First Middle",
         violation_type: "Offense Felony",
-        restitution: false
+        restitution: false,
+        set_aside_motion: null,
       },
       {
         balance_due: 1763.0,
@@ -59,7 +61,8 @@ const mockData = {
         location: "Josephine",
         name: "Last, First Middle",
         violation_type: "Offense Misdemeanor",
-        restitution: false
+        restitution: false,
+        set_aside_motion: null,
       },
     ],
   },

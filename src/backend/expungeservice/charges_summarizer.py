@@ -38,16 +38,17 @@ class ChargesSummarizer:
 
         '''
             Order is:
-            0 Needs More Analysis / Restitution Owed
-            1 Ineligible
-            2 Eligible Now
-            3 Eligible on case with Ineligible charge
-            4 Eligible Now If Balance Paid
-            5 Eligible If Balance Paid on case with Ineligible charge
-            6 Eligible Now Or Future Eligible
-            7 Eligible Now Or Future Eligible If Balance Paid
-            8 Future Eligible
-            9 Future Eligible If Balance Paid
+            0 Motion Previously Filed
+            1 Needs More Analysis / Restitution Owed
+            2 Ineligible
+            3 Eligible Now
+            4 Eligible on case with Ineligible charge
+            5 Eligible Now If Balance Paid
+            6 Eligible If Balance Paid on case with Ineligible charge
+            7 Eligible Now Or Future Eligible
+            8 Eligible Now Or Future Eligible If Balance Paid
+            9 Future Eligible
+            10 Future Eligible If Balance Paid
         '''
         if charge_eligibility:
             this_case = ChargesSummarizer._get_case_by_case_number(record, charge.case_number)
@@ -56,33 +57,35 @@ class ChargesSummarizer:
             label = charge_eligibility.label
             has_balance = this_case.summary.balance_due_in_cents != 0
 
-            if label == "Needs More Analysis" or label == "Ineligible If Restitution Owed":
+            if label == "Motion Previously Filed":
                 return 0, label, charge.case_number
-            elif label == "Ineligible":
+            elif label == "Needs More Analysis" or label == "Ineligible If Restitution Owed":
                 return 1, label, charge.case_number
-            elif not future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+            elif label == "Ineligible":
                 return 2, label, charge.case_number
+            elif not future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
+                return 3, label, charge.case_number
 
             elif not future_eligibility_label_on_case and not has_balance and case_has_ineligible_charge:
-                return 3, label+" on case with Ineligible charge", charge.case_number
+                return 4, label+" on case with Ineligible charge", charge.case_number
 
             elif not future_eligibility_label_on_case and has_balance and not case_has_ineligible_charge:
-                return 4, label+" If Balance Paid", charge.case_number
+                return 5, label+" If Balance Paid", charge.case_number
 
             elif not future_eligibility_label_on_case and has_balance and case_has_ineligible_charge:
-                return 5, label+" If Balance Paid on case with Ineligible charge", charge.case_number
+                return 6, label+" If Balance Paid on case with Ineligible charge", charge.case_number
 
             elif future_eligibility_label_on_case and not has_balance and not case_has_ineligible_charge:
-                return 6, future_eligibility_label_on_case, charge.case_number
+                return 7, future_eligibility_label_on_case, charge.case_number
 
             elif future_eligibility_label_on_case and has_balance and not case_has_ineligible_charge:
-                return 7, future_eligibility_label_on_case+" If Balance Paid", charge.case_number
+                return 8, future_eligibility_label_on_case+" If Balance Paid", charge.case_number
 
             elif future_eligibility_label_on_case and not has_balance and case_has_ineligible_charge:
-                return 8, future_eligibility_label_on_case+" on case with Ineligible charge", charge.case_number
+                return 9, future_eligibility_label_on_case+" on case with Ineligible charge", charge.case_number
 
             elif future_eligibility_label_on_case and has_balance and case_has_ineligible_charge:
-                return 9, future_eligibility_label_on_case+" If Balance Paid on case with Ineligible charge", charge.case_number
+                return 10, future_eligibility_label_on_case+" If Balance Paid on case with Ineligible charge", charge.case_number
             else:
                 return 0, "", ""
 

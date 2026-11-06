@@ -8,7 +8,7 @@ from collections import UserDict
 from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString, PageMerge
 
 
-from expungeservice.models.case import Case
+from expungeservice.models.case import Case, SetAsideMotionStatus
 from expungeservice.models.charge import Charge, EditStatus
 from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
@@ -137,6 +137,7 @@ class UserInfo:
     email_address: str
     counties_with_cases_to_expunge: List[str]
     has_eligible_convictions: bool
+    open_motion_warnings: List[str]
 
 
 @dataclass
@@ -162,6 +163,7 @@ class CaseResults(UserInfo):
             da_number=case.summary.district_attorney_number,
             counties_with_cases_to_expunge=[],
             has_eligible_convictions=False,
+            open_motion_warnings=[],
             **user_info_dict,
         )
 
@@ -273,6 +275,24 @@ class CaseResults(UserInfo):
     @property
     def is_expungeable_now(self) -> bool:
         return self.has_eligible_charges and self.has_no_balance and not self.has_future_eligible_charges
+
+    @property
+    def set_aside_motion_warning(self) -> str:
+        """
+        A sentence for the warnings sheet when an earlier motion on this case was denied or
+        withdrawn, so whoever files the new one knows the last attempt and its dates.
+        """
+        motion = self.case.summary.set_aside_motion
+        if not motion or motion.open:
+            return ""
+        filed = FormFilling.format_date(motion.filed_date)
+        outcome = "denied" if motion.status == SetAsideMotionStatus.DENIED else "withdrawn"
+        if motion.resolved_date:
+            outcome += f" on {FormFilling.format_date(motion.resolved_date)}"
+        return (
+            f"A motion to set aside this case was filed on {filed} and {outcome}. "
+            "Review that motion before filing this one."
+        )
 
     ##### Ineligible charges #####
 
@@ -638,6 +658,7 @@ class FormFilling:
             all_case_results
         )
         user_information_dict_2["has_eligible_convictions"] = has_eligible_convictions
+        user_information_dict_2["open_motion_warnings"] = FormFilling.open_motion_warnings(record_summary)
         osp_file_info = FormFilling._create_and_write_pdf(user_information_dict_2, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 
@@ -705,6 +726,13 @@ class FormFilling:
         if mapper.get("(has_ineligible_charges)"):
             message = "This form will attempt to expunge a case in part. This is relatively rare, and thus these forms should be reviewed particularly carefully."
             warnings.append(message)
+
+        motion_warning = mapper.get("(set_aside_motion_warning)")
+        if motion_warning:
+            warnings.append(str(motion_warning))
+
+        for warning in mapper.get("(open_motion_warnings)") or []:
+            warnings.append(warning)
 
         if warnings:
             text = "# Warnings from RecordSponge  \n"
@@ -781,6 +809,26 @@ class FormFilling:
         pdf.write(write_file_path)
 
         return write_file_path, write_file_name, pdf
+
+    @staticmethod
+    def format_date(a_date) -> str:
+        return a_date.strftime("%b %-d, %Y")
+
+    @staticmethod
+    def open_motion_warnings(record_summary: RecordSummary) -> List[str]:
+        """
+        One line per case with an open set-aside motion, for the OSP form's warnings sheet. Such a
+        case gets no motion of its own, and the sheet is the one record-level page in the packet.
+        """
+        warnings = []
+        for case in record_summary.record.cases:
+            motion = case.summary.set_aside_motion
+            if motion and motion.open and case.summary.edit_status != EditStatus.DELETE:
+                filed = FormFilling.format_date(motion.filed_date)
+                warnings.append(
+                    f"Case {case.summary.case_number} has a set-aside motion filed on {filed} and was skipped."
+                )
+        return warnings
 
     @staticmethod
     def counties_with_cases_to_expunge(all_case_results: List[CaseResults]):

@@ -4,7 +4,10 @@ import fileDownload from "js-file-download";
 import apiService from "../../service/api-service";
 import store from "../store";
 import { stopLoadingSummary } from "../summarySlice";
-import { ChargeData } from "../../components/RecordSearch/Record/types";
+import {
+  ChargeData,
+  SetAsideMotionEdit,
+} from "../../components/RecordSearch/Record/types";
 
 import {
   DISPLAY_RECORD,
@@ -176,6 +179,7 @@ export function editCase(
   case_number: string,
   status: string,
   restitution: string,
+  set_aside_motion: SetAsideMotionEdit,
   county: string,
   balance: string,
   birth_year: string
@@ -186,6 +190,7 @@ export function editCase(
       edit_status,
       case_number,
       restitution,
+      set_aside_motion,
       status,
       county,
       balance,
@@ -350,7 +355,7 @@ export function downloadWaiverPacket(
   ssi: boolean,
   tanf: boolean,
   ohp: boolean,
-  custody: boolean,
+  custody: boolean
 ): any {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -379,7 +384,7 @@ export function downloadWaiverPacket(
         edits: store.getState().search.edits,
         today: store.getState().searchForm.date,
         userInformation: store.getState().search.userInformation,
-        waiverInformation: store.getState().search.waiverInformation
+        waiverInformation: store.getState().search.waiverInformation,
       },
       method: "post",
       withCredentials: true,

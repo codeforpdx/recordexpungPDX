@@ -20,6 +20,7 @@ import {
   QuestionData,
   QuestionsData,
 } from "../../components/RecordSearch/Record/types";
+import { motionEditFrom } from "../../components/RecordSearch/Record/util";
 import initialState from "./initialState";
 
 function findQuestion(
@@ -182,6 +183,7 @@ export function searchReducer(
         case_number: action.case_number,
         current_status: action.status,
         restitution: action.restitution,
+        set_aside_motion: action.set_aside_motion,
         location: action.county,
         balance_due: action.balance,
         birth_year: action.birth_year,
@@ -246,6 +248,7 @@ export function searchReducer(
             case_number: c.case_number,
             current_status: c.current_status,
             restitution: "False",
+            set_aside_motion: motionEditFrom(c.set_aside_motion),
             location: c.location,
             balance_due: String(c.balance_due),
             birth_year: c.birth_year ? String(c.birth_year) : "",

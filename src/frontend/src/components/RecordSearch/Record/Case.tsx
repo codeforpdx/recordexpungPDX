@@ -7,6 +7,7 @@ import EditButton from "./EditButton";
 import AddButton from "./AddButton";
 import EditedBadge from "./EditedBadge";
 import currencyFormat from "../../../service/currency-format";
+import { describeMotion } from "./util";
 import { undoEditCase } from "../../../redux/search/actions";
 import store from "../../../redux/store";
 
@@ -84,6 +85,7 @@ export default class Case extends React.Component<Props, State> {
       current_status,
       district_attorney_number,
       restitution,
+      set_aside_motion,
       edit_status,
     } = this.props.case;
     const allIneligible = charges.every(
@@ -181,6 +183,17 @@ export default class Case extends React.Component<Props, State> {
               </div>
             ) : null)}
         </div>
+        {set_aside_motion && (
+          <div
+            className={
+              (set_aside_motion.status === "Filed"
+                ? "bg-washed-blue"
+                : "bg-washed-yellow") + " fw6 br3 pv2 ph3 ma2"
+            }
+          >
+            {describeMotion(set_aside_motion)}
+          </div>
+        )}
         {restitution && !allIneligible && (
           <div className="bg-washed-red fw6 br3 pv2 ph3 ma2">
             Eligible charges are ineligible if restitution is owed

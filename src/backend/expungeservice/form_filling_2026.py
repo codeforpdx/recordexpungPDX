@@ -318,6 +318,7 @@ class FormFilling2026:
             all_case_results
         )
         user_info_for_osp["has_eligible_convictions"] = has_eligible_convictions
+        user_info_for_osp["open_motion_warnings"] = OldFormFilling.open_motion_warnings(record_summary)
         osp_file_info = OldFormFilling._create_and_write_pdf(user_info_for_osp, temp_dir)
         zip_file.write(*osp_file_info[0:2])
 

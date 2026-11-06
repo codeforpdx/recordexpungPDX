@@ -1,8 +1,41 @@
 import React from "react";
 import { DateTime } from "luxon";
-import { ExpungementResultData, ChargeEligibilityStatus } from "./types";
+import {
+  ExpungementResultData,
+  ChargeEligibilityStatus,
+  SetAsideMotionData,
+  SetAsideMotionEdit,
+} from "./types";
 
-type EligibilityColor = "green" | "dark-blue" | "purple" | "red";
+type EligibilityColor = "green" | "dark-blue" | "purple" | "red" | "blue";
+
+/** The API's "MMM d, yyyy" date as the editor's "M/d/yyyy"; an empty or unparseable date stays as given. */
+export function shortToMMDDYYYY(shortDate: string | null | undefined) {
+  if (!shortDate) return "";
+  const date = DateTime.fromFormat(shortDate, "MMM d, yyyy");
+  return date.isValid ? date.toFormat("M/d/yyyy") : shortDate;
+}
+
+/** The case's motion in the form the editor sends, so an unrelated case edit carries it unchanged. */
+export function motionEditFrom(
+  motion: SetAsideMotionData | null | undefined
+): SetAsideMotionEdit {
+  if (!motion) return { status: "None", filed_date: "", resolved_date: "" };
+  return {
+    status: motion.status,
+    filed_date: shortToMMDDYYYY(motion.filed_date),
+    resolved_date: shortToMMDDYYYY(motion.resolved_date),
+  };
+}
+
+/** The sentence shown for a case's motion: open, or closed with how and when. */
+export function describeMotion(motion: SetAsideMotionData) {
+  const filed = `A motion to set aside this case was filed on ${motion.filed_date}`;
+  if (motion.status === "Filed") return `${filed}.`;
+  const verb = motion.status === "Denied" ? "denied" : "withdrawn";
+  const when = motion.resolved_date ? ` on ${motion.resolved_date}` : "";
+  return `${filed} and ${verb}${when}.`;
+}
 
 export function getEligibilityColor(status: string, caseBalance = 0) {
   let color: EligibilityColor;
@@ -25,6 +58,10 @@ export function getEligibilityColor(status: string, caseBalance = 0) {
     case "Will Be Eligible":
       color = "dark-blue";
       icon += "clock";
+      break;
+    case "Motion Previously Filed":
+      color = "blue";
+      icon += "gavel";
       break;
     case "Possibly Eligible":
     case "Possibly Will Be Eligible":
@@ -56,6 +93,8 @@ export function getShortLabel(
       return "Eligible " + date.toFormat("M/d/yy");
     case "Needs More Analysis":
       return "Needs Analysis";
+    case "Motion Previously Filed":
+      return "Motion Filed";
     case "Possibly Eligible":
     case "Possibly Will Be Eligible":
       return "Eligible?";

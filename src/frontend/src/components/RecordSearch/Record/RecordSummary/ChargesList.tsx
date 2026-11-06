@@ -29,6 +29,7 @@ function getEligibilityColor(eligibility: string) {
       Ineligible: "red",
       "Eligible on case with Ineligible charge": "green",
       "Needs More Analysis": "purple",
+      "Motion Previously Filed": "blue",
     }[eligibility] ?? "dark-blue"
   );
 }
@@ -85,6 +86,12 @@ function EligibilityGroup({
           <p className="f6 fw5">
             These charges need clarification below before an accurate analysis
             can be determined
+          </p>
+        )}
+        {eligibility === "Motion Previously Filed" && (
+          <p className="f6 fw5">
+            A motion to set aside these cases is already before the court. No
+            paperwork is generated for them.
           </p>
         )}
       </div>

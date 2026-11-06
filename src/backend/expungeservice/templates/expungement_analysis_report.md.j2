@@ -62,6 +62,15 @@ The following charges (dismissed and convicted) are eligible at the designated d
   {% endfor %}
 {% endif %}
 
+{% if motion_filed_charges | count > 0 %}
+### Motion Previously Filed
+A motion to set aside these cases has already been filed with the court. No new motion is needed for them; the court will rule on the motion already filed.
+
+  {% for county, cases in motion_filed_charges[0][1] %}
+    {% include 'partials/county.md.j2' %}
+  {% endfor %}
+
+{% endif %}
 {% if needs_more_analysis_charges | count > 0 %}
 ### Charges Needing More Analysis
 Additionally, you have charges for which the online records do not contain enough information to determine eligibility. If you are curious about the eligibility of these charges, please contact roe@qiu-qiulaw.com.

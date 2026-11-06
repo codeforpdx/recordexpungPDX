@@ -71,6 +71,18 @@ class RecordMerger:
                     charge_eligibility = ChargeEligibility(
                         ChargeEligibilityStatus.INELIGIBLE_IF_RESTITUTION_OWED, "Ineligible If Restitution Owed"
                     )
+                # A case with an open set-aside motion is before the court; its charges are
+                # neither eligible nor filed again. The case's convictions still count in time
+                # analysis, since nothing is sealed until the motion is granted.
+                set_aside_motion = case.summary.set_aside_motion
+                if (
+                    set_aside_motion
+                    and set_aside_motion.open
+                    and charge_eligibility.status != ChargeEligibilityStatus.INELIGIBLE
+                ):
+                    charge_eligibility = ChargeEligibility(
+                        ChargeEligibilityStatus.MOTION_FILED, "Motion Previously Filed"
+                    )
                 expungement_result = ExpungementResult(
                     type_eligibility=merged_type_eligibility,
                     time_eligibility=merged_time_eligibility,
