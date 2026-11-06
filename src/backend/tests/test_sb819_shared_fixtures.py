@@ -42,7 +42,6 @@ def build_result(entry) -> SB819CriterionResult:
         description="",
         citation="",
         determination=SB819Determination(entry["determination"]),
-        disjunction_group=entry.get("group", ""),
     )
     return SB819CriterionResult(criterion=criterion, outcome=SB819Outcome(entry["outcome"]), explanation="")
 
@@ -75,7 +74,6 @@ def test_outcomes_resolve_as_the_shared_table_says(scenario):
     assert resolve_charge_status(main_status, pathway_statuses) == SB819Status(expected["charge"])
 
     if "disqualifying" in expected:
-        # A single failed alternative in a disjunction group is not a bar.
         assert barred == expected["disqualifying"]
 
 
@@ -85,5 +83,5 @@ def test_pathway_results_agree_with_the_bare_resolver():
     results = [build_result(e) for e in scenario["pathways"][0]["criteria"]]
     from expungeservice.models.sb819 import SB819Pathway
 
-    built = SB819PathwayResult.build(SB819Pathway.ACTUAL_INNOCENCE, results)
+    built = SB819PathwayResult.build(SB819Pathway.COLLATERAL_CONSEQUENCES, results)
     assert built.status == _resolve_outcomes(tuple(results))

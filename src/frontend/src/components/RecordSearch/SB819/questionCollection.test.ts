@@ -14,7 +14,7 @@ const resolved = (analysis: SB819AnalysisData, answers: SB819Answers) =>
 
 function states(
   analysis: SB819AnalysisData,
-  scope: "record" | "case" | "charge",
+  scope: "case" | "charge",
   answers: SB819Answers,
   chargeIds?: string[]
 ) {
@@ -27,107 +27,28 @@ function states(
   );
 }
 
-describe("the applicant's questions", () => {
-  it("opens with the gate alone; the alternatives wait on it", () => {
-    expect(states(buildAnalysis(), "record", {})).toEqual({
-      "currently-incarcerated": "live",
-      "juvenile-transfer": "dormant",
-      "over-60-or-ill": "dormant",
-      "person-over-16-years": "dormant",
-    });
-  });
-
-  it("puts the alternatives once the gate is met, and only those the record leaves open", () => {
-    // Robbery II is a person crime, so the non-person alternative failed from the record.
-    const answers: SB819Answers = { "record:currently-incarcerated": "yes" };
-    expect(states(buildAnalysis(), "record", answers)).toEqual({
-      "currently-incarcerated": "answered",
-      "juvenile-transfer": "live",
-      "over-60-or-ill": "live",
-      "person-over-16-years": "live",
-    });
-  });
-
-  it("asks the non-person alternative when some charge is a non-person crime", () => {
-    const answers: SB819Answers = { "record:currently-incarcerated": "yes" };
-    expect(
-      states(buildAnalysis({ theft: true }), "record", answers)[
-        "non-person-over-10-years"
-      ]
-    ).toBe("live");
-  });
-
-  it("stands the other alternatives down once one is met", () => {
-    const answers: SB819Answers = {
-      "record:currently-incarcerated": "yes",
-      "record:juvenile-transfer": "yes",
-    };
-    expect(states(buildAnalysis(), "record", answers)).toEqual({
-      "currently-incarcerated": "answered",
-      "juvenile-transfer": "answered",
-      "over-60-or-ill": "dormant",
-      "person-over-16-years": "dormant",
-    });
-  });
-
-  it("keeps an answered alternative on screen after the gate turns against it", () => {
-    const answers: SB819Answers = {
-      "record:currently-incarcerated": "no",
-      "record:over-60-or-ill": "yes",
-    };
-    expect(states(buildAnalysis(), "record", answers)).toEqual({
-      "currently-incarcerated": "answered",
-      "juvenile-transfer": "dormant",
-      "over-60-or-ill": "answered",
-      "person-over-16-years": "dormant",
-    });
-  });
-
-  it("does not stand the alternatives down while a met alternative is on another charge only", () => {
-    // Arson I was committed under 18, which meets the group on that charge alone.
-    const answers: SB819Answers = { "record:currently-incarcerated": "yes" };
-    expect(
-      states(buildAnalysis({ arson: true }), "record", answers)[
-        "over-60-or-ill"
-      ]
-    ).toBe("live");
-  });
-
-  it("holds every question behind an open felony question when that is the only charge", () => {
-    const analysis = buildAnalysis({ assault: true });
-    const only = ["800-1"];
-    expect(states(analysis, "record", {}, only)).toEqual({
-      "currently-incarcerated": "dormant",
-      "juvenile-transfer": "dormant",
-      "over-60-or-ill": "dormant",
-      "person-over-16-years": "dormant",
-    });
-    expect(states(analysis, "case", {}, only)).toEqual({
-      "not-global-plea": "dormant",
-      "sentence-completed": "dormant",
-    });
-    expect(states(analysis, "charge", {}, only)).toEqual({
-      "sentenced-as-felony": "live",
-      "innocence-claim": "dormant",
-      "five-years-served": "dormant",
-      "no-domestic-violence": "dormant",
-    });
-  });
-});
-
 describe("a case's questions", () => {
-  it("opens with sentence completion; the plea question waits on the applicant's gate", () => {
+  it("opens with the pathway's gate, sentence completion", () => {
     const analysis = buildAnalysis();
     const ids = chargeIdsForCase(analysis, "100");
     expect(states(analysis, "case", {}, ids)).toEqual({
-      "not-global-plea": "dormant",
       "sentence-completed": "live",
     });
+  });
+
+  it("is carried by every conviction on the case and collected once", () => {
+    const analysis = resolved(buildAnalysis({ theft: true }), {});
+    const questions = questionsAt(
+      analysis,
+      "case",
+      chargeIdsForCase(analysis, "100")
+    );
+    expect(questions.map((q) => q.target)).toEqual([
+      "case:100:sentence-completed",
+    ]);
     expect(
-      states(analysis, "case", { "record:currently-incarcerated": "yes" }, ids)[
-        "not-global-plea"
-      ]
-    ).toBe("live");
+      questions[0].carriers.map((c) => c.charge.ambiguous_charge_id)
+    ).toEqual(["100-1", "100-2"]);
   });
 
   it("has nothing to ask on a charge the record rules out", () => {
@@ -138,44 +59,58 @@ describe("a case's questions", () => {
       "dormant"
     );
   });
+
+  it("waits on an open felony question when that is the only charge", () => {
+    const analysis = buildAnalysis({ assault: true });
+    const only = ["800-1"];
+    expect(states(analysis, "case", {}, only)).toEqual({
+      "sentence-completed": "dormant",
+    });
+    expect(states(analysis, "charge", {}, only)).toEqual({
+      "sentenced-as-felony": "live",
+      "no-domestic-violence": "dormant",
+    });
+  });
 });
 
 describe("a charge's questions", () => {
-  it("shows the innocence claim at once and the rest behind their gates", () => {
+  it("hold behind the case's gate", () => {
     expect(states(buildAnalysis(), "charge", {}, ["100-1"])).toEqual({
-      "innocence-claim": "live",
-      "five-years-served": "dormant",
       "no-domestic-violence": "dormant",
     });
   });
 
-  it("puts the gated questions once each gate is met", () => {
-    const answers: SB819Answers = {
-      "record:currently-incarcerated": "yes",
-      "case:100:sentence-completed": "yes",
-    };
+  it("are put once the gate is met", () => {
+    const answers: SB819Answers = { "case:100:sentence-completed": "yes" };
     expect(states(buildAnalysis(), "charge", answers, ["100-1"])).toEqual({
-      "innocence-claim": "live",
-      "five-years-served": "live",
       "no-domestic-violence": "live",
     });
   });
 
-  it("stands a question down once its pathway is ruled out by another answer", () => {
-    const answers: SB819Answers = {
-      "record:currently-incarcerated": "yes",
-      "case:100:not-global-plea": "yes",
-    };
+  it("stand down once the pathway is ruled out by the gate", () => {
+    const answers: SB819Answers = { "case:100:sentence-completed": "no" };
     expect(
-      states(buildAnalysis(), "charge", answers, ["100-1"])["five-years-served"]
+      states(buildAnalysis(), "charge", answers, ["100-1"])[
+        "no-domestic-violence"
+      ]
     ).toBe("dormant");
   });
 
-  it("leaves only the felony question once it is answered against", () => {
+  it("keep an answered question on screen after the gate turns against it", () => {
+    const answers: SB819Answers = {
+      "case:100:sentence-completed": "no",
+      "charge:100-1:no-domestic-violence": "no",
+    };
+    expect(states(buildAnalysis(), "charge", answers, ["100-1"])).toEqual({
+      "no-domestic-violence": "answered",
+    });
+  });
+
+  it("leave only the felony question once it is answered against", () => {
     // A failed main criterion empties the pathways, and their questions with them.
     const answers: SB819Answers = {
       "charge:800-1:sentenced-as-felony": "no",
-      "record:currently-incarcerated": "yes",
+      "case:800:sentence-completed": "yes",
     };
     expect(
       states(buildAnalysis({ assault: true }), "charge", answers, ["800-1"])
@@ -186,19 +121,14 @@ describe("a charge's questions", () => {
 describe("the stage predicates", () => {
   it("wait on live questions only", () => {
     const analysis = resolved(buildAnalysis(), {});
-    const applicant = questionsAt(analysis, "record");
-    expect(awaiting(applicant, {})).toBe(true);
-    expect(shown(applicant, {}).map((q) => q.criterion.key)).toEqual([
-      "currently-incarcerated",
+    const caseQuestions = questionsAt(analysis, "case");
+    expect(awaiting(caseQuestions, {})).toBe(true);
+    expect(shown(caseQuestions, {}).map((q) => q.criterion.key)).toEqual([
+      "sentence-completed",
     ]);
+    const answers: SB819Answers = { "case:100:sentence-completed": "no" };
     expect(
-      awaiting(
-        questionsAt(
-          resolved(buildAnalysis(), { "record:currently-incarcerated": "no" }),
-          "record"
-        ),
-        { "record:currently-incarcerated": "no" }
-      )
+      awaiting(questionsAt(resolved(buildAnalysis(), answers), "case"), answers)
     ).toBe(false);
   });
 });

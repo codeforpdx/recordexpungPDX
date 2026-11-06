@@ -57,35 +57,15 @@ export function applyAnswer(
 /**
  * A pathway fails on any failed criterion and is unresolved on any unknown one.
  *
- * Criteria in a disjunction group resolve together: the group passes if any member passes,
- * is unknown if any member is unknown, and fails only if every member fails. Criteria that
- * are not screenable take no part; they are settled by the District Attorney or by
- * documents the applicant assembles later, so nothing here can resolve them.
+ * Criteria that are not screenable take no part; they are settled by documents the
+ * applicant assembles later, so nothing here can resolve them.
  */
 export function resolveOutcomes(
   criteria: SB819CriterionResultData[]
 ): SB819Status {
-  const screenable = criteria.filter((c) => c.is_screenable);
-  const outcomes: SB819Outcome[] = screenable
-    .filter((c) => !c.disjunction_group)
+  const outcomes = criteria
+    .filter((c) => c.is_screenable)
     .map((c) => c.outcome);
-
-  const groups = Array.from(
-    new Set(
-      screenable
-        .filter((c) => c.disjunction_group)
-        .map((c) => c.disjunction_group)
-    )
-  );
-  groups.forEach((group) => {
-    const members = screenable
-      .filter((c) => c.disjunction_group === group)
-      .map((c) => c.outcome);
-    if (members.includes("Passed")) outcomes.push("Passed");
-    else if (members.includes("Unknown")) outcomes.push("Unknown");
-    else outcomes.push("Failed");
-  });
-
   if (outcomes.includes("Failed")) return "SB-819 Ineligible";
   if (outcomes.includes("Unknown")) return "Needs More Analysis";
   return "Possibly SB-819 Eligible";
@@ -122,8 +102,6 @@ function resolveCharge(
       main_criteria: main,
       pathways: [],
       status: "SB-819 Ineligible",
-      available_pathways: [],
-      blocked_pathways: [],
     };
   }
 
@@ -140,12 +118,6 @@ function resolveCharge(
       mainStatus,
       pathways.map((p) => p.status)
     ),
-    available_pathways: pathways
-      .filter((p) => p.status !== "SB-819 Ineligible")
-      .map((p) => p.pathway),
-    blocked_pathways: pathways
-      .filter((p) => p.status === "SB-819 Ineligible")
-      .map((p) => p.pathway),
   };
 }
 
@@ -176,30 +148,13 @@ export default function resolveAnalysis(
 }
 
 /**
- * The failed criteria that bar a pathway, in the order they were evaluated.
- *
- * A criterion in a disjunction group only disqualifies when every alternative in that group
- * failed. One failed alternative among several is not a bar, and naming it as one would
- * report a disqualification the criteria do not impose.
+ * The failed criteria that bar a pathway, in the order they were evaluated. Criteria that
+ * are not screenable take no part in a status, so they cannot be what barred it.
  *
  * Mirrors `disqualifying_results` in expungeservice/models/sb819.py.
  */
 export function disqualifyingCriteria(
   criteria: SB819CriterionResultData[]
 ): SB819CriterionResultData[] {
-  const screenable = criteria.filter((c) => c.is_screenable);
-  const fullyFailedGroups = new Set(
-    Array.from(
-      new Set(screenable.map((c) => c.disjunction_group).filter(Boolean))
-    ).filter((group) =>
-      screenable
-        .filter((c) => c.disjunction_group === group)
-        .every((c) => c.outcome === "Failed")
-    )
-  );
-  return screenable.filter(
-    (c) =>
-      c.outcome === "Failed" &&
-      (!c.disjunction_group || fullyFailedGroups.has(c.disjunction_group))
-  );
+  return criteria.filter((c) => c.is_screenable && c.outcome === "Failed");
 }

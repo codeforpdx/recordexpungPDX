@@ -26,34 +26,24 @@ def test_keys_are_unique():
     assert len(keys) == len(set(keys))
 
 
-def test_the_five_facts_about_the_applicant_are_asked_once():
-    assert keys_at(SB819Scope.RECORD) == [
-        "currently-incarcerated",
-        "juvenile-transfer",
-        "non-person-over-10-years",
-        "over-60-or-ill",
-        "person-over-16-years",
-    ]
-
-
-def test_the_two_facts_about_a_prosecution_are_asked_once_per_case():
-    assert keys_at(SB819Scope.CASE) == ["not-global-plea", "sentence-completed"]
+def test_the_one_fact_about_a_prosecution_is_asked_once_per_case():
+    assert keys_at(SB819Scope.CASE) == ["sentence-completed"]
 
 
 def test_everything_else_is_asked_per_conviction():
-    assert len(keys_at(SB819Scope.CHARGE)) == len(ALL_CRITERIA) - 7
+    assert len(keys_at(SB819Scope.CHARGE)) == len(ALL_CRITERIA) - 1
 
 
-def test_only_the_three_unsettleable_criteria_are_unscreenable():
+def test_only_the_two_unsettleable_criteria_are_unscreenable():
     unscreenable = sorted(c.key for c in ALL_CRITERIA if not c.is_screenable)
-    assert unscreenable == ["investigation-avenue", "manifest-hardship", "substantial-rehabilitation"]
+    assert unscreenable == ["manifest-hardship", "substantial-rehabilitation"]
 
 
 def test_unscreenable_criteria_carry_no_question():
     """They are instructions, not questions, so nothing offers a Yes or No for them."""
     for criterion in ALL_CRITERIA:
         if not criterion.is_screenable:
-            assert criterion.determination in (SB819Determination.DISCRETION, SB819Determination.PART_TWO)
+            assert criterion.determination is SB819Determination.PART_TWO
 
 
 def test_the_payload_exposes_what_the_browser_resolves_with():
@@ -77,32 +67,29 @@ def test_the_payload_exposes_what_the_browser_resolves_with():
     )
     summary = RecordSummarizer.summarize(record, questions)
     payload = json.loads(json.dumps({"record": summary}, cls=ExpungeModelEncoder))["record"]
-    charge = payload["summary"]["sb819_analysis"]["charges"]["SB819-500-1"]
+    charge = payload["summary"]["sb819_analysis"]["charges"]["SB819-600-1"]
 
     every_criterion = charge["main_criteria"] + [c for p in charge["pathways"] for c in p["criteria"]]
     for entry in every_criterion:
-        for field in ["key", "scope", "disjunction_group", "is_gate", "is_screenable"]:
+        for field in ["key", "scope", "is_gate", "is_screenable"]:
             assert field in entry, f"{field} missing from {entry['name']}"
 
-    alternatives = [c["key"] for c in every_criterion if c["disjunction_group"]]
-    assert "under-18-at-offense" in alternatives
+    assert [c["key"] for c in every_criterion if c["is_gate"]] == ["sentence-completed"]
 
 
 def test_a_gate_is_a_single_question_that_defines_its_pathway():
     """The browser holds a pathway's other questions back until its gate is met.
 
     That only makes sense for one criterion per pathway, and only for one the client
-    answers: a gate settled from the record would never open anything, and a gate inside a
-    disjunction group would hold questions back on an alternative that need not be met.
+    answers: a gate settled from the record would never open anything.
     """
     gates = [c for c in ALL_CRITERIA if c.is_gate]
-    assert {c.key for c in gates} == {"currently-incarcerated", "sentence-completed"}
+    assert {c.key for c in gates} == {"sentence-completed"}
     pathways = [c.pathway for c in gates]
     assert len(pathways) == len(set(pathways)), "two gates on one pathway"
     for gate in gates:
         assert gate.pathway is not None, f"{gate.key}: a main criterion gates every pathway already"
         assert gate.determination is SB819Determination.QUESTION, f"{gate.key}: a gate must be a question"
-        assert not gate.disjunction_group, f"{gate.key}: a gate cannot be one of several alternatives"
 
 
 def test_every_criterion_is_explained_on_the_rules_page():
@@ -148,10 +135,7 @@ def test_the_rules_page_quotes_only_questions_the_software_asks():
     # holds only while the demo record the sheet reads from exercises each fallback.
     sometimes_asked = {
         "Conviction was sentenced as a felony",
-        "Conviction is not subject to ORS 137.690 or ORS 137.719",
-        "Applicant committed the crime when under 18",
-        "Applicant is over 60, terminally or debilitatingly ill, or on hospice care",
         "Conviction is not a registerable sex offense",
     }
     assert sometimes_asked <= quoted, f"not quoted: {sometimes_asked - quoted}"
-    assert len(sheet["questions"]) == 14
+    assert len(sheet["questions"]) == 4

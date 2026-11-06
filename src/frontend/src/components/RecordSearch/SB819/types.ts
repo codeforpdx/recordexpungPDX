@@ -6,15 +6,12 @@ export const sb819Statuses = [
 
 export type SB819Status = (typeof sb819Statuses)[number];
 
-export type SB819Pathway =
-  | "Actual Innocence"
-  | "Excessive Sentencing"
-  | "Collateral Consequences";
+export type SB819Pathway = "Collateral Consequences";
 
-/** How a criterion is settled. OECI reads the record and Question asks the client. The
- * other two are settled by the District Attorney or by documents assembled later, so they
- * take no part in any status and are shown as instructions. */
-export type SB819Determination = "OECI" | "Question" | "Discretion" | "Part 2";
+/** How a criterion is settled. OECI reads the record and Question asks the client. Part 2
+ * is settled by documents the applicant assembles later, so it takes no part in any status
+ * and is shown as an instruction. */
+export type SB819Determination = "OECI" | "Question" | "Part 2";
 
 export type SB819Outcome = "Passed" | "Failed" | "Unknown";
 
@@ -25,14 +22,13 @@ export interface SB819QuestionData {
   note: string;
 }
 
-export type SB819Scope = "record" | "case" | "charge";
+export type SB819Scope = "case" | "charge";
 
 export type SB819Answer = "yes" | "no";
 
 export interface SB819CriterionResultData {
   key: string;
   scope: SB819Scope;
-  disjunction_group: string;
   /** The question that defines who the pathway is for; its other questions wait on this one. */
   is_gate: boolean;
   is_screenable: boolean;
@@ -59,8 +55,6 @@ export interface SB819ChargeAnalysisData {
   status: SB819Status;
   main_criteria: SB819CriterionResultData[];
   pathways: SB819PathwayResultData[];
-  available_pathways: SB819Pathway[];
-  blocked_pathways: SB819Pathway[];
 }
 
 export interface SB819SectionData {
@@ -82,14 +76,9 @@ export function answerTarget(
   caseNumber: string,
   ambiguousChargeId: string
 ): string {
-  switch (criterion.scope) {
-    case "record":
-      return `record:${criterion.key}`;
-    case "case":
-      return `case:${caseNumber}:${criterion.key}`;
-    default:
-      return `charge:${ambiguousChargeId}:${criterion.key}`;
-  }
+  return criterion.scope === "case"
+    ? `case:${caseNumber}:${criterion.key}`
+    : `charge:${ambiguousChargeId}:${criterion.key}`;
 }
 
 /**

@@ -27,7 +27,6 @@ interface FixtureCriterion {
   key: string;
   determination: SB819Determination;
   outcome: SB819Outcome;
-  group?: string;
   question?: { if_yes: SB819Status; if_no: SB819Status };
 }
 
@@ -50,7 +49,6 @@ function build(entry: FixtureCriterion): SB819CriterionResultData {
   return {
     key: entry.key,
     scope: "charge",
-    disjunction_group: entry.group ?? "",
     is_gate: false,
     is_screenable:
       entry.determination === "OECI" || entry.determination === "Question",
@@ -85,8 +83,6 @@ function analysisFor(scenario: Scenario): SB819AnalysisData {
           status: "Needs More Analysis",
           criteria: p.criteria.map(build),
         })),
-        available_pathways: [],
-        blocked_pathways: [],
       },
     },
   };

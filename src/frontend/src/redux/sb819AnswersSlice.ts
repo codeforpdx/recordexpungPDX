@@ -6,8 +6,9 @@ import { SB819Answer } from "../components/RecordSearch/SB819/types";
 /**
  * Yes/no answers to the SB-819 criteria questions.
  *
- * Keyed by the target built in `answerTarget`, so a question about the applicant is stored
- * once and reaches every charge, while a question about a conviction is stored per charge.
+ * Keyed by the target built in `answerTarget`, so a question about a case is stored once
+ * and reaches every conviction on it, while a question about a conviction is stored per
+ * charge.
  *
  * Answers are held here only. They are not written to disk, not sent with the search, and
  * are discarded on reload and by Start Over, which resets every slice. They are also

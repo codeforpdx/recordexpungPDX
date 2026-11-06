@@ -20,14 +20,12 @@ import {
 
 const P: SB819Status = "Possibly SB-819 Eligible";
 const I: SB819Status = "SB-819 Ineligible";
-const ALTERNATIVES = "excessive-sentencing-alternatives";
 
 interface Options {
   scope?: SB819Scope;
   pathway?: SB819Pathway | null;
   determination?: SB819Determination;
   outcome?: SB819Outcome;
-  group?: string;
   gate?: boolean;
   question?: {
     text: string;
@@ -46,7 +44,6 @@ export function criterion(
   return {
     key,
     scope: o.scope ?? "charge",
-    disjunction_group: o.group ?? "",
     is_gate: o.gate ?? false,
     is_screenable: determination === "OECI" || determination === "Question",
     name,
@@ -90,180 +87,6 @@ const NOT_AGG_MURDER = criterion(
   "Conviction is not aggravated murder"
 );
 const AGG_MURDER = { ...NOT_AGG_MURDER, outcome: "Failed" as SB819Outcome };
-
-// Actual Innocence
-const AI: SB819Pathway = "Actual Innocence";
-const INNOCENCE = criterion(
-  "innocence-claim",
-  "Applicant asserts actual innocence of the conviction",
-  {
-    pathway: AI,
-    determination: "Question",
-    question: {
-      text: "Is the applicant asserting that they are actually innocent of this conviction?",
-      if_yes: P,
-      if_no: I,
-    },
-  }
-);
-const AVENUE = criterion(
-  "investigation-avenue",
-  "The JIU can identify an avenue of investigation",
-  {
-    pathway: AI,
-    determination: "Discretion",
-    outcome: "Unknown",
-  }
-);
-
-// Excessive Sentencing
-const ES: SB819Pathway = "Excessive Sentencing";
-const INCARCERATED = criterion(
-  "currently-incarcerated",
-  "Applicant is currently incarcerated",
-  {
-    pathway: ES,
-    scope: "record",
-    determination: "Question",
-    gate: true,
-    question: {
-      text: "Is the applicant currently incarcerated?",
-      if_yes: P,
-      if_no: I,
-    },
-  }
-);
-const FIVE_YEARS = criterion(
-  "five-years-served",
-  "Applicant has served at least 5 years of the term of incarceration",
-  {
-    pathway: ES,
-    determination: "Question",
-    question: {
-      text: "Has the applicant served at least five years of the term of incarceration on this sentence?",
-      if_yes: P,
-      if_no: I,
-    },
-  }
-);
-const GLOBAL_PLEA = criterion(
-  "not-global-plea",
-  "Conviction was not part of a global plea deal across counties",
-  {
-    pathway: ES,
-    scope: "case",
-    determination: "Question",
-    question: {
-      text: "Was this conviction part of a global plea deal involving multiple counties?",
-      if_yes: I,
-      if_no: P,
-    },
-  }
-);
-const REPEAT_SEX_CLEAR = criterion(
-  "not-repeat-sex-offender",
-  "Conviction is not subject to ORS 137.690 or ORS 137.719",
-  {
-    pathway: ES,
-  }
-);
-const REPEAT_SEX_QUESTION = criterion(
-  "not-repeat-sex-offender",
-  "Conviction is not subject to ORS 137.690 or ORS 137.719",
-  {
-    pathway: ES,
-    question: {
-      text: "Was this conviction sentenced under ORS 137.690 or ORS 137.719?",
-      if_yes: I,
-      if_no: P,
-    },
-  }
-);
-const JUVENILE = criterion(
-  "juvenile-transfer",
-  "Sentenced as a juvenile and approaching transfer to adult prison",
-  {
-    pathway: ES,
-    scope: "record",
-    determination: "Question",
-    group: ALTERNATIVES,
-    question: {
-      text: "Was the applicant sentenced as a juvenile, with incarceration remaining, approaching age 25 and facing transfer to adult prison?",
-      if_yes: P,
-      if_no: I,
-    },
-  }
-);
-const under18 = (outcome: SB819Outcome) =>
-  criterion(
-    "under-18-at-offense",
-    "Applicant committed the crime when under 18",
-    {
-      pathway: ES,
-      group: ALTERNATIVES,
-      outcome,
-      question:
-        outcome === "Unknown"
-          ? {
-              text: "Was the applicant under 18 when this crime was committed?",
-              if_yes: P,
-              if_no: I,
-            }
-          : undefined,
-    }
-  );
-const OVER_60 = criterion(
-  "over-60-or-ill",
-  "Applicant is over 60, terminally or debilitatingly ill, or on hospice care",
-  {
-    pathway: ES,
-    scope: "record",
-    group: ALTERNATIVES,
-    question: {
-      text: "Is the applicant over 60, terminally or debilitatingly ill, or currently on hospice care?",
-      if_yes: P,
-      if_no: I,
-    },
-  }
-);
-const nonPersonOver10 = (personCrime: boolean) =>
-  criterion(
-    "non-person-over-10-years",
-    "Non-person crime with sentences longer than 10 years in total",
-    {
-      pathway: ES,
-      scope: "record",
-      determination: "Question",
-      group: ALTERNATIVES,
-      outcome: personCrime ? "Failed" : "Unknown",
-      question: personCrime
-        ? undefined
-        : {
-            text: "Do the applicant's sentences for non-person crimes total more than 10 years?",
-            if_yes: P,
-            if_no: I,
-          },
-    }
-  );
-const personOver16 = (personCrime: boolean) =>
-  criterion(
-    "person-over-16-years",
-    "Person crime with sentences longer than 16 years in total",
-    {
-      pathway: ES,
-      scope: "record",
-      determination: "Question",
-      group: ALTERNATIVES,
-      outcome: personCrime ? "Unknown" : "Failed",
-      question: personCrime
-        ? {
-            text: "Do the applicant's sentences for person crimes total more than 16 years?",
-            if_yes: P,
-            if_no: I,
-          }
-        : undefined,
-    }
-  );
 
 // Collateral Consequences
 const CC: SB819Pathway = "Collateral Consequences";
@@ -335,12 +158,7 @@ export interface ChargeShape {
   id: string;
   caseNumber: string;
   name: string;
-  /** Whether the statute is on the person-felony list, which decides the sentence alternative. */
-  personCrime?: boolean;
-  under18?: SB819Outcome;
   registerable?: SB819Outcome;
-  /** The record carries a felony sex crime conviction, so ORS 137.690/137.719 is a question. */
-  repeatSexQuestion?: boolean;
   felonyUncertain?: boolean;
   mainFails?: "felony" | "murder";
 }
@@ -356,30 +174,9 @@ export function chargeAnalysis(shape: ChargeShape): SB819ChargeAnalysisData {
       : FELONY,
     shape.mainFails === "murder" ? AGG_MURDER : NOT_AGG_MURDER,
   ];
-  const person = shape.personCrime ?? true;
   const pathways: SB819PathwayResultData[] = shape.mainFails
     ? []
     : [
-        {
-          pathway: AI,
-          status: "Needs More Analysis",
-          criteria: [INNOCENCE, AVENUE],
-        },
-        {
-          pathway: ES,
-          status: "Needs More Analysis",
-          criteria: [
-            INCARCERATED,
-            FIVE_YEARS,
-            GLOBAL_PLEA,
-            shape.repeatSexQuestion ? REPEAT_SEX_QUESTION : REPEAT_SEX_CLEAR,
-            JUVENILE,
-            under18(shape.under18 ?? "Failed"),
-            OVER_60,
-            nonPersonOver10(person),
-            personOver16(person),
-          ],
-        },
         {
           pathway: CC,
           status: "Needs More Analysis",
@@ -399,22 +196,20 @@ export function chargeAnalysis(shape: ChargeShape): SB819ChargeAnalysisData {
     status: "Needs More Analysis",
     main_criteria: main,
     pathways,
-    available_pathways: [],
-    blocked_pathways: [],
   };
 }
 
 export interface DemoOptions {
-  /** A second, non-person conviction on case 100. */
+  /** A second conviction on case 100. */
   theft?: boolean;
   /** A DUII on case 300, which the record rules out as not a felony. */
   duii?: boolean;
-  /** Rape II on case 500, a registerable sex offense; it also puts ORS 137.690/137.719 in question everywhere. */
+  /** Rape II on case 500, a registerable sex offense. */
   rape?: boolean;
   /** Assault II on case 800 with an amended disposition, so the felony level is a question. */
   assault?: boolean;
-  /** Arson I on case 900, committed under 18. */
-  arson?: boolean;
+  /** Burglary I on case 900, a second conviction with nothing settled from the record. */
+  burglary?: boolean;
   /** No charge in scope at all. */
   empty?: boolean;
   /** Only the DUII, so nothing survives the main criteria. */
@@ -439,7 +234,6 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
           id: "100-1",
           caseNumber: "100",
           name: "Robbery in the Second Degree",
-          repeatSexQuestion: o.rape,
         },
         ...(o.theft
           ? [
@@ -447,8 +241,6 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
                 id: "100-2",
                 caseNumber: "100",
                 name: "Theft in the First Degree",
-                personCrime: false,
-                repeatSexQuestion: o.rape,
               },
             ]
           : []),
@@ -469,7 +261,6 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
                 caseNumber: "500",
                 name: "Rape in the Second Degree",
                 registerable: "Failed" as SB819Outcome,
-                repeatSexQuestion: true,
               },
             ]
           : []),
@@ -480,18 +271,15 @@ export function buildAnalysis(o: DemoOptions = {}): SB819AnalysisData {
                 caseNumber: "800",
                 name: "Assault in the Second Degree",
                 felonyUncertain: true,
-                repeatSexQuestion: o.rape,
               },
             ]
           : []),
-        ...(o.arson
+        ...(o.burglary
           ? [
               {
                 id: "900-1",
                 caseNumber: "900",
-                name: "Arson in the First Degree",
-                under18: "Passed" as SB819Outcome,
-                repeatSexQuestion: o.rape,
+                name: "Burglary in the First Degree",
               },
             ]
           : []),
@@ -610,10 +398,10 @@ export function buildRecord(analysis: SB819AnalysisData): RecordData {
       aCase("900", "Multnomah", [
         charge(
           "900-1",
-          "Arson in the First Degree",
+          "Burglary in the First Degree",
           "900",
           "Felony Class A",
-          "164.325"
+          "164.225"
         ),
       ]),
       aCase("200", "Clackamas", [

@@ -1,4 +1,4 @@
-"""Scope filtering and roll-up across the three pathways."""
+"""Scope filtering and roll-up from the main criteria and the pathway."""
 
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.models.sb819 import SB819Pathway, SB819Status
@@ -107,20 +107,22 @@ def test_a_charge_passing_the_main_criteria_needs_more_analysis():
     assert charge_analysis.blocking_results == ()
 
 
-def test_a_blocked_pathway_does_not_block_the_others():
-    """A registerable sex offense bars Collateral Consequences alone. Reporting the charge
-    as ineligible would turn away an applicant whose Actual Innocence route is open."""
+def test_a_failed_pathway_criterion_rules_the_charge_out():
+    """A registerable sex offense bars Collateral Consequences, and the main criteria are
+    still reported so the reader can see the charge got that far."""
     charge_analysis = analyze(
         name="Rape in the Second Degree", statute="163.365", level="Felony Class B"
     ).charge_analyses[0]
-    assert charge_analysis.status is SB819Status.NEEDS_MORE_ANALYSIS
-    assert charge_analysis.blocked_pathways == (SB819Pathway.COLLATERAL_CONSEQUENCES,)
-    assert SB819Pathway.ACTUAL_INNOCENCE in charge_analysis.available_pathways
+    assert charge_analysis.status is SB819Status.INELIGIBLE
+    assert [r.criterion.name for r in charge_analysis.blocking_results] == [
+        "Conviction is not a registerable sex offense"
+    ]
+    assert len(charge_analysis.main_criterion_results) == 4
 
 
-def test_every_pathway_is_evaluated():
+def test_the_pathway_is_evaluated():
     charge_analysis = analyze().charge_analyses[0]
-    assert len(charge_analysis.pathway_results) == 3
+    assert [p.pathway for p in charge_analysis.pathway_results] == [SB819Pathway.COLLATERAL_CONSEQUENCES]
 
 
 def test_an_uncertain_main_criterion_holds_the_charge_at_needs_more_analysis():
