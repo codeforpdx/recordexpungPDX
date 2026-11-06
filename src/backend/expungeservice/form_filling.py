@@ -57,7 +57,7 @@ DA_ADDRESSES = {
     "union": "District Attorney - 1104 K Ave - La Grande, OR 97850",
     "wallowa": "District Attorney - 101 S. River Street, Rm. 201 - Enterprise, OR 97828",
     "wasco": "District Attorney - 511 Washington St #304 - The Dalles, OR 97058",
-    "washington": "District Attorney - 150 N First Avenue, Suite 300 - Hillsboro, OR 97124-3002",
+    "washington": "District Attorney - 150 N First Avenue, MS 40 - Hillsboro, OR 97124-3002",
     "wheeler": "District Attorney - P.O. Box 512 - Fossil, OR 97830",
     "yamhill": "District Attorney - 535 NE 5th St #117 - McMinnville, OR 97128",
 }

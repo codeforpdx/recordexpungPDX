@@ -388,7 +388,7 @@ class _TestBuildOregonPDF_DISABLED(PDFTestFixtures):
         # county
         "(FOR THE COUNTY OF)": "(Washington)",
         # da_address
-        "(the District Attorney at address 2)": "(District Attorney - 150 N First Avenue, Suite 300 - Hillsboro, OR 97124-3002)",
+        "(the District Attorney at address 2)": "(District Attorney - 150 N First Avenue, MS 40 - Hillsboro, OR 97124-3002)",
     }
 
     expected_base_values = {
