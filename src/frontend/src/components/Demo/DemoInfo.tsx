@@ -82,6 +82,15 @@ class DemoInfo extends React.Component {
         dateOfBirth: "2/2/1985",
       },
       {
+        name: "Washington Contempt",
+        firstName: "Washington",
+        lastName: "Contempt",
+        description: [
+          "In Washington County, contempt of court over child support is prosecuted by the DOJ Child Support Division rather than the District Attorney, so RecordSponge asks whether each Washington contempt charge involves child support before analyzing it. Answer Yes and the generated motion is the contempt form, served on the DOJ; answer No and it is served on the District Attorney, like the theft case on this record.",
+          "The motions also caption the defendant as the court's register does, here WASHINGTON CONTEMPT, while the case list keeps the name as the search results show it.",
+        ],
+      },
+      {
         name: "SB 819",
         firstName: "SB",
         lastName: "819",
