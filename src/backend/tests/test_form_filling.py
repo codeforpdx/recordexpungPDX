@@ -361,6 +361,7 @@ class PDFTestFixtures:
         case.summary.balance_due_in_cents = 0
         case.summary.location = self.county
         case.summary.name = "Case Name 0"
+        case.summary.caption_name = ""
         case.summary.district_attorney_number = "DA num 0"
         case.summary.case_number = "base case number"
         case.charges = [charge]
@@ -682,6 +683,13 @@ class TestBuildMultnomahPDF(PDFTestFixtures):
         }
         charges = [conviction_charge_factory(2000, 3, 9), conviction_charge_factory(2001, 4, 1)]
         assert_pdf_values(pdf_factory(charges), expected_values)
+
+    def test_caption_name_is_the_case_name_on_the_form(
+        self, case: Mock, pdf_factory: Callable, conviction_charge_factory: Callable
+    ):
+        case.summary.caption_name = "CASE NAME ZERO"
+        pdf = pdf_factory([conviction_charge_factory()])
+        assert pdf.get_annotation_dict()["(Case Name)"].V == "(CASE NAME ZERO)"
 
     def test_arrest(self, pdf_factory: Callable, dismissed_charge_factory: Callable):
         expected_values = {

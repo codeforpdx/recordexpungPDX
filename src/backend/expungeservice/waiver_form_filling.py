@@ -42,7 +42,7 @@ def get_mapping(case_data: CaseData):
     ask_lines = wrap_text(case_data.waiver_information_dict["explain2"])
     mapping = {
         "(Case No)": case_data.case.summary.case_number,
-        "(Defendant)":case_data.case.summary.name,
+        "(Defendant)": case_data.case.summary.caption_name or case_data.case.summary.name,
         "(Date)":today,
         "(County)":case_data.case.summary.location,
         "(Benefit)": benefit,

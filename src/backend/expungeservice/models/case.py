@@ -49,6 +49,9 @@ class CaseSummary:
     balance_due_in_cents: int
     edit_status: EditStatus
     set_aside_motion: Optional[SetAsideMotion] = None
+    # The defendant's name as the court captions the case, from the "State of Oregon vs" header
+    # of the case detail page. Paperwork uses it; the search-results name above stays on screen.
+    caption_name: str = ""
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -141,6 +144,7 @@ class CaseCreator:
         restitution,
         balance,
         set_aside_motion: Optional[SetAsideMotion] = None,
+        caption_name: str = "",
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -165,6 +169,7 @@ class CaseCreator:
             balance_due_in_cents,
             EditStatus.UNCHANGED,
             set_aside_motion,
+            caption_name,
         )
 
     @staticmethod

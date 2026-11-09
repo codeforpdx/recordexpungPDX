@@ -60,6 +60,9 @@ class TestCaseWithDisposition(unittest.TestCase):
     def test_sid_is_parsed(self):
         assert self.parser.sid == "OR555555555"
 
+    def test_caption_name_is_parsed(self):
+        assert self.parser.caption_name == "John D Doe"
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
     def setUp(self):
@@ -332,6 +335,20 @@ class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
 
     def test_it_parses_all_charge_rows(self):
         assert len(self.parser.hashed_charge_data) == 10
+
+
+class TestCaptionName(unittest.TestCase):
+    """The defendant's name from the "State of Oregon vs" header, however OECI spells the separator."""
+
+    def test_vs_with_a_period_and_doubled_spaces(self):
+        assert CaseParser.feed(CaseDetails.CASE_WITH_SINGLE_DUII).caption_name == "Joe Doe"
+
+    def test_capitals_are_kept_as_printed(self):
+        assert CaseParser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION).caption_name == "JOHN D DOE"
+
+    def test_a_page_without_the_header_has_no_caption_name(self):
+        page = CaseDetails.case_x_with_events([]).replace("<b>State of Oregon\nvs\nJohn D Doe</b>", "")
+        assert CaseParser.feed(page).caption_name == ""
 
 
 class TestSetAsideMotion(unittest.TestCase):

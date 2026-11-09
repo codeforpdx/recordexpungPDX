@@ -165,6 +165,8 @@ export interface AnswerData {
 
 export const CHARGE_TYPES = [
   "Civil Offense",
+  "Contempt of Court",
+  "Contempt of Court - Child Support",
   "Criminal Forfeiture",
   "Dismissed Criminal Charge",
   "DUII",
