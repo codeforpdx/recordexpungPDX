@@ -51,6 +51,8 @@ class DemoRecords:
         "district_attorney_number": "01234567",
         "sid": "OR12345678",
         "restitution": False,
+        "set_aside_motion": None,
+        "caption_name": "",
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,
@@ -990,6 +992,72 @@ class DemoRecords:
                             "date": date_class.today() - relativedelta(years=2),
                             "disposition": DispositionCreator.create(
                                 date=date_class.today() - relativedelta(years=1, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+        ],
+        # Washington County contempt asks whether it involves child support; Yes serves the DOJ on
+        # the contempt template, No serves the DA like the theft case beside it. Both motions
+        # caption the defendant as the court does, from caption_name.
+        Alias("washington", "contempt", "", ""): [
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "name": "CONTEMPT, WASHINGTON",
+                        "caption_name": "WASHINGTON CONTEMPT",
+                        "birth_year": 1988,
+                        "case_number": "700000",
+                        "location": "Washington",
+                        "date": date_class.today() - relativedelta(years=6),
+                        "violation_type": "Procedural Matters - Contempt of Court Punitive",
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "700000-1",
+                            "name": "Contempt of Court",
+                            "statute": "33.015",
+                            "level": "Violation",
+                            "date": date_class.today() - relativedelta(years=6),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=5, months=9), ruling="Convicted"
+                            ),
+                        },
+                    ),
+                ),
+            ),
+            OeciCase(
+                summary=from_dict(
+                    data_class=CaseSummary,
+                    data={
+                        **shared_case_data,
+                        "name": "CONTEMPT, WASHINGTON",
+                        "caption_name": "WASHINGTON CONTEMPT",
+                        "birth_year": 1988,
+                        "case_number": "710000",
+                        "location": "Washington",
+                        "date": date_class.today() - relativedelta(years=7),
+                    },
+                ),
+                charges=(
+                    from_dict(
+                        data_class=OeciCharge,
+                        data={
+                            **shared_charge_data,
+                            "ambiguous_charge_id": "710000-1",
+                            "name": "Theft in the Third Degree",
+                            "statute": "164.043",
+                            "level": "Misdemeanor Class C",
+                            "date": date_class.today() - relativedelta(years=7),
+                            "disposition": DispositionCreator.create(
+                                date=date_class.today() - relativedelta(years=6, months=9), ruling="Convicted"
                             ),
                         },
                     ),

@@ -12,6 +12,9 @@ from expungeservice.models.case import SetAsideMotion, SetAsideMotionStatus
 
 SECTION_TITLE_CLASS = "ssCaseDetailSectionTitle"
 
+# The case header reads "State of Oregon vs NAME"; OECI writes the separator as "vs" or "VS.".
+CAPTION_SEPARATOR = re.compile(r"\bvs\.?\s+", re.IGNORECASE)
+
 PROBATION_REVOKED_SEARCH_TERMS = ["probation revoked", "prob revoked", "revoke probation"]
 EVENTS_TO_EXCLUDE = ["", "dispositions"]
 
@@ -37,6 +40,7 @@ class CaseParserData:
     restitution: bool
     probation_revoked: Optional[date]
     set_aside_motion: Optional[SetAsideMotion]
+    caption_name: str
 
 
 class CaseParser:
@@ -57,6 +61,7 @@ class CaseParser:
             probation_revoked = None  # type: ignore
         restitution = "restitution" in soup.text.lower()
         set_aside_motion = CaseParser.__parse_set_aside_motion(soup)
+        caption_name = CaseParser.__parse_caption_name(soup)
         return CaseParserData(
             district_attorney_number,
             sid,
@@ -66,7 +71,21 @@ class CaseParser:
             restitution,
             probation_revoked,
             set_aside_motion,
+            caption_name,
         )
+
+    @staticmethod
+    def __parse_caption_name(soup) -> str:
+        """The defendant's name as the case caption prints it, or empty when the page has no caption header."""
+        register_of_actions = soup.find("div", class_="ssCaseDetailROA")
+        caption_table = register_of_actions.find_next("table") if register_of_actions else None
+        caption = caption_table.find("b") if caption_table else None
+        if not caption:
+            return ""
+        parts = CAPTION_SEPARATOR.split(caption.get_text(" "), maxsplit=1)
+        if len(parts) < 2:
+            return ""
+        return " ".join(parts[1].split())
 
     @staticmethod
     def __parse_district_attorney_number(soup) -> str:
@@ -172,7 +191,7 @@ class CaseParser:
                 text, WITHDRAWAL_TEXT_TERMS
             ):
                 return SetAsideMotion(SetAsideMotionStatus.WITHDRAWN, filed_date, event_date)
-        return SetAsideMotion(SetAsideMotionStatus.FILED, filed_date)
+        return SetAsideMotion(SetAsideMotionStatus.FILED, filed_date, None)
 
     @staticmethod
     def __is_set_aside_motion(name: str, text: str) -> bool:

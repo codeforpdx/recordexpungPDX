@@ -31,7 +31,7 @@ from expungeservice.models.charge_types.parking_ticket import ParkingTicket
 from expungeservice.models.charge_types.fare_violation import FareViolation
 from expungeservice.models.charge_types.person_felony import PersonFelonyClassB
 from expungeservice.models.charge_types.civil_offense import CivilOffense
-from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt, ContemptOfCourtChildSupport
 from expungeservice.models.charge_types.unclassified_charge import UnclassifiedCharge
 from expungeservice.models.charge_types.sex_crimes import (
     SexCrime,
@@ -72,7 +72,7 @@ class ChargeClassifier:
         yield ChargeClassifier._juvenile_charge(self.violation_type)
         yield ChargeClassifier._parking_ticket(self.violation_type)
         yield ChargeClassifier._fare_violation(name)
-        yield ChargeClassifier._contempt_of_court(name)
+        yield ChargeClassifier._contempt_of_court(name, location)
         yield ChargeClassifier._civil_offense(self.statute, name)
         yield ChargeClassifier._criminal_forfeiture(self.statute)
         yield ChargeClassifier._traffic_crime(self.statute, name, level, self.disposition)
@@ -349,8 +349,14 @@ class ChargeClassifier:
             return AmbiguousChargeTypeWithQuestion([TrafficViolation()])
 
     @staticmethod
-    def _contempt_of_court(name):
+    def _contempt_of_court(name, location):
         if "contempt" in name:
+            # In Washington County the DOJ Child Support Division, not the DA, prosecutes
+            # child-support contempt, and the motion must be served on it.
+            if location == "washington":
+                question_string = "Does this charge involve child support?"
+                options: Dict[str, ChargeType] = {"Yes": ContemptOfCourtChildSupport(), "No": ContemptOfCourt()}
+                return ChargeClassifier._build_ambiguous_charge_type_with_question(question_string, options)
             return AmbiguousChargeTypeWithQuestion([ContemptOfCourt()])
 
     @staticmethod

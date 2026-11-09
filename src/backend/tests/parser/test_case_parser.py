@@ -60,6 +60,9 @@ class TestCaseWithDisposition(unittest.TestCase):
     def test_sid_is_parsed(self):
         assert self.parser.sid == "OR555555555"
 
+    def test_caption_name_is_parsed(self):
+        assert self.parser.caption_name == "John D Doe"
+
 
 class TestCaseWithoutFinancialTable(unittest.TestCase):
     def setUp(self):
@@ -334,6 +337,20 @@ class TestSpacesExistingInChargeInfoCells(unittest.TestCase):
         assert len(self.parser.hashed_charge_data) == 10
 
 
+class TestCaptionName(unittest.TestCase):
+    """The defendant's name from the "State of Oregon vs" header, however OECI spells the separator."""
+
+    def test_vs_with_a_period_and_doubled_spaces(self):
+        assert CaseParser.feed(CaseDetails.CASE_WITH_SINGLE_DUII).caption_name == "Joe Doe"
+
+    def test_capitals_are_kept_as_printed(self):
+        assert CaseParser.feed(CaseDetails.CASE_WITHOUT_FINANCIAL_SECTION).caption_name == "JOHN D DOE"
+
+    def test_a_page_without_the_header_has_no_caption_name(self):
+        page = CaseDetails.case_x_with_events([]).replace("<b>State of Oregon\nvs\nJohn D Doe</b>", "")
+        assert CaseParser.feed(page).caption_name == ""
+
+
 class TestSetAsideMotion(unittest.TestCase):
     """Detection on the event wordings seen in OECI across counties, recorded in the project's oeci-findings."""
 
@@ -345,7 +362,7 @@ class TestSetAsideMotion(unittest.TestCase):
 
     def test_a_motion_with_nothing_after_it_is_open(self):
         assert self.motion([("02/18/2026", "Motion - Set Aside", "")]) == SetAsideMotion(
-            SetAsideMotionStatus.FILED, date(2026, 2, 18)
+            SetAsideMotionStatus.FILED, date(2026, 2, 18), None
         )
 
     def test_the_wording_varies_by_county(self):
@@ -377,7 +394,7 @@ class TestSetAsideMotion(unittest.TestCase):
             ("04/10/2009", "Order - Denial", "motion to set aside"),
             ("05/15/2023", "Motion - Set Aside", ""),
         ]
-        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2023, 5, 15))
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2023, 5, 15), None)
 
     def test_filings_about_the_motion_are_not_motions(self):
         rows = [
@@ -385,7 +402,7 @@ class TestSetAsideMotion(unittest.TestCase):
             ("03/01/2026", "Notice", "Opposition to def's motions to set aside"),
             ("03/01/2026", "Memorandum - Opposing Motion", "to set aside"),
         ]
-        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18))
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18), None)
 
     def test_setting_aside_a_default_judgment_is_not_a_motion(self):
         rows = [

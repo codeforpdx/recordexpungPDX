@@ -7,7 +7,7 @@ from hypothesis._strategies import none, composite, dates
 from hypothesis.strategies import builds, just, lists, one_of
 from hypothesis.searchstrategy import SearchStrategy
 
-from expungeservice.models.case import Case, CaseSummary
+from expungeservice.models.case import Case, CaseSummary, SetAsideMotion
 from expungeservice.models.charge_types.dismissed_charge import DismissedCharge
 from expungeservice.models.disposition import DispositionStatus, Disposition
 from expungeservice.models.record import Record
@@ -61,7 +61,13 @@ def _build_charge_strategy(
 
 @composite
 def _build_case_strategy(draw: Callable[[SearchStrategy], Any], min_charges_size=0) -> Case:
-    case_summary = draw(builds(CaseSummary, date=just(DateWithFuture(date=draw(dates())))))
+    motion_date = just(DateWithFuture(date=draw(dates())))
+    set_aside_motion = one_of(
+        none(), builds(SetAsideMotion, filed_date=motion_date, resolved_date=one_of(none(), motion_date))
+    )
+    case_summary = draw(
+        builds(CaseSummary, date=just(DateWithFuture(date=draw(dates()))), set_aside_motion=set_aside_motion)
+    )
     charge_classes = get_charge_classes()
     charge_strategy_choices = list(
         map(lambda charge_class: _build_charge_strategy(charge_class(), case_summary), charge_classes)

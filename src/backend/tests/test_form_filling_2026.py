@@ -5,10 +5,11 @@ Tests for the 2026 Oregon expungement form filling logic.
 from datetime import datetime
 from unittest.mock import Mock
 
-from expungeservice.form_filling import CaseResults
-from expungeservice.form_filling_2026 import PDFFieldMapper2026, get_pdf_filename, FormFilling2026
+from expungeservice.form_filling import CaseResults, DOJ_CHILD_SUPPORT_ADDRESS
+from expungeservice.form_filling_2026 import PDFFieldMapper2026, get_pdf_filename, FormFilling2026, create_filled_pdf
 from expungeservice.models.case import Case
 from expungeservice.models.charge import Charge, EditStatus
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt, ContemptOfCourtChildSupport
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.expungement_result import ChargeEligibilityStatus
 from expungeservice.util import DateWithFuture
@@ -58,6 +59,13 @@ def make_ineligible_conviction(name="Assault", charge_id="case1-2"):
     return charge
 
 
+def make_contempt_conviction(charge_type, charge_id="case1-1"):
+    """Create a mock eligible contempt conviction of the given contempt type."""
+    charge = make_eligible_conviction("Contempt of Court", charge_id)
+    charge.charge_type = charge_type
+    return charge
+
+
 def make_eligible_dismissal(name="Trespass", charge_id="case1-3"):
     """Create a mock eligible dismissed charge."""
     charge = Mock(spec=Charge)
@@ -86,7 +94,8 @@ def make_case(charges, county="Washington", case_number="123456"):
     case.summary = Mock()
     case.summary.location = county
     case.summary.case_number = case_number
-    case.summary.name = "TEST PERSON"
+    case.summary.name = "PERSON, TEST"
+    case.summary.caption_name = "TEST PERSON"
     case.summary.balance_due_in_cents = 0
     case.summary.district_attorney_number = "DA123"
     case.summary.sid = "SID123"
@@ -276,6 +285,49 @@ class TestPDFFilenameSelection:
 
         filename = get_pdf_filename(case_results)
         assert filename == "oregon_arrest.pdf"
+
+
+class TestCaptionName:
+    """The defendant line carries the court's caption, with the search-results name as the fallback."""
+
+    def test_defendant_line_is_the_caption_name(self):
+        case = make_case([make_eligible_conviction()])
+        mappings = PDFFieldMapper2026("dummy_path", CaseResults.build(case, USER_DATA, sid="SID123")).extra_mappings()
+        assert mappings["(defendant_name)"] == "TEST PERSON"
+
+    def test_defendant_line_falls_back_to_the_search_results_name(self):
+        case = make_case([make_eligible_conviction()])
+        case.summary.caption_name = ""
+        mappings = PDFFieldMapper2026("dummy_path", CaseResults.build(case, USER_DATA, sid="SID123")).extra_mappings()
+        assert mappings["(defendant_name)"] == "PERSON, TEST"
+
+
+class TestChildSupportContempt:
+    """Washington child-support contempt is served on the DOJ, on the clinic's contempt template."""
+
+    def test_child_support_contempt_uses_the_contempt_template(self):
+        case = make_case([make_contempt_conviction(ContemptOfCourtChildSupport())], county="Washington")
+        assert get_pdf_filename(CaseResults.build(case, USER_DATA, sid="SID123")) == "oregon_contempt_child_support.pdf"
+
+    def test_ordinary_contempt_uses_the_conviction_template(self):
+        case = make_case([make_contempt_conviction(ContemptOfCourt())], county="Washington")
+        assert get_pdf_filename(CaseResults.build(case, USER_DATA, sid="SID123")) == "oregon_conviction.pdf"
+
+    def test_child_support_contempt_is_served_on_the_doj(self):
+        case = make_case([make_contempt_conviction(ContemptOfCourtChildSupport())], county="Washington")
+        mappings = PDFFieldMapper2026("dummy_path", CaseResults.build(case, USER_DATA, sid="SID123")).extra_mappings()
+        assert mappings["(prosecutor_address)"] == DOJ_CHILD_SUPPORT_ADDRESS
+
+    def test_ordinary_contempt_is_served_on_the_da(self):
+        case = make_case([make_contempt_conviction(ContemptOfCourt())], county="Washington")
+        mappings = PDFFieldMapper2026("dummy_path", CaseResults.build(case, USER_DATA, sid="SID123")).extra_mappings()
+        assert mappings["(prosecutor_address)"].startswith("District Attorney - 150 N First Avenue, MS 40")
+
+    def test_filled_pdf_is_named_for_the_contempt_template(self):
+        case = make_case([make_contempt_conviction(ContemptOfCourtChildSupport())], county="Washington")
+        pdf, filename = create_filled_pdf(CaseResults.build(case, USER_DATA, sid="SID123"), USER_DATA)
+        assert filename == "TEST PERSON_123456_washington_contempt_child_support.pdf"
+        assert pdf.get_annotation_dict()["(prosecutor_address)"].V == f"({DOJ_CHILD_SUPPORT_ADDRESS})"
 
 
 class TestFormFilling2026CountySelection:

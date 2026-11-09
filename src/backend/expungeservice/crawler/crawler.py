@@ -106,6 +106,7 @@ class Crawler:
             restitution=resitution and case_summary.location.lower() in ["multnomah", "washington"],
             edit_status=EditStatus.UNCHANGED,
             set_aside_motion=case_parser_data.set_aside_motion,
+            caption_name=case_parser_data.caption_name,
         )
         return OeciCase(updated_case_summary, charges=tuple(charges))
 

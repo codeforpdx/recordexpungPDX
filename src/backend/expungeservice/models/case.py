@@ -25,7 +25,7 @@ class SetAsideMotion:
     # the court or the filer closed it.
     status: SetAsideMotionStatus
     filed_date: date_class
-    resolved_date: Optional[date_class] = None
+    resolved_date: Optional[date_class]
 
     @property
     def open(self) -> bool:
@@ -48,7 +48,10 @@ class CaseSummary:
     restitution: bool
     balance_due_in_cents: int
     edit_status: EditStatus
-    set_aside_motion: Optional[SetAsideMotion] = None
+    set_aside_motion: Optional[SetAsideMotion]
+    # The defendant's name as the court captions the case, from the case detail page's
+    # "State of Oregon vs" header. Paperwork prints it; the search-results name stays on screen.
+    caption_name: str
 
     def get_balance_due(self):
         return self.balance_due_in_cents / 100
@@ -88,6 +91,8 @@ class OeciCase:
                 balance_due_in_cents=0,
                 restitution=False,
                 edit_status=EditStatus.UNCHANGED,
+                set_aside_motion=None,
+                caption_name="",
             ),
             (),
         )
@@ -140,7 +145,8 @@ class CaseCreator:
         case_detail_link,
         restitution,
         balance,
-        set_aside_motion: Optional[SetAsideMotion] = None,
+        set_aside_motion: Optional[SetAsideMotion],
+        caption_name: str,
     ) -> CaseSummary:
         name = info[0]
         birth_year = CaseSummary._parse_birth_year(info)
@@ -165,6 +171,7 @@ class CaseCreator:
             balance_due_in_cents,
             EditStatus.UNCHANGED,
             set_aside_motion,
+            caption_name,
         )
 
     @staticmethod

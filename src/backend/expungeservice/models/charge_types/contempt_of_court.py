@@ -17,3 +17,10 @@ class ContemptOfCourt(ChargeType):
 
     def type_eligibility(self, disposition):
         return TypeEligibility(EligibilityStatus.ELIGIBLE, reason="Eligible under 137.225(5)(e) for convictions or under 137.225(1)(b) for dismissals")
+
+
+@dataclass(frozen=True)
+class ContemptOfCourtChildSupport(ContemptOfCourt):
+    """A Washington County contempt charge prosecuted by the DOJ Child Support Division, which is served instead of the DA."""
+
+    type_name: str = "Contempt of Court - Child Support"

@@ -14,6 +14,8 @@ class CaseSummaryFactory:
         case_detail_link="?404",
         restitution=False,
         balance="0",
+        set_aside_motion=None,
+        caption_name="",
     ) -> CaseSummary:
         return CaseCreator.create(
             info,
@@ -26,6 +28,8 @@ class CaseSummaryFactory:
             case_detail_link,
             restitution,
             balance,
+            set_aside_motion,
+            caption_name,
         )
 
 

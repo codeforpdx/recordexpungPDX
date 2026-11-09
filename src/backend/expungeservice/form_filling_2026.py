@@ -20,6 +20,7 @@ from zipfile import ZipFile
 from expungeservice.form_filling import (
     CaseResults,
     DA_ADDRESSES,
+    DOJ_CHILD_SUPPORT_ADDRESS,
     FormFilling as OldFormFilling,
     PDFFieldMapper,
     PDF,
@@ -60,7 +61,10 @@ def get_pdf_filename(case_results: CaseResults) -> str:
     if county == "multnomah":
         return "multnomah_conviction.pdf" if case_results.has_conviction else "multnomah_arrest.pdf"
 
-    # All other counties use new 2026 forms
+    # All other counties use new 2026 forms. The child-support contempt form is the same
+    # form headed "Contempt of Court - Child Support" so the clinic does not mail it to the DA.
+    if case_results.has_child_support_contempt:
+        return "oregon_contempt_child_support.pdf"
     if case_results.has_conviction:
         return "oregon_conviction.pdf"
     else:
@@ -114,6 +118,8 @@ class PDFFieldMapper2026(PDFFieldMapper):
         arrest_dates = s.arrest_dates
         first_arrest_date = format_date(arrest_dates[0]) if arrest_dates else ""
 
+        prosecutor_address = DOJ_CHILD_SUPPORT_ADDRESS if s.has_child_support_contempt else get_da_address(s.county)
+
         # Build the mapping
         mapping = {
             # Header fields
@@ -161,7 +167,7 @@ class PDFFieldMapper2026(PDFFieldMapper):
 
             # Certificate of mailing
             "(mailing_date)": today,
-            "(prosecutor_address)": get_da_address(s.county),
+            "(prosecutor_address)": prosecutor_address,
             "(certificate_date)": today,
             "(defendant_signature_certificate)": "",  # User signs
             "(defendant_name_printed)": s.full_name,
@@ -242,7 +248,9 @@ def create_filled_pdf(case_results: CaseResults, user_info: Dict[str, str]) -> T
 
     # Build filename
     base_name = case_results.county.lower()
-    if case_results.has_conviction:
+    if case_results.has_child_support_contempt:
+        base_name += "_contempt_child_support"
+    elif case_results.has_conviction:
         base_name += "_conviction"
     else:
         base_name += "_arrest"

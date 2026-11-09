@@ -10,7 +10,7 @@ from pdfrw import PdfReader, PdfWriter, PdfDict, PdfObject, PdfName, PdfString, 
 
 from expungeservice.models.case import Case, SetAsideMotionStatus
 from expungeservice.models.charge import Charge, EditStatus
-from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt
+from expungeservice.models.charge_types.contempt_of_court import ContemptOfCourt, ContemptOfCourtChildSupport
 from expungeservice.models.charge_types.felony_class_b import FelonyClassB
 from expungeservice.models.charge_types.felony_class_c import FelonyClassC
 from expungeservice.models.charge_types.marijuana_eligible import MarijuanaViolation
@@ -61,6 +61,9 @@ DA_ADDRESSES = {
     "wheeler": "District Attorney - P.O. Box 512 - Fossil, OR 97830",
     "yamhill": "District Attorney - 535 NE 5th St #117 - McMinnville, OR 97128",
 }
+
+# Washington County child-support contempt is prosecuted by the DOJ, so its motions are served there.
+DOJ_CHILD_SUPPORT_ADDRESS = "Oregon Department of Justice Child Support Division - P.O. Box 14680 - Salem, OR 97309"
 
 
 def join_dates_or_strings(arr: List[Union[DateWithFuture, str]], connector: str, date_format: str) -> str:
@@ -158,7 +161,8 @@ class CaseResults(UserInfo):
             sid=sid,
             county=case.summary.location,
             case_number=case.summary.case_number,
-            case_name=case.summary.name,
+            # The caption the court prints, with the search-results name for cases added by hand
+            case_name=case.summary.caption_name or case.summary.name,
             has_no_balance=case.summary.balance_due_in_cents == 0,
             da_number=case.summary.district_attorney_number,
             counties_with_cases_to_expunge=[],
@@ -244,6 +248,10 @@ class CaseResults(UserInfo):
     @property
     def has_contempt_of_court(self) -> bool:
         return self.eligible_charges.has_any(ContemptOfCourt)
+
+    @property
+    def has_child_support_contempt(self) -> bool:
+        return self.eligible_charges.has_any(ContemptOfCourtChildSupport)
 
     @property
     def has_eligible_charges(self) -> bool:

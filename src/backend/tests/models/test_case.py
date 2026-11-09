@@ -8,13 +8,13 @@ class TestCaseBalanceDue(unittest.TestCase):
     def test_balance_due_getter_setter(self):
         case_args = [("John Doe", "1990"), "", "", "", "", ("1/1/2019", ""), ("", ""), "", False]
 
-        case_1 = CaseCreator.create(*case_args, "123.45")  # type: ignore
+        case_1 = CaseCreator.create(*case_args, "123.45", None, "")  # type: ignore
         assert case_1.get_balance_due() == 123.45
 
-        case_2 = CaseCreator.create(*case_args, "2,345.67")  # type: ignore
+        case_2 = CaseCreator.create(*case_args, "2,345.67", None, "")  # type: ignore
         assert case_2.get_balance_due() == 2345.67
 
-        case_3 = CaseCreator.create(*case_args, "0")  # type: ignore
+        case_3 = CaseCreator.create(*case_args, "0", None, "")  # type: ignore
         assert case_3.get_balance_due() == 0
 
 

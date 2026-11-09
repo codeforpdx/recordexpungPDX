@@ -26,6 +26,8 @@ case_1 = OeciCase(
         balance_due_in_cents=0,
         restitution=False,
         edit_status=EditStatus.UNCHANGED,
+        set_aside_motion=None,
+        caption_name="",
     ),
     (
         OeciCharge(
@@ -78,6 +80,8 @@ case_2 = OeciCase(
         balance_due_in_cents=0,
         restitution=False,
         edit_status=EditStatus.UNCHANGED,
+        set_aside_motion=None,
+        caption_name="",
     ),
     (
         OeciCharge(
