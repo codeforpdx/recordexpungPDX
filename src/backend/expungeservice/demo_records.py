@@ -51,6 +51,8 @@ class DemoRecords:
         "district_attorney_number": "01234567",
         "sid": "OR12345678",
         "restitution": False,
+        "set_aside_motion": None,
+        "caption_name": "",
     }
     shared_charge_data = {
         "balance_due_in_cents": 0,

@@ -362,7 +362,7 @@ class TestSetAsideMotion(unittest.TestCase):
 
     def test_a_motion_with_nothing_after_it_is_open(self):
         assert self.motion([("02/18/2026", "Motion - Set Aside", "")]) == SetAsideMotion(
-            SetAsideMotionStatus.FILED, date(2026, 2, 18)
+            SetAsideMotionStatus.FILED, date(2026, 2, 18), None
         )
 
     def test_the_wording_varies_by_county(self):
@@ -394,7 +394,7 @@ class TestSetAsideMotion(unittest.TestCase):
             ("04/10/2009", "Order - Denial", "motion to set aside"),
             ("05/15/2023", "Motion - Set Aside", ""),
         ]
-        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2023, 5, 15))
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2023, 5, 15), None)
 
     def test_filings_about_the_motion_are_not_motions(self):
         rows = [
@@ -402,7 +402,7 @@ class TestSetAsideMotion(unittest.TestCase):
             ("03/01/2026", "Notice", "Opposition to def's motions to set aside"),
             ("03/01/2026", "Memorandum - Opposing Motion", "to set aside"),
         ]
-        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18))
+        assert self.motion(rows) == SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18), None)
 
     def test_setting_aside_a_default_judgment_is_not_a_motion(self):
         rows = [

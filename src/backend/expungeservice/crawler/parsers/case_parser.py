@@ -191,7 +191,7 @@ class CaseParser:
                 text, WITHDRAWAL_TEXT_TERMS
             ):
                 return SetAsideMotion(SetAsideMotionStatus.WITHDRAWN, filed_date, event_date)
-        return SetAsideMotion(SetAsideMotionStatus.FILED, filed_date)
+        return SetAsideMotion(SetAsideMotionStatus.FILED, filed_date, None)
 
     @staticmethod
     def __is_set_aside_motion(name: str, text: str) -> bool:

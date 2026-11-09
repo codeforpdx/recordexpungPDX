@@ -84,7 +84,9 @@ class RecordParser(HTMLParser):
                 self.type_status,
                 self.case_detail_link,
                 False,
-                "0"
+                "0",
+                None,  # set_aside_motion, read from the case detail page
+                "",  # caption_name, read from the case detail page
             )
         )
 

@@ -21,7 +21,7 @@ from expungeservice.util import DateWithFuture as date, LRUCache
 from tests.factories.case_factory import CaseFactory
 from tests.test_edit_results import search
 
-FILED = SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18))
+FILED = SetAsideMotion(SetAsideMotionStatus.FILED, date(2026, 2, 18), None)
 DENIED = SetAsideMotion(SetAsideMotionStatus.DENIED, date(2026, 2, 18), date(2026, 8, 24))
 WITHDRAWN = SetAsideMotion(SetAsideMotionStatus.WITHDRAWN, date(2024, 11, 4), date(2024, 12, 2))
 
