@@ -100,9 +100,8 @@ def test_contempt_elsewhere_asks_nothing():
 
 
 def test_child_support_contempt_is_contempt_with_the_same_eligibility():
-    charge = ChargeFactory.create(name="contempt of court", statute="33065", level="N/A", disposition=Dispositions.CONVICTED)
     child_support = ContemptOfCourtChildSupport()
 
     assert isinstance(child_support, ContemptOfCourt)
     assert child_support.type_name == "Contempt of Court - Child Support"
-    assert child_support.type_eligibility(Dispositions.CONVICTED) == charge.charge_type.type_eligibility(Dispositions.CONVICTED)
+    assert child_support.type_eligibility(Dispositions.CONVICTED) == ContemptOfCourt().type_eligibility(Dispositions.CONVICTED)

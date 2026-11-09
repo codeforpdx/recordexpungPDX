@@ -24,8 +24,8 @@ Actions": `State of Oregon vs CASEY JACKSON SMITH`.
 - The case detail parser reads that header. The caption name is the text after "vs" (OECI
   writes "vs" or "VS."), whitespace collapsed, otherwise untouched. OECI prints it in capitals
   and the motion prints it the same way.
-- `CaseSummary.caption_name`, empty when the page has no header and for cases added in the
-  editor. Paperwork falls back to the search-results name when it is empty.
+- `CaseSummary.caption_name`, empty when the page has no header, until the crawler reads the
+  page, and for cases added in the editor. Paperwork falls back to the search-results name.
 - Paperwork uses it: the 2026 form's defendant line, the Multnomah forms' Defendant field, the
   fee waiver's Defendant field, and the motion file names.
 - Nothing on screen changes. The Name column and the record JSON keep the search-results name,
@@ -65,8 +65,9 @@ case should be rare; the user can split the charges in the editor if one turns u
 | Layer | Change |
 | --- | --- |
 | `crawler/parsers/case_parser.py` | Parse the caption name from the "State of Oregon vs" header |
-| `models/case.py` | `CaseSummary.caption_name: str = ""`; `CaseCreator.create` takes it |
+| `models/case.py` | `CaseSummary.caption_name: str`, required like every other field; `CaseCreator.create` takes it |
 | `crawler/crawler.py` | Copy it onto `CaseSummary` |
+| `record_parser.py`, `demo_records.py`, `generator.py`, test factories | Name the new field; the search-results row and demo cases have none |
 | `models/charge_types/contempt_of_court.py` | `ContemptOfCourtChildSupport(ContemptOfCourt)` |
 | `charge_classifier.py` | Washington contempt gets the Yes/No question |
 | `form_filling.py` | `CaseResults.case_name` is the caption name, falling back to the search-results name; every form's defendant field and the file names already read it; `DOJ_CHILD_SUPPORT_ADDRESS`; `has_child_support_contempt` |

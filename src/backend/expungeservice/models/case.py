@@ -49,9 +49,8 @@ class CaseSummary:
     balance_due_in_cents: int
     edit_status: EditStatus
     set_aside_motion: Optional[SetAsideMotion]
-    # The defendant's name as the court captions the case, from the "State of Oregon vs" header
-    # of the case detail page. Paperwork uses it; the search-results name above stays on screen.
-    # Empty until the case detail page is read, and for cases added in the editor.
+    # The defendant's name as the court captions the case, from the case detail page's
+    # "State of Oregon vs" header. Paperwork prints it; the search-results name stays on screen.
     caption_name: str
 
     def get_balance_due(self):

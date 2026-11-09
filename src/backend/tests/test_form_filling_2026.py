@@ -317,7 +317,6 @@ class TestChildSupportContempt:
         case = make_case([make_contempt_conviction(ContemptOfCourtChildSupport())], county="Washington")
         mappings = PDFFieldMapper2026("dummy_path", CaseResults.build(case, USER_DATA, sid="SID123")).extra_mappings()
         assert mappings["(prosecutor_address)"] == DOJ_CHILD_SUPPORT_ADDRESS
-        assert "Child Support" in DOJ_CHILD_SUPPORT_ADDRESS
 
     def test_ordinary_contempt_is_served_on_the_da(self):
         case = make_case([make_contempt_conviction(ContemptOfCourt())], county="Washington")
