@@ -21,7 +21,7 @@ setup(
         "idna==2.9",
         "importlib-metadata==1.6.0; python_version < '3.8'",
         "ipdb==0.13.2",
-        "ipython==7.14.0",
+        "ipython==7.16.3",
         "ipython-genutils==0.2.0",
         "itsdangerous==1.1.0",
         "jedi==0.17.0",
