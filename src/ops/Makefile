@@ -60,6 +60,7 @@ endif
 #   * name of container based on RS_ENV e.g. 'staging' or 'prod'
 #   * PORT determined by RS_ENV, override on command line
 #   * DEPLOY_TAG defaults to RS_ENV, override on command line
+#   * restart policy brings the container back after a Docker daemon restart or reboot
 #
 # expects:
 #   * 'Host recordsponge' section in _local_ ~/.ssh/config (see /src/ops/README.md#SSH_Config)
@@ -69,7 +70,7 @@ ssh_deploy: env_check port_check
 	@ssh recordsponge -C \
 		'docker pull recordsponge/expungeservice:$(DEPLOY_TAG); \
 		 docker rm -f $(RS_ENV) || true; \
-		 docker run --rm -d \
+		 docker run -d --restart unless-stopped \
 		            --name $(RS_ENV) \
 								--env-file /etc/recordsponge/$(RS_ENV).env \
 								-p $(PORT):5000 \
